@@ -1,63 +1,39 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import get from "../functions"
 import * as actions from "../actions/actions";
+import { exec } from "child_process";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Images from './tabs/Images';
-import RunningStopped from './tabs/RunningStopped';
-import Metrics from './tabs/Metrics';
-import Yml from './tabs/Yml';
-
+import Metrics from "./tabs/Metrics";
+import Images from "./tabs/Images";
+import Yml from "./tabs/Yml";
+import RunningStopped from "./tabs/RunningStopped";
 const App = (props) => {
   const dispatch = useDispatch();
-  const add = (data) => dispatch(actions.addContainer(data));
-//  const getContainers = (data) => dispatch(actions.getContainers(data));
-  //useselector Allows you to extract data from the Redux store state, using a selector function.
-  const data = useSelector((state) => state.containers.containerList);
-
+  const addContainer = (data) => dispatch(actions.addContainer(data));
+  const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
+	
+	// useselector Allows you to extract data from the Redux store state, using a selector function.
+	const data = useSelector((state) => state.containers.containerList);
+  
   useEffect(() => {
-    console.log('hi')
-    const runningContainers = [{
-      id: '0',
-      name: 'container0',
-      CPU: '10',
-      memory: '20',
-      netio: '30',
-      blockio: '40',
-      pid: '2'    
-    }, {
-      id: '1',
-      name: 'container1',
-      CPU: '11',
-      memory: '21',
-      netio: '31',
-      blockio: '41',
-      pid: '3'    
-    }, {
-      id: '2',
-      name: 'container2',
-      CPU: '12',
-      memory: '22',
-      netio: '32',
-      blockio: '42',
-      pid: '4'    
-    }];
-    for(let i = 0; i < runningContainers.length; i++ ){
-      add(runningContainers[i]);
-    }
+		exec('docker ps', (error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+			}
+			console.log(stdout)
+			return addContainer(stdout.split('\n')[1]);
+		});
   }, []);
 
-  useEffect(() => {
-    console.log('hello')
-    displayContainers(data);
-  }, [data])
+	// useEffect(() => {
 
-  const newArr = []
-  const displayContainers = (data) => {
-    for(let i = 0; i < data.length; i++){
-      newArr.push(<p>{data[i].name}</p>)
-    }
-  }
-
+  // }, [data]);
   return (
     <Router>
           <div>
@@ -91,7 +67,8 @@ const App = (props) => {
                 <Images />
               </Route>
               <Route path="/">
-                <RunningStopped runningContainers={newArr}/>
+                <RunningStopped runningContainers={data}/>
+                {data}
               </Route>
             </Switch>
           </div>

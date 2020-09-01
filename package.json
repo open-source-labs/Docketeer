@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open \" \"nodemon ./server/server.js\"",
     "build": "webpack --mode production",
-    "electron": "electron ."
+    "electron": "webpack --mode production && electron ."
   },
   "dependencies": {
     "@babel/preset-env": "^7.11.5",
@@ -28,6 +28,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "redux-devtools": "^3.6.1",
     "redux-devtools-extension": "^2.13.8",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
@@ -49,4 +50,6 @@
     "url": "https://github.com/ilikecolddrinks/Docketeer/issues"
   },
   "homepage": "https://github.com/ilikecolddrinks/Docketeer#readme"
+  
+  
 }

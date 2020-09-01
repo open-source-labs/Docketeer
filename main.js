@@ -17,6 +17,7 @@ app.whenReady().then(() => {
 });
 
 app.on("ready", () => {
+  
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -24,5 +25,7 @@ app.on("ready", () => {
     },
   });
 
+  
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 });
+

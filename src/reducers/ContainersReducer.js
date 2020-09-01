@@ -4,7 +4,7 @@ const initialState = {
   containerList: [],
 };
 
-const containerReducer = (state = initialState, action) => {
+const containersReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_CONTAINER:
       const newContainer = state.containerList.slice();
@@ -15,4 +15,4 @@ const containerReducer = (state = initialState, action) => {
   }
 };
 
-export default containerReducer;
+export default containersReducer;

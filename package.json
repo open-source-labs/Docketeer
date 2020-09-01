@@ -27,13 +27,16 @@
     "react-redux": "^7.2.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.5"
+    "@babel/core": "^7.11.5",
+    "electron-devtools-installer": "^3.1.1"
   },
   "repository": {
     "type": "git",

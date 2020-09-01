@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import get from "../functions"
 import * as actions from "../actions/actions";
 import { exec } from "child_process";
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Metrics from "./tabs/Metrics";
+import Images from "./tabs/Images";
+import Yml from "./tabs/Yml";
+import RunningStopped from "./tabs/RunningStopped";
 const App = (props) => {
   const dispatch = useDispatch();
   const addContainer = (data) => dispatch(actions.addContainer(data));
@@ -31,11 +35,44 @@ const App = (props) => {
 
   // }, [data]);
   return (
-    <div>
-      Hello I am in react
-      
-      <p>{data}</p>
-    </div>
+    <Router>
+          <div>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Running/Stop</Link>
+                </li>
+                <li>
+                  <Link to="/images">Images</Link>
+                </li>
+                <li>
+                  <Link to="/metrics">Metrics</Link>
+                </li>
+                <li>
+                  <Link to="/yml">+</Link>
+                </li>
+              </ul>
+            </nav>
+
+            {/* A <Switch> looks through its children <Route>s and
+                renders the first one that matches the current URL. */}
+            <Switch>
+              <Route path="/metrics">
+                <Metrics />
+              </Route>
+              <Route path="/yml">
+                <Yml />
+              </Route>            
+              <Route path="/images">
+                <Images />
+              </Route>
+              <Route path="/">
+                <RunningStopped runningContainers={data}/>
+                {data}
+              </Route>
+            </Switch>
+          </div>
+    </Router>
   );
 };
 

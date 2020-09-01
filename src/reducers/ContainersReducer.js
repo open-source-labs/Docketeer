@@ -1,22 +1,18 @@
-import * as types from '../constants/actionTypes';
-
-const { exec } = require('child_process');
+import * as types from "../constants/actionTypes";
 
 const initialState = {
-	containerList: [],
+  containerList: [],
 };
 
 const containersReducer = (state = initialState, action) => {
-	switch (action.type) {
-		// case types.GET_RUNNING_CONTAINERS:
-
-		case types.ADD_CONTAINER:
-			let newContainerList = state.containerList.slice();
-			newContainerList.push(action.payload)
-			return { ...state, containerList: newContainerList };
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case types.ADD_CONTAINER:
+      const newContainer = state.containerList.slice();
+      newContainer.push(action.payload);
+      return { ...state, containerList: newContainer };
+    default:
+      return state;
+  }
 };
 
 export default containersReducer;

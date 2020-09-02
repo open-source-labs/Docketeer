@@ -5,6 +5,11 @@ export const addContainer = (data) => ({
 	payload: data,
 });
 
+export const removeContainer = (id) => ({
+	type: types.REMOVE_CONTAINER,
+	payload: id,
+});
+
 export const getRunningContainers = (data) => ({
 	type: types.GET_RUNNING_CONTAINERS,
 	payload: data,

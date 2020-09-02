@@ -1,13 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const StoppedContainers = () => {
-
-    return (
-        <div>
-            I am actually in stopped Containers. Dan Lin
-        </div>
-    )
-
-}
+  return <div>I am MEOW</div>;
+};
 
 export default StoppedContainers;

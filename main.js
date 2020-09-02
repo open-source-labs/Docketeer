@@ -1,7 +1,6 @@
 // import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 const electron = require("electron");
 const { app, BrowserWindow } = electron;
-const server = require('./server/server');
 
 
 let mainWindow;
@@ -15,7 +14,7 @@ app.on("ready", () => {
     },
   });
 
-  mainWindow.loadURL(`http://localhost:3000/`);
+  // mainWindow.loadURL(`http://localhost:3000/`);
 
   mainWindow.webContents.openDevTools();
 
@@ -27,7 +26,7 @@ app.on("ready", () => {
   });
 
   // mainWindow.loadURL(`http://localhost:3500/`);
-  //mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
 });
 
 // Quit when all windows are closed.

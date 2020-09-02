@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import get from "../functions";
 import * as actions from "../actions/actions";
@@ -9,11 +9,16 @@ import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import RunningStopped from "./tabs/RunningStopped";
 import { stderr } from "process";
+
 const App = (props) => {
   const dispatch = useDispatch();
-  const addContainer = (data) => dispatch(actions.addContainer(data));
+  const addRunningContainer = (data) =>
+    dispatch(actions.addRunningContainer(data));
   const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const stopContainer = (id) => dispatch(actions.stopContainer(id));
+  const addStoppedContainer = (data) =>
+    dispatch(actions.addStoppedContainer(data));
+  const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
 
   // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
 
@@ -21,7 +26,7 @@ const App = (props) => {
   const data = useSelector((state) => state.containers.containerList);
 
   // on app start-up, get the containers that are already running by calling initialAdd
-  const initialAdd = () => {
+  const initialRunning = () => {
     exec("docker stats --no-stream", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
@@ -34,7 +39,7 @@ const App = (props) => {
       console.log(stdout);
       // do some operations here to create a container with the information retrieved from stdout
       // then, for each container created, call addContainer by passing in the created container as argument
-      return addContainer(stdout.split("\n")[1]);
+      return addRunningContainer(stdout.split("\n")[1]);
     });
   };
 
@@ -66,10 +71,40 @@ const App = (props) => {
     });
   };
 
-  //CREATE
+  const initialStopped = () => {
+    exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(stdout);
+      // do some operations here to create a container with the information retrieved from stdout
+      // then, for each container created, call StopContainer by passing in the created container as argument
+      addStoppedContainer(stdout);
+    });
+  };
+
+  const runStopped = (id) => {
+    exec(`docker start ${id}`, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      runStoppedContainer(id);
+    });
+  };
 
   useEffect(() => {
-    initialAdd();
+    initialRunning();
+    initialStopped();
   }, []);
 
   // useEffect(() => {

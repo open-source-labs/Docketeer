@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import get from "../functions"
 import * as actions from "../actions/actions";
-import { exec } from "child_process";
+//import { exec } from "child_process";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Metrics from "./tabs/Metrics";
 import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import RunningStopped from "./tabs/RunningStopped";
+import Commands from "../functions"; 
+
+
 const App = (props) => {
   const dispatch = useDispatch();
   const addContainer = (data) => dispatch(actions.addContainer(data));
@@ -17,22 +20,45 @@ const App = (props) => {
 	const data = useSelector((state) => state.containers.containerList);
   
   useEffect(() => {
-		exec('docker ps', (error, stdout, stderr) => {
-			if (error) {
-				console.log(`error: ${error.message}`);
-				return;
-			}
-			if (stderr) {
-				console.log(`stderr: ${stderr}`);
-				return;
-			}
-			console.log(stdout)
-			return addContainer(stdout.split('\n')[1]);
-		});
+
+    fetch('/api')
+    .then(res => res.json())
+    .then(data => console.log(data));
+
+    // exec('docker stats --no-stream', (error, stdout, stderr) => {
+    //     //docker stats --no-stream
+    //         if (error) {
+    //           console.log(`error: ${error.message}`);
+    //           return;
+    //         }
+    //         if (stderr) {
+    //           console.log(`stderr: ${stderr}`);
+    //           return;
+    //         }
+    //         console.log('stdout: ', stdout)
+    //         let newArray = stdout.split('\n');
+    //         console.log(newArray);
+    //         //console.log('newArray: ', newArray);
+    //         let newnewArray = [];
+    //         for(let i = 0; i < newArray.length; i++) {
+    //           let x = newArray[i].replace(/\s+/g, " ");
+    //           newnewArray.push(x);
+    //         }
+    //         console.log(newnewArray)
+    //         // let newSplittedString = newArray[0].replace(/\s+/g, ", ");
+    //         // console.log(newSplittedString)
+    //         // let newSplittedString1 = newArray[1].replace(/\s+/g, " ");
+    //         // const dispatch = useDispatch();
+    //         // const addContainer = (data) => dispatch(actions.addContainer(data));
+
+    //         // console.log(newSplittedString1.split(' '))
+
+    //         return newArray[1];
+    //   });
   }, []);
 
 	// useEffect(() => {
-
+  //     // displaying state
   // }, [data]);
   return (
     <Router>
@@ -68,7 +94,7 @@ const App = (props) => {
               </Route>
               <Route path="/">
                 <RunningStopped runningContainers={data}/>
-                {data}
+                Hi{data}
               </Route>
             </Switch>
           </div>

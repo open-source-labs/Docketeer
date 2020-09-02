@@ -1,6 +1,17 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+//const apiRoute = require()
+
+app.use(express.json());
+app.use(express.urlencoded());
+
+// app.set('views', __dirname + '/client/views');
+// app.use(express.static(__dirname + '/client/dist/static'));
+
+app.get('/api', (req, res) => {
+  res.json('this is the response');
+});
 
 
 //if(process.env.NODE_ENV === 'production') {

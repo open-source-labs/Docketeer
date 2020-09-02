@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-	entry: './src/index.js',
+	entry: ['./src/index.js'],
 	output: {
 		path: path.join(__dirname, '/build/'),
 		filename: 'bundle.js'
@@ -31,8 +31,12 @@ module.exports = {
 		// contentBase: path.resolve(__dirname, 'src'),
 		publicPath: '/build/',
 		hot: true,
+		proxy: {
+			'/api': 'http://localhost:3000'
+		}
 	},
-	externals: {
-		child_process: "require('child_process')",
-	},
+	devtool: 'eval'
+	// externals: {
+	// 	child_process: "require('child_process')",
+	// },
 };

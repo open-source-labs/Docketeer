@@ -4,10 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open \" \"nodemon ./server/server.js\"",
-    "build": "webpack --mode production",
-    "electron": "webpack --mode production && electron ."
+    "electron": "electron .",
+    "start": "webpack-dev-server",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "@babel/preset-env": "^7.11.5",
@@ -22,7 +21,6 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "electron": "^10.1.0",
-    "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",

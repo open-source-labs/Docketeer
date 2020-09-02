@@ -27,11 +27,9 @@ module.exports = {
     ],
   },
   devServer: {
-    port: 8080,
-    // contentBase: path.resolve(__dirname, 'src'),
-    // proxy: { "/": "http://localhost:8080/" },
-    publicPath: "/build/",
-    hot: true,
+    historyApiFallback: true,
+    contentBase: "./",
+    port: 4172,
   },
   externals: {
     child_process: "require('child_process')",

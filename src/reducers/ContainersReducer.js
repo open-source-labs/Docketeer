@@ -10,8 +10,11 @@ const initialState = {
 const containersReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_CONTAINER:
+      console.log(action.payload);
+
       const newRunningList = state.runningList.slice();
       newRunningList.push(action.payload);
+      console.log(newRunningList);
       return { ...state, runningList: newRunningList };
 
     case types.REMOVE_CONTAINER:

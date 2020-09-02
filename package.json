@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open \" \"nodemon ./server/server.js\"",
-    "dev-1": "concurrently  \"cross-env NODE_ENV=development webpack --watch\" \"electron .\"",
+    "el": "concurrently  \"cross-env NODE_ENV=development webpack --watch\" \"electron .\"",
     "build": "webpack --mode production",
     "electron": "webpack --mode production && electron ."
   },

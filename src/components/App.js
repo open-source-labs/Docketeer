@@ -2,14 +2,14 @@ import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import get from "../functions"
 import * as actions from "../actions/actions";
-//import { exec } from "child_process";
+import { exec } from "child_process";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Metrics from "./tabs/Metrics";
 import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import RunningStopped from "./tabs/RunningStopped";
 import Commands from "../functions"; 
-
+import x from "../willbedeleted";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -21,40 +21,23 @@ const App = (props) => {
   
   useEffect(() => {
 
-    fetch('/api')
-    .then(res => res.json())
-    .then(data => console.log(data));
+    exec('docker stats --no-stream', (error, stdout, stderr) => {
+        //docker stats --no-stream
+            if (error) {
+              console.log(`error: ${error.message}`);
+              return;
+            }
+            if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+            }
+            // console.log('stdout: ', stdout)
 
-    // exec('docker stats --no-stream', (error, stdout, stderr) => {
-    //     //docker stats --no-stream
-    //         if (error) {
-    //           console.log(`error: ${error.message}`);
-    //           return;
-    //         }
-    //         if (stderr) {
-    //           console.log(`stderr: ${stderr}`);
-    //           return;
-    //         }
-    //         console.log('stdout: ', stdout)
-    //         let newArray = stdout.split('\n');
-    //         console.log(newArray);
-    //         //console.log('newArray: ', newArray);
-    //         let newnewArray = [];
-    //         for(let i = 0; i < newArray.length; i++) {
-    //           let x = newArray[i].replace(/\s+/g, " ");
-    //           newnewArray.push(x);
-    //         }
-    //         console.log(newnewArray)
-    //         // let newSplittedString = newArray[0].replace(/\s+/g, ", ");
-    //         // console.log(newSplittedString)
-    //         // let newSplittedString1 = newArray[1].replace(/\s+/g, " ");
-    //         // const dispatch = useDispatch();
-    //         // const addContainer = (data) => dispatch(actions.addContainer(data));
+            let value = x.convert(stdout)
+            console.log("value: ", value);
 
-    //         // console.log(newSplittedString1.split(' '))
-
-    //         return newArray[1];
-    //   });
+            
+      });
   }, []);
 
 	// useEffect(() => {

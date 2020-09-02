@@ -35,8 +35,8 @@ module.exports = {
 			'/api': 'http://localhost:3000'
 		}
 	},
-	devtool: 'eval'
-	// externals: {
-	// 	child_process: "require('child_process')",
-	// },
+	devtool: 'eval',
+	externals: {
+		child_process: "require('child_process')",
+	},
 };

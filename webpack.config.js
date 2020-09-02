@@ -26,14 +26,19 @@ module.exports = {
 			},
 		]
 	},
+	// devServer: {
+	// 	port: 8080,
+	// 	// contentBase: path.resolve(__dirname, 'src'),
+	// 	publicPath: '/build/',
+	// 	hot: true,
+	// 	proxy: {
+	// 		'/api': 'http://localhost:3000'
+	// 	}
+	// },
 	devServer: {
-		port: 8080,
-		// contentBase: path.resolve(__dirname, 'src'),
-		publicPath: '/build/',
-		hot: true,
-		proxy: {
-			'/api': 'http://localhost:3000'
-		}
+		historyApiFallback: true,
+		contentBase: './',
+		port: 4172
 	},
 	devtool: 'eval',
 	externals: {

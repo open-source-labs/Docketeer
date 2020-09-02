@@ -12,14 +12,17 @@ import { stderr } from "process";
 const App = (props) => {
   const dispatch = useDispatch();
   const addContainer = (data) => dispatch(actions.addContainer(data));
-  const getRunningContainers = (data) =>
-    dispatch(actions.getRunningContainers(data));
+  const removeContainer = (id) => dispatch(actions.removeContainer(id));
+  const stopContainer = (id) => dispatch(actions.stopContainer(id));
 
-  // useselector Allows you to extract data from the Redux store state, using a selector function.
+  // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
+
+  // useSelector Allows you to extract data from the Redux store state, using a selector function.
   const data = useSelector((state) => state.containers.containerList);
 
-  useEffect(() => {
-    exec("docker ps", async (error, stdout, stderr) => {
+  // on app start-up, get the containers that are already running by calling initialAdd
+  const initialAdd = () => {
+    exec("docker stats --no-stream", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -29,9 +32,42 @@ const App = (props) => {
         return;
       }
       console.log(stdout);
-      let data = await stderr.json();
-      return addContainer(data);
+      // do some operations here to create a container with the information retrieved from stdout
+      // then, for each container created, call addContainer by passing in the created container as argument
+      return addContainer(stdout.split("\n")[1]);
     });
+  };
+
+  const remove = (id) => {
+    exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      removeContainer(id);
+    });
+  };
+
+  const stop = (id) => {
+    exec(`docker stop ${id}`, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      stopContainer(id);
+    });
+  };
+
+  useEffect(() => {
+    initialAdd();
   }, []);
 
   // useEffect(() => {

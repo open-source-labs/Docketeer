@@ -31,11 +31,9 @@ const App = (props) => {
               console.log(`stderr: ${stderr}`);
               return;
             }
-            // console.log('stdout: ', stdout)
 
             let value = x.convert(stdout)
             console.log("value: ", value);
-
             
       });
   }, []);

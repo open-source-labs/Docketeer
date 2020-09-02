@@ -14,9 +14,13 @@ import w from '../willbedeleted';
 
 const App = (props) => {
   const dispatch = useDispatch();
-  const addContainer = (data) => dispatch(actions.addContainer(data));
+  const addRunningContainer = (data) =>
+    dispatch(actions.addRunningContainer(data));
   const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const stopContainer = (id) => dispatch(actions.stopContainer(id));
+  const addStoppedContainer = (data) =>
+    dispatch(actions.addStoppedContainer(data));
+  const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
 
   // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
 
@@ -24,7 +28,7 @@ const App = (props) => {
   const runningList = useSelector((state) => state.containers.runningList);
 
   // on app start-up, get the containers that are already running by calling initialAdd
-  const initialAdd = () => {
+  const initialRunning = () => {
     exec("docker stats --no-stream", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
@@ -76,10 +80,40 @@ const App = (props) => {
     });
   };
 
-  //CREATE
+  const initialStopped = () => {
+    exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(stdout);
+      // do some operations here to create a container with the information retrieved from stdout
+      // then, for each container created, call StopContainer by passing in the created container as argument
+      addStoppedContainer(stdout);
+    });
+  };
+
+  const runStopped = (id) => {
+    exec(`docker start ${id}`, (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      runStoppedContainer(id);
+    });
+  };
 
   useEffect(() => {
-    initialAdd();
+    initialRunning();
+    initialStopped();
   }, []);
 
   // useEffect(() => {

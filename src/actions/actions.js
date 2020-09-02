@@ -1,7 +1,7 @@
 import * as types from "../constants/actionTypes";
 
-export const addContainer = (data) => ({
-  type: types.ADD_CONTAINER,
+export const addRunningContainer = (data) => ({
+  type: types.ADD_RUNNING_CONTAINER,
   payload: data,
 });
 
@@ -17,5 +17,15 @@ export const getRunningContainers = (data) => ({
 
 export const stopContainer = (id) => ({
   type: types.STOP_RUNNING_CONTAINERS,
+  payload: id,
+});
+
+export const addStoppedContainer = () => ({
+  type: types.ADD_STOPPED_CONTAINER,
+  payload: data,
+});
+
+export const runStoppedContainer = () => ({
+  type: types.RUN_STOPPED_CONTAINER,
   payload: id,
 });

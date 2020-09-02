@@ -1,12 +1,12 @@
 import React from 'react';
+//import ContainersReducer from '../reducers/ContainersReducer';
 
 const RunningContainers = () => {
 
 
-
     return (
         <div>
-            I am actually in Running Containers Hi I am Running
+            Hello
         </div>
     )
 }

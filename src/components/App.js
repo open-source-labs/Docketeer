@@ -7,8 +7,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Metrics from "./tabs/Metrics";
 import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
-import RunningStopped from "./tabs/RunningStopped";
+import Running from "./tabs/Running";
+import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
+import w from '../willbedeleted';
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const App = (props) => {
   // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
 
   // useSelector Allows you to extract data from the Redux store state, using a selector function.
-  const data = useSelector((state) => state.containers.containerList);
+  const runningList = useSelector((state) => state.containers.runningList);
 
   // on app start-up, get the containers that are already running by calling initialAdd
   const initialRunning = () => {
@@ -36,10 +38,17 @@ const App = (props) => {
         console.log(`stderr: ${stderr}`);
         return;
       }
-      console.log(stdout);
-      // do some operations here to create a container with the information retrieved from stdout
-      // then, for each container created, call addContainer by passing in the created container as argument
-      return addRunningContainer(stdout.split("\n")[1]);
+      //console.log(stdout);
+      let value = w.convert(stdout);
+      let convertedValue = w.convertArrToObj(value);
+      //console.log(convertedValue);
+      
+      for(let i = 0; i < convertedValue.length; i++) {
+        addContainer(convertedValue[i]);
+      }
+
+      //console.log(data);
+
     });
   };
 
@@ -116,7 +125,10 @@ const App = (props) => {
         <nav>
           <ul>
             <li>
-              <Link to="/">Running/Stop</Link>
+              <Link to="/">Running</Link>
+            </li>
+            <li>
+              <Link to="/stopped">Stopped</Link>
             </li>
             <li>
               <Link to="/images">Images</Link>
@@ -143,8 +155,10 @@ const App = (props) => {
             <Images />
           </Route>
           <Route path="/">
-            <RunningStopped runningContainers={data} />
-            {data}
+            <Running runningList={runningList}/>
+          </Route>
+          <Route path="/stopped">
+            <Stopped />
           </Route>
         </Switch>
       </div>

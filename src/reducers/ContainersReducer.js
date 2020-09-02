@@ -9,7 +9,7 @@ const initialState = {
 
 const containersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_CONTAINER:
+    case types.ADD_RUNNING_CONTAINER:
       const newRunningList = state.runningList.slice();
       newRunningList.push(action.payload);
       return { ...state, runningList: newRunningList };
@@ -38,6 +38,27 @@ const containersReducer = (state = initialState, action) => {
         ...state,
         runningList: newestRunningList,
         stoppedList: newStoppedList,
+      };
+
+    case types.ADD_STOPPED_CONTAINER:
+      const newerStoppedList = state.stoppedList.slice();
+      newerStoppedList.push(action.payload);
+      return { ...state, stoppedList: newerStoppedList };
+
+    case types.RUN_STOPPED_CONTAINER:
+      const runningListCopy = state.stoppedList.slice();
+      const newerStoppedContainer = [];
+      for (let container of state.stoppedList) {
+        if (container.id === action.payload) {
+          runningListCopy.push(container);
+        } else {
+          newerStoppedContainer.push(container);
+        }
+      }
+      return {
+        ...state,
+        runningList: runningListCopy,
+        stoppedList: newerStoppedContainer,
       };
 
     default:

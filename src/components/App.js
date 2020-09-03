@@ -10,7 +10,7 @@ import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
-import w from '../willbedeleted';
+import parseContainerFormat from './helper/parseContainerFormat';
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -25,7 +25,10 @@ const App = (props) => {
   // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
 
   // useSelector Allows you to extract data from the Redux store state, using a selector function.
+
   const runningList = useSelector((state) => state.containers.runningList);
+  const stoppedList = useSelector((state) => state.containers.stoppedList);
+
 
   // on app start-up, get the containers that are already running by calling initialAdd
   const initialRunning = () => {
@@ -39,12 +42,13 @@ const App = (props) => {
         return;
       }
       //console.log(stdout);
-      let value = w.convert(stdout);
-      let convertedValue = w.convertArrToObj(value);
+      let value = parseContainerFormat.convert(stdout);
+      let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
+      let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
       //console.log(convertedValue);
       
       for(let i = 0; i < convertedValue.length; i++) {
-        addContainer(convertedValue[i]);
+        addRunningContainer(convertedValue[i]);
       }
 
       //console.log(data);
@@ -91,9 +95,33 @@ const App = (props) => {
         return;
       }
       console.log(stdout);
+      let value = parseContainerFormat.convert(stdout);
+      //value => array
+      console.log(value)
+      const result = [];
+      //tempoary we will have it as manual number
+      for(let i = 0; i < 10; i++) {
+        let innerArray = [];
+        innerArray.push(value[i][0]); // id
+        innerArray.push(value[i][1]); // image
+        if(!isNaN(parseInt(value[i][3]))) {
+          innerArray.push(value[i][3] + ' days ago'); // created 
+        } else {
+          innerArray.push(value[i][6] + ' days ago');
+        }
+        result.push(innerArray);       
+      }
+      let objArray = ['cid', 'img', 'created'];
+      let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+      
+      console.log(convertedValue);
+      
+      for (let i = 0; i < convertedValue.length; i++) {
+        addStoppedContainer(convertedValue[i]);
+      }
       // do some operations here to create a container with the information retrieved from stdout
       // then, for each container created, call StopContainer by passing in the created container as argument
-      addStoppedContainer(stdout);
+      //addStoppedContainer(stdout);
     });
   };
 
@@ -154,11 +182,11 @@ const App = (props) => {
           <Route path="/images">
             <Images />
           </Route>
-          <Route path="/">
-            <Running runningList={runningList}/>
-          </Route>
           <Route path="/stopped">
             <Stopped />
+          </Route>
+          <Route path="/">
+            <Running />
           </Route>
         </Switch>
       </div>

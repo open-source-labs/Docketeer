@@ -20,7 +20,7 @@ export const stopContainer = (id) => ({
   payload: id,
 });
 
-export const addStoppedContainer = () => ({
+export const addStoppedContainer = (data) => ({
   type: types.ADD_STOPPED_CONTAINER,
   payload: data,
 });

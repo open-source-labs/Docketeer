@@ -47,16 +47,11 @@ const App = (props) => {
       let value = parseContainerFormat.convert(stdout);
       let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
       let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-      //console.log(convertedValue);
-      
-      //getRunningContainers(convertedValue);
 
       for(let i = 0; i < convertedValue.length; i++) {
+        console.log('I hit here')
         addRunningContainer(convertedValue[i]);
       }
-
-      //console.log(data);
-
     });
   };
 
@@ -209,36 +204,36 @@ const App = (props) => {
 		});
 	}
 
-  const getContainers = () => {
-    exec("docker stats --no-stream", (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-      }
-      //console.log(stdout);
-      let value = parseContainerFormat.convert(stdout);
-      let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
-      let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-      //console.log('Here: ', convertedValue);
+  // const getContainers = () => {
+  //   exec("docker stats --no-stream", (error, stdout, stderr) => {
+  //     if (error) {
+  //       console.log(`error: ${error.message}`);
+  //       return;
+  //     }
+  //     if (stderr) {
+  //       console.log(`stderr: ${stderr}`);
+  //       return;
+  //     }
+  //     //console.log(stdout);
+  //     let value = parseContainerFormat.convert(stdout);
+  //     let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
+  //     let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+  //     //console.log('Here: ', convertedValue);
       
-      getRunningContainers(convertedValue);
-    });
-  }
+  //     getRunningContainers(convertedValue);
+  //   });
+  // }
 
   //It is commented out for now due to fixing infinite loop error
   useEffect(() => {
     initialRunning();
-    initialStopped();
-    getIm();
+    // initialStopped();
+    // getIm();
     
   }, []);
-  // getContainers();
-
+  
   // useEffect(() => {
+  //   //getContainers();
     
   // }, [runningList]);
 
@@ -281,7 +276,7 @@ const App = (props) => {
             <Stopped />
           </Route>
           <Route path="/">
-            <Running stop={stop}/>
+            <Running stop={stop} />
           </Route>
         </Switch>
       </div>

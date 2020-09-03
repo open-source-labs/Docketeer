@@ -12,7 +12,6 @@ const listsReducer = (state = initialState, action) => {
 		case types.ADD_RUNNING_CONTAINER:
 			const newRunningList = state.runningList.slice();
 			newRunningList.push(action.payload);
-			console.log(newRunningList);
 			return { ...state, runningList: newRunningList };
 
 		case types.REMOVE_CONTAINER:
@@ -78,6 +77,7 @@ const listsReducer = (state = initialState, action) => {
 			for (let container of action.payload) {
 				newContainers.push(container);
 			}
+			console.log(newContainers);
 			return {
 				...state,
 				runningList: newContainers

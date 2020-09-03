@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const Stopped = () => {
 
-    const stoppedList = useSelector((state) => state.containers.stoppedList);
+    const stoppedList = useSelector((state) => state.lists.stoppedList);
 
     const stopTesting = stoppedList.map(ele => {
         return (

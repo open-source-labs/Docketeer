@@ -26,8 +26,8 @@ const App = (props) => {
 
   // useSelector Allows you to extract data from the Redux store state, using a selector function.
 
-  const runningList = useSelector((state) => state.containers.runningList);
-  const stoppedList = useSelector((state) => state.containers.stoppedList);
+  const runningList = useSelector((state) => state.lists.runningList);
+  const stoppedList = useSelector((state) => state.lists.stoppedList);
 
 
   // on app start-up, get the containers that are already running by calling initialAdd
@@ -139,6 +139,34 @@ const App = (props) => {
     });
   };
 
+	const runIm = (id) => {
+		exec(`docker run ${id}`, (error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+			}
+			runImage(id);
+		});
+	}
+
+	const removeIm = (id) => {
+		exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+			}
+			removeImage(id);
+		});
+	}
+
   useEffect(() => {
     initialRunning();
     initialStopped();
@@ -192,6 +220,7 @@ const App = (props) => {
       </div>
     </Router>
   );
+	
 };
 
 export default App;

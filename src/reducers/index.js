@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import containersReducer from './ContainersReducer';
+import listsReducer from './ListsReducer';
 
 const reducers = combineReducers({
-  containers: containersReducer,
+	lists: listsReducer,
 });
 
 export default reducers;

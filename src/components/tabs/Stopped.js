@@ -14,7 +14,8 @@ const Stopped = () => {
             <ul>ContainerId : {ele['cid']}</ul>
             <ul>Img: {ele['img']}</ul>
             <ul>Created: {ele['created']}</ul>
-           
+            <button>RUN</button>
+            <button>REMOVE</button>
     
             </div>
     

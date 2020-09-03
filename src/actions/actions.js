@@ -16,7 +16,7 @@ export const getRunningContainers = (data) => ({
 });
 
 export const stopContainer = (id) => ({
-	type: types.STOP_RUNNING_CONTAINERS,
+	type: types.STOP_RUNNING_CONTAINER,
 	payload: id,
 });
 
@@ -45,4 +45,8 @@ export const removeImage = (id) => ({
 	payload: id,
 });
 
+// export const getRunningContainers = (data) => ({
+// 	type: types.GET_RUNNING_CONTAINERS,
+// 	payload: data,
+// })
 

@@ -8,6 +8,7 @@ app.on("ready", () => {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
+      allowRendererProcessReuse: false
       // webSecurity: false
     },
   });

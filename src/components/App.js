@@ -21,13 +21,15 @@ const App = (props) => {
   const addStoppedContainer = (data) =>
     dispatch(actions.addStoppedContainer(data));
   const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
-
+  const getImages = (data) => dispatch(actions.getImages(data))
+  const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data));
   // const getRunningContainers = (data) => dispatch(actions.getRunningContainers(data))
 
   // useSelector Allows you to extract data from the Redux store state, using a selector function.
 
   const runningList = useSelector((state) => state.lists.runningList);
   const stoppedList = useSelector((state) => state.lists.stoppedList);
+  const imagesList = useSelector((state) => state.lists.imagesList);
 
 
   // on app start-up, get the containers that are already running by calling initialAdd
@@ -47,6 +49,8 @@ const App = (props) => {
       let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
       //console.log(convertedValue);
       
+      //getRunningContainers(convertedValue);
+
       for(let i = 0; i < convertedValue.length; i++) {
         addRunningContainer(convertedValue[i]);
       }
@@ -100,7 +104,7 @@ const App = (props) => {
       console.log(value)
       const result = [];
       //tempoary we will have it as manual number
-      for(let i = 0; i < 10; i++) {
+      for(let i = 0; i < value.length; i++) {
         let innerArray = [];
         innerArray.push(value[i][0]); // id
         innerArray.push(value[i][1]); // image
@@ -167,14 +171,77 @@ const App = (props) => {
 		});
 	}
 
+  const getIm = () => {
+		exec(`docker images`, (error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+      }
+      //console.log(stdout)
+      let value = parseContainerFormat.convert(stdout);
+      //console.log(value)
+      let objArray = ['reps', 'tag', 'imgid', 'size'] 
+      // let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+      //console.log('this is convertedValue for images ' + convertedValue)
+      const resultImages = [];
+      for(let i = 0; i < value.length; i++) {
+        let innerArray = [];
+        if(value[i][0] !== '<none>') {
+          innerArray.push(value[i][0])
+          innerArray.push(value[i][1])
+          innerArray.push(value[i][2])
+          innerArray.push(value[i][6])
+          resultImages.push(innerArray)
+        }
+      }
+      // console.log(resultImages);
+      let convertedImagesValue = parseContainerFormat.convertArrToObj(resultImages, objArray);
+      // console.log(convertedImagesValue)
+      // for (let i = 0; i < convertedImagesValue.length; i++) {
+      //   getImages(convertedImagesValue[i]);
+      // }
+
+			getImages(convertedImagesValue);
+		});
+	}
+
+  const getContainers = () => {
+    exec("docker stats --no-stream", (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      //console.log(stdout);
+      let value = parseContainerFormat.convert(stdout);
+      let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
+      let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+      //console.log('Here: ', convertedValue);
+      
+      getRunningContainers(convertedValue);
+    });
+  }
+
+  //It is commented out for now due to fixing infinite loop error
   useEffect(() => {
     initialRunning();
     initialStopped();
+    getIm();
+    
   }, []);
+  // getContainers();
 
   // useEffect(() => {
+    
+  // }, [runningList]);
 
-  // }, [data]);
   return (
     <Router>
       <div>
@@ -214,7 +281,7 @@ const App = (props) => {
             <Stopped />
           </Route>
           <Route path="/">
-            <Running />
+            <Running stop={stop}/>
           </Route>
         </Switch>
       </div>

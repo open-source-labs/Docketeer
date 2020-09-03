@@ -24,7 +24,7 @@ const listsReducer = (state = initialState, action) => {
 			}
 			return { ...state, runningList: newerRunningList };
 
-		case types.STOP_CONTAINER:
+		case types.STOP_RUNNING_CONTAINER:
 			const newStoppedList = state.stoppedList.slice();
 			const newestRunningList = [];
 
@@ -63,13 +63,33 @@ const listsReducer = (state = initialState, action) => {
 			};
 		case types.GET_IMAGES:
 			const newImagesList = state.imagesList.slice();
+			
 			for (let image of action.payload) {
 				newImagesList.push(image);
 			}
+			
+			console.log('hi')
 			return {
 				...state,
 				imagesList: newImagesList
 			}
+		case types.GET_RUNNING_CONTAINERS: 
+			const newContainers = state.runningList.slice();
+			for (let container of action.payload) {
+				newContainers.push(container);
+			}
+			return {
+				...state,
+				runningList: newContainers
+			}
+		case types.REMOVE_IMAGE:
+			const newRemoveImage = [];
+			for (let image of state.imagesList) {
+				if (image.id !== action.payload) {
+					newRunningList.push(image);
+				}
+			}
+			return { ...state, imageList: newRemoveImage };
 		default:
 			return state;
 	}

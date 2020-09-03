@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 //import * as actions from "../../actions/actions";
 
 
-const Running = () => {
+const Running = (props) => {
 
     const runningList = useSelector((state) => state.lists.runningList);
-//['Container Id', 'Name', 'CPU %', 'Mem Usage / Limit', 'Mem %', 'Net I/O', 'Block I/O', 'PIDS']
-// ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
-    const testing = runningList.map(ele => {
+    // ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
+    const renderRunningList = runningList.map(ele => {
     return (
         <div>
         
@@ -22,7 +21,8 @@ const Running = () => {
         <ul>Net I/O: {ele['net']}</ul>
         <ul>Block I/O: {ele['block']}</ul>
         <ul>PIDS: {ele['pids']}</ul>
-
+        <button onClick={()=> props.stop(ele['cid'])}>STOP</button>
+        <button>DELETE</button>
         </div>
 
 
@@ -32,12 +32,12 @@ const Running = () => {
     return (
         <div>
             I am in RunningStopped Hello!!! This is going to render
-            <div>
+            {/* <div>
             <RunningContainers />
-            </div>
+            </div> */}
             <div>
-                {testing}
-                
+                {/* We will have to have stop functionality on running containers */}
+                {renderRunningList}
             </div>
         </div>
     )

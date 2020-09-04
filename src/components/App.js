@@ -11,6 +11,7 @@ import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
 import parseContainerFormat from './helper/parseContainerFormat';
+import '../../assets/styles.css';
 
 const App = (props) => {
 	const dispatch = useDispatch();
@@ -242,7 +243,7 @@ const App = (props) => {
 
 	return (
 		<Router>
-			<div>
+			<div class="container">
 				<nav>
 					<ul>
 						<li>

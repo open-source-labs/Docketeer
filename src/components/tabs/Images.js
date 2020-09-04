@@ -14,7 +14,7 @@ const Images = () => {
              <ul>Tag : {ele['tag']}</ul>
              <ul>Image ID : {ele['imgid']}</ul>
              <ul>Size : {ele['size']}</ul>
-
+             
             </div>
         )
     });

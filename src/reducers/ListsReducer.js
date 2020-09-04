@@ -17,19 +17,19 @@ const listsReducer = (state = initialState, action) => {
 			return { ...state, runningList: newRunningList };
 
 		case types.REMOVE_CONTAINER:
-			const newerRunningList = [];
-			for (let container of state.runningList) {
+			const removeContainerList = [];
+			console.log("removeContainerList1", removeContainerList)
+			for (let container of state.stoppedList) {
 				if (container.cid !== action.payload) {
-					newerRunningList.push(container);
+					removeContainerList.push(container);
 				}
 			}
-			return { ...state, runningList: newerRunningList };
+			console.log("removeContainerList2",removeContainerList);
+			return { ...state, stoppedList: removeContainerList };
 
 		case types.STOP_RUNNING_CONTAINER:
 			const newStoppedList = state.stoppedList.slice();
 			const newestRunningList = [];
-			console.log('action.payload', action.payload)
-			console.log('container.cid', state.runningList[0].id)
 			for (let container of state.runningList) {
 				if (container.cid === action.payload) {
 					console.log('action.payload', action.payload)
@@ -40,8 +40,8 @@ const listsReducer = (state = initialState, action) => {
 					newestRunningList.push(container);
 				}
 			}
-			console.log('runningList', newestRunningList);
-			console.log('stoppedList', newStoppedList);
+			//console.log('runningList', newestRunningList);
+			//console.log('stoppedList', newStoppedList);
 			return {
 				...state,
 				runningList: newestRunningList,
@@ -56,10 +56,12 @@ const listsReducer = (state = initialState, action) => {
 			return { ...state, stoppedList: newerStoppedList };
 
 		case types.RUN_STOPPED_CONTAINER:
-			const runningListCopy = state.stoppedList.slice();
+			const runningListCopy = state.runningList.slice();
 			const newerStoppedContainer = [];
 			for (let container of state.stoppedList) {
 				if (container.cid === action.payload) {
+					console.log('runningListCopy1:', runningListCopy)
+					console.log('newerStoppedContainer1:', newerStoppedContainer)
 					runningListCopy.push(container);
 				} else {
 					newerStoppedContainer.push(container);

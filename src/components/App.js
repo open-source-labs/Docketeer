@@ -158,6 +158,7 @@ const App = (props) => {
 				console.log(`stderr: ${stderr}`);
 				return;
 			}
+			
 			removeContainer(id);
 		});
 	};
@@ -186,6 +187,7 @@ const App = (props) => {
 				console.log(`stderr: ${stderr}`);
 				return;
 			}
+			console.log(stdout)
 			runStoppedContainer(id);
 		});
 	};
@@ -274,7 +276,7 @@ const App = (props) => {
 						<Images />
 					</Route>
 					<Route path="/stopped">
-						<Stopped />
+						<Stopped runStopped={runStopped} remove={remove} />
 					</Route>
 					<Route path="/">
 						<Running stop={stop} />

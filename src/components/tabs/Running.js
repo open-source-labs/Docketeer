@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 const Running = (props) => {
-
+    
     const runningList = useSelector((state) => state.lists.runningList);
     // ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
     const renderRunningList = runningList.map(ele => {

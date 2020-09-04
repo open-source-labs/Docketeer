@@ -28,7 +28,7 @@ const App = (props) => {
 	const imagesList = useSelector((state) => state.lists.imagesList);
 
 
-	// on app start-up, get the containers that are already running by calling addRunning
+	//ADD RUNNING CONTAINER TO RUNNINGLIST STATE
 	const addRunning = () => {
 		exec("docker stats --no-stream", (error, stdout, stderr) => {
 			if (error) {
@@ -60,6 +60,7 @@ const App = (props) => {
 		});
 	};
 
+  //LISTING ALL OF THE STOPPED CONTAINER 
 	const addStopped = () => {
 		exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
 			if (error) {
@@ -106,6 +107,7 @@ const App = (props) => {
 		});
 	};
 
+  //LISTING ALL OF THE IMAGES.
 	const addImages = () => {
 		exec(`docker images`, (error, stdout, stderr) => {
 			if (error) {
@@ -146,7 +148,9 @@ const App = (props) => {
 				addExistingImages(newList)
 			}
 		});
-	}
+  }
+  
+  //REMOVING A CONTAINER FROM A RUNNINGLIST, 
 
 	const remove = (id) => {
 		exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
@@ -157,10 +161,14 @@ const App = (props) => {
 			if (stderr) {
 				console.log(`stderr: ${stderr}`);
 				return;
-			}
+      }
+      
 			removeContainer(id);
 		});
-	};
+  };
+  
+  
+  //STOPPING A CONTAINER THAT IS RUNNING.
 
 	const stop = (id) => {
 		exec(`docker stop ${id}`, (error, stdout, stderr) => {
@@ -176,6 +184,7 @@ const App = (props) => {
 		});
 	};
 
+ //RUNNING A CONTAINER FROM A STOPPEDLIST
 	const runStopped = (id) => {
 		exec(`docker start ${id}`, (error, stdout, stderr) => {
 			if (error) {
@@ -190,6 +199,7 @@ const App = (props) => {
 		});
 	};
 
+  //RUN A IMAGE AND ADDDING IT TO THE IMAGESLIST
 	const runIm = (id) => {
 		exec(`docker run ${id}`, (error, stdout, stderr) => {
 			if (error) {
@@ -202,8 +212,9 @@ const App = (props) => {
 			}
 			runImage(id);
 		});
-	}
-
+  }
+  
+  //REMOVING AN IMAGE FROM A IMAGESLIST
 	const removeIm = (id) => {
 		exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
 			if (error) {
@@ -213,7 +224,8 @@ const App = (props) => {
 			if (stderr) {
 				console.log(`stderr: ${stderr}`);
 				return;
-			}
+      }
+      //fix this
 			removeImage(id);
 		});
 	}

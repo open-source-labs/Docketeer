@@ -5,6 +5,7 @@
 .renderContainers {
     display: flex;
     flex-wrap: wrap;
+    margin-left: 300px;
 }
 .box {
     border: 1px solid #E8EDF3;

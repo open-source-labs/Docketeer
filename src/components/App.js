@@ -20,10 +20,9 @@ const App = (props) => {
 	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
 	const addExistingImages = (data) => dispatch(actions.getImages(data))
 
-
-  const runningList = useSelector((state) => state.lists.runningList);
-  const stoppedList = useSelector((state) => state.lists.stoppedList);
-  const imagesList = useSelector((state) => state.lists.imagesList);
+	const runningList = useSelector((state) => state.lists.runningList);
+	const stoppedList = useSelector((state) => state.lists.stoppedList);
+	const imagesList = useSelector((state) => state.lists.imagesList);
 
 	useEffect(() => {
 		helper.addRunning(runningList, addRunningContainers);

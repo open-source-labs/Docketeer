@@ -7,7 +7,7 @@ import * as actions from "../../actions/actions";
 const Stopped = (props) => {
 	const dispatch = useDispatch();
 	const removeContainer = (id) => dispatch(actions.removeContainer(id));
-	const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
+	const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 
 	const stopTesting = stoppedList.map(ele => {

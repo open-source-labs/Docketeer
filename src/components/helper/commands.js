@@ -246,7 +246,29 @@ export const removeIm = (id, callback) => {
 
 
 //needs to implement some logic to get the filepath before running docker-compose up
+//docker-compoes up will run multiple container at once.
 
-
+export const dockerCompose = (callback) => {
+	exec(`docker-compose up`, (error, stdout, stderr) => {
+	  if (error) {
+		console.log(`error: ${error.message}`);
+		return;
+	  }
+	  if (stderr) {
+		console.log(`stderr: ${stderr}`);
+		return;
+	  }
+	  let multipleStdout = [];
+  
+	  let value = parseContainerFormat.convert(stdout);
+	  let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
+	  let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+	  
+	  
+	  //there is more than one container running, so i get back at this
+  
+	  callback(runningList);
+	});
+  };
 
 

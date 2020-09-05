@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
-import { exec } from "child_process";
+import { exec, spawn } from "child_process";
 
 import parseContainerFormat from './parseContainerFormat';
 
@@ -17,6 +17,8 @@ import parseContainerFormat from './parseContainerFormat';
 
 // on app start-up, get the containers that are already running by calling addRunning
 export const addRunning = (runningList, callback) => {
+	console.log("runningList", runningList);
+	console.log("I am here5")
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -26,9 +28,12 @@ export const addRunning = (runningList, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
+		console.log("I am here6")
+		console.log(stdout);
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+		console.log(convertedValue)
 		const newList = []
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
@@ -41,8 +46,13 @@ export const addRunning = (runningList, callback) => {
 				newList.push(convertedValue[i])
 			}
 		}
+		console.log("I am here 7")
+		console.log("newList.length", newList.length);
 		if (newList.length > 0) {
+
+			console.log("I am in callback")
 			callback(newList)
+			console.log("I am after callback")
 		}
 	});
 };
@@ -183,10 +193,14 @@ export const runStopped = (id, callback) => {
 	});
 };
 
-export const runIm = async (id, runningList, callback_1, callback_2) => {
+export const runIm = (id, runningList) => {
 	console.log("I am here1");
-	console.log("id", id)
-	exec(`docker run ${id}`, (error, stdout, stderr) => {
+	console.log("id", id);
+	console.log("runningList:", runningList);
+
+	//process.stdin.pipe(child.stdin)
+	
+	exec(`docker create ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
 			return;
@@ -196,11 +210,22 @@ export const runIm = async (id, runningList, callback_1, callback_2) => {
 			return;
 		}
 		//callback_1(id)
-		console.log("I am here2");
+		exec(`docker start ${stdout}`, (error2, stdout2, stderr2) => {
+			if (error2) {
+				console.log(`error: ${error2.message}`);
+				return;
+			}
+			if (stderr2) {
+				console.log(`stderr: ${stderr2}`);
+				return;
+			}
+			console.log(stdout2);
+			//addRunning(runningList, callback_2);
+		})
 	})
-	console.log("I am here3");
-	await callback_1(runningList, callback_2);
-	console.log("I am here4");
+	// console.log("I am here3");
+	// callback_1(runningList, callback_2);
+	// console.log("I am here4");
 
 }
 

@@ -20,7 +20,6 @@ const App = (props) => {
 	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
 	const addExistingImages = (data) => dispatch(actions.getImages(data))
 
-
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
@@ -37,7 +36,7 @@ const App = (props) => {
 				<nav className="tab">
 					<ul>
 						<li>
-							<Link to="/">Running</Link>
+							<Link to="/" onClick={()=> helper.addRunning(runningList, addRunningContainers)}>Running</Link>
 						</li>
 						<li>
 							<Link to="/stopped">Stopped</Link>

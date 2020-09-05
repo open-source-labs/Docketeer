@@ -21,7 +21,7 @@ const Images = (props) => {
              <ul>Tag : {ele['tag']}</ul>
              <ul>Image ID : {ele['imgid']}</ul>
              <ul>Size : {ele['size']}</ul>
-             <button onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning ,addRunningContainers )}>Add Container based on Image</button>
+             <button onClick={() => helper.runIm(ele['imgid'], runningList, helper.addRunning ,addRunningContainers )}>Add Container based on Image</button>
             </div>
         )
     });

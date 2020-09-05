@@ -59,7 +59,7 @@ const listsReducer = (state = initialState, action) => {
 			const runningListCopy = state.runningList.slice();
 			const newerStoppedContainer = [];
 			for (let container of state.stoppedList) {
-				if (container.cid === action.payload.cid) {
+				if (container.cid === action.payload) {
 					console.log('runningListCopy1:', runningListCopy)
 					console.log('newerStoppedContainer1:', newerStoppedContainer)
 					runningListCopy.push(container);

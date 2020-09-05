@@ -28,17 +28,16 @@ export const addRunning = (runningList, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log("I am here6")
-		console.log(stdout);
+
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-		console.log(convertedValue)
+		console.log(convertedValue);
 		const newList = []
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of runningList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -46,14 +45,14 @@ export const addRunning = (runningList, callback) => {
 				newList.push(convertedValue[i])
 			}
 		}
-		console.log("I am here 7")
-		console.log("newList.length", newList.length);
+		console.log(newList.length)
 		if (newList.length > 0) {
 
 			console.log("I am in callback")
 			callback(newList)
 			console.log("I am after callback")
 		}
+
 	});
 };
 
@@ -89,7 +88,7 @@ export const addStopped = (stoppedList, callback) => {
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of stoppedList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -132,7 +131,7 @@ export const addImages = (imagesList, callback) => {
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of imagesList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -187,20 +186,34 @@ export const runStopped = (id, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log(stdout)
-		callback(id)
+		// console.log(stdout)
+		
+		//docker stats 483e38b1b558 --no-stream
+		exec(`docker stats ${id} --no-stream`, (error, stdout, stderr) => {
+			console.log(stdout)
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+			}				
+			let value = parseContainerFormat.convert(stdout);
+			let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
+			let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+			console.log(convertedValue)
+			callback(convertedValue)
+		})
 		// runStoppedContainer(id);
 	});
 };
 
-export const runIm = (id, runningList) => {
+export const runIm = (id, runningList, callback_1, callback_2) => {
 	console.log("I am here1");
 	console.log("id", id);
 	console.log("runningList:", runningList);
-
-	//process.stdin.pipe(child.stdin)
 	
-	exec(`docker create ${id}`, (error, stdout, stderr) => {
+	exec(`docker run ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
 			return;
@@ -210,22 +223,9 @@ export const runIm = (id, runningList) => {
 			return;
 		}
 		//callback_1(id)
-		exec(`docker start ${stdout}`, (error2, stdout2, stderr2) => {
-			if (error2) {
-				console.log(`error: ${error2.message}`);
-				return;
-			}
-			if (stderr2) {
-				console.log(`stderr: ${stderr2}`);
-				return;
-			}
-			console.log(stdout2);
-			//addRunning(runningList, callback_2);
-		})
+		console.log("I am here2");
 	})
-	// console.log("I am here3");
-	// callback_1(runningList, callback_2);
-	// console.log("I am here4");
+	callback_1(runningList, callback_2);
 
 }
 
@@ -240,8 +240,5 @@ export const removeIm = (id, callback) => {
 			return;
 		}
 		callback(id)
-
-
-		
 	})
 }

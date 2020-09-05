@@ -36,7 +36,7 @@ const App = (props) => {
 				<nav className="tab">
 					<ul>
 						<li>
-							<Link to="/" onClick={()=> helper.addRunning(runningList, addRunningContainers)}>Running</Link>
+							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/">Running</Link>
 						</li>
 						<li>
 							<Link to="/stopped">Stopped</Link>
@@ -63,7 +63,7 @@ const App = (props) => {
 						<Yml />
 					</Route>
 					<Route path="/images">
-						<Images runIm={helper.runIm}/>
+						<Images runIm={helper.runIm} />
 					</Route>
 					<Route path="/stopped">
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} />

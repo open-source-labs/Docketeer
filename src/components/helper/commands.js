@@ -224,9 +224,9 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 		}
 		//callback_1(id)
 		console.log("I am here2");
+		callback_1(runningList, callback_2);
 	})
-	callback_1(runningList, callback_2);
-
+	
 }
 
 export const removeIm = (id, callback) => {

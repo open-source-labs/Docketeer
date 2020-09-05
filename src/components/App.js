@@ -9,6 +9,8 @@ import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
+import parseContainerFormat from './helper/parseContainerFormat';
+import '../../assets/styles.css';
 import * as helper from "./helper/commands";
 
 
@@ -17,6 +19,7 @@ const App = (props) => {
 	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
 	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
 	const addExistingImages = (data) => dispatch(actions.getImages(data))
+
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
@@ -30,8 +33,8 @@ const App = (props) => {
 
 	return (
 		<Router>
-			<div>
-				<nav>
+			<div className="container">
+				<nav className="tab">
 					<ul>
 						<li>
 							<Link to="/">Running</Link>
@@ -61,7 +64,7 @@ const App = (props) => {
 						<Yml />
 					</Route>
 					<Route path="/images">
-						<Images />
+						<Images runIm={helper.runIm}/>
 					</Route>
 					<Route path="/stopped">
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} />

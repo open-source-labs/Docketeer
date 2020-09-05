@@ -183,7 +183,9 @@ export const runStopped = (id, callback) => {
 	});
 };
 
-export const runIm = (id, callback) => {
+export const runIm = async (id, runningList, callback_1, callback_2) => {
+	console.log("I am here1");
+	console.log("id", id)
 	exec(`docker run ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -193,8 +195,13 @@ export const runIm = (id, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		callback(id)
-	});
+		//callback_1(id)
+		console.log("I am here2");
+	})
+	console.log("I am here3");
+	await callback_1(runningList, callback_2);
+	console.log("I am here4");
+
 }
 
 export const removeIm = (id, callback) => {
@@ -208,5 +215,8 @@ export const removeIm = (id, callback) => {
 			return;
 		}
 		callback(id)
-	});
+
+
+		
+	})
 }

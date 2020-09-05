@@ -28,11 +28,7 @@ const Stopped = (props) => {
 
 	return (
 		<div>
-			I am in Stopped Hello!!! This is going to render
-			<div>
-				<StoppedContainers />
-			</div>
-			<div>
+			<div className="renderContainers">
 				{stopTesting}
 			</div>
 		</div>

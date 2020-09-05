@@ -26,14 +26,16 @@ export const addRunning = (runningList, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
+
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+		console.log(convertedValue);
 		const newList = []
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of runningList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -41,9 +43,11 @@ export const addRunning = (runningList, callback) => {
 				newList.push(convertedValue[i])
 			}
 		}
+		console.log(newList.length)
 		if (newList.length > 0) {
 			callback(newList)
 		}
+
 	});
 };
 
@@ -79,7 +83,7 @@ export const addStopped = (stoppedList, callback) => {
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of stoppedList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -122,7 +126,7 @@ export const addImages = (imagesList, callback) => {
 		for (let i = 0; i < convertedValue.length; i++) {
 			let isInTheList = false
 			for (let container of imagesList) {
-				if (container.id === convertedValue[i].id) {
+				if (container.cid === convertedValue[i].cid) {
 					isInTheList = true
 				}
 			}
@@ -183,7 +187,7 @@ export const runStopped = (id, callback) => {
 	});
 };
 
-export const runIm = async (id, runningList, callback_1, callback_2) => {
+export const runIm = (id, runningList, callback_1, callback_2) => {
 	console.log("I am here1");
 	console.log("id", id)
 	exec(`docker run ${id}`, (error, stdout, stderr) => {
@@ -198,10 +202,7 @@ export const runIm = async (id, runningList, callback_1, callback_2) => {
 		//callback_1(id)
 		console.log("I am here2");
 	})
-	console.log("I am here3");
-	await callback_1(runningList, callback_2);
-	console.log("I am here4");
-
+	callback_1(runningList, callback_2);
 }
 
 export const removeIm = (id, callback) => {
@@ -215,8 +216,5 @@ export const removeIm = (id, callback) => {
 			return;
 		}
 		callback(id)
-
-
-		
 	})
 }

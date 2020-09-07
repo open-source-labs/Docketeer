@@ -40,6 +40,11 @@ export const removeImage = (id) => ({
 	payload: id,
 });
 
+export const refreshRunningContainers = (data) => ({
+	type: types.REFRESH_RUNNING_CONTAINERS,
+	payload: data,
+});
+
 // export const getRunningContainers = (data) => ({
 // 	type: types.GET_RUNNING_CONTAINERS,
 // 	payload: data,

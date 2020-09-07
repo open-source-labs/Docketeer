@@ -235,16 +235,26 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 }
 
 export const removeIm = (id, callback) => {
+	const message = {}
 	exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
 		if (error) {
-			console.log(`error: ${error.message}`);
-			return;
+			message['error'] = error.message;
+			console.log('Error:', error.message)
+
 		}
 		if (stderr) {
-			console.log(`stderr: ${stderr}`);
-			return;
+			message['stderr'] = stderr
+			console.log('stderr:', stderr);
+
 		}
-		callback(id)
+		console.log('stdout', stdout)
+		console.log(stdout.length)
+		if(stdout.length) {
+			callback(id);
+		} else {
+			//Show modal;
+			
+		}
 	})
 }
 

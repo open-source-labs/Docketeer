@@ -24,7 +24,7 @@ const listsReducer = (state = initialState, action) => {
 					removeContainerList.push(container);
 				}
 			}
-			console.log("removeContainerList2",removeContainerList);
+			console.log("removeContainerList2", removeContainerList);
 			return { ...state, stoppedList: removeContainerList };
 
 		case types.STOP_RUNNING_CONTAINER:
@@ -63,7 +63,7 @@ const listsReducer = (state = initialState, action) => {
 					// console.log('runningListCopy1:', runningListCopy)
 					// console.log('newerStoppedContainer1:', newerStoppedContainer)
 					// runningListCopy.push(container);
-				} 
+				}
 				else {
 					newerStoppedContainer.push(container);
 				}
@@ -93,6 +93,12 @@ const listsReducer = (state = initialState, action) => {
 				}
 			}
 			return { ...state, imageList: newRemoveImage };
+		case types.REFRESH_RUNNING_CONTAINERS:
+			const newRunningList2 = [];
+			for (let container of action.payload) {
+				newRunningList2.push(container)
+			}
+			return { ...state, runningList: newRunningList2 };
 		default:
 			return state;
 	}

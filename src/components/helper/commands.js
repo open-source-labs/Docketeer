@@ -242,3 +242,14 @@ export const removeIm = (id, callback) => {
 		callback(id)
 	})
 }
+
+// export const showGeneralMetrics = () => {
+// 	// docker stats --no-stream
+	
+// 	let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+
+// 	return parseContainerFormat(convertedValue)
+
+	
+
+// }

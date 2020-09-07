@@ -66,7 +66,9 @@ export const addStopped = (stoppedList, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
+		console.log(stdout)
 		let value = parseContainerFormat.convert(stdout);
+		console.log(value);
 		//value => array
 		const result = [];
 		//tempoary we will have it as manual number

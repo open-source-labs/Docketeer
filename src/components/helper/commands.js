@@ -66,9 +66,9 @@ export const addStopped = (stoppedList, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log(stdout)
+
 		let value = parseContainerFormat.convert(stdout);
-		console.log(value);
+
 		//value => array
 		const result = [];
 		//tempoary we will have it as manual number
@@ -76,15 +76,18 @@ export const addStopped = (stoppedList, callback) => {
 			let innerArray = [];
 			innerArray.push(value[i][0]); // id
 			innerArray.push(value[i][1]); // image
-			if (!isNaN(parseInt(value[i][3]))) {
-				innerArray.push(value[i][3] + ' days ago'); // created 
-			} else {
-				innerArray.push(value[i][6] + ' days ago');
-			}
+
+			let stoppingString = 'Exited';
+			let findIndex = value[i].findIndex(ele => ele === stoppingString)
+			let slicedString = value[i].slice(3, findIndex).join(" ");
+			innerArray.push(slicedString);
+			
 			result.push(innerArray);
 		}
 		let objArray = ['cid', 'img', 'created'];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+
+		console.log(convertedValue);
 
 		const newList = []
 		for (let i = 0; i < convertedValue.length; i++) {

@@ -187,25 +187,7 @@ export const runStopped = (id, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		// console.log(stdout)
-		
-		//docker stats 483e38b1b558 --no-stream
-		exec(`docker stats ${id} --no-stream`, (error, stdout, stderr) => {
-			console.log(stdout)
-			if (error) {
-				console.log(`error: ${error.message}`);
-				return;
-			}
-			if (stderr) {
-				console.log(`stderr: ${stderr}`);
-			}				
-			let value = parseContainerFormat.convert(stdout);
-			let objArray = ['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids'];
-			let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-			console.log(convertedValue)
-			callback(convertedValue)
-		})
-		// runStoppedContainer(id);
+		callback(id);	
 	});
 };
 
@@ -227,7 +209,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 		console.log("I am here2");
 		callback_1(runningList, callback_2);
 	})
-	
+
 }
 
 export const removeIm = (id, callback) => {

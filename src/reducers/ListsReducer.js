@@ -31,11 +31,11 @@ const listsReducer = (state = initialState, action) => {
 			const newStoppedList = state.stoppedList.slice();
 			const newestRunningList = [];
 			for (let container of state.runningList) {
-				if (container.cid === action.payload) {
-					console.log('action.payload', action.payload)
-					console.log('container id', container.cid)
-					newStoppedList.push(container);
-				}
+				// if (container.cid === action.payload) {
+				// 	console.log('action.payload', action.payload)
+				// 	console.log('container id', container.cid)
+				// 	newStoppedList.push(container);
+				// }
 				if (container.cid !== action.payload) {
 					newestRunningList.push(container);
 				}
@@ -59,11 +59,12 @@ const listsReducer = (state = initialState, action) => {
 			const runningListCopy = state.runningList.slice();
 			const newerStoppedContainer = [];
 			for (let container of state.stoppedList) {
-				if (container.cid === action.payload.cid) {
-					console.log('runningListCopy1:', runningListCopy)
-					console.log('newerStoppedContainer1:', newerStoppedContainer)
-					runningListCopy.push(container);
-				} else {
+				if (container.cid === action.payload) {
+					// console.log('runningListCopy1:', runningListCopy)
+					// console.log('newerStoppedContainer1:', newerStoppedContainer)
+					// runningListCopy.push(container);
+				} 
+				else {
 					newerStoppedContainer.push(container);
 				}
 			}

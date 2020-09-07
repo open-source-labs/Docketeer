@@ -39,7 +39,7 @@ const App = (props) => {
 							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/">Running</Link>
 						</li>
 						<li>
-							<Link to="/stopped">Stopped</Link>
+							<Link onClick={() => helper.addStopped(stoppedList, addStoppedContainers)} to="/stopped">Stopped</Link>
 						</li>
 						<li>
 							<Link to="/images">Images</Link>

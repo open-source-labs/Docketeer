@@ -57,7 +57,7 @@ const App = (props) => {
                 renders the first one that matches the current URL. */}
 				<Switch>
 					<Route path="/metrics">
-						<Metrics />
+						<Metrics showGeneralMetrics={helper.showGeneralMetrics}/>
 					</Route>
 					<Route path="/yml">
 						<Yml />

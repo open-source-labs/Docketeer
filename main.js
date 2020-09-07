@@ -14,7 +14,7 @@ app.on("ready", () => {
   });
 
   // mainWindow.loadURL(`http://localhost:3000/`);
-
+  mainWindow.maximize();
   mainWindow.webContents.openDevTools();
 
   mainWindow.on("closed", function () {

@@ -53,50 +53,55 @@ export const addRunning = (runningList, callback) => {
 };
 
 export const addStopped = (stoppedList, callback) => {
-  exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    let value = parseContainerFormat.convert(stdout);
-    //value => array
-    const result = [];
-    //tempoary we will have it as manual number
-    for (let i = 0; i < value.length; i++) {
-      let innerArray = [];
-      innerArray.push(value[i][0]); // id
-      innerArray.push(value[i][1]); // image
-      if (!isNaN(parseInt(value[i][3]))) {
-        innerArray.push(value[i][3] + " days ago"); // created
-      } else {
-        innerArray.push(value[i][6] + " days ago");
-      }
-      result.push(innerArray);
-    }
-    let objArray = ["cid", "img", "created"];
-    let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
 
-    const newList = [];
-    for (let i = 0; i < convertedValue.length; i++) {
-      let isInTheList = false;
-      for (let container of stoppedList) {
-        if (container.cid === convertedValue[i].cid) {
-          isInTheList = true;
-        }
-      }
-      if (!isInTheList) {
-        newList.push(convertedValue[i]);
-      }
-    }
-    if (newList.length > 0) {
-      callback(newList);
-      // addStoppedContainers(newList)
-    }
-  });
+		let value = parseContainerFormat.convert(stdout);
+
+		//value => array
+		const result = [];
+		//tempoary we will have it as manual number
+		for (let i = 0; i < value.length; i++) {
+			let innerArray = [];
+			innerArray.push(value[i][0]); // id
+			innerArray.push(value[i][1]); // image
+
+			let stoppingString = 'Exited';
+			let findIndex = value[i].findIndex(ele => ele === stoppingString)
+			let slicedString = value[i].slice(3, findIndex).join(" ");
+			innerArray.push(slicedString);
+			
+			result.push(innerArray);
+		}
+		let objArray = ['cid', 'img', 'created'];
+		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+
+		console.log(convertedValue);
+
+		const newList = []
+		for (let i = 0; i < convertedValue.length; i++) {
+			let isInTheList = false
+			for (let container of stoppedList) {
+				if (container.cid === convertedValue[i].cid) {
+					isInTheList = true
+				}
+			}
+			if (!isInTheList) {
+				newList.push(convertedValue[i])
+			}
+		}
+		if (newList.length > 0) {
+			callback(newList)
+			// addStoppedContainers(newList)
+		}
+	});
 };
 
 export const addImages = (imagesList, callback) => {

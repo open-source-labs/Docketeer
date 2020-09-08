@@ -68,7 +68,7 @@ const App = (props) => {
 						<Yml />
 					</Route>
 					<Route path="/images">
-						<Images runIm={helper.runIm} />
+						<Images runIm={helper.runIm} removeIm={helper.removeIm} />
 					</Route>
 					<Route path="/stopped">
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} />

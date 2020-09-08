@@ -40,12 +40,11 @@ export const removeImage = (id) => ({
   payload: id,
 });
 
-export const composeymlFiles = (data) => ({
-  type: types.COMPOSE_YML_FILES,
+export const refreshRunningContainers = (data) => ({
+  type: types.REFRESH_RUNNING_CONTAINERS,
   payload: data,
 });
 
-//COMPOSE_YML_FILES
 // export const getRunningContainers = (data) => ({
 // 	type: types.GET_RUNNING_CONTAINERS,
 // 	payload: data,

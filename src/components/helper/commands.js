@@ -145,6 +145,24 @@ export const addImages = (imagesList, callback) => {
   });
 };
 
+export const refreshRunning = (runningList, callback) => {
+  exec("docker stats --no-stream", (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    let value = parseContainerFormat.convert(stdout);
+    let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
+    let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+    console.log(convertedValue);
+    callback(convertedValue);
+  });
+};
+
 export const remove = (id, callback) => {
   exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
     if (error) {

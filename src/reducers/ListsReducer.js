@@ -93,17 +93,12 @@ const listsReducer = (state = initialState, action) => {
         }
       }
       return { ...state, imageList: newRemoveImage };
-
-    case types.COMPOSE_YML_FILES:
-      let newComposeYmlFiles = state.ymlList.slice();
-      console.log("THis is the Action.payload:/n ", action.payload);
-      //   newComposeYmlFiles.push(action.payload);
-      for (let i = 0; i < action.payload.length; i++) {
-        console.log("this is the action.payload[i][0].cid ", action.payload[i]);
-        newComposeYmlFiles.push(action.payload[i]);
+    case types.REFRESH_RUNNING_CONTAINERS:
+      const newRunningList2 = [];
+      for (let container of action.payload) {
+        newRunningList2.push(container);
       }
-      console.log("this is state yml list", newComposeYmlFiles);
-      return { ...state, ymlList: newComposeYmlFiles };
+      return { ...state, runningList: newRunningList2 };
     default:
       return state;
   }

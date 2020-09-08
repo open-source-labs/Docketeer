@@ -16,13 +16,19 @@ const Images = (props) => {
 		//      let objArray = ['resp', 'tag', 'imgid', 'created', 'size'] 
 
 		return (
-			<div>
-				<ul>Name : {ele['reps']}</ul>
-				<ul>Tag : {ele['tag']}</ul>
-				<ul>Image ID : {ele['imgid']}</ul>
-				<ul>Size : {ele['size']}</ul>
+			<div className="box">
+			<div className="images-header">
+				<header><i class="fas fa-chalkboard"></i> IMAGES</header>
+			</div>
+			<div className="stopped-info">
+				<li>Repository : {ele['reps']}</li>
+				<li>Image ID : {ele['imgid']}</li>
+				<li>Size : {ele['size']}</li>
+				<li>Tag : {ele['tag']}</li>
+				</div>
+				<div className="stopped-button">
 				<button onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Add Container based on Image</button>
-				<button onClick={()=>removeImageHandler(ele['imgid'], removeImage)}>Remove Image</button>
+				</div>
 			</div>
 		)
 	});

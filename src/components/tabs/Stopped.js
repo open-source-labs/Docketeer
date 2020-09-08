@@ -12,14 +12,21 @@ const Stopped = (props) => {
 
 	const stopTesting = stoppedList.map(ele => {
 		return (
-			<div>
+			<div className="box">
+				<div className="stopped-header">
+					{/* <header><i class="fas fa-ban"></i> STOPPED</header> */}
+					<header>Id : {ele['cid']}</header>
 
-				<ul>ContainerId : {ele['cid']}</ul>
-				<ul>Img: {ele['img']}</ul>
-				<ul>Created: {ele['created']}</ul>
+				</div>
+				
+				<div className="stopped-info">
+				<li>Img: {ele['img']}</li>
+				<li>Created: {ele['created']}</li>
+				</div>
+				<div className="stopped-button">
 				<button onClick={() => props.runStopped(ele['cid'], runStoppedContainer)}>RUN</button>
 				<button onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
-
+				</div>
 			</div>
 
 
@@ -27,11 +34,11 @@ const Stopped = (props) => {
 	});
 
 	return (
-		<div>
+		<body>
 			<div className="renderContainers">
 				{stopTesting}
 			</div>
-		</div>
+		</body>
 	)
 }
 

@@ -19,6 +19,7 @@ const App = (props) => {
 	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
 	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
 	const addExistingImages = (data) => dispatch(actions.getImages(data))
+	const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
@@ -28,6 +29,10 @@ const App = (props) => {
 		helper.addRunning(runningList, addRunningContainers);
 		helper.addStopped(stoppedList, addStoppedContainers);
 		helper.addImages(imagesList, addExistingImages);
+		const interval = setInterval(() => {
+			helper.refreshRunning(runningList, refreshRunningContainers);
+		}, 6000);
+		return () => clearInterval(interval);
 	}, [])
 
 	return (
@@ -53,17 +58,17 @@ const App = (props) => {
 					</ul>
 				</nav>
 
-				{/* A <Switch> looks through its children <Route>s and
+        {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
 				<Switch>
 					<Route path="/metrics">
-						<Metrics />
+						<Metrics showGeneralMetrics={helper.showGeneralMetrics}/>
 					</Route>
 					<Route path="/yml">
 						<Yml />
 					</Route>
 					<Route path="/images">
-						<Images runIm={helper.runIm} />
+						<Images runIm={helper.runIm} removeIm={helper.removeIm} />
 					</Route>
 					<Route path="/stopped">
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} />

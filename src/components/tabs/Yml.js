@@ -7,11 +7,11 @@ const Yml = () => {
   // cant read add eventlistner of null
 
   const [filepath, setFilepath] = useState("");
-  const [filename, setFilename] = useState("");
+  const [fileList, setfileList] = useState("");
 
   const dispatch = useDispatch();
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const ymlList = useSelector((state) => state.lists.ymlList);
+  const networkList = useSelector((state) => state.lists.networkList);
 
   useEffect(() => {
     console.log("hi im here");
@@ -32,37 +32,45 @@ const Yml = () => {
       // for (let f of e.dataTransfer.files) {
       //   console.log("File(s) you dragged here: ", f.path);
       // }
-      let fileName = e.dataTransfer.files;
-      if (fileName.length > 1) return;
-      if (fileName[0].type === "application/x-yaml") {
-        const filteredArr = fileName[0].path.split("/");
+      let fileList = e.dataTransfer.files;
+      console.log(fileList); 
+      if (fileList.length > 1) return;
+      if (fileList[0].type === "application/x-yaml") {
+        //Users/wilmersinchi/Documents/precourse/docker/node-php-volumes_something/docker-compose.yml
+        //console.log(fileList[0].path)
+        const filteredArr = fileList[0].path.split("/");
         filteredArr.pop();
         let filteredPath = filteredArr.join("/");
         // helper.connectContainers(filteredPath);
         setFilepath(filteredPath);
-        setFilename(fileName[0].name);
+        setfileList(fileList[0].name);
       }
       return false;
     };
   }, []);
 
-  const YmlDisplay = () => {
-    if (ymlList.length) {
-      //["parentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}]]
+  const NetworkDisplay = () => {
+    if (networkList.length) {
+      //["parentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}],
+    //"anotherparentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}]
+    // ]
       let newArray = [];
       // let parentName = [];
-      for (let i = 0; i < ymlList.length; i++) {
-        let keys = Object.keys(ymlList[i]);
+      for (let i = 0; i < networkList.length; i++) {
+        let keys = Object.keys(networkList[i]); //["parentName"]
         //newArray.push(keys[0])
         let parent = keys[0];
         newArray.push(<span>Parent: {parent}</span>);
-        for (let j = 0; j < ymlList[i][keys[0]].length; j++) {
-          let parentsContainers = ymlList[i][keys[0]][j];
-          for (let k = 0; k < parentsContainers.length; k++) {
-            let container = ymlList[i][keys[0]][j][k];
-            console.log("ymlList[i][key[0]][j][k][cid]: ", container["cid"]);
+        
+        for (let j = 0; j < networkList[i][keys[0]].length; j++) {
+          let parents = networkList[i][keys[0]][j];
+          console.log("parents: ", parents)
 
-            //<div>ymlList[i][keys[0]][j][k]["cid"]</div>
+          for (let k = 0; k < parents.length; k++) {
+            let container = networkList[i][keys[0]][j][k];
+            console.log("networkList[i][key[0]][j][k][cid]: ", container["cid"]);
+
+            //<div>networkList[i][keys[0]][j][k]["cid"]</div>
             newArray.push(
               <div>
                 <span>ID: {container["cid"]}</span>
@@ -75,10 +83,10 @@ const Yml = () => {
       console.log("newArray: ", newArray);
       return <div>{newArray}</div>;
     } else {
-      return <div>INITIAL SHOW UP</div>;
+      return <></>
     }
 
-    //return <div>{ymlList.length ? ymlList[0] : "hi"}</div>;
+    //return <div>{networkList.length ? networkList[0] : "hi"}</div>;
   };
 
   return (
@@ -86,7 +94,7 @@ const Yml = () => {
       <div className="jumbotron">
         <h1>Drop your file below box</h1>
         <p className="alert alert-info" id="drag-file">
-          file name: {filename}
+          file name: {fileList}
         </p>
       </div>
 
@@ -99,7 +107,7 @@ const Yml = () => {
         Run Yml Files
       </button>
 
-      <YmlDisplay />
+      <NetworkDisplay />
     </div>
   );
 };

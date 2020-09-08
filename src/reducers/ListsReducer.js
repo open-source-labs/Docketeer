@@ -1,12 +1,11 @@
 import * as types from "../constants/actionTypes";
-import { ymlList } from "../actions/actions";
 
 const initialState = {
   //tbd about having two arrays,
   imagesList: [],
   runningList: [],
   stoppedList: [],
-  ymlList: [],
+  networkList: [],
 };
 
 const listsReducer = (state = initialState, action) => {
@@ -101,11 +100,11 @@ const listsReducer = (state = initialState, action) => {
       }
       return { ...state, runningList: newRunningList2 };
     case types.COMPOSE_YML_FILES:
-      const newYmlList = state.ymlList.slice();
+      const newnetworkList = state.networkList.slice();
       //   console.log("this is the key", Object.keys.action.payload);
       console.log(action.payload[0]);
-      newYmlList.push(action.payload[0]);
-      return { ...state, ymlList: newYmlList };
+      newnetworkList.push(action.payload[0]);
+      return { ...state, networkList: newnetworkList };
     default:
       return state;
   }

@@ -254,30 +254,32 @@ export const connectContainers = (filepath, callback) => {
       shell: true,
     }
   );
-  const array = [];
+  //const array = []; //networkname
+  let newNetwork = '';
   child.stderr.on("data", function (data) {
-    console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
-
-    let letter = data.toString(); // change buffer to string
-    letter = letter.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
-    if (letter) array.push(letter[0]);
+    // console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
+    
+    let output = data.toString(); // change buffer to string
+    let temp = output.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
+    if (temp) newNetwork = temp;
   });
-  child.stdout.on("data", function (data) {
-    console.log("STDOUT:", data.toString());
-  });
+  // child.stdout.on("data", function (data) {
+  //   console.log("STDOUT:", data.toString());
+  // });
 
   child.on("exit", function (exitCode) {
-    console.log("Child exited with code: " + exitCode);
-    console.log(typeof exitCode);
-    //console.log('Array: ', array);
+    // console.log("Child exited with code: " + exitCode);
+    // console.log(typeof exitCode);
+    // console.log('Array: ', array);
+
     if (exitCode !== 0) {
       console.log("There was an error while executing docker-compose");
     } else {
-      if (!array.length) {
+      if (!newNetwork) {
         console.log("Your docker-compose is already defined");
       } else {
         //Inspect to get the network information
-        exec(`docker network inspect ${array[0]}`, (error, stdout, stderr) => {
+        exec(`docker network inspect ${newNetwork}`, (error, stdout, stderr) => {
           if (error) {
             console.log(`error: ${error.message}`);
             return;
@@ -316,14 +318,14 @@ export const connectContainers = (filepath, callback) => {
                 objArray
               ); //[{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
               let savedArr = [];
-              let ymlObj = {};
-              ymlObj[array[0]] = [];
-              ymlObj[array[0]].push(composeValue);
-              console.log("this is ymlobj", ymlObj);
+              let networks = {};
+              networks[newNetwork] = [];
+              networks[newNetwork].push(composeValue);
+              //console.log("this is ymlobj", networks);
 
-              //{parentName: [{cid: 21312, name: sdfew}]}
+              //[{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
 
-              savedArr.push(ymlObj);
+              savedArr.push(networks);
               console.log("this is saved arr", savedArr);
               callback(savedArr);
 

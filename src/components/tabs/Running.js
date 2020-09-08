@@ -15,18 +15,18 @@ const Running = (props) => {
 		return (
 			<div className="box">
 				<div className="box-label">
-					<p>Name: {ele['name']}</p>
-					<p>ContainerId : {ele['cid']}</p>
+					<h4><i class="far fa-window-maximize"></i> Name: {ele['name']}</h4>
+					<h4>ContainerId : {ele['cid']}</h4>
 				</div>
 				<div className="box-info">
-					<ul>CPU %: {ele['cpu']}</ul>
-					<ul>Mem Usage / Limit: {ele['mul']}</ul>
-					<ul>Mem %: {ele['mp']}</ul>
-					<ul>Net I/O: {ele['net']}</ul>
-					<ul>Block I/O: {ele['block']}</ul>
-					<ul>PIDS: {ele['pids']}</ul>
+					<li>CPU %: {ele['cpu']}</li>
+					<li>Mem Usage / Limit: {ele['mul']}</li>
+					<li>Mem %: {ele['mp']}</li>
+					<li>Net I/O: {ele['net']}</li>
+					<li>Block I/O: {ele['block']}</li>
+					<li>PIDS: {ele['pids']}</li>
 				</div>
-				<div className="box-buttons">
+				<div className="box-button">
 					<button onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
 			</div>
@@ -34,11 +34,11 @@ const Running = (props) => {
 	});
 
 	return (
-		<div className="main-render">
+		<body>
 			<div className="renderContainers">
 				{renderRunningList}
-			</div>
-		</div>
+			</div>			
+		</body>
 	)
 }
 

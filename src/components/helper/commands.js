@@ -248,6 +248,7 @@ export const removeIm = (id, callback) => {
 
 export const connectContainers = (filepath, callback) => {
   //We still need to get a file path from a user
+  console.log(`this is + ${filepath}`)
   let child = spawn(
     `cd ${filepath} && docker-compose up -d && docker network ls`,
     {

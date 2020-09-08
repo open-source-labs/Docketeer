@@ -45,6 +45,11 @@ export const refreshRunningContainers = (data) => ({
   payload: data,
 });
 
+export const composeymlFiles = (data) => ({
+  type: types.COMPOSE_YML_FILES,
+  payload: data,
+});
+
 // export const getRunningContainers = (data) => ({
 // 	type: types.GET_RUNNING_CONTAINERS,
 // 	payload: data,

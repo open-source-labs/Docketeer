@@ -1,4 +1,5 @@
 import * as types from "../constants/actionTypes";
+import { ymlList } from "../actions/actions";
 
 const initialState = {
   //tbd about having two arrays,
@@ -99,6 +100,12 @@ const listsReducer = (state = initialState, action) => {
         newRunningList2.push(container);
       }
       return { ...state, runningList: newRunningList2 };
+    case types.COMPOSE_YML_FILES:
+      const newYmlList = state.ymlList.slice();
+      //   console.log("this is the key", Object.keys.action.payload);
+      console.log(action.payload[0]);
+      newYmlList.push(action.payload[0]);
+      return { ...state, ymlList: newYmlList };
     default:
       return state;
   }

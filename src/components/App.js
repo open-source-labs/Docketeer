@@ -39,21 +39,22 @@ const App = (props) => {
 		<Router>
 			<div className="container">
 				<nav className="tab">
+					<header>Docketeer</header>
 					<ul>
-						<li>
-							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/">Running</Link>
+						<li><a href="runningTab">
+							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/"><i class="fas fa-box-open"></i> Running Containers</Link></a>
 						</li>
-						<li>
-							<Link onClick={() => helper.addStopped(stoppedList, addStoppedContainers)} to="/stopped">Stopped</Link>
+						<li><a href="stoppedTab">
+							<Link to="/stopped"><i class="fas fa-archive"></i> Stopped Containers</Link> </a>
 						</li>
-						<li>
-							<Link to="/images">Images</Link>
+						<li><a href="imagesTab">
+							<Link to="/images"><i class="fas fa-database"></i> Images</Link></a>
 						</li>
-						<li>
-							<Link to="/metrics">Metrics</Link>
+						<li><a href="metricsTab">
+							<Link to="/metrics"><i class="fas fa-chart-pie"></i> Metrics</Link> </a>
 						</li>
-						<li>
-							<Link to="/yml">+</Link>
+						<li><a href="ymlTab">
+							<Link to="/yml"><i class="fas fa-file-upload"></i> Yaml</Link></a>
 						</li>
 					</ul>
 				</nav>
@@ -80,7 +81,6 @@ const App = (props) => {
 			</div>
 		</Router>
 	);
-
 };
 
 export default App;

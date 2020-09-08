@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "electron": "electron .",
+    "dev": "nodemon --watch . --exec \"electron .",
     "start": "webpack-dev-server",
     "build": "webpack --mode production"
   },
@@ -32,6 +33,7 @@
     "redux": "^4.0.5",
     "redux-devtools": "^3.6.1",
     "redux-devtools-extension": "^2.13.8",
+    "sass-loader": "^10.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",

@@ -1,34 +1,33 @@
-
 .container {
-    display: flex;
+  display: flex;
 }
 .renderContainers {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 300px;
 }
 .box {
-    border: 1px solid #E8EDF3;
-    border-radius: 30px;
-    margin-left: 20px;
-    margin-bottom: 20px;
+  border: 1px solid #e8edf3;
+  border-radius: 30px;
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 .box-label {
-    background-color: #E8EDF3;
-    padding-top: 1px;
-    border-radius: 30px 30px 0 0;
-    text-align: center;
+  background-color: #e8edf3;
+  padding-top: 1px;
+  border-radius: 30px 30px 0 0;
+  text-align: center;
 }
 .box-buttons {
-    text-align: center;
+  text-align: center;
 }
 .tab {
-    background-color: #E8EDF3;
-    position: fixed;
-    top: 10px;
-    width: 200px;
-    height: 600px;
+  background-color: #e8edf3;
+  position: fixed;
+  top: 10px;
+  width: 200px;
+  height: 600px;
 }
 .main-render {
-    margin-left: 200px;
+  margin-left: 200px;
 }

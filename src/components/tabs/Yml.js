@@ -14,7 +14,6 @@ const Yml = () => {
 	const networkList = useSelector((state) => state.lists.networkList);
 
   useEffect(() => {
-    console.log("hi im here");
     let holder = document.getElementById("drag-file");
     holder.ondragover = () => {
       return false;
@@ -28,7 +27,6 @@ const Yml = () => {
     holder.ondrop = (e) => {
       e.preventDefault();
       let fileList = e.dataTransfer.files;
-      console.log(fileList); 
       if (fileList.length > 1) return;
       if (fileList[0].type === "application/x-yaml") {
         const filteredArr = fileList[0].path.split("/");
@@ -66,13 +64,11 @@ const Yml = () => {
       //First iteration of network List
       for (let i = 0; i < networkList.length; i++) {
         let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
-        //newArray.push(keys[0])
         let parent = keys[0];
         newArray.push(<span>Parent: {parent}</span>);
         
         for (let j = 0; j < networkList[i][keys[0]].length; j++) {
           let parents = networkList[i][keys[0]][j];
-          console.log("parents: ", parents)
 
           for (let k = 0; k < parents.length; k++) {
             let container = networkList[i][keys[0]][j][k];
@@ -85,7 +81,6 @@ const Yml = () => {
           }
         }
       }
-      console.log("newArray: ", newArray);
       return <div>{newArray}</div>;
     } else {
       return <></>

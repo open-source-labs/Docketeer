@@ -10,22 +10,22 @@ const Stopped = (props) => {
 	const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 
-	const stopTesting = stoppedList.map(ele => {
+	const renderStoppedList = stoppedList.map((ele, i) => {
 		return (
-			<div className="box">
+			<div className="box" key={`stoppedBox${i}`}>
 				<div className="stopped-header">
 					{/* <header><i class="fas fa-ban"></i> STOPPED</header> */}
 					<header>Id : {ele['cid']}</header>
 
 				</div>
-				
+
 				<div className="stopped-info">
-				<li>Img: {ele['img']}</li>
-				<li>Created: {ele['created']}</li>
+					<li>Img: {ele['img']}</li>
+					<li>Created: {ele['created']}</li>
 				</div>
 				<div className="stopped-button">
-				<button onClick={() => props.runStopped(ele['cid'], runStoppedContainer)}>RUN</button>
-				<button onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
+					<button onClick={() => props.runStopped(ele['cid'], runStoppedContainer)}>RUN</button>
+					<button onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
 				</div>
 			</div>
 
@@ -34,11 +34,14 @@ const Stopped = (props) => {
 	});
 
 	return (
-		<body>
-			<div className="renderContainers">
-				{stopTesting}
+		<div className="renderContainers">
+			<div className="header">
+				<h1>Exited Containers</h1>
 			</div>
-		</body>
+			<div className="containers">
+				{renderStoppedList}
+			</div>
+		</div>
 	)
 }
 

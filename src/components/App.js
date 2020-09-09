@@ -41,29 +41,29 @@ const App = (props) => {
 				<nav className="tab">
 					<header>Docketeer</header>
 					<ul>
-						<li><a href="runningTab">
-							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/"><i class="fas fa-box-open"></i> Running Containers</Link></a>
+						<li>
+							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/"><i className="fas fa-box-open"></i> Running Containers</Link>
 						</li>
-						<li><a href="stoppedTab">
-							<Link to="/stopped"><i class="fas fa-archive"></i> Stopped Containers</Link> </a>
+						<li>
+							<Link to="/stopped"><i className="fas fa-archive"></i> Exited Containers</Link>
 						</li>
-						<li><a href="imagesTab">
-							<Link to="/images"><i class="fas fa-database"></i> Images</Link></a>
+						<li>
+							<Link to="/images"><i className="fas fa-database"></i> Images</Link>
 						</li>
-						<li><a href="metricsTab">
-							<Link to="/metrics"><i class="fas fa-chart-pie"></i> Metrics</Link> </a>
+						<li>
+							<Link to="/metrics"><i className="fas fa-chart-pie"></i> Metrics</Link>
 						</li>
-						<li><a href="ymlTab">
-							<Link to="/yml"><i class="fas fa-file-upload"></i> Yaml</Link></a>
+						<li>
+							<Link to="/yml"><i className="fas fa-file-upload"></i> Docker Compose</Link>
 						</li>
 					</ul>
 				</nav>
 
-        {/* A <Switch> looks through its children <Route>s and
+				{/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
 				<Switch>
 					<Route path="/metrics">
-						<Metrics showGeneralMetrics={helper.showGeneralMetrics}/>
+						<Metrics showGeneralMetrics={helper.showGeneralMetrics} />
 					</Route>
 					<Route path="/yml">
 						<Yml />
@@ -75,7 +75,7 @@ const App = (props) => {
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} />
 					</Route>
 					<Route path="/">
-						<Running stop={helper.stop} />
+						<Running runIm={helper.runIm} stop={helper.stop} />
 					</Route>
 				</Switch>
 			</div>

@@ -1,7 +1,34 @@
 .renderContainers {
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   margin-left: 300px;
+}
+
+.runningHeader {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	border-bottom: 1px solid black;
+	/* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
+	box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); */
+}
+
+.header {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	border-bottom: 1px solid black;
+	/* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
+	box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); */
+}
+
+.header h1 {
+	margin-left: 110px;
+}
+
+.containers {
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .box {

@@ -4,13 +4,14 @@ import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
 
 const Yml = () => {
+	// cant read add eventlistner of null
 
-  const [filepath, setFilepath] = useState("");
-  const [fileList, setfileList] = useState("");
+	const [filepath, setFilepath] = useState("");
+	const [fileList, setfileList] = useState("");
 
-  const dispatch = useDispatch();
-  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const networkList = useSelector((state) => state.lists.networkList);
+	const dispatch = useDispatch();
+	const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
+	const networkList = useSelector((state) => state.lists.networkList);
 
   useEffect(() => {
     console.log("hi im here");
@@ -92,27 +93,34 @@ const Yml = () => {
 
   };
 
-  return (
-    <div className="renderContainers">
-      <div className="jumbotron">
-        <h1>Drop your file below box</h1>
-        <p className="alert alert-info" id="drag-file">
-          file name: {fileList}
-          file path: {filepath}
-        </p>
-      </div>
 
-      <br />
-      <button
-        id="btn"
-        className="btn btn-success"
-        onClick={() => helper.connectContainers(filepath, composeymlFiles)}
-      >
-        Run Yml Files
+
+	return (
+
+		<div className="renderContainers">
+			<div className="header">
+				<h1>Docker Compose</h1>
+			</div>
+			<div className="jumbotron">
+				<h1>Drop your file below box</h1>
+				<p className="alert alert-info" id="drag-file">
+					file name: {fileList}
+          file path: {filepath}
+				</p>
+			</div>
+
+			<br />
+			<button
+				id="btn"
+				className="btn btn-success"
+				onClick={() => helper.connectContainers(filepath, composeymlFiles)}
+			>
+				Run Yml Files
       </button>
-      <NetworkDisplay />
-    </div>
-  );
+
+			<NetworkDisplay />
+		</div>
+	);
 };
 
 export default Yml;

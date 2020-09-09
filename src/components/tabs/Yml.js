@@ -29,7 +29,8 @@ const Yml = () => {
       let fileList = e.dataTransfer.files;
       if (fileList.length > 1) return;
       if (fileList[0].type === "application/x-yaml") {
-        const filteredArr = fileList[0].path.split("/");
+        let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
+        const filteredArr = filePath.split("/");
         filteredArr.pop();
         let filteredPath = filteredArr.join("/");
         setFilepath(filteredPath);

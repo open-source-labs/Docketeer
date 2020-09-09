@@ -4,7 +4,6 @@ import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
 
 const Yml = () => {
-  // cant read add eventlistner of null
 
   const [filepath, setFilepath] = useState("");
   const [fileList, setfileList] = useState("");
@@ -25,23 +24,15 @@ const Yml = () => {
     holder.ondragend = () => {
       return false;
     };
-    ///Users/wilmersinchi/Documents/precourse/docker/node-php-volumes_something/docker-compose.yml
     holder.ondrop = (e) => {
       e.preventDefault();
-      //   application/x-yaml
-      // for (let f of e.dataTransfer.files) {
-      //   console.log("File(s) you dragged here: ", f.path);
-      // }
       let fileList = e.dataTransfer.files;
       console.log(fileList); 
       if (fileList.length > 1) return;
       if (fileList[0].type === "application/x-yaml") {
-        //Users/wilmersinchi/Documents/precourse/docker/node-php-volumes_something/docker-compose.yml
-        //console.log(fileList[0].path)
         const filteredArr = fileList[0].path.split("/");
         filteredArr.pop();
         let filteredPath = filteredArr.join("/");
-        // helper.connectContainers(filteredPath);
         setFilepath(filteredPath);
         setfileList(fileList[0].name);
       }
@@ -49,15 +40,31 @@ const Yml = () => {
     };
   }, []);
 
+  /**
+   * networkList is array from the redux store
+   * Only display relationship of containers when networkList's length is more than 1
+   * networkList file format looks like in this format below
+   * 
+   * [{
+   *  "a": [
+   *        {"cid": "1", "name": "conatiner1"}, 
+   *        {"cid": "2", "name": "container2"}
+   *      ]
+   * }, 
+   * {
+   *  "b": [
+   *        {"cid": "3", "name": "container3"}, 
+   *        {"cid": "4", "name": "container4"}
+   *       ]
+   * }]
+   */
   const NetworkDisplay = () => {
     if (networkList.length) {
-      //["parentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}],
-    //"anotherparentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}]
-    // ]
       let newArray = [];
-      // let parentName = [];
+      
+      //First iteration of network List
       for (let i = 0; i < networkList.length; i++) {
-        let keys = Object.keys(networkList[i]); //["parentName"]
+        let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
         //newArray.push(keys[0])
         let parent = keys[0];
         newArray.push(<span>Parent: {parent}</span>);
@@ -68,9 +75,6 @@ const Yml = () => {
 
           for (let k = 0; k < parents.length; k++) {
             let container = networkList[i][keys[0]][j][k];
-            console.log("networkList[i][key[0]][j][k][cid]: ", container["cid"]);
-
-            //<div>networkList[i][keys[0]][j][k]["cid"]</div>
             newArray.push(
               <div>
                 <span>ID: {container["cid"]}</span>
@@ -86,7 +90,6 @@ const Yml = () => {
       return <></>
     }
 
-    //return <div>{networkList.length ? networkList[0] : "hi"}</div>;
   };
 
   return (
@@ -95,6 +98,7 @@ const Yml = () => {
         <h1>Drop your file below box</h1>
         <p className="alert alert-info" id="drag-file">
           file name: {fileList}
+          file path: {filepath}
         </p>
       </div>
 
@@ -106,7 +110,6 @@ const Yml = () => {
       >
         Run Yml Files
       </button>
-
       <NetworkDisplay />
     </div>
   );

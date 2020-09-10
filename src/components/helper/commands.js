@@ -186,9 +186,9 @@ export const refreshStopped = (callback) => {
 		}
 		let objArray = ['cid', 'img', 'created'];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
-		if (convertedValue.length > 0) {
+		
 			callback(convertedValue)
-		}
+		
 	});
 };
 
@@ -221,10 +221,10 @@ export const refreshImages = (callback) => {
 		);
 
 		// console.log(newList)
-		if (convertedValue.length > 0) {
+		
 			callback(convertedValue);
 			// addExistingImages(newList)
-		}
+		
 	});
 };
 
@@ -305,7 +305,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 export const handlePruneClick = (e) => {
 	e.preventDefault();
 	console.log('hey')
-	let child = spawn('docker system prune', (error, stdout, stderr) => {
+	exec('docker system prune --force', (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
 			return;
@@ -314,8 +314,8 @@ export const handlePruneClick = (e) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log('hey2')
-		console.log
+
+		console.log(stdout)
 
 	});
 	// child.stdout.on('y', function (error, stdout, stderr) {

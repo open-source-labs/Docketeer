@@ -198,8 +198,10 @@ body {
 }
 
 .drag-container {
-    width: 200px;
-    margin: auto;
+    width: 300px;
+    height: 300px;
+    margin-left: 20px;
+    
 }
 
 .drag-container-box {
@@ -207,7 +209,7 @@ body {
     height: 100%;
     margin-top: 50px;
     border-radius: 35px;
-
+    padding-top: 100px;
 }
 
 .yml-icon {

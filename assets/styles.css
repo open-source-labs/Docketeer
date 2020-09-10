@@ -2,11 +2,6 @@
 	font-family: 'Maven Pro', sans-serif;
 }
 
-header {
-	font-family: 'Maven Pro', sans-serif;
-
-}
-
 .renderContainers {
   /* display: flex; */
   flex-wrap: wrap;

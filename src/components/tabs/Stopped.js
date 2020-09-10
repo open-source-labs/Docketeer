@@ -15,8 +15,8 @@ const Stopped = (props) => {
 			<div className="box" key={`stoppedBox${i}`}>
 				<div className="stopped-header">
 					{/* <header><i class="fas fa-ban"></i> STOPPED</header> */}
-					<header>Id : {ele['cid']}</header>
-
+					<span>Name: {ele['name']}</span>
+					<span>ID: {ele['cid']}</span>
 				</div>
 
 				<div className="stopped-info">

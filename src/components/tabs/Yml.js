@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
+import ModalDisplay from "../display/ModalDisplay";
+import NetworkChildrenList from "./NetworkChildrenList";
 
 const Yml = () => {
 	// cant read add eventlistner of null
 
 	const [filepath, setFilepath] = useState("");
-	const [fileList, setfileList] = useState("");
+  const [fileList, setfileList] = useState("");
+  const [modalValid, setModalValid] = useState(false);
+  const [modalErrormessage, setModalErrormessage] = useState("")
 
 	const dispatch = useDispatch();
 	const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
@@ -16,9 +20,11 @@ const Yml = () => {
   useEffect(() => {
     let holder = document.getElementById("drag-file");
     holder.ondragover = () => {
+      holder.style = "background-color: #EDEDED";
       return false;
     };
     holder.ondragleave = () => {
+      holder.style = "background-color: white";
       return false;
     };
     holder.ondragend = () => {
@@ -66,22 +72,15 @@ const Yml = () => {
       for (let i = 0; i < networkList.length; i++) {
         let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];
-        newArray.push(<span>Parent: {parent}</span>);
-        
-        for (let j = 0; j < networkList[i][keys[0]].length; j++) {
-          let parents = networkList[i][keys[0]][j];
-
-          for (let k = 0; k < parents.length; k++) {
-            let container = networkList[i][keys[0]][j][k];
-            newArray.push(
-              <div>
-                <span>ID: {container["cid"]}</span>
-                <span>Name: {container["name"]}</span>
-              </div>
-            );
-          }
-        }
+        newArray.push(
+          <div className="yml-boxes" key={`yml-boxes${i}`}>
+            <div className="yml-labels" key={`yml-labels${i}`}><p>Network: {parent}</p>
+            </div>
+            <NetworkChildrenList networkList={networkList[i]} parent={keys[0]}/>
+          </div>
+        );
       }
+
       return <div>{newArray}</div>;
     } else {
       return <></>
@@ -89,32 +88,38 @@ const Yml = () => {
 
   };
 
-
-
 	return (
 
 		<div className="renderContainers">
 			<div className="header">
 				<h1>Docker Compose</h1>
 			</div>
-			<div className="jumbotron">
-				<h1>Drop your file below box</h1>
-				<p className="alert alert-info" id="drag-file">
-					file name: {fileList}
-          file path: {filepath}
-				</p>
-			</div>
-
-			<br />
-			<button
+			<div className="drag-container">
+				<div className="drag-container-box box-shadow" id="drag-file">
+          Drop .yml here
+          <p><i className="fas fa-file yml-icon"></i></p>
+          <p className="fileList">{fileList}</p>
+          <button
 				id="btn"
-				className="btn btn-success"
-				onClick={() => helper.connectContainers(filepath, composeymlFiles)}
+				className="btn"
+				onClick={() => {
+          helper.connectContainers(filepath, composeymlFiles, setModalValid, setModalErrormessage)
+          document.getElementById("drag-file").style = "background-color: white";
+          setfileList("");
+        }}
 			>
 				Run Yml Files
       </button>
+				</div>
 
-			<NetworkDisplay />
+			</div>
+
+			<br />
+
+      <ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage}/>
+      <div className="containers">
+  			<NetworkDisplay/>
+      </div>
 		</div>
 	);
 };

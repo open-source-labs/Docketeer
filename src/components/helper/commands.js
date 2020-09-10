@@ -234,7 +234,7 @@ export const removeIm = (id, callback) => {
 	});
 };
 
-export const connectContainers = (filepath, callback) => {
+export const connectContainers = (filepath, callback, callback_2, callback_3) => {
 	//We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
@@ -262,9 +262,13 @@ export const connectContainers = (filepath, callback) => {
 
 		if (exitCode !== 0) {
 			console.log("There was an error while executing docker-compose");
+			callback_2(true);
+			callback_3("There was an error while executing docker-compose")
 		} else {
 			if (!newNetwork) {
 				console.log("Your docker-compose is already defined");
+				callback_2(true);
+				callback_3("Your docker-compose is already defined")
 			} else {
 				//Inspect to get the network information
 				exec(`docker network inspect ${newNetwork}`, (error, stdout, stderr) => {

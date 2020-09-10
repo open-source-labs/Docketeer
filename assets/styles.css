@@ -4,28 +4,12 @@
   margin-left: 300px;
 }
 
-<<<<<<< HEAD .runningHeader {
+.header {
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid black;
   /* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
-	box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); */
-}
-
-.header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border-bottom: 1px solid black;
-  /* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
-=======
-.header {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	border-bottom: 1px solid black;
-	/* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
 	box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); */
 }
 
@@ -35,7 +19,6 @@
 	align-items: center;
 	border-bottom: 1px solid black;
 	/* -webkit-box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); 
->>>>>>> c91129015969166c723b1f0fefa5d003c68376a3
 	box-shadow: 0px 10px 30px -5px rgba(91,91,91,0.5); */
 
 .header h1 {

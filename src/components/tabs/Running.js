@@ -38,7 +38,7 @@ const Running = (props) => {
 					<li>PIDS: {ele['pids']}</li>
 				</div>
 				<div className="box-button">
-					<button onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
+					<button className="stop-btn"  onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
 			</div>
 		)

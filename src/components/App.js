@@ -46,7 +46,7 @@ const App = (props) => {
 		<Router>
 			<div className="container">
 				<nav className="tab">
-					<header>Docketeer</header>
+					<header id="title">Docketeer</header>
 					<div className="viewsAndButton">
 						<ul>
 							<li>

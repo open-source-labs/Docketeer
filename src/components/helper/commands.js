@@ -143,7 +143,7 @@ export const addImages = (imagesList, callback) => {
 	});
 };
 
-export const refreshRunning = (runningList, callback) => {
+export const refreshRunning = (callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -157,6 +157,74 @@ export const refreshRunning = (runningList, callback) => {
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
 		callback(convertedValue);
+	});
+};
+
+export const refreshStopped = (callback) => {
+	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		let value = parseContainerFormat.convert(stdout);
+		const result = [];
+		for (let i = 0; i < value.length; i++) {
+			let innerArray = [];
+			innerArray.push(value[i][0]); // id
+			innerArray.push(value[i][1]); // image
+
+			let stoppingString = 'Exited';
+			let findIndex = value[i].findIndex(ele => ele === stoppingString)
+			let slicedString = value[i].slice(3, findIndex).join(" ");
+			innerArray.push(slicedString);
+
+			result.push(innerArray);
+		}
+		let objArray = ['cid', 'img', 'created'];
+		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+		
+			callback(convertedValue)
+		
+	});
+};
+
+export const refreshImages = (callback) => {
+	exec(`docker images`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		let value = parseContainerFormat.convert(stdout);
+		let objArray = ["reps", "tag", "imgid", "size"];
+		const resultImages = [];
+		for (let i = 0; i < value.length; i++) {
+			let innerArray = [];
+			if (value[i][0] !== "<none>") {
+				innerArray.push(value[i][0]);
+				innerArray.push(value[i][1]);
+				innerArray.push(value[i][2]);
+				innerArray.push(value[i][6]);
+				resultImages.push(innerArray);
+			}
+		}
+		let convertedValue = parseContainerFormat.convertArrToObj(
+			resultImages,
+			objArray
+		);
+
+		// console.log(newList)
+		
+			callback(convertedValue);
+			// addExistingImages(newList)
+		
 	});
 };
 
@@ -220,7 +288,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 	});
 };
 
-export const removeIm = (id, callback) => {
+export const removeIm = (id, imagesList, callback_1, callback_2) => {
 	exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -230,11 +298,53 @@ export const removeIm = (id, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		callback(id);
+		callback_1(callback_2);
 	});
 };
 
-export const connectContainers = (filepath, callback) => {
+export const handlePruneClick = (e) => {
+	e.preventDefault();
+	console.log('hey')
+	exec('docker system prune --force', (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+
+		console.log(stdout)
+
+	});
+	// child.stdout.on('y', function (error, stdout, stderr) {
+	// 	if (error) {
+	// 		console.log(`error: ${error.message}`);
+	// 		return;
+	// 	}
+	// 	if (stderr) {
+	// 		console.log(`stderr: ${stderr}`);
+	// 		return;
+	// 	}
+	// 	console.log('hey3', stdout)
+	// });
+};
+
+export const pullImage = (repo) => {
+	exec(`docker pull ${repo}`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+	});
+};
+
+export const connectContainers = (filepath, callback, callback_2, callback_3) => {
 	//We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
@@ -262,9 +372,13 @@ export const connectContainers = (filepath, callback) => {
 
 		if (exitCode !== 0) {
 			console.log("There was an error while executing docker-compose");
+			callback_2(true);
+			callback_3("There was an error while executing docker-compose")
 		} else {
 			if (!newNetwork) {
 				console.log("Your docker-compose is already defined");
+				callback_2(true);
+				callback_3("Your docker-compose is already defined")
 			} else {
 				//Inspect to get the network information
 				exec(`docker network inspect ${newNetwork}`, (error, stdout, stderr) => {

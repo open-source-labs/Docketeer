@@ -2,6 +2,11 @@
 	font-family: 'Maven Pro', sans-serif;
 }
 
+header {
+	font-family: 'Maven Pro', sans-serif;
+
+}
+
 .renderContainers {
   /* display: flex; */
   flex-wrap: wrap;
@@ -83,10 +88,9 @@ li {
 
 .tab header {
   background: #063146;
-  font-family: "Signika", sans-serif;
   font-weight: 700;
   font-size: 30px;
-  color: rgb(185, 185, 12);
+  color: white;
   text-align: center;
   line-height: 100px;
 }

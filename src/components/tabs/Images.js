@@ -22,11 +22,10 @@ const Images = (props) => {
 		return (
 			<div className="box" key={`imageBox${i}`}>
 				<div className="images-header">
-					<header><i className="fas fa-chalkboard"></i> IMAGES</header>
+					<span>ID: {ele['imgid']}</span>
 				</div>
 				<div className="stopped-info">
 					<li>Repository : {ele['reps']}</li>
-					<li>Image ID : {ele['imgid']}</li>
 					<li>Size : {ele['size']}</li>
 					<li>Tag : {ele['tag']}</li>
 				</div>

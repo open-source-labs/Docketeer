@@ -181,10 +181,10 @@ export const refreshStopped = (callback) => {
 			let findIndex = value[i].findIndex(ele => ele === stoppingString)
 			let slicedString = value[i].slice(3, findIndex).join(" ");
 			innerArray.push(slicedString);
-
+			innerArray.push(value[i][11]);
 			result.push(innerArray);
 		}
-		let objArray = ['cid', 'img', 'created'];
+		let objArray = ['cid', 'img', 'created', 'name'];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
 		if (convertedValue.length > 0) {
 			callback(convertedValue)

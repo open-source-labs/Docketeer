@@ -30,14 +30,14 @@ const App = (props) => {
 
 
 	useEffect(() => {
-		helper.addRunning(runningList, addRunningContainers);
-		helper.addStopped(stoppedList, addStoppedContainers);
-		helper.addImages(imagesList, addExistingImages);
+		// helper.addRunning(runningList, addRunningContainers);
+		// helper.addStopped(stoppedList, addStoppedContainers);
+		// helper.addImages(imagesList, addExistingImages);
 		const interval = setInterval(() => {
 			helper.refreshRunning(refreshRunningContainers);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 6000);
+		}, 3000);
 		return () => clearInterval(interval);
 	}, [])
 

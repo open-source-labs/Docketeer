@@ -13,6 +13,7 @@ const Metrics = (props) => {
 			<div className="renderContainers">
 				<div className="header">
 					<h1>Metrics</h1>
+					<span></span>
 				</div>
 				<div className="box">
 					<p>CPU: {result[0]} %</p>

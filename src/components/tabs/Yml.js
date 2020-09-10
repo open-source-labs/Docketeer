@@ -93,6 +93,7 @@ const Yml = () => {
 		<div className="renderContainers">
 			<div className="header">
 				<h1>Docker Compose</h1>
+				<span></span>
 			</div>
 			<div className="drag-container">
 				<div className="drag-container-box box-shadow" id="drag-file">

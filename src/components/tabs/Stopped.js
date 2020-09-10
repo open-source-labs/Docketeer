@@ -37,6 +37,7 @@ const Stopped = (props) => {
 		<div className="renderContainers">
 			<div className="header">
 				<h1>Exited Containers</h1>
+				<span></span>
 			</div>
 			<div className="containers">
 				{renderStoppedList}

@@ -20,17 +20,23 @@ const App = (props) => {
 	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
 	const addExistingImages = (data) => dispatch(actions.getImages(data))
 	const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
+	const refreshStoppedContainers = (data) => dispatch(actions.refreshStoppedContainers(data));
+	const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
+
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
+
 
 	useEffect(() => {
 		helper.addRunning(runningList, addRunningContainers);
 		helper.addStopped(stoppedList, addStoppedContainers);
 		helper.addImages(imagesList, addExistingImages);
 		const interval = setInterval(() => {
-			helper.refreshRunning(runningList, refreshRunningContainers);
+			helper.refreshRunning(refreshRunningContainers);
+			helper.refreshStopped(refreshStoppedContainers);
+			helper.refreshImages(refreshImagesList)
 		}, 6000);
 		return () => clearInterval(interval);
 	}, [])
@@ -40,23 +46,26 @@ const App = (props) => {
 			<div className="container">
 				<nav className="tab">
 					<header>Docketeer</header>
-					<ul>
-						<li>
-							<Link onClick={() => helper.addRunning(runningList, addRunningContainers)} to="/"><i className="fas fa-box-open"></i> Running Containers</Link>
-						</li>
-						<li>
-							<Link to="/stopped"><i className="fas fa-archive"></i> Exited Containers</Link>
-						</li>
-						<li>
-							<Link to="/images"><i className="fas fa-database"></i> Images</Link>
-						</li>
-						<li>
-							<Link to="/metrics"><i className="fas fa-chart-pie"></i> Metrics</Link>
-						</li>
-						<li>
-							<Link to="/yml"><i className="fas fa-file-upload"></i> Docker Compose</Link>
-						</li>
-					</ul>
+					<div className="viewsAndButton">
+						<ul>
+							<li>
+								<Link to="/"><i className="fas fa-box-open"></i> Running Containers</Link>
+							</li>
+							<li>
+								<Link to="/stopped"><i className="fas fa-archive"></i> Exited Containers</Link>
+							</li>
+							<li>
+								<Link to="/images"><i className="fas fa-database"></i> Images</Link>
+							</li>
+							<li>
+								<Link to="/metrics"><i className="fas fa-chart-pie"></i> Metrics</Link>
+							</li>
+							<li>
+								<Link to="/yml"><i className="fas fa-file-upload"></i> Docker Compose</Link>
+							</li>
+						</ul>
+						<div><button onClick={(e) => helper.handlePruneClick(e)}>System Prune</button></div>
+					</div>
 				</nav>
 
 				{/* A <Switch> looks through its children <Route>s and
@@ -78,7 +87,9 @@ const App = (props) => {
 						<Running runIm={helper.runIm} stop={helper.stop} />
 					</Route>
 				</Switch>
+
 			</div>
+
 		</Router>
 	);
 };

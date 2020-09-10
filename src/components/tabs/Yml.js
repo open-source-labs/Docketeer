@@ -94,6 +94,7 @@ const Yml = () => {
 		<div className="renderContainers">
 			<div className="header">
 				<h1>Docker Compose</h1>
+				<span></span>
 			</div>
 			<div className="jumbotron">
 				<h1>Drop your file below box</h1>

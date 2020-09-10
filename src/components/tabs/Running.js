@@ -15,7 +15,6 @@ const Running = (props) => {
 	const runningList = useSelector((state) => state.lists.runningList);
 	const [run, setRun] = useState('');
 	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-	const removeImage = (id) => dispatch(actions.removeImage(id));
 
 	const handleClick = (e) => {
 		e.preventDefault();
@@ -47,10 +46,10 @@ const Running = (props) => {
 
 	return (
 		<div className="renderContainers">
-			<div className="runningHeader">
+			<div className="header">
 				<h1>Running Containers</h1>
 				<div className="runByButton">
-					<label>Enter Image ID or Tag</label>
+					<label>Enter Image ID or Repo</label>
 					<span><input type="text" value={run} onChange={(e) => { setRun(e.target.value) }}></input></span>
 					<button onClick={(e) => handleClick(e)}>Run</button>
 				</div>

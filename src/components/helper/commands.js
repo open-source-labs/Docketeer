@@ -143,7 +143,7 @@ export const addImages = (imagesList, callback) => {
 	});
 };
 
-export const refreshRunning = (runningList, callback) => {
+export const refreshRunning = (callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -157,6 +157,74 @@ export const refreshRunning = (runningList, callback) => {
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
 		callback(convertedValue);
+	});
+};
+
+export const refreshStopped = (callback) => {
+	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		let value = parseContainerFormat.convert(stdout);
+		const result = [];
+		for (let i = 0; i < value.length; i++) {
+			let innerArray = [];
+			innerArray.push(value[i][0]); // id
+			innerArray.push(value[i][1]); // image
+
+			let stoppingString = 'Exited';
+			let findIndex = value[i].findIndex(ele => ele === stoppingString)
+			let slicedString = value[i].slice(3, findIndex).join(" ");
+			innerArray.push(slicedString);
+
+			result.push(innerArray);
+		}
+		let objArray = ['cid', 'img', 'created'];
+		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+		if (convertedValue.length > 0) {
+			callback(convertedValue)
+		}
+	});
+};
+
+export const refreshImages = (callback) => {
+	exec(`docker images`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		let value = parseContainerFormat.convert(stdout);
+		let objArray = ["reps", "tag", "imgid", "size"];
+		const resultImages = [];
+		for (let i = 0; i < value.length; i++) {
+			let innerArray = [];
+			if (value[i][0] !== "<none>") {
+				innerArray.push(value[i][0]);
+				innerArray.push(value[i][1]);
+				innerArray.push(value[i][2]);
+				innerArray.push(value[i][6]);
+				resultImages.push(innerArray);
+			}
+		}
+		let convertedValue = parseContainerFormat.convertArrToObj(
+			resultImages,
+			objArray
+		);
+
+		// console.log(newList)
+		if (convertedValue.length > 0) {
+			callback(convertedValue);
+			// addExistingImages(newList)
+		}
 	});
 };
 
@@ -220,7 +288,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 	});
 };
 
-export const removeIm = (id, callback) => {
+export const removeIm = (id, imagesList, callback_1, callback_2) => {
 	exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -230,7 +298,49 @@ export const removeIm = (id, callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		callback(id);
+		callback_1(callback_2);
+	});
+};
+
+export const handlePruneClick = (e) => {
+	e.preventDefault();
+	console.log('hey')
+	let child = spawn('docker system prune', (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log('hey2')
+		console.log
+
+	});
+	// child.stdout.on('y', function (error, stdout, stderr) {
+	// 	if (error) {
+	// 		console.log(`error: ${error.message}`);
+	// 		return;
+	// 	}
+	// 	if (stderr) {
+	// 		console.log(`stderr: ${stderr}`);
+	// 		return;
+	// 	}
+	// 	console.log('hey3', stdout)
+	// });
+};
+
+export const pullImage = (repo) => {
+	exec(`docker pull ${repo}`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
 	});
 };
 

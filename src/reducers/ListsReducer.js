@@ -85,6 +85,20 @@ const listsReducer = (state = initialState, action) => {
 				newRunningList2.push(container);
 			}
 			return { ...state, runningList: newRunningList2 };
+
+		case types.REFRESH_STOPPED_CONTAINERS:
+			const newStoppedList4 = [];
+			for (let container of action.payload) {
+				newStoppedList4.push(container);
+			}
+			return { ...state, stoppedList: newStoppedList4 };
+		case types.REFRESH_IMAGES:
+			const newImagesList2 = [];
+			for (let image of action.payload) {
+				newImagesList2.push(image);
+			}
+			return { ...state, imagesList: newImagesList2 }
+
 		case types.COMPOSE_YML_FILES:
 			const newnetworkList = state.networkList.slice();
 

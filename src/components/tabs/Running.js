@@ -26,8 +26,8 @@ const Running = (props) => {
 		return (
 			<div className="box" key={`runningBox${i}`}>
 				<div className="box-label">
-					<h4><i className="far fa-window-maximize"></i> Name: {ele['name']}</h4>
-					<h4>ContainerId : {ele['cid']}</h4>
+					<span>Name: {ele['name']}</span>
+					<span>ID: {ele['cid']}</span>
 				</div>
 				<div className="box-info">
 					<li>CPU %: {ele['cpu']}</li>

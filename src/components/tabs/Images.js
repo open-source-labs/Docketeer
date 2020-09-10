@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands"
 const Images = (props) => {
 
 	const dispatch = useDispatch();
-
 	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-	const removeImage = (id) => dispatch(actions.removeImage(id));
-
+	const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
 	const imagesList = useSelector((state) => state.lists.imagesList);
 	const runningList = useSelector((state) => state.lists.runningList);
-	// const addAdditionalImageContainer = (id) => dispatch(actions.runImages(id))
+	const [repo, setRepo] = useState('');
+
+	const handleClick = (e) => {
+		e.preventDefault();
+		helper.pullImage(repo)
+	}
+
 	const renderImagesList = imagesList.map((ele, i) => {
 		//      let objArray = ['resp', 'tag', 'imgid', 'created', 'size'] 
 
@@ -27,32 +31,33 @@ const Images = (props) => {
 					<li>Tag : {ele['tag']}</li>
 				</div>
 				<div className="stopped-button">
-					<button onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Add Container based on Image</button>
+					<button onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Run</button>
+					<button onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>Remove</button>
 				</div>
 			</div >
 		)
 	});
 
-	const hello = () => {
-		console.log('hello')
-	}
+	// const hello = () => {
+	// 	console.log('hello')
+	// }
 
-	const removeImageHandler = (id, callback) => {
-		//props.removeIm(id, callback)
-		let p = new Promise((resolve) => {
-			let value = props.removeIm(id, callback)
-			resolve(value);
-		})
-		p.then(res => res)
-			.then(result => {
-				console.log('result', result)
-			});
+	// const removeImageHandler = (id, callback) => {
+	// 	//props.removeIm(id, callback)
+	// 	let p = new Promise((resolve) => {
+	// 		let value = props.removeIm(id, callback)
+	// 		resolve(value);
+	// 	})
+	// 	p.then(res => res)
+	// 		.then(result => {
+	// 			console.log('result', result)
+	// 		});
 
 
 
-		//console.log(valid);
+	// 	//console.log(valid);
 
-	}
+	// }
 
 	return (
 		// <div>
@@ -64,6 +69,11 @@ const Images = (props) => {
 		<div className="renderContainers">
 			<div className="header">
 				<h1>Images</h1>
+				<div className="runByButton">
+					<label>Enter Image Repo</label>
+					<span><input type="text" value={repo} onChange={(e) => { setRepo(e.target.value) }}></input></span>
+					<button onClick={(e) => handleClick(e)}>Pull</button>
+				</div>
 			</div>
 			<div className="containers">
 				{renderImagesList}

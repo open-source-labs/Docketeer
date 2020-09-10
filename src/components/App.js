@@ -76,7 +76,7 @@ const App = (props) => {
               </li>
             </ul>
             <div>
-              <button onClick={(e) => helper.handlePruneClick(e)}>
+              <button className="btn" onClick={(e) => helper.handlePruneClick(e)}>
                 System Prune
               </button>
             </div>

@@ -176,15 +176,15 @@ export const refreshStopped = (callback) => {
 			let innerArray = [];
 			innerArray.push(value[i][0]); // id
 			innerArray.push(value[i][1]); // image
-
+			
 			let stoppingString = 'Exited';
 			let findIndex = value[i].findIndex(ele => ele === stoppingString)
 			let slicedString = value[i].slice(3, findIndex).join(" ");
 			innerArray.push(slicedString);
-
+			innerArray.push(value[i][11]); // name
 			result.push(innerArray);
 		}
-		let objArray = ['cid', 'img', 'created'];
+		let objArray = ['cid', 'img', 'created', 'name'];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
 		
 			callback(convertedValue)

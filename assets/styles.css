@@ -168,3 +168,119 @@ body {
     border-radius: 10px 10px 0 0;
     margin-bottom: 30px;
 }
+
+#drag-file {
+    width:300px;
+    background-color: white;
+}
+
+.modal-conatiner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+.modal-header {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.display-block {
+    display: block;
+}
+    
+.display-none {
+    display: none;
+}
+
+.drag-container {
+    width: 300px;
+    height: 300px;
+    margin-left: 20px;
+    
+}
+
+.drag-container-box {
+    text-align: center;
+    height: 100%;
+    margin-top: 50px;
+    border-radius: 35px;
+    padding-top: 100px;
+}
+
+.yml-icon {
+    font-size: 3rem;
+}
+
+.yml-boxes {
+    border: 1px solid #BAB2B5;
+    border-radius: 11.5px;
+    margin: 10px 70px 10px 70px;
+    width: 100%;
+    background: white;
+}
+
+.yml-labels {
+    color:white;
+    background: #052e41c0;
+    padding-top: 0.1px;
+    border-radius: 10px 10px 0 0;
+    font-family: 'Playfair Display', serif;
+    padding-left: 20px;
+    height: 50px;
+    text-align: center;
+
+}
+.yml-info {
+    font-size: 13px;
+    font-family: 'Signika', sans-serif;
+    margin-left: 40px;
+    margin-right: 5px;
+}
+.yml-info-box {
+    border: 1px solid #BAB2B5;
+    border-radius: 11.5px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    width: 80%;
+    height: 100%;
+    color: white;
+    background: #052e41c0;
+}
+
+.box-shadow {
+    position:relative;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.btn {
+	box-shadow: 7px 6px 16px -5px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:11px;
+	border:2px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:14px;
+	font-weight:bold;
+	padding:17px 14px;
+	text-decoration:none;
+	text-shadow:3px 3px 0px #3d768a;
+}
+.btn:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.btn:active {
+	position:relative;
+	top:1px;
+}

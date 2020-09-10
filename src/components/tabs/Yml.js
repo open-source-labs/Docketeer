@@ -2,92 +2,91 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
+import ModalDisplay from "../display/ModalDisplay";
+import NetworkChildrenList from "./NetworkChildrenList";
 
 const Yml = () => {
 	// cant read add eventlistner of null
 
 	const [filepath, setFilepath] = useState("");
-	const [fileList, setfileList] = useState("");
+  const [fileList, setfileList] = useState("");
+  const [modalValid, setModalValid] = useState(false);
+  const [modalErrormessage, setModalErrormessage] = useState("")
 
 	const dispatch = useDispatch();
 	const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
 	const networkList = useSelector((state) => state.lists.networkList);
 
-	useEffect(() => {
-		console.log("hi im here");
-		let holder = document.getElementById("drag-file");
-		holder.ondragover = () => {
-			return false;
-		};
-		holder.ondragleave = () => {
-			return false;
-		};
-		holder.ondragend = () => {
-			return false;
-		};
-		///Users/wilmersinchi/Documents/precourse/docker/node-php-volumes_something/docker-compose.yml
-		holder.ondrop = (e) => {
-			e.preventDefault();
-			//   application/x-yaml
-			// for (let f of e.dataTransfer.files) {
-			//   console.log("File(s) you dragged here: ", f.path);
-			// }
-			let fileList = e.dataTransfer.files;
-			console.log(fileList);
-			if (fileList.length > 1) return;
-			if (fileList[0].type === "application/x-yaml") {
-				//Users/wilmersinchi/Documents/precourse/docker/node-php-volumes_something/docker-compose.yml
-				//console.log(fileList[0].path)
-				const filteredArr = fileList[0].path.split("/");
-				filteredArr.pop();
-				let filteredPath = filteredArr.join("/");
-				// helper.connectContainers(filteredPath);
-				setFilepath(filteredPath);
-				setfileList(fileList[0].name);
-			}
-			return false;
-		};
-	}, []);
+  useEffect(() => {
+    let holder = document.getElementById("drag-file");
+    holder.ondragover = () => {
+      holder.style = "background-color: #EDEDED";
+      return false;
+    };
+    holder.ondragleave = () => {
+      holder.style = "background-color: white";
+      return false;
+    };
+    holder.ondragend = () => {
+      return false;
+    };
+    holder.ondrop = (e) => {
+      e.preventDefault();
+      let fileList = e.dataTransfer.files;
+      if (fileList.length > 1) return;
+      if (fileList[0].type === "application/x-yaml") {
+        let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
+        const filteredArr = filePath.split("/");
+        filteredArr.pop();
+        let filteredPath = filteredArr.join("/");
+        setFilepath(filteredPath);
+        setfileList(fileList[0].name);
+      }
+      return false;
+    };
+  }, []);
 
-	const NetworkDisplay = () => {
-		if (networkList.length) {
-			//["parentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}],
-			//"anotherparentName": [{"cid": 1234, "name": container1}, {"cid": 5678, "name": "container2"}], "parentName2": [{"cid": 12345, "name": container12}, {"cid": 56789, "name": "container23"}]
-			// ]
-			let newArray = [];
-			// let parentName = [];
-			for (let i = 0; i < networkList.length; i++) {
-				let keys = Object.keys(networkList[i]); //["parentName"]
-				//newArray.push(keys[0])
-				let parent = keys[0];
-				newArray.push(<span>Parent: {parent}</span>);
+  /**
+   * networkList is array from the redux store
+   * Only display relationship of containers when networkList's length is more than 1
+   * networkList file format looks like in this format below
+   * 
+   * [{
+   *  "a": [
+   *        {"cid": "1", "name": "conatiner1"}, 
+   *        {"cid": "2", "name": "container2"}
+   *      ]
+   * }, 
+   * {
+   *  "b": [
+   *        {"cid": "3", "name": "container3"}, 
+   *        {"cid": "4", "name": "container4"}
+   *       ]
+   * }]
+   */
+  const NetworkDisplay = () => {
+    if (networkList.length) {
+      let newArray = [];
+      
+      //First iteration of network List
+      for (let i = 0; i < networkList.length; i++) {
+        let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
+        let parent = keys[0];
+        newArray.push(
+          <div className="yml-boxes" key={`yml-boxes${i}`}>
+            <div className="yml-labels" key={`yml-labels${i}`}><p>Network: {parent}</p>
+            </div>
+            <NetworkChildrenList networkList={networkList[i]} parent={keys[0]}/>
+          </div>
+        );
+      }
 
-				for (let j = 0; j < networkList[i][keys[0]].length; j++) {
-					let parents = networkList[i][keys[0]][j];
-					console.log("parents: ", parents)
+      return <div>{newArray}</div>;
+    } else {
+      return <></>
+    }
 
-					for (let k = 0; k < parents.length; k++) {
-						let container = networkList[i][keys[0]][j][k];
-						console.log("networkList[i][key[0]][j][k][cid]: ", container["cid"]);
-
-						//<div>networkList[i][keys[0]][j][k]["cid"]</div>
-						newArray.push(
-							<div>
-								<span>ID: {container["cid"]}</span>
-								<span>Name: {container["name"]}</span>
-							</div>
-						);
-					}
-				}
-			}
-			console.log("newArray: ", newArray);
-			return <div>{newArray}</div>;
-		} else {
-			return <></>
-		}
-
-		//return <div>{networkList.length ? networkList[0] : "hi"}</div>;
-	};
+  };
 
 	return (
 
@@ -96,23 +95,32 @@ const Yml = () => {
 				<h1>Docker Compose</h1>
 				<span></span>
 			</div>
-			<div className="jumbotron">
-				<h1>Drop your file below box</h1>
-				<p className="alert alert-info" id="drag-file">
-					file name: {fileList}
-				</p>
-			</div>
-
-			<br />
-			<button
+			<div className="drag-container">
+				<div className="drag-container-box box-shadow" id="drag-file">
+          Drop .yml here
+          <p><i className="fas fa-file yml-icon"></i></p>
+          <p className="fileList">{fileList}</p>
+          <button
 				id="btn"
-				className="btn btn-success"
-				onClick={() => helper.connectContainers(filepath, composeymlFiles)}
+				className="btn"
+				onClick={() => {
+          helper.connectContainers(filepath, composeymlFiles, setModalValid, setModalErrormessage)
+          document.getElementById("drag-file").style = "background-color: white";
+          setfileList("");
+        }}
 			>
 				Run Yml Files
       </button>
+				</div>
 
-			<NetworkDisplay />
+			</div>
+
+			<br />
+
+      <ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage}/>
+      <div className="containers">
+  			<NetworkDisplay/>
+      </div>
 		</div>
 	);
 };

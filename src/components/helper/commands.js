@@ -186,9 +186,9 @@ export const refreshStopped = (callback) => {
 		}
 		let objArray = ['cid', 'img', 'created', 'name'];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
-		if (convertedValue.length > 0) {
+		
 			callback(convertedValue)
-		}
+		
 	});
 };
 
@@ -221,10 +221,10 @@ export const refreshImages = (callback) => {
 		);
 
 		// console.log(newList)
-		if (convertedValue.length > 0) {
+		
 			callback(convertedValue);
 			// addExistingImages(newList)
-		}
+		
 	});
 };
 
@@ -305,7 +305,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 export const handlePruneClick = (e) => {
 	e.preventDefault();
 	console.log('hey')
-	let child = spawn('docker system prune', (error, stdout, stderr) => {
+	exec('docker system prune --force', (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
 			return;
@@ -314,8 +314,8 @@ export const handlePruneClick = (e) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		console.log('hey2')
-		console.log
+
+		console.log(stdout)
 
 	});
 	// child.stdout.on('y', function (error, stdout, stderr) {
@@ -344,7 +344,7 @@ export const pullImage = (repo) => {
 	});
 };
 
-export const connectContainers = (filepath, callback) => {
+export const connectContainers = (filepath, callback, callback_2, callback_3) => {
 	//We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
@@ -372,9 +372,13 @@ export const connectContainers = (filepath, callback) => {
 
 		if (exitCode !== 0) {
 			console.log("There was an error while executing docker-compose");
+			callback_2(true);
+			callback_3("There was an error while executing docker-compose")
 		} else {
 			if (!newNetwork) {
 				console.log("Your docker-compose is already defined");
+				callback_2(true);
+				callback_3("Your docker-compose is already defined")
 			} else {
 				//Inspect to get the network information
 				exec(`docker network inspect ${newNetwork}`, (error, stdout, stderr) => {

@@ -9,25 +9,26 @@ import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
-import parseContainerFormat from './helper/parseContainerFormat';
-import '../../assets/styles.css';
+import parseContainerFormat from "./helper/parseContainerFormat";
+import "../../assets/styles.css";
 import * as helper from "./helper/commands";
-
 
 const App = (props) => {
 	const dispatch = useDispatch();
-	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-	const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
-	const addExistingImages = (data) => dispatch(actions.getImages(data))
-	const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
-	const refreshStoppedContainers = (data) => dispatch(actions.refreshStoppedContainers(data));
+	const addRunningContainers = (data) =>
+		dispatch(actions.addRunningContainers(data));
+	const addStoppedContainers = (data) =>
+		dispatch(actions.addStoppedContainers(data));
+	const addExistingImages = (data) => dispatch(actions.getImages(data));
+	const refreshRunningContainers = (data) =>
+		dispatch(actions.refreshRunningContainers(data));
+	const refreshStoppedContainers = (data) =>
+		dispatch(actions.refreshStoppedContainers(data));
 	const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
-
 
 	useEffect(() => {
 		// helper.addRunning(runningList, addRunningContainers);
@@ -49,22 +50,36 @@ const App = (props) => {
 					<div className="viewsAndButton">
 						<ul>
 							<li>
-								<Link to="/"><i className="fas fa-box-open"></i> Running Containers</Link>
+								<Link to="/">
+									<i className="fas fa-box-open"></i> Running Containers
+                </Link>
 							</li>
 							<li>
-								<Link to="/stopped"><i className="fas fa-archive"></i> Exited Containers</Link>
+								<Link to="/stopped">
+									<i className="fas fa-archive"></i> Exited Containers
+                </Link>
 							</li>
 							<li>
-								<Link to="/images"><i className="fas fa-database"></i> Images</Link>
+								<Link to="/images">
+									<i className="fas fa-database"></i> Images
+                </Link>
 							</li>
 							<li>
-								<Link to="/metrics"><i className="fas fa-chart-pie"></i> Metrics</Link>
+								<Link to="/metrics">
+									<i className="fas fa-chart-pie"></i> Metrics
+                </Link>
 							</li>
 							<li>
-								<Link to="/yml"><i className="fas fa-file-upload"></i> Docker Compose</Link>
+								<Link to="/yml">
+									<i className="fas fa-file-upload"></i> Docker Compose
+                </Link>
 							</li>
 						</ul>
-						<div><button onClick={(e) => helper.handlePruneClick(e)}>System Prune</button></div>
+						<div>
+							<button className="btn" onClick={(e) => helper.handlePruneClick(e)}>
+								System Prune
+              </button>
+						</div>
 					</div>
 				</nav>
 
@@ -87,9 +102,7 @@ const App = (props) => {
 						<Running runIm={helper.runIm} stop={helper.stop} />
 					</Route>
 				</Switch>
-
 			</div>
-
 		</Router>
 	);
 };

@@ -167,9 +167,9 @@ body {
 }
 
 .chart-container {
-  /* margin-left: 200px; */
-  height: 200px;
-  width: 200px;
+  width: 300px;
+  border: 1px solid #052e41c0;
+  border-radius: 10px 10px 0 0;
 }
 .dougnutChart {
   /* margin-left: 200px; */
@@ -177,13 +177,21 @@ body {
   width: 255px;
 }
 .allCharts {
-  margin-left: 100px;
   display: flex;
   justify-content: center;
   align-content: center;
   flex-direction: column;
-  width: 500px;
-  height: 600px;
+  width: 94%;
+  margin-top: 28px;
+  margin-left: 20px;
+  margin-right: 20px;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+     -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+          box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.chart-number {
+    font-size: 2rem;
+    text-align: center;
 }
 .mainHeader {
   height: 80.88px;
@@ -192,26 +200,25 @@ body {
 .section {
   display: flex;
   flex-direction: row;
-
-  /* margin-right: 30px; */
   justify-content: space-evenly;
+  margin-bottom: 100px;
 }
 .block {
   margin-top: 50px;
 }
 
-.chart-title h1 {
-  color: #333d42a1;
+.chart-title{
   background: #052e41c0;
   font-family: "Signika", sans-serif;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 22px;
   color: rgba(170, 175, 101, 0.897);
   text-align: center;
   line-height: 50px;
   border-radius: 10px 10px 0 0;
-  margin-bottom: 30px;
+  margin: 0;
 }
+
 
 #drag-file {
   width: 300px;

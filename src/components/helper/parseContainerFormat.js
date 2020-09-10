@@ -62,21 +62,25 @@ const convertToMetricsArr = (array) => {
         let memory = array[i]['mp'].replace(/([%])+/g, '');
         memorySum += parseFloat(memory)
         let splittedNet = array[i]['net'].split('/');
-        
-        let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));  
-        let netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, ''));
+        let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));
+        let netTotal;
+        if(splittedNet[1].slice(-2) === 'kB'){
+            netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, ''));
+        } else {
+            netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, '')) * 1000;
+        }  
         netArray[0] += netvalue;
         netArray[1] += netTotal;
-
         let splittedBlock = array[i]['block'].split('/');
         let blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ''));
         let blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ''));
         blockArray[0] += blockValue;
         blockArray[1] += blockTotal;
 
-    }    
+    }
     newArr.push(parseFloat(cpuSum.toFixed(2)));
     newArr.push(parseFloat(memorySum.toFixed(2)));
+    netArray = [netArray[0].toFixed(2), netArray[1].toFixed(2)];
     newArr.push(netArray);
     newArr.push(blockArray);
 

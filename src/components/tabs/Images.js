@@ -30,8 +30,8 @@ const Images = (props) => {
 					<li>Tag : {ele['tag']}</li>
 				</div>
 				<div className="stopped-button">
-					<button onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Run</button>
-					<button onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>Remove</button>
+					<button className="image-btn" onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Run</button>
+					<button className="image-btn" onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>Remove</button>
 				</div>
 			</div >
 		)

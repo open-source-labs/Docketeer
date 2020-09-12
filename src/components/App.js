@@ -38,7 +38,7 @@ const App = (props) => {
 			helper.refreshRunning(refreshRunningContainers);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 3000);
+		}, 10000);
 		return () => clearInterval(interval);
 	}, [])
 

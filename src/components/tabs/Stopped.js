@@ -26,7 +26,7 @@ const Stopped = (props) => {
 				</div>
 				<div className="stopped-button">
 					<button className="run-btn" onClick={() => props.runStopped(ele['cid'], runStoppedContainer)}>RUN</button>
-					<button className="run-btn" onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
+					<button className="stop-btn" onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
 				</div>
 			</div>
 
@@ -37,7 +37,7 @@ const Stopped = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<h1>Exited Containers</h1>
+				<span className="tabTitle">Exited Containers</span>
 				<span></span>
 			</div>
 			<div className="containers">

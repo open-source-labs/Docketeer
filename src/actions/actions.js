@@ -59,8 +59,3 @@ export const composeymlFiles = (data) => ({
 	type: types.COMPOSE_YML_FILES,
 	payload: data,
 });
-
-export const toggleRunning = (id) => ({
-	type: types.TOGGLE_RUNNING,
-	payload: id,
-})

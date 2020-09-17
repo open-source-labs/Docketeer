@@ -37,7 +37,6 @@ export const addRunning = (runningList, callback) => {
         }
       }
       if (!isInTheList) {
-        convertedValue[i]["toggle"] = false; // Added toggle
         newList.push(convertedValue[i]);
       }
     }
@@ -157,13 +156,6 @@ export const refreshRunning = (callback, runningList) => {
     let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
     let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
 
-    //console.log(convertedValue);
-    //Add toggle
-    if (runningList.length > 0) {
-      for (let i = 0; i < convertedValue.length; i++) {
-        if (!runningList[i]["toggle"]) convertedValue[i]["toggle"] = false;
-      }
-    }
     callback(convertedValue);
   });
 };
@@ -450,12 +442,4 @@ export const connectContainers = (
       }
     }
   });
-};
-
-export const showGeneralMetrics = () => {
-  // docker stats --no-stream
-
-  let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-
-  return parseContainerFormat(convertedValue);
 };

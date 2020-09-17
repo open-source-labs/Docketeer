@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RunningContainers from "../display/RunningContainers";
 import { useSelector, useDispatch } from "react-redux";
 import * as helper from "../helper/commands"
 
-
 import * as actions from "../../actions/actions";
 //import * as actions from "../../actions/actions";
-
 
 
 const Running = (props) => {
@@ -20,6 +18,12 @@ const Running = (props) => {
 		e.preventDefault();
 		props.runIm(run, runningList, helper.addRunning, addRunningContainers)
 	}
+
+	// const [ spinner, setSpinner ] = useState(true);
+
+	// useEffect(() => {
+	// 	setTimeout(() => setSpinner(false), 1000)
+	//   }, []);
 
 	//['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
 	const renderRunningList = runningList.map((ele, i) => {
@@ -40,7 +44,7 @@ const Running = (props) => {
 				<div className="box-button">
 					<button className="stop-btn" onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
-			</div>
+			</div>	
 		)
 	});
 

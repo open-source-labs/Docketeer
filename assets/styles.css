@@ -448,3 +448,18 @@ ul {
 	position:relative;
 	top:1px;
 }
+
+.upload-btn {
+    background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    background-color: #599bb3;
+    border-radius: 11px;
+    border: 2px solid #29668f;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3.5px 10px;
+    text-decoration: none;
+    margin: 5px;
+}

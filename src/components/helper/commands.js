@@ -38,6 +38,7 @@ export const addRunning = (runningList, callback) => {
 			}
 			if (!isInTheList) {
 				newList.push(convertedValue[i]);
+				
 			}
 		}
 		if (newList.length > 0) {
@@ -143,7 +144,7 @@ export const addImages = (imagesList, callback) => {
 	});
 };
 
-export const refreshRunning = (callback) => {
+export const refreshRunning = (callback, runningList) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
 			console.log(`error: ${error.message}`);
@@ -156,6 +157,7 @@ export const refreshRunning = (callback) => {
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+
 		callback(convertedValue);
 	});
 };

@@ -104,6 +104,7 @@ const listsReducer = (state = initialState, action) => {
 
 			newnetworkList.push(action.payload[0]);
 			return { ...state, networkList: newnetworkList };
+
 		default:
 			return state;
 	}

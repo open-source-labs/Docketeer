@@ -109,13 +109,40 @@ body {
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
-
 }
 
 .box:hover {
 	-webkit-box-shadow: 0px 5px 8px 2px rgba(148,139,148,1);
 	-moz-box-shadow: 0px 5px 8px 2px rgba(148,139,148,1);
 	box-shadow: 0px 5px 8px 2px rgba(148,139,148,1);
+}
+
+.box-running {
+  max-height: 240px;
+  margin-bottom: 100px;
+  padding-bottom: 0;
+}
+
+.toggle-box {
+  background-color: white;
+  width: 250px;
+  transform: translate(-5px, 5px);
+  box-shadow: 0px 9px 7px rgba(146,139,148,1);
+}
+.toggle-box:hover {
+	box-shadow: 0px 17px 14px 1px rgba(148,139,148,1);
+}
+
+
+.box-button-running {
+  border-radius: 0px 0px 10.5px 10.5px;
+  transform: translate(0px, 0px);
+  box-shadow: 0px 9px 7px rgba(146,139,148,1); 
+  padding: 10px
+}
+.box-button-running:hover {
+  /* box-shadow: 0px 17px 14px 1px rgba(148,139,148,1); */
+  border-radius: 0px 0px 10.5px 10.5px; 
 }
 
 .box-label {
@@ -462,4 +489,17 @@ ul {
     padding: 3.5px 10px;
     text-decoration: none;
     margin: 5px;
+}
+
+.toggle-button {
+  text-align: center;
+}
+
+.toggle-button-detail {
+  font-size: 12px;
+  padding: 0px 75px;
+
+}
+.arrow {
+  color: white;
 }

@@ -37,7 +37,7 @@ const App = (props) => {
 		// helper.addStopped(stoppedList, addStoppedContainers);
 		// helper.addImages(imagesList, addExistingImages);
 		const interval = setInterval(() => {
-			helper.refreshRunning(refreshRunningContainers);
+			helper.refreshRunning(refreshRunningContainers, runningList);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
 		}, 10000);

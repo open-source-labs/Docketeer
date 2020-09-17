@@ -45,8 +45,8 @@ body {
 }
 
 .header {
-	border-top-left-radius: 40px;
-	border-top-right-radius: 40px;	
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;	
 	z-index: 2;
 	position: fixed;
 	line-height: 90px;

@@ -109,7 +109,7 @@ const Yml = () => {
 			</div>
 			<div className="drag-container">
 				<div className="drag-container-box box-shadow" id="drag-file">
-					Drag and drop your Docker Compose file here to run it.
+					Drag and drop or upload your Docker Compose file here to run it.
           <p><i className="fas fa-file yml-icon"></i></p>
 					<p className="fileList">{fileList}</p>
 					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">

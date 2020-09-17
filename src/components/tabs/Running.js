@@ -123,7 +123,7 @@ const Running = (props) => {
 				<div className="box-button box-button-running">
 					<button className="stop-btn" onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
-			</div>
+			</div>	
 		)
 	});
 

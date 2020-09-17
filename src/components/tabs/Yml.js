@@ -19,6 +19,7 @@ const Yml = () => {
 
 	useEffect(() => {
 		let holder = document.getElementById("drag-file");
+		let uploadHolder = document.getElementById("uploadFile");
 		holder.ondragover = () => {
 			holder.style = "background-color: #EDEDED";
 			return false;
@@ -44,6 +45,17 @@ const Yml = () => {
 			}
 			return false;
 		};
+		uploadHolder.onchange = (e) => {
+			e.preventDefault();
+			let uploadYmlFile = e.target.files[0].path; //File Path + Yaml File Name
+			const filteredUploadYmlArr = uploadYmlFile.split("/");
+			let uploadYmlFileName = filteredUploadYmlArr[filteredUploadYmlArr.length -1];
+			filteredUploadYmlArr.pop();
+			let uploadYmlFilePath = filteredUploadYmlArr.join("/");
+
+			setFilepath(uploadYmlFilePath);
+			setfileList(uploadYmlFileName);
+		}
 	}, []);
 
   /**
@@ -100,6 +112,8 @@ const Yml = () => {
 					Drag and drop your Docker Compose file here to run it.
           <p><i className="fas fa-file yml-icon"></i></p>
 					<p className="fileList">{fileList}</p>
+					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">
+					</input>
 					<button
 						id="btn"
 						className="btn"
@@ -110,7 +124,7 @@ const Yml = () => {
 						}}
 					>
 						Docker Compose Up
-      </button>
+     			 	</button>
 				</div>
 
 			</div>

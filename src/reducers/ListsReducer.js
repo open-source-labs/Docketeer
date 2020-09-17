@@ -104,6 +104,16 @@ const listsReducer = (state = initialState, action) => {
 
 			newnetworkList.push(action.payload[0]);
 			return { ...state, networkList: newnetworkList };
+		case types.TOGGLE_RUNNING:
+			console.log('I am here ', action.payload);
+			const toggleRunningList = state.runningList.slice();
+			for (let container of state.runningList) {
+				if (container.cid === action.payload) {
+					if(container.toggle) container.toggle = false;
+					else container.toggle = true;
+				}
+			}
+			return { ...state, runningList: toggleRunningList }
 		default:
 			return state;
 	}

@@ -60,7 +60,7 @@ export const composeymlFiles = (data) => ({
 	payload: data,
 });
 
-// export const getRunningContainers = (data) => ({
-// 	type: types.GET_RUNNING_CONTAINERS,
-// 	payload: data,
-// })
+export const toggleRunning = (id) => ({
+	type: types.TOGGLE_RUNNING,
+	payload: id,
+})

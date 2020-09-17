@@ -92,11 +92,6 @@ const Yml = () => {
         );
       }
 
-      return <div>{newArray}</div>;
-    } else {
-      return <></>;
-    }
-  };
 
   return (
     <div className="renderContainers">
@@ -133,19 +128,12 @@ const Yml = () => {
         </div>
       </div>
 
-      <br />
-
-      <ModalDisplay
-        modalValid={modalValid}
-        setModalValid={setModalValid}
-        modalErrormessage
-        modalErrormessage={modalErrormessage}
-      />
-      <div className="containers">
-        <NetworkDisplay />
-      </div>
-    </div>
-  );
+			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
+			<div className="containers">
+				<NetworkDisplay />
+			</div>
+		</div>
+	);
 };
 
 export default Yml;

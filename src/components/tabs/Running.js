@@ -38,7 +38,7 @@ const Running = (props) => {
 					<li>PIDS: {ele['pids']}</li>
 				</div>
 				<div className="box-button">
-					<button className="stop-btn"  onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
+					<button className="stop-btn" onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
 			</div>
 		)
@@ -47,11 +47,11 @@ const Running = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<h1>Running Containers</h1>
+				<span className="tabTitle">Running Containers</span>
 				<div className="runByButton">
 					<label>Enter Image ID or Repo</label>
 					<span><input type="text" value={run} onChange={(e) => { setRun(e.target.value) }}></input></span>
-					<button onClick={(e) => handleClick(e)}>Run</button>
+					<button className="run-btn" onClick={(e) => handleClick(e)}>Run</button>
 				</div>
 			</div>
 			<div className="containers">

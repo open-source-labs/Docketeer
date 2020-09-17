@@ -46,13 +46,6 @@ const Yml = () => {
     };
   }, []);
 
-  useEffect(() => {
-    document.getElementById("buttonid").addEventListener("click", openDialouge);
-    function openDialouge() {
-      document.getElementById("fieldid").click();
-    }
-  });
-
   /**
    * networkList is array from the redux store
    * Only display relationship of containers when networkList's length is more than 1
@@ -92,16 +85,21 @@ const Yml = () => {
         );
       }
 
+      return <div>{newArray}</div>;
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <div className="renderContainers">
       <div className="header">
-        <h1>Docker Compose</h1>
+        <span className="tabTitle">Docker Compose</span>
         <span></span>
       </div>
       <div className="drag-container">
         <div className="drag-container-box box-shadow" id="drag-file">
-          Drag and drop your .yml file here
+          Drag and drop your Docker Compose file here to run it.
           <p>
             <i className="fas fa-file yml-icon"></i>
           </p>
@@ -123,17 +121,20 @@ const Yml = () => {
           >
             Docker Compose Up
           </button>
-          <input id="fileid" type="file" hidden />
-          <input id="buttonid" type="button" className="btn" value="Upload" />
         </div>
       </div>
 
-			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
-			<div className="containers">
-				<NetworkDisplay />
-			</div>
-		</div>
-	);
+      <ModalDisplay
+        modalValid={modalValid}
+        setModalValid={setModalValid}
+        modalErrormessage
+        modalErrormessage={modalErrormessage}
+      />
+      <div className="containers">
+        <NetworkDisplay />
+      </div>
+    </div>
+  );
 };
 
 export default Yml;

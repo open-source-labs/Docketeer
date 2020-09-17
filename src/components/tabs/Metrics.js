@@ -5,6 +5,7 @@ import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie, Doughnut, Bar } from "react-chartjs-2";
 import { plugins } from "chart.js";
 import { render } from "react-dom";
+import "../../../assets/metric.css";
 
 const Metrics = (props) => {
   const runningList = useSelector((state) => state.lists.runningList);
@@ -19,7 +20,7 @@ const Metrics = (props) => {
     datasets: [
       {
         label: "CPU",
-        backgroundColor: ["#0bc9db", "#9db4b6"],
+        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
         // hoverBackgroundColor: ["#4B5000", "#501800"],
         data: [cpuData, result[0]],
       },
@@ -31,7 +32,7 @@ const Metrics = (props) => {
     datasets: [
       {
         label: "Memory",
-        backgroundColor: ["#0bc9db", "#9db4b6"],
+        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
         // hoverBackgroundColor: ["#4B5000", "#501800"],
         data: [memoryData, result[1]],
       },
@@ -47,7 +48,35 @@ const Metrics = (props) => {
       text: "MEMORY",
       fontSize: 23,
     },
-    legend: { display: true, position: "right" },
+    legend: { display: false, position: "bottom" },
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = 0;
+          let dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.map((data) => {
+            sum += data;
+          });
+          let percentage = ((value * 100) / sum).toFixed(2) + "%";
+          return percentage;
+        },
+        color: "#fff",
+      },
+    },
+  };
+
+  let options2 = {
+    tooltips: {
+      enabled: false,
+    },
+    title: {
+      display: true,
+      text: "CPU",
+      fontSize: 23,
+    },
+    legend: { display: false, position: "bottom" },
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
@@ -73,33 +102,32 @@ const Metrics = (props) => {
       </div>
       <div className="allCharts">
         <div className="section">
-          <div className="dougnutChart">
-            <Pie
-              data={cpu}
-              options={{
-                tooltips: {
-                  enabled: false,
-                },
-                title: {
-                  display: true,
-                  text: "CPU",
-                  fontSize: 23,
-                },
-                legend: { display: true, position: "bottom" },
-                responsive: false,
-                maintainAspectRatio: false,
-                plugins: {
-                  labels: {
-                    render: "percentage",
-                    precision: 2,
-                  },
-                },
-              }}
-            />
+          <div className="pieChart">
+            <Pie data={cpu} options={options2} width={2000} height={1300} />
+            <div className="legend-container">
+              <div className="legend-section">
+                <div className="avaliable-box"></div>
+                <p className="legend-text">Available {cpuData}%</p>
+              </div>
+              <div className="legend-section">
+                <div className="usage-box"></div>
+                <p className="legend-text">Usage {result[0].toFixed(2)}%</p>
+              </div>
+            </div>
           </div>
 
-          <div className="dougnutChart">
-            <Pie data={memory} options={options} />
+          <div className="pieChart">
+            <Pie data={memory} options={options} width={2000} height={1300} />
+            <div className="legend-container">
+              <div className="legend-section">
+                <div className="avaliable-box"></div>
+                <p className="legend-text">Available {memoryData}%</p>
+              </div>
+              <div className="legend-section">
+                <div className="usage-box"></div>
+                <p className="legend-text">Usage {result[1].toFixed(2)}%</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="section">
@@ -122,3 +150,22 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
+//   {
+//   tooltips: {
+//     enabled: false,
+//   },
+//   title: {
+//     display: true,
+//     text: "CPU",
+//     fontSize: 23,
+//   },
+//   legend: { display: true, position: "bottom" },
+//   responsive: false,
+//   maintainAspectRatio: true,
+//   plugins: {
+//     labels: {
+//       render: "percentage",
+//       precision: 2,
+//     },
+//   },
+// }

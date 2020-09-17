@@ -39,7 +39,7 @@ const Metrics = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<h1>Metrics</h1>
+				<span className="tabTitle">Metrics</span>
 			</div>
 			<div className="allCharts">
 				<div className="section">

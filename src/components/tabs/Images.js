@@ -30,8 +30,8 @@ const Images = (props) => {
 					<li>Tag : {ele['tag']}</li>
 				</div>
 				<div className="stopped-button">
-					<button className="image-btn" onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>Run</button>
-					<button className="image-btn" onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>Remove</button>
+					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>RUN</button>
+					<button className="stop-btn" onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>REMOVE</button>
 				</div>
 			</div >
 		)
@@ -67,11 +67,11 @@ const Images = (props) => {
 
 		<div className="renderContainers">
 			<div className="header">
-				<h1>Images</h1>
+				<span className="tabTitle">Images</span>
 				<div className="runByButton">
 					<label>Enter Image Repo</label>
 					<span><input type="text" value={repo} onChange={(e) => { setRepo(e.target.value) }}></input></span>
-					<button onClick={(e) => handleClick(e)}>Pull</button>
+					<button className="run-btn" onClick={(e) => handleClick(e)}>Pull</button>
 				</div>
 			</div>
 			<div className="containers">

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import RunningContainers from "../display/RunningContainers";
 import { useSelector, useDispatch } from "react-redux";
 import * as helper from "../helper/commands"
 import '../../../assets/running.css';
 import * as actions from "../../actions/actions";
 import { Bar } from 'react-chartjs-2';
+import ToggleDisplay from '../display/ToggleDisplay';
 
 const Running = (props) => {
 	const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const Running = (props) => {
 	const [run, setRun] = useState('');
 	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
 	
-	const toggleRunning = (id) => dispatch(actions.toggleRunning(id));
+	// const toggleRunning = (id) => dispatch(actions.toggleRunning(id));
 	
 
 	const handleClick = (e) => {
@@ -21,10 +21,10 @@ const Running = (props) => {
 		props.runIm(run, runningList, helper.addRunning, addRunningContainers)
 	}
 
-	const toggleClick = (id) => {
-		toggleRunning(id);
-		console.log(runningList);
-	}
+	// const toggleClick = (id) => {
+	// 	toggleRunning(id);
+	// 	console.log(runningList);
+	// }
 	//['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
 	const renderRunningList = runningList.map((ele, i) => {
 
@@ -49,13 +49,13 @@ const Running = (props) => {
 					backgroundColor: ['rgba(155, 198, 233, 1)','rgba(217, 252, 219, 1)'],
 					borderColor: 'rgba(0,0,0,0)',
 					borderWidth: 1,
-					data: [(2-cpuData).toFixed(2), (2-memoryData).toFixed(2)],
+					data: [(100-cpuData).toFixed(2), (100-memoryData).toFixed(2)],
 				},
 			],
 		}
 
 		return (
-			<div className="box" key={`runningBox${i}`}>
+			<div className="box box-running" key={`runningBox${i}`}>
 				<div className="box-label">
 					<span>Name: {ele['name']}</span>
 					<span>ID: {ele['cid']}</span>
@@ -95,8 +95,8 @@ const Running = (props) => {
 									ticks: {
 										display: false,
 										min: 0,
-										max: 2,
-										stepSize: 0.4
+										max: 100,
+										stepSize: 20
 									}
 
 								}],
@@ -110,16 +110,17 @@ const Running = (props) => {
 						</div>
 
 					</div>
-					<p onClick={()=>toggleClick(ele['cid'])}>Details</p>
+					<ToggleDisplay ele={ele}/>
+					{/* <p onClick={()=>toggleClick(ele['cid'])}>Details</p>
 					{ele['toggle'] ? <div>
 					<li>Mem Usage / Limit: {ele['mul']}</li>
 					<li>Net I/O: {ele['net']}</li>
 					<li>Block I/O: {ele['block']}</li>
 					<li>PIDS: {ele['pids']}</li>
-					</div> : <></> }
+					</div> : <></> } */}
 
 				</div>
-				<div className="box-button">
+				<div className="box-button box-button-running">
 					<button className="stop-btn" onClick={() => props.stop(ele['cid'], stopRunningContainer)}>STOP</button>
 				</div>
 			</div>

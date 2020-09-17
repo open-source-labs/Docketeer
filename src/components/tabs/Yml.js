@@ -92,12 +92,12 @@ const Yml = () => {
 
 		<div className="renderContainers">
 			<div className="header">
-				<h1>Docker Compose</h1>
+				<span className="tabTitle">Docker Compose</span>
 				<span></span>
 			</div>
 			<div className="drag-container">
 				<div className="drag-container-box box-shadow" id="drag-file">
-					Drag and drop your .yml file here
+					Drag and drop your Docker Compose file here to run it.
           <p><i className="fas fa-file yml-icon"></i></p>
 					<p className="fileList">{fileList}</p>
 					<button
@@ -114,8 +114,6 @@ const Yml = () => {
 				</div>
 
 			</div>
-
-			<br />
 
 			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
 			<div className="containers">

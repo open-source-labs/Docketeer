@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../actions/actions";
 import { exec } from "child_process";
@@ -30,6 +30,8 @@ const App = (props) => {
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
 
+	const [selected, setSelected] = useState('/');
+
 	useEffect(() => {
 		// helper.addRunning(runningList, addRunningContainers);
 		// helper.addStopped(stoppedList, addStoppedContainers);
@@ -41,7 +43,12 @@ const App = (props) => {
 		}, 10000);
 		return () => clearInterval(interval);
 	}, [])
-
+	const selectedStyling = {
+		background: "#e1e4e6",
+		color: "#042331",
+		borderTopRightRadius: "10px",
+		borderBottomRightRadius: "10px",
+	}
 	return (
 		<Router>
 			<div className="container">
@@ -49,28 +56,28 @@ const App = (props) => {
 					<header id="title">Docketeer</header>
 					<div className="viewsAndButton">
 						<ul>
-							<li>
-								<Link to="/">
+							<li >
+								<Link to="/" style={selected === "/" ? selectedStyling : {}} onClick={() => { setSelected((sel) => '/') }}>
 									<i className="fas fa-box-open"></i> Running Containers
                 </Link>
 							</li>
-							<li>
-								<Link to="/stopped">
+							<li >
+								<Link to="/stopped" style={selected === "/stopped" ? selectedStyling : {}} onClick={() => setSelected('/stopped')}>
 									<i className="fas fa-archive"></i> Exited Containers
                 </Link>
 							</li>
-							<li>
-								<Link to="/images">
+							<li >
+								<Link to="/images" style={selected === "/images" ? selectedStyling : {}} onClick={() => setSelected('/images')} >
 									<i className="fas fa-database"></i> Images
                 </Link>
 							</li>
-							<li>
-								<Link to="/metrics">
+							<li >
+								<Link to="/metrics" style={selected === "/metrics" ? selectedStyling : {}} onClick={() => setSelected('/metrics')} >
 									<i className="fas fa-chart-pie"></i> Metrics
                 </Link>
 							</li>
-							<li>
-								<Link to="/yml">
+							<li >
+								<Link to="/yml" style={selected === "/yml" ? selectedStyling : {}} onClick={() => setSelected('/yml')} >
 									<i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
 							</li>

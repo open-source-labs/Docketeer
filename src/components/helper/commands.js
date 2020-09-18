@@ -288,7 +288,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
   exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
     if (error) {
-      alert(`${error.message}Please stop running container first then remove.`)
+      alert(`${error.message}` + '\nPlease stop running container first then remove.')
       return;
     }
     if (stderr) {

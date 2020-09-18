@@ -60,7 +60,7 @@ const Yml = () => {
   }, []);
 
   useEffect(() => {
-	  helper.displayNetwork();
+	  //helper.displayNetwork();
   }, [])
   /**
    * networkList is array from the redux store
@@ -81,10 +81,11 @@ const Yml = () => {
    * }]
    */
   const NetworkDisplay = () => {
+	  
     if (networkList.length) {
       let newArray = [];
-
-      //First iteration of network List
+	  //First iteration of network List
+	  console.log('I am ehre')
       for (let i = 0; i < networkList.length; i++) {
         let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];

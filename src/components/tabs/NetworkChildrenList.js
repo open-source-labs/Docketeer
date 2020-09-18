@@ -7,13 +7,6 @@ const NetworkChildrenList = (props) => {
         for (let j = 0; j < props.networkList[props.parent].length; j++) {
             let parents = props.networkList[props.parent][j];
 
-              // newArray.push(    <div className="yml-info" key={`yml-info${j}`}>
-              //   <div className="yml-info-box" key={`yml-info-box${j}`}>
-              //     <p>ID: {parents["cid"]}</p>
-              //     <p>Name: {parents["name"]}</p>
-              //   </div>
-              //   </div>)
-
               for (let k = 0; k < parents.length; k++) {
                 let container = props.networkList[props.parent][j][k];
                 // console.log('container', container);

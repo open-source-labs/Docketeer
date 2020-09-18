@@ -90,7 +90,7 @@ const Yml = () => {
         let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];
         newArray.push(
-          <div className="yml-boxes" key={`yml-boxes${i}`}>
+          <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
             <div className="yml-labels" key={`yml-labels${i}`}>
               <p>Network: {parent}</p>
             </div>

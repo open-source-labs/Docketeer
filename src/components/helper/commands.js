@@ -17,7 +17,7 @@ import parseContainerFormat from "./parseContainerFormat";
 export const addRunning = (runningList, callback) => {
   exec("docker stats --no-stream", (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -49,7 +49,7 @@ export const addRunning = (runningList, callback) => {
 export const addStopped = (stoppedList, callback) => {
   exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -99,7 +99,7 @@ export const addStopped = (stoppedList, callback) => {
 export const addImages = (imagesList, callback) => {
   exec(`docker images`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -145,7 +145,7 @@ export const addImages = (imagesList, callback) => {
 export const refreshRunning = (callback, runningList) => {
   exec("docker stats --no-stream", (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -163,7 +163,7 @@ export const refreshRunning = (callback, runningList) => {
 export const refreshStopped = (callback) => {
   exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -194,7 +194,7 @@ export const refreshStopped = (callback) => {
 export const refreshImages = (callback) => {
   exec(`docker images`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -228,7 +228,7 @@ export const refreshImages = (callback) => {
 export const remove = (id, callback) => {
   exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -243,7 +243,7 @@ export const remove = (id, callback) => {
 export const stop = (id, callback) => {
   exec(`docker stop ${id}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -258,7 +258,7 @@ export const stop = (id, callback) => {
 export const runStopped = (id, callback) => {
   exec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -272,7 +272,7 @@ export const runStopped = (id, callback) => {
 export const runIm = (id, runningList, callback_1, callback_2) => {
   exec(`docker run ${id}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -287,7 +287,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
   exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}` + '\nPlease stop running container first then remove.')
       return;
     }
     if (stderr) {
@@ -302,7 +302,7 @@ export const handlePruneClick = (e) => {
   e.preventDefault();
   exec("docker system prune --force", (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);
       return;
     }
     if (stderr) {
@@ -318,7 +318,7 @@ export const handlePruneClick = (e) => {
 export const pullImage = (repo) => {
   exec(`docker pull ${repo}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      alert(`${error.message}`);;
       return;
     }
     if (stderr) {
@@ -374,7 +374,7 @@ export const connectContainers = (
           `docker network inspect ${newNetwork}`,
           (error, stdout, stderr) => {
             if (error) {
-              console.log(`error: ${error.message}`);
+              alert(`${error.message}`);;
               return;
             }
             if (stderr) {
@@ -396,7 +396,7 @@ export const connectContainers = (
               `docker stats --no-stream ${resultString}`,
               (error, stdout, stderr) => {
                 if (error) {
-                  console.log(`error: ${error.message}`);
+                  alert(`${error.message}`);;
                   return;
                 }
                 if (stderr) {

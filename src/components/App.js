@@ -10,7 +10,7 @@ import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
 import parseContainerFormat from "./helper/parseContainerFormat";
-import "../../assets/styles.css";
+import "../css/styles.css";
 import * as helper from "./helper/commands";
 
 const App = (props) => {

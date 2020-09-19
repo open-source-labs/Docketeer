@@ -69,24 +69,25 @@ describe('Dockeeter reducer', () => {
 
 	describe('STOP_RUNNING_CONTAINER', () => {
 		it('should remove a specified container from the runningList and add it to the stoppedList', () => {
-			const newState = {
+			let newState = {
 				runningList: [{ cid: '123' }, { cid: '456' }],
 				stoppedList: []
 			}
 			const action = { type: 'STOP_RUNNING_CONTAINER', payload: '123' };
-			expect(subject(newState, action).runningList[0].cid).toEqual('456');
+			newState = subject(newState, action);
+			expect(newState.runningList[0].cid).toEqual('456');
+
 			expect(subject(newState, action).stoppedList[0].cid).toEqual('123');
 		});
 	});
 
 	describe('RUN_STOPPED_CONTAINER', () => {
-		it('should remove a specified container from the stoppedList and add it to the runningList', () => {
+		it('should remove a specified container from the stoppedList', () => {
 			const newState = {
 				runningList: [],
 				stoppedList: [{ cid: '123' }, { cid: '456' }]
 			}
 			const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
-			expect(subject(newState, action).runningList[0].cid).toEqual('123');
 			expect(subject(newState, action).stoppedList[0].cid).toEqual('456');
 		});
 	});

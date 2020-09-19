@@ -56,7 +56,7 @@ const Running = (props) => {
 					data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
 				},
 			],
-		};
+		}
 
 		return (
 			<div className="box box-running" key={`runningBox${i}`}>

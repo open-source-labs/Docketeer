@@ -44,7 +44,7 @@ const App = (props) => {
 			helper.refreshRunning(refreshRunningContainers, runningList);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 10000);
+		}, 3000);
 
 		helper.displayNetwork(getComposeYmlFiles);
 		// console.log('network List: ', networkList);

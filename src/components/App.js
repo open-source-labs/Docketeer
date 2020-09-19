@@ -25,10 +25,14 @@ const App = (props) => {
 	const refreshStoppedContainers = (data) =>
 		dispatch(actions.refreshStoppedContainers(data));
 	const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
+	//Added
+	const getComposeYmlFiles = (data) => dispatch(actions.getComposeYmlFiles(data));
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
+	//Added
+	const networkList = useSelector((state) => state.lists.networkList);
 
 	const [selected, setSelected] = useState('/');
 
@@ -41,6 +45,10 @@ const App = (props) => {
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
 		}, 10000);
+
+		helper.displayNetwork(getComposeYmlFiles);
+		// console.log('network List: ', networkList);
+
 		return () => clearInterval(interval);
 	}, [])
 	const selectedStyling = {

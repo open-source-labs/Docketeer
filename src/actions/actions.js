@@ -59,3 +59,8 @@ export const composeymlFiles = (data) => ({
 	type: types.COMPOSE_YML_FILES,
 	payload: data,
 });
+
+export const getComposeYmlFiles = (data) => ({
+	type: types.GET_COMPOSED_YML_FILES,
+	payload: data,
+});

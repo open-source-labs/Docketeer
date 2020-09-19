@@ -59,6 +59,9 @@ const Yml = () => {
     };
   }, []);
 
+  useEffect(() => {
+	  //helper.displayNetwork();
+  }, [])
   /**
    * networkList is array from the redux store
    * Only display relationship of containers when networkList's length is more than 1
@@ -78,15 +81,16 @@ const Yml = () => {
    * }]
    */
   const NetworkDisplay = () => {
+	  
     if (networkList.length) {
       let newArray = [];
-
-      //First iteration of network List
+	  //First iteration of network List
+	  console.log('I am ehre')
       for (let i = 0; i < networkList.length; i++) {
         let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];
         newArray.push(
-          <div className="yml-boxes" key={`yml-boxes${i}`}>
+          <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
             <div className="yml-labels" key={`yml-labels${i}`}>
               <p>Network: {parent}</p>
             </div>
@@ -104,56 +108,42 @@ const Yml = () => {
     }
   };
 
-  return (
-    <div className="renderContainers">
-      <div className="header">
-        <span className="tabTitle">Docker Compose</span>
-        <span></span>
-      </div>
-      <div className="drag-container">
-        <div className="drag-container-box box-shadow" id="drag-file">
-          Drag and drop your Docker Compose file here to run it.
-          <p>
-            <i className="fas fa-file yml-icon"></i>
-          </p>
-          <p className="fileList">{fileList}</p>
-          <input
-            className="upload-btn"
-            id="uploadFile"
-            type="file"
-            accept=".yml"
-          ></input>
-          <button
-            id="btn"
-            className="btn"
-            onClick={() => {
-              helper.connectContainers(
-                filepath,
-                composeymlFiles,
-                setModalValid,
-                setModalErrormessage
-              );
-              document.getElementById("drag-file").style =
-                "background-color: white";
-              setfileList("");
-            }}
-          >
-            Docker Compose Up
-          </button>
-        </div>
-      </div>
+	return (
 
-      <ModalDisplay
-        modalValid={modalValid}
-        setModalValid={setModalValid}
-        modalErrormessage
-        modalErrormessage={modalErrormessage}
-      />
-      <div className="containers">
-        <NetworkDisplay />
-      </div>
-    </div>
-  );
+		<div className="renderContainers">
+			<div className="header">
+				<span className="tabTitle">Docker Compose</span>
+				<span></span>
+			</div>
+			<div className="drag-container">
+				<div className="drag-container-box box-shadow" id="drag-file">
+					Drag and drop or upload your Docker Compose file here to run it.
+          <p><i className="fas fa-file yml-icon"></i></p>
+					<p className="fileList">{fileList}</p>
+					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">
+					</input>
+					<button
+						id="btn"
+						className="btn"
+						onClick={() => {
+							helper.connectContainers(filepath, composeymlFiles, setModalValid, setModalErrormessage)
+							document.getElementById("drag-file").style = "background-color: white";
+							setfileList("");
+						}}
+					>
+						Docker Compose Up
+     			 	</button>
+				</div>
+
+			</div>
+
+			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
+			<div className="containers">
+				<NetworkDisplay />
+			</div>
+		</div>
+	);
+
 };
 
 export default Yml;

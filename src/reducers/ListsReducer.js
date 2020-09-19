@@ -101,10 +101,29 @@ const listsReducer = (state = initialState, action) => {
 
 		case types.COMPOSE_YML_FILES:
 			const newnetworkList = state.networkList.slice();
-
+			console.log(action.payload[0]);
 			newnetworkList.push(action.payload[0]);
 			return { ...state, networkList: newnetworkList };
+		
+		case types.GET_COMPOSED_YML_FILES:
+			const newnetworkList2 = state.networkList.slice();
+			console.log('action.payload get compose:', action.payload);
+			
+			let keys = Object.keys(action.payload);
 
+			for(let i = 0; i < keys.length; i++) {
+				console.log("action.payload[keys[i]]: ", action.payload[keys[i]])
+				let newKey = keys[i]
+				//console.log("newKey", newKey);
+				let obj = {}
+				obj[newKey] = action.payload[keys[i]];
+				newnetworkList2.push(obj);
+			}
+
+
+			console.log('newnetworkList2', newnetworkList2)
+			return { ...state, networkList: newnetworkList2 };
+			
 		default:
 			return state;
 	}

@@ -9,7 +9,6 @@ import "../../../assets/metric.css";
 
 const Metrics = (props) => {
   const runningList = useSelector((state) => state.lists.runningList);
-  console.log("runningList", runningList);
   let result = convertToMetricsArr(runningList);
   let cpuData = (100 - result[0]).toFixed(2);
   let memoryData = (100 - result[1]).toFixed(2);

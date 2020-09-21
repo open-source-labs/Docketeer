@@ -6,7 +6,7 @@
 	"scripts": {
 		"electron": "electron .",
 		"dev": "nodemon --watch . --exec \"electron .",
-		"start": "webpack-dev-server",
+		"start": "webpack-dev-server ",
 		"build": "webpack --mode production",
 		"test": "jest --verbose"
 	},
@@ -14,6 +14,9 @@
 		"verbose": true,
 		"transform": {
 			"^.+\\.jsx?$": "babel-jest"
+		},
+		"moduleNameMapper": {
+			"\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
 		}
 	},
 	"dependencies": {
@@ -45,6 +48,7 @@
 		"redux": "^4.0.5",
 		"redux-devtools": "^3.6.1",
 		"redux-devtools-extension": "^2.13.8",
+		"redux-mock-store": "^1.5.4",
 		"sass-loader": "^10.0.2",
 		"style-loader": "^1.2.1",
 		"webpack": "^4.44.1",
@@ -53,9 +57,15 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.11.5",
+		"@testing-library/jest-dom": "^5.11.4",
+		"@testing-library/react": "^11.0.4",
 		"babel-plugin-transform-async-to-generator": "^6.24.1",
 		"electron-devtools-installer": "^3.1.1",
-		"electron-redux-devtools": "^0.3.4"
+		"electron-redux-devtools": "^0.3.4",
+		"enzyme-adapter-react-16": "^1.15.4",
+		"enzyme-to-json": "^3.5.0",
+		"react-test-renderer": "^16.13.1",
+		"redux-thunk": "^2.3.0"
 	},
 	"repository": {
 		"type": "git",

@@ -8,8 +8,8 @@ import { render } from "react-dom";
 import "../../../assets/metric.css";
 
 const Metrics = (props) => {
-  const runningList = useSelector((state) => state.lists.runningList);
-  let result = convertToMetricsArr(runningList);
+  //const runningList = useSelector((state) => state.lists.runningList);
+  let result = convertToMetricsArr(props.runningList);
   let cpuData = (100 - result[0]).toFixed(2);
   let memoryData = (100 - result[1]).toFixed(2);
   // let differnce3 = result[2][0];

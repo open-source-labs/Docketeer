@@ -102,7 +102,7 @@ const App = (props) => {
                 renders the first one that matches the current URL. */}
 				<Switch>
 					<Route path="/metrics">
-						<Metrics showGeneralMetrics={helper.showGeneralMetrics} />
+						<Metrics runningList={runningList}/>
 					</Route>
 					<Route path="/yml">
 						<Yml />

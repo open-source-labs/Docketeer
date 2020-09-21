@@ -68,8 +68,8 @@ body {
 }
 
 .runByButton {
-  display: inline;
-  margin-left: 130px;
+	float: right;
+	margin-right: 50px;
 }
 
 /* .header h1 {
@@ -280,7 +280,8 @@ ul {
   display: flex;
   justify-content: center;
   align-content: center;
-  flex-direction: column;
+	flex-direction: column;
+	background-color: white;
   border-radius: 30px;
   width: 94%;
   margin-top: 100px;
@@ -311,7 +312,7 @@ ul {
   background: #052e41c0;
   font-weight: 700;
   font-size: 22px;
-  color: rgba(170, 175, 101, 0.897);
+  color: white;
   text-align: center;
   line-height: 50px;
   border-radius: 10px 10px 0 0;
@@ -358,7 +359,8 @@ ul {
   height: 30vh;
   margin-top: 30px;
   border-radius: 30px;
-  padding: 30px;
+	padding: 30px;
+	background-color: white;
 }
 
 .drag-container-box * {

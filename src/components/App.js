@@ -10,7 +10,7 @@ import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import { stderr } from "process";
 import parseContainerFormat from "./helper/parseContainerFormat";
-import "../../assets/styles.css";
+import "../css/styles.css";
 import * as helper from "./helper/commands";
 
 const App = (props) => {
@@ -44,7 +44,7 @@ const App = (props) => {
 			helper.refreshRunning(refreshRunningContainers, runningList);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 10000);
+		}, 3000);
 
 		helper.displayNetwork(getComposeYmlFiles);
 		// console.log('network List: ', networkList);

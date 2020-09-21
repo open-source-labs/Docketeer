@@ -1,15 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../actions/actions";
-
 
 const Stopped = (props) => {
-	const dispatch = useDispatch();
-	const removeContainer = (id) => dispatch(actions.removeContainer(id));
-	const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
-	const stoppedList = useSelector((state) => state.lists.stoppedList);
 
-	const renderStoppedList = stoppedList.map((ele, i) => {
+	const renderStoppedList = props.stoppedList.map((ele, i) => {
 		return (
 			<div className="box" key={`stoppedBox${i}`}>
 				<div className="stopped-header">
@@ -24,8 +17,8 @@ const Stopped = (props) => {
 					<li>name: {ele['name']}</li>
 				</div>
 				<div className="stopped-button">
-					<button className="run-btn" onClick={() => props.runStopped(ele['cid'], runStoppedContainer)}>RUN</button>
-					<button className="stop-btn" onClick={() => props.remove(ele['cid'], removeContainer)}>REMOVE</button>
+					<button className="run-btn" onClick={() => props.runStopped(ele['cid'], props.runStoppedContainer)}>RUN</button>
+					<button className="stop-btn" onClick={() => props.remove(ele['cid'], props.removeContainer)}>REMOVE</button>
 				</div>
 			</div>
 

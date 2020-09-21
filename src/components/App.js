@@ -29,12 +29,18 @@ const App = (props) => {
 	const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
 	const getComposeYmlFiles = (data) => dispatch(actions.getComposeYmlFiles(data));
 
+	//Stopped Added
+	const removeContainer = (id) => dispatch(actions.removeContainer(id));
+	const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
 
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
 	//Added
 	const networkList = useSelector((state) => state.lists.networkList);
+
+	//Images
+
 
 	const [selected, setSelected] = useState('/');
 
@@ -104,16 +110,16 @@ const App = (props) => {
                 renders the first one that matches the current URL. */}
 				<Switch>
 					<Route path="/metrics">
-						<Metrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList}/>
+						<Metrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
 					</Route>
 					<Route path="/yml">
-						<Yml networkList={networkList} composeymlFiles={composeymlFiles}/>
+						<Yml networkList={networkList} composeymlFiles={composeymlFiles} />
 					</Route>
 					<Route path="/images">
-						<Images runIm={helper.runIm} removeIm={helper.removeIm} />
+						<Images runIm={helper.runIm} removeIm={helper.removeIm} addRunningContainers={addRunningContainers} refreshImagesList={refreshImagesList} imagesList={imagesList} runnningList={runningList} />
 					</Route>
 					<Route path="/stopped">
-						<Stopped runStopped={helper.runStopped} remove={helper.remove} />
+						<Stopped runStopped={helper.runStopped} remove={helper.remove} removeContainer={removeContainer} runStoppedContainer={runStoppedContainer} stoppedList={stoppedList} />
 					</Route>
 					<Route path="/">
 						<Running runIm={helper.runIm} stop={helper.stop} />

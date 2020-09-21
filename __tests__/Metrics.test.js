@@ -1,9 +1,6 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-// import toJson from 'enzyme-to-json';
-import * as Redux from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import Metrics from '../src/components/tabs/Metrics';
 
 // Newer Enzyme versions require an adapter to a particular version of React
@@ -26,6 +23,7 @@ function shallowSetup() {
 
 describe('Shallow rendered Metrics for Pie chart', () => {
   // Setup wrapper and assign props.
+
   const { enzymeWrapper, props } = shallowSetup();
 
   it('Should render <div> tag in Metrics', () => {

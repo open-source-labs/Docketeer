@@ -33,6 +33,9 @@ const App = (props) => {
 	const removeContainer = (id) => dispatch(actions.removeContainer(id));
 	const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
 
+	//Running Added
+	const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
+
 	const runningList = useSelector((state) => state.lists.runningList);
 	const stoppedList = useSelector((state) => state.lists.stoppedList);
 	const imagesList = useSelector((state) => state.lists.imagesList);
@@ -122,7 +125,7 @@ const App = (props) => {
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} removeContainer={removeContainer} runStoppedContainer={runStoppedContainer} stoppedList={stoppedList} />
 					</Route>
 					<Route path="/">
-						<Running runIm={helper.runIm} stop={helper.stop} />
+						<Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers}/>
 					</Route>
 				</Switch>
 			</div>

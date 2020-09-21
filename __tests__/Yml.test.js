@@ -27,7 +27,7 @@ function shallowSetup() {
         fileList: 'hello'
     }
 
-  const enzymeWrapper = mount(<Yml {...props} composeymlFiles={jest.fn()}  setFilepath={jest.fn()} filepath={'Hello'} fileList={'hi'} setfileList={jest.fn()} />);
+  const enzymeWrapper = shallow(<Yml {...props} composeymlFiles={jest.fn()}  setFilepath={jest.fn()} filepath={'Hello'} fileList={'hi'} setfileList={jest.fn()} />);
 
   return {
     props,
@@ -39,8 +39,8 @@ describe('Shallow rendered for Docker Compose Up', () => {
     let wrapper;     
 
     beforeEach(() => {
-        const mockUseEffect = jest.fn();
-        React.useEffect = mockUseEffect;
+        // const mockUseEffect = jest.fn();
+        // React.useEffect = mockUseEffect;
         wrapper = shallowSetup();
       });
     
@@ -48,10 +48,10 @@ describe('Shallow rendered for Docker Compose Up', () => {
         jest.clearAllMocks();
     });
 
-    it('should render ', () => {
-        // wrapper = wrapper.enzymeWrapper;
+    it('should render the Docker Compose Up button properly', () => {
+        wrapper = wrapper.enzymeWrapper;
         
-        // expect(wrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
+        expect(wrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
         // // expect(props.fetchAuthors).toHaveBeenCalled();
         // console.log(wrapper.find('.fileList').text())
     });

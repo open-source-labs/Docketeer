@@ -6,7 +6,7 @@
 	"scripts": {
 		"electron": "electron .",
 		"dev": "nodemon --watch . --exec \"electron .",
-		"start": "webpack-dev-server",
+		"start": "webpack-dev-server ",
 		"build": "webpack --mode production",
 		"test": "jest --verbose"
 	},

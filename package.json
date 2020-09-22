@@ -69,13 +69,13 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ilikecolddrinks/Docketeer.git"
+		"url": "git+https://github.com/oslabs-beta/Docketeer.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/ilikecolddrinks/Docketeer/issues"
+		"url": "https://github.com/oslabs-beta/Docketeer/issues"
 	},
-	"homepage": "https://github.com/ilikecolddrinks/Docketeer#readme"
+	"homepage": "https://github.com/oslabs-beta/Docketeer#readme"
 }

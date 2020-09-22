@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 const NetworkChildrenList = (props) => {
-
+    
     let ChildrenList = () => {
         let newArray = [];
         console.log('props.networkList', props.networkList);

@@ -5,6 +5,13 @@ import { exec, spawn } from "child_process";
 
 import parseContainerFormat from "./parseContainerFormat";
 
+// const dispatch = useDispatch();
+// const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
+// const removeContainer = (id) => dispatch(actions.removeContainer(id));
+// const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
+// const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
+// const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
+// const addExistingImages = (data) => dispatch(actions.getImages(data))
 
 // on app start-up, get the containers that are already running by calling addRunning
 export const addRunning = (runningList, callback) => {
@@ -263,7 +270,6 @@ export const runStopped = (id, callback) => {
 };
 
 export const runIm = (id, runningList, callback_1, callback_2) => {
-
 	exec(`docker run ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			alert(`${error.message}`);;
@@ -276,7 +282,6 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 		// callback_1(id)
 		callback_1(runningList, callback_2);
 	});
-
 };
 
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
@@ -329,7 +334,6 @@ export const connectContainers = (
 	callback_2,
 	callback_3
 ) => {
-
 	// We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
@@ -489,65 +493,5 @@ export const displayNetwork = (callback) => {
 
 	});
 
-export const displayNetwork = (callback) => {
-	exec("docker network ls", (error, stdout, stderr) => {
-		if (error) {
-			console.log(`error: ${error.message}`);
-			return;
-		}
-		if (stderr) {
-			console.log(`stderr: ${stderr}`);
-			return;
-		}
-		let networkValue = parseContainerFormat.convert(stdout);
-
-		const temp = [];
-		for (let i = 0; i < networkValue.length; i++) {
-			let name = networkValue[i][1];
-			if (name === 'bridge' || name === 'host' || name === 'none') {
-			} else {
-				temp.push(networkValue[i][0]);
-			}
-		}
-		let networkStringLists = temp.join(' ');
-
-
-		exec(`docker network inspect ${networkStringLists}`, (error, stdout, stderr) => {
-			if (error) {
-				console.log(`error: ${error.message}`);
-				return;
-			}
-			if (stderr) {
-				console.log(`stderr: ${stderr}`);
-				return;
-			}
-			let parsedArr = JSON.parse(stdout);
-
-			let obj = {}
-			const final = [];
-			for (let i = 0; i < parsedArr.length; i++) {
-				let network = parsedArr[i]
-				obj[network['Name']] = [network['Containers']];
-			}
-			let keys = Object.keys(obj);
-
-			let listnetworks = {}
-			for (let i = 0; i < keys.length; i++) {
-				let parent = keys[i]
-				let containerKeys = Object.keys(parsedArr[i].Containers);
-				let networkarrrrs = []
-
-				for (let j = 0; j < containerKeys.length; j++) {
-					let containerId = containerKeys[j];
-					let innerObj = { 'cid': containerId, 'name': obj[parent][0][containerId]['Name'] }
-					networkarrrrs.push(innerObj)
-				}
-				listnetworks[parent] = [];
-				listnetworks[parent].push(networkarrrrs);
-			}
-			callback(listnetworks);
-		});
-
-	});
 
 }

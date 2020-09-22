@@ -1,7 +1,6 @@
 import * as types from "../constants/actionTypes";
 
 const initialState = {
-	//tbd about having two arrays,
 	imagesList: [],
 	runningList: [],
 	stoppedList: [],

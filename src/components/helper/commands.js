@@ -410,7 +410,9 @@ export const connectContainers = (
 };
 
 export const displayNetwork =  (callback) =>  {
+ 
   exec("docker network ls", (error, stdout, stderr) => {
+    
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -433,6 +435,7 @@ export const displayNetwork =  (callback) =>  {
 
 
     exec(`docker network inspect ${networkStringLists}`, (error, stdout, stderr) => {
+      
       if (error) {
         console.log(`error: ${error.message}`);
         return;

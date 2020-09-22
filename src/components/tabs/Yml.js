@@ -75,7 +75,6 @@ const Yml = (props) => {
    * }]
    */
   const NetworkDisplay = () => {
-	  
     if (props.networkList.length) {
       let newArray = [];
       for (let i = 0; i < props.networkList.length; i++) {

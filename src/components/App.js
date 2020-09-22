@@ -41,7 +41,7 @@ const App = (props) => {
 		}, 3000);
 
 		helper.displayNetwork(getComposeYmlFiles);
-
+		
 
 		return () => clearInterval(interval);
 	}, [])

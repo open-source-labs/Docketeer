@@ -13,7 +13,7 @@ describe('Dockeeter reducer', () => {
 	});
 
 	describe('default state', () => {
-		xit('should return a default state when given an undefined input', () => {
+		it('should return a default state when given an undefined input', () => {
 			expect(subject(undefined, { type: undefined })).toEqual(state);
 		});
 	});

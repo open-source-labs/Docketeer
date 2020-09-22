@@ -47,6 +47,7 @@ export const addRunning = (runningList, callback) => {
 };
 
 export const addStopped = (stoppedList, callback) => {
+<<<<<<< HEAD
 	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
 		if (error) {
 			alert(`${error.message}`);;
@@ -94,6 +95,55 @@ export const addStopped = (stoppedList, callback) => {
 			// addStoppedContainers(newList)
 		}
 	});
+=======
+  exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
+    if (error) {
+      alert(`${error.message}`);;
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+
+    let value = parseContainerFormat.convert(stdout);
+
+    // value => array
+    const result = [];
+    // tempoary we will have it as manual number
+    for (let i = 0; i < value.length; i++) {
+      let innerArray = [];
+      innerArray.push(value[i][0]); // id
+      innerArray.push(value[i][1]); // image
+
+      let stoppingString = "Exited";
+      let findIndex = value[i].findIndex((ele) => ele === stoppingString);
+      let slicedString = value[i].slice(3, findIndex).join(" ");
+      innerArray.push(slicedString);
+
+      result.push(innerArray);
+    }
+    let objArray = ["cid", "img", "created"];
+    let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
+
+    const newList = [];
+    for (let i = 0; i < convertedValue.length; i++) {
+      let isInTheList = false;
+      for (let container of stoppedList) {
+        if (container.cid === convertedValue[i].cid) {
+          isInTheList = true;
+        }
+      }
+      if (!isInTheList) {
+        newList.push(convertedValue[i]);
+      }
+    }
+    if (newList.length > 0) {
+      callback(newList);
+      // addStoppedContainers(newList)
+    }
+  });
+>>>>>>> 79ba53cb0a00a70991ee20d469f27532bd5fd490
 };
 
 export const addImages = (imagesList, callback) => {
@@ -270,6 +320,7 @@ export const runStopped = (id, callback) => {
 };
 
 export const runIm = (id, runningList, callback_1, callback_2) => {
+<<<<<<< HEAD
 	exec(`docker run ${id}`, (error, stdout, stderr) => {
 		if (error) {
 			alert(`${error.message}`);;
@@ -282,6 +333,20 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 		//callback_1(id)
 		callback_1(runningList, callback_2);
 	});
+=======
+  exec(`docker run ${id}`, (error, stdout, stderr) => {
+    if (error) {
+      alert(`${error.message}`);;
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    // callback_1(id)
+    callback_1(runningList, callback_2);
+  });
+>>>>>>> 79ba53cb0a00a70991ee20d469f27532bd5fd490
 };
 
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
@@ -334,6 +399,7 @@ export const connectContainers = (
 	callback_2,
 	callback_3
 ) => {
+<<<<<<< HEAD
 	//We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
@@ -430,6 +496,104 @@ export const connectContainers = (
 			}
 		}
 	});
+=======
+  // We still need to get a file path from a user
+  let child = spawn(
+    `cd ${filepath} && docker-compose up -d && docker network ls`,
+    {
+      shell: true,
+    }
+  );
+  // const array = []; //networkname
+  let newNetwork = "";
+  child.stderr.on("data", function (data) {
+    // console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
+
+    let output = data.toString(); // change buffer to string
+    let temp = output.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
+    if (temp) newNetwork = temp;
+  });
+  // child.stdout.on("data", function (data) {
+  //   console.log("STDOUT:", data.toString());
+  // });
+
+  child.on("exit", function (exitCode) {
+    // console.log("Child exited with code: " + exitCode);
+    // console.log(typeof exitCode);
+    // console.log('Array: ', array);
+
+    if (exitCode !== 0) {
+      console.log("There was an error while executing docker-compose");
+      callback_2(true);
+      callback_3("There was an error while executing docker-compose");
+    } else {
+      if (!newNetwork) {
+        console.log("Your docker-compose is already defined");
+        callback_2(true);
+        callback_3("Your docker-compose is already defined");
+      } else {
+        // Inspect to get the network information
+        exec(
+          `docker network inspect ${newNetwork}`,
+          (error, stdout, stderr) => {
+            if (error) {
+              alert(`${error.message}`);;
+              return;
+            }
+            if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+            }
+
+            // parse string to Object
+            let parsed = JSON.parse(stdout);
+            let containerIds = Object.keys(parsed[0]["Containers"]);
+
+            let resultString = "";
+            for (let i = 0; i < containerIds.length; i++) {
+              resultString += containerIds[i] + " ";
+            }
+
+            // Get stats for each container and display it
+            exec(
+              `docker stats --no-stream ${resultString}`,
+              (error, stdout, stderr) => {
+                if (error) {
+                  alert(`${error.message}`);;
+                  return;
+                }
+                if (stderr) {
+                  console.log(`stderr: ${stderr}`);
+                  return;
+                }
+                let value = parseContainerFormat.convert(stdout);
+                let objArray = ["cid", "name"];
+                let composeValue = parseContainerFormat.convertArrToObj(
+                  value,
+                  objArray
+                ); // [{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
+                let savedArr = [];
+                let networks = {};
+                networks[newNetwork] = [];
+                networks[newNetwork].push(composeValue);
+                // [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
+
+                savedArr.push(networks);
+                callback(savedArr);
+
+                // parentName => array[0]
+                //         state = [
+                //         {parentName: [{cid: 123213, name: xxxx}, {cid:1564654, name: yyyyyy}]},
+                //         {anotherParent: [{}]}
+                //         ];
+              }
+            );
+          }
+        );
+      }
+    }
+  });
+>>>>>>> 79ba53cb0a00a70991ee20d469f27532bd5fd490
 };
 
 export const displayNetwork = (callback) => {

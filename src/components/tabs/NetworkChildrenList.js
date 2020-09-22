@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 const NetworkChildrenList = (props) => {
     
@@ -9,7 +10,6 @@ const NetworkChildrenList = (props) => {
 
               for (let k = 0; k < parents.length; k++) {
                 let container = props.networkList[props.parent][j][k];
-                // console.log('container', container);
                 newArray.push(
                   <div className="yml-info" key={`yml-info${k}`}>
                     <div className="yml-info-box" key={`yml-info-box${k}`}>

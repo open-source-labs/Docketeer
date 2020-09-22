@@ -1,26 +1,20 @@
+/* eslint-disable react/prop-types */
 import React from "react";
-import { useSelector } from "react-redux";
-import * as actions from "../../actions/actions";
 import { convertToMetricsArr } from "../helper/parseContainerFormat";
-import { Pie, Doughnut, Bar } from "react-chartjs-2";
-import { plugins } from "chart.js";
-import { render } from "react-dom";
+import { Pie } from "react-chartjs-2";
 import "../../css/metric.css";
 
 const Metrics = (props) => {
-  //const runningList = useSelector((state) => state.lists.runningList);
   let result = convertToMetricsArr(props.runningList);
   let cpuData = (100 - result[0]).toFixed(2);
   let memoryData = (100 - result[1]).toFixed(2);
-  // let differnce3 = result[2][0];
-  // let differnce4 = result[3][0];
+
   const cpu = {
     labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
     datasets: [
       {
         label: "CPU",
         backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
-        // hoverBackgroundColor: ["#4B5000", "#501800"],
         data: [cpuData, result[0]],
       },
     ],
@@ -32,7 +26,6 @@ const Metrics = (props) => {
 			{
 				label: "Memory",
 				backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
-				// hoverBackgroundColor: ["#4B5000", "#501800"],
 				data: [memoryData, result[1]],
 			},
 		],

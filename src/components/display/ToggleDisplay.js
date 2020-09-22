@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 const ToggleDisplay = (props) => {
@@ -23,13 +24,6 @@ const ToggleDisplay = (props) => {
 				<li>PIDS: {props.ele['pids']}</li>
 			</div> : <></>}
 
-			{/* <p onClick={()=>props.toggleClick(ele['cid'])}>Details</p>
-            {prop.ele['toggle'] ? <div>
-            <li>Mem Usage / Limit: {props.ele['mul']}</li>
-            <li>Net I/O: {props.ele['net']}</li>
-            <li>Block I/O: {props.ele['block']}</li>
-            <li>PIDS: {props.ele['pids']}</li>
-            </div> : <></> }             */}
 		</div>
 	)
 }

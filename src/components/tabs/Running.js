@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import * as helper from "../helper/commands";
 import "../../css/running.css";
@@ -13,7 +14,6 @@ const Running = (props) => {
 		props.runIm(run, props.runningList, helper.addRunning, props.addRunningContainers);
 	};
 
-	//['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
 	const renderRunningList = props.runningList.map((ele, i) => {
 		let cpuData = parseFloat(
 			ele["cpu"].substring(0, ele["cpu"].length - 1)
@@ -22,7 +22,6 @@ const Running = (props) => {
 			ele["mp"].substring(0, ele["mp"].length - 1)
 		).toFixed(2);
 		const stack = "stack";
-		//Adding Chart info
 		const chartInfo = {
 			labels: ["CPU", "Memory"],
 			datasets: [

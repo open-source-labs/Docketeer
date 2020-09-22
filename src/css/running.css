@@ -1,7 +1,4 @@
 .chart{
-    /* display: flex;
-    flex-direction: row;
-    align-content: center; */
     margin-top: 10px;
 }
 .chart-info{
@@ -12,13 +9,11 @@
 }
 .chart-label {
     display: flex;
-    /* align-items: left; */
     justify-content: space-evenly;
     flex-direction: row;
 }
 .chart-label-container{
     display: flex;
-    /* flex-direction: column-reverse; */
     justify-content: space-between;
     align-content: center;
 }

@@ -72,10 +72,6 @@ body {
 	margin-right: 50px;
 }
 
-/* .header h1 {
-	margin-left: 110px;
-} */
-
 .containers {
   background-color: #e1e4e6;
   margin-top: 75px;
@@ -138,7 +134,6 @@ body {
   padding: 10px;
 }
 .box-button-running:hover {
-  /* box-shadow: 0px 17px 14px 1px rgba(148,139,148,1); */
   border-radius: 0px 0px 10.5px 10.5px;
 }
 
@@ -168,7 +163,6 @@ body {
 }
 .tab ul li:hover {
   border-left: #e1e4e6 12px solid;
-  /* border-bottom: 1px #e1e4e6 solid; */
 }
 
 .tab ul li a:hover {
@@ -272,7 +266,6 @@ ul {
   border-radius: 10px 10px 0 0;
 }
 .dougnutChart {
-  /* margin-left: 200px; */
   height: 170px;
   width: 280px;
 }
@@ -375,7 +368,6 @@ ul {
   border: 1px solid #bab2b5;
   border-radius: 11.5px;
   margin: 10px 70px 10px 70px;
-  /* width: 100%; */
   background: white;
   min-width: 65vw;
 }

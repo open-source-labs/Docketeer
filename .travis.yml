@@ -9,6 +9,9 @@ env:
 notifications:
   email: false
 
+install:
+  - yarn
+
 # cache some files for faster builds
 cache:
   yarn: true
@@ -28,4 +31,4 @@ script:
 branches:
   only:
     - master
-    - production-test
+    - production

@@ -1,2 +1,2 @@
-//This is only for testing
+// This is only for testing
 module.exports = {};

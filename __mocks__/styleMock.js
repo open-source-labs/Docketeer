@@ -1,1 +1,2 @@
-module.exports ={};
+//This is only for testing
+module.exports = {};

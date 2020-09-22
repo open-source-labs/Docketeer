@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../actions/actions";
-import * as helper from "../helper/commands"
+import * as helper from "../helper/commands";
+
 const Images = (props) => {
 
-	const dispatch = useDispatch();
-	const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-	const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-	const imagesList = useSelector((state) => state.lists.imagesList);
-	const runningList = useSelector((state) => state.lists.runningList);
 	const [repo, setRepo] = useState('');
 
 	const handleClick = (e) => {
@@ -16,7 +10,7 @@ const Images = (props) => {
 		helper.pullImage(repo)
 	}
 
-	const renderImagesList = imagesList.map((ele, i) => {
+	const renderImagesList = props.imagesList.map((ele, i) => {
 		//      let objArray = ['resp', 'tag', 'imgid', 'created', 'size'] 
 
 		return (
@@ -30,8 +24,8 @@ const Images = (props) => {
 					<li>Tag : {ele['tag']}</li>
 				</div>
 				<div className="stopped-button">
-					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], runningList, helper.addRunning, addRunningContainers)}>RUN</button>
-					<button className="stop-btn" onClick={() => props.removeIm(ele['imgid'], imagesList, helper.refreshImages, refreshImagesList)}>REMOVE</button>
+					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)}>RUN</button>
+					<button className="stop-btn" onClick={() => props.removeIm(ele['imgid'], props.imagesList, helper.refreshImages, props.refreshImagesList)}>REMOVE</button>
 				</div>
 			</div >
 		)

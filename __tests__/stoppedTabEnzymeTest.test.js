@@ -7,24 +7,39 @@ import Stopped from '../src/components/tabs/Stopped';
 
 configure({ adapter: new Adapter() }); // enzyme
 
-// runningList: [{ block: "1B/2B", cid: "6f49565a501c", cpu: "20.00%", mp: "0.00%", mul: "5B/6B", name: "checkpoint_nginx_1", net: "3B/4B", pids: "0" }],
-//Name: zealous_pare ID: c902ec744095 Img: 84c5f6e03bf0 Created: 2 days ago name: zealous_pare
 function shallowSetup() {
   const props = {
-    runningList: [{ Name: 'zealous', ID: 'c902ec744095', Img: '84c5f6e03bf0', Created: '2 days ago', name: 'zealous_pare'}]
+    stoppedList: [{ Name: 'zealous', ID: 'c902ec744095', Img: '84c5f6e03bf0', Created: '2 days ago', name: 'zealous_pare'}]
   }
   const enzymeWrapper = shallow(<Stopped {...props} />);
+
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 
 describe('Stopped containers are being rendered', () => {
   // Setup wrapper and assign props.
-  const { enzymeWrapper, props } = shallowSetup();
+  const { enzymeWrapper, props} = shallowSetup();
   it('Should render <div> tag in Stopped', () => {
     expect(enzymeWrapper.type()).toEqual('div');
   })
   
-  });  
+    it('Should have className run-btn in Stopped component', () => {
+        expect(enzymeWrapper.find('.stopped-button').props().children[0].props.className).toEqual('run-btn')
+    })
+    
+    it('ClassName run-btn in Stopped component have onClick function', () => {
+        expect(enzymeWrapper.find('.stopped-button').props().children[0].props.onClick).toBeDefined()
+    })
+
+    it('Should have className stop-btn in Stopped component', () => {
+        expect(enzymeWrapper.find('.stopped-button').props().children[1].props.className).toEqual('stop-btn')
+    })
+    
+    it('ClassName stop-btn in Stopped component have onClick function', () => {
+        expect(enzymeWrapper.find('.stopped-button').props().children[1].props.onClick).toBeDefined()
+    })
+});  
+

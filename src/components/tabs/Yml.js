@@ -5,17 +5,13 @@ import * as helper from "../helper/commands";
 import ModalDisplay from "../display/ModalDisplay";
 import NetworkChildrenList from "./NetworkChildrenList";
 
-const Yml = () => {
+const Yml = (props) => {
   // cant read add eventlistner of null
 
   const [filepath, setFilepath] = useState("");
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
-
-  const dispatch = useDispatch();
-  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const networkList = useSelector((state) => state.lists.networkList);
 
   useEffect(() => {
     let holder = document.getElementById("drag-file");
@@ -82,12 +78,12 @@ const Yml = () => {
    */
   const NetworkDisplay = () => {
 	  
-    if (networkList.length) {
+    if (props.networkList.length) {
       let newArray = [];
 	  //First iteration of network List
 	  console.log('I am ehre')
-      for (let i = 0; i < networkList.length; i++) {
-        let keys = Object.keys(networkList[i]); // save keys in this format ["parentName"]
+      for (let i = 0; i < props.networkList.length; i++) {
+        let keys = Object.keys(props.networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];
         newArray.push(
           <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
@@ -95,7 +91,7 @@ const Yml = () => {
               <p>Network: {parent}</p>
             </div>
             <NetworkChildrenList
-              networkList={networkList[i]}
+              networkList={props.networkList[i]}
               parent={keys[0]}
             />
           </div>
@@ -126,7 +122,7 @@ const Yml = () => {
 						id="btn"
 						className="btn"
 						onClick={() => {
-							helper.connectContainers(filepath, composeymlFiles, setModalValid, setModalErrormessage)
+							helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
 							document.getElementById("drag-file").style = "background-color: white";
 							setfileList("");
 						}}

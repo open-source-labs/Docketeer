@@ -8,24 +8,23 @@ import { render } from "react-dom";
 import "../../css/metric.css";
 
 const Metrics = (props) => {
-	const runningList = useSelector((state) => state.lists.runningList);
-	console.log("runningList", runningList);
-	let result = convertToMetricsArr(runningList);
-	let cpuData = (100 - result[0]).toFixed(2);
-	let memoryData = (100 - result[1]).toFixed(2);
-	// let differnce3 = result[2][0];
-	// let differnce4 = result[3][0];
-	const cpu = {
-		labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
-		datasets: [
-			{
-				label: "CPU",
-				backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
-				// hoverBackgroundColor: ["#4B5000", "#501800"],
-				data: [cpuData, result[0]],
-			},
-		],
-	};
+  //const runningList = useSelector((state) => state.lists.runningList);
+  let result = convertToMetricsArr(props.runningList);
+  let cpuData = (100 - result[0]).toFixed(2);
+  let memoryData = (100 - result[1]).toFixed(2);
+  // let differnce3 = result[2][0];
+  // let differnce4 = result[3][0];
+  const cpu = {
+    labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
+    datasets: [
+      {
+        label: "CPU",
+        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
+        // hoverBackgroundColor: ["#4B5000", "#501800"],
+        data: [cpuData, result[0]],
+      },
+    ],
+  };
 
 	const memory = {
 		labels: [`Available: ${memoryData}%`, `Usage: ${result[1].toFixed(2)}%`],

@@ -13,6 +13,8 @@ const Yml = (props) => {
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
 
+  const [color, setColor] = useState("");
+
   useEffect(() => {
     let holder = document.getElementById("drag-file");
     let uploadHolder = document.getElementById("uploadFile");
@@ -80,8 +82,7 @@ const Yml = (props) => {
 	  
     if (props.networkList.length) {
       let newArray = [];
-	  //First iteration of network List
-	  console.log('I am ehre')
+	    //First iteration of network List
       for (let i = 0; i < props.networkList.length; i++) {
         let keys = Object.keys(props.networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];
@@ -123,7 +124,6 @@ const Yml = (props) => {
 						className="btn"
 						onClick={() => {
 							helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
-							document.getElementById("drag-file").style = "background-color: white";
 							setfileList("");
 						}}
 					>

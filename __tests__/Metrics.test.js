@@ -21,7 +21,7 @@ function shallowSetup() {
   };
 }
 
-describe('Shallow rendered Metrics for Pie chart', () => {
+describe('Shallow rendered Metrics for chart', () => {
   // Setup wrapper and assign props.
 
   const { enzymeWrapper, props } = shallowSetup();

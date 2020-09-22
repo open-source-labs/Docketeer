@@ -431,7 +431,7 @@ export const connectContainers = (
   });
 };
 
-export const displayNetwork = (callback) => {
+export const displayNetwork =  (callback) =>  {
   exec("docker network ls", (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -463,21 +463,8 @@ export const displayNetwork = (callback) => {
         console.log(`stderr: ${stderr}`);
         return;
       }
-      //console.log(stdout);
       let parsedArr = JSON.parse(stdout);
 
-      // [
-      //	{parentName: 
-      //		[{cid: 21312, name: sdfew},
-      //		{cid: 21312, name: sdfew},
-      //		{cid: 21312, name: //sdfew}]
-      //	},
-      //	{parentName: 
-      //		[{cid: 21312, name: sdfew},
-      //		{cid: 21312, name: sdfew},
-      //		{cid: 21312, name: //sdfew}]
-      //	}
-      // ]
       let obj = {}
       const final = [];
       for (let i = 0; i < parsedArr.length; i++) {
@@ -490,38 +477,19 @@ export const displayNetwork = (callback) => {
       for (let i = 0; i < keys.length; i++) {
         let parent = keys[i]
         let containerKeys = Object.keys(parsedArr[i].Containers);
-        // console.log('containerKeys', containerKeys)
         let networkarrrrs = []
 
         for (let j = 0; j < containerKeys.length; j++) {
-          // console.log('ARRRRR', networkarrs)
           let containerId = containerKeys[j];
-          // console.log('id', containerId);
           let innerObj = { 'cid': containerId, 'name': obj[parent][0][containerId]['Name'] }
           networkarrrrs.push(innerObj)
-          //console.log('inner', networkarrs)
         }
-        // console.log('networkarrs', networkarrrrs);
-
-
         listnetworks[parent] = [];
         listnetworks[parent].push(networkarrrrs);
-        console.log(listnetworks);
-        // final.push(listnetworks[parent])
-        //[{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
-
       }
-
-      console.log("listnetworks", listnetworks);
-      console.log(typeof listnetworks);
       callback(listnetworks);
     });
 
-    // let value = parseContainerFormat.convert(stdout);
-    // let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
-    // let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-
-    //callback(convertedValue);
   });
 
 

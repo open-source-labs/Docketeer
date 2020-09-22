@@ -7,7 +7,7 @@ import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
-import "../css/styles.css";
+// import "../css/styles.css";
 import * as helper from "./helper/commands";
 
 const App = (props) => {

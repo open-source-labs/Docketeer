@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,7 +44,7 @@ const Yml = (props) => {
     };
     uploadHolder.onchange = (e) => {
       e.preventDefault();
-      let uploadYmlFile = e.target.files[0].path; //File Path + Yaml File Name
+      let uploadYmlFile = e.target.files[0].path; // File Path + Yaml File Name
       const filteredUploadYmlArr = uploadYmlFile.split("/");
       let uploadYmlFileName =
         filteredUploadYmlArr[filteredUploadYmlArr.length - 1];

@@ -5,13 +5,6 @@ import { exec, spawn } from "child_process";
 
 import parseContainerFormat from "./parseContainerFormat";
 
-// const dispatch = useDispatch();
-// const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-// const removeContainer = (id) => dispatch(actions.removeContainer(id));
-// const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
-// const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
-// const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
-// const addExistingImages = (data) => dispatch(actions.getImages(data))
 
 // on app start-up, get the containers that are already running by calling addRunning
 export const addRunning = (runningList, callback) => {
@@ -91,7 +84,6 @@ export const addStopped = (stoppedList, callback) => {
     }
     if (newList.length > 0) {
       callback(newList);
-      // addStoppedContainers(newList)
     }
   });
 };
@@ -137,7 +129,6 @@ export const addImages = (imagesList, callback) => {
     }
     if (newList.length > 0) {
       callback(newList);
-      // addExistingImages(newList)
     }
   });
 };
@@ -220,7 +211,6 @@ export const refreshImages = (callback) => {
 
 
     callback(convertedValue);
-    // addExistingImages(newList)
   });
 };
 
@@ -235,7 +225,6 @@ export const remove = (id, callback) => {
       return;
     }
     callback(id);
-    // removeContainer(id);
   });
 };
 
@@ -250,7 +239,6 @@ export const stop = (id, callback) => {
       return;
     }
     callback(id);
-    // stopRunningContainer(id);
   });
 };
 
@@ -278,7 +266,6 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    // callback_1(id)
     callback_1(runningList, callback_2);
   });
 };
@@ -333,31 +320,22 @@ export const connectContainers = (
   callback_2,
   callback_3
 ) => {
-  // We still need to get a file path from a user
   let child = spawn(
     `cd ${filepath} && docker-compose up -d && docker network ls`,
     {
       shell: true,
     }
   );
-  // const array = []; //networkname
   let newNetwork = "";
   child.stderr.on("data", function (data) {
-    // console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
 
     let output = data.toString(); // change buffer to string
     let temp = output.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
     if (temp) newNetwork = temp;
   });
-  // child.stdout.on("data", function (data) {
-  //   console.log("STDOUT:", data.toString());
-  // });
+  
 
   child.on("exit", function (exitCode) {
-    // console.log("Child exited with code: " + exitCode);
-    // console.log(typeof exitCode);
-    // console.log('Array: ', array);
-
     if (exitCode !== 0) {
       console.log("There was an error while executing docker-compose");
       callback_2(true);

@@ -44,10 +44,20 @@ describe('Shallow rendered for Docker Compose Up', () => {
         wrapper = shallowSetup();
       });
     
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+//     afterEach(() => {
+//         jest.clearAllMocks();
+//     });
 
+<<<<<<< HEAD
+//     it('should render ', () => {
+//         // wrapper = wrapper.enzymeWrapper;
+        
+//         // expect(wrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
+//         // // expect(props.fetchAuthors).toHaveBeenCalled();
+//         // console.log(wrapper.find('.fileList').text())
+//     });
+//   });
+=======
     it('should render the Docker Compose Up button properly', () => {
         wrapper = wrapper.enzymeWrapper;
         
@@ -56,3 +66,4 @@ describe('Shallow rendered for Docker Compose Up', () => {
         // console.log(wrapper.find('.fileList').text())
     });
   });
+>>>>>>> 1eb26eb28fbd2bd8cddf1dd7ae8c31176dd9ab30

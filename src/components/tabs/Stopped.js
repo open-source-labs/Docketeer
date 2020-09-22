@@ -25,7 +25,7 @@ const Stopped = (props) => {
 
 		)
 	});
-
+	
 	return (
 		<div className="renderContainers">
 			<div className="header">

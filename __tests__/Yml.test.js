@@ -33,9 +33,17 @@ function shallowSetup() {
 }
 
 describe('Shallow rendered for Docker Compose Up', () => {
+    let wrapper;     
 
-    // global.doSomethingWithAPromise = () => Promise.resolve();
-    const { enzymeWrapper, props } = shallowSetup();
+    beforeEach(() => {
+        // const mockUseEffect = jest.fn();
+        // React.useEffect = mockUseEffect;
+        wrapper = shallowSetup();
+      });
+    
+//     afterEach(() => {
+//         jest.clearAllMocks();
+//     });
 
     it('should render the Docker Compose Up button properly', () => {
 

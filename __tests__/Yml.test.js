@@ -32,14 +32,11 @@ function shallowSetup() {
 }
 
 describe('Shallow rendered for Docker Compose Up', () => {
-    let wrapper;     
 
-    beforeEach(() => {
-        wrapper = shallowSetup();
-      });
+    const { enzymeWrapper, props } = shallowSetup();
     
     it('should render the Docker Compose Up button properly', () => {
-
+      
       expect(enzymeWrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
       expect(enzymeWrapper.find('button').props().className).toEqual('btn');
       expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
@@ -47,6 +44,7 @@ describe('Shallow rendered for Docker Compose Up', () => {
     });
 
     it('should render the NetworkDisplay properly', () => {
+      
       expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
     })
   });

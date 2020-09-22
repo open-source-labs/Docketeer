@@ -1,33 +1,20 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import * as helper from "../helper/commands";
 import "../../css/running.css";
-import * as actions from "../../actions/actions";
 import { Bar } from "react-chartjs-2";
 import ToggleDisplay from "../display/ToggleDisplay";
 
 const Running = (props) => {
-	const dispatch = useDispatch();
-	const stopRunningContainer = (id) =>
-		dispatch(actions.stopRunningContainer(id));
-	const runningList = useSelector((state) => state.lists.runningList);
-	const [run, setRun] = useState("");
-	const addRunningContainers = (data) =>
-		dispatch(actions.addRunningContainers(data));
 
-	// const toggleRunning = (id) => dispatch(actions.toggleRunning(id));
+	const [run, setRun] = useState("");
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		props.runIm(run, runningList, helper.addRunning, addRunningContainers);
+		props.runIm(run, props.runningList, helper.addRunning, props.addRunningContainers);
 	};
 
-	// const toggleClick = (id) => {
-	// 	toggleRunning(id);
-	// 	console.log(runningList);
-	// }
 	//['cid', 'name', 'cpu', 'mul', 'mp', 'net', 'block', 'pids']
-	const renderRunningList = runningList.map((ele, i) => {
+	const renderRunningList = props.runningList.map((ele, i) => {
 		let cpuData = parseFloat(
 			ele["cpu"].substring(0, ele["cpu"].length - 1)
 		).toFixed(2);
@@ -125,7 +112,7 @@ const Running = (props) => {
 				<div className="box-button box-button-running">
 					<button
 						className="stop-btn"
-						onClick={() => props.stop(ele["cid"], stopRunningContainer)}
+						onClick={() => props.stop(ele["cid"], props.stopRunningContainer)}
 					>
 						STOP
           </button>

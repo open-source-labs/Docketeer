@@ -4,18 +4,18 @@ const { app, BrowserWindow } = electron;
 let mainWindow;
 
 app.on("ready", () => {
-  mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-      allowRendererProcessReuse: false
-    },
-  });
-  
-  mainWindow.on("closed", function () {
-    mainWindow = null;
-  });
+	mainWindow = new BrowserWindow({
+		width: 1300,
+		height: 800,
+		webPreferences: {
+			nodeIntegration: true,
+			allowRendererProcessReuse: false
+		},
+	});
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+	mainWindow.on("closed", function () {
+		mainWindow = null;
+	});
+
+	mainWindow.loadURL(`file://${__dirname}/index.html`);
 });

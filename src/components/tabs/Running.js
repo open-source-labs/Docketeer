@@ -14,7 +14,7 @@ const Running = (props) => {
 		props.runIm(run, props.runningList, helper.addRunning, props.addRunningContainers);
 	};
 
-	const renderRunningList = props.runningList.map((ele, i) => {
+	let renderRunningList = props.runningList.map((ele, i) => {
 		let cpuData = parseFloat(
 			ele["cpu"].substring(0, ele["cpu"].length - 1)
 		).toFixed(2);
@@ -43,6 +43,8 @@ const Running = (props) => {
 				},
 			],
 		}
+		console.log(renderRunningList);
+		if (renderRunningList.length === 0) renderRunningList = [<span>There are no running containers.</span>];
 
 		return (
 			<div className="box box-running" key={`runningBox${i}`}>

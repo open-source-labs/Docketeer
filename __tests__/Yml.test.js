@@ -8,43 +8,43 @@ configure({ adapter: new Adapter() });
 
 function shallowSetup() {
 
-    const props = {
-        networkList:     [{
-            "a": [
-                {"cid": "1", "name": "conatiner1"},
-                {"cid": "2", "name": "container2"}
-                ]
-        },
-        {
-            "b": [
-                {"cid": "3", "name": "container3"},
-                {"cid": "4", "name": "container4"}
-                ]
-        }],
-    }
+	const props = {
+		networkList: [{
+			"a": [
+				{ "cid": "1", "name": "conatiner1" },
+				{ "cid": "2", "name": "container2" }
+			]
+		},
+		{
+			"b": [
+				{ "cid": "3", "name": "container3" },
+				{ "cid": "4", "name": "container4" }
+			]
+		}],
+	}
 
-  const enzymeWrapper = shallow(<Yml {...props} />);
+	const enzymeWrapper = shallow(<Yml {...props} />);
 
-  return {
-    props,
-    enzymeWrapper
-  };
+	return {
+		props,
+		enzymeWrapper
+	};
 }
 
 describe('Shallow rendered for Docker Compose Up', () => {
 
-    const { enzymeWrapper, props } = shallowSetup();
-    
-    it('should render the Docker Compose Up button properly', () => {
-      
-      expect(enzymeWrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
-      expect(enzymeWrapper.find('button').props().className).toEqual('btn');
-      expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
+	const { enzymeWrapper, props } = shallowSetup();
 
-    });
+	it('should render the Docker Compose Up button properly', () => {
 
-    it('should render the NetworkDisplay properly', () => {
-      
-      expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
-    })
-  });
+		expect(enzymeWrapper.containsMatchingElement(<button>Docker Compose Up</button>)).toBe(true);
+		expect(enzymeWrapper.find('button').props().className).toEqual('btn');
+		expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
+
+	});
+
+	it('should render the NetworkDisplay properly', () => {
+
+		expect(enzymeWrapper.find('.containers').text()).toEqual('<NetworkDisplay />')
+	})
+});

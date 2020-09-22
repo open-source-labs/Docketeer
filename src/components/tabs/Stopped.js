@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 const Stopped = (props) => {
@@ -6,7 +7,6 @@ const Stopped = (props) => {
 		return (
 			<div className="box" key={`stoppedBox${i}`}>
 				<div className="stopped-header">
-					{/* <header><i class="fas fa-ban"></i> STOPPED</header> */}
 					<span>Name: {ele['name']}</span>
 					<span>ID: {ele['cid']}</span>
 				</div>

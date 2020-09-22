@@ -66,6 +66,8 @@
 		"electron-redux-devtools": "^0.3.4",
 		"enzyme-adapter-react-16": "^1.15.4",
 		"enzyme-to-json": "^3.5.0",
+		"eslint": "^7.9.0",
+		"eslint-plugin-react": "^7.20.6",
 		"react-test-renderer": "^16.13.1",
 		"redux-thunk": "^2.3.0"
 	},

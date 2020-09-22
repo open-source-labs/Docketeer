@@ -6,7 +6,6 @@ import Metrics from '../src/components/tabs/Metrics';
 // Newer Enzyme versions require an adapter to a particular version of React
 configure({ adapter: new Adapter() });
 
-// runningList: [{ block: "1B/2B", cid: "6f49565a501c", cpu: "20.00%", mp: "0.00%", mul: "5B/6B", name: "checkpoint_nginx_1", net: "3B/4B", pids: "0" }],
 function shallowSetup() {
 
   const props = {

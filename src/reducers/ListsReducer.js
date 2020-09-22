@@ -1,7 +1,6 @@
 import * as types from "../constants/actionTypes";
 
 const initialState = {
-	//tbd about having two arrays,
 	imagesList: [],
 	runningList: [],
 	stoppedList: [],
@@ -54,7 +53,6 @@ const listsReducer = (state = initialState, action) => {
 			const newStoppedList4 = [];
 			for (let container of state.stoppedList) {
 				if (container.cid === action.payload) {
-					// newRunningList3.push(container)
 				} else {
 					newStoppedList4.push(container);
 				}
@@ -116,7 +114,6 @@ const listsReducer = (state = initialState, action) => {
 			for (let i = 0; i < keys.length; i++) {
 				console.log("action.payload[keys[i]]: ", action.payload[keys[i]])
 				let newKey = keys[i]
-				//console.log("newKey", newKey);
 				let obj = {}
 				obj[newKey] = action.payload[keys[i]];
 				newNetworkList2.push(obj);

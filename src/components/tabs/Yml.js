@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
@@ -6,14 +7,11 @@ import ModalDisplay from "../display/ModalDisplay";
 import NetworkChildrenList from "./NetworkChildrenList";
 
 const Yml = (props) => {
-  // cant read add eventlistner of null
 
   const [filepath, setFilepath] = useState("");
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
-
-  const [color, setColor] = useState("");
 
   useEffect(() => {
     let holder = document.getElementById("drag-file");
@@ -57,9 +55,6 @@ const Yml = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-	  //helper.displayNetwork();
-  }, [])
   /**
    * networkList is array from the redux store
    * Only display relationship of containers when networkList's length is more than 1
@@ -82,7 +77,6 @@ const Yml = (props) => {
 	  
     if (props.networkList.length) {
       let newArray = [];
-	    //First iteration of network List
       for (let i = 0; i < props.networkList.length; i++) {
         let keys = Object.keys(props.networkList[i]); // save keys in this format ["parentName"]
         let parent = keys[0];

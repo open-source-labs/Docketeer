@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import * as helper from "../helper/commands";
 
@@ -11,7 +12,6 @@ const Images = (props) => {
 	}
 
 	const renderImagesList = props.imagesList.map((ele, i) => {
-		//      let objArray = ['resp', 'tag', 'imgid', 'created', 'size'] 
 
 		return (
 			<div className="box" key={`imageBox${i}`}>
@@ -27,38 +27,11 @@ const Images = (props) => {
 					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)}>RUN</button>
 					<button className="stop-btn" onClick={() => props.removeIm(ele['imgid'], props.imagesList, helper.refreshImages, props.refreshImagesList)}>REMOVE</button>
 				</div>
-			</div >
+			</div>
 		)
 	});
 
-	// const hello = () => {
-	// 	console.log('hello')
-	// }
-
-	// const removeImageHandler = (id, callback) => {
-	// 	//props.removeIm(id, callback)
-	// 	let p = new Promise((resolve) => {
-	// 		let value = props.removeIm(id, callback)
-	// 		resolve(value);
-	// 	})
-	// 	p.then(res => res)
-	// 		.then(result => {
-	// 			console.log('result', result)
-	// 		});
-
-
-
-	// 	//console.log(valid);
-
-	// }
-
 	return (
-		// <div>
-		// 	<div className="renderContainers">
-		// 		{renderImagesList}
-		// 	</div>
-		// </div>
-
 		<div className="renderContainers">
 			<div className="header">
 				<span className="tabTitle">Images</span>

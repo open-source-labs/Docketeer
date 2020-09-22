@@ -59,9 +59,9 @@ export const addStopped = (stoppedList, callback) => {
 
     let value = parseContainerFormat.convert(stdout);
 
-    //value => array
+    // value => array
     const result = [];
-    //tempoary we will have it as manual number
+    // tempoary we will have it as manual number
     for (let i = 0; i < value.length; i++) {
       let innerArray = [];
       innerArray.push(value[i][0]); // id
@@ -278,7 +278,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    //callback_1(id)
+    // callback_1(id)
     callback_1(runningList, callback_2);
   });
 };
@@ -333,14 +333,14 @@ export const connectContainers = (
   callback_2,
   callback_3
 ) => {
-  //We still need to get a file path from a user
+  // We still need to get a file path from a user
   let child = spawn(
     `cd ${filepath} && docker-compose up -d && docker network ls`,
     {
       shell: true,
     }
   );
-  //const array = []; //networkname
+  // const array = []; //networkname
   let newNetwork = "";
   child.stderr.on("data", function (data) {
     // console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
@@ -368,7 +368,7 @@ export const connectContainers = (
         callback_2(true);
         callback_3("Your docker-compose is already defined");
       } else {
-        //Inspect to get the network information
+        // Inspect to get the network information
         exec(
           `docker network inspect ${newNetwork}`,
           (error, stdout, stderr) => {
@@ -407,17 +407,17 @@ export const connectContainers = (
                 let composeValue = parseContainerFormat.convertArrToObj(
                   value,
                   objArray
-                ); //[{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
+                ); // [{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
                 let savedArr = [];
                 let networks = {};
                 networks[newNetwork] = [];
                 networks[newNetwork].push(composeValue);
-                //[{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
+                // [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
 
                 savedArr.push(networks);
                 callback(savedArr);
 
-                //parentName => array[0]
+                // parentName => array[0]
                 //         state = [
                 //         {parentName: [{cid: 123213, name: xxxx}, {cid:1564654, name: yyyyyy}]},
                 //         {anotherParent: [{}]}

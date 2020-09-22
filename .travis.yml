@@ -27,3 +27,4 @@ script:
 branches:
   only:
     - master
+    - production

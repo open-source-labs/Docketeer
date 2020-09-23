@@ -29,7 +29,6 @@ function shallowSetup() {
 }
 
 describe('Running containers are being rendered', () => {
-	// Setup wrapper and assign props.
 	const { enzymeWrapper, props } = shallowSetup();
 	it('Should render <div> tag that has class renderContainers in Running', () => {
 		expect(enzymeWrapper.type()).toEqual('div');
@@ -39,11 +38,6 @@ describe('Running containers are being rendered', () => {
 	it('Should render the correct number of containers', () => {
 		expect(enzymeWrapper.find('.containers').children().length).toEqual(1);
 	});
-
-	// it('Should render the correct number of containers when a container is stopped', () => {
-	// 	expect(enzymeWrapper.find('.stop-btn').simulate('click'));
-	// 	expect(enzymeWrapper.find('.containers').children().length).toEqual(0);
-	// });
 
 	it('Should render a button with className run-btn with the text "Run"', () => {
 		expect(enzymeWrapper.find('.run-btn').text()).toEqual('Run');

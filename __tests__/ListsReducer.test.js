@@ -77,7 +77,6 @@ describe('Dockeeter reducer', () => {
 			newState = subject(newState, action);
 			expect(newState.runningList[0].cid).toEqual('456');
 
-			// expect(subject(newState, action).stoppedList[0].cid).toEqual('123');
 		});
 	});
 
@@ -98,7 +97,6 @@ describe('Dockeeter reducer', () => {
 				imagesList: [{ imgid: '123' }, { imgid: '456' }]
 			}
 			const action = { type: 'REMOVE_IMAGE', payload: '123' }
-			// expect(subject(newState, action).imagesList[0].imgid).toEqual('456');
 		});
 	});
 

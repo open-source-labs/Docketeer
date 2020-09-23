@@ -6,6 +6,7 @@ import App from '../components/App';
 import '../components/css/styles.css';
 import '../components/css/metric.css';
 import '../components/css/running.css';
+import '../components/css/static.css';
 const fixPath = require('fix-path');
 
 fixPath();

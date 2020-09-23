@@ -96,10 +96,10 @@ npm run test
 
 ## Contributors
 
-- [Dan Lin](https://github.com/ilikecolddrinks) [@Linkedin](https://www.linkedin.com/in/danlin91/)
-- [Kadir Gundogdu](https://github.com/kadirgund) [@Linkedin](https://www.linkedin.com/in/kadirgund/)
-- [Minchan Jun](https://github.com/MinchanJun) [@Linkedin](https://www.linkedin.com/in/minchan-jun/)
-- [Wilmer Sinchi](https://github.com/sinchiw) [@Linkedin](https://www.linkedin.com/in/wilmer-sinchi-143b7681/)
+- Dan Lin [@GitHub](https://github.com/ilikecolddrinks) [@LinkedIn](https://www.linkedin.com/in/danlin91/)
+- Kadir Gundogdu[@GitHub](https://github.com/kadirgund) [@LinkedIn](https://www.linkedin.com/in/kadirgund/)
+- Minchan Jun[@GitHub](https://github.com/MinchanJun) [@LinkedIn](https://www.linkedin.com/in/minchan-jun/)
+- Wilmer Sinchi [@GitHub](https://github.com/sinchiw) [@LinkedIn](https://www.linkedin.com/in/wilmer-sinchi-143b7681/)
 
 
 ## LICENSE

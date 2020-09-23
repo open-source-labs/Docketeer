@@ -1,7 +1,9 @@
 {
   "name": "Docketeer",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "description": "A Docker Visualizer",
+  "author": "Team Docketeer",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
@@ -64,5 +66,9 @@
     "whiteListedModules": [
       "react-redux"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslabs-beta/Docketeer.git"
   }
 }

@@ -14,7 +14,7 @@ const Running = (props) => {
 		props.runIm(run, props.runningList, helper.addRunning, props.addRunningContainers);
 	};
 
-	const renderRunningList = props.runningList.map((ele, i) => {
+	let renderRunningList = props.runningList.map((ele, i) => {
 		let cpuData = parseFloat(
 			ele["cpu"].substring(0, ele["cpu"].length - 1)
 		).toFixed(2);

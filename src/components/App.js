@@ -40,7 +40,7 @@ const App = (props) => {
 			helper.refreshRunning(refreshRunningContainers, runningList);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 3000);
+		}, 5000);
 
 		helper.displayNetwork(getComposeYmlFiles);
 		
@@ -112,7 +112,7 @@ const App = (props) => {
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} removeContainer={removeContainer} runStoppedContainer={runStoppedContainer} stoppedList={stoppedList} />
 					</Route>
 					<Route path="/">
-						<Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers}/>
+						<Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers} />
 					</Route>
 				</Switch>
 			</div>

@@ -1,3 +1,11 @@
-/node_modules
-/build
+.DS_Store
+dist/
+node_modules/
+thumbs.db
+.idea/
 /package-lock.json
+.webpack.config.js.icloud
+src/.index.js.icloud
+src/.store.js.icloud
+src/components/display/.RunningContainers.js.icloud
+src/components/display/.StoppedContainers.js.icloud

@@ -7,10 +7,11 @@ import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
-import "../css/styles.css";
 import * as helper from "./helper/commands";
+import Docketeer from '../../assets/docketeer-title.png';
 
 const App = (props) => {
+
 	const dispatch = useDispatch();
 	const addRunningContainers = (data) =>
 		dispatch(actions.addRunningContainers(data));
@@ -31,6 +32,7 @@ const App = (props) => {
 	const networkList = useSelector((state) => state.lists.networkList);
 
 	const [selected, setSelected] = useState('/');
+	const [color, setColor] = useState(false);
 
 	useEffect(() => {
 
@@ -38,10 +40,10 @@ const App = (props) => {
 			helper.refreshRunning(refreshRunningContainers, runningList);
 			helper.refreshStopped(refreshStoppedContainers);
 			helper.refreshImages(refreshImagesList)
-		}, 3000);
+		}, 5000);
 
 		helper.displayNetwork(getComposeYmlFiles);
-
+		
 
 		return () => clearInterval(interval);
 	}, [])
@@ -51,15 +53,17 @@ const App = (props) => {
 		borderTopRightRadius: "10px",
 		borderBottomRightRadius: "10px",
 	}
+
 	return (
 		<Router>
 			<div className="container">
 				<nav className="tab">
-					<header id="title">Docketeer</header>
+					<header id="title"><img src={Docketeer} width={140}/></header>
 					<div className="viewsAndButton">
 						<ul>
 							<li >
-								<Link to="/" style={selected === "/" ? selectedStyling : {}} onClick={() => { setSelected((sel) => '/') }}>
+								<Link to="/" style={selected === "/" ? selectedStyling : {}	
+								} onClick={() => { setSelected((sel) => '/') }}>
 									<i className="fas fa-box-open"></i> Running Containers
                 </Link>
 							</li>
@@ -108,7 +112,7 @@ const App = (props) => {
 						<Stopped runStopped={helper.runStopped} remove={helper.remove} removeContainer={removeContainer} runStoppedContainer={runStoppedContainer} stoppedList={stoppedList} />
 					</Route>
 					<Route path="/">
-						<Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers}/>
+						<Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers} />
 					</Route>
 				</Switch>
 			</div>

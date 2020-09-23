@@ -155,7 +155,6 @@ export const refreshRunning = (callback, runningList) => {
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
-		console.log(convertedValue)
 		callback(convertedValue);
 	});
 };

@@ -8,7 +8,7 @@ Managing Docker images, containers and networks from the command line while also
 
 ### Get Started
 
-Getting started with Docketeer is easy: visit docketeer.io and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running.
+Getting started with Docketeer is easy: visit [docketeer]https://www.docketeer.io/ and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running.
 
 
 

@@ -8,6 +8,7 @@ import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
 import * as helper from "./helper/commands";
+import Docketeer from '../../assets/docketeer-title.png';
 
 const App = (props) => {
 
@@ -57,7 +58,7 @@ const App = (props) => {
 		<Router>
 			<div className="container">
 				<nav className="tab">
-					<header id="title">Docketeer</header>
+					<header id="title"><img src={Docketeer} width={140}/></header>
 					<div className="viewsAndButton">
 						<ul>
 							<li >

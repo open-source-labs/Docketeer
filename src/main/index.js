@@ -22,7 +22,7 @@ function createMainWindow() {
   })
 
   splash = new BrowserWindow({width: 810, height: 610, transparent: true, frame: false, alwaysOnTop: true})
-  splash.loadFile('../../assets/splash.png')
+  splash.loadFile('../../assets/splash2.png')
 
   setTimeout(() => {
     splash.destroy();

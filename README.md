@@ -54,7 +54,7 @@ On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml 
 
 ### Development
 
-All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and first
+All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and execute the following commands:
 
 ```
 npm install
@@ -91,3 +91,13 @@ npm run test
 - Jest: Testing framework
 - Enzyme: Testing utility
 - ESLint: Linter
+
+
+### Contributors
+
+- [Dan Lin](https://github.com/ilikecolddrinks)
+- [Kadir Gundogdu](https://github.com/kadirgund)
+- [Minchan Jun](https://github.com/MinchanJun)
+- [Wilmer Sinchi](https://github.com/sinchiw)
+
+

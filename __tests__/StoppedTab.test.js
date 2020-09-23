@@ -20,7 +20,6 @@ function shallowSetup() {
 }
 
 describe('Stopped containers are being rendered', () => {
-  // Setup wrapper and assign props.
   const { enzymeWrapper, props} = shallowSetup();
   it('Should render <div> tag in Stopped', () => {
     expect(enzymeWrapper.type()).toEqual('div');

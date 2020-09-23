@@ -11,6 +11,7 @@ Managing Docker images, containers and networks from the command line while also
 Getting started with Docketeer is easy: visit [docketeer.io](https://www.docketeer.io/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running.
 
 
+## Service providing
 
 ### Running Containers
 
@@ -52,7 +53,7 @@ On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml 
 
 
 
-### Development
+## Development
 
 All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and execute the following commands:
 
@@ -66,7 +67,7 @@ npm run dev
 
 
 
-### Testing
+## Testing
 
 To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal: 
 
@@ -80,7 +81,7 @@ npm run test
 
 
 
-### Built With
+## Built With
 
 - React (Hooks, Router): Frontend library
 - Redux: State management library
@@ -93,7 +94,7 @@ npm run test
 - ESLint: Linter
 
 
-### Contributors
+## Contributors
 
 - [Dan Lin](https://github.com/ilikecolddrinks)
 - [Kadir Gundogdu](https://github.com/kadirgund)
@@ -101,6 +102,6 @@ npm run test
 - [Wilmer Sinchi](https://github.com/sinchiw)
 
 
-### LICENSE
+## LICENSE
 
 Distributed under the MIT License. See LICENSE for more information.

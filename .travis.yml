@@ -9,21 +9,26 @@ env:
 notifications:
   email: false
 
+install:
+  - yarn
+
 # cache some files for faster builds
 cache:
+  yarn: true
   directories:
     - node_modules
 
 # install dependenices
 before-script:
-  - npm install
+  - yarn
 
 # on PRs and merges to master and prod run tests and build the app
 script:
-  - npm test
+  - yarn test
 
 # only run this script on pull requests and merges into
 # the 'master' branches
 branches:
   only:
     - master
+    - production

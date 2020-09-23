@@ -7,10 +7,10 @@ import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
-import "../css/styles.css";
 import * as helper from "./helper/commands";
 
 const App = (props) => {
+
 	const dispatch = useDispatch();
 	const addRunningContainers = (data) =>
 		dispatch(actions.addRunningContainers(data));
@@ -31,6 +31,7 @@ const App = (props) => {
 	const networkList = useSelector((state) => state.lists.networkList);
 
 	const [selected, setSelected] = useState('/');
+	const [color, setColor] = useState(false);
 
 	useEffect(() => {
 
@@ -41,7 +42,7 @@ const App = (props) => {
 		}, 3000);
 
 		helper.displayNetwork(getComposeYmlFiles);
-
+		
 
 		return () => clearInterval(interval);
 	}, [])
@@ -51,6 +52,7 @@ const App = (props) => {
 		borderTopRightRadius: "10px",
 		borderBottomRightRadius: "10px",
 	}
+
 	return (
 		<Router>
 			<div className="container">
@@ -59,7 +61,8 @@ const App = (props) => {
 					<div className="viewsAndButton">
 						<ul>
 							<li >
-								<Link to="/" style={selected === "/" ? selectedStyling : {}} onClick={() => { setSelected((sel) => '/') }}>
+								<Link to="/" style={selected === "/" ? selectedStyling : {}	
+								} onClick={() => { setSelected((sel) => '/') }}>
 									<i className="fas fa-box-open"></i> Running Containers
                 </Link>
 							</li>

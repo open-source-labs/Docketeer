@@ -7,27 +7,18 @@ import { format as formatUrl } from 'url'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
-let splash
+
 let mainWindow
 
 function createMainWindow() {
   const window = new BrowserWindow({
     width: 1300,
     height: 800,
-    show: false,
     webPreferences: {
       nodeIntegration: true,
       allowRendererProcessReuse: false
     },
   })
-
-  splash = new BrowserWindow({width: 810, height: 610, transparent: true, frame: false, alwaysOnTop: true})
-  splash.loadFile('../../assets/splash2.png')
-
-  setTimeout(() => {
-    splash.destroy();
-    mainWindow.show();
-  },4000)
 
   if (isDevelopment) {
     // window.webContents.openDevTools()

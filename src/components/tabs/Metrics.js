@@ -2,7 +2,7 @@
 import React from "react";
 import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie } from "react-chartjs-2";
-import "../../css/metric.css";
+// import "../../css/metric.css";
 
 const Metrics = (props) => {
   let result = convertToMetricsArr(props.runningList);

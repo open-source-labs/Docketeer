@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import * as helper from "../helper/commands";
-import "../../css/running.css";
+// import "../../css/running.css";
 import { Bar } from "react-chartjs-2";
 import ToggleDisplay from "../display/ToggleDisplay";
 
@@ -43,8 +43,6 @@ const Running = (props) => {
 				},
 			],
 		}
-		console.log(renderRunningList);
-		if (renderRunningList.length === 0) renderRunningList = [<span>There are no running containers.</span>];
 
 		return (
 			<div className="box box-running" key={`runningBox${i}`}>

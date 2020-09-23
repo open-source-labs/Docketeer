@@ -19,13 +19,24 @@ On the Metrics tab, you can view the total amount of resources that your contain
 ### Docker Compose
 On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml file to run multi-container applications and view your separate networks.
 
+### Development
+All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and first
+```
+npm install
+```
 
-
+```
+npm run dev
+```
 
 ### Testing
+To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal: 
+```
+npm install
+```
 
-
-### Development
-
+```
+npm run test
+```
 
 

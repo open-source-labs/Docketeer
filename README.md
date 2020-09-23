@@ -101,3 +101,6 @@ npm run test
 - [Wilmer Sinchi](https://github.com/sinchiw)
 
 
+### LICENSE
+
+Distributed under the MIT License. See LICENSE for more information.

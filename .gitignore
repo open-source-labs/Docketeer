@@ -3,7 +3,7 @@ dist/
 node_modules/
 thumbs.db
 .idea/
-/package-lock.json
+package-lock.json
 .webpack.config.js.icloud
 src/.index.js.icloud
 src/.store.js.icloud

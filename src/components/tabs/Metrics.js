@@ -2,8 +2,12 @@
 import React from "react";
 import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie } from "react-chartjs-2";
-// import "../../css/metric.css";
 
+/**
+ * 
+ * @param {*} props 
+ * Display general metrics
+ */
 const Metrics = (props) => {
   let result = convertToMetricsArr(props.runningList);
   let cpuData = (100 - result[0]).toFixed(2);

@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
+/**
+ * 
+ * @param {*} props 
+ * Display all stopped containers with functionality
+ */
 const Stopped = (props) => {
 
 	const renderStoppedList = props.stoppedList.map((ele, i) => {

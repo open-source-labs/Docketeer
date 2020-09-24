@@ -7,6 +7,13 @@ import * as helper from "../helper/commands";
 import ModalDisplay from "../display/ModalDisplay";
 import NetworkChildrenList from "./NetworkChildrenList";
 
+/**
+ * 
+ * @param {*} props 
+ * display all docker-compose network and 
+ * drag and drop or upload functionality
+ * 
+ */
 const Yml = (props) => {
 
   const [filepath, setFilepath] = useState("");

@@ -10,6 +10,11 @@ import Stopped from "./tabs/Stopped";
 import * as helper from "./helper/commands";
 import Docketeer from '../../assets/docketeer-title.png';
 
+/**
+ * 
+ * @param {*} props 
+ * Container component that has all redux logic along with react router
+ */
 const App = (props) => {
 
 	const dispatch = useDispatch();

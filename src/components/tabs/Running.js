@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import * as helper from "../helper/commands";
-// import "../../css/running.css";
 import { Bar } from "react-chartjs-2";
 import ToggleDisplay from "../display/ToggleDisplay";
 
+/**
+ * 
+ * @param {*} props 
+ * Display Running containers
+ */
 const Running = (props) => {
 
 	const [run, setRun] = useState("");

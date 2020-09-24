@@ -5,15 +5,12 @@ import { exec, spawn } from "child_process";
 
 import parseContainerFormat from "./parseContainerFormat";
 
-// const dispatch = useDispatch();
-// const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-// const removeContainer = (id) => dispatch(actions.removeContainer(id));
-// const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
-// const addStoppedContainers = (data) => dispatch(actions.addStoppedContainers(data));
-// const runStoppedContainer = (id) => dispatch(actions.runStoppedContainer(id));
-// const addExistingImages = (data) => dispatch(actions.getImages(data))
-
-// on app start-up, get the containers that are already running by calling addRunning
+/**
+ * 
+ * @param {*} runningList 
+ * @param {*} callback 
+ * on app start-up, get the containers that are already running by calling addRunning
+ */
 export const addRunning = (runningList, callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
@@ -46,6 +43,12 @@ export const addRunning = (runningList, callback) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} stoppedList 
+ * @param {*} callback 
+ * Tracking all stopped containers
+ */
 export const addStopped = (stoppedList, callback) => {
 	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
 		if (error) {
@@ -59,9 +62,8 @@ export const addStopped = (stoppedList, callback) => {
 
 		let value = parseContainerFormat.convert(stdout);
 
-		// value => array
 		const result = [];
-		// tempoary we will have it as manual number
+
 		for (let i = 0; i < value.length; i++) {
 			let innerArray = [];
 			innerArray.push(value[i][0]); // id
@@ -91,11 +93,16 @@ export const addStopped = (stoppedList, callback) => {
 		}
 		if (newList.length > 0) {
 			callback(newList);
-			// addStoppedContainers(newList)
 		}
 	});
 };
 
+/**
+ * 
+ * @param {*} imagesList 
+ * @param {*} callback 
+ * Adding Images
+ */
 export const addImages = (imagesList, callback) => {
 	exec(`docker images`, (error, stdout, stderr) => {
 		if (error) {
@@ -137,11 +144,16 @@ export const addImages = (imagesList, callback) => {
 		}
 		if (newList.length > 0) {
 			callback(newList);
-			// addExistingImages(newList)
 		}
 	});
 };
 
+/**
+ * 
+ * @param {*} callback 
+ * @param {*} runningList 
+ * Running containers will be refreshed every time
+ */
 export const refreshRunning = (callback, runningList) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
@@ -159,6 +171,11 @@ export const refreshRunning = (callback, runningList) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} callback 
+ * Stopped containers will refresh every time
+ */
 export const refreshStopped = (callback) => {
 	exec('docker ps -f "status=exited"', (error, stdout, stderr) => {
 		if (error) {
@@ -190,6 +207,11 @@ export const refreshStopped = (callback) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} callback 
+ * Images will be refreshed every time
+ */
 export const refreshImages = (callback) => {
 	exec(`docker images`, (error, stdout, stderr) => {
 		if (error) {
@@ -220,10 +242,15 @@ export const refreshImages = (callback) => {
 
 
 		callback(convertedValue);
-		// addExistingImages(newList)
 	});
 };
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} callback 
+ * Images will be removed
+ */
 export const remove = (id, callback) => {
 	exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
 		if (error) {
@@ -235,10 +262,15 @@ export const remove = (id, callback) => {
 			return;
 		}
 		callback(id);
-		// removeContainer(id);
 	});
 };
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} callback 
+ * Stop a container on what user selects
+ */
 export const stop = (id, callback) => {
 	exec(`docker stop ${id}`, (error, stdout, stderr) => {
 		if (error) {
@@ -250,10 +282,15 @@ export const stop = (id, callback) => {
 			return;
 		}
 		callback(id);
-		// stopRunningContainer(id);
 	});
 };
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} callback 
+ * Start the container
+ */
 export const runStopped = (id, callback) => {
 	exec(`docker start ${id}`, (error, stdout, stderr) => {
 		if (error) {
@@ -268,6 +305,15 @@ export const runStopped = (id, callback) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} runningList 
+ * @param {*} callback_1 
+ * @param {*} callback_2 
+ * Run Image
+ * 
+ */
 export const runIm = (id, runningList, callback_1, callback_2) => {
 	exec(`docker run ${id}`, (error, stdout, stderr) => {
 		if (error) {
@@ -278,11 +324,18 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
-		// callback_1(id)
 		callback_1(runningList, callback_2);
 	});
 };
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} imagesList 
+ * @param {*} callback_1 
+ * @param {*} callback_2 
+ * Remove Image
+ */
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
 	exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
 		if (error) {
@@ -297,6 +350,11 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} e 
+ * Handling System Prune
+ */
 export const handlePruneClick = (e) => {
 	e.preventDefault();
 	exec("docker system prune --force", (error, stdout, stderr) => {
@@ -309,11 +367,15 @@ export const handlePruneClick = (e) => {
 			return;
 		}
 
-		console.log(stdout);
 	});
 
 };
 
+/**
+ * 
+ * @param {*} repo 
+ * Pull image based on the repo you select
+ */
 export const pullImage = (repo) => {
 	exec(`docker pull ${repo}`, (error, stdout, stderr) => {
 		if (error) {
@@ -327,36 +389,35 @@ export const pullImage = (repo) => {
 	});
 };
 
+/**
+ * 
+ * @param {*} filepath 
+ * @param {*} callback 
+ * @param {*} callback_2 
+ * @param {*} callback_3 
+ * Docker compose command functionality
+ */
 export const connectContainers = (
 	filepath,
 	callback,
 	callback_2,
 	callback_3
 ) => {
-	// We still need to get a file path from a user
 	let child = spawn(
 		`cd ${filepath} && docker-compose up -d && docker network ls`,
 		{
 			shell: true,
 		}
 	);
-	// const array = []; //networkname
 	let newNetwork = "";
 	child.stderr.on("data", function (data) {
-		// console.error("STDERR:", data.toString()); //showing the process but comes out as error for some reason
 
 		let output = data.toString(); // change buffer to string
 		let temp = output.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
 		if (temp) newNetwork = temp;
 	});
-	// child.stdout.on("data", function (data) {
-	//   console.log("STDOUT:", data.toString());
-	// });
 
 	child.on("exit", function (exitCode) {
-		// console.log("Child exited with code: " + exitCode);
-		// console.log(typeof exitCode);
-		// console.log('Array: ', array);
 
 		if (exitCode !== 0) {
 			console.log("There was an error while executing docker-compose");
@@ -412,16 +473,12 @@ export const connectContainers = (
 								let networks = {};
 								networks[newNetwork] = [];
 								networks[newNetwork].push(composeValue);
-								// [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
+								// example format: [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
 
 								savedArr.push(networks);
 								callback(savedArr);
 
-								// parentName => array[0]
-								//         state = [
-								//         {parentName: [{cid: 123213, name: xxxx}, {cid:1564654, name: yyyyyy}]},
-								//         {anotherParent: [{}]}
-								//         ];
+	
 							}
 						);
 					}
@@ -431,6 +488,11 @@ export const connectContainers = (
 	});
 };
 
+/**
+ * 
+ * @param {*} callback 
+ * Display all container network based on docker-compose when the application starts
+ */
 export const displayNetwork = (callback) => {
 	exec("docker network ls", (error, stdout, stderr) => {
 		if (error) {

@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+
+/**
+ * 
+ * @param {*} props 
+ * Display Network children List, presentational component
+ */
 const NetworkChildrenList = (props) => {
     
     let ChildrenList = () => {

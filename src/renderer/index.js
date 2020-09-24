@@ -7,6 +7,11 @@ import '../components/css/styles.css';
 import '../components/css/metric.css';
 import '../components/css/running.css';
 import '../components/css/static.css';
+
+/**
+ * Electron's path configuration is done invoking fixPath
+ * Will not run without this logic
+ */
 const fixPath = require('fix-path');
 
 fixPath();

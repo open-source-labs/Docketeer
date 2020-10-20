@@ -7,6 +7,7 @@ import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
 import Running from "./tabs/Running";
 import Stopped from "./tabs/Stopped";
+import LTMetrics from "./tabs/LTMetrics";
 import * as helper from "./helper/commands";
 import Docketeer from '../../assets/docketeer-title.png';
 
@@ -88,6 +89,11 @@ const App = (props) => {
                 </Link>
 							</li>
 							<li >
+								<Link to="/LTMetrics" style={selected === "/LTMetrics" ? selectedStyling : {}} onClick={() => setSelected('/LTMetrics')} >
+									<i className="fas fa-chart-pie"></i> Long Term Metrics
+                </Link>
+							</li>
+							<li >
 								<Link to="/yml" style={selected === "/yml" ? selectedStyling : {}} onClick={() => setSelected('/yml')} >
 									<i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
@@ -106,6 +112,9 @@ const App = (props) => {
 				<Switch>
 					<Route path="/metrics">
 						<Metrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
+					</Route>
+					<Route path="/LTMetrics">
+						<LTMetrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
 					</Route>
 					<Route path="/yml">
 						<Yml networkList={networkList} composeymlFiles={composeymlFiles} />

@@ -8,12 +8,10 @@ const PORT = 5000;
 // routers
 const notificationsRouter = require('./routes/notifications.js'); //TO BE CHANGED
 
-// application-level middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // route handlers
-// app.use('/notifications', businessesRouter);
 app.use('/test', (req, res) =>{
     console.log('received test request')
     res.status(200).json('test request successfully completed')

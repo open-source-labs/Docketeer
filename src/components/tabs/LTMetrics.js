@@ -14,6 +14,7 @@ const Metrics = (props) => {
   let cpuData = (100 - result[0]).toFixed(2);
 	let memoryData = (100 - result[1]).toFixed(2);
 	const [activeContainer, setActiveContainer] = useState('');
+	const [graphData, setGraphData] = useState([1,2,3,4]);
 
   const cpu = {
     labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
@@ -34,8 +35,9 @@ const Metrics = (props) => {
 		if (containerName === 'Container-a') {
 			data = [10, 80, 30, 40]
 		} else if (containerName === 'Container-b') {
-			data = [110, 180, 130, 140];
+			data = [0, 50, 90, 100, 150, 90, 20];
 		}
+		setGraphData(data);
 		return data;
 	} 
 
@@ -44,7 +46,7 @@ const Metrics = (props) => {
 		datasets: [
 			{
 				label: 'Memory1',
-				 data: [10, 80, 30, 40],
+				 data: graphData,
 				 fill: false
 			},
 		],
@@ -109,7 +111,7 @@ const Metrics = (props) => {
 
 	useEffect(() => {
 		getData(activeContainer);
-	})
+	}, [activeContainer])
 
 	return (
 		<div className="renderContainers">

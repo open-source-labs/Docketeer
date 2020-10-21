@@ -16,37 +16,93 @@ const Metrics = (props) => {
 	const [activeContainer, setActiveContainer] = useState('');
 	const [graphData, setGraphData] = useState([1,2,3,4]);
 
-  const cpu = {
-    labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
-    datasets: [
-      {
-        label: "CPU",
-        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
-        data: [cpuData, result[0]],
-      },
-    ],
-	};
+
 
 
 	// el.target.value
 	const getData = (containerName) => {
 		console.log('ContainerName: ', containerName)
+		console.log('current running containers: ', props.runningList)
+		// db.query(select * from containerStats where containerName = $1) 
+
 		let data = [];
-		if (containerName === 'Container-a') {
-			data = [10, 80, 30, 40]
-		} else if (containerName === 'Container-b') {
-			data = [0, 50, 90, 100, 150, 90, 20];
+		if (containerName === 'compassionate_goldberg') {
+			// data = [	{ 
+			// 					time: "1",
+			// 					block: "0B/0B",
+			// 					cid: "db06b75e6db7",
+			// 					cpu: "4.00%",
+			// 					mp: "0.18%",
+			// 					mul: "2.523MiB/1.945GiB",
+			// 					name: "compassionate_goldberg",
+			// 					net: "50B/0B",
+			// 					pids: "3"
+			// 					}, 
+			// 					{ 
+			// 					time: "2"
+			// 					block: "0B/0B",
+			// 					cid: "d22324b06b75e6db7",
+			// 					cpu: "1.00%",
+			// 					mp: "0.13%",
+			// 					mul: "2.523MiB/1.945GiB",
+			// 					name: "compassionate_goldberg",
+			// 					net: "936B/0B",
+			// 					pids: "3"},
+			// 				]
+		} else if (containerName === 'silly_poincare') {
+			// data = [	{time: '1',
+			// 					block: "0B/0B",
+			// 					cid: "db06b75e6db7",
+			// 					cpu: "4.00%",
+			// 					mp: "0.18%",
+			// 					mul: "2.523MiB/1.945GiB",
+			// 					name: "silly_poincare",
+			// 					net: "50B/0B",
+			// 					pids: "3"}, 
+			// 					{time: '2',
+			// 					block: "0B/0B",
+			// 					cid: "d22324b06b75e6db7",
+			// 					cpu: "1.00%",
+			// 					mp: "0.13%",
+			// 					mul: "2.523MiB/1.945GiB",
+			// 					name: "silly_poincare",
+			// 					net: "936B/0B",
+			// 					pids: "3"},
+			// 					{time: '3',
+			// 					block: "0B/0B",
+			// 					cid: "d22ewe24b06b75e6db7",
+			// 					cpu: "4.00%",
+			// 					mp: "0.63%",
+			// 					mul: "2.823MiB/1.945GiB",
+			// 					name: "silly_poincare",
+			// 					net: "936B/0B",
+			// 					pids: "3"},
+			// 				]
 		}
 		setGraphData(data);
-		return data;
+		return 'data';
 	} 
+
+	let currentList;
+	const selectList = () => {
+		const result = [];
+		props.runningList.forEach(container => {
+			result.push(<option value={container.name}>{container.name}</option>)
+		})
+
+		props.stoppedList.forEach(container => {
+			result.push(<option value={container.name}>{container.name + ' - (Stopped)'}</option>)
+		})
+		currentList = result; 
+	}
+
 
 	const memory = {
 		labels: [`Available: ${memoryData}%`, `Usage: ${result[1].toFixed(2)}%`, 3, 4],
 		datasets: [
 			{
 				label: 'Memory1',
-				 data: graphData,
+				 data: graphData, 
 				 fill: false
 			},
 		],
@@ -108,7 +164,9 @@ const Metrics = (props) => {
 			},
 		},
 	};
-
+	
+	
+	selectList();
 	useEffect(() => {
 		getData(activeContainer);
 	}, [activeContainer])
@@ -121,30 +179,13 @@ const Metrics = (props) => {
 			<div style={{marginTop: "150px"}}> 
 				<label htmlFor="containerSelector">Choose a container:</label>
 				<select name="containerSelector" id="containerSelector" onChange={(e) => setActiveContainer(e.target.value)}>
-					<option value="Container-a">Container A</option>
-					<option value="Container-b">Container B</option>
+					{currentList}
 				</select>
 			</div>
 
 
 			<div className="allCharts">
 				<div className="section">
-
-
-					{/* <div className="pieChart">
-						<Pie data={cpu} options={options2} width={2000} height={1300} />
-						<div className="legend-container">
-							<div className="legend-section">
-								<div className="avaliable-box"></div>
-								<p className="legend-text">Available {cpuData}%</p>
-							</div>
-							<div className="legend-section">
-								<div className="usage-box"></div>
-								<p className="legend-text">Usage {result[0].toFixed(2)}%</p>
-							</div>
-						</div>
-					</div> */}
-
 					<div className="lineChart">
 						<Line data={memory} options={options} width={4000} height={2600} />
 						<div className="legend-container">
@@ -159,20 +200,6 @@ const Metrics = (props) => {
 						</div>
 					</div>
 				</div>
-				{/* <div className="section">
-					<div className="chart-container">
-						<h1 className="chart-title">NET IO:</h1>
-						<p className="chart-number">
-							{result[2][0]}kB / {result[2][1]}kB
-            </p>
-					</div>
-					<div className="chart-container">
-						<h1 className="chart-title">BLOCK IO:</h1>
-						<p className="chart-number">
-							{result[3][0]}B / {result[3][1]}B
-            </p>
-					</div>
-				</div> */}
 			</div>
 		</div>
 	);

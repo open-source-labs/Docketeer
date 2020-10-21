@@ -114,7 +114,7 @@ const App = (props) => {
 						<Metrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
 					</Route>
 					<Route path="/LTMetrics">
-						<LTMetrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
+						<LTMetrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} stoppedList={stoppedList} />
 					</Route>
 					<Route path="/yml">
 						<Yml networkList={networkList} composeymlFiles={composeymlFiles} />

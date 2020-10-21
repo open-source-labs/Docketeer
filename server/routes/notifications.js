@@ -1,34 +1,40 @@
 const express = require('express');
 const { sendSms } = require('../../send_sms');
+const { sendVerification } = require('../../send_verification');
 
 const notificationsRouter = express.Router();
 
 notificationsRouter.postMobile = (req, res, next) => {           
-    const { mobileNumber } = req.body                   // CHECK WITH RICHIE THAT IT WORKS
-    console.log(mobileNumber)
-    // const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
-    const message = 'Your phone number is successfully added to the notification list'
-    sendSms(mobileNumber, message)
+    const notificationChannel = 'sms'
+    // const { mobileNumber } = req.body                   // CHECK WITH RICHIE THAT IT WORKS
+    const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
+    if (mobileNumber === undefined) {
+        return next({
+          log: 'notificationsRouter.postMobile: ERROR: mobile number is undefined',
+          message: { err: 'notificationsRouter.postMobile: ERROR: Check server logs for details' },
+        });
+    }
+    sendVerification(mobileNumber, notificationChannel)
+    // CHECK VERIFICATION CODE FROM TWILIO API AND THE ONE USER TYPES IN
     // ADD SAVING THE PHONE NUMBER TO THE DATABASE
     // ADD UPDATING THE VARIABLE NUMBER HERE (IF NECESSARY) 
-    
-    // CATCH ERROR LOGS
-    
     next()
 }
 
 notificationsRouter.postEvent = (req, res, next) => {           
     // const { triggeringEvent } = req.body                   // CHECK WITH MAT THAT IT WORKS
-    // console.log(triggeringEvent)
     // const { mobileNumber } = req.body                   // CHECK WITH MAT THAT IT WORKS
-    // console.log(mobileNumber)
     // USER MOBILE NUMBER CAN ALSO BE ALWAYS TAKEN FROM THE DATABASE
     const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
     const triggeringEvent = 'Triggering event XXX has happened'
+     // CATCH ERROR LOGS
+    if (mobileNumber === undefined || triggeringEvent === undefined) {
+        return next({
+          log: 'notificationsRouter.postEvent: ERROR: mobile number and/or triggeringEvent is undefined',
+          message: { err: 'notificationsRouter.postEvent: ERROR: Check server logs for details' },
+        });
+    }
     sendSms(mobileNumber, triggeringEvent)
-    
-    // CATCH ERROR LOGS
-
     next()
 }
 

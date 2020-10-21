@@ -19,7 +19,7 @@ app.use('/test', (req, res) =>{
 
 app.post('/mobile', notificationsRouter.postMobile, (req, res) => {
     console.log("received POST mobile number request")
-    res.status(200).json('user mobile number is successfully received')
+    res.status(200).json('verification code has been sent')
 });
 
 app.post('/event', notificationsRouter.postEvent, (req, res) => {

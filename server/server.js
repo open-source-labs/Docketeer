@@ -6,7 +6,7 @@ const app = express();
 const PORT = 5000;
 
 // routers
-// const notificationsRouter = require('./routes/notifications.js'); //TO BE CHANGED
+const notificationsRouter = require('./routes/notifications.js'); //TO BE CHANGED
 
 // application-level middleware
 app.use(bodyParser.json());
@@ -19,6 +19,15 @@ app.use('/test', (req, res) =>{
     res.status(200).json('test request successfully completed')
 });
 
+app.post('/mobile', notificationsRouter.postMobile, (req, res) => {
+    console.log("received POST mobile number request")
+    res.status(200).json('user mobile number is successfully received')
+});
+
+app.post('/event', notificationsRouter.postEvent, (req, res) => {
+    console.log("received POST triggering event request")
+    res.status(200).json('Triggering event is successfully received')
+});
 
 // catch-all route handler
 app.use('*', (req, res) => res.sendStatus(404));

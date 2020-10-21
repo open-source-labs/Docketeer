@@ -1,22 +1,29 @@
-// const express = require('express');
-// const businessesController = require('../controllers/notificationsController.js');
+const express = require('express');
+const { sendSms } = require('../../send_sms');
 
-// const router = express.Router();
+const notificationsRouter = express.Router();
 
-// router.get('/:category', businessesController.getBusinesses, (req, res) => {
-//   /* include lat and lon in query string
-//    *
-//    * example url where 'restaurants' is the category:
-//    * http://localhost:5000/businesses/restaurants?lat=40.712775&lon=-74.005973
-//    *
-//    * server response from the url above should be an array of 5 objects.
-//    * each object contains information on a restaurant
-//    *
-//    * see yelp api documentation for all valid categories
-//    */
+notificationsRouter.postMobile = (req, res, next) => {           
+    // const { mobileNumber } = req.body                   // CHECK WITH RICHIE THAT IT WORKS
+    // console.log(mobileNumber)
+    const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
+    const message = 'Your phone number is successfully added to the notification list'
+    sendSms(mobileNumber, message)
+    // ADD SAVING THE PHONE NUMBER TO THE DATABASE
+    // ADD UPDATING THE VARIABLE NUMBER HERE (IF NECESSARY) 
+    next()
+}
 
-//   const { businesses } = res.locals;
-//   res.status(200).json(businesses);
-// });
+notificationsRouter.postEvent = (req, res, next) => {           
+    // const { triggeringEvent } = req.body                   // CHECK WITH MAT THAT IT WORKS
+    // console.log(triggeringEvent)
+    // const { mobileNumber } = req.body                   // CHECK WITH MAT THAT IT WORKS
+    // console.log(mobileNumber)
+    // USER MOBILE NUMBER CAN ALSO BE ALWAYS TAKEN FROM THE DATABASE
+    const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
+    const triggeringEvent = 'Triggering event XXX has happened'
+    sendSms(mobileNumber, triggeringEvent)
+    next()
+}
 
-// module.exports = router;
+module.exports = notificationsRouter;

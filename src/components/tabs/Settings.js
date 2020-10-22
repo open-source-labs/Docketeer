@@ -28,12 +28,13 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    if (!props.phoneNumber) alert('Please enter phone number');
-
-    let isValidPhone = false;
+    // TODO: form validation
     // TODO: send test notification to phone to check if valid phone
     // do something if valid phone or if invalid phone
-    alert(`Phone: ${props.phoneNumber} is valid`);
+    if (!props.phoneNumber) alert('Please enter phone number');
+    else {
+      alert(`Phone: ${props.phoneNumber} is valid`);
+    }
   }
 
   /**

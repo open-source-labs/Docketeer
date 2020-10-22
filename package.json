@@ -8,7 +8,7 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist-win": "yarn compile && electron-builder --win --x64",
+    "dist-win": "npm run compile && electron-builder --win --x64",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
     "test": "jest --verbose",
     "start": "concurrently \"electron-webpack dev\" \"nodemon server/server.js\"",

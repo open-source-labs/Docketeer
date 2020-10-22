@@ -22,6 +22,8 @@ app.post('/mobile', notificationsRouter.postMobile, (req, res) => {
     res.status(200).json('verification code has been sent')
 });
 
+// add router for checking the verification code the user provides
+
 app.post('/event', notificationsRouter.postEvent, (req, res) => {
     console.log("received POST triggering event request")
     res.status(200).json('Triggering event is successfully received')

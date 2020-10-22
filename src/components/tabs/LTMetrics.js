@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, {useState, useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie, Line } from "react-chartjs-2";
-
+import * as actions from "../../actions/actions";
 
 /**
  * 
@@ -11,35 +12,51 @@ import { Pie, Line } from "react-chartjs-2";
  */
 const Metrics = (props) => {
 	const [activeContainers, setActiveContainers] = useState({});
-	const [axis, setAxis] = useState([]);
-	const [memory, setMemory] = useState([]);
-	const [cpu, setCpu] = useState([]);
+	// const [axis, setAxis] = useState([]);
+	// const [memory, setMemory] = useState([]);
+	// const [cpu, setCpu] = useState([]);
+	const memory = useSelector((state) => state.lists.graphMemory);
+	const cpu = useSelector((state) => state.lists.graphCpu);
+	const axis = useSelector((state) => state.lists.graphAxis);
 
-	const bothLabels = []
+	// {
+		// 			label: activeContainers,
+		// 			 data: cpuData, 
+		// 			 fill: false
+		// 		},
+
+	const dispatch = useDispatch();
+
+	const buildAxis = (data) => dispatch(actions.buildAxis(data));
+	const buildMemory = (data) => dispatch(actions.buildMemory(data));
+	const buildCpu = (data) => dispatch(actions.buildCpu(data));
+
+
+
 	const memoryObj = {
-		labels: bothLabels,
+		labels: axis,
 		datasets: memory,
 	}
 	const cpuObj = {
-		labels: bothLabels,
+		labels: axis,
 		datasets: cpu,
 	}
 
 	const formatData = () => {
+		buildMemory('clear');
+		buildCpu('clear');
+		buildAxis('clear');
 		//if active containers is empty render the empty graphs
 		if (!Object.keys(activeContainers).length) {
-			setMemory([]);
-			setCpu([]);
+
 				return;
 		}
 		// DB QUERY LIKELY GOING HERE
-		const data = [	{time:'1', name: 'amazing_morse', block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "2%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "3", block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}]
-		// reset datasets to empty array
-		setMemory([]);
-		setCpu([]);
+		const data = [	{time:'1', name: 'amazing_morse', block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "6.00%", mp: "2%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "3", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"} ]
 
 		// build two fundtion that will return formated object for each container to in datapoins
 		const cpuBuilder = (containerName) => {
+			if (activeContainers.length > 1) data.push(	{name: 'wizardly_benz', time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'wizardly_benz', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "10.00%", mp: "18.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"});
       const obj = {
         label: containerName,
         data: [],
@@ -60,7 +77,7 @@ const Metrics = (props) => {
 		const auxObj = {}
 
 		// build the auxilary object to hold active container data
-		 
+		 console.log('active containers', activeContainers)
 		Object.keys(activeContainers).forEach(container => {
 			auxObj[container] = {
 				memory: memoryBuilder(container), 
@@ -71,34 +88,20 @@ const Metrics = (props) => {
 		// iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
 		data.forEach((dataPoint) => {
 			const currentContainer = dataPoint.name;
+			console.log('data point', dataPoint)
+			console.log('auxObj', auxObj)
 			auxObj[currentContainer].cpu.data.push(dataPoint.cpu.replace('%', ''))
 			auxObj[currentContainer].memory.data.push(dataPoint.mp.replace('%', ''))
 
-			bothLabels.push(Number(dataPoint.time));
-			console.log('bothLabels: ', bothLabels)
-			// add x data points to 	
-			// const axisCopy = JSON.parse(JSON.stringify(axis));
-			// axisCopy.push(dataPoint.time);
-			// console.log('axisCopy: ',axisCopy)
-			// console.log('datapoint: ',dataPoint)
-			// setAxis(axisCopy);
-			// console.log('here is axis: ', axis)
+			buildAxis(dataPoint.time);
 		});
 
-
-		
 		Object.keys(auxObj).forEach(containerName => {
-			const memoryCopy = JSON.parse(JSON.stringify(memory))
-			memoryCopy.push(auxObj[containerName].memory);
-			setMemory(memoryCopy);
-			
-			const cpuCopy = JSON.parse(JSON.stringify(cpu))
-			cpuCopy.push(auxObj[containerName].cpu);
-			setCpu(cpuCopy);
+		
+			buildMemory([auxObj[containerName].memory]);
+			buildCpu([auxObj[containerName].cpu]);
 		});	
 	}
-
-	
 
 	// Internal Note: maybe want to fix currentList and make a state variable??
 	let currentList;
@@ -162,7 +165,7 @@ const Metrics = (props) => {
 	
 	selectList();
 	useEffect(() => {
-		console.log('both labels before formatData is: ', bothLabels)
+		// console.log('both labels before formatData is: ', bothLabels)
 		formatData();
 	}, [activeContainers])
 

@@ -5,6 +5,17 @@ const initialState = {
 	runningList: [],
 	stoppedList: [],
 	networkList: [],
+	graphAxis: ['a', 'b', 'c'],
+	graphMemory: [{
+		label: 'amazing_morse',
+		data: [1, 2, 3],
+		fill: false
+	}],
+	graphCpu: [{
+		label: 'amazing_morse',
+		data: [2, 4, 6],
+		fill: false
+	}]	
 };
 
 const listsReducer = (state = initialState, action) => {
@@ -103,6 +114,7 @@ const listsReducer = (state = initialState, action) => {
 
 			newnetworkList.push(action.payload[0]);
 			return { ...state, networkList: newnetworkList };
+
 		case types.GET_COMPOSED_YML_FILES:
 			const newNetworkList2 = state.networkList.slice();
 			console.log('action.payload get compose:', action.payload);
@@ -116,7 +128,32 @@ const listsReducer = (state = initialState, action) => {
 				obj[newKey] = action.payload[keys[i]];
 				newNetworkList2.push(obj);
 			}
-			return { ...state, networkList: newNetworkList2 };			
+			return { ...state, networkList: newNetworkList2 };
+			
+			case types.BUILD_AXIS:
+				console.log('action.payload build axis:', action.payload);
+
+				if(action.payload === 'clear') return {...state, graphAxis: []};
+				
+				const newAxis = state.graphAxis.slice(); 
+				newAxis.push(action.payload[0]);
+				return { ...state, graphAxis: newAxis };
+
+			case types.BUILD_MEMORY:
+				console.log('action.payload build memory:', action.payload);
+				if (action.payload === 'clear') return {...state, graphMemory: []};
+				let newMemory = state.graphMemory.slice();
+				
+				newMemory.push(action.payload[0]);
+				return { ...state, graphMemory: newMemory };
+			
+			case types.BUILD_CPU:
+				console.log('action.payload build cpu:', action.payload);
+				if (action.payload === 'clear') return {...state, graphCpu: []};
+				const newCpu = state.graphCpu.slice();
+				newCpu.push(action.payload[0]);
+				return { ...state, graphCpu: newCpu };
+
 		default:
 			return state;
 	}

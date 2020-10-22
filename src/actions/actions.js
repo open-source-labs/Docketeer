@@ -63,4 +63,23 @@ export const composeymlFiles = (data) => ({
 export const getComposeYmlFiles = (data) => ({
 	type: types.GET_COMPOSED_YML_FILES,
 	payload: data,
+	
+});
+
+export const buildAxis = (data) => ({
+	type: types.BUILD_AXIS,
+	payload: data,
+	
+});
+
+export const buildMemory = (data) => ({
+	type: types.BUILD_MEMORY,
+	payload: data,
+	
+});
+
+export const buildCpu = (data) => ({
+	type: types.BUILD_CPU,
+	payload: data,
+	
 });

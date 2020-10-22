@@ -11,104 +11,92 @@ import { Pie, Line } from "react-chartjs-2";
  */
 const Metrics = (props) => {
   let result = convertToMetricsArr(props.runningList);
-  let cpuData = (100 - result[0]).toFixed(2);
-	let memoryData = (100 - result[1]).toFixed(2);
 	const [activeContainer, setActiveContainer] = useState('');
-	const [graphData, setGraphData] = useState([1,2,3,4]);
+	const [dataLabels, setDataLabels] = useState('');
+	const [memoryData, setMemoryData] = useState([1,2,3,4]);
+	const [cpuData, setCpuData] = useState([12,22,33,44]);
+	const dummyData = [	{ time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", name: "compassionate_goldberg", net: "50B/0B", pids: "3"}, { time: "2", block: "0B/0B", cid: "d22324b06b75e6db7", cpu: "1.00%", mp: "0.13%", mul: "2.523MiB/1.945GiB", name: "compassionate_goldberg", net: "936B/0B", pids: "10"},]
 
-
-
-
-	// el.target.value
-	const getData = (containerName) => {
+	const formatData = (containerName, data) => {
 		console.log('ContainerName: ', containerName)
-		console.log('current running containers: ', props.runningList)
-		// db.query(select * from containerStats where containerName = $1) 
+		// DB QUERY LIKELY GOING HERE
+		const memData = data.map(el => el.mp.replace('%', ''));
+		const labelData = data.map(el => el.time);
+		const cpData = data.map(el => el.cpu.replace('%', ''));
 
-		let data = [];
-		if (containerName === 'compassionate_goldberg') {
-			// data = [	{ 
-			// 					time: "1",
-			// 					block: "0B/0B",
-			// 					cid: "db06b75e6db7",
-			// 					cpu: "4.00%",
-			// 					mp: "0.18%",
-			// 					mul: "2.523MiB/1.945GiB",
-			// 					name: "compassionate_goldberg",
-			// 					net: "50B/0B",
-			// 					pids: "3"
-			// 					}, 
-			// 					{ 
-			// 					time: "2"
-			// 					block: "0B/0B",
-			// 					cid: "d22324b06b75e6db7",
-			// 					cpu: "1.00%",
-			// 					mp: "0.13%",
-			// 					mul: "2.523MiB/1.945GiB",
-			// 					name: "compassionate_goldberg",
-			// 					net: "936B/0B",
-			// 					pids: "3"},
-			// 				]
-		} else if (containerName === 'silly_poincare') {
-			// data = [	{time: '1',
-			// 					block: "0B/0B",
-			// 					cid: "db06b75e6db7",
-			// 					cpu: "4.00%",
-			// 					mp: "0.18%",
-			// 					mul: "2.523MiB/1.945GiB",
-			// 					name: "silly_poincare",
-			// 					net: "50B/0B",
-			// 					pids: "3"}, 
-			// 					{time: '2',
-			// 					block: "0B/0B",
-			// 					cid: "d22324b06b75e6db7",
-			// 					cpu: "1.00%",
-			// 					mp: "0.13%",
-			// 					mul: "2.523MiB/1.945GiB",
-			// 					name: "silly_poincare",
-			// 					net: "936B/0B",
-			// 					pids: "3"},
-			// 					{time: '3',
-			// 					block: "0B/0B",
-			// 					cid: "d22ewe24b06b75e6db7",
-			// 					cpu: "4.00%",
-			// 					mp: "0.63%",
-			// 					mul: "2.823MiB/1.945GiB",
-			// 					name: "silly_poincare",
-			// 					net: "936B/0B",
-			// 					pids: "3"},
-			// 				]
-		}
-		setGraphData(data);
-		return 'data';
-	} 
+		console.log('cpu: before: ', cpData)
+		console.log('mem: before: ', memData)
 
+		setMemoryData(memData);
+		setCpuData(cpData);
+		setDataLabels(labelData);
+
+
+		console.log('cpu: After:', cpuData)
+		console.log('mem: After:', memoryData)
+
+	}
+	
+
+	// Internal Note: maybe want to fix currentList and make a state variable??
 	let currentList;
 	const selectList = () => {
 		const result = [];
 		props.runningList.forEach(container => {
-			result.push(<option value={container.name}>{container.name}</option>)
+			// result.push(<option value={container.name}>{container.name}</option>)
+			result.push(<div><label htmlFor={container.name}>{container.name}</label><input name={container.name} type="checkbox" value={container.name}></input></div>)
 		})
-
+		// <input name="container-1" type="checkbox" value="Container-1"></input>
+		// <label htmlFor="container-1">Container 1</label>
 		props.stoppedList.forEach(container => {
-			result.push(<option value={container.name}>{container.name + ' - (Stopped)'}</option>)
+			result.push(<div><label htmlFor={container.name}>{container.name}</label><input name={container.name + "(- Stopped)"} type="checkbox" value={container.name}></input></div>)
 		})
 		currentList = result; 
 	}
 
+	const handleChange = (e) => {
+		console.log('target', e.target)
+	}
 
 	const memory = {
-		labels: [`Available: ${memoryData}%`, `Usage: ${result[1].toFixed(2)}%`, 3, 4],
+		labels: dataLabels,
 		datasets: [
 			{
-				label: 'Memory1',
-				 data: graphData, 
+				label: activeContainer,
+				 data: memoryData, 
 				 fill: false
 			},
 		],
 	};
 
-	let options = {
+	const cpu = {
+		labels: dataLabels,
+		datasets: [
+			{
+				label: activeContainer,
+				 data: cpuData, 
+				 fill: false
+			},
+		],
+	};
+
+	let cpuOptions = {
+		tooltips: {
+			enabled: true,
+			mode: 'index',
+		},
+		title: {
+			display: true,
+			text: "CPU",
+			fontSize: 23,
+		},
+		legend: { display: true, position: "bottom" },
+		responsive: true,
+		maintainAspectRatio: true,
+
+	};
+
+	let memoryOptions = {
 		tooltips: {
 			enabled: true,
 			mode: 'index',
@@ -121,54 +109,11 @@ const Metrics = (props) => {
 		legend: { display: true, position: "bottom" },
 		responsive: true,
 		maintainAspectRatio: true,
-		plugins: {
-			datalabels: {
-				formatter: (value, ctx) => {
-					let sum = 0;
-					let dataArr = ctx.chart.data.datasets[0].data;
-					dataArr.map((data) => {
-						sum += data;
-					});
-					let percentage = ((value * 100) / sum).toFixed(2) + "%";
-					return percentage;
-				},
-				color: "#fff",
-			},
-		},
 	};
-
-	let options2 = {
-		tooltips: {
-			enabled: false,
-		},
-		title: {
-			display: true,
-			text: "CPU",
-			fontSize: 23,
-		},
-		legend: { display: false, position: "bottom" },
-		responsive: true,
-		maintainAspectRatio: true,
-		plugins: {
-			datalabels: {
-				formatter: (value, ctx) => {
-					let sum = 0;
-					let dataArr = ctx.chart.data.datasets[0].data;
-					dataArr.map((data) => {
-						sum += data;
-					});
-					let percentage = ((value * 100) / sum).toFixed(2) + "%";
-					return percentage;
-				},
-				color: "#fff",
-			},
-		},
-	};
-	
 	
 	selectList();
 	useEffect(() => {
-		getData(activeContainer);
+		formatData(activeContainer, dummyData);
 	}, [activeContainer])
 
 	return (
@@ -177,51 +122,44 @@ const Metrics = (props) => {
 				<span className="tabTitle">Metrics</span>
 			</div>
 			<div style={{marginTop: "150px"}}> 
-				<label htmlFor="containerSelector">Choose a container:</label>
-				<select name="containerSelector" id="containerSelector" onChange={(e) => setActiveContainer(e.target.value)}>
+				<form onChange={(e) => {handleChange(e)}}>
 					{currentList}
-				</select>
+				</form>
 			</div>
 
-
 			<div className="allCharts">
-				<div className="section">
+				
+				<div className="line-section">
 					<div className="lineChart">
-						<Line data={memory} options={options} width={4000} height={2600} />
-						<div className="legend-container">
-							<div className="legend-section">
-								<div className="avaliable-box"></div>
-								<p className="legend-text">Available {memoryData}%</p>
-							</div>
-							<div className="legend-section">
-								<div className="usage-box"></div>
-								<p className="legend-text">Usage {result[1].toFixed(2)}%</p>
-							</div>
-						</div>
+						<Line data={memory} options={memoryOptions} width={4000} height={2600} />
 					</div>
 				</div>
+
+				<div className="line-section">
+					<div className="lineChart">
+						<Line data={cpu} options={cpuOptions} width={4000} height={2600} />
+					</div>
+				</div>
+
 			</div>
 		</div>
 	);
 };
 
 export default Metrics;
-//   {
-//   tooltips: {
-//     enabled: false,
-//   },
-//   title: {
-//     display: true,
-//     text: "CPU",
-//     fontSize: 23,
-//   },
-//   legend: { display: true, position: "bottom" },
-//   responsive: false,
-//   maintainAspectRatio: true,
-//   plugins: {
-//     labels: {
-//       render: "percentage",
-//       precision: 2,
-//     },
-//   },
-// }
+
+// block: "0B/0B", 
+// cid: "db06b75e6db7", 
+// cpu: "4.00%", CPU PERCENTAGE
+// mp: "0.18%", MEMORY PERCENTAGE
+// mul: "2.523MiB/1.945GiB", 
+// name: "compassionate_goldberg", 
+// net: "50B/0B", TRANSMITTED / RECEIVED  
+// pids: "3" MAYBE
+
+// write a handleChange function 
+// build state with selected containers --> ['container-1', 'container-2']
+// query db for information based on current selections (for now this will be dummy data)
+// create a object to be pushed into the dataset prop for the respective graph
+// push the object into the graph
+	// component should rerender when update

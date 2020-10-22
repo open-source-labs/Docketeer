@@ -8,9 +8,11 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist-win": "yarn compile && electron-builder --win --x64",
+    "dist-win": "npm run compile && electron-builder --win --x64",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "start": "concurrently \"electron-webpack dev\" \"nodemon server/server.js\"",
+    "temp": "webpack-dev-server --open --mode development"
   },
   "jest": {
     "verbose": true,
@@ -33,13 +35,13 @@
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
+    "node-fetch": "^2.6.1",
     "electron-chartjs": "^1.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-to-json": "^3.5.0",
     "fix-path": "^3.0.0",
     "jest": "^26.4.2",
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
@@ -50,6 +52,7 @@
     "sass-loader": "^10.0.2",
     "source-map-support": "^0.5.19",
     "style-loader": "^1.2.1",
+    "twilio": "^3.50.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },

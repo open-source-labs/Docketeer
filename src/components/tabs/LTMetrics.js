@@ -10,32 +10,92 @@ import { Pie, Line } from "react-chartjs-2";
  * Display general metrics
  */
 const Metrics = (props) => {
-  let result = convertToMetricsArr(props.runningList);
-	const [activeContainer, setActiveContainer] = useState('');
-	const [dataLabels, setDataLabels] = useState('');
-	const [memoryData, setMemoryData] = useState([1,2,3,4]);
-	const [cpuData, setCpuData] = useState([12,22,33,44]);
-	const dummyData = [	{ time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", name: "compassionate_goldberg", net: "50B/0B", pids: "3"}, { time: "2", block: "0B/0B", cid: "d22324b06b75e6db7", cpu: "1.00%", mp: "0.13%", mul: "2.523MiB/1.945GiB", name: "compassionate_goldberg", net: "936B/0B", pids: "10"},]
+	const [activeContainers, setActiveContainers] = useState({});
 
-	const formatData = (containerName, data) => {
-		console.log('ContainerName: ', containerName)
+
+	
+	let memory = {
+		labels: [1],
+		datasets: []
+	};
+
+	const cpu = {
+		labels: [],
+		datasets: []
+	};
+
+	const formatData = () => {
+
+		console.log('active containers: ', activeContainers)
+		//if active containers is empty render the empty graphs
+		if (!Object.keys(activeContainers).length) {
+			console.log('inside conditional')
+			return;
+		}
 		// DB QUERY LIKELY GOING HERE
-		const memData = data.map(el => el.mp.replace('%', ''));
-		const labelData = data.map(el => el.time);
-		const cpData = data.map(el => el.cpu.replace('%', ''));
-
-		console.log('cpu: before: ', cpData)
-		console.log('mem: before: ', memData)
-
-		setMemoryData(memData);
-		setCpuData(cpData);
-		setDataLabels(labelData);
+		const data = [	{name: 'dazzling_jennings', time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}]
+		// reset datasets to empty array
+		memory.datasets = [];
+		cpu.datasets = [];
+		
+		console.log('ContainerName: ', data)
 
 
-		console.log('cpu: After:', cpuData)
-		console.log('mem: After:', memoryData)
+		// build two fundtion that will return formated object for each container to in datapoins
+		const cpuBuilder = (containerName) => {
+      const obj = {
+        label: containerName,
+        data: [],
+        fill: false,
+      };
+      return obj;
+		};
+		
+    const memoryBuilder = (containerName) => {
+      const obj = {
+        label: containerName,
+        data: [],
+        fill: false,
+      };
+      return obj;
+		};
 
+		const auxObj = {}
+
+		// build the auxilary object to hold active container data
+		 
+		Object.keys(activeContainers).forEach(container => {
+			auxObj[container] = {
+				memory: memoryBuilder(container), 
+				cpu: cpuBuilder(container)
+			}
+		});
+
+		console.log('this is your auxObject before data.forEach: ', auxObj)
+		
+		// iterate through each row from query and buld Memory and CPU objects
+		data.forEach((dataPoint) => {
+			const currentContainer = dataPoint.name;
+
+			// console.log('data point: ',dataPoint);
+
+			// console.log('data point Cpu: ', dataPoint.cpu);
+			auxObj[currentContainer].cpu.data.push(dataPoint.cpu.replace('%', ''))
+			auxObj[currentContainer].memory.data.push(dataPoint.mp.replace('%', ''))
+			console.log('Auxobj: ', auxObj);
+		});
+
+
+		
+		Object.keys(auxObj).forEach(containerName => {
+			memory.datasets.push(auxObj[containerName].memory);
+			cpu.datasets.push(auxObj[containerName].cpu);
+		});	
+
+		console.log('memory after : ', memory)
+		console.log('cpu after : ', cpu);
 	}
+
 	
 
 	// Internal Note: maybe want to fix currentList and make a state variable??
@@ -54,31 +114,18 @@ const Metrics = (props) => {
 		currentList = result; 
 	}
 
+
 	const handleChange = (e) => {
-		console.log('target', e.target)
+		const containerName = e.target.name;
+		// deep copy the state object - shallow copy didn't work
+		const copyObj = JSON.parse(JSON.stringify(activeContainers));
+		if (activeContainers[containerName])  {
+			delete copyObj[containerName];
+		} else {
+			copyObj[containerName] = true;
+		} 
+		setActiveContainers(copyObj);
 	}
-
-	const memory = {
-		labels: dataLabels,
-		datasets: [
-			{
-				label: activeContainer,
-				 data: memoryData, 
-				 fill: false
-			},
-		],
-	};
-
-	const cpu = {
-		labels: dataLabels,
-		datasets: [
-			{
-				label: activeContainer,
-				 data: cpuData, 
-				 fill: false
-			},
-		],
-	};
 
 	let cpuOptions = {
 		tooltips: {
@@ -113,8 +160,9 @@ const Metrics = (props) => {
 	
 	selectList();
 	useEffect(() => {
-		formatData(activeContainer, dummyData);
-	}, [activeContainer])
+		console.log('in use effect with memory: ', memory)
+		formatData();
+	}, [activeContainers])
 
 	return (
 		<div className="renderContainers">
@@ -163,3 +211,15 @@ export default Metrics;
 // create a object to be pushed into the dataset prop for the respective graph
 // push the object into the graph
 	// component should rerender when update
+
+
+	// const cpu = {
+	// 	labels: dataLabels,
+	// 	datasets: [
+	// 		{
+	// 			label: activeContainers,
+	// 			 data: cpuData, 
+	// 			 fill: false
+	// 		},
+	// 	],
+	// };

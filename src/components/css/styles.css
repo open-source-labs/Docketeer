@@ -452,6 +452,7 @@
     font-size: 12px;
     padding: 4px 8px;
     text-decoration: none;
+    outline: none;
   }
   .stop-btn:hover {
     background-color: rgba(255, 0, 0, 0.75);
@@ -470,6 +471,7 @@
     font-size: 12px;
     padding: 4px 8px;
     text-decoration: none;
+    outline: none;
   }
   .run-btn:hover {
     background-color: rgba(0, 128, 0, 0.75);
@@ -505,5 +507,24 @@
   }
   .arrow {
     color: white;
+  }
+
+  .settings-content {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 30px;
+    width: 94%;
+    margin-top: 100px;
+    margin-left: 20px;
+    margin-right: 20px;   
+    padding: 30px 0px; 
+  }
+
+  .phone-number {
+    margin-left: 20px;
+    padding: 20px 0px;
   }
   

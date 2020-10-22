@@ -26,3 +26,8 @@
     content: url(../../../assets/document.svg);
     width: 70px;
 }
+
+.fa-settings {
+  content: url(../../../assets/settings.svg);
+  width: 22px;
+}

@@ -1,40 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { connect, useSelector } from 'react-redux';
-import * as actions from '../../actions/actions';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
+import { connect, useSelector } from "react-redux";
+import * as actions from "../../actions/actions";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
+import TextField from "@material-ui/core/TextField";
+import * as categories from "../../constants/notificationCategories";
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addMemoryNotificationSetting: (data) => dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) => dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) => dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) => dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) => dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) => dispatch(actions.removeStoppedNotificationSetting(data)),
+  addMemoryNotificationSetting: (data) =>
+    dispatch(actions.addMemoryNotificationSetting(data)),
+  addCpuNotificationSetting: (data) =>
+    dispatch(actions.addCpuNotificationSetting(data)),
+  addStoppedNotificationSetting: (data) =>
+    dispatch(actions.addStoppedNotificationSetting(data)),
+  removeMemoryNotificationSetting: (data) =>
+    dispatch(actions.removeMemoryNotificationSetting(data)),
+  removeCpuNotificationSetting: (data) =>
+    dispatch(actions.removeCpuNotificationSetting(data)),
+  removeStoppedNotificationSetting: (data) =>
+    dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
 const Settings = (props) => {
-
   /**
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
     // TODO: form validation
     // TODO: send test notification to phone to check if valid phone
-    // do something if valid phone or if invalid phone
-    if (!props.phoneNumber) alert('Please enter phone number');
-    else {
-      alert(`Phone: ${props.phoneNumber} is valid`);
-    }
+    // do something if valid phone or if invalid phone    
+    if (!props.phoneNumber) alert("Please enter phone number");
+
+    // test sending phoneNumber to notification service 
+    fetch("http://localhost:5000/mobile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+      body: JSON.stringify({
+        mobileNumber: props.phoneNumber,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data from nofication service: ", data);
+      })
+      .catch((err) =>
+        console.log("handlePhoneNumberSubmit fetch ERROR: ", err)
+      );
   }
 
   /**
@@ -47,43 +67,63 @@ const Settings = (props) => {
   const isSelected = (array, containerId) => array.indexOf(containerId) !== -1;
 
   const renderRunningList = props.runningList.map((container, i) => {
-    let isMemorySelected = isSelected(props.memoryNotificationList, container.cid);
+    let isMemorySelected = isSelected(
+      props.memoryNotificationList,
+      container.cid
+    );
     let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
-    let isStoppedSelected = isSelected(props.stoppedNotificationList, container.cid);
+    let isStoppedSelected = isSelected(
+      props.stoppedNotificationList,
+      container.cid
+    );
 
     return (
       <TableRow key={i}>
         <TableCell>{container.name}</TableCell>
         <TableCell>{container.cid}</TableCell>
         <TableCell>{container.img}</TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addMemoryNotificationSetting(container.cid) : props.removeMemoryNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addMemoryNotificationSetting(container.cid)
+                : props.removeMemoryNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isMemorySelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addCpuNotificationSetting(container.cid) : props.removeCpuNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addCpuNotificationSetting(container.cid)
+                : props.removeCpuNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isCpuSelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addStoppedNotificationSetting(container.cid) : props.removeStoppedNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addStoppedNotificationSetting(container.cid)
+                : props.removeStoppedNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isStoppedSelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <button
             className="stop-btn"
-            onClick={() => props.stop(container.cid, props.stopRunningContainer)}
+            onClick={() =>
+              props.stop(container.cid, props.stopRunningContainer)
+            }
           >
             STOP
           </button>
@@ -92,46 +132,65 @@ const Settings = (props) => {
     );
   });
 
-  // TODO: concat runningList with stoppedList if container can have 
+  // TODO: concat runningList with stoppedList if container can have
   const renderStoppedList = props.stoppedList.map((container, i) => {
-
-    let isMemorySelected = isSelected(props.memoryNotificationList, container.cid);
+    let isMemorySelected = isSelected(
+      props.memoryNotificationList,
+      container.cid
+    );
     let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
-    let isStoppedSelected = isSelected(props.stoppedNotificationList, container.cid);
+    let isStoppedSelected = isSelected(
+      props.stoppedNotificationList,
+      container.cid
+    );
 
     return (
       <TableRow key={i}>
         <TableCell>{container.name}</TableCell>
         <TableCell>{container.cid}</TableCell>
         <TableCell>{container.img}</TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addMemoryNotificationSetting(container.cid) : props.removeMemoryNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addMemoryNotificationSetting(container.cid)
+                : props.removeMemoryNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isMemorySelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addCpuNotificationSetting(container.cid) : props.removeCpuNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addCpuNotificationSetting(container.cid)
+                : props.removeCpuNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isCpuSelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <Checkbox
-            onClick={(event) => event.target.checked ? props.addStoppedNotificationSetting(container.cid) : props.removeStoppedNotificationSetting(container.cid)}
+            onClick={(event) =>
+              event.target.checked
+                ? props.addStoppedNotificationSetting(container.cid)
+                : props.removeStoppedNotificationSetting(container.cid)
+            }
             role="checkbox"
             key={container.cid}
             checked={isStoppedSelected}
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <button
             className="run-btn"
-            onClick={() => props.runStopped(container.cid, props.runStoppedContainer)}
+            onClick={() =>
+              props.runStopped(container.cid, props.runStoppedContainer)
+            }
           >
             RUN
           </button>
@@ -150,7 +209,9 @@ const Settings = (props) => {
         <div className="phone-number">
           <label>Enter Phone Number for Notifications</label>
           <span>
-            <TextField required id="phone-number"
+            <TextField
+              required
+              id="phone-number"
               label="Phone Number"
               variant="filled"
               value={props.phoneNumber}
@@ -163,7 +224,8 @@ const Settings = (props) => {
               size="small"
               color="default"
               variant="outlined"
-              onClick={(e) => handlePhoneNumberSubmit(e)}>
+              onClick={(e) => handlePhoneNumberSubmit(e)}
+            >
               Test
             </Button>
           </span>
@@ -175,10 +237,10 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align='center'>Memory > 80%</TableCell>
-                <TableCell align='center'>CPU > 80%</TableCell>
-                <TableCell align='center'>Container Stops</TableCell>
-                <TableCell align='center'>Actions</TableCell>
+                <TableCell align="center">Memory > 80%</TableCell>
+                <TableCell align="center">CPU > 80%</TableCell>
+                <TableCell align="center">Container Stops</TableCell>
+                <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -189,7 +251,7 @@ const Settings = (props) => {
         </TableContainer>
       </div>
     </div>
-  )
+  );
 };
 
 export default connect(null, mapDispatchToProps)(Settings);

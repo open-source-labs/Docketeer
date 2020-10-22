@@ -1,36 +1,28 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+var cors = require("cors");
 
 const app = express();
 const PORT = 5000;
 
 // routers
-const notificationsRouter = require('./routes/notifications.js'); //TO BE CHANGED
+const notificationsRouter = require("./routes/notifications.js");
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // route handlers
-app.use('/test', (req, res) =>{
-    console.log('received test request')
-    res.status(200).json('test request successfully completed')
+app.use("/test", (req, res) => {
+  console.log("received test request");
+  res.status(200).json("test request successfully completed");
 });
 
-app.post('/mobile', notificationsRouter.postMobile, (req, res) => {
-    console.log("received POST mobile number request")
-    res.status(200).json('verification code has been sent')
-});
-
-// add router for checking the verification code the user provides
-
-app.post('/event', notificationsRouter.postEvent, (req, res) => {
-    console.log("received POST triggering event request")
-    res.status(200).json('Triggering event is successfully received')
-});
+app.use('/', notificationsRouter)
 
 // catch-all route handler
-app.use('*', (req, res) => res.sendStatus(404));
+app.use("*", (req, res) => res.sendStatus(404));
 
 // global error handler
 app.use((err, req, res, next) => {

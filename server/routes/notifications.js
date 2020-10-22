@@ -1,41 +1,18 @@
-const express = require('express');
-const { sendSms } = require('../../send_sms');
-const { sendVerification } = require('../../send_verification');
+const express = require("express");
+const notificationsController = require("../controllers/notificationsController.js");
 
-const notificationsRouter = express.Router();
+const router = express.Router();
 
-notificationsRouter.postMobile = (req, res, next) => {           
-    const notificationChannel = 'sms'
-    // const { mobileNumber } = req.body                   // CHECK WITH RICHIE THAT IT WORKS
-    const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
-    if (mobileNumber === undefined) {
-        return next({
-          log: 'notificationsRouter.postMobile: ERROR: mobile number is undefined',
-          message: { err: 'notificationsRouter.postMobile: ERROR: Check server logs for details' },
-        });
-    }
-    sendVerification(mobileNumber, notificationChannel)
-    // CHECK VERIFICATION CODE FROM TWILIO API AND THE ONE USER TYPES IN
-    // ADD SAVING THE PHONE NUMBER TO THE DATABASE
-    // ADD UPDATING THE VARIABLE NUMBER HERE (IF NECESSARY) 
-    next()
-}
+router.post("/mobile", notificationsController.postMobile, (req, res) => {
+  console.log("received POST mobile number request");
+  res.status(200).json("verification code has been sent");
+});
 
-notificationsRouter.postEvent = (req, res, next) => {           
-    // const { triggeringEvent } = req.body                   // CHECK WITH MAT THAT IT WORKS
-    // const { mobileNumber } = req.body                   // CHECK WITH MAT THAT IT WORKS
-    // USER MOBILE NUMBER CAN ALSO BE ALWAYS TAKEN FROM THE DATABASE
-    const mobileNumber = '+79190877777'                     // TO BE KILLED AFTER CHECKING THE POST REQUEST
-    const triggeringEvent = 'Triggering event XXX has happened'
-     // CATCH ERROR LOGS
-    if (mobileNumber === undefined || triggeringEvent === undefined) {
-        return next({
-          log: 'notificationsRouter.postEvent: ERROR: mobile number and/or triggeringEvent is undefined',
-          message: { err: 'notificationsRouter.postEvent: ERROR: Check server logs for details' },
-        });
-    }
-    sendSms(mobileNumber, triggeringEvent)
-    next()
-}
+// add router for checking the verification code the user provides
 
-module.exports = notificationsRouter;
+router.post("/event", notificationsController.postEvent, (req, res) => {
+  console.log("received POST triggering event request");
+  res.status(200).json("Triggering event is successfully received");
+});
+
+module.exports = router;

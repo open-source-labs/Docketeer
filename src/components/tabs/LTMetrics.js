@@ -149,7 +149,7 @@ const Metrics = (props) => {
 	
 	selectList();
 	useEffect(() => {
-		formatData();
+		// formatData();
 	}, [activeContainers])
 
 	return (
@@ -167,13 +167,13 @@ const Metrics = (props) => {
 				
 				<div className="line-section">
 					<div className="lineChart">
-						<Line data={memoryObj} options={memoryOptions} width={4000} height={2600} />
+						<Line options={memoryOptions} width={4000} height={2600} />
 					</div>
 				</div>
 
 				<div className="line-section">
 					<div className="lineChart">
-						<Line data={cpuObj} options={cpuOptions} width={4000} height={2600} />
+						<Line	options={cpuOptions} width={4000} height={2600} />
 					</div>
 				</div>
 

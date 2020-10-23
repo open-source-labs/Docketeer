@@ -301,13 +301,6 @@ ul {
   justify-content: space-evenly;
   margin-bottom: 100px;
 }
-
-.line-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
 .block {
   margin-top: 50px;
 }
@@ -459,6 +452,7 @@ ul {
   font-size: 12px;
   padding: 4px 8px;
   text-decoration: none;
+  outline: none;
 }
 .stop-btn:hover {
   background-color: rgba(255, 0, 0, 0.75);
@@ -477,6 +471,7 @@ ul {
   font-size: 12px;
   padding: 4px 8px;
   text-decoration: none;
+  outline: none;
 }
 .run-btn:hover {
   background-color: rgba(0, 128, 0, 0.75);
@@ -512,4 +507,23 @@ ul {
 }
 .arrow {
   color: white;
+}
+
+.settings-content {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 30px;
+  width: 94%;
+  margin-top: 100px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 30px 0px;
+}
+
+.phone-number {
+  margin-left: 20px;
+  padding: 20px 0px;
 }

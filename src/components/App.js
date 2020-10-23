@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../actions/actions";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Metrics from "./tabs/Metrics";
-import Images from "./tabs/Images";
-import Yml from "./tabs/Yml";
-import Running from "./tabs/Running";
-import Stopped from "./tabs/Stopped";
-import * as helper from "./helper/commands";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../actions/actions';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Metrics from './tabs/Metrics';
+import Images from './tabs/Images';
+import Yml from './tabs/Yml';
+import Running from './tabs/Running';
+import Stopped from './tabs/Stopped';
+import LTMetrics from './tabs/LTMetrics';
+import * as helper from './helper/commands';
 import Docketeer from '../../assets/docketeer-title.png';
-import Settings from "./tabs/Settings";
+import Settings from './tabs/Settings';
 
 /**
- * 
- * @param {*} props 
+ *
+ * @param {*} props
  * Container component that has all redux logic along with react router
  */
 const App = (props) => {
-
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -27,10 +27,13 @@ const App = (props) => {
     dispatch(actions.refreshStoppedContainers(data));
   const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getComposeYmlFiles = (data) => dispatch(actions.getComposeYmlFiles(data));
+  const getComposeYmlFiles = (data) =>
+    dispatch(actions.getComposeYmlFiles(data));
   const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
-  const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
+  const runStoppedContainer = (data) =>
+    dispatch(actions.runStoppedContainer(data));
+  const stopRunningContainer = (id) =>
+    dispatch(actions.stopRunningContainer(id));
 
   const runningList = useSelector((state) => state.lists.runningList);
   const stoppedList = useSelector((state) => state.lists.stoppedList);
@@ -39,9 +42,15 @@ const App = (props) => {
 
   // map state to props
   const phoneNumber = useSelector((state) => state.lists.phoneNumber);
-  const memoryNotificationList = useSelector((state) => state.lists.memoryNotificationList);
-  const cpuNotificationList = useSelector((state) => state.lists.cpuNotificationList);
-  const stoppedNotificationList = useSelector((state) => state.lists.stoppedNotificationList);
+  const memoryNotificationList = useSelector(
+    (state) => state.lists.memoryNotificationList
+  );
+  const cpuNotificationList = useSelector(
+    (state) => state.lists.cpuNotificationList
+  );
+  const stoppedNotificationList = useSelector(
+    (state) => state.lists.stoppedNotificationList
+  );
 
   const [selected, setSelected] = useState('/');
   const [color, setColor] = useState(false);
@@ -56,54 +65,94 @@ const App = (props) => {
     helper.displayNetwork(getComposeYmlFiles);
 
     return () => clearInterval(interval);
-  }, [])
+  }, []);
   const selectedStyling = {
-    background: "#e1e4e6",
-    color: "#042331",
-    borderTopRightRadius: "10px",
-    borderBottomRightRadius: "10px",
-  }
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
+  };
 
   return (
     <Router>
-      <div className="container">
-        <nav className="tab">
-          <header id="title"><img src={Docketeer} width={140} /></header>
-          <div className="viewsAndButton">
+      <div className='container'>
+        <nav className='tab'>
+          <header id='title'>
+            <img src={Docketeer} width={140} />
+          </header>
+          <div className='viewsAndButton'>
             <ul>
               <li>
-                <Link to='/' style={selected === '/' ? selectedStyling : {}} onClick={() => setSelected('/')}>
-                  <i className="fas fa-settings"></i>Settings</Link>
-              </li>
-              <li >
-                <Link to="/running" style={selected === "/running" ? selectedStyling : {}
-                } onClick={() => { setSelected((sel) => '/running') }}>
-                  <i className="fas fa-box-open"></i> Running Containers
+                <Link
+                  to='/'
+                  style={selected === '/' ? selectedStyling : {}}
+                  onClick={() => setSelected('/')}
+                >
+                  <i className='fas fa-settings'></i>Settings
                 </Link>
               </li>
-              <li >
-                <Link to="/stopped" style={selected === "/stopped" ? selectedStyling : {}} onClick={() => setSelected('/stopped')}>
-                  <i className="fas fa-archive"></i> Exited Containers
+              <li>
+                <Link
+                  to='/running'
+                  style={selected === '/running' ? selectedStyling : {}}
+                  onClick={() => {
+                    setSelected((sel) => '/running');
+                  }}
+                >
+                  <i className='fas fa-box-open'></i> Running Containers
                 </Link>
               </li>
-              <li >
-                <Link to="/images" style={selected === "/images" ? selectedStyling : {}} onClick={() => setSelected('/images')} >
-                  <i className="fas fa-database"></i> Images
+              <li>
+                <Link
+                  to='/stopped'
+                  style={selected === '/stopped' ? selectedStyling : {}}
+                  onClick={() => setSelected('/stopped')}
+                >
+                  <i className='fas fa-archive'></i> Exited Containers
                 </Link>
               </li>
-              <li >
-                <Link to="/metrics" style={selected === "/metrics" ? selectedStyling : {}} onClick={() => setSelected('/metrics')} >
-                  <i className="fas fa-chart-pie"></i> Metrics
+              <li>
+                <Link
+                  to='/images'
+                  style={selected === '/images' ? selectedStyling : {}}
+                  onClick={() => setSelected('/images')}
+                >
+                  <i className='fas fa-database'></i> Images
                 </Link>
               </li>
-              <li >
-                <Link to="/yml" style={selected === "/yml" ? selectedStyling : {}} onClick={() => setSelected('/yml')} >
-                  <i className="fas fa-file-upload"></i> Docker Compose
+              <li>
+                <Link
+                  to='/metrics'
+                  style={selected === '/metrics' ? selectedStyling : {}}
+                  onClick={() => setSelected('/metrics')}
+                >
+                  <i className='fas fa-chart-pie'></i> Metrics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to='/LTMetrics'
+                  style={selected === '/LTMetrics' ? selectedStyling : {}}
+                  onClick={() => setSelected('/LTMetrics')}
+                >
+                  <i className='fas fa-chart-pie'></i> Long Term Metrics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to='/yml'
+                  style={selected === '/yml' ? selectedStyling : {}}
+                  onClick={() => setSelected('/yml')}
+                >
+                  <i className='fas fa-file-upload'></i> Docker Compose
                 </Link>
               </li>
             </ul>
             <div>
-              <button className="btn" onClick={(e) => helper.handlePruneClick(e)}>
+              <button
+                className='btn'
+                onClick={(e) => helper.handlePruneClick(e)}
+              >
                 System Prune
               </button>
             </div>
@@ -113,23 +162,53 @@ const App = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/metrics">
-            <Metrics showGeneralMetrics={helper.showGeneralMetrics} runningList={runningList} />
+          <Route path='/metrics'>
+            <Metrics
+              showGeneralMetrics={helper.showGeneralMetrics}
+              runningList={runningList}
+            />
           </Route>
-          <Route path="/yml">
+          <Route path='/LTMetrics'>
+            <LTMetrics
+              showGeneralMetrics={helper.showGeneralMetrics}
+              runningList={runningList}
+              stoppedList={stoppedList}
+            />
+          </Route>
+          <Route path='/yml'>
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
-          <Route path="/images">
-            <Images runIm={helper.runIm} removeIm={helper.removeIm} addRunningContainers={addRunningContainers} refreshImagesList={refreshImagesList} imagesList={imagesList} runnningList={runningList} />
+          <Route path='/images'>
+            <Images
+              runIm={helper.runIm}
+              removeIm={helper.removeIm}
+              addRunningContainers={addRunningContainers}
+              refreshImagesList={refreshImagesList}
+              imagesList={imagesList}
+              runnningList={runningList}
+            />
           </Route>
-          <Route path="/stopped">
-            <Stopped runStopped={helper.runStopped} remove={helper.remove} removeContainer={removeContainer} runStoppedContainer={runStoppedContainer} stoppedList={stoppedList} />
+          <Route path='/stopped'>
+            <Stopped
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
+            />
           </Route>
-          <Route path="/running">
-            <Running runIm={helper.runIm} stop={helper.stop} stopRunningContainer={stopRunningContainer} runningList={runningList} addRunningContainers={addRunningContainers} />
+          <Route path='/running'>
+            <Running
+              runIm={helper.runIm}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              runningList={runningList}
+              addRunningContainers={addRunningContainers}
+            />
           </Route>
-          <Route path="/">
-            <Settings runningList={runningList}
+          <Route path='/'>
+            <Settings
+              runningList={runningList}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               stoppedList={stoppedList}

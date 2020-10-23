@@ -13,6 +13,22 @@ describe('Dockeeter reducer', () => {
       memoryNotificationList: [],
       cpuNotificationList: [],
       stoppedNotificationList: [],
+      graphAxis: [],
+      graphMemory: [
+        {
+          label: '',
+          data: [],
+          fill: ''
+        },
+      ],
+      graphCpu: [
+        {
+          label: '',
+          data: [],
+          fill: ''
+        },
+      ]	
+
     };
   });
 

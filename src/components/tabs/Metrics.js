@@ -98,6 +98,7 @@ const Metrics = (props) => {
 			</div>
 			<div className="allCharts">
 				<div className="section">
+
 					<div className="pieChart">
 						<Pie data={cpu} options={options2} width={2000} height={1300} />
 						<div className="legend-container">

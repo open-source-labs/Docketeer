@@ -12,18 +12,9 @@ import * as actions from "../../actions/actions";
  */
 const Metrics = (props) => {
 	const [activeContainers, setActiveContainers] = useState({});
-	// const [axis, setAxis] = useState([]);
-	// const [memory, setMemory] = useState([]);
-	// const [cpu, setCpu] = useState([]);
 	const memory = useSelector((state) => state.lists.graphMemory);
 	const cpu = useSelector((state) => state.lists.graphCpu);
 	const axis = useSelector((state) => state.lists.graphAxis);
-
-	// {
-		// 			label: activeContainers,
-		// 			 data: cpuData, 
-		// 			 fill: false
-		// 		},
 
 	const dispatch = useDispatch();
 
@@ -48,15 +39,13 @@ const Metrics = (props) => {
 		buildAxis('clear');
 		//if active containers is empty render the empty graphs
 		if (!Object.keys(activeContainers).length) {
-
 				return;
 		}
 		// DB QUERY LIKELY GOING HERE
-		const data = [	{time:'1', name: 'amazing_morse', block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "6.00%", mp: "2%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "3", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"} ]
-
+		const data = [	{time:'1', name: 'amazing_morse', block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "6.00%", mp: "2%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "3", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}]
+		if (Object.keys(activeContainers).length > 1) data.push(	{name: 'wizardly_benz', time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'wizardly_benz', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "10.00%", mp: "18.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"});
 		// build two fundtion that will return formated object for each container to in datapoins
 		const cpuBuilder = (containerName) => {
-			if (activeContainers.length > 1) data.push(	{name: 'wizardly_benz', time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'wizardly_benz', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "10.00%", mp: "18.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"});
       const obj = {
         label: containerName,
         data: [],
@@ -76,25 +65,23 @@ const Metrics = (props) => {
 
 		const auxObj = {}
 
-		// build the auxilary object to hold active container data
-		 console.log('active containers', activeContainers)
 		Object.keys(activeContainers).forEach(container => {
 			auxObj[container] = {
 				memory: memoryBuilder(container), 
-				cpu: cpuBuilder(container)
+				cpu: cpuBuilder(container),
 			}
 		});
 		
 		// iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
 		data.forEach((dataPoint) => {
 			const currentContainer = dataPoint.name;
-			console.log('data point', dataPoint)
-			console.log('auxObj', auxObj)
 			auxObj[currentContainer].cpu.data.push(dataPoint.cpu.replace('%', ''))
 			auxObj[currentContainer].memory.data.push(dataPoint.mp.replace('%', ''))
-
 			buildAxis(dataPoint.time);
 		});
+	
+		// {container1: cpu: {10,0, 20 }, memory: {}, timestamps: [1,2,3]}
+		// {container2: cpu: {}, memory: {}, timestamps: [1,2,3,4,5]}
 
 		Object.keys(auxObj).forEach(containerName => {
 		
@@ -108,11 +95,8 @@ const Metrics = (props) => {
 	const selectList = () => {
 		const result = [];
 		props.runningList.forEach(container => {
-			// result.push(<option value={container.name}>{container.name}</option>)
 			result.push(<div><label htmlFor={container.name}>{container.name}</label><input name={container.name} type="checkbox" value={container.name}></input></div>)
 		})
-		// <input name="container-1" type="checkbox" value="Container-1"></input>
-		// <label htmlFor="container-1">Container 1</label>
 		props.stoppedList.forEach(container => {
 			result.push(<div><label htmlFor={container.name}>{container.name}</label><input name={container.name} type="checkbox" value={container.name}></input></div>)
 		})
@@ -165,7 +149,6 @@ const Metrics = (props) => {
 	
 	selectList();
 	useEffect(() => {
-		// console.log('both labels before formatData is: ', bothLabels)
 		formatData();
 	}, [activeContainers])
 

@@ -134,10 +134,12 @@ const listsReducer = (state = initialState, action) => {
 				console.log('action.payload build axis:', action.payload);
 
 				if(action.payload === 'clear') return {...state, graphAxis: []};
-				
-				const newAxis = state.graphAxis.slice(); 
-				newAxis.push(action.payload[0]);
-				return { ...state, graphAxis: newAxis };
+				if (action.payload > state.graphAxis[state.graphAxis.length - 1] || !state.graphAxis.length) {
+					const newAxis = state.graphAxis.slice(); 
+					newAxis.push(action.payload[0]);
+					return { ...state, graphAxis: newAxis };
+				} 
+				return {...state}
 
 			case types.BUILD_MEMORY:
 				console.log('action.payload build memory:', action.payload);

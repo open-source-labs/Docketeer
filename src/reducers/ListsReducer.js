@@ -9,21 +9,21 @@ const initialState = {
   memoryNotificationList: [],
   cpuNotificationList: [],
   stoppedNotificationList: [],
-  graphAxis: ['a', 'b', 'c'],
+  graphAxis: [],
   graphMemory: [
     {
-      label: 'amazing_morse',
-      data: [1, 2, 3],
-      fill: false
+      label: '',
+      data: [],
+      fill: ''
     },
   ],
   graphCpu: [
     {
-      label: 'amazing_morse',
-      data: [2, 4, 6],
-      fill: false
+      label: '',
+      data: [],
+      fill: ''
     },
-  ,]	
+  ]	
 };
 
 const listsReducer = (state = initialState, action) => {

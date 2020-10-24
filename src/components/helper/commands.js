@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
 import { exec, spawn } from "child_process";
-
+import query from './psqlQuery';
 import parseContainerFormat from "./parseContainerFormat";
 
 /**
@@ -19,7 +19,7 @@ export const addRunning = (runningList, callback) => {
 		}
 		if (stderr) {
 			console.log(`stderr: ${stderr}`);
-			return;
+			return;cher
 		}
 
 		let value = parseContainerFormat.convert(stdout);
@@ -554,5 +554,19 @@ export const displayNetwork = (callback) => {
 
 	});
 
+}
 
+export const writeToDb = (runningContainers) => {
+	if (!runningContainers.length) return;
+	console.log('running containers inside write to db: ', runningContainers)
+	let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
+	runningContainers.forEach((container, idx) => {
+		// no need to worry about sql injections as it would be self sabotaging! 
+		console.log('in writeToDb for each loop')
+		let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
+		if (idx === runningContainers.length - 1) dbQuery += string;
+		else dbQuery += string + ', ';
+	})
+	console.log('QUERY: ', dbQuery);
+	query(dbQuery)
 }

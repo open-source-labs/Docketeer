@@ -61,17 +61,30 @@ const App = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-
     helper.displayNetwork(getComposeYmlFiles);
-
     return () => clearInterval(interval);
   }, []);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('inside UseEffect with runningList: ', runningList)
+      helper.writeToDb(runningList);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [runningList]);
+
+  // helper.writeToDb(runningList);
+  
+
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
     borderBottomRightRadius: '10px',
   };
+
+  
 
   return (
     <Router>

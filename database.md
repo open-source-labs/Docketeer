@@ -15,7 +15,7 @@ postgres
 
 // 4. cd into the docketeer folder
 // 5. run this command to create the sql schema
-psql -h localhost -U postgres -d docketeer-db -f schema.sql
+psql -h localhost -U postgres -d docketeer-db -f schema.sql -p 5432
 
 // username and password for psql
 username: postgres
@@ -59,3 +59,26 @@ docker exec -it <container-id> psql -U postgres
 --   "NetIO":"4.27kB / 4.29kB",
 --   "PIDs":"7"
 -- }
+
+
+
+INSERT into metrics (container_id, container_name, cpu_pct, memory_pct) VALUES ('675dae0af5e2', 'dazzling_jennings', '0.32%', '0.45%'), ('675dae0af5e2', ‘dazzling_jennings’, '3.32%', '4.45%'), ('675dae0af5e2', ‘dazzling_jennings’, '7.62%', '1.45%'), ('675dae0af5e2', ‘dazzling_jennings’, '0.98%', '0.34%'),('675dae0af5e2', ‘dazzling_jennings’, '0.88%', '0.26%'), ('675dae0af5e2', ‘dazzling_jennings’, '0.58%', '0.90%'), ('622e002a9342',  'amazing_morse', '0.47%', '0.49%'), ('622e002a9342', 'amazing_morse', '0.55%', '0.99%'), ('622e002a9342',  'amazing_morse', '8.47%', '3.49%'), ('622e002a9342',  'amazing_morse', '1.47%', '9.49%'), ('622e002a9342',  'amazing_morse', '2.47%', '20.49%'), ('622e002a9342',  'amazing_morse', '0.38%', '0.08%'), ('622e002a9342',  'amazing_morse', '0.59%', '0.12%');
+
+
+
+INSERT INTO 
+    metrics (container_id, container_name, cpu_pct, memory_pct)
+VALUES
+   ('675dae0af5e2', 'dazzling_jennings', '0.32%', '0.45%'), 
+   ('675dae0af5e2', 'dazzling_jennings', '3.32%', '4.45%'), 
+   ('675dae0af5e2', 'dazzling_jennings', '7.62%', '1.45%'),
+   ('675dae0af5e2', 'dazzling_jennings', '0.98%', '0.34%'),
+   ('675dae0af5e2', 'dazzling_jennings', '0.88%', '0.26%'), 
+   ('675dae0af5e2', 'dazzling_jennings', '0.58%', '0.90%'), 
+   ('622e002a9342', 'amazing_morse', '0.47%', '0.49%'), 
+   ('622e002a9342', 'amazing_morse', '0.55%', '0.99%'), 
+   ('622e002a9342', 'amazing_morse', '8.47%', '3.49%'),
+   ('622e002a9342', 'amazing_morse', '1.47%', '9.49%'),
+   ('622e002a9342', 'amazing_morse', '2.47%', '20.49%'),
+   ('622e002a9342', 'amazing_morse', '0.38%', '0.08%'), 
+   ('622e002a9342', 'amazing_morse', '0.59%', '0.12%');

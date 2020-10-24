@@ -4,6 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie, Line } from "react-chartjs-2";
 import * as actions from "../../actions/actions";
+import query from "../helper/psqlQuery";
+import * as queryType from "../../constants/queryTypes";
+
+
+
+
 
 /**
  * 
@@ -22,18 +28,39 @@ const Metrics = (props) => {
 	const buildMemory = (data) => dispatch(actions.buildMemory(data));
 	const buildCpu = (data) => dispatch(actions.buildCpu(data));
 
-
+// // example to run GET_METRICS query
+const getData = () => {
+	console.log('inside get data')
+	//REMEMBER THE SEMI COLON IF ANYTHING IS NOT WORKING
+	let queryString = `SELECT * FROM metrics WHERE container_name = $1 `
+	
+	if (Object.keys(activeContainers).length === 1) {
+		queryString += `ORDER BY "time" ASC`
+		return query(queryString, Object.keys(activeContainers))
+	}
+	Object.keys(activeContainers).slice(1).forEach((containerName, idx) => {
+		const string = `OR container_name = $${idx + 2} `
+		console.log('string being built: ', string)
+		queryString += string
+	})
+	console.log('built out query for multiple containers: ', queryString);
+	console.log('new active containers: ', Object.keys(activeContainers))
+	queryString += `ORDER BY "time" ASC`
+	return query(queryString, Object.keys(activeContainers))
+};
 
 	const memoryObj = {
 		labels: axis,
 		datasets: memory,
+
 	}
 	const cpuObj = {
 		labels: axis,
 		datasets: cpu,
+
 	}
 
-	const formatData = () => {
+	const formatData = async() => {
 		buildMemory('clear');
 		buildCpu('clear');
 		buildAxis('clear');
@@ -42,10 +69,12 @@ const Metrics = (props) => {
 				return;
 		}
 		// DB QUERY LIKELY GOING HERE
+		let output = await getData();
+		console.log('just got data: ', output)
 		const data = [	{time:'1', name: 'amazing_morse', block: "0B/0B", cid: "db06b75e6db7", cpu: "4.00%", mp: "0.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "6.00%", mp: "2%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'amazing_morse', time: "3", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}]
 		if (Object.keys(activeContainers).length > 1) data.push(	{name: 'wizardly_benz', time: "1", block: "0B/0B", cid: "db06b75e6db7", cpu: "8.00%", mp: "5.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"}, {name: 'wizardly_benz', time: "2", block: "0B/0B", cid: "db06b75e6db7", cpu: "10.00%", mp: "18.18%", mul: "2.523MiB/1.945GiB", net: "50B/0B", pids: "3"});
 		// build two fundtion that will return formated object for each container to in datapoins
-		const cpuBuilder = (containerName) => {
+		const graphBuilder = (containerName) => {
       const obj = {
         label: containerName,
         data: [],
@@ -53,30 +82,24 @@ const Metrics = (props) => {
       };
       return obj;
 		};
-		
-    const memoryBuilder = (containerName) => {
-      const obj = {
-        label: containerName,
-        data: [],
-        fill: false,
-      };
-      return obj;
-		};
-
+	
 		const auxObj = {}
 
 		Object.keys(activeContainers).forEach(container => {
 			auxObj[container] = {
-				memory: memoryBuilder(container), 
-				cpu: cpuBuilder(container),
+				memory: graphBuilder(container), 
+				cpu: graphBuilder(container),
 			}
 		});
 		
 		// iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
-		data.forEach((dataPoint) => {
-			const currentContainer = dataPoint.name;
-			auxObj[currentContainer].cpu.data.push(dataPoint.cpu.replace('%', ''))
-			auxObj[currentContainer].memory.data.push(dataPoint.mp.replace('%', ''))
+		output.forEach((dataPoint) => {
+			const currentContainer = dataPoint.container_name;
+			console.log('current Container', currentContainer);
+			console.log('data', dataPoint);
+			console.log('auxObj', auxObj);
+			auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''))
+			auxObj[currentContainer].memory.data.push(dataPoint.memory_pct.replace('%', ''))
 			buildAxis(dataPoint.time);
 		});
 	
@@ -149,7 +172,7 @@ const Metrics = (props) => {
 	
 	selectList();
 	useEffect(() => {
-		// formatData();
+		formatData();
 	}, [activeContainers])
 
 	return (
@@ -167,13 +190,13 @@ const Metrics = (props) => {
 				
 				<div className="line-section">
 					<div className="lineChart">
-						<Line options={memoryOptions} width={4000} height={2600} />
+						<Line data={memoryObj} options={memoryOptions} width={4000} height={2600} />
 					</div>
 				</div>
 
 				<div className="line-section">
 					<div className="lineChart">
-						<Line	options={cpuOptions} width={4000} height={2600} />
+						<Line data={cpuObj}	options={cpuOptions} width={4000} height={2600} />
 					</div>
 				</div>
 

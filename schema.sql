@@ -10,8 +10,8 @@ CREATE TABLE metrics (
   pid TEXT
 );
 
-CREATE TABLE users (
+CREATE TABLE userinformation (    --// CHANGED FROM USER TO USERINFORMATION
   id SERIAL PRIMARY KEY,
   username TEXT,
-  phone_number INTEGER
+  phone_number TEXT               --// CHANGED FROM INTEGER TO TEXT
 );

@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+const { Pool } = require('pg');
 
 const pool = new Pool({
   host: "localhost",
@@ -8,8 +8,9 @@ const pool = new Pool({
   port: 5432,
 });
 
-export default async (text, params, callback) => {
-  let { rows } = await pool.query(text, params, callback);
-  console.log(rows);
-  return rows;
+module.exports = {
+  query: (text, params, callback) => {
+    console.log('executed query', text);
+    return pool.query(text, params, callback);
+  }
 };

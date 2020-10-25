@@ -65,12 +65,12 @@ const App = (props) => {
     return () => clearInterval(interval);
   }, []);
 
-
+  // this only works if it's set to run under 5s otherwise the app component re renders and this useeffect doesn't get called
   useEffect(() => {
     const interval = setInterval(() => {
       console.log('inside UseEffect with runningList: ', runningList)
       helper.writeToDb(runningList);
-    }, 60000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [runningList]);
 

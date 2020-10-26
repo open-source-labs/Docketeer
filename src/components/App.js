@@ -54,27 +54,19 @@ const App = (props) => {
 
   const [selected, setSelected] = useState('/');
   const [color, setColor] = useState(false);
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers, runningList);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
-    }, 5000);
-    helper.displayNetwork(getComposeYmlFiles);
-    return () => clearInterval(interval);
-  }, []);
-
-  // this only works if it's set to run under 5s otherwise the app component re renders and this useeffect doesn't get called
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log('inside UseEffect with runningList: ', runningList)
       helper.writeToDb(runningList);
-    }, 10000);
+    }, 5000);
+
+    helper.displayNetwork(getComposeYmlFiles);
+
     return () => clearInterval(interval);
   }, [runningList]);
-
-  // helper.writeToDb(runningList);
   
 
   const selectedStyling = {

@@ -27,24 +27,18 @@ const Metrics = (props) => {
 
   // // example to run GET_METRICS query
   const getData = () => {
-		console.log('inside get data');
-    //REMEMBER THE SEMI COLON IF ANYTHING IS NOT WORKING
     let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
-		//Select * from metrics where time > now() - interval '4 hour'
     if (Object.keys(activeContainers).length === 1) {
 			queryString += `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-			console.log('QUERY STRING: ', queryString);
       return query(queryString, Object.keys(activeContainers));
     }
     Object.keys(activeContainers)
       .slice(1)
       .forEach((containerName, idx) => {
         const string = `OR container_name = $${idx + 2} `;
-        console.log('string being built: ', string);
         queryString += string;
 			});
 		queryString += `AND created_at >= now() - interval ${timePeriod + ' hour'}  ORDER BY "created_at" ASC`;
-		console.log('QUERY STRING: ', queryString)
     return query(queryString, Object.keys(activeContainers));
   };
 
@@ -67,7 +61,6 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    console.log('just got data: ', output);
     const data = [
       {
         time: '1',
@@ -150,9 +143,6 @@ const Metrics = (props) => {
     // iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
     output.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
-      console.log('current Container', currentContainer);
-      console.log('data', dataPoint);
-      console.log('auxObj', auxObj);
       auxObj[currentContainer].cpu.data.push(
         dataPoint.cpu_pct.replace('%', '')
       );
@@ -175,7 +165,6 @@ const Metrics = (props) => {
   let currentList;
   const selectList = () => {
 		const result = [];
-		console.log('RUNNING LIST: ',props.runningList)
     props.runningList.forEach((container) => {
       result.push(
         <div>

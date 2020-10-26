@@ -4,7 +4,6 @@ import * as actions from "../../actions/actions";
 import { exec, spawn } from "child_process";
 import query from './psqlQuery';
 import parseContainerFormat from "./parseContainerFormat";
-
 /**
  * 
  * @param {*} runningList 
@@ -168,6 +167,7 @@ export const refreshRunning = (callback, runningList) => {
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
 		callback(convertedValue);
+
 	});
 };
 
@@ -557,16 +557,14 @@ export const displayNetwork = (callback) => {
 }
 
 export const writeToDb = (runningContainers) => {
+	console.log('inside write to db and runningContainers is: ', runningContainers)
 	if (!runningContainers.length) return;
-	console.log('running containers inside write to db: ', runningContainers)
 	let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
 	runningContainers.forEach((container, idx) => {
 		// no need to worry about sql injections as it would be self sabotaging! 
-		console.log('in writeToDb for each loop')
 		let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
 		if (idx === runningContainers.length - 1) dbQuery += string;
 		else dbQuery += string + ', ';
 	})
-	console.log('QUERY: ', dbQuery);
 	query(dbQuery)
 }

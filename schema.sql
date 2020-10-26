@@ -15,7 +15,7 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username TEXT,
   phone_number TEXT,
-  CONSTRAINT unique_username UNIQUE(username)
+  CONSTRAINT unique_username UNIQUE(username)   ----// 
 );
 
 CREATE TABLE containers (

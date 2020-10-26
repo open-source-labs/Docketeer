@@ -12,8 +12,7 @@ module.exports.verifyCode = function (to, code) {
   return client.verify.services(verifySid)
   .verificationChecks
   .create({ to, code })
-//   .then(function (data) { console.log("Information with user code is sent to Twilio") })
-  .then(verification_check => console.log(verification_check.status))
+  .then(data => data.status)
   .catch(function (err) {
     console.error("Could not check the code with Twilio API");
     console.error(err);

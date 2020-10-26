@@ -59,15 +59,16 @@ notificationsController.postEvent = (req, res, next) => {
 
 notificationsController.postCode = (req, res, next) => {
   // const { code } = req.body
-  const code = '571969'
+  const code = '411708'
   const phone = '+79190877777'
-  verifyCode(phone, code)
-  .then(data => {
-    console.log(data)
-    res.locals.respond=data
-  })
-  .catch((err) => next(err))
+  async function newFunc() {
+  console.log("starting newFunc")
+  const result = await verifyCode(phone, code)
+  // console.log(result)
+  res.locals.respond = result
   next();
+  }
+  newFunc();
 };
 
 module.exports = notificationsController;

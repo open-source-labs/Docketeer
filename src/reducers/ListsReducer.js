@@ -6,9 +6,9 @@ const initialState = {
   stoppedList: [],
   networkList: [],
   phoneNumber: '',
-  memoryNotificationList: [],
-  cpuNotificationList: [],
-  stoppedNotificationList: [],
+  memoryNotificationList: new Set(),
+  cpuNotificationList: new Set(),
+  stoppedNotificationList: new Set(),
   graphAxis: [],
   graphMemory: [
     {
@@ -27,6 +27,10 @@ const initialState = {
 };
 
 const listsReducer = (state = initialState, action) => {
+  let memoryNotificationList;
+  let cpuNotificationList;
+  let stoppedNotificationList;
+
   switch (action.type) {
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();
@@ -175,24 +179,24 @@ const listsReducer = (state = initialState, action) => {
       return { ...state, graphCpu: newCpu };
 
     case types.ADD_MEMORY_NOTIFICATION_SETTING:
-      memoryNotificationList = state.memoryNotificationList.slice();
-      memoryNotificationList.push(action.payload);
+      memoryNotificationList = new Set(action.payload);
+      // memoryNotificationList.add(action.payload);
       return {
         ...state,
         memoryNotificationList,
       };
 
     case types.ADD_CPU_NOTIFICATION_SETTING:
-      cpuNotificationList = state.cpuNotificationList.slice();
-      cpuNotificationList.push(action.payload);
+      cpuNotificationList = new Set(action.payload);
+      // cpuNotificationList.add(action.payload);
       return {
         ...state,
         cpuNotificationList,
       };
 
     case types.ADD_STOPPED_NOTIFICATION_SETTING:
-      stoppedNotificationList = state.stoppedNotificationList.slice();
-      stoppedNotificationList.push(action.payload);
+      stoppedNotificationList = new Set(action.payload);
+      // stoppedNotificationList.add(action.payload);
       return {
         ...state,
         stoppedNotificationList,
@@ -234,10 +238,15 @@ const listsReducer = (state = initialState, action) => {
         stoppedNotificationList: newStoppedNotificationList,
       };
 
+    case types.ADD_PHONE_NUMBER:
+      return {
+        ...state,
+        phoneNumber: action.payload,
+      };
+
     default:
       	return state;
   }
-
 };
 
 export default listsReducer;

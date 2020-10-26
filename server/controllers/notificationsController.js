@@ -2,8 +2,8 @@ const express = require("express");
 const { sendSms } = require("../../send_sms");
 const { sendVerification } = require("../../send_verification");
 const { verifyCode } = require ("../../verify_code");
-const db = require("../../src/components/helper/psqlQuery.js");
-const databaseFunctions =  require ("../../src/constants/queryTypes.js");
+// const db = require("../../src/components/helper/psqlQuery.js");
+// const databaseFunctions =  require ("../../src/constants/queryTypes.js");
 
 const notificationsController = {};
 // let phoneNumber                                           // CHECK THAT IT WORKS. IS USED IN ORDER NOT TO USE THE DATABASE FOR THE STEPS AFTER THE USER PROVIDED HIS/HER MOBILE NUMBER ON THE SETTING PAGE
@@ -27,13 +27,13 @@ notificationsController.postMobile = (req, res, next) => {
   
   // <--------- KILL AFTER SAVING INFORMATION AT THE FRONT-END LEVEL
   // ADD SAVING THE PHONE NUMBER TO THE DATABASE
-  const username = "TEST";                                                                 
-  const writeData = () => {
-    db.query(databaseFunctions.WRITE_USER, [username, mobileNumber])
-    .then(data => console.log(data))
-    .catch((err) => next(err))
-  }
-  writeData()
+  // const username = "TEST";                                                                 
+  // const writeData = () => {
+  //   db.query(databaseFunctions.WRITE_USER, [username, mobileNumber])
+  //   .then(data => console.log(data))
+  //   .catch((err) => next(err))
+  // }
+  // writeData()
   next()
 };
 
@@ -59,7 +59,7 @@ notificationsController.postEvent = (req, res, next) => {
 
 notificationsController.postCode = (req, res, next) => {
   // const { code } = req.body
-  const code = '209586'
+  const code = '571969'
   const phone = '+79190877777'
   verifyCode(phone, code)
   .then(data => {

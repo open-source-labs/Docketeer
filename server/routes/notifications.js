@@ -15,5 +15,12 @@ router.post("/event", notificationsController.postEvent, (req, res) => {
     res.status(200).json("Triggering event is successfully received");
 });
   
+router.post("/code", notificationsController.postCode, (req, res) => {
+  console.log("received request with verification code");
+  res.status(200).json(res.locals.respond);
+  console.log('sending the response back to front-end')
+  console.log(res.locals.respond)
+});
+
 module.exports = router;
   

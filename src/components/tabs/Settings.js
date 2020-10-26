@@ -11,6 +11,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import * as categories from "../../constants/notificationCategories";
+import query from '../helper/psqlQuery';
+import * as queryType from '../../constants/queryTypes';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -25,20 +27,145 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),
+    dispatch(actions.removeStoppedNotificationSetting(data)),  
 });
 
 const Settings = (props) => {
+
+  // handle check
+  // I couldve made this a single function where queryType gets passed in
+  // but the query's parameters are not the same
+  const handleCheckSetting = (containerId, containerName, metricName) => {
+    // add to DB
+    query(queryType.INSERT_CONTAINER, [containerId, containerName], (err, res) => {
+      if (err) {
+        console.log(`Error in INSERT_CONTAINER. Error: ${err}`);
+      } else {
+        // if all good, call fetchNotificationSettings
+        fetchNotificationSettings();
+        console.log('** INSERT_CONTAINER returned: **', res);        
+      }
+    });
+
+    query(queryType.INSERT_CONTAINER_SETTING, [containerId, metricName.toLowerCase()], (err, res) => {
+      if (err) {
+        console.log(`Error in INSERT_CONTAINER_SETTING. Error: ${err}`);
+      } else {
+        // if all good, call fetchNotificationSettings
+        fetchNotificationSettings();
+        console.log('** INSERT_CONTAINER_SETTING returned: **', res);        
+      }
+    });
+
+  }
+
+  // handle uncheck 
+    // remove from DB
+    const handleUnCheckSetting = (containerId, metricName) => {
+      // add to DB
+      query(queryType.DELETE_CONTAINER_SETTING, [containerId, metricName.toLowerCase()], (err, res) => {
+        if (err) {
+          console.log(`Error in DELETE_CONTAINER_SETTING. Error: ${err}`);
+        } else {
+          // if all good, call fetchNotificationSettings
+          fetchNotificationSettings();
+          console.log('** DELETE_CONTAINER_SETTING returned: **', res);        
+        }
+      });
+  }
+
+
+  const fetchNotificationSettings = () => {
+    return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
+      if (err) {
+        console.log(`Error getting settings. Error: ${err}`);
+      } else {
+        // find a way to set the three lists here
+        // iterate through res.row
+        // if the metric_name = "memory"
+        let tempMemory = [];
+        let tempCPU = [];
+        let tempPower = [];
+
+        res.rows.forEach((el, i) => {
+          switch (el.metric_name) {
+            case categories.MEMORY.toLowerCase():              
+              tempMemory.push(el.container_id);
+              break;
+            case categories.CPU.toLowerCase():              
+              tempCPU.push(el.container_id);            
+              break;
+             case categories.POWER.toLowerCase():
+                tempPower.push(el.container_id);              
+              break;          
+            default:
+              break;
+          }
+        });
+
+        // replace state with new data from database
+        props.addMemoryNotificationSetting(tempMemory);
+        props.addCpuNotificationSetting(tempCPU);
+        props.addStoppedNotificationSetting(tempPower);
+
+        console.log('** Settings returned: **', res.rows);  
+
+      }
+    });
+    
+    console.log(`*** Settings returned: ${res} ***`);
+  };
+
+  // fetch on component mount only because of empty dependency array
+  useEffect(()=> {
+    fetchNotificationSettings();
+  }, []);
+
+  // SELECT cs.container_id, metric_name, triggering_value FROM container_settings  as cs INNER JOIN notification_settings as ns ON cs. notification_settings.id = ns.id;
   /**
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    // TODO: form validation
-    // TODO: send test notification to phone to check if valid phone
-    // do something if valid phone or if invalid phone    
     if (!props.phoneNumber) alert("Please enter phone number");
+    else {
+      let phoneNumber = parseInt(props.phoneNumber);
+      if (typeof(phoneNumber) !== 'number') alert("Please enter phone number in numerical format. ex: 123456789");
+      else {
+        // test query out        
+        query(queryType.INSERT_USER, ['richie.edwards', phoneNumber], (err, res) => {
+          if (err) {
+            console.log(`Error in insert user. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into users table. ***`)
+          }
+        });
+    }
 
-    // test sending phoneNumber to notification service 
+
+    }
+
+
+    // // test sending phoneNumber to notification service 
+    // fetch("http://localhost:5000/mobile", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "Application/JSON",
+    //   },
+    //   body: JSON.stringify({
+    //     mobileNumber: props.phoneNumber,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Data from nofication service: ", data);
+    //   })
+    //   .catch((err) =>
+    //     console.log("handlePhoneNumberSubmit fetch ERROR: ", err)
+    //   );
+
+
+
+    // fetch // https://cors-anywhere.herokuapp.com/
     fetch("http://localhost:5000/mobile", {
       method: "POST",
       headers: {
@@ -55,7 +182,13 @@ const Settings = (props) => {
       .catch((err) =>
         console.log("handlePhoneNumberSubmit fetch ERROR: ", err)
       );
-  }
+
+    let isValidPhone = false;
+    // TODO: send test notification to phone to check if valid phone
+    // do something if valid phone or if invalid phone
+    alert(`Phone: ${props.phoneNumber} is valid`);
+  };
+  
 
   /**
    * Checks to see if the containerId is in the array
@@ -64,7 +197,7 @@ const Settings = (props) => {
    * @returns {number} -1 or the index of the container ID within the array
    */
   // general function to check if a container is in a notification setting list
-  const isSelected = (array, containerId) => array.indexOf(containerId) !== -1;
+  const isSelected = (set, containerId) => set.has(containerId);
 
   const renderRunningList = props.runningList.map((container, i) => {
     let isMemorySelected = isSelected(
@@ -86,8 +219,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addMemoryNotificationSetting(container.cid)
-                : props.removeMemoryNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.MEMORY)
+                : handleUnCheckSetting(container.cid, categories.MEMORY)
             }
             role="checkbox"
             key={container.cid}
@@ -98,8 +231,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addCpuNotificationSetting(container.cid)
-                : props.removeCpuNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.CPU)
+                : handleUnCheckSetting(container.cid, categories.CPU)
             }
             role="checkbox"
             key={container.cid}
@@ -110,8 +243,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addStoppedNotificationSetting(container.cid)
-                : props.removeStoppedNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.POWER)
+                : handleUnCheckSetting(container.cid, categories.POWER)
             }
             role="checkbox"
             key={container.cid}
@@ -153,8 +286,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addMemoryNotificationSetting(container.cid)
-                : props.removeMemoryNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.MEMORY)
+                : handleUnCheckSetting(container.cid, categories.MEMORY)
             }
             role="checkbox"
             key={container.cid}
@@ -165,8 +298,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addCpuNotificationSetting(container.cid)
-                : props.removeCpuNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.CPU)
+                : handleUnCheckSetting(container.cid, categories.CPU)
             }
             role="checkbox"
             key={container.cid}
@@ -177,8 +310,8 @@ const Settings = (props) => {
           <Checkbox
             onClick={(event) =>
               event.target.checked
-                ? props.addStoppedNotificationSetting(container.cid)
-                : props.removeStoppedNotificationSetting(container.cid)
+                ? handleCheckSetting(container.cid, container.name, categories.POWER)
+                : handleUnCheckSetting(container.cid, categories.POWER)
             }
             role="checkbox"
             key={container.cid}

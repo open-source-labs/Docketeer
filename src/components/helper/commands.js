@@ -568,3 +568,9 @@ export const writeToDb = (runningContainers) => {
 	})
 	query(dbQuery)
 }
+
+export const displayGitCommits = (runningContainers, timePeriod) => {
+	console.log('running containers: ', runningContainers)
+	console.log('time period : ', timePeriod)
+
+}

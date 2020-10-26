@@ -5,6 +5,7 @@ import { convertToMetricsArr } from '../helper/parseContainerFormat';
 import { Pie, Line } from 'react-chartjs-2';
 import * as actions from '../../actions/actions';
 import query from '../helper/psqlQuery';
+import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
 
 /**
@@ -18,6 +19,7 @@ const Metrics = (props) => {
   const memory = useSelector((state) => state.lists.graphMemory);
   const cpu = useSelector((state) => state.lists.graphCpu);
   const axis = useSelector((state) => state.lists.graphAxis);
+  const runningList = useSelector((state) => state.lists.runningList);
 
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ const Metrics = (props) => {
         const string = `OR container_name = $${idx + 2} `;
         queryString += string;
 			});
-		queryString += `AND created_at >= now() - interval ${timePeriod + ' hour'}  ORDER BY "created_at" ASC`;
+		queryString += `AND created_at >= now() - interval '${timePeriod} hour'  ORDER BY "created_at" ASC`;
     return query(queryString, Object.keys(activeContainers));
   };
 
@@ -141,7 +143,7 @@ const Metrics = (props) => {
     });
 
     // iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
-    output.forEach((dataPoint) => {
+    output.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       auxObj[currentContainer].cpu.data.push(
         dataPoint.cpu_pct.replace('%', '')
@@ -197,7 +199,8 @@ const Metrics = (props) => {
   const handleChange = (e) => {
 
 		if (e.target.type === 'radio') {
-			setTimePeriod(e.target.value);
+      setTimePeriod(e.target.value);
+      helper.displayGitCommits(runningList, timePeriod );
 			return;
 		}
     const containerName = e.target.name;
@@ -311,6 +314,8 @@ const Metrics = (props) => {
             />
           </div>
         </div>
+      </div>
+      <div>
       </div>
     </div>
   );

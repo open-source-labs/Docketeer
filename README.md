@@ -55,12 +55,13 @@ On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml 
 ### Twilio setup
     1. Download the helper library from https://www.twilio.com/docs/node/install
     2. In order to manage Twilio SMS notifications follow the step plan : https://www.twilio.com/docs/notify/quickstart/sms#messagingservice
-    3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console and (iv) SERVICE_SID     in a newly created .env file in the Docketeer folder in the following format:
+    3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID     in a newly created .env file in the Docketeer folder in the following format:
         MY_PHONE_NUMBER='+19252559538'
         TWILIO_ACCOUNT_SID='code from your console'
         TWILIO_AUTH_TOKEN='token from your console'
         SERVICE_SID='code from notify service instance'
-    4. In order to send a test message type in the terminal: 'node send_sms.js'
+        VERIFICATION_SERVICE_SID='code from verify service instance'
+    4. verification service was created here: https://www.twilio.com/console/verify/services   code length and serviceSID can be taken from your Twilio account console
     5. All historical messages from the Twilio account can be found here: https://www.twilio.com/console/sms/logs
 
 

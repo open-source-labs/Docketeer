@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "body-parser": "^1.19.0",
@@ -62,6 +61,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.10.4",
     "babel-polyfill": "^6.26.0",
     "electron": "^10.1.0",

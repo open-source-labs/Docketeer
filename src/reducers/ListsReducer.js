@@ -38,6 +38,13 @@ const listsReducer = (state = initialState, action) => {
         newRunningList.push(container);
       }
       			return { ...state, runningList: newRunningList };
+    
+    case types.ADD_PHONE_NUMBER:
+      return {
+                ...state,
+                phoneNumber: action.payload,
+              };
+
 
     case types.REMOVE_CONTAINER:
       const removeContainerList = [];

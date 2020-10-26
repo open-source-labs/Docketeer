@@ -126,16 +126,13 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    // TODO: form validation
-    // TODO: send test notification to phone to check if valid phone
-    // do something if valid phone or if invalid phone    
     if (!props.phoneNumber) alert("Please enter phone number");
     else {
       let phoneNumber = parseInt(props.phoneNumber);
       if (typeof(phoneNumber) !== 'number') alert("Please enter phone number in numerical format. ex: 123456789");
       else {
         // test query out        
-        query(queryTypes.INSERT_USER, ['richie.edwards', phoneNumber], (err, res) => {
+        query(queryType.INSERT_USER, ['richie.edwards', phoneNumber], (err, res) => {
           if (err) {
             console.log(`Error in insert user. Error: ${err}`);
           } else {
@@ -168,7 +165,30 @@ const Settings = (props) => {
 
 
 
-  }
+    // fetch // https://cors-anywhere.herokuapp.com/
+    fetch("http://localhost:5000/mobile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+      body: JSON.stringify({
+        mobileNumber: props.phoneNumber,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data from nofication service: ", data);
+      })
+      .catch((err) =>
+        console.log("handlePhoneNumberSubmit fetch ERROR: ", err)
+      );
+
+    let isValidPhone = false;
+    // TODO: send test notification to phone to check if valid phone
+    // do something if valid phone or if invalid phone
+    alert(`Phone: ${props.phoneNumber} is valid`);
+  };
+  
 
   /**
    * Checks to see if the containerId is in the array

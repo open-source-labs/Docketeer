@@ -11,10 +11,10 @@ CREATE TABLE metrics (
   pid TEXT
 );
 
-CREATE TABLE users (
+CREATE TABLE users (  
   id SERIAL PRIMARY KEY,
   username TEXT,
-  phone_number BIGINT,
+  phone_number TEXT,
   CONSTRAINT unique_username UNIQUE(username)
 );
 

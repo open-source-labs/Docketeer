@@ -10,9 +10,9 @@ describe('Dockeeter reducer', () => {
       stoppedList: [],
       networkList: [],
       phoneNumber: '',
-      memoryNotificationList: [],
-      cpuNotificationList: [],
-      stoppedNotificationList: [],
+      memoryNotificationList: new Set(),
+      cpuNotificationList: new Set(),
+      stoppedNotificationList: new Set(),
       graphAxis: [],
       graphMemory: [
         {

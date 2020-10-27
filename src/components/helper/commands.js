@@ -4,12 +4,15 @@ import * as actions from "../../actions/actions";
 import { exec, spawn } from "child_process";
 import query from './psqlQuery';
 import parseContainerFormat from "./parseContainerFormat";
+import store from '../../renderer/store';
 /**
  * 
  * @param {*} runningList 
  * @param {*} callback 
  * on app start-up, get the containers that are already running by calling addRunning
  */
+
+
 export const addRunning = (runningList, callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
@@ -556,16 +559,22 @@ export const displayNetwork = (callback) => {
 
 }
 
-export const writeToDb = (runningContainers) => {
-	if (!runningContainers.length) return;
-	let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
-	runningContainers.forEach((container, idx) => {
-		// no need to worry about sql injections as it would be self sabotaging! 
-		let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
-		if (idx === runningContainers.length - 1) dbQuery += string;
-		else dbQuery += string + ', ';
-	})
-	query(dbQuery)
+export const writeToDb = () => {
+	const interval = 300000
+	setInterval(() => {
+		let state = store.getState();
+		let runningContainers = state.lists.runningList;
+		if (!runningContainers.length) return;
+		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
+		runningContainers.forEach((container, idx) => {
+			// no need to worry about sql injections as it would be self sabotaging! 
+			let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
+			if (idx === runningContainers.length - 1) dbQuery += string;
+			else dbQuery += string + ', ';
+		})
+		query(dbQuery)
+	}, 30000)
+
 }
 
 export const displayGitCommits = (runningContainers, timePeriod) => {

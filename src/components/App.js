@@ -60,14 +60,15 @@ const App = (props) => {
       helper.refreshRunning(refreshRunningContainers, runningList);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
-      helper.writeToDb(runningList);
     }, 5000);
 
     helper.displayNetwork(getComposeYmlFiles);
-
     return () => clearInterval(interval);
   }, [runningList]);
   
+  useEffect(() => {
+    helper.writeToDb();
+  }, [])
 
   const selectedStyling = {
     background: '#e1e4e6',

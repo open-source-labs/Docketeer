@@ -39,4 +39,4 @@ CREATE TABLE container_settings (
 INSERT INTO notification_settings (metric_name, triggering_value) VALUES
 ('memory', 80),
 ('cpu', 80),
-('power', 0);
+('stopped', 0);

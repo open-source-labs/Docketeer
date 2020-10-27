@@ -19,7 +19,7 @@ const getTargetStat = (containerObject, notificationSettingType) => {
     return parseFloat(containerObject.mp.replace('%', ''));
   if (notificationSettingType === categories.CPU)
     return parseFloat(containerObject.cpu.replace('%', ''));
-  if (notificationSettingType === categories.POWER) return 1;
+  if (notificationSettingType === categories.STOPPED) return 1;
 };
 
 const getContainerObject = (containerList, containerId) => {
@@ -43,7 +43,15 @@ const isContainerInSentNotifications = (notificationType, containerId) => {
   return false;
 };
 
-const sendNotification = () => {
+// sendNotification(notificationType, containerId, stat, triggeringValue);
+const sendNotification = (
+  notificationType,
+  containerId,
+  stat,
+  triggeringValue,
+) => {
+  console.log('phoneNumber', state.lists.phoneNumber);
+
   // request notification
   // fetch // https://cors-anywhere.herokuapp.com/
   fetch('http://localhost:5000/event', {
@@ -52,8 +60,8 @@ const sendNotification = () => {
       'Content-Type': 'Application/JSON',
     },
     body: JSON.stringify({
-      mobileNumber: state.phoneNumber,
-      triggeringEvent: 'test message',
+      mobileNumber: state.lists.phoneNumber,
+      triggeringEvent: `${notificationType} of ${stat} has reached triggeringValue of ${triggeringValue} for containerId ${containerId}`,
     }),
   })
     .then((response) => response.json())
@@ -110,8 +118,14 @@ const checkForNotifications = (
             RESEND_INTERVAL
           ) {
             // send nofication
+            sendNotification(
+              notificationType,
+              containerId,
+              stat,
+              triggeringValue,
+            );
             console.log(
-              `** Notification test. ${notificationType} was at ${stat}`,
+              `** Notification SENT. ${notificationType} was at ${stat}`,
             );
           } else {
             // resend interval not yet met
@@ -131,14 +145,15 @@ const checkForNotifications = (
             `** Notification test. ${notificationType} was at ${stat}`,
           );
         }
+      } else {
+        // else, remove container from sentNotifications if it is in there
+        if (isContainerInSentNotifications(notificationType, containerId)) {
+          delete sentNotifications[notificationType][containerId];
+        }
       }
-      // else, remove container from sentNotifications if it is in there
-      if (isContainerInSentNotifications(notificationType, containerId)) {
-        delete sentNotifications[notificationType][containerId];
-      }
-      console.log(
-        `${notificationType} of ${stat} is not gt ${triggeringValue} for container ${containerId}`,
-      );
+      // console.log(
+      //   `${notificationType} of ${stat} is not gt ${triggeringValue} for container ${containerId}`,
+      // );
     }
   });
 };
@@ -158,17 +173,17 @@ export default function start() {
       state.lists.memoryNotificationList,
       categories.MEMORY,
       state.lists.runningList,
-      80,
+      3,
     );
     checkForNotifications(
       state.lists.cpuNotificationList,
       categories.CPU,
       state.lists.runningList,
-      80,
+      0,
     );
     checkForNotifications(
       state.lists.stoppedNotificationList,
-      categories.POWER,
+      categories.STOPPED,
       state.lists.stoppedList,
       0,
     );

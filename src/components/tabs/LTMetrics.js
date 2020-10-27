@@ -7,14 +7,16 @@ import * as actions from '../../actions/actions';
 import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
+import {Link} from 'react-router-dom';
+
 /**
  *
  * @param {*} props
  * Display general metrics
  */
 const Metrics = (props) => {
-  const gitCommits = [];
   const [activeContainers, setActiveContainers] = useState({});
+  const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
   const memory = useSelector((state) => state.lists.graphMemory);
   const cpu = useSelector((state) => state.lists.graphCpu);
@@ -26,8 +28,14 @@ const Metrics = (props) => {
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
   const buildMemory = (data) => dispatch(actions.buildMemory(data));
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
-  const gitResults = [];
-  // // example to run GET_METRICS query
+
+  const selectedStyling = {
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
+  };
+
   const getData = () => {
     let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
     if (Object.keys(activeContainers).length === 1) {
@@ -57,7 +65,6 @@ const Metrics = (props) => {
     buildMemory('clear');
     buildCpu('clear');
     buildAxis('clear');
-   
     //if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
@@ -154,10 +161,6 @@ const Metrics = (props) => {
       );
       buildAxis(dataPoint.created_at);
     });
-
-    // {container1: cpu: {10,0, 20 }, memory: {}, timestamps: [1,2,3]}
-    // {container2: cpu: {}, memory: {}, timestamps: [1,2,3,4,5]}
-
     Object.keys(auxObj).forEach((containerName) => {
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
@@ -165,27 +168,58 @@ const Metrics = (props) => {
 
   };
 
-  const fetchGitData = async () => {
-    let data = await fetch('https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
-        since: '2020-10-26T18:44:25Z'
-      }))
-    const jsonData = await data.json();
+  const fetchGitData = async (containerName) => {
+    const ob = {};
+    ob[containerName] = [];
+    const url = await helper.getContainerGitUrl(containerName);
+    // console.log('URL',url.rows)
+    if (url.rows.length) {
+      let data = await fetch('https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
+          since: '2020-10-25T18:44:25Z'
+        }))
+      const jsonData = await data.json();
 
-    // setState(jsonData)
-    console.log('JSON DATA', jsonData);
-    return jsonData;
-
+      jsonData.forEach(commitData => {
+        ob[containerName].push({time: commitData.commit.author.date, url: commitData.html_url})
+      })
+    } else {
+      ob[containerName].push({time: '', url: 'Connect github repo in settings' })
+    }
+    return ob;
   }
 
-  const gitData = Promise.all(Object.keys(activeContainers).map(container => {
-    return fetchGitData()
-    // return(
-    //   <div><h1>{timePeriod}</h1> <p>{container}</p></div>
-    // )
-  })).then(data => console.log('GIT DATA,', data))
-
-
-
+  
+    const renderGitInfo = () => {
+      Promise.all(Object.keys(activeContainers).map(container => {
+        return fetchGitData(container)
+      })).then(data => setGitUrls(data))
+    }
+    
+    // [{container: [{time: x, url: x}]},{}]
+      let gitData;
+      gitData = gitUrls.map(el =>  {
+        let name = Object.keys(el);
+        const li = [<tr><th>Date</th><th>Time</th><th>URL</th></tr>]
+        console.log('EL', el[name])
+        el[name].forEach(ob => {
+          let date = 'n/a'
+          let time = 'n/a'
+          let url = <Link to='/' style={selectedStyling}>Connect via settings page
+        </Link>
+          let text = ''
+          if (ob.time.length) {
+            time = ob.time;
+            text = 'Github Commits'
+            url = <a href={url} target='_blank'>{text}</a>
+            time = time.split('T');
+            date = time[0];
+            time = time[1];
+            time = time.split('').slice(0, time.length - 1);
+          }
+        li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td></tr>)
+        }) 
+        return (<div><h2>{name}</h2><table>{li}</table></div>)
+      });
 
 
   // Internal Note: maybe want to fix currentList and make a state variable??
@@ -204,18 +238,18 @@ const Metrics = (props) => {
         </div>
       );
     });
-    props.stoppedList.forEach((container) => {
-      result.push(
-        <div>
-          <label htmlFor={container.name}>{container.name}</label>
-          <input
-            name={container.name}
-            type='checkbox'
-            value={container.name}
-          ></input>
-        </div>
-      );
-    });
+    // props.stoppedList.forEach((container) => {
+    //   result.push(
+    //     <div>
+    //       <label htmlFor={container.name}>{container.name}</label>
+    //       <input
+    //         name={container.name}
+    //         type='checkbox'
+    //         value={container.name}
+    //       ></input>
+    //     </div>
+    //   );
+    // });
 
     result.push(<div></div>);
     currentList = result;
@@ -274,13 +308,11 @@ const Metrics = (props) => {
 	/* Consider if we can combine these two. Wasn't rendering active containers when tested*/
   selectList();
   useEffect(() => {
-		formatData();
-	}, [activeContainers]);
-	
-	useEffect(() => {
     formatData();
-	}, [timePeriod]);
+    renderGitInfo();
+	}, [activeContainers, timePeriod]);
 	
+  
   return (
     <div className='renderContainers'>
       <div className='header'>
@@ -341,7 +373,8 @@ const Metrics = (props) => {
           </div>
         </div>
       </div>
-          {/* {gitData}; */}
+          
+          {gitData}
       <div>
       </div>
     </div>

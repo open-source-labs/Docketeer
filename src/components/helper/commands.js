@@ -577,11 +577,7 @@ export const writeToDb = () => {
 
 }
 
-export const displayGitCommits = (runningContainers, timePeriod) => {
-	return (
-		<div>	
-			<h1>hello</h1>
-		</div>
-	)
+export const getContainerGitUrl = (container) => {
+	return query(`Select github_url from containers where name = '${container}'`);
 
 }

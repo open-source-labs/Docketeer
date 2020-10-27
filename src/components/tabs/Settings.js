@@ -30,7 +30,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
+      // HIDDENTEST IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
+      let hiddenTest = false
+
 const Settings = (props) => {
+  console.log(`*** SETTINGS RENDERED ***`)
+
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -134,6 +139,7 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
+    // console.log('Hidden test value: ' hiddenTest)
     if (!props.phoneNumber) alert('Please enter phone number');
     else {
       let phoneNumber = parseInt(props.phoneNumber); // WHEN I TYPE 'ABC' IT DOES NOT SHOW AN ERROR
@@ -141,6 +147,7 @@ const Settings = (props) => {
         alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         // test query out
+        hiddenTest=true
         query(queryType.INSERT_USER, ['anton', phoneNumber], (err, res) => {
           if (err) {
             console.log(`Error in insert user. Error: ${err}`);
@@ -175,50 +182,33 @@ const Settings = (props) => {
   };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
-  const verifCodeForm = () => {
+  // const verifCodeForm = () => {
     const [formData, updateFormData] = useState('');
-    const handleChange = (e) => {
-      updateFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
+    const handleChange = (value) => {
+      updateFormData(value);
+      console.log(formData)
     };
-
-    const codeRef = React.useRef();
-
+    
     const handleSubmit = (e) => {
-      //   console.log(codeRef);
+      console.log('handleSubmit sent');     // KILL AFTER TESTING
+      console.log(props.phoneNumber);       // KILL AFTER TESTING
       fetch('http://localhost:5000/code', {
         method: 'POST',
         headers: {
           'Content-Type': 'Application/JSON',
         },
         body: JSON.stringify({
-          code: '203449', // link value from the form here
-          mobileNumber: '+79190877777', // Check at the server level that receive data in the right format
+          code: formData, 
+          mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           console.log('Code verification status: ', data);
-        })
+          if (data==='approved') hiddenTest=false
+          else alert('Please try verification code again')
+         })
         .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
-    };
-    // return (
-    //   <>
-    //     <label>
-    //       Username
-    //       <input name="username" onChange={handleChange} />
-    //     </label>
-    //     <br />
-    //     <label>
-    //       Password
-    //       <input name="password" onChange={handleChange} />
-    //     </label>
-    //     <br />
-    //     <button onClick={handleSubmit}>Submit</button>
-    //   </>
-    // );
   };
 
   /**
@@ -419,6 +409,7 @@ const Settings = (props) => {
           </span>
         </div>
 
+{ hiddenTest ? 
         <div className="verification-code">
           <label>Enter verification code</label>
           <span>
@@ -427,21 +418,24 @@ const Settings = (props) => {
               id="verification-code"
               label="Verification code"
               variant="filled"
-              // value={handleChange}
-              // input={codeRef}
+              onChange={(e) => {
+                handleChange(e.target.value);
+                console.log(props.phoneNumber);
+              }}
             />
             <Button
               size="small"
               color="default"
               variant="outlined"
               type="submit"
-              // onClick={(e) => verifCodeForm(e)}
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
           </span>
         </div>
+        : null
+}
 
         <TableContainer>
           <Table>

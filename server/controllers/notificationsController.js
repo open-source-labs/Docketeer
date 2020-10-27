@@ -46,12 +46,12 @@ notificationsController.postEvent = (req, res, next) => {
 };
 
 notificationsController.postCode = (req, res, next) => {
-  // const { code } = req.body;
-  // const { mobileNumber } = req.body;
-  // console.log(code);
-  // console.log(mobileNumber)
-  const code = '906347';
-  const mobileNumber = '+79190877777';
+  const { code } = req.body;
+  const { mobileNumber } = req.body;
+  console.log(code);
+  console.log(mobileNumber)
+  // const code = '906347';
+  // const mobileNumber = '+79190877777';
   async function newFunc() {
     // console.log("starting newFunc")
     const result = await verifyCode(mobileNumber, code);

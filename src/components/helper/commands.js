@@ -573,7 +573,7 @@ export const writeToDb = () => {
 			else dbQuery += string + ', ';
 		})
 		query(dbQuery)
-	}, 30000)
+	}, interval)
 
 }
 

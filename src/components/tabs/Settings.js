@@ -74,7 +74,6 @@ const Settings = (props) => {
       });
   }
 
-
   const fetchNotificationSettings = () => {
     return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
       if (err) {
@@ -128,7 +127,7 @@ const Settings = (props) => {
   const handlePhoneNumberSubmit = () => {
     if (!props.phoneNumber) alert("Please enter phone number");
     else {
-      let phoneNumber = parseInt(props.phoneNumber);
+      let phoneNumber = parseInt(props.phoneNumber);                                                              // WHEN I TYPE 'ABC' IT DOES NOT SHOW AN ERROR
       if (typeof(phoneNumber) !== 'number') alert("Please enter phone number in numerical format. ex: 123456789");
       else {
         // test query out        
@@ -139,33 +138,9 @@ const Settings = (props) => {
             console.log(`*** Inserted ${res} into users table. ***`)
           }
         });
+      }
     }
 
-
-    }
-
-
-    // // test sending phoneNumber to notification service 
-    // fetch("http://localhost:5000/mobile", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "Application/JSON",
-    //   },
-    //   body: JSON.stringify({
-    //     mobileNumber: props.phoneNumber,
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Data from nofication service: ", data);
-    //   })
-    //   .catch((err) =>
-    //     console.log("handlePhoneNumberSubmit fetch ERROR: ", err)
-    //   );
-
-
-
-    // fetch // https://cors-anywhere.herokuapp.com/
     fetch("http://localhost:5000/mobile", {
       method: "POST",
       headers: {
@@ -189,6 +164,54 @@ const Settings = (props) => {
     alert(`Phone: ${props.phoneNumber} is valid`);
   };
   
+      // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
+      const verifCodeForm = () => {
+          const [formData, updateFormData] = useState('')
+          const handleChange = (e) => {
+            updateFormData({
+              ...formData,
+              [e.target.name]: e.target.value
+            });
+          };
+
+          const codeRef = React.useRef();
+        
+          const handleSubmit = (e) => {
+          //   console.log(codeRef);
+            fetch("http://localhost:5000/code", {
+              method: "POST",
+              headers: {
+                "Content-Type": "Application/JSON",
+              },
+              body: JSON.stringify({
+                code: '203449',                                                                                  // link value from the form here
+                mobileNumber: '+79190877777',                                                                         // Check at the server level that receive data in the right format
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Code verification status: ", data);
+              })
+              .catch((err) =>
+                console.log("handleCodeSubmit fetch ERROR: ", err)
+              );
+          };
+          // return (
+          //   <>
+          //     <label>
+          //       Username
+          //       <input name="username" onChange={handleChange} />
+          //     </label>
+          //     <br />
+          //     <label>
+          //       Password
+          //       <input name="password" onChange={handleChange} />
+          //     </label>
+          //     <br />
+          //     <button onClick={handleSubmit}>Submit</button>
+          //   </>
+          // );
+      };
 
   /**
    * Checks to see if the containerId is in the array
@@ -347,8 +370,8 @@ const Settings = (props) => {
               id="phone-number"
               label="Phone Number"
               variant="filled"
-              value={props.phoneNumber}
-              onChange={(e) => {
+              value={props.phoneNumber}                                       
+              onChange={(e) => {                                              
                 props.addPhoneNumber(e.target.value);
                 console.log(e.target.value);
               }}
@@ -363,6 +386,31 @@ const Settings = (props) => {
             </Button>
           </span>
         </div>
+
+        <div className="verification-code">
+        <label>Enter verification code</label>
+        <span>
+          <TextField
+            required
+            id="verification-code"
+            label="Verification code"
+            variant="filled"
+            // value={handleChange}
+            // input={codeRef}
+          />
+          <Button
+            size="small"
+            color="default"
+            variant="outlined"
+            type="submit"
+            // onClick={(e) => verifCodeForm(e)}
+            // onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </span>
+      </div>  
+
         <TableContainer>
           <Table>
             <TableHead>

@@ -7,13 +7,13 @@ import * as actions from '../../actions/actions';
 import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
-
 /**
  *
  * @param {*} props
  * Display general metrics
  */
 const Metrics = (props) => {
+  const gitCommits = [];
   const [activeContainers, setActiveContainers] = useState({});
   const [timePeriod, setTimePeriod] = useState('4');
   const memory = useSelector((state) => state.lists.graphMemory);
@@ -26,7 +26,7 @@ const Metrics = (props) => {
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
   const buildMemory = (data) => dispatch(actions.buildMemory(data));
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
-
+  const gitResults = [];
   // // example to run GET_METRICS query
   const getData = () => {
     let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
@@ -57,6 +57,7 @@ const Metrics = (props) => {
     buildMemory('clear');
     buildCpu('clear');
     buildAxis('clear');
+   
     //if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
@@ -161,7 +162,31 @@ const Metrics = (props) => {
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
     });
+
   };
+
+  const fetchGitData = async () => {
+    let data = await fetch('https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
+        since: '2020-10-26T18:44:25Z'
+      }))
+    const jsonData = await data.json();
+
+    // setState(jsonData)
+    console.log('JSON DATA', jsonData);
+    return jsonData;
+
+  }
+
+  const gitData = Promise.all(Object.keys(activeContainers).map(container => {
+    return fetchGitData()
+    // return(
+    //   <div><h1>{timePeriod}</h1> <p>{container}</p></div>
+    // )
+  })).then(data => console.log('GIT DATA,', data))
+
+
+
+
 
   // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
@@ -196,11 +221,12 @@ const Metrics = (props) => {
     currentList = result;
   };
 
+
+
   const handleChange = (e) => {
 
 		if (e.target.type === 'radio') {
       setTimePeriod(e.target.value);
-      helper.displayGitCommits(runningList, timePeriod );
 			return;
 		}
     const containerName = e.target.name;
@@ -252,7 +278,7 @@ const Metrics = (props) => {
 	}, [activeContainers]);
 	
 	useEffect(() => {
-		formatData();
+    formatData();
 	}, [timePeriod]);
 	
   return (
@@ -315,6 +341,7 @@ const Metrics = (props) => {
           </div>
         </div>
       </div>
+          {/* {gitData}; */}
       <div>
       </div>
     </div>

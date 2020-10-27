@@ -557,7 +557,6 @@ export const displayNetwork = (callback) => {
 }
 
 export const writeToDb = (runningContainers) => {
-	console.log('inside write to db and runningContainers is: ', runningContainers)
 	if (!runningContainers.length) return;
 	let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
 	runningContainers.forEach((container, idx) => {
@@ -570,7 +569,10 @@ export const writeToDb = (runningContainers) => {
 }
 
 export const displayGitCommits = (runningContainers, timePeriod) => {
-	console.log('running containers: ', runningContainers)
-	console.log('time period : ', timePeriod)
+	return (
+		<div>	
+			<h1>hello</h1>
+		</div>
+	)
 
 }

@@ -13,10 +13,20 @@ const WRITE_METRICS = `
   RETURNING *;
 `;
 
+export const INSERT_NETWORK = `
+  INSERT INTO docker_networks (network_name, file_path)
+  VALUES ($1, $2)
+  RETURNING *;
+`;
+
+export const DELETE_NETWORK = `
+  DELETE FROM docker_networks WHERE network_name = $1;
+`;
+
 export const INSERT_USER = `
-INSERT INTO users (username, phone_number)
-VALUES ($1, $2)
-RETURNING *;
+  INSERT INTO users (username, phone_number)
+  VALUES ($1, $2)
+  RETURNING *;
 `;
 
 /* Notification Settings Queries */

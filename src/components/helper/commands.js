@@ -1,7 +1,6 @@
-import React, { useEffect, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import * as actions from "../../actions/actions";
 import { exec, spawn } from "child_process";
+import query from "./psqlQuery"
+import { INSERT_NETWORK, DELETE_NETWORK } from "../../constants/queryTypes";
 
 import parseContainerFormat from "./parseContainerFormat";
 
@@ -444,7 +443,8 @@ export const connectContainers = (
 
 						// parse string to Object
 						let parsed = JSON.parse(stdout);
-						let containerIds = Object.keys(parsed[0]["Containers"]);
+            let containerIds = Object.keys(parsed[0]["Containers"]);
+            console.log('containerIds: ', containerIds )
 
 						let resultString = "";
 						for (let i = 0; i < containerIds.length; i++) {
@@ -464,21 +464,22 @@ export const connectContainers = (
 									return;
 								}
 								let value = parseContainerFormat.convert(stdout);
-								let objArray = ["cid", "name"];
+                let objArray = ["cid", "name"];
 								let composeValue = parseContainerFormat.convertArrToObj(
 									value,
 									objArray
 								); // [{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
-								let savedArr = [];
-								let networks = {};
+                let savedArr = [];
+								let networks = {
+                };
 								networks[newNetwork] = [];
-								networks[newNetwork].push(composeValue);
+                networks[newNetwork].push(composeValue);
+                networks.filepath = filepath;
 								// example format: [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
-
+                
 								savedArr.push(networks);
 								callback(savedArr);
 
-	
 							}
 						);
 					}
@@ -550,9 +551,57 @@ export const displayNetwork = (callback) => {
 				listnetworks[parent].push(networkarrrrs);
 			}
 			callback(listnetworks);
-		});
-
-	});
-
-
+		}); 
+  });
 }
+
+export const addNetworkToDb = (networkName, filePath) => {
+  console.log('query to DB', INSERT_NETWORK);
+    const values = [networkName, filePath]
+		return query(INSERT_NETWORK, values);
+}
+
+export const deleteNetworkFromDb = (networkName) => {
+  const value = [networkName.replaceAll('"', '')] // <--- need to figure out why its coming in with "" 
+	return query(DELETE_NETWORK, value);
+}
+
+export const dockerComposeDown = (filePath, networkName) => {
+  exec(`cd ${filePath} && docker-compose down`, (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log(stdout);
+	});
+	
+  console.log('in dockerComposeDown with newtorkName', networkName);
+	deleteNetworkFromDb(networkName);
+}
+
+
+
+
+
+/**
+   * networkList is array from the redux store
+   * Only display relationship of containers when networkList's length is more than 1
+   * networkList file format looks like in this format below
+   *
+   * [{
+   *  "a": [
+   *        {"cid": "1", "name": "conatiner1"},
+   *        {"cid": "2", "name": "container2", filePath: }
+   *      ]
+   * },
+   * {
+   *  "b": [
+   *        {"cid": "3", "name": "container3"},
+   *        {"cid": "4", "name": "container4"}
+   *       ]
+   * }]
+   */

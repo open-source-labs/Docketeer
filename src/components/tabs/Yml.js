@@ -6,6 +6,9 @@ import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
 import ModalDisplay from "../display/ModalDisplay";
 import NetworkChildrenList from "./NetworkChildrenList";
+import listsReducer from "../../reducers/ListsReducer";
+import query from "../helper/psqlQuery";
+import { INSERT_NETWORK } from "../../constants/queryTypes";
 
 /**
  * 
@@ -20,6 +23,13 @@ const Yml = (props) => {
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
+  const composeList = useSelector((state) => state.lists.composeList);
+  const networks = useSelector((state) => state.lists.networkList);
+
+  const dispatch = useDispatch();
+
+  const composeDown = (networkName) => dispatch(actions.composeDown(networkName));
+  
 
   useEffect(() => {
     let holder = document.getElementById("drag-file");
@@ -51,7 +61,8 @@ const Yml = (props) => {
     };
     uploadHolder.onchange = (e) => {
       e.preventDefault();
-      let uploadYmlFile = e.target.files[0].path; // File Path + Yaml File Name
+      const filePath = e.target.files[0].path;
+      let uploadYmlFile = filePath; // File Path + Yaml File Name
       const filteredUploadYmlArr = uploadYmlFile.split("/");
       let uploadYmlFileName =
         filteredUploadYmlArr[filteredUploadYmlArr.length - 1];
@@ -60,25 +71,51 @@ const Yml = (props) => {
 
       setFilepath(uploadYmlFilePath);
       setfileList(uploadYmlFileName);
+
+      const directoryName = filteredUploadYmlArr[filteredUploadYmlArr.length - 1].toLowerCase();
+      const networkName = `${directoryName}_default`;
+      
+      console.log(`before query`, networkName, uploadYmlFilePath);
+
+      return helper.addNetworkToDb(networkName, uploadYmlFilePath);
     };
   }, []);
+
+  const handleChange = (e) => {
+    const targetNetwork = e.target.id;
+    let targetIndex;
+
+    networks.forEach((network, idx) => {
+      if (network[targetNetwork]) targetIndex = idx;
+    });
+
+    const filePath = networks[targetIndex].filepath;
+
+    composeDown(targetNetwork);
+    helper.dockerComposeDown(filePath, targetNetwork);
+  };
 
   /**
    * networkList is array from the redux store
    * Only display relationship of containers when networkList's length is more than 1
    * networkList file format looks like in this format below
-   *
+   * iterate through networks and find the object that includes network name as a prop, 
+   * and save the index of the object
+   * 
+   * 
    * [{
-   *  "a": [
-   *        {"cid": "1", "name": "conatiner1"},
-   *        {"cid": "2", "name": "container2"}
+   *  "docketeer_default": [
+   *        {"cid": "1", "name": "conatiner1",},
+   *        {"cid": "2", "name": "container2", filePath: }
    *      ]
+   *  "filepath:" "..."
    * },
    * {
-   *  "b": [
+   *  "1": [
    *        {"cid": "3", "name": "container3"},
    *        {"cid": "4", "name": "container4"}
    *       ]
+   *  "filepath": "..."
    * }]
    */
   const NetworkDisplay = () => {
@@ -86,11 +123,12 @@ const Yml = (props) => {
       let newArray = [];
       for (let i = 0; i < props.networkList.length; i++) {
         let keys = Object.keys(props.networkList[i]); // save keys in this format ["parentName"]
-        let parent = keys[0];
+        let networkName = keys[0];
         newArray.push(
           <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
             <div className="yml-labels" key={`yml-labels${i}`}>
-              <p>Network: {parent}</p>
+              <p>Network: {networkName}</p>
+              <button id={networkName} onClick={handleChange}>Compose Down</button>
             </div>
             <NetworkChildrenList
               networkList={props.networkList[i]}
@@ -105,6 +143,29 @@ const Yml = (props) => {
       return <></>;
     }
   };
+
+  // const ComposeListDisplay = () => {
+  //   if (composeList) {
+  //     let newArray = [];
+  //     let composeKeys = Object.keys(composeList)
+  //     for (let i = 0; i < composeKeys.length; i++) { {}
+  //       let projectName = composeKeys[i];
+  //       let fileLocation = composeList[projectName];
+
+  //       newArray.push(
+  //         <div>
+  //           <p>Project: {projectName}</p>
+  //           <p>File: {fileLocation}</p>
+  //         </div>
+  //       );
+  //     }
+  //     return <div>{newArray}</div>;
+  //   } else {
+  //     return <></>;
+  //   }
+  // };
+
+  console.log('networks list :', networks);
 
 	return (
 
@@ -133,10 +194,12 @@ const Yml = (props) => {
 				</div>
 
 			</div>
-
+      {/* <div className="compose-list-container">
+        <ComposeListDisplay />
+      </div> */}
 			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
 			<div className="containers">
-				<NetworkDisplay />
+        <NetworkDisplay />
 			</div>
 		</div>
 	);

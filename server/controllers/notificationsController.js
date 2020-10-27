@@ -38,11 +38,13 @@ notificationsController.postMobile = (req, res, next) => {
 };
 
 notificationsController.postEvent = (req, res, next) => {
-  // const { triggeringEvent } = req.body                   // CHECK WITH MAT THAT IT WORKS
-  // const { mobileNumber } = req.body                   // CHECK WITH MAT THAT IT WORKS
+  const { triggeringEvent } = req.body                   // CHECK WITH MAT THAT IT WORKS
+  const { mobileNumber } = req.body                   // CHECK WITH MAT THAT IT WORKS
+  console.log(triggeringEvent)
+  console.log(mobileNumber)
   // USER MOBILE NUMBER CAN ALSO BE ALWAYS TAKEN FROM THE DATABASE
-  const mobileNumber = "+79190877777"; // TO BE KILLED AFTER CHECKING THE POST REQUEST
-  const triggeringEvent = "Triggering event XXX has happened";
+  // const mobileNumber = "+79190877777"; // TO BE KILLED AFTER CHECKING THE POST REQUEST
+  // const triggeringEvent = "Triggering event XXX has happened";
   if (mobileNumber === undefined || triggeringEvent === undefined) {
     return next({
       log:
@@ -58,12 +60,15 @@ notificationsController.postEvent = (req, res, next) => {
 };
 
 notificationsController.postCode = (req, res, next) => {
-  // const { code } = req.body
-  const code = '411708'
-  const phone = '+79190877777'
+  const { code } = req.body
+  const { mobileNumber } = req.body
+  console.log(code)
+  console.log(mobileNumber)
+  // const code = '314801'
+  // const mobileNumber = '+79190877777'
   async function newFunc() {
-  console.log("starting newFunc")
-  const result = await verifyCode(phone, code)
+  // console.log("starting newFunc")
+  const result = await verifyCode(mobileNumber, code)
   // console.log(result)
   res.locals.respond = result
   next();

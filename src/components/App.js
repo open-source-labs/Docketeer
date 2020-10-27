@@ -11,6 +11,7 @@ import LTMetrics from './tabs/LTMetrics';
 import * as helper from './helper/commands';
 import Docketeer from '../../assets/docketeer-title.png';
 import Settings from './tabs/Settings';
+import startNotificationRequester from './helper/notificationsRequester';
 
 /**
  *
@@ -62,6 +63,7 @@ const App = (props) => {
       helper.refreshImages(refreshImagesList);
     }, 5000);
 
+    startNotificationRequester();
     helper.displayNetwork(getComposeYmlFiles);
 
     return () => clearInterval(interval);

@@ -166,9 +166,6 @@ const Yml = (props) => {
 				</div>
 
 			</div>
-      {/* <div className="compose-list-container">
-        <ComposeListDisplay />
-      </div> */}
 			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
 			<div className="containers">
         <NetworkDisplay />

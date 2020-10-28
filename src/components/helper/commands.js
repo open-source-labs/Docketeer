@@ -1,15 +1,16 @@
 import { exec, spawn } from "child_process";
 import query from "./psqlQuery"
 import { INSERT_NETWORK, DELETE_NETWORK } from "../../constants/queryTypes";
-
 import parseContainerFormat from "./parseContainerFormat";
-
+import store from '../../renderer/store';
 /**
  * 
  * @param {*} runningList 
  * @param {*} callback 
  * on app start-up, get the containers that are already running by calling addRunning
  */
+
+
 export const addRunning = (runningList, callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
@@ -167,6 +168,7 @@ export const refreshRunning = (callback, runningList) => {
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
 		callback(convertedValue);
+
 	});
 };
 
@@ -580,25 +582,25 @@ export const dockerComposeDown = (filePath, networkName) => {
 	deleteNetworkFromDb(networkName);
 }
 
+export const writeToDb = () => {
+	const interval = 300000
+	setInterval(() => {
+		let state = store.getState();
+		let runningContainers = state.lists.runningList;
+		if (!runningContainers.length) return;
+		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
+		runningContainers.forEach((container, idx) => {
+			// no need to worry about sql injections as it would be self sabotaging! 
+			let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
+			if (idx === runningContainers.length - 1) dbQuery += string;
+			else dbQuery += string + ', ';
+		})
+		query(dbQuery)
+	}, interval)
 
+}
 
+export const getContainerGitUrl = (container) => {
+	return query(`Select github_url from containers where name = '${container}'`);
 
-
-/**
-   * networkList is array from the redux store
-   * Only display relationship of containers when networkList's length is more than 1
-   * networkList file format looks like in this format below
-   *
-   * [{
-   *  "a": [
-   *        {"cid": "1", "name": "conatiner1"},
-   *        {"cid": "2", "name": "container2", filePath: }
-   *      ]
-   * },
-   * {
-   *  "b": [
-   *        {"cid": "3", "name": "container3"},
-   *        {"cid": "4", "name": "container4"}
-   *       ]
-   * }]
-   */
+}

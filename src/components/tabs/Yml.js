@@ -23,14 +23,12 @@ const Yml = (props) => {
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
-  const composeList = useSelector((state) => state.lists.composeList);
   const networks = useSelector((state) => state.lists.networkList);
 
   const dispatch = useDispatch();
 
   const composeDown = (networkName) => dispatch(actions.composeDown(networkName));
   
-
   useEffect(() => {
     let holder = document.getElementById("drag-file");
     let uploadHolder = document.getElementById("uploadFile");

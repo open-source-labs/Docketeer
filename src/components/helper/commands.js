@@ -21,7 +21,7 @@ export const addRunning = (runningList, callback) => {
 		}
 		if (stderr) {
 			console.log(`stderr: ${stderr}`);
-			return;cher
+			return;
 		}
 
 		let value = parseContainerFormat.convert(stdout);

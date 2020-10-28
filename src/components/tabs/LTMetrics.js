@@ -7,7 +7,8 @@ import * as actions from '../../actions/actions';
 import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
-import {Link} from 'react-router-dom';
+import {Link, Redirect, BrowserRouter} from 'react-router-dom';
+
 
 /**
  *
@@ -171,16 +172,29 @@ const Metrics = (props) => {
   const fetchGitData = async (containerName) => {
     const ob = {};
     ob[containerName] = [];
+    let time = Number(timePeriod);
+    let date = new Date();
+    date.setHours(date.getHours() - (time + 24));
+    date = date.toISOString()
+    console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
-    // console.log('URL',url.rows)
+    // formate needed = 2020-10-26T18:44:25Z
+    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
+    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T18%3A44%3A25Z
+    
+
+    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
+    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
     if (url.rows.length) {
-      let data = await fetch('https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
-          since: '2020-10-25T18:44:25Z'
-        }))
+      const url = 'https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
+        since: `${date}`
+      })
+      console.log('URL**********', url);
+      let data = await fetch(url)
       const jsonData = await data.json();
 
       jsonData.forEach(commitData => {
-        ob[containerName].push({time: commitData.commit.author.date, url: commitData.html_url})
+        ob[containerName].push({time: commitData.commit.author.date, url: commitData.html_url, author: commitData.commit.author.name})
       })
     } else {
       ob[containerName].push({time: '', url: 'Connect github repo in settings' })
@@ -199,16 +213,18 @@ const Metrics = (props) => {
       let gitData;
       gitData = gitUrls.map(el =>  {
         let name = Object.keys(el);
-        const li = [<tr><th>Date</th><th>Time</th><th>URL</th></tr>]
+        const li = [<tr><th>Date</th><th>Time</th><th>URL</th><th>Author</th></tr>]
         console.log('EL', el[name])
         el[name].forEach(ob => {
+          let author = '';
           let date = 'n/a'
           let time = 'n/a'
-          let url = <Link to='/' style={selectedStyling}>Connect via settings page
+          let url = <Link Redirect to="/" style={selectedStyling}>Connect via settings page
         </Link>
           let text = ''
           if (ob.time.length) {
             time = ob.time;
+            author = ob.author;
             text = 'Github Commits'
             url = <a href={url} target='_blank'>{text}</a>
             time = time.split('T');
@@ -216,7 +232,7 @@ const Metrics = (props) => {
             time = time[1];
             time = time.split('').slice(0, time.length - 1);
           }
-        li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td></tr>)
+        li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td><td>{author}</td></tr>)
         }) 
         return (<div><h2>{name}</h2><table>{li}</table></div>)
       });
@@ -238,18 +254,7 @@ const Metrics = (props) => {
         </div>
       );
     });
-    // props.stoppedList.forEach((container) => {
-    //   result.push(
-    //     <div>
-    //       <label htmlFor={container.name}>{container.name}</label>
-    //       <input
-    //         name={container.name}
-    //         type='checkbox'
-    //         value={container.name}
-    //       ></input>
-    //     </div>
-    //   );
-    // });
+
 
     result.push(<div></div>);
     currentList = result;
@@ -331,6 +336,7 @@ const Metrics = (props) => {
             id='4-hours'
             name='timePeriod'
             value='4'
+            defaultChecked
           ></input>
           <label htmlFor='4-hours'>4 hours</label>
           <input

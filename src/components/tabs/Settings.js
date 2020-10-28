@@ -30,12 +30,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
-      // HIDDENTEST IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
-      let hiddenTest = false
+// HIDDENTEST IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
+let hiddenTest = false;
 
 const Settings = (props) => {
-  console.log(`*** SETTINGS RENDERED ***`)
-
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -147,7 +145,7 @@ const Settings = (props) => {
         alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         // test query out
-        hiddenTest=true
+        hiddenTest = true;
         query(queryType.INSERT_USER, ['anton', phoneNumber], (err, res) => {
           if (err) {
             console.log(`Error in insert user. Error: ${err}`);
@@ -183,32 +181,32 @@ const Settings = (props) => {
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   // const verifCodeForm = () => {
-    const [formData, updateFormData] = useState('');
-    const handleChange = (value) => {
-      updateFormData(value);
-      console.log(formData)
-    };
-    
-    const handleSubmit = (e) => {
-      console.log('handleSubmit sent');     // KILL AFTER TESTING
-      console.log(props.phoneNumber);       // KILL AFTER TESTING
-      fetch('http://localhost:5000/code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'Application/JSON',
-        },
-        body: JSON.stringify({
-          code: formData, 
-          mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
-        }),
+  const [formData, updateFormData] = useState('');
+  const handleChange = (value) => {
+    updateFormData(value);
+    console.log(formData);
+  };
+
+  const handleSubmit = (e) => {
+    console.log('handleSubmit sent'); // KILL AFTER TESTING
+    console.log(props.phoneNumber); // KILL AFTER TESTING
+    fetch('http://localhost:5000/code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify({
+        code: formData,
+        mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Code verification status: ', data);
+        if (data === 'approved') hiddenTest = false;
+        else alert('Please try verification code again');
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Code verification status: ', data);
-          if (data==='approved') hiddenTest=false
-          else alert('Please try verification code again')
-         })
-        .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
+      .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
   };
 
   /**
@@ -409,33 +407,32 @@ const Settings = (props) => {
           </span>
         </div>
 
-{ hiddenTest ? 
-        <div className="verification-code">
-          <label>Enter verification code</label>
-          <span>
-            <TextField
-              required
-              id="verification-code"
-              label="Verification code"
-              variant="filled"
-              onChange={(e) => {
-                handleChange(e.target.value);
-                console.log(props.phoneNumber);
-              }}
-            />
-            <Button
-              size="small"
-              color="default"
-              variant="outlined"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-          </span>
-        </div>
-        : null
-}
+        {hiddenTest ? (
+          <div className="verification-code">
+            <label>Enter verification code</label>
+            <span>
+              <TextField
+                required
+                id="verification-code"
+                label="Verification code"
+                variant="filled"
+                onChange={(e) => {
+                  handleChange(e.target.value);
+                  console.log(props.phoneNumber);
+                }}
+              />
+              <Button
+                size="small"
+                color="default"
+                variant="outlined"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            </span>
+          </div>
+        ) : null}
 
         <TableContainer>
           <Table>

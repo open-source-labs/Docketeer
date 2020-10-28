@@ -2,17 +2,15 @@
 import store from '../../renderer/store';
 import * as categories from '../../constants/notificationCategories';
 
-let state;
-
-// TODO: on pause
-// recovered using git cat-file -p 8c28dd0d7f85611500a4d2eae82fe0a48e37deab
+// object that holds what notifications have been sent
 const sentNotifications = {};
+let state;
 
 /**
  * The amount of seconds to wait before resend notification
  * when container problem has not been addressed
  */
-const RESEND_INTERVAL = 60;
+const RESEND_INTERVAL = 30; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
   if (notificationSettingType === categories.MEMORY)
@@ -43,7 +41,7 @@ const isContainerInSentNotifications = (notificationType, containerId) => {
   return false;
 };
 
-// sendNotification(notificationType, containerId, stat, triggeringValue);
+// this function will make a request that will trigger a notification
 const sendNotification = (
   notificationType,
   containerId,
@@ -53,7 +51,6 @@ const sendNotification = (
   console.log('phoneNumber', state.lists.phoneNumber);
 
   // request notification
-  // fetch // https://cors-anywhere.herokuapp.com/
   fetch('http://localhost:5000/event', {
     method: 'POST',
     headers: {
@@ -80,7 +77,7 @@ const getLatestNotificationDateTime = (notificationType, containerId) =>
   sentNotifications[notificationType][containerId];
 
 /**
- *
+ * Checks to see if a notification should be sent based on notification container is subscribed to
  * @param {Set} notificationSettingsSet
  * @param {String} type
  * @param {Array} containerList
@@ -91,16 +88,11 @@ const checkForNotifications = (
   containerList,
   triggeringValue,
 ) => {
-  // console.log('*** In checkForNotifications ***');
   // scan notification settings
   notificationSettingsSet.forEach((containerId) => {
-    // console.log('*** current containerId ***: ', containerId);
-    // console.log('containerList', containerList, 'containerId', containerId);
-
-    // if container is seen in eith runningList or stoppedList
+    // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
     if (containerObject) {
-      // console.log('container ' + containerId + ' included in ', containerList);
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
       // if the stat should trigger rule
@@ -112,11 +104,14 @@ const checkForNotifications = (
             notificationType,
             containerId,
           );
-          // if resend interval has been met
-          if (
-            Math.floor((Date.now() - notificationLastSent) / 1000) >
-            RESEND_INTERVAL
-          ) {
+
+          // calculate time between now and last notification sent time
+          let spentTime = Math.floor(
+            (Date.now() - notificationLastSent) / 1000,
+          );
+
+          // check if enough time (RESEND_INTERVAL) has passed since laster notification sent.
+          if (spentTime > RESEND_INTERVAL) {
             // send nofication
             sendNotification(
               notificationType,
@@ -125,8 +120,12 @@ const checkForNotifications = (
               triggeringValue,
             );
             console.log(
-              `** Notification SENT. ${notificationType} was at ${stat}`,
+              `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`,
             );
+            console.log('sentNofications: ', sentNotifications);
+
+            // update date.now in object that stores sent notifications
+            sentNotifications[notificationType][containerId] = Date.now();
           } else {
             // resend interval not yet met
             console.log(
@@ -142,18 +141,16 @@ const checkForNotifications = (
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
           console.log(
-            `** Notification test. ${notificationType} was at ${stat}`,
+            `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`,
           );
         }
       } else {
-        // else, remove container from sentNotifications if it is in there
+        // since metric is under threshold, remove container from sentNotifications if present
+        // this reset
         if (isContainerInSentNotifications(notificationType, containerId)) {
           delete sentNotifications[notificationType][containerId];
         }
       }
-      // console.log(
-      //   `${notificationType} of ${stat} is not gt ${triggeringValue} for container ${containerId}`,
-      // );
     }
   });
 };
@@ -163,32 +160,26 @@ export default function start() {
     // get current state
     state = store.getState();
 
-    // console.log('runningList', state.lists.runningList);
-    // console.log('stoppedList', state.lists.stoppedList);
-    // console.log('memoryNotificationList', state.lists.memoryNotificationList);
-    // console.log('stoppedNotificationList', state.lists.stoppedNotificationList);
-
-    //
+    // check if any containers register to memory notification exceed triggering memory value
     checkForNotifications(
       state.lists.memoryNotificationList,
       categories.MEMORY,
       state.lists.runningList,
-      3,
+      2, // triggering value
     );
+    // check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
       state.lists.cpuNotificationList,
       categories.CPU,
       state.lists.runningList,
-      0,
+      0, // triggering value
     );
+    // check if any containers register to stopped notification trigger notification
     checkForNotifications(
       state.lists.stoppedNotificationList,
       categories.STOPPED,
       state.lists.stoppedList,
-      0,
+      0, // triggering value
     );
-
-    // iterate through runningList
-    // state.runningList.
   }, 10000);
 }

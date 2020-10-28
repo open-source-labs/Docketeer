@@ -23,6 +23,12 @@ CREATE TABLE containers (
   name TEXT
 );
 
+CREATE TABLE docker_networks (
+  id SERIAL PRIMARY KEY,
+  network_name TEXT,
+  file_path TEXT
+);
+
 CREATE TABLE notification_settings (
   id SERIAL PRIMARY KEY,
   metric_name TEXT NOT NULL,

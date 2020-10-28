@@ -24,7 +24,6 @@ const convert = (stdout) => {
  * converting all the array into array of objects containing key of the value 
  */
 const convertArrToObj = (array, objArray) => {
-
     const result = []
     for (let i = 0; i < array.length; i++) {
         let containerObj = {};

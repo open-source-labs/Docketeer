@@ -65,6 +65,16 @@ export const getComposeYmlFiles = (data) => ({
   payload: data,
 });
 
+export const composeDown = (data) => ({
+  type: types.COMPOSE_DOWN,
+  payload: data,
+});
+
+export const composeUp = (data) => ({
+  type: types.COMPOSE_UP,
+  payload: data,
+});
+
 export const buildAxis = (data) => ({
   type: types.BUILD_AXIS,
   payload: data,

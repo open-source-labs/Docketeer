@@ -556,7 +556,6 @@ export const displayNetwork = (callback) => {
 }
 
 export const addNetworkToDb = (networkName, filePath) => {
-  console.log('query to DB', INSERT_NETWORK);
     const values = [networkName, filePath]
 		return query(INSERT_NETWORK, values);
 }
@@ -578,8 +577,6 @@ export const dockerComposeDown = (filePath, networkName) => {
 		}
 		console.log(stdout);
 	});
-	
-  console.log('in dockerComposeDown with newtorkName', networkName);
 	deleteNetworkFromDb(networkName);
 }
 

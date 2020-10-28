@@ -74,8 +74,6 @@ const Yml = (props) => {
 
       const directoryName = filteredUploadYmlArr[filteredUploadYmlArr.length - 1].toLowerCase();
       const networkName = `${directoryName}_default`;
-      
-      console.log(`before query`, networkName, uploadYmlFilePath);
 
       return helper.addNetworkToDb(networkName, uploadYmlFilePath);
     };
@@ -137,35 +135,11 @@ const Yml = (props) => {
           </div>
         );
       }
-
       return <div>{newArray}</div>;
     } else {
       return <></>;
     }
   };
-
-  // const ComposeListDisplay = () => {
-  //   if (composeList) {
-  //     let newArray = [];
-  //     let composeKeys = Object.keys(composeList)
-  //     for (let i = 0; i < composeKeys.length; i++) { {}
-  //       let projectName = composeKeys[i];
-  //       let fileLocation = composeList[projectName];
-
-  //       newArray.push(
-  //         <div>
-  //           <p>Project: {projectName}</p>
-  //           <p>File: {fileLocation}</p>
-  //         </div>
-  //       );
-  //     }
-  //     return <div>{newArray}</div>;
-  //   } else {
-  //     return <></>;
-  //   }
-  // };
-
-  console.log('networks list :', networks);
 
 	return (
 

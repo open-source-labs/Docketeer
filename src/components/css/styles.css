@@ -527,3 +527,7 @@ ul {
   margin-left: 20px;
   padding: 20px 0px;
 }
+
+.compose-list-container {
+  margin: 100px;
+}

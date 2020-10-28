@@ -129,7 +129,8 @@ const listsReducer = (state = initialState, action) => {
       ;			return { ...state, imagesList: newImagesList2 }
 
     case types.COMPOSE_YML_FILES:
-      			const newnetworkList = state.networkList.slice();
+      console.log('action.payload compose YML FILESs: ', action.payload);
+      const newnetworkList = state.networkList.slice();
 
       newnetworkList.push(action.payload[0]);
       			return { ...state, networkList: newnetworkList };
@@ -147,7 +148,26 @@ const listsReducer = (state = initialState, action) => {
         obj[newKey] = action.payload[keys[i]];
         newNetworkList2.push(obj);
       }
+
+      // console.log('GET_COMPOSED_YML_FILES action.payload: ', action.payload);
+      // console.log('GET_COMPOSED_YML_FILES networkList state: ', newNetworkList2);
       return { ...state, networkList: newNetworkList2 };
+
+    case types.COMPOSE_DOWN:
+      console.log('Compose down action.payload: ', action.payload);
+      const newNetworkList = state.networkList.slice();
+      const targetNetwork = action.payload; // parse this because " "
+
+      for (let i = 0; i < newNetworkList.length; i++) {
+        const network = newNetworkList[i];
+
+        if (network[targetNetwork]) {
+          newNetworkList.splice(i, 1);
+          break;
+        }
+      }
+
+      return { ...state, networkList: newNetworkList };
 
     case types.BUILD_AXIS:
       console.log('action.payload build axis:', action.payload);

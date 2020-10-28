@@ -54,7 +54,7 @@ const App = (props) => {
 
   const [selected, setSelected] = useState('/');
   const [color, setColor] = useState(false);
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers, runningList);
@@ -63,15 +63,21 @@ const App = (props) => {
     }, 5000);
 
     helper.displayNetwork(getComposeYmlFiles);
-
     return () => clearInterval(interval);
-  }, []);
+  }, [runningList]);
+  
+  useEffect(() => {
+    helper.writeToDb();
+  }, [])
+
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
     borderBottomRightRadius: '10px',
   };
+
+  
 
   return (
     <Router>

@@ -10,7 +10,6 @@ const NetworkChildrenList = (props) => {
     
     let ChildrenList = () => {
         let newArray = [];
-        console.log('props.networkList', props.networkList);
         for (let j = 0; j < props.networkList[props.parent].length; j++) {
             let parents = props.networkList[props.parent][j];
 

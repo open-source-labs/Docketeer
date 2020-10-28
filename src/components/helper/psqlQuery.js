@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 
+
 const pool = new Pool({
   host: "localhost",
   user: "postgres",
@@ -10,6 +11,5 @@ const pool = new Pool({
 
 export default async (text, params, callback) => {
   let rows = await pool.query(text, params, callback);
-  console.log(rows);
   return rows;
 };

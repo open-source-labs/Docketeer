@@ -4,7 +4,7 @@
 
 const GET_METRICS = `
   SELECT * 
-  FROM metrics;
+  FROM metrics WHERE container_name = $1;
 `;
 
 const WRITE_METRICS = `

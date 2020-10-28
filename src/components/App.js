@@ -64,12 +64,12 @@ const App = (props) => {
     }, 5000);
 
     startNotificationRequester();
-    helper.displayNetwork(getComposeYmlFiles);
     return () => clearInterval(interval);
   }, [runningList]);
   
   useEffect(() => {
     helper.writeToDb();
+    helper.displayNetwork(getComposeYmlFiles);
   }, [])
 
   const selectedStyling = {

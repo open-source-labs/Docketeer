@@ -10,7 +10,7 @@ let state;
  * The amount of seconds to wait before resend notification
  * when container problem has not been addressed
  */
-const RESEND_INTERVAL = 30; // seconds
+const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
   if (notificationSettingType === categories.MEMORY)
@@ -41,6 +41,28 @@ const isContainerInSentNotifications = (notificationType, containerId) => {
   return false;
 };
 
+const constructNotificationMessage = (
+  notificationType,
+  stat,
+  triggeringValue,
+  containerId,
+) => {
+  let message = '';
+  switch (notificationType) {
+    case categories.STOPPED:
+      message = `Container with ID of ${containerId} has stopped`;
+      break;
+    case categories.CPU || categories.MEMORY:
+      message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      break;
+    default:
+      message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      break;
+  }
+
+  return message;
+};
+
 // this function will make a request that will trigger a notification
 const sendNotification = (
   notificationType,
@@ -48,8 +70,6 @@ const sendNotification = (
   stat,
   triggeringValue,
 ) => {
-  console.log('phoneNumber', state.lists.phoneNumber);
-
   // request notification
   fetch('http://localhost:5000/event', {
     method: 'POST',
@@ -58,7 +78,12 @@ const sendNotification = (
     },
     body: JSON.stringify({
       mobileNumber: state.lists.phoneNumber,
-      triggeringEvent: `${notificationType} of ${stat} has reached triggeringValue of ${triggeringValue} for containerId ${containerId}`,
+      triggeringEvent: constructNotificationMessage(
+        notificationType,
+        stat,
+        triggeringValue,
+        containerId,
+      ),
     }),
   })
     .then((response) => response.json())
@@ -165,14 +190,14 @@ export default function start() {
       state.lists.memoryNotificationList,
       categories.MEMORY,
       state.lists.runningList,
-      2, // triggering value
+      80, // triggering value
     );
     // check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
       state.lists.cpuNotificationList,
       categories.CPU,
       state.lists.runningList,
-      0, // triggering value
+      80, // triggering value
     );
     // check if any containers register to stopped notification trigger notification
     checkForNotifications(

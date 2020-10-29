@@ -8,7 +8,8 @@ import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
 import {Link, Redirect, BrowserRouter} from 'react-router-dom';
-
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /**
  *
@@ -244,14 +245,16 @@ const Metrics = (props) => {
 		const result = [];
     props.runningList.forEach((container) => {
       result.push(
-        <div>
-          <label htmlFor={container.name}>{container.name}</label>
-          <input
+        <FormControlLabel
+        control={
+          <Checkbox
             name={container.name}
-            type='checkbox'
             value={container.name}
-          ></input>
-        </div>
+            inputProps={{ 'aria-label': container.name  }}  
+          />
+        } 
+        label={container.name}
+      />  
       );
     });
 

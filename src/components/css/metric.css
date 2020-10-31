@@ -44,3 +44,8 @@
   align-items: center;
   flex-direction: column;
 }
+
+.ltTable {
+  width: 600px;
+  text-align: center;
+}

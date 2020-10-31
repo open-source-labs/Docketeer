@@ -8,7 +8,8 @@ import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
 import {Link, Redirect, BrowserRouter} from 'react-router-dom';
-
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /**
  *
@@ -174,7 +175,7 @@ const Metrics = (props) => {
     ob[containerName] = [];
     let time = Number(timePeriod);
     let date = new Date();
-    date.setHours(date.getHours() - (time + 24));
+    date.setHours(date.getHours() - (time));
     date = date.toISOString()
     console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
@@ -234,7 +235,7 @@ const Metrics = (props) => {
           }
         li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td><td>{author}</td></tr>)
         }) 
-        return (<div><h2>{name}</h2><table>{li}</table></div>)
+        return (<div><h2>{name}</h2><table className={'ltTable'}>{li}</table></div>)
       });
 
 
@@ -244,14 +245,16 @@ const Metrics = (props) => {
 		const result = [];
     props.runningList.forEach((container) => {
       result.push(
-        <div>
-          <label htmlFor={container.name}>{container.name}</label>
-          <input
+        <FormControlLabel
+        control={
+          <Checkbox
             name={container.name}
-            type='checkbox'
             value={container.name}
-          ></input>
-        </div>
+            inputProps={{ 'aria-label': container.name  }}  
+          />
+        } 
+        label={container.name}
+      />  
       );
     });
 

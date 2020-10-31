@@ -66,7 +66,7 @@ const App = (props) => {
     startNotificationRequester();
     return () => clearInterval(interval);
   }, [runningList]);
-  
+
   useEffect(() => {
     helper.writeToDb();
     helper.displayNetwork(getComposeYmlFiles);

@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 // showVerificationInput IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
-let isVerified = true;
+let isVerified = false;
 
 const Settings = (props) => {
   const [tempPhoneNumber, setTempPhoneNumber] = useState('');

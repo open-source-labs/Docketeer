@@ -8,7 +8,8 @@ CREATE TABLE metrics (
   memory_usage TEXT,
   net_io TEXT,
   block_io TEXT,
-  pid TEXT
+  pid TEXT,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE users (  
@@ -20,6 +21,7 @@ CREATE TABLE users (
 
 CREATE TABLE containers (
   id TEXT PRIMARY KEY,
+  github_url TEXT,
   name TEXT
 );
 

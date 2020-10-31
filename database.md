@@ -17,7 +17,7 @@ postgres
 
 // 4. cd into the docketeer folder
 // 5. run this command to create the sql schema
-psql -h -U postgres -d docketeer-db -f schema.sql -p 5432
+psql -h localhost -U postgres -d docketeer-db -f schema.sql -p 5432
 
 // username and password for psql
 username: postgres

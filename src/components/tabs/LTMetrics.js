@@ -8,8 +8,9 @@ import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
 import * as queryType from '../../constants/queryTypes';
 import {Link, Redirect, BrowserRouter} from 'react-router-dom';
-
-
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Chip from '@material-ui/core/Chip';
 /**
  *
  * @param {*} props
@@ -176,7 +177,6 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - (time + 24));
     date = date.toISOString()
-    console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
@@ -189,7 +189,6 @@ const Metrics = (props) => {
       const url = 'https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
         since: `${date}`
       })
-      console.log('URL**********', url);
       let data = await fetch(url)
       const jsonData = await data.json();
 
@@ -214,7 +213,6 @@ const Metrics = (props) => {
       gitData = gitUrls.map(el =>  {
         let name = Object.keys(el);
         const li = [<tr><th>Date</th><th>Time</th><th>URL</th><th>Author</th></tr>]
-        console.log('EL', el[name])
         el[name].forEach(ob => {
           let author = '';
           let date = 'n/a'
@@ -244,31 +242,60 @@ const Metrics = (props) => {
 		const result = [];
     props.runningList.forEach((container) => {
       result.push(
-        <div>
-          <label htmlFor={container.name}>{container.name}</label>
-          <input
+       <FormControlLabel
+        control={
+          <Checkbox
             name={container.name}
-            type='checkbox'
             value={container.name}
-          ></input>
-        </div>
+            inputProps={{ 'aria-label': container.name  }}  
+          />
+        } 
+        label={container.name}
+      />          
       );
     });
-
 
     result.push(<div></div>);
     currentList = result;
   };
 
+              //   <FormControl>
+              //   <InputLabel id="demo-mutiple-chip-label">Container name</InputLabel>
+              //   <Select
+              //     labelId="demo-mutiple-chip-label"
+              //     id="demo-mutiple-chip"
+              //     multiple
+              //     value={container.name}
+              //     onChange={(e) => {handleChange(e)}}
+              //     input={<Input id="select-multiple-chip" />}
+              //     renderValue={(selected) => (
+              //       <div className={'classes.chips'}>
+              //         {selected.map((value) => (
+              //           <Chip key={value} label={value} className={'classes.chip'} />
+              //         ))}
+              //       </div>
+              //     )}
+              //     MenuProps={MenuProps}
+              //   >
+              //     {names.map((name) => (
+              //       <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+              //         {name}
+              //       </MenuItem>
+              //     ))}
+              //   </Select>
+              // </FormControl>
 
 
   const handleChange = (e) => {
-
-		if (e.target.type === 'radio') {
+    console.log('HIT HANDLE CHANGE')
+    console.log('e.target.name', e.target.name)
+		if (e.target.name === 'timePeriod') {
+      console.log('HIT IF CONDITION IN HANDLE CHANGE')
       setTimePeriod(e.target.value);
 			return;
 		}
     const containerName = e.target.name;
+    
     // deep copy the state object - shallow copy didn't work
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
@@ -324,36 +351,20 @@ const Metrics = (props) => {
         <span className='tabTitle'>Metrics</span>
       </div>
       <div style={{ marginTop: '150px' }}>
+        <p>Please Select a Container</p>
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
           {currentList}
-
-          <input
-            type='radio'
-            id='4-hours'
-            name='timePeriod'
-            value='4'
-            defaultChecked
-          ></input>
-          <label htmlFor='4-hours'>4 hours</label>
-          <input
-            type='radio'
-            id='12-hours'
-            name='timePeriod'
-            value='12'
-          ></input>
-          <label htmlFor='12-hours'>12 hours</label>
-          <input
-            type='radio'
-            id='other'
-            name='timePeriod'
-            value='24'
-          ></input>
-          <label htmlFor='24-hours'>24 hours</label>
         </form>
+          <p>Please Select a Time Period</p>
+          {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <Button id='4-hours' name='timePeriod' value='4' onClick={(e) => {handleChange(e)}}>4 hours</Button>
+            <Button id='12-hours' name='timePeriod' value='12' onClick={(e) => {handleChange(e)}}>12 hours</Button>
+            <Button id='other' name='timePeriod' value='24' onClick={(e) => {handleChange(e)}}>24 hours</Button>
+          </ButtonGroup> */}
       </div>
 
       <div className='allCharts'>

@@ -20,7 +20,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE containers (
-  id SERIAL PRIMARY KEY,
+  id TEXT PRIMARY KEY,
   name TEXT,
   github_url TEXT
 );

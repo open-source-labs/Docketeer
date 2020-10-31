@@ -13,6 +13,10 @@ import TextField from '@material-ui/core/TextField';
 import * as categories from '../../constants/notificationCategories';
 import query from '../helper/psqlQuery';
 import * as queryType from '../../constants/queryTypes';
+import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -30,10 +34,45 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
-// HIDDENTEST IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
-let hiddenTest = false;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      // margin: theme.spacing(1),
+      marginLeft: 5,
+      marginBottom: 15,
+      width: 200,
+      verticalAlign: 'middle',
+    },
+  },
+  button: {
+    marginLeft: 5,
+    width: 100,
+    verticalAlign: 'top',
+  },
+  verifiedIcon: {
+    verticalAlign: 'top',
+    //marginTop: 8,
+    color: 'green',
+  },
+  description: {
+    marginLeft: 5,
+    marginBottom: 30,
+  },
+}));
+
+// showVerificationInput IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
+let showVerificationInput = false;
+let isVerified = false;
 
 const Settings = (props) => {
+  const [tempPhoneNumber, setTempPhoneNumber] = useState('');
+
+  // styling
+  const classes = useStyles();
+
+  // console.log('runningList', props.runningList);
+  // console.log('stoppedList', props.stoppedList);
+
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -127,6 +166,29 @@ const Settings = (props) => {
     console.log(`*** Settings returned: ${res} ***`);
   };
 
+  const fetchVerificationCode = () => {
+    fetch('http://localhost:5000/mobile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify({
+        mobileNumber: tempPhoneNumber,
+      }),
+    })
+      .then((response) => {
+        console.log('phone sent to verification: ', tempPhoneNumber);
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data from nofication service: ', data);
+      })
+      .catch((err) =>
+        console.log('handlePhoneNumberSubmit fetch ERROR: ', err),
+      );
+  };
+
   // fetch on component mount only because of empty dependency array
   useEffect(() => {
     fetchNotificationSettings();
@@ -137,46 +199,31 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    // console.log('Hidden test value: ' hiddenTest)
-    if (!props.phoneNumber) alert('Please enter phone number');
+    // console.log('Hidden test value: ' showVerificationInput)
+    if (!tempPhoneNumber) alert('Please enter phone number');
     else {
-      let phoneNumber = parseInt(props.phoneNumber); // WHEN I TYPE 'ABC' IT DOES NOT SHOW AN ERROR
-      if (typeof phoneNumber !== 'number')
+      // alert if input is not a number
+      if (isNaN(Number(tempPhoneNumber)))
         alert('Please enter phone number in numerical format. ex: 123456789');
       else {
-        // test query out
-        hiddenTest = true;
-        query(queryType.INSERT_USER, ['anton', phoneNumber], (err, res) => {
-          if (err) {
-            console.log(`Error in insert user. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-          }
-        });
+        alert(`Phone: ${tempPhoneNumber} is valid`);
+        query(
+          queryType.INSERT_USER,
+          ['admin', props.phoneNumber],
+          (err, res) => {
+            if (err) {
+              console.log(`Error in insert user. Error: ${err}`);
+            } else {
+              console.log(`*** Inserted ${res} into users table. ***`);
+              props.addPhoneNumber(tempPhoneNumber);
+              showVerificationInput = true;
+              // ask SMS service for a verification code
+              fetchVerificationCode();
+            }
+          },
+        );
       }
     }
-
-    fetch('http://localhost:5000/mobile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify({
-        mobileNumber: props.phoneNumber,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Data from nofication service: ', data);
-      })
-      .catch((err) =>
-        console.log('handlePhoneNumberSubmit fetch ERROR: ', err),
-      );
-
-    let isValidPhone = false;
-    // TODO: send test notification to phone to check if valid phone
-    // do something if valid phone or if invalid phone
-    alert(`Phone: ${props.phoneNumber} is valid`);
   };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
@@ -188,8 +235,6 @@ const Settings = (props) => {
   };
 
   const handleSubmit = (e) => {
-    console.log('handleSubmit sent'); // KILL AFTER TESTING
-    console.log(props.phoneNumber); // KILL AFTER TESTING
     fetch('http://localhost:5000/code', {
       method: 'POST',
       headers: {
@@ -203,8 +248,11 @@ const Settings = (props) => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Code verification status: ', data);
-        if (data === 'approved') hiddenTest = false;
-        else alert('Please try verification code again');
+        // verification code approved so hide verification code input
+        if (data === 'approved') {
+          showVerificationInput = false;
+          isVerified = data === 'approved' ? true : false;
+        } else alert('Please try verification code again');
       })
       .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
   };
@@ -381,57 +429,80 @@ const Settings = (props) => {
         <span className="tabTitle">Settings</span>
         <span></span>
       </div>
+
       <div className="settings-content">
-        <div className="phone-number">
-          <label>Enter Phone Number for Notifications</label>
-          <span>
+        <div id="description" className={classes.description}>
+          <h3> Alerting Rules</h3>
+          <p>
+            Allows you to define alert conditions and receive text notifications
+            when your containers meet a condition
+          </p>
+        </div>
+
+        <div></div>
+
+        <form className={classes.root} autoComplete="off">
+          <div>
             <TextField
               required
               id="phone-number"
               label="Phone Number"
-              variant="filled"
-              value={props.phoneNumber}
-              onChange={(e) => {
-                props.addPhoneNumber(e.target.value);
-                console.log(props.phoneNumber);
-              }}
-            />
-            <Button
-              size="small"
-              color="default"
+              helperText="* use country code (+1)"
               variant="outlined"
-              onClick={(e) => handlePhoneNumberSubmit(e)}
-            >
-              Test
-            </Button>
-          </span>
-        </div>
+              value={tempPhoneNumber}
+              onChange={(e) => {
+                setTempPhoneNumber(e.target.value);
+                console.log(tempPhoneNumber);
+                isVerified = false;
+              }}
+              size="small"
+            />
+            {!isVerified ? (
+              <Button
+                className={classes.button}
+                size="medium"
+                color="primary"
+                variant="contained"
+                onClick={(e) => handlePhoneNumberSubmit(e)}
+                endIcon={<SendIcon />}
+              >
+                Test
+              </Button>
+            ) : (
+              <CheckCircleIcon
+                fontSize="large"
+                className={classes.verifiedIcon}
+              />
+            )}
+          </div>
+        </form>
 
-        {hiddenTest ? (
-          <div className="verification-code">
-            <label>Enter verification code</label>
-            <span>
+        {showVerificationInput ? (
+          <form className={classes.root} autoComplete="off">
+            <div className="verification-code">
               <TextField
                 required
                 id="verification-code"
                 label="Verification code"
-                variant="filled"
+                variant="outlined"
                 onChange={(e) => {
                   handleChange(e.target.value);
                   console.log(props.phoneNumber);
                 }}
+                size="small"
               />
               <Button
-                size="small"
-                color="default"
-                variant="outlined"
-                type="submit"
+                className={classes.button}
+                size="medium"
+                color="primary"
+                variant="contained"
                 onClick={handleSubmit}
+                endIcon={<SendIcon />}
               >
                 Submit
               </Button>
-            </span>
-          </div>
+            </div>
+          </form>
         ) : null}
 
         <TableContainer>

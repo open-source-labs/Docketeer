@@ -26,7 +26,15 @@ export const DELETE_NETWORK = `
 export const INSERT_USER = `
   INSERT INTO users (username, phone_number)
   VALUES ($1, $2)
-  RETURNING *;
+  ON CONFLICT ON CONSTRAINT unique_username
+  DO
+    UPDATE SET phone_number = $2;  
+`;
+
+export const GET_PHONE_NUMBER = `
+  SELECT phone_number
+  FROM users 
+  WHERE username = $1;
 `;
 
 /* Notification Settings Queries */

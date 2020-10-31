@@ -175,7 +175,7 @@ const Metrics = (props) => {
     ob[containerName] = [];
     let time = Number(timePeriod);
     let date = new Date();
-    date.setHours(date.getHours() - (time + 24));
+    date.setHours(date.getHours() - (time));
     date = date.toISOString()
     console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
@@ -235,7 +235,7 @@ const Metrics = (props) => {
           }
         li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td><td>{author}</td></tr>)
         }) 
-        return (<div><h2>{name}</h2><table>{li}</table></div>)
+        return (<div><h2>{name}</h2><table className={'ltTable'}>{li}</table></div>)
       });
 
 

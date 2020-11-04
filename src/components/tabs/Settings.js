@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
-import * as actions from '../../actions/actions';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
-import query from '../helper/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import React, { useEffect, useState } from "react";
+import { connect, useSelector } from "react-redux";
+import * as actions from "../../actions/actions";
+import { ipcRenderer } from "electron";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import * as categories from "../../constants/notificationCategories";
+import query from "../helper/psqlQuery";
+import * as queryType from "../../constants/queryTypes";
+import { makeStyles } from "@material-ui/core/styles";
+import SendIcon from "@material-ui/icons/Send";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -36,23 +37,23 @@ const mapDispatchToProps = (dispatch) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
+    "& .MuiTextField-root": {
       // margin: theme.spacing(1),
       marginLeft: 5,
       marginBottom: 15,
       width: 200,
-      verticalAlign: 'middle',
+      verticalAlign: "middle",
     },
   },
   button: {
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top',
+    verticalAlign: "top",
   },
   verifiedIcon: {
-    verticalAlign: 'top',
+    verticalAlign: "top",
     //marginTop: 8,
-    color: 'green',
+    color: "green",
   },
   description: {
     marginLeft: 5,
@@ -65,7 +66,7 @@ let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
-  const [tempPhoneNumber, setTempPhoneNumber] = useState('');
+  const [tempPhoneNumber, setTempPhoneNumber] = useState("");
 
   // styling
   const classes = useStyles();
@@ -87,9 +88,9 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER returned: **', res);
+          console.log("** INSERT_CONTAINER returned: **", res);
         }
-      },
+      }
     );
 
     query(
@@ -101,9 +102,9 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER_SETTING returned: **', res);
+          console.log("** INSERT_CONTAINER_SETTING returned: **", res);
         }
-      },
+      }
     );
   };
 
@@ -120,9 +121,9 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log('** DELETE_CONTAINER_SETTING returned: **', res);
+          console.log("** DELETE_CONTAINER_SETTING returned: **", res);
         }
-      },
+      }
     );
   };
 
@@ -159,34 +160,15 @@ const Settings = (props) => {
         props.addCpuNotificationSetting(tempCPU);
         props.addStoppedNotificationSetting(tempStopped);
 
-        console.log('** Settings returned: **', res.rows);
+        console.log("** Settings returned: **", res.rows);
       }
     });
 
     console.log(`*** Settings returned: ${res} ***`);
   };
 
-  const fetchVerificationCode = () => {
-    fetch('http://localhost:5000/mobile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify({
-        mobileNumber: tempPhoneNumber,
-      }),
-    })
-      .then((response) => {
-        console.log('phone sent to verification: ', tempPhoneNumber);
-
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Data from nofication service: ', data);
-      })
-      .catch((err) =>
-        console.log('handlePhoneNumberSubmit fetch ERROR: ', err),
-      );
+  const fetchVerificationCode = async () => {
+    await ipcRenderer.invoke("verify-number", tempPhoneNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -200,61 +182,75 @@ const Settings = (props) => {
    */
   const handlePhoneNumberSubmit = () => {
     // console.log('Hidden test value: ' showVerificationInput)
-    if (!tempPhoneNumber) alert('Please enter phone number');
+    if (!tempPhoneNumber) alert("Please enter phone number");
     else {
       // alert if input is not a number
       if (isNaN(Number(tempPhoneNumber)))
-        alert('Please enter phone number in numerical format. ex: 123456789');
+        alert("Please enter phone number in numerical format. ex: 123456789");
       else {
         alert(`Phone: ${tempPhoneNumber} is valid`);
-        query(
-          queryType.INSERT_USER,
-          ['admin', props.phoneNumber],
-          (err, res) => {
-            if (err) {
-              console.log(`Error in insert user. Error: ${err}`);
-            } else {
-              console.log(`*** Inserted ${res} into users table. ***`);
-              props.addPhoneNumber(tempPhoneNumber);
-              showVerificationInput = true;
-              // ask SMS service for a verification code
-              fetchVerificationCode();
-            }
-          },
-        );
+        showVerificationInput = true;
+        fetchVerificationCode();
+        // query(
+        //   queryType.INSERT_USER,
+        //   ["admin", props.phoneNumber],
+        //   (err, res) => {
+        //     if (err) {
+        //       console.log(`Error in insert user. Error: ${err}`);
+        //     } else {
+        //       console.log(`*** Inserted ${res} into users table. ***`);
+        //       props.addPhoneNumber(tempPhoneNumber);
+        //       showVerificationInput = true;
+        //       // ask SMS service for a verification code
+        //       fetchVerificationCode();
+        //     }
+        //   }
+        // );
       }
     }
   };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   // const verifCodeForm = () => {
-  const [formData, updateFormData] = useState('');
+  const [formData, updateFormData] = useState("");
   const handleChange = (value) => {
     updateFormData(value);
     console.log(formData);
   };
 
-  const handleSubmit = (e) => {
-    fetch('http://localhost:5000/code', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify({
-        code: formData,
-        mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Code verification status: ', data);
-        // verification code approved so hide verification code input
-        if (data === 'approved') {
-          showVerificationInput = false;
-          isVerified = data === 'approved' ? true : false;
-        } else alert('Please try verification code again');
-      })
-      .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
+  // Verify code
+  const handleSubmit = async () => {
+    console.log("submitted code");
+
+    const body = {
+      code: formData,
+      mobileNumber: "+19108900275",
+      // mobileNumber: props.phoneNumber,
+    };
+
+    const result = await ipcRenderer.invoke("verify-code", body);
+
+    console.log("successfully verified code", result);
+    // fetch("http://localhost:5000/code", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "Application/JSON",
+    //   },
+    //   body: JSON.stringify({
+    //     code: formData,
+    //     mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Code verification status: ", data);
+    //     // verification code approved so hide verification code input
+    //     if (data === "approved") {
+    //       showVerificationInput = false;
+    //       isVerified = data === "approved" ? true : false;
+    //     } else alert("Please try verification code again");
+    //   })
+    //   .catch((err) => console.log("handleCodeSubmit fetch ERROR: ", err));
   };
 
   /**
@@ -269,12 +265,12 @@ const Settings = (props) => {
   const renderRunningList = props.runningList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
-      container.cid,
+      container.cid
     );
     let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
     let isStoppedSelected = isSelected(
       props.stoppedNotificationList,
-      container.cid,
+      container.cid
     );
 
     return (
@@ -289,7 +285,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.MEMORY,
+                    categories.MEMORY
                   )
                 : handleUnCheckSetting(container.cid, categories.MEMORY)
             }
@@ -305,7 +301,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.CPU,
+                    categories.CPU
                   )
                 : handleUnCheckSetting(container.cid, categories.CPU)
             }
@@ -321,7 +317,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.STOPPED,
+                    categories.STOPPED
                   )
                 : handleUnCheckSetting(container.cid, categories.STOPPED)
             }
@@ -348,12 +344,12 @@ const Settings = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
-      container.cid,
+      container.cid
     );
     let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
     let isStoppedSelected = isSelected(
       props.stoppedNotificationList,
-      container.cid,
+      container.cid
     );
 
     return (
@@ -368,7 +364,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.MEMORY,
+                    categories.MEMORY
                   )
                 : handleUnCheckSetting(container.cid, categories.MEMORY)
             }
@@ -384,7 +380,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.CPU,
+                    categories.CPU
                   )
                 : handleUnCheckSetting(container.cid, categories.CPU)
             }
@@ -400,7 +396,7 @@ const Settings = (props) => {
                 ? handleCheckSetting(
                     container.cid,
                     container.name,
-                    categories.STOPPED,
+                    categories.STOPPED
                   )
                 : handleUnCheckSetting(container.cid, categories.STOPPED)
             }
@@ -438,9 +434,7 @@ const Settings = (props) => {
             when your containers meet a condition
           </p>
         </div>
-
         <div></div>
-
         <form className={classes.root} autoComplete="off">
           <div>
             <TextField
@@ -476,35 +470,33 @@ const Settings = (props) => {
             )}
           </div>
         </form>
-
-        {showVerificationInput ? (
-          <form className={classes.root} autoComplete="off">
-            <div className="verification-code">
-              <TextField
-                required
-                id="verification-code"
-                label="Verification code"
-                variant="outlined"
-                onChange={(e) => {
-                  handleChange(e.target.value);
-                  console.log(props.phoneNumber);
-                }}
-                size="small"
-              />
-              <Button
-                className={classes.button}
-                size="medium"
-                color="primary"
-                variant="contained"
-                onClick={handleSubmit}
-                endIcon={<SendIcon />}
-              >
-                Submit
-              </Button>
-            </div>
-          </form>
-        ) : null}
-
+        {/* {showVerificationInput ? ( */}
+        <form className={classes.root} autoComplete="off">
+          <div className="verification-code">
+            <TextField
+              required
+              id="verification-code"
+              label="Verification code"
+              variant="outlined"
+              onChange={(e) => {
+                handleChange(e.target.value);
+                console.log(props.phoneNumber);
+              }}
+              size="small"
+            />
+            <Button
+              className={classes.button}
+              size="medium"
+              color="primary"
+              variant="contained"
+              onClick={handleSubmit}
+              endIcon={<SendIcon />}
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+        {/* ) : null} */}
         <TableContainer>
           <Table>
             <TableHead>

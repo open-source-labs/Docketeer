@@ -65,6 +65,8 @@ let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
+  console.log('*** Rendered Settings ***');
+
   const [tempPhoneNumber, setTempPhoneNumber] = useState('');
 
   // styling

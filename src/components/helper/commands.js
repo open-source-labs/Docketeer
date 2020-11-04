@@ -10,7 +10,6 @@ import store from '../../renderer/store';
  * on app start-up, get the containers that are already running by calling addRunning
  */
 
-
 export const addRunning = (runningList, callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {
 		if (error) {
@@ -163,10 +162,13 @@ export const refreshRunning = (callback, runningList) => {
 		if (stderr) {
 			console.log(`stderr: ${stderr}`);
 			return;
-		}
+    }
+    console.log('refreshRunning s', stdout)
 		let value = parseContainerFormat.convert(stdout);
 		let objArray = ["cid", "name", "cpu", "mul", "mp", "net", "block", "pids"];
 		let convertedValue = parseContainerFormat.convertArrToObj(value, objArray);
+		// const convertedValue = [{cid: "6db0b89bd8df", name: "docketeer-db", cpu: "0.00%", mul: "9.785MiB/1.945GiB", mp: "0.49%", net: '123', block: '123', pids: '1' }]
+		// console.log('CONVERTED VALUE', convertedValue);
 		callback(convertedValue);
 
 	});
@@ -187,6 +189,7 @@ export const refreshStopped = (callback) => {
 			console.log(`stderr: ${stderr}`);
 			return;
 		}
+
 		let value = parseContainerFormat.convert(stdout);
 		const result = [];
 		for (let i = 0; i < value.length; i++) {
@@ -203,7 +206,7 @@ export const refreshStopped = (callback) => {
 		}
 		let objArray = ["cid", "img", "created", "name"];
 		let convertedValue = parseContainerFormat.convertArrToObj(result, objArray);
-
+		// let convertedValue = [{cid: "6db0b89bd8df", name: "docketeer-db", cpu: "0.00%", mul: "9.785MiB/1.945GiB", mp: "0.49%", net: '123', block: '123', pids: '1' }]
 		callback(convertedValue);
 	});
 };

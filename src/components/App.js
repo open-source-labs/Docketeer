@@ -18,6 +18,8 @@ import startNotificationRequester from './helper/notificationsRequester';
  * @param {*} props
  * Container component that has all redux logic along with react router
  */
+
+
 const App = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
@@ -57,6 +59,14 @@ const App = (props) => {
   const [color, setColor] = useState(false);
   
   useEffect(() => {
+    helper.refreshRunning(refreshRunningContainers, runningList);
+    helper.refreshStopped(refreshStoppedContainers);
+    helper.refreshImages(refreshImagesList);
+    helper.writeToDb();
+    helper.displayNetwork(getComposeYmlFiles);
+  }, [])
+
+  useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers, runningList);
       helper.refreshStopped(refreshStoppedContainers);
@@ -66,11 +76,7 @@ const App = (props) => {
     startNotificationRequester();
     return () => clearInterval(interval);
   }, [runningList]);
-
-  useEffect(() => {
-    helper.writeToDb();
-    helper.displayNetwork(getComposeYmlFiles);
-  }, [])
+  
 
   const selectedStyling = {
     background: '#e1e4e6',
@@ -227,7 +233,7 @@ const App = (props) => {
               cpuNotificationList={cpuNotificationList}
               stoppedNotificationList={stoppedNotificationList}
             />
-          </Route>
+          </Route>          
         </Switch>
       </div>
     </Router>

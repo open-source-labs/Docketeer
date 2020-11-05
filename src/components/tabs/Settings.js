@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "../../actions/actions";
 import { ipcRenderer } from "electron";
 import Table from "@material-ui/core/Table";
@@ -67,13 +67,7 @@ let isVerified = false;
 
 const Settings = (props) => {
   const [tempPhoneNumber, setTempPhoneNumber] = useState("");
-
-  // styling
   const classes = useStyles();
-
-  // console.log('runningList', props.runningList);
-  // console.log('stoppedList', props.stoppedList);
-
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -163,8 +157,6 @@ const Settings = (props) => {
         console.log("** Settings returned: **", res.rows);
       }
     });
-
-    console.log(`*** Settings returned: ${res} ***`);
   };
 
   const fetchVerificationCode = async () => {
@@ -189,29 +181,27 @@ const Settings = (props) => {
         alert("Please enter phone number in numerical format. ex: 123456789");
       else {
         alert(`Phone: ${tempPhoneNumber} is valid`);
-        showVerificationInput = true;
-        fetchVerificationCode();
-        // query(
-        //   queryType.INSERT_USER,
-        //   ["admin", props.phoneNumber],
-        //   (err, res) => {
-        //     if (err) {
-        //       console.log(`Error in insert user. Error: ${err}`);
-        //     } else {
-        //       console.log(`*** Inserted ${res} into users table. ***`);
-        //       props.addPhoneNumber(tempPhoneNumber);
-        //       showVerificationInput = true;
-        //       // ask SMS service for a verification code
-        //       fetchVerificationCode();
-        //     }
-        //   }
-        // );
+        // ask SMS service for a verification code
+        query(
+          queryType.INSERT_USER,
+          ["admin", props.phoneNumber],
+          (err, res) => {
+            if (err) {
+              console.log(`Error in insert user. Error: ${err}`);
+            } else {
+              console.log(`*** Inserted ${res} into users table. ***`);
+              props.addPhoneNumber(tempPhoneNumber);
+              showVerificationInput = true;
+              // ask SMS service for a verification code
+              fetchVerificationCode();
+            }
+          }
+        );
       }
     }
   };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
-  // const verifCodeForm = () => {
   const [formData, updateFormData] = useState("");
   const handleChange = (value) => {
     updateFormData(value);
@@ -224,33 +214,17 @@ const Settings = (props) => {
 
     const body = {
       code: formData,
-      mobileNumber: "+19108900275",
-      // mobileNumber: props.phoneNumber,
+      mobileNumber: props.phoneNumber,
     };
 
     const result = await ipcRenderer.invoke("verify-code", body);
 
     console.log("successfully verified code", result);
-    // fetch("http://localhost:5000/code", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "Application/JSON",
-    //   },
-    //   body: JSON.stringify({
-    //     code: formData,
-    //     mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
-    //   }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Code verification status: ", data);
-    //     // verification code approved so hide verification code input
-    //     if (data === "approved") {
-    //       showVerificationInput = false;
-    //       isVerified = data === "approved" ? true : false;
-    //     } else alert("Please try verification code again");
-    //   })
-    //   .catch((err) => console.log("handleCodeSubmit fetch ERROR: ", err));
+
+    if (result === "approved") {
+      showVerificationInput = false;
+      isVerified = result === "approved" ? true : false;
+    } else alert("Please try verification code again");
   };
 
   /**
@@ -470,33 +444,33 @@ const Settings = (props) => {
             )}
           </div>
         </form>
-        {/* {showVerificationInput ? ( */}
-        <form className={classes.root} autoComplete="off">
-          <div className="verification-code">
-            <TextField
-              required
-              id="verification-code"
-              label="Verification code"
-              variant="outlined"
-              onChange={(e) => {
-                handleChange(e.target.value);
-                console.log(props.phoneNumber);
-              }}
-              size="small"
-            />
-            <Button
-              className={classes.button}
-              size="medium"
-              color="primary"
-              variant="contained"
-              onClick={handleSubmit}
-              endIcon={<SendIcon />}
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
-        {/* ) : null} */}
+        {showVerificationInput ? (
+          <form className={classes.root} autoComplete="off">
+            <div className="verification-code">
+              <TextField
+                required
+                id="verification-code"
+                label="Verification code"
+                variant="outlined"
+                onChange={(e) => {
+                  handleChange(e.target.value);
+                  console.log(props.phoneNumber);
+                }}
+                size="small"
+              />
+              <Button
+                className={classes.button}
+                size="medium"
+                color="primary"
+                variant="contained"
+                onClick={handleSubmit}
+                endIcon={<SendIcon />}
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        ) : null}
         <TableContainer>
           <Table>
             <TableHead>

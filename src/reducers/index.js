@@ -4,6 +4,7 @@ import imageListReducer from "./imageListReducer";
 import runningListReducer from "./runningContainersReducer";
 import stoppedListReducer from "./stoppedContainersReducer";
 import dockerComposeReducer from "./dockerComposeReducer";
+import notificationReducer from "./notificationReducer";
 
 /**
  * Reducer store
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   runningList: runningListReducer,
   stoppedList: stoppedListReducer,
   networkList: dockerComposeReducer,
+  notificationList: notificationReducer,
 });
 
 export default reducers;

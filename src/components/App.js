@@ -44,13 +44,13 @@ const App = (props) => {
   // map state to props
   const phoneNumber = useSelector((state) => state.lists.phoneNumber);
   const memoryNotificationList = useSelector(
-    (state) => state.lists.memoryNotificationList
+    (state) => state.notificationList.memoryNotificationList
   );
   const cpuNotificationList = useSelector(
-    (state) => state.lists.cpuNotificationList
+    (state) => state.notificationList.cpuNotificationList
   );
   const stoppedNotificationList = useSelector(
-    (state) => state.lists.stoppedNotificationList
+    (state) => state.notificationList.stoppedNotificationList
   );
 
   const [selected, setSelected] = useState("/");

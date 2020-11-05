@@ -12,6 +12,7 @@ import * as helper from './helper/commands';
 import Docketeer from '../../assets/docketeer-title.png';
 import Settings from './tabs/Settings';
 import startNotificationRequester from './helper/notificationsRequester';
+import { HelpOutlineSharp } from '@material-ui/icons';
 
 /**
  *
@@ -70,7 +71,8 @@ const App = (props) => {
   useEffect(() => {
     helper.writeToDb();
     helper.displayNetwork(getComposeYmlFiles);
-  }, [])
+    helper.setDbSessionTimeZone();
+  }, []);
 
   const selectedStyling = {
     background: '#e1e4e6',
@@ -96,7 +98,7 @@ const App = (props) => {
                   style={selected === '/' ? selectedStyling : {}}
                   onClick={() => setSelected('/')}
                 >
-                  <i className='fas fa-settings'></i>Settings
+                  <i className='fas fa-settings'></i> Settings
                 </Link>
               </li>
               <li>
@@ -137,7 +139,7 @@ const App = (props) => {
                   <i className='fas fa-chart-pie'></i> Metrics
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to='/LTMetrics'
                   style={selected === '/LTMetrics' ? selectedStyling : {}}
@@ -145,7 +147,7 @@ const App = (props) => {
                 >
                   <i className='fas fa-chart-pie'></i> Long Term Metrics
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to='/yml'
@@ -176,13 +178,13 @@ const App = (props) => {
               runningList={runningList}
             />
           </Route>
-          <Route path='/LTMetrics'>
+          {/* <Route path='/LTMetrics'>
             <LTMetrics
               showGeneralMetrics={helper.showGeneralMetrics}
               runningList={runningList}
               stoppedList={stoppedList}
             />
-          </Route>
+          </Route> */}
           <Route path='/yml'>
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>

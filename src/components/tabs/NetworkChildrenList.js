@@ -18,8 +18,8 @@ const NetworkChildrenList = (props) => {
                 newArray.push(
                   <div className="yml-info" key={`yml-info${k}`}>
                     <div className="yml-info-box" key={`yml-info-box${k}`}>
-                      <p>ID: {container["cid"]}</p>
-                      <p>Name: {container["name"]}</p>
+                      {/* <p>ID: {container["cid"]}</p> */}
+                      <p>{container["name"]}</p>
                     </div>
                   </div>
                 );

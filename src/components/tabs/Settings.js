@@ -279,8 +279,8 @@ const Settings = (props) => {
 
     return (
       <TableRow key={i}>
-        <TableCell>{container.name}</TableCell>
-        <TableCell>{container.cid}</TableCell>
+        <TableCell><span className="container-name">{container.name}</span></TableCell>
+        <TableCell><span className="container-id">{container.cid}</span></TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
           <Checkbox
@@ -426,58 +426,50 @@ const Settings = (props) => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <span className="tabTitle">Settings</span>
-        <span></span>
+        <h1 className="tabTitle">Settings</h1>
       </div>
 
-      <div className="settings-content">
-        <div id="description" className={classes.description}>
-          <h3> Alerting Rules</h3>
-          <p>
-            Allows you to define alert conditions and receive text notifications
-            when your containers meet a condition
-          </p>
-        </div>
+      <div className="metric-section-title">
+        <h3>Account</h3>
+      </div>
 
-        <div></div>
+      <div className="settings-container">
+          <form className={classes.root} autoComplete="off">
+              <div>
+                <TextField
+                  required
+                  id="phone-number"
+                  label="Phone Number"
+                  helperText="* use country code (+1)"
+                  variant="outlined"
+                  value={tempPhoneNumber}
+                  onChange={(e) => {
+                    setTempPhoneNumber(e.target.value);
+                    console.log(tempPhoneNumber);
+                    isVerified = false;
+                  }}
+                  size="small"
+                />
+                {!isVerified ? (
+                  <Button
+                    className={classes.button}
+                    size="medium"
+                    variant="contained"
+                    onClick={(e) => handlePhoneNumberSubmit(e)}
+                    endIcon={<SendIcon />}
+                  >
+                    Verify
+                  </Button>
+                ) : (
+                  <CheckCircleIcon
+                    fontSize="large"
+                    className={classes.verifiedIcon}
+                  />
+                )}
+              </div>
+            </form>
 
-        <form className={classes.root} autoComplete="off">
-          <div>
-            <TextField
-              required
-              id="phone-number"
-              label="Phone Number"
-              helperText="* use country code (+1)"
-              variant="outlined"
-              value={tempPhoneNumber}
-              onChange={(e) => {
-                setTempPhoneNumber(e.target.value);
-                console.log(tempPhoneNumber);
-                isVerified = false;
-              }}
-              size="small"
-            />
-            {!isVerified ? (
-              <Button
-                className={classes.button}
-                size="medium"
-                color="primary"
-                variant="contained"
-                onClick={(e) => handlePhoneNumberSubmit(e)}
-                endIcon={<SendIcon />}
-              >
-                Test
-              </Button>
-            ) : (
-              <CheckCircleIcon
-                fontSize="large"
-                className={classes.verifiedIcon}
-              />
-            )}
-          </div>
-        </form>
-
-        {showVerificationInput ? (
+            {showVerificationInput ? (
           <form className={classes.root} autoComplete="off">
             <div className="verification-code">
               <TextField
@@ -504,6 +496,19 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
+      </div>
+
+      <div className="metric-section-title">
+        <h3> Notifications</h3>
+        <p>
+          Allows you to define alert conditions and receive text notifications
+          when your containers meet a condition
+        </p>
+      </div>
+
+      <div className="settings-container">
+        <div id="description" className={classes.description}>
+        </div>
 
         <TableContainer>
           <Table>

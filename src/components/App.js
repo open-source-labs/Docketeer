@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../actions/actions';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Metrics from './tabs/Metrics';
-import Images from './tabs/Images';
-import Yml from './tabs/Yml';
-import Running from './tabs/Running';
-import Stopped from './tabs/Stopped';
-import LTMetrics from './tabs/LTMetrics';
-import * as helper from './helper/commands';
-import Docketeer from '../../assets/docketeer-title.png';
-import Settings from './tabs/Settings';
-import startNotificationRequester from './helper/notificationsRequester';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../actions/actions";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Metrics from "./tabs/Metrics";
+import Images from "./tabs/Images";
+import Yml from "./tabs/Yml";
+import Running from "./tabs/Running";
+import Stopped from "./tabs/Stopped";
+import LTMetrics from "./tabs/LTMetrics";
+import * as helper from "./helper/commands";
+import Docketeer from "../../assets/docketeer-title.png";
+import Settings from "./tabs/Settings";
+import startNotificationRequester from "./helper/notificationsRequester";
 
 /**
  *
@@ -36,10 +36,10 @@ const App = (props) => {
   const stopRunningContainer = (id) =>
     dispatch(actions.stopRunningContainer(id));
 
-  const runningList = useSelector((state) => state.lists.runningList);
-  const stoppedList = useSelector((state) => state.lists.stoppedList);
-  const imagesList = useSelector((state) => state.lists.imagesList);
-  const networkList = useSelector((state) => state.lists.networkList);
+  const runningList = useSelector((state) => state.runningList.runningList);
+  const stoppedList = useSelector((state) => state.stoppedList.stoppedList);
+  const imagesList = useSelector((state) => state.images.imagesList);
+  const networkList = useSelector((state) => state.networkList.networkList);
 
   // map state to props
   const phoneNumber = useSelector((state) => state.lists.phoneNumber);
@@ -53,9 +53,9 @@ const App = (props) => {
     (state) => state.lists.stoppedNotificationList
   );
 
-  const [selected, setSelected] = useState('/');
+  const [selected, setSelected] = useState("/");
   const [color, setColor] = useState(false);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers, runningList);
@@ -70,95 +70,93 @@ const App = (props) => {
   useEffect(() => {
     helper.writeToDb();
     helper.displayNetwork(getComposeYmlFiles);
-  }, [])
+  }, []);
 
   const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    background: "#e1e4e6",
+    color: "#042331",
+    borderTopRightRadius: "10px",
+    borderBottomRightRadius: "10px",
   };
-
-  
 
   return (
     <Router>
-      <div className='container'>
-        <nav className='tab'>
-          <header id='title'>
+      <div className="container">
+        <nav className="tab">
+          <header id="title">
             <img src={Docketeer} width={140} />
           </header>
-          <div className='viewsAndButton'>
+          <div className="viewsAndButton">
             <ul>
               <li>
                 <Link
-                  to='/'
-                  style={selected === '/' ? selectedStyling : {}}
-                  onClick={() => setSelected('/')}
+                  to="/"
+                  style={selected === "/" ? selectedStyling : {}}
+                  onClick={() => setSelected("/")}
                 >
-                  <i className='fas fa-settings'></i>Settings
+                  <i className="fas fa-settings"></i>Settings
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/running'
-                  style={selected === '/running' ? selectedStyling : {}}
+                  to="/running"
+                  style={selected === "/running" ? selectedStyling : {}}
                   onClick={() => {
-                    setSelected((sel) => '/running');
+                    setSelected((sel) => "/running");
                   }}
                 >
-                  <i className='fas fa-box-open'></i> Running Containers
+                  <i className="fas fa-box-open"></i> Running Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/stopped'
-                  style={selected === '/stopped' ? selectedStyling : {}}
-                  onClick={() => setSelected('/stopped')}
+                  to="/stopped"
+                  style={selected === "/stopped" ? selectedStyling : {}}
+                  onClick={() => setSelected("/stopped")}
                 >
-                  <i className='fas fa-archive'></i> Exited Containers
+                  <i className="fas fa-archive"></i> Exited Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/images'
-                  style={selected === '/images' ? selectedStyling : {}}
-                  onClick={() => setSelected('/images')}
+                  to="/images"
+                  style={selected === "/images" ? selectedStyling : {}}
+                  onClick={() => setSelected("/images")}
                 >
-                  <i className='fas fa-database'></i> Images
+                  <i className="fas fa-database"></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/metrics'
-                  style={selected === '/metrics' ? selectedStyling : {}}
-                  onClick={() => setSelected('/metrics')}
+                  to="/metrics"
+                  style={selected === "/metrics" ? selectedStyling : {}}
+                  onClick={() => setSelected("/metrics")}
                 >
-                  <i className='fas fa-chart-pie'></i> Metrics
+                  <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/LTMetrics'
-                  style={selected === '/LTMetrics' ? selectedStyling : {}}
-                  onClick={() => setSelected('/LTMetrics')}
+                  to="/LTMetrics"
+                  style={selected === "/LTMetrics" ? selectedStyling : {}}
+                  onClick={() => setSelected("/LTMetrics")}
                 >
-                  <i className='fas fa-chart-pie'></i> Long Term Metrics
+                  <i className="fas fa-chart-pie"></i> Long Term Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/yml'
-                  style={selected === '/yml' ? selectedStyling : {}}
-                  onClick={() => setSelected('/yml')}
+                  to="/yml"
+                  style={selected === "/yml" ? selectedStyling : {}}
+                  onClick={() => setSelected("/yml")}
                 >
-                  <i className='fas fa-file-upload'></i> Docker Compose
+                  <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
               </li>
             </ul>
             <div>
               <button
-                className='btn'
+                className="btn"
                 onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
@@ -170,23 +168,23 @@ const App = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path='/metrics'>
+          <Route path="/metrics">
             <Metrics
               showGeneralMetrics={helper.showGeneralMetrics}
               runningList={runningList}
             />
           </Route>
-          <Route path='/LTMetrics'>
+          <Route path="/LTMetrics">
             <LTMetrics
               showGeneralMetrics={helper.showGeneralMetrics}
               runningList={runningList}
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path='/yml'>
+          <Route path="/yml">
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
-          <Route path='/images'>
+          <Route path="/images">
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -196,7 +194,7 @@ const App = (props) => {
               runnningList={runningList}
             />
           </Route>
-          <Route path='/stopped'>
+          <Route path="/stopped">
             <Stopped
               runStopped={helper.runStopped}
               remove={helper.remove}
@@ -205,7 +203,7 @@ const App = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path='/running'>
+          <Route path="/running">
             <Running
               runIm={helper.runIm}
               stop={helper.stop}
@@ -214,7 +212,7 @@ const App = (props) => {
               addRunningContainers={addRunningContainers}
             />
           </Route>
-          <Route path='/'>
+          <Route path="/">
             <Settings
               runningList={runningList}
               stop={helper.stop}

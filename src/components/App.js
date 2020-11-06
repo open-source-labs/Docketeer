@@ -12,7 +12,7 @@ import * as helper from './helper/commands';
 import Docketeer from '../../assets/docketeer-title.png';
 import Settings from './tabs/Settings';
 import startNotificationRequester from './helper/notificationsRequester';
-import { HelpOutlineSharp } from '@material-ui/icons';
+import { HelpOutlineSharp, LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 /**
  *
@@ -56,7 +56,7 @@ const App = (props) => {
 
   const [selected, setSelected] = useState('/');
   const [color, setColor] = useState(false);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers, runningList);

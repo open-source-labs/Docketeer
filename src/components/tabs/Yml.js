@@ -23,6 +23,8 @@ const Yml = (props) => {
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
+  const [ymlFile, setYmlFile] = useState("");
+
   const networks = useSelector((state) => state.lists.networkList);
 
   const dispatch = useDispatch();
@@ -60,6 +62,8 @@ const Yml = (props) => {
     uploadHolder.onchange = (e) => {
       e.preventDefault();
       const filePath = e.target.files[0].path;
+      const ymlFile = e.target.files[0];
+
       let uploadYmlFile = filePath; // File Path + Yaml File Name
       const filteredUploadYmlArr = uploadYmlFile.split("/");
       let uploadYmlFileName =
@@ -69,6 +73,12 @@ const Yml = (props) => {
 
       setFilepath(uploadYmlFilePath);
       setfileList(uploadYmlFileName);
+
+      const reader = new FileReader();
+      reader.readAsText(ymlFile);
+      reader.onload = function (e) {
+        setYmlFile(e.target.result);
+      };
 
       const directoryName = filteredUploadYmlArr[filteredUploadYmlArr.length - 1].toLowerCase();
       const networkName = `${directoryName}_default`;
@@ -149,7 +159,12 @@ const Yml = (props) => {
 			<div className="drag-container">
 				<div className="drag-container-box box-shadow" id="drag-file">
 					Drag and drop or upload your Docker Compose file here to run it.
-          <p><i className="fas fa-file yml-icon"></i></p>
+          {ymlFile && (
+            <pre>
+              <code>{ymlFile}</code>
+            </pre>
+          )}
+          {/* <p><i className="fas fa-file yml-icon"></i></p> */}
 					<p className="fileList">{fileList}</p>
 					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">
 					</input>
@@ -158,7 +173,8 @@ const Yml = (props) => {
 						className="btn"
 						onClick={() => {
 							helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
-							setfileList("");
+              setfileList("");
+              setYmlFile("");
 						}}
 					>
 						Docker Compose Up

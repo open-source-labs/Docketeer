@@ -63,10 +63,12 @@ const App = (props) => {
       helper.refreshImages(refreshImagesList);
     }, 5000);
 
+    helper.launchServer()
+    
     startNotificationRequester();
     return () => clearInterval(interval);
   }, [runningList]);
-  
+
   useEffect(() => {
     helper.writeToDb();
     helper.displayNetwork(getComposeYmlFiles);

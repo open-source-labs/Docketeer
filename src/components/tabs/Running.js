@@ -53,8 +53,8 @@ const Running = (props) => {
     return (
       <div className="box box-running" key={`runningBox${i}`}>
         <div className="box-label">
-          <span>Name: {ele["name"]}</span>
-          <span>ID: {ele["cid"]}</span>
+          <h3>{ele["name"]}</h3>
+          <p>{ele["cid"]}</p>
         </div>
         <div className="box-info">
           <div className="chart">

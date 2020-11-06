@@ -491,6 +491,14 @@ export const writeToDb = () => {
   }, interval);
 };
 
+export const setDbSessionTimeZone = async () => {
+  const currentTime = new Date()
+  const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
+  await query(`set time zone ${offsetTimeZoneInHours}`);
+  let result = await query('select now()')
+  console.log('here is teh offset ', result);
+}
+
 export const getContainerGitUrl = (container) => {
   return query(`Select github_url from containers where name = '${container}'`);
 };

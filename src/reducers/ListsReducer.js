@@ -176,13 +176,12 @@ const listsReducer = (state = initialState, action) => {
     case types.BUILD_AXIS:
       console.log('action.payload build axis:', action.payload);
       if (action.payload === 'clear') return { ...state, graphAxis: [] };
-      let payloadDate = new Date(action.payload).toISOString()
-      if (payloadDate > state.graphAxis[state.graphAxis.length - 1] || !state.graphAxis.length) {
-        // 2020-10-23 23:14:36.101954+00 >  2020-10-23 23:13:36.101954+00state.graphas
-        // amazing1 10.30pm 10.40pm, 10.50pm
-        // amazing2
+      // cuts the timezone off. 
+      let formatedDate = action.payload.toString().slice(0, 24)
+      // compare two string dates
+      if (formatedDate > state.graphAxis[state.graphAxis.length - 1] || !state.graphAxis.length) {
         const newAxis = state.graphAxis;
-        newAxis.push(payloadDate);
+        newAxis.push(formatedDate);
         return { ...state, graphAxis: newAxis };
       }
         return {...state}

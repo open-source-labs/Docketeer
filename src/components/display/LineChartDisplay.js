@@ -11,20 +11,6 @@ import {Link, Redirect, BrowserRouter} from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
 /**
  *
  * @param {*} props
@@ -87,72 +73,21 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    const data = [
-      {
-        time: '1',
-        name: 'amazing_morse',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '4.00%',
-        mp: '0.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '2',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '6.00%',
-        mp: '2%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '3',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '8.00%',
-        mp: '5.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-    ];
-    if (Object.keys(activeContainers).length > 1)
-      data.push(
-        {
-          name: 'wizardly_benz',
-          time: '1',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '8.00%',
-          mp: '5.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        },
-        {
-          name: 'wizardly_benz',
-          time: '2',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '10.00%',
-          mp: '18.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        }
-      );
-    // build two fundtion that will return formated object for each container to in datapoins
+
+    const colorGenerator = () => {
+      const colorOptions = ['red', 'blue', 'green', 'purple', 'yellow', 'grey', 'orange'];
+      
+      return colorOptions[Math.floor(Math.random() * 7)]
+    }
+    
+    // build function that will return formated object into necessary
+    // datastructure for chart.js line graphs
     const graphBuilder = (containerName) => {
       const obj = {
         label: containerName,
         data: [],
         fill: false,
+        borderColor: colorGenerator(),
       };
       return obj;
     };
@@ -229,7 +164,6 @@ const Metrics = (props) => {
       gitData = gitUrls.map(el =>  {
         let name = Object.keys(el);
         const li = [<tr><th>Date</th><th>Time</th><th>URL</th><th>Author</th></tr>]
-        console.log('EL', el[name])
         el[name].forEach(ob => {
           let author = '';
           let date = 'n/a'
@@ -257,7 +191,7 @@ const Metrics = (props) => {
   let currentList;
   const selectList = () => {
 		const result = [];
-    props.runningList.forEach((container) => {
+    runningList.forEach((container) => {
       result.push(
         <FormControlLabel
         control={
@@ -308,7 +242,7 @@ const Metrics = (props) => {
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 
   let memoryOptions = {
@@ -323,7 +257,7 @@ const Metrics = (props) => {
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 
 
@@ -333,14 +267,13 @@ const Metrics = (props) => {
     formatData();
     renderGitInfo();
 	}, [activeContainers, timePeriod]);
-	
-  
+
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <span className='tabTitle'>Metrics</span>
+    <div>
+      <div className="metric-section-title">
+        <h3>Over Time</h3>
       </div>
-      <div style={{ marginTop: '150px' }}>
+      <div className="metrics-options-form">
         <form
           onChange={(e) => {
             handleChange(e);
@@ -368,34 +301,31 @@ const Metrics = (props) => {
             value='24'
           ></input>
           <label htmlFor='24-hours'>24 hours</label>
+          <br></br>
           {currentList}
         </form>
+        <div>
+        </div>
       </div>
 
       <div className='allCharts'>
-        <div className='section'>
           <Line
             data={memoryObj}
             options={memoryOptions}
-            // width={4000}
-            // height={5000}
           />
-        </div>
       </div>
 
       <div className='allCharts'>
-        <div className='section'>
             <Line
               data={cpuObj}
               options={cpuOptions}
-              // width={7000}
-              // height={5000}
             />
-        </div>
       </div>
-
-          {gitData}
-      <div>
+      <div class="metric-section-title">
+        <h3>GitHub History</h3>
+    </div>
+      <div className="gitHub-container">
+        {gitData}
       </div>
     </div>
   );

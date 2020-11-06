@@ -439,7 +439,7 @@ const Settings = (props) => {
           </p>
         </div>
 
-        <div></div>
+        <div id="description">1. Link mobile number to your account</div>
 
         <form className={classes.root} autoComplete="off">
           <div>
@@ -505,6 +505,67 @@ const Settings = (props) => {
           </form>
         ) : null}
 
+          <div id="description">2. Setup / update notification criteria. Recommended values will be used by default </div>
+
+          <form className={classes.root} autoComplete="off">
+            <div>
+              <TextField
+                required
+                id="notificationFrequency"
+                label="Notification frequency,min"
+                helperText="* 5 min is recommended"
+                variant="outlined"
+                value={tempPhoneNumber}
+                onChange={(e) => {
+                  setTempPhoneNumber(e.target.value);
+                  console.log(tempPhoneNumber);
+                  isVerified = false;
+                }}
+                size="small"
+              />
+              <Button
+                className={classes.button}
+                size="medium"
+                color="primary"
+                variant="contained"
+                onClick={handleSubmit}
+              >
+                Confirm
+              </Button>
+            </div>
+          </form>
+
+          <form className={classes.root} autoComplete="off">
+            <div>
+              <TextField
+                required
+                id="monitoringFrequency"
+                label="Monitoring frequency,min"
+                helperText="* 2 min is recommended"
+                variant="outlined"
+                value={tempPhoneNumber}
+                onChange={(e) => {
+                  setTempPhoneNumber(e.target.value);
+                  console.log(tempPhoneNumber);
+                  isVerified = false;
+                }}
+                size="small"
+              />
+              <Button
+                className={classes.button}
+                size="medium"
+                color="primary"
+                variant="contained"
+                onClick={handleSubmit}
+              >
+                Confirm
+              </Button>
+            </div>
+          </form>
+          
+          <div id="description">3.Setup / update attribute values for notification triggers in Containers settings table below. Recommended values will be used by default </div>
+
+
         <TableContainer>
           <Table>
             <TableHead>
@@ -526,6 +587,8 @@ const Settings = (props) => {
         </TableContainer>
       </div>
     </div>
+    
+
   );
 };
 

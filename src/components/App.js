@@ -19,6 +19,8 @@ import { HelpOutlineSharp, LocalConvenienceStoreOutlined } from '@material-ui/ic
  * @param {*} props
  * Container component that has all redux logic along with react router
  */
+
+
 const App = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
@@ -58,20 +60,23 @@ const App = (props) => {
   const [color, setColor] = useState(false);
 
   useEffect(() => {
+    helper.refreshRunning(refreshRunningContainers);
+    helper.refreshStopped(refreshStoppedContainers);
+    helper.refreshImages(refreshImagesList);
+    helper.writeToDb();
+    helper.displayNetwork(getComposeYmlFiles);
+    helper.setDbSessionTimeZone();
+  }, [])
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      helper.refreshRunning(refreshRunningContainers, runningList);
+      helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
 
     startNotificationRequester();
     return () => clearInterval(interval);
-  }, [runningList]);
-
-  useEffect(() => {
-    helper.writeToDb();
-    helper.displayNetwork(getComposeYmlFiles);
-    helper.setDbSessionTimeZone();
   }, []);
 
   const selectedStyling = {
@@ -195,7 +200,7 @@ const App = (props) => {
               addRunningContainers={addRunningContainers}
               refreshImagesList={refreshImagesList}
               imagesList={imagesList}
-              runnningList={runningList}
+              runningList={runningList}
             />
           </Route>
           <Route path='/stopped'>
@@ -223,13 +228,14 @@ const App = (props) => {
               stopRunningContainer={stopRunningContainer}
               stoppedList={stoppedList}
               runStopped={helper.runStopped}
+              refreshRunningContainers={refreshRunningContainers}
               runStoppedContainer={runStoppedContainer}
               phoneNumber={phoneNumber}
               memoryNotificationList={memoryNotificationList}
               cpuNotificationList={cpuNotificationList}
               stoppedNotificationList={stoppedNotificationList}
             />
-          </Route>
+          </Route>          
         </Switch>
       </div>
     </Router>

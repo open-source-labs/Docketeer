@@ -61,6 +61,8 @@ const listsReducer = (state = initialState, action) => {
       for (let container of state.runningList) {
         if (container.cid !== action.payload) {
           newestRunningList.push(container);
+        } else {
+          newStoppedList.push(container);
         }
       			}
 

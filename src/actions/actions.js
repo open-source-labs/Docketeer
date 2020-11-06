@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 export const addRunningContainers = (data) => ({
   type: types.ADD_RUNNING_CONTAINERS,

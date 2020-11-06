@@ -6,31 +6,30 @@ import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
 import ModalDisplay from "../display/ModalDisplay";
 import NetworkChildrenList from "./NetworkChildrenList";
-import listsReducer from "../../reducers/ListsReducer";
 import query from "../helper/psqlQuery";
 import { INSERT_NETWORK } from "../../constants/queryTypes";
 
 /**
- * 
- * @param {*} props 
- * display all docker-compose network and 
+ *
+ * @param {*} props
+ * display all docker-compose network and
  * drag and drop or upload functionality
- * 
+ *
  */
 const Yml = (props) => {
-
   const [filepath, setFilepath] = useState("");
   const [fileList, setfileList] = useState("");
   const [modalValid, setModalValid] = useState(false);
   const [modalErrormessage, setModalErrormessage] = useState("");
   const [ymlFile, setYmlFile] = useState("");
 
-  const networks = useSelector((state) => state.lists.networkList);
+  const networks = useSelector((state) => state.networkList.networkList);
 
   const dispatch = useDispatch();
 
-  const composeDown = (networkName) => dispatch(actions.composeDown(networkName));
-  
+  const composeDown = (networkName) =>
+    dispatch(actions.composeDown(networkName));
+
   useEffect(() => {
     let holder = document.getElementById("drag-file");
     let uploadHolder = document.getElementById("uploadFile");
@@ -80,7 +79,9 @@ const Yml = (props) => {
         setYmlFile(e.target.result);
       };
 
-      const directoryName = filteredUploadYmlArr[filteredUploadYmlArr.length - 1].toLowerCase();
+      const directoryName = filteredUploadYmlArr[
+        filteredUploadYmlArr.length - 1
+      ].toLowerCase();
       const networkName = `${directoryName}_default`;
 
       return helper.addNetworkToDb(networkName, uploadYmlFilePath);
@@ -105,10 +106,10 @@ const Yml = (props) => {
    * networkList is array from the redux store
    * Only display relationship of containers when networkList's length is more than 1
    * networkList file format looks like in this format below
-   * iterate through networks and find the object that includes network name as a prop, 
+   * iterate through networks and find the object that includes network name as a prop,
    * and save the index of the object
-   * 
-   * 
+   *
+   *
    * [{
    *  "0": [
    *        {"cid": "1", "name": "conatiner1"},
@@ -134,7 +135,13 @@ const Yml = (props) => {
           <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
             <div className="yml-labels" key={`yml-labels${i}`}>
               <p>{networkName}</p>
-              <button className="btn-compose-down" id={networkName} onClick={handleChange}>Compose Down</button>
+              <button
+                className="btn-compose-down"
+                id={networkName}
+                onClick={handleChange}
+              >
+                Compose Down
+              </button>
             </div>
             <div className="dependancies-container">
               <NetworkChildrenList
@@ -151,42 +158,49 @@ const Yml = (props) => {
     }
   };
 
-	return (
-
-		<div className="renderContainers">
-			<div className="header">
-				<span className="tabTitle">Docker Compose</span>
-			</div>
-			<div className="settings-container">
-				<div id="drag-file">
-					Drag and drop or upload your Docker Compose file here to run it.
+  return (
+    <div className="renderContainers">
+      <div className="header">
+        <span className="tabTitle">Docker Compose</span>
+      </div>
+      <div className="settings-container">
+        <div id="drag-file">
+          Drag and drop or upload your Docker Compose file here to run it.
           {ymlFile && (
             <pre>
               <code>{ymlFile}</code>
             </pre>
           )}
-					<p className="fileList">{fileList}</p>
-					<input id="uploadFile" type="file" accept=".yml">
-					</input>
-				</div>
+          <p className="fileList">{fileList}</p>
+          <input id="uploadFile" type="file" accept=".yml"></input>
+        </div>
         <div className="btn-compose-up">
-            <button
-                className="btn"
-                onClick={() => {
-                  helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
-                  setfileList("");
-                  setYmlFile("");
-                }}
-              >
-                Docker Compose Up
-            </button>
-          </div>
-			</div>
-			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
-        <NetworkDisplay />
-		</div>
-	);
-
+          <button
+            className="btn"
+            onClick={() => {
+              helper.connectContainers(
+                filepath,
+                props.composeymlFiles,
+                setModalValid,
+                setModalErrormessage
+              );
+              setfileList("");
+              setYmlFile("");
+            }}
+          >
+            Docker Compose Up
+          </button>
+        </div>
+      </div>
+      <ModalDisplay
+        modalValid={modalValid}
+        setModalValid={setModalValid}
+        modalErrormessage
+        modalErrormessage={modalErrormessage}
+      />
+      <NetworkDisplay />
+    </div>
+  );
 };
 
 export default Yml;

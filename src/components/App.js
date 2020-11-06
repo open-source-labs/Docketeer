@@ -59,7 +59,7 @@ const App = (props) => {
   const [color, setColor] = useState(false);
   
   useEffect(() => {
-    helper.refreshRunning(refreshRunningContainers, runningList);
+    helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
     helper.writeToDb();
@@ -68,7 +68,7 @@ const App = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      helper.refreshRunning(refreshRunningContainers, runningList);
+      helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
@@ -199,7 +199,7 @@ const App = (props) => {
               addRunningContainers={addRunningContainers}
               refreshImagesList={refreshImagesList}
               imagesList={imagesList}
-              runnningList={runningList}
+              runningList={runningList}
             />
           </Route>
           <Route path='/stopped'>

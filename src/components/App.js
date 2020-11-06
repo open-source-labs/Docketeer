@@ -36,8 +36,8 @@ const App = (props) => {
   const stopRunningContainer = (id) =>
     dispatch(actions.stopRunningContainer(id));
 
-  const runningList = useSelector((state) => state.runningList.runningList);
-  const stoppedList = useSelector((state) => state.stoppedList.stoppedList);
+  const runningList = useSelector((state) => state.containersList.runningList);
+  const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
 

@@ -1,6 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
-import store from '../../renderer/store';
-import * as categories from '../../constants/notificationCategories';
+import { ipcRenderer } from "electron";
+import store from "../../renderer/store";
+import * as categories from "../../constants/notificationCategories";
 
 // object that holds what notifications have been sent
 const sentNotifications = {};
@@ -14,9 +15,9 @@ const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
   if (notificationSettingType === categories.MEMORY)
-    return parseFloat(containerObject.mp.replace('%', ''));
+    return parseFloat(containerObject.mp.replace("%", ""));
   if (notificationSettingType === categories.CPU)
-    return parseFloat(containerObject.cpu.replace('%', ''));
+    return parseFloat(containerObject.cpu.replace("%", ""));
   if (notificationSettingType === categories.STOPPED) return 1;
 };
 
@@ -25,7 +26,7 @@ const getContainerObject = (containerList, containerId) => {
     const containerObject = containerList[i];
     if (containerObject.cid === containerId) return containerObject;
   }
-  // container not present in container list (ex: running or stopped lists)
+  // container not present in container list (ex: running or stopped notificationList)
   return undefined;
 };
 
@@ -34,7 +35,7 @@ const isContainerInSentNotifications = (notificationType, containerId) => {
     // return true if the notificationType key in sentNotification contains our containerId
     return Object.prototype.hasOwnProperty.call(
       sentNotifications[notificationType],
-      containerId,
+      containerId
     );
   }
   // return false since container's notification category is not present
@@ -45,9 +46,9 @@ const constructNotificationMessage = (
   notificationType,
   stat,
   triggeringValue,
-  containerId,
+  containerId
 ) => {
-  let message = '';
+  let message = "";
   switch (notificationType) {
     case categories.STOPPED:
       message = `Container with ID of ${containerId} has stopped`;
@@ -64,33 +65,25 @@ const constructNotificationMessage = (
 };
 
 // this function will make a request that will trigger a notification
-const sendNotification = (
+const sendNotification = async (
   notificationType,
   containerId,
   stat,
-  triggeringValue,
+  triggeringValue
 ) => {
   // request notification
-  fetch('http://localhost:5000/event', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'Application/JSON',
-    },
-    body: JSON.stringify({
-      mobileNumber: state.lists.phoneNumber,
-      triggeringEvent: constructNotificationMessage(
-        notificationType,
-        stat,
-        triggeringValue,
-        containerId,
-      ),
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Data from nofication service: ', data);
-    })
-    .catch((err) => console.log('send notification fetch ERROR: ', err));
+  const body = {
+    mobileNumber: state.notificationList.phoneNumber,
+    triggeringEvent: constructNotificationMessage(
+      notificationType,
+      stat,
+      triggeringValue,
+      containerId
+    ),
+  };
+
+  console.log("sent a post event");
+  await ipcRenderer.invoke("post-event", body);
 };
 
 /**
@@ -111,7 +104,7 @@ const checkForNotifications = (
   notificationSettingsSet,
   notificationType,
   containerList,
-  triggeringValue,
+  triggeringValue
 ) => {
   // scan notification settings
   notificationSettingsSet.forEach((containerId) => {
@@ -127,12 +120,12 @@ const checkForNotifications = (
           // get the time from the sentNotifications object
           const notificationLastSent = getLatestNotificationDateTime(
             notificationType,
-            containerId,
+            containerId
           );
 
           // calculate time between now and last notification sent time
           let spentTime = Math.floor(
-            (Date.now() - notificationLastSent) / 1000,
+            (Date.now() - notificationLastSent) / 1000
           );
 
           // check if enough time (RESEND_INTERVAL) has passed since laster notification sent.
@@ -142,19 +135,19 @@ const checkForNotifications = (
               notificationType,
               containerId,
               stat,
-              triggeringValue,
+              triggeringValue
             );
             console.log(
-              `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`,
+              `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`
             );
-            console.log('sentNofications: ', sentNotifications);
+            console.log("sentNofications: ", sentNotifications);
 
             // update date.now in object that stores sent notifications
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
             // resend interval not yet met
             console.log(
-              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`,
+              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`
             );
           }
         } else {
@@ -166,7 +159,7 @@ const checkForNotifications = (
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
           console.log(
-            `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`,
+            `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`
           );
         }
       } else {
@@ -184,27 +177,26 @@ export default function start() {
   setInterval(() => {
     // get current state
     state = store.getState();
-
     // check if any containers register to memory notification exceed triggering memory value
     checkForNotifications(
-      state.lists.memoryNotificationList,
+      state.notificationList.memoryNotificationList,
       categories.MEMORY,
-      state.lists.runningList,
-      80, // triggering value
+      state.containersList.runningList,
+      80 // triggering value
     );
     // check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
-      state.lists.cpuNotificationList,
+      state.notificationList.cpuNotificationList,
       categories.CPU,
-      state.lists.runningList,
-      80, // triggering value
+      state.containersList.runningList,
+      80 // triggering value
     );
     // check if any containers register to stopped notification trigger notification
     checkForNotifications(
-      state.lists.stoppedNotificationList,
+      state.notificationList.stoppedNotificationList,
       categories.STOPPED,
-      state.lists.stoppedList,
-      0, // triggering value
+      state.containersList.stoppedList,
+      0 // triggering value
     );
   }, 10000);
 }

@@ -1,7 +1,6 @@
 import * as types from "../constants/actionTypes";
 
 const initialState = {
-  phoneNumber: "",
   graphAxis: [],
   graphMemory: [
     {
@@ -45,12 +44,6 @@ const listsReducer = (state = initialState, action) => {
       const newCpu = state.graphCpu.slice();
       newCpu.push(action.payload[0]);
       return { ...state, graphCpu: newCpu };
-
-    case types.ADD_PHONE_NUMBER:
-      return {
-        ...state,
-        phoneNumber: action.payload,
-      };
 
     default:
       return state;

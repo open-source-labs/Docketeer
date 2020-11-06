@@ -66,7 +66,7 @@ let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
-  const [tempPhoneNumber, setTempPhoneNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const classes = useStyles();
   // handle check
   // I couldve made this a single function where queryType gets passed in
@@ -159,8 +159,8 @@ const Settings = (props) => {
     });
   };
 
-  const fetchVerificationCode = async () => {
-    await ipcRenderer.invoke("verify-number", tempPhoneNumber);
+  const verifyMobileNumber = async () => {
+    await ipcRenderer.invoke("verify-number", mobileNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -173,30 +173,25 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    // console.log('Hidden test value: ' showVerificationInput)
-    if (!tempPhoneNumber) alert("Please enter phone number");
+    if (!mobileNumber) alert("Please enter phone number");
     else {
       // alert if input is not a number
-      if (isNaN(Number(tempPhoneNumber)))
+      if (isNaN(Number(mobileNumber)))
         alert("Please enter phone number in numerical format. ex: 123456789");
       else {
-        alert(`Phone: ${tempPhoneNumber} is valid`);
+        alert(`Phone: ${mobileNumber} is valid`);
         // ask SMS service for a verification code
-        query(
-          queryType.INSERT_USER,
-          ["admin", props.phoneNumber],
-          (err, res) => {
-            if (err) {
-              console.log(`Error in insert user. Error: ${err}`);
-            } else {
-              console.log(`*** Inserted ${res} into users table. ***`);
-              props.addPhoneNumber(tempPhoneNumber);
-              showVerificationInput = true;
-              // ask SMS service for a verification code
-              fetchVerificationCode();
-            }
+        query(queryType.INSERT_USER, ["admin", mobileNumber], (err, res) => {
+          if (err) {
+            console.log(`Error in insert user. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into users table. ***`);
+            props.addPhoneNumber(mobileNumber);
+            showVerificationInput = true;
+            // ask SMS service for a verification code
+            verifyMobileNumber();
           }
-        );
+        });
       }
     }
   };
@@ -205,7 +200,6 @@ const Settings = (props) => {
   const [formData, updateFormData] = useState("");
   const handleChange = (value) => {
     updateFormData(value);
-    console.log(formData);
   };
 
   // Verify code
@@ -214,7 +208,7 @@ const Settings = (props) => {
 
     const body = {
       code: formData,
-      mobileNumber: props.phoneNumber,
+      mobileNumber: mobileNumber,
     };
 
     const result = await ipcRenderer.invoke("verify-code", body);
@@ -417,10 +411,9 @@ const Settings = (props) => {
               label="Phone Number"
               helperText="* use country code (+1)"
               variant="outlined"
-              value={tempPhoneNumber}
+              value={mobileNumber}
               onChange={(e) => {
-                setTempPhoneNumber(e.target.value);
-                console.log(tempPhoneNumber);
+                setMobileNumber(e.target.value);
                 isVerified = false;
               }}
               size="small"
@@ -454,7 +447,6 @@ const Settings = (props) => {
                 variant="outlined"
                 onChange={(e) => {
                   handleChange(e.target.value);
-                  console.log(props.phoneNumber);
                 }}
                 size="small"
               />

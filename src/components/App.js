@@ -78,7 +78,7 @@ const App = (props) => {
 
     startNotificationRequester();
     return () => clearInterval(interval);
-  }, [runningList]);
+  }, []);
 
   const selectedStyling = {
     background: "#e1e4e6",
@@ -227,6 +227,7 @@ const App = (props) => {
               stopRunningContainer={stopRunningContainer}
               stoppedList={stoppedList}
               runStopped={helper.runStopped}
+              refreshRunningContainers={refreshRunningContainers}
               runStoppedContainer={runStoppedContainer}
               phoneNumber={phoneNumber}
               memoryNotificationList={memoryNotificationList}

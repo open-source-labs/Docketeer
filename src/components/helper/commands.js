@@ -59,7 +59,8 @@ export const refreshRunning = (refreshRunningContainers) => {
       if (stderr) {
         console.log(`stderr: ${stderr}`);
         return;
-      }
+			}
+			console.log('INSIDE REFRESH RUNNING!')
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
       const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
       const output = `[${dockerOutput}]`;
@@ -179,7 +180,7 @@ export const stop = (id, callback) => {
  * @param {*} callback
  * Start the container
  */
-export const runStopped = (id, callback) => {
+export const runStopped = (id, runStoppedContainerDispatcher, refreshRunningContainers) => {
   exec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
@@ -189,8 +190,7 @@ export const runStopped = (id, callback) => {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    let state = store.getState();
-    callback(id);
+    runStoppedContainerDispatcher(id);
   });
 };
 

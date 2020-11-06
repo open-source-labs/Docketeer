@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),
+    dispatch(actions.removeStoppedNotificationSetting(data)),    
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -381,7 +381,7 @@ const Settings = (props) => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runStopped(container.cid, props.runStoppedContainer)
+              props.runStopped(container.cid, props.runStoppedContainer, props.refreshRunningContainers)
             }
           >
             RUN

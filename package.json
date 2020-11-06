@@ -11,7 +11,6 @@
     "dist-win": "npm run compile && electron-builder --win --x64 && node server/server.js",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
     "test": "jest --verbose",
-    "start": "concurrently \"electron-webpack dev\" \"nodemon server/server.js\"",
     "temp": "webpack-dev-server --open --mode development"
   },
   "jest": {

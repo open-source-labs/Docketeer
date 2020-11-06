@@ -588,7 +588,7 @@ export const writeToDb = () => {
 	const interval = 300000
 	setInterval(() => {
 		let state = store.getState();
-		let runningContainers = state.lists.runningList;
+    let runningContainers = state.lists.runningList;
 		if (!runningContainers.length) return;
 		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
 		runningContainers.forEach((container, idx) => {
@@ -600,6 +600,14 @@ export const writeToDb = () => {
 		query(dbQuery)
 	}, interval)
 
+}
+
+export const setDbSessionTimeZone = async () => {
+  const currentTime = new Date()
+  const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
+  await query(`set time zone ${offsetTimeZoneInHours}`);
+  let result = await query('select now()')
+  console.log('here is teh offset ', result);
 }
 
 export const getContainerGitUrl = (container) => {

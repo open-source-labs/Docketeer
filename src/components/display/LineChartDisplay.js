@@ -10,7 +10,7 @@ import * as queryType from '../../constants/queryTypes';
 import {Link, Redirect, BrowserRouter} from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Chip from '@material-ui/core/Chip';
+
 /**
  *
  * @param {*} props
@@ -73,72 +73,21 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    const data = [
-      {
-        time: '1',
-        name: 'amazing_morse',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '4.00%',
-        mp: '0.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '2',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '6.00%',
-        mp: '2%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '3',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '8.00%',
-        mp: '5.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-    ];
-    if (Object.keys(activeContainers).length > 1)
-      data.push(
-        {
-          name: 'wizardly_benz',
-          time: '1',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '8.00%',
-          mp: '5.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        },
-        {
-          name: 'wizardly_benz',
-          time: '2',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '10.00%',
-          mp: '18.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        }
-      );
-    // build two fundtion that will return formated object for each container to in datapoins
+
+    const colorGenerator = () => {
+      const colorOptions = ['red', 'blue', 'green', 'purple', 'yellow', 'grey', 'orange'];
+      
+      return colorOptions[Math.floor(Math.random() * 7)]
+    }
+    
+    // build function that will return formated object into necessary
+    // datastructure for chart.js line graphs
     const graphBuilder = (containerName) => {
       const obj = {
         label: containerName,
         data: [],
         fill: false,
+        borderColor: colorGenerator(),
       };
       return obj;
     };
@@ -177,6 +126,7 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - (time));
     date = date.toISOString()
+    console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
@@ -189,6 +139,7 @@ const Metrics = (props) => {
       const url = 'https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
         since: `${date}`
       })
+      console.log('URL**********', url);
       let data = await fetch(url)
       const jsonData = await data.json();
 
@@ -240,7 +191,7 @@ const Metrics = (props) => {
   let currentList;
   const selectList = () => {
 		const result = [];
-    props.runningList.forEach((container) => {
+    runningList.forEach((container) => {
       result.push(
         <FormControlLabel
         control={
@@ -255,47 +206,20 @@ const Metrics = (props) => {
       );
     });
 
+
     result.push(<div></div>);
     currentList = result;
   };
 
-              //   <FormControl>
-              //   <InputLabel id="demo-mutiple-chip-label">Container name</InputLabel>
-              //   <Select
-              //     labelId="demo-mutiple-chip-label"
-              //     id="demo-mutiple-chip"
-              //     multiple
-              //     value={container.name}
-              //     onChange={(e) => {handleChange(e)}}
-              //     input={<Input id="select-multiple-chip" />}
-              //     renderValue={(selected) => (
-              //       <div className={'classes.chips'}>
-              //         {selected.map((value) => (
-              //           <Chip key={value} label={value} className={'classes.chip'} />
-              //         ))}
-              //       </div>
-              //     )}
-              //     MenuProps={MenuProps}
-              //   >
-              //     {names.map((name) => (
-              //       <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              //         {name}
-              //       </MenuItem>
-              //     ))}
-              //   </Select>
-              // </FormControl>
 
 
   const handleChange = (e) => {
-    console.log('HIT HANDLE CHANGE')
-    console.log('e.target.name', e.target.name)
-		if (e.target.name === 'timePeriod') {
-      console.log('HIT IF CONDITION IN HANDLE CHANGE')
+
+		if (e.target.type === 'radio') {
       setTimePeriod(e.target.value);
 			return;
 		}
     const containerName = e.target.name;
-    
     // deep copy the state object - shallow copy didn't work
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
@@ -318,7 +242,7 @@ const Metrics = (props) => {
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 
   let memoryOptions = {
@@ -333,7 +257,7 @@ const Metrics = (props) => {
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
   };
 
 
@@ -343,54 +267,65 @@ const Metrics = (props) => {
     formatData();
     renderGitInfo();
 	}, [activeContainers, timePeriod]);
-	
-  
+
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <span className='tabTitle'>Metrics</span>
+    <div>
+      <div className="metric-section-title">
+        <h3>Over Time</h3>
       </div>
-      <div style={{ marginTop: '150px' }}>
-        <p>Please Select a Container</p>
+      <div className="metrics-options-form">
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
+          <input
+            type='radio'
+            id='4-hours'
+            name='timePeriod'
+            value='4'
+            defaultChecked
+          ></input>
+          <label htmlFor='4-hours'>4 hours</label>
+          <input
+            type='radio'
+            id='12-hours'
+            name='timePeriod'
+            value='12'
+          ></input>
+          <label htmlFor='12-hours'>12 hours</label>
+          <input
+            type='radio'
+            id='other'
+            name='timePeriod'
+            value='24'
+          ></input>
+          <label htmlFor='24-hours'>24 hours</label>
+          <br></br>
           {currentList}
         </form>
-          <p>Please Select a Time Period</p>
-          {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-            <Button id='4-hours' name='timePeriod' value='4' onClick={(e) => {handleChange(e)}}>4 hours</Button>
-            <Button id='12-hours' name='timePeriod' value='12' onClick={(e) => {handleChange(e)}}>12 hours</Button>
-            <Button id='other' name='timePeriod' value='24' onClick={(e) => {handleChange(e)}}>24 hours</Button>
-          </ButtonGroup> */}
+        <div>
+        </div>
       </div>
 
       <div className='allCharts'>
-        <div className='section'>
           <Line
             data={memoryObj}
             options={memoryOptions}
-            // width={4000}
-            // height={5000}
           />
-        </div>
       </div>
 
       <div className='allCharts'>
-        <div className='section'>
             <Line
               data={cpuObj}
               options={cpuOptions}
-              // width={7000}
-              // height={5000}
             />
-        </div>
       </div>
-
-          {gitData}
-      <div>
+      <div class="metric-section-title">
+        <h3>GitHub History</h3>
+    </div>
+      <div className="gitHub-container">
+        {gitData}
       </div>
     </div>
   );

@@ -5,6 +5,17 @@
   width: 170px;
 }
 
+.aggregate-conatiner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  margin-bottom: 50px;
+  justify-items: center;
+
+  /* margin: 20px; */
+  /* padding: 15px; */
+}
+
 .avaliable-box {
   background-color: rgba(44, 130, 201, 1);
   width: 15px;
@@ -28,12 +39,19 @@
   margin-top: 10px;
 }
 .pieChart {
+  background-color: white;
   height: 320px;
   width: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 .lineChart {

@@ -11,9 +11,9 @@ const Stopped = (props) => {
 	const renderStoppedList = props.stoppedList.map((ele, i) => {
 		return (
 			<div className="box" key={`stoppedBox${i}`}>
-				<div className="stopped-header">
-					<span>Name: {ele['name']}</span>
-					<span>ID: {ele['cid']}</span>
+				<div className="box-label">
+					<h3>{ele['name']}</h3>
+					<p>{ele['cid']}</p>
 				</div>
 
 				<div className="stopped-info">

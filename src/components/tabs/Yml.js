@@ -110,9 +110,9 @@ const Yml = (props) => {
    * 
    * 
    * [{
-   *  "docketeer_default": [
-   *        {"cid": "1", "name": "conatiner1",},
-   *        {"cid": "2", "name": "container2", filePath: }
+   *  "0": [
+   *        {"cid": "1", "name": "conatiner1"},
+   *        {"cid": "2", "name": "container2" }
    *      ]
    *  "filepath:" "..."
    * },
@@ -133,13 +133,15 @@ const Yml = (props) => {
         newArray.push(
           <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
             <div className="yml-labels" key={`yml-labels${i}`}>
-              <p>Network: {networkName}</p>
-              <button id={networkName} onClick={handleChange}>Compose Down</button>
+              <p>{networkName}</p>
+              <button className="btn-compose-down" id={networkName} onClick={handleChange}>Compose Down</button>
             </div>
-            <NetworkChildrenList
-              networkList={props.networkList[i]}
-              parent={keys[0]}
-            />
+            <div className="dependancies-container">
+              <NetworkChildrenList
+                networkList={props.networkList[i]}
+                parent={keys[0]}
+              />
+            </div>
           </div>
         );
       }
@@ -154,10 +156,9 @@ const Yml = (props) => {
 		<div className="renderContainers">
 			<div className="header">
 				<span className="tabTitle">Docker Compose</span>
-				<span></span>
 			</div>
-			<div className="drag-container">
-				<div className="drag-container-box box-shadow" id="drag-file">
+			<div className="settings-container">
+				<div id="drag-file">
 					Drag and drop or upload your Docker Compose file here to run it.
           {ymlFile && (
             <pre>
@@ -166,7 +167,7 @@ const Yml = (props) => {
           )}
           {/* <p><i className="fas fa-file yml-icon"></i></p> */}
 					<p className="fileList">{fileList}</p>
-					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">
+					<input id="uploadFile" type="file" accept=".yml">
 					</input>
 					<button
 						id="btn"
@@ -180,12 +181,21 @@ const Yml = (props) => {
 						Docker Compose Up
      			 	</button>
 				</div>
-
+        <div className="btn-compose-up">
+            <button
+                className="btn"
+                onClick={() => {
+                  helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
+                  setfileList("");
+                  setYmlFile("");
+                }}
+              >
+                Docker Compose Up
+            </button>
+          </div>
 			</div>
 			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
-			<div className="containers">
         <NetworkDisplay />
-			</div>
 		</div>
 	);
 

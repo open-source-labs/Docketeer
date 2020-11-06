@@ -66,7 +66,7 @@ let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
-  const [tempPhoneNumber, setTempPhoneNumber] = useState("");
+  const [tempPhoneNumber, setTempPhoneNumber] = useState('');
   const classes = useStyles();
   // handle check
   // I couldve made this a single function where queryType gets passed in

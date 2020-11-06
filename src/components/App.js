@@ -19,6 +19,8 @@ import { HelpOutlineSharp } from '@material-ui/icons';
  * @param {*} props
  * Container component that has all redux logic along with react router
  */
+
+
 const App = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
@@ -58,8 +60,17 @@ const App = (props) => {
   const [color, setColor] = useState(false);
   
   useEffect(() => {
+    helper.refreshRunning(refreshRunningContainers);
+    helper.refreshStopped(refreshStoppedContainers);
+    helper.refreshImages(refreshImagesList);
+    helper.writeToDb();
+    helper.displayNetwork(getComposeYmlFiles);
+    helper.setDbSessionTimeZone();
+  }, [])
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      helper.refreshRunning(refreshRunningContainers, runningList);
+      helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
@@ -67,12 +78,6 @@ const App = (props) => {
     startNotificationRequester();
     return () => clearInterval(interval);
   }, [runningList]);
-
-  useEffect(() => {
-    helper.writeToDb();
-    helper.displayNetwork(getComposeYmlFiles);
-    helper.setDbSessionTimeZone();
-  }, []);
 
   const selectedStyling = {
     background: '#e1e4e6',
@@ -195,7 +200,7 @@ const App = (props) => {
               addRunningContainers={addRunningContainers}
               refreshImagesList={refreshImagesList}
               imagesList={imagesList}
-              runnningList={runningList}
+              runningList={runningList}
             />
           </Route>
           <Route path='/stopped'>
@@ -229,7 +234,7 @@ const App = (props) => {
               cpuNotificationList={cpuNotificationList}
               stoppedNotificationList={stoppedNotificationList}
             />
-          </Route>
+          </Route>          
         </Switch>
       </div>
     </Router>

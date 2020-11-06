@@ -11,6 +11,11 @@ import {Link, Redirect, BrowserRouter} from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+/** TODO 
+ * 1. Remove prop drilling from parent components
+ * 
+ */
+
 /**
  *
  * @param {*} props
@@ -24,6 +29,7 @@ const Metrics = (props) => {
   const cpu = useSelector((state) => state.lists.graphCpu);
   const axis = useSelector((state) => state.lists.graphAxis);
   const runningList = useSelector((state) => state.lists.runningList);
+  const stoppedList = useSelector((state) => state.lists.stoppedList);
 
   const dispatch = useDispatch();
 
@@ -38,20 +44,29 @@ const Metrics = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-  const getData = () => {
-    let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
-    if (Object.keys(activeContainers).length === 1) {
-			queryString += `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-      return query(queryString, Object.keys(activeContainers));
+  const getMetricsFromDb = () => {
+    let queryStringStart = `SELECT * FROM metrics WHERE container_name = $1 `;
+    let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
+
+    let containerNames = Object.keys(activeContainers);
+    
+    // If just need data for one container we just concat query start and end and send
+    if (containerNames.length === 1) {
+      queryStringStart += queryStringEnd;
+      return query(queryStringStart, containerNames);
     }
-    Object.keys(activeContainers)
+
+    // Iterating through the string 
+    containerNames
       .slice(1)
       .forEach((containerName, idx) => {
         const string = `OR container_name = $${idx + 2} `;
-        queryString += string;
-			});
-		queryString += `AND created_at >= now() - interval '${timePeriod} hour'  ORDER BY "created_at" ASC`;
-    return query(queryString, Object.keys(activeContainers));
+        queryStringStart += string;
+      });
+      
+    queryStringStart += queryStringEnd;
+    
+    return query(queryStringStart, containerNames);
   };
 
   const memoryObj = {
@@ -71,8 +86,8 @@ const Metrics = (props) => {
     if (!Object.keys(activeContainers).length) {
       return;
     }
-    // DB QUERY LIKELY GOING HERE
-    let output = await getData();
+    // DB QUERY RESPONSE
+    let output = await getMetricsFromDb();
 
     const colorGenerator = () => {
       const colorOptions = ['red', 'blue', 'green', 'purple', 'yellow', 'grey', 'orange'];
@@ -83,6 +98,8 @@ const Metrics = (props) => {
     // build function that will return formated object into necessary
     // datastructure for chart.js line graphs
     const graphBuilder = (containerName) => {
+      
+      
       const obj = {
         label: containerName,
         data: [],
@@ -190,8 +207,23 @@ const Metrics = (props) => {
   // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
   const selectList = () => {
-		const result = [];
+    const result = [];
     runningList.forEach((container) => {
+      result.push(
+        <FormControlLabel
+        control={
+          <Checkbox
+            name={container.name}
+            value={container.name}
+            inputProps={{ 'aria-label': container.name  }}
+          />
+        } 
+        label={container.name}
+      />  
+      );
+    });
+
+    stoppedList.forEach((container) => {
       result.push(
         <FormControlLabel
         control={

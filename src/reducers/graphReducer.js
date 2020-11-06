@@ -18,7 +18,7 @@ const initialState = {
   ],
 };
 
-const listsReducer = (state = initialState, action) => {
+const graphReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.BUILD_AXIS:
       if (action.payload === "clear") return { ...state, graphAxis: [] };
@@ -28,7 +28,7 @@ const listsReducer = (state = initialState, action) => {
         !state.graphAxis.length
       ) {
         const newAxis = state.graphAxis;
-        newAxis.push(payloadDate);
+        newAxis.push(formatedDate);
         return { ...state, graphAxis: newAxis };
       }
       return { ...state };
@@ -50,4 +50,4 @@ const listsReducer = (state = initialState, action) => {
   }
 };
 
-export default listsReducer;
+export default graphReducer;

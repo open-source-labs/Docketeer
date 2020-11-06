@@ -243,8 +243,12 @@ const Settings = (props) => {
 
     return (
       <TableRow key={i}>
-        <TableCell>{container.name}</TableCell>
-        <TableCell>{container.cid}</TableCell>
+        <TableCell>
+          <span className="container-name">{container.name}</span>
+        </TableCell>
+        <TableCell>
+          <span className="container-id">{container.cid}</span>
+        </TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
           <Checkbox
@@ -390,19 +394,14 @@ const Settings = (props) => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <span className="tabTitle">Settings</span>
-        <span></span>
+        <h1 className="tabTitle">Settings</h1>
       </div>
 
-      <div className="settings-content">
-        <div id="description" className={classes.description}>
-          <h3> Alerting Rules</h3>
-          <p>
-            Allows you to define alert conditions and receive text notifications
-            when your containers meet a condition
-          </p>
-        </div>
-        <div></div>
+      <div className="metric-section-title">
+        <h3>Account</h3>
+      </div>
+
+      <div className="settings-container">
         <form className={classes.root} autoComplete="off">
           <div>
             <TextField
@@ -422,12 +421,11 @@ const Settings = (props) => {
               <Button
                 className={classes.button}
                 size="medium"
-                color="primary"
                 variant="contained"
                 onClick={(e) => handlePhoneNumberSubmit(e)}
                 endIcon={<SendIcon />}
               >
-                Test
+                Verify
               </Button>
             ) : (
               <CheckCircleIcon
@@ -437,6 +435,7 @@ const Settings = (props) => {
             )}
           </div>
         </form>
+
         {showVerificationInput ? (
           <form className={classes.root} autoComplete="off">
             <div className="verification-code">
@@ -463,6 +462,19 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
+      </div>
+
+      <div className="metric-section-title">
+        <h3> Notifications</h3>
+        <p>
+          Allows you to define alert conditions and receive text notifications
+          when your containers meet a condition
+        </p>
+      </div>
+
+      <div className="settings-container">
+        <div id="description" className={classes.description}></div>
+
         <TableContainer>
           <Table>
             <TableHead>

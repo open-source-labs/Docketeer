@@ -3,8 +3,11 @@ import { config } from "dotenv";
 
 config();
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioNumber = process.env.TWILIO_NUMBER;
+
 const postEvent = (mobileNumber, eventMessage) => {
-  // const mobileNumber = "+79190877777";
   const client = twilio(accountSid, authToken);
   return client.api.messages
     .create({

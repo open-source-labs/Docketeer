@@ -11,6 +11,20 @@ import {Link, Redirect, BrowserRouter} from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import * as categories from '../../constants/notificationCategories';
+import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 /**
  *
  * @param {*} props
@@ -332,8 +346,6 @@ const Metrics = (props) => {
             handleChange(e);
           }}
         >
-          {currentList}
-
           <input
             type='radio'
             id='4-hours'
@@ -356,33 +368,32 @@ const Metrics = (props) => {
             value='24'
           ></input>
           <label htmlFor='24-hours'>24 hours</label>
+          {currentList}
         </form>
       </div>
 
       <div className='allCharts'>
-        <div className='line-section'>
-          <div className='lineChart'>
-            <Line
-              data={memoryObj}
-              options={memoryOptions}
-              width={4000}
-              height={2600}
-            />
-          </div>
+        <div className='section'>
+          <Line
+            data={memoryObj}
+            options={memoryOptions}
+            // width={4000}
+            // height={5000}
+          />
         </div>
+      </div>
 
-        <div className='line-section'>
-          <div className='lineChart'>
+      <div className='allCharts'>
+        <div className='section'>
             <Line
               data={cpuObj}
               options={cpuOptions}
-              width={4000}
-              height={2600}
+              // width={7000}
+              // height={5000}
             />
-          </div>
         </div>
       </div>
-          
+
           {gitData}
       <div>
       </div>

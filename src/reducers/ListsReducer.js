@@ -80,12 +80,10 @@ const listsReducer = (state = initialState, action) => {
       			return { ...state, stoppedList: newerStoppedList };
 
     case types.RUN_STOPPED_CONTAINER:
-      console.log('HITTING RUN_STOPPED IN REDUCERS');
       const runningListCopy = state.runningList.slice();
       const newerStoppedContainer = [];
       for (let container of state.stoppedList) {
         if (container.cid === action.payload) {
-          runningListCopy.push(container)
         } else {
           newerStoppedContainer.push(container);
         }

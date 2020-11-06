@@ -29,7 +29,7 @@ export const addRunning = (runningList, callback) => {
 
       for (let i = 0; i < convertedValue.length; i++) {
         let isInTheList = false;
-        for (let container of runningList) {
+        for (const container of runningList) {
           if (container.cid === convertedValue[i].cid) {
             isInTheList = true;
             break;

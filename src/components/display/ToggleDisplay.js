@@ -5,9 +5,11 @@ const ToggleDisplay = (props) => {
 
 	const [toggle, setToggle] = useState(false);
 	const tog = () => {
-		if (!toggle) setToggle(true);
-		else setToggle(false);
+		// if (!toggle) setToggle(true);
+		// else setToggle(false);
+		setToggle(!toggle);
 	}
+	console.log('inside toggleDisplay with props: ', props, props.ele)
 
 	return (
 		<div>
@@ -18,10 +20,10 @@ const ToggleDisplay = (props) => {
 				}
 			</div>
 			{toggle ? <div className="toggle-box">
-				<li>Mem Usage / Limit: {props.ele['mul']}</li>
-				<li>Net I/O: {props.ele['net']}</li>
-				<li>Block I/O: {props.ele['block']}</li>
-				<li>PIDS: {props.ele['pids']}</li>
+				<li>Mem Usage / Limit: {props.container.MemUsage}</li>
+				<li>Net I/O: {props.container.NetIO}</li>
+				<li>Block I/O: {props.container.BlockIO}</li>
+				<li>PIDS: {props.container.PIDS}</li>
 			</div> : <></>}
 
 		</div>

@@ -16,18 +16,17 @@ CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   username TEXT,
   phone_number TEXT,
-<<<<<<< HEAD
   notification_frequency INTEGER,
   monitoring_frequency INTEGER,
-=======
->>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
   CONSTRAINT unique_username UNIQUE(username)
 );
 
 CREATE TABLE IF NOT EXISTS containers (
   id TEXT PRIMARY KEY,
   name TEXT,
-  github_url TEXT
+  github_url TEXT,
+  memory_hurdle INTEGER,
+  cpu_hurdle INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS docker_networks (

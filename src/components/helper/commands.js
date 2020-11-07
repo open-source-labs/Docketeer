@@ -13,7 +13,7 @@ import store from '../../renderer/store';
  // docker stats --no-stream --format "{{ json . }}"
 export const addRunning = (runningList, callback) => {
   exec(
-    `docker stats --no-stream --format '{{json .}},'`,
+    `docker stats --no-stream --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -52,7 +52,7 @@ export const addRunning = (runningList, callback) => {
  */
 export const refreshRunning = (refreshRunningContainers) => {
   exec(
-    `docker stats --no-stream --format '{{json .}},'`,
+    `docker stats --no-stream --format "{{json .}},"`,
 
     (error, stdout, stderr) => {
       if (error) {
@@ -80,7 +80,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  */
 export const refreshStopped = (refreshStoppedContainers) => {
   exec(
-    `docker ps -f "status=exited" --format '{{json .}},'`,
+    `docker ps -f "status=exited" --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -477,22 +477,6 @@ export const dockerComposeDown = (filePath, networkName) => {
 };
 
 export const writeToDb = () => {
-<<<<<<< HEAD
-	const interval = 300000
-	setInterval(() => {
-		let state = store.getState();
-    let runningContainers = state.lists.runningList;
-		if (!runningContainers.length) return;
-		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
-		runningContainers.forEach((container, idx) => {
-			// no need to worry about sql injections as it would be self sabotaging! 
-			let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
-			if (idx === runningContainers.length - 1) dbQuery += string;
-			else dbQuery += string + ', ';
-		})
-		query(dbQuery)
-	}, interval)
-=======
   const interval = 300000;
   setInterval(() => {
     let state = store.getState();
@@ -508,30 +492,16 @@ export const writeToDb = () => {
     query(dbQuery);
   }, interval);
 };
->>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
 
 export const setDbSessionTimeZone = async () => {
   const currentTime = new Date()
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
   await query(`set time zone ${offsetTimeZoneInHours}`);
   let result = await query('select now()')
-  console.log('here is teh offset ', result);
 }
 
-export const setDbSessionTimeZone = async () => {
-  const currentTime = new Date()
-  const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  await query(`set time zone ${offsetTimeZoneInHours}`);
-  let result = await query('select now()')
-  console.log('here is teh offset ', result);
-}
 
 export const getContainerGitUrl = (container) => {
-<<<<<<< HEAD
 	return query(`Select github_url from containers where name = '${container}'`);
 
 }
-=======
-  return query(`Select github_url from containers where name = '${container}'`);
-};
->>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c

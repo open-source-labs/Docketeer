@@ -20,6 +20,7 @@ const Running = (props) => {
 
   let renderRunningList = props.runningList.map((container, i) => {
     let cpuData = parseFloat(
+      
       // container["CPUPerc"].substring(0, container["CPUPerc"].length - 1)
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);

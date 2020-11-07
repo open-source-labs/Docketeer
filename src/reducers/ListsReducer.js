@@ -186,8 +186,8 @@ const listsReducer = (state = initialState, action) => {
     case types.BUILD_AXIS:
       console.log('action.payload build axis:', action.payload);
       if (action.payload === 'clear') return { ...state, graphAxis: [] };
-      // cuts the timezone off. 
-      let formatedDate = action.payload.toString().slice(0, 24)
+      // cuts day of week from begingin and the timezone off the end.
+      let formatedDate = action.payload.toString().slice(4, 24)
       // compare two string dates
       if (formatedDate > state.graphAxis[state.graphAxis.length - 1] || !state.graphAxis.length) {
         const newAxis = state.graphAxis;

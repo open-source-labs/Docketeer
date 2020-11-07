@@ -25,7 +25,7 @@ export const addRunning = (runningList, callback) => {
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
       const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
-      const output = `[${stdout}]`;
+      const output = `[${dockerOutput}]`;
       const convertedValue = JSON.parse(output);
       const newList = [];
 
@@ -488,16 +488,16 @@ export const writeToDb = () => {
       let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`;
       if (idx === runningContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
-    });
-    query(dbQuery);
-  }, interval);
-};
+    })
+    console.log(dbQuery)
+		query(dbQuery)
+	}, interval)
+}
 
-export const setDbSessionTimeZone = async () => {
+export const setDbSessionTimeZone = () => {
   const currentTime = new Date()
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  await query(`set time zone ${offsetTimeZoneInHours}`);
-  let result = await query('select now()')
+  query(`set time zone ${offsetTimeZoneInHours}`);
 }
 
 

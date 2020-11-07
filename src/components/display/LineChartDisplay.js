@@ -11,6 +11,12 @@ import { Link, Redirect, BrowserRouter } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+/** TODO 
+ * 1. Remove prop drilling from parent components
+ * 2. Move get files from DB to its own helpers
+ * 
+ */
+
 /**
  *
  * @param {*} props
@@ -24,6 +30,7 @@ const Metrics = (props) => {
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const axis = useSelector((state) => state.graphs.graphAxis);
   const runningList = useSelector((state) => state.containersList.runningList);
+  const stoppedList = useSelector((state) => state.containersList.stoppedList);
 
   const dispatch = useDispatch();
 
@@ -38,22 +45,31 @@ const Metrics = (props) => {
     borderBottomRightRadius: "10px",
   };
 
-  const getData = () => {
+  const getContainerMetrics = () => {
     let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
-    if (Object.keys(activeContainers).length === 1) {
-      queryString += `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-      return query(queryString, Object.keys(activeContainers));
+    let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
+
+    let containerNamesArr = Object.keys(activeContainers);
+    
+    if (containerNamesArr.length === 1) {
+      queryString += queryStringEnd;
+      return query(queryString, containerNamesArr);
     }
-    Object.keys(activeContainers)
+
+    containerNamesArr
       .slice(1)
       .forEach((containerName, idx) => {
-        const string = `OR container_name = $${idx + 2} `;
-        queryString += string;
+        const additionalParameter = `OR container_name = $${idx + 2} `;
+        queryString += additionalParameter;
       });
-    queryString += `AND created_at >= now() - interval '${timePeriod} hour'  ORDER BY "created_at" ASC`;
-    return query(queryString, Object.keys(activeContainers));
+      
+    
+    queryString += queryStringEnd;
+    
+    return query(queryString, containerNamesArr);
   };
 
+  // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
     datasets: memory,
@@ -63,6 +79,11 @@ const Metrics = (props) => {
     datasets: cpu,
   };
 
+  /**
+   * Resets all graph data in global store
+   * Builds memory and cpu object for input into Line Components
+   * @return
+   */
   const formatData = async () => {
     buildMemory("clear");
     buildCpu("clear");
@@ -72,9 +93,9 @@ const Metrics = (props) => {
       return;
     }
     // DB QUERY LIKELY GOING HERE
-    let output = await getData();
+    let output = await getContainerMetrics();
 
-    const colorGenerator = () => {
+    const generateLineColor = () => {
       const colorOptions = [
         "red",
         "blue",
@@ -90,27 +111,38 @@ const Metrics = (props) => {
 
     // build function that will return formated object into necessary
     // datastructure for chart.js line graphs
-    const graphBuilder = (containerName) => {
+    const buildLineGraphObj = (containerName) => {
       const obj = {
         label: containerName,
         data: [],
         fill: false,
-        borderColor: colorGenerator(),
+        borderColor: generateLineColor(),
       };
+
       return obj;
     };
+
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
+
+    if (!Object.keys(activeContainers).length) {
+      return;
+    }
+
+    const containerMetrics = await getContainerMetrics();
 
     const auxObj = {};
 
     Object.keys(activeContainers).forEach((container) => {
       auxObj[container] = {
-        memory: graphBuilder(container),
-        cpu: graphBuilder(container),
+        memory: buildLineGraphObj(container),
+        cpu: buildLineGraphObj(container),
       };
     });
 
-    // iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
-    output.rows.forEach((dataPoint) => {
+    // iterate through each row from query and buld Memory and CPU objects [{}, {}]
+    containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       auxObj[currentContainer].cpu.data.push(
         dataPoint.cpu_pct.replace("%", "")
@@ -120,7 +152,29 @@ const Metrics = (props) => {
       );
       buildAxis(dataPoint.created_at);
     });
+
+    let longest = 0;
+
     Object.keys(auxObj).forEach((containerName) => {
+      if (auxObj[containerName].memory.data.length > longest) {
+        longest = auxObj[containerName].memory.data.length;
+      }
+    });
+
+    // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
+    Object.keys(auxObj).forEach((containerName) => {
+
+      if (auxObj[containerName].memory.data.length < longest) {
+        console.log('in loop:', containerName, longest - auxObj[containerName].memory.data.length)
+        let lengthToAdd = longest - auxObj[containerName].memory.data.length
+        for (let i = 0; i < lengthToAdd; i += 1) {
+          console.log(i, lengthToAdd)
+          auxObj[containerName].memory.data.unshift("0.00");
+          auxObj[containerName].cpu.data.unshift("0.00");
+        }
+      }
+      console.log('this is longest: ', longest);
+      console.log('this is auxObj: ', auxObj);
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
     });
@@ -235,16 +289,31 @@ const Metrics = (props) => {
     runningList.forEach((container, index) => {
       result.push(
         <FormControlLabel
-          key={index}
-          control={
-            <Checkbox
-              name={container.Name}
-              value={container.Name}
-              inputProps={{ "aria-label": container.Name }}
-            />
-          }
-          label={container.Name}
-        />
+        control={
+          <Checkbox
+            name={container.Name}
+            value={container.Name}
+            color='primary'
+            inputProps={{ 'aria-label': container.Name  }}
+          />
+        } 
+        label={container.Name}
+      />  
+      );
+    });
+
+    stoppedList.forEach((container) => {
+      result.push(
+        <FormControlLabel
+        control={
+          <Checkbox
+            name={container.Name}
+            value={container.Name}
+            inputProps={{ 'aria-label': container.Name  }}  
+          />
+        } 
+        label={container.Name}
+      />  
       );
     });
 
@@ -298,7 +367,7 @@ const Metrics = (props) => {
     maintainAspectRatio: false,
   };
 
-  /* Consider if we can combine these two. Wasn't rendering active containers when tested*/
+	/* Consider if we can combine these two. Wasn't rendering active containers when tested*/
   selectList();
   useEffect(() => {
     formatData();
@@ -323,16 +392,21 @@ const Metrics = (props) => {
             value="4"
             defaultChecked
           ></input>
-          <label htmlFor="4-hours">4 hours</label>
+          <label htmlFor='4-hours'> 4 hours</label>
           <input
             type="radio"
             id="12-hours"
             name="timePeriod"
             value="12"
           ></input>
-          <label htmlFor="12-hours">12 hours</label>
-          <input type="radio" id="other" name="timePeriod" value="24"></input>
-          <label htmlFor="24-hours">24 hours</label>
+          <label htmlFor='12-hours'> 12 hours</label>
+          <input
+            type='radio'
+            id='other'
+            name='timePeriod'
+            value='24'
+          ></input>
+          <label htmlFor='24-hours'> 24 hours</label>
           <br></br>
           {currentList}
         </form>
@@ -355,22 +429,6 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
-
-// block: "0B/0B",
-// cid: "db06b75e6db7",
-// cpu: "4.00%", CPU PERCENTAGE
-// mp: "0.18%", MEMORY PERCENTAGE
-// mul: "2.523MiB/1.945GiB",
-// name: "compassionate_goldberg",
-// net: "50B/0B", TRANSMITTED / RECEIVED
-// pids: "3" MAYBE
-
-// write a handleChange function
-// build state with selected containers --> ['container-1', 'container-2']
-// query db for information based on current selections (for now this will be dummy data)
-// create a object to be pushed into the dataset prop for the respective graph
-// push the object into the graph
-// component should rerender when update
 
 // const cpu = {
 // 	labels: dataLabels,

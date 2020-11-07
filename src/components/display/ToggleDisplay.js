@@ -9,7 +9,6 @@ const ToggleDisplay = (props) => {
 		// else setToggle(false);
 		setToggle(!toggle);
 	}
-	console.log('inside toggleDisplay with props: ', props, props.ele)
 
 	return (
 		<div>
@@ -23,7 +22,7 @@ const ToggleDisplay = (props) => {
 				<li>Mem Usage / Limit: {props.container.MemUsage}</li>
 				<li>Net I/O: {props.container.NetIO}</li>
 				<li>Block I/O: {props.container.BlockIO}</li>
-				<li>PIDS: {props.container.PIDS}</li>
+				<li>PIDS: {props.container.PIDs}</li>
 			</div> : <></>}
 
 		</div>

@@ -259,33 +259,6 @@ const Metrics = (props) => {
     currentList = result;
   };
 
-              //   <FormControl>
-              //   <InputLabel id="demo-mutiple-chip-label">Container name</InputLabel>
-              //   <Select
-              //     labelId="demo-mutiple-chip-label"
-              //     id="demo-mutiple-chip"
-              //     multiple
-              //     value={container.name}
-              //     onChange={(e) => {handleChange(e)}}
-              //     input={<Input id="select-multiple-chip" />}
-              //     renderValue={(selected) => (
-              //       <div className={'classes.chips'}>
-              //         {selected.map((value) => (
-              //           <Chip key={value} label={value} className={'classes.chip'} />
-              //         ))}
-              //       </div>
-              //     )}
-              //     MenuProps={MenuProps}
-              //   >
-              //     {names.map((name) => (
-              //       <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              //         {name}
-              //       </MenuItem>
-              //     ))}
-              //   </Select>
-              // </FormControl>
-
-
   const handleChange = (e) => {
     console.log('HIT HANDLE CHANGE')
     console.log('e.target.name', e.target.name)
@@ -360,11 +333,6 @@ const Metrics = (props) => {
           {currentList}
         </form>
           <p>Please Select a Time Period</p>
-          {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-            <Button id='4-hours' name='timePeriod' value='4' onClick={(e) => {handleChange(e)}}>4 hours</Button>
-            <Button id='12-hours' name='timePeriod' value='12' onClick={(e) => {handleChange(e)}}>12 hours</Button>
-            <Button id='other' name='timePeriod' value='24' onClick={(e) => {handleChange(e)}}>24 hours</Button>
-          </ButtonGroup> */}
       </div>
 
       <div className='allCharts'>
@@ -397,30 +365,3 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
-
-// block: "0B/0B",
-// cid: "db06b75e6db7",
-// cpu: "4.00%", CPU PERCENTAGE
-// mp: "0.18%", MEMORY PERCENTAGE
-// mul: "2.523MiB/1.945GiB",
-// name: "compassionate_goldberg",
-// net: "50B/0B", TRANSMITTED / RECEIVED
-// pids: "3" MAYBE
-
-// write a handleChange function
-// build state with selected containers --> ['container-1', 'container-2']
-// query db for information based on current selections (for now this will be dummy data)
-// create a object to be pushed into the dataset prop for the respective graph
-// push the object into the graph
-// component should rerender when update
-
-// const cpu = {
-// 	labels: dataLabels,
-// 	datasets: [
-// 		{
-// 			label: activeContainers,
-// 			 data: cpuData,
-// 			 fill: false
-// 		},
-// 	],
-// };

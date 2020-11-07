@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
-import * as actions from '../../actions/actions';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
-import query from '../helper/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../actions/actions";
+import { ipcRenderer } from "electron";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import * as categories from "../../constants/notificationCategories";
+import query from "../helper/psqlQuery";
+import * as queryType from "../../constants/queryTypes";
+import { makeStyles } from "@material-ui/core/styles";
+import SendIcon from "@material-ui/icons/Send";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import store from '../../renderer/store';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
+  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
+  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
   addMemoryNotificationSetting: (data) =>
     dispatch(actions.addMemoryNotificationSetting(data)),
   addCpuNotificationSetting: (data) =>
@@ -31,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),
+    dispatch(actions.removeStoppedNotificationSetting(data)),    
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -65,14 +69,8 @@ let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
-  const [tempPhoneNumber, setTempPhoneNumber] = useState('');
-
-  // styling
+  const [mobileNumber, setMobileNumber] = useState("");
   const classes = useStyles();
-
-  // console.log('runningList', props.runningList);
-  // console.log('stoppedList', props.stoppedList);
-
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -164,8 +162,8 @@ const Settings = (props) => {
     });
   };
 
-  const fetchVerificationCode = async () => {
-    await ipcRenderer.invoke("verify-number", tempPhoneNumber);
+  const verifyMobileNumber = async () => {
+    await ipcRenderer.invoke("verify-number", mobileNumber);
   };
 
   // const fetchVerificationCode = () => {
@@ -201,29 +199,25 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    // console.log('Hidden test value: ' showVerificationInput)
-    if (!tempPhoneNumber) alert('Please enter phone number');
+    if (!mobileNumber) alert("Please enter phone number");
     else {
       // alert if input is not a number
-      if (isNaN(Number(tempPhoneNumber)))
-        alert('Please enter phone number in numerical format. ex: 123456789');
+      if (isNaN(Number(mobileNumber)))
+        alert("Please enter phone number in numerical format. ex: 123456789");
       else {
-        alert(`Phone: ${tempPhoneNumber} is valid`);
-        query(
-          queryType.INSERT_USER,
-          ['admin', props.phoneNumber],
-          (err, res) => {
-            if (err) {
-              console.log(`Error in insert user. Error: ${err}`);
-            } else {
-              console.log(`*** Inserted ${res} into users table. ***`);
-              props.addPhoneNumber(tempPhoneNumber);
-              showVerificationInput = true;
-              // ask SMS service for a verification code
-              fetchVerificationCode();
-            }
-          },
-        );
+        alert(`Phone: ${mobileNumber} is valid`);
+        // ask SMS service for a verification code
+        query(queryType.INSERT_USER, ["admin", mobileNumber, 5, 2], (err, res) => {     // ADDED 2 COMMAS AFTER MOBILENUMBER -> MAKE SURE THAT IT WORKS
+          if (err) {
+            console.log(`Error in insert user. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into users table. ***`);
+            props.addPhoneNumber(mobileNumber);
+            showVerificationInput = true;
+            // ask SMS service for a verification code
+            verifyMobileNumber();
+          }
+        });
       }
     }
   };
@@ -241,19 +235,21 @@ const notificationFrequency = () => {
               if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
               else {
                 if (tempNotifFreq) frequency = tempNotifFreq
-                console.log("notificationFrequency: ", frequency)                                             //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
-                  // query(
-                  //   queryType.INSERT_USER,    // CHANGE DB QUERY
-                  //   ['admin', props.phoneNumber],
-                  //   (err, res) => {
-                  //     if (err) {
-                  //       console.log(`Error in insert user. Error: ${err}`);
-                  //     } else {
-                  //       console.log(`*** Inserted ${res} into users table. ***`);
-                  //       props.addNotificationFrequency(tempNotifFreq);
-                  //     }
-                  //   },
-                  // );
+                console.log("notificationFrequency: ", frequency)                                               //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
+                  query(
+                    queryType.INSERT_NOTIFICATION_FREQUENCY,    // CHANGE DB QUERY
+                    ['admin', , frequency, ,],
+                    (err, res) => {
+                      if (err) {
+                        console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
+                      } else {
+                        console.log(`*** Inserted ${res} into users table. ***`);
+                        console.log("global state before state update: ", props.notificationFrequency)          // CHECK HOW THE STATE HAS CHANGED
+                        props.addNotificationFrequency(frequency);                                              // ADDING TO GLOBAL STATE
+                        console.log("global state after state update: ", props.notificationFrequency)           // CHECK HOW THE STATE HAS CHANGED
+                      }
+                    },
+                  );
               }
               // }
 };
@@ -267,18 +263,20 @@ const monitoringFrequency = () => {
               else {
                 if (tempMonitoringFrequency) frequency = tempMonitoringFrequency
                 console.log("monitoringFrequency: ", frequency)                                             //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
-                  // query(
-                  //   queryType.INSERT_USER,    // CHANGE DB QUERY
-                  //   ['admin', props.phoneNumber],
-                  //   (err, res) => {
-                  //     if (err) {
-                  //       console.log(`Error in insert user. Error: ${err}`);
-                  //     } else {
-                  //       console.log(`*** Inserted ${res} into users table. ***`);
-                  //       props.addNotificationFrequency(tempNotifFreq);
-                  //     }
-                  //   },
-                  // );
+                query(
+                  queryType.INSERT_MONITORING_FREQUENCY,    // CHANGE DB QUERY
+                  ['admin', , , frequency,],
+                  (err, res) => {
+                    if (err) {
+                      console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
+                    } else {
+                      console.log(`*** Inserted ${res} into users table. ***`);
+                      console.log("global state before state update: ", props.monitoringFrequency)          // CHECK HOW THE STATE HAS CHANGED
+                      props.addMonitoringFrequency(frequency);                                         // ADDING TO GLOBAL STATE
+                      console.log("global state after state update: ", props.monitoringFrequency)           // CHECK HOW THE STATE HAS CHANGED
+                    }
+                  },
+                );
               }
               // }
 };
@@ -287,30 +285,25 @@ const monitoringFrequency = () => {
   const [formData, updateFormData] = useState("");
   const handleChange = (value) => {
     updateFormData(value);
-    console.log(formData);
   };
 
-  const handleSubmit = (e) => {
-    fetch('http://localhost:5000/code', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify({
-        code: formData,
-        mobileNumber: props.phoneNumber, // Check at the server level that receive data in the right format
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Code verification status: ', data);
-        // verification code approved so hide verification code input
-        if (data === 'approved') {
-          showVerificationInput = false;
-          isVerified = data === 'approved' ? true : false;
-        } else alert('Please try verification code again');
-      })
-      .catch((err) => console.log('handleCodeSubmit fetch ERROR: ', err));
+  // Verify code
+  const handleSubmit = async () => {
+    console.log("submitted code");
+
+    const body = {
+      code: formData,
+      mobileNumber: mobileNumber,
+    };
+
+    const result = await ipcRenderer.invoke("verify-code", body);
+
+    console.log("successfully verified code", result);
+
+    if (result === "approved") {
+      showVerificationInput = false;
+      isVerified = result === "approved" ? true : false;
+    } else alert("Please try verification code again");
   };
 
   /**
@@ -321,6 +314,7 @@ const monitoringFrequency = () => {
    */
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
+
 
   const renderRunningList = props.runningList.map((container, i) => {
     let isMemorySelected = isSelected(
@@ -335,11 +329,15 @@ const monitoringFrequency = () => {
 
     return (
       <TableRow key={i}>
-        <TableCell><span className="container-name">{container.name}</span></TableCell>
-        <TableCell><span className="container-id">{container.cid}</span></TableCell>
+        <TableCell>
+          <span className="container-name">{container.name}</span>
+        </TableCell>
+        <TableCell>
+          <span className="container-id">{container.cid}</span>
+        </TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
-          <Checkbox
+          {/* <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
@@ -352,10 +350,23 @@ const monitoringFrequency = () => {
             role="checkbox"
             key={container.cid}
             checked={isMemorySelected}
-          />
+          /> */}
+          <TextField
+                className={classes.textfield}
+                id="textfield"
+                label="Attribute value, %"
+                helperText="* 80% is recommended"
+                variant="outlined"
+                value={tempMonitoringFrequency}
+                  onChange={(e) => {
+                    setTempMonitoringFrequency(e.target.value);
+                    console.log(tempMonitoringFrequency);
+                  }}
+                  size="small"
+              />
         </TableCell>
         <TableCell align="center">
-          <Checkbox
+          {/* <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
@@ -368,7 +379,20 @@ const monitoringFrequency = () => {
             role="checkbox"
             key={container.cid}
             checked={isCpuSelected}
-          />
+          /> */}
+                    <TextField
+                className={classes.textfield}
+                id="textfield"
+                label="Hurdle rate, %"
+                helperText="* 80% is recommended"
+                variant="outlined"
+                value={tempMonitoringFrequency}
+                  onChange={(e) => {
+                    setTempMonitoringFrequency(e.target.value);
+                    console.log(tempMonitoringFrequency);
+                  }}
+                  size="small"
+              />
         </TableCell>
         <TableCell align="center">
           <Checkbox
@@ -387,14 +411,37 @@ const monitoringFrequency = () => {
           />
         </TableCell>
         <TableCell align="center">
-          <button
+          {/* <button
             className="stop-btn"
             onClick={() =>
               props.stop(container.cid, props.stopRunningContainer)
             }
           >
             STOP
-          </button>
+          </button> */}
+                    <TextField
+                className={classes.textfield}
+                id="textfield"
+                label="Main repository url"
+                helperText="* e.g.: https://github.com/companyRepo/projectRepo"
+                variant="outlined"
+                value={tempMonitoringFrequency}
+                  onChange={(e) => {
+                    setTempMonitoringFrequency(e.target.value);
+                    console.log(tempMonitoringFrequency);
+                  }}
+                  size="small"
+              />
+        </TableCell>
+        <TableCell>
+          <Button
+            className={classes.button}
+            size="medium"
+            variant="contained"
+            onClick={(e) => monitoringFrequency(e)}
+          >
+            Confirm
+          </Button>
         </TableCell>
       </TableRow>
     );
@@ -469,7 +516,7 @@ const monitoringFrequency = () => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runStopped(container.cid, props.runStoppedContainer)
+              props.runStopped(container.cid, props.runStoppedContainer, props.refreshRunningContainers)
             }
           >
             RUN
@@ -501,10 +548,10 @@ const monitoringFrequency = () => {
                   label="Phone Number"
                   helperText="* use country code (+1)"
                   variant="outlined"
-                  value={tempPhoneNumber}
+                  value={mobileNumber}
                   onChange={(e) => {
-                    setTempPhoneNumber(e.target.value);
-                    console.log(tempPhoneNumber);
+                    setMobileNumber(e.target.value);
+                    console.log(mobileNumber);
                     isVerified = false;
                   }}
                   size="small"
@@ -538,14 +585,13 @@ const monitoringFrequency = () => {
                 variant="outlined"
                 onChange={(e) => {
                   handleChange(e.target.value);
-                  console.log(props.phoneNumber);
                 }}
                 size="small"
               />
               <Button
                 className={classes.button}
                 size="medium"
-                color="primary"
+                color="default"
                 variant="contained"
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}
@@ -555,6 +601,10 @@ const monitoringFrequency = () => {
             </div>
           </form>
         ) : null}
+            
+
+      {/* <div className="settings-container">
+        <div id="description" className={classes.description}></div> */}
 
           <p>2. Setup / update notification criteria. Recommended values will be used by default </p> 
           <br></br>
@@ -621,7 +671,7 @@ const monitoringFrequency = () => {
       <div className="settings-container">
           <p>Allows you to get access to latest GitHub commits in your project repository on "Metrics" tab for selected containers</p>
           <br></br>
-          <p>1. Add GitHub repositories url in Containers settings table below</p>
+          <p>1. Add GitHub repositories url in Containers settingss table below</p>
       </div>
 
 
@@ -641,9 +691,11 @@ const monitoringFrequency = () => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align="center">Memory > 80%</TableCell>
-                <TableCell align="center">CPU > 80%</TableCell>
+                <TableCell align="center">Memory exceeds attribute value</TableCell>
+                <TableCell align="center">CPU exceeds attribute value</TableCell>
                 <TableCell align="center">Container Stops</TableCell>
+                <TableCell align="center">GitHub repository url</TableCell>
+                <TableCell align="center">Apply settings</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -9,9 +9,7 @@ import store from '../../renderer/store';
  * @param {*} callback 
  * on app start-up, get the containers that are already running by calling addRunning
  */
-export const launchServer = () => {
-	exec('node server/server.js', (error, stdout, stderr) => {})
-}
+
 
 export const addRunning = (runningList, callback) => {
 	exec("docker stats --no-stream", (error, stdout, stderr) => {

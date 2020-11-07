@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 export const addRunningContainers = (data) => ({
   type: types.ADD_RUNNING_CONTAINERS,
@@ -127,5 +127,10 @@ export const removeStoppedNotificationSetting = (data) => ({
 
 export const addNotificationFrequency = (data) => ({
   type: types.NOTIFICATION_FREQUENCY,
+  payload: data,
+});
+
+export const addMonitoringFrequency = (data) => ({
+  type: types.MONITORING_FREQUENCY,
   payload: data,
 });

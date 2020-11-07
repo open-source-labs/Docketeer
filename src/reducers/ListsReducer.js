@@ -7,6 +7,7 @@ const initialState = {
   networkList: [],
   phoneNumber: '',
   notificationFrequency: '',
+  monitoringFrequency: '',
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
@@ -46,11 +47,17 @@ const listsReducer = (state = initialState, action) => {
                 phoneNumber: action.payload,
               };
 
-    case types.ADD_PHONE_NUMBER:
+    case types.NOTIFICATION_FREQUENCY:
       return {
         ...state,
         notificationFrequency: action.payload,
       };
+
+    case types.MONITORING_FREQUENCY:
+      return {
+          ...state,
+          monitoringFrequency: action.payload,
+      };  
 
 
     case types.REMOVE_CONTAINER:

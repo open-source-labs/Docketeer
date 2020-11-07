@@ -428,18 +428,21 @@ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 
 .drag-container {
   /* height: 30vh; */
-  margin: 20px;
-  margin-top: 100px;
+  /* margin: 20px; */
+  /* margin-top: 100px; */
 }
 
 .drag-container-box {
   /* text-align: center; */
-  min-width: 65vw;
+  /* display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  min-width: 65vw; */
   /* height: 30vh; */
-  margin-top: 30px;
-  border-radius: 30px;
-  padding: 30px;
-  background-color: white;
+  /* margin-top: 30px; */
+  /* border-radius: 30px; */
+  /* padding: 30px;
+  background-color: white; */
 }
 
 /* .drag-container-box * {

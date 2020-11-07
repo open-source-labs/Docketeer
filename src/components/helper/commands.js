@@ -485,7 +485,7 @@ export const writeToDb = () => {
     let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `;
     runningContainers.forEach((container, idx) => {
       // no need to worry about sql injections as it would be self sabotaging!
-      let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`;
+      let string = `('${container.ID}', '${container.Name}', '${container.CPUPerc}', '${container.MemPerc}', '${container.MemUsage}', '${container.NetIO}', '${container.BlockIO}', '${container.PIDs}', current_timestamp)`;
       if (idx === runningContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
     })

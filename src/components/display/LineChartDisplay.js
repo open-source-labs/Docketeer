@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /** TODO 
  * 1. Remove prop drilling from parent components
+ * 2. Move get files from DB to its own helpers
  * 
  */
 
@@ -44,31 +45,31 @@ const Metrics = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-  const getMetricsFromDb = () => {
-    let queryStringStart = `SELECT * FROM metrics WHERE container_name = $1 `;
+  const getContainerMetrics = () => {
+    let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
     let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
-    let containerNames = Object.keys(activeContainers);
+    let containerNamesArr = Object.keys(activeContainers);
     
-    // If just need data for one container we just concat query start and end and send
-    if (containerNames.length === 1) {
-      queryStringStart += queryStringEnd;
-      return query(queryStringStart, containerNames);
+    if (containerNamesArr.length === 1) {
+      queryString += queryStringEnd;
+      return query(queryString, containerNamesArr);
     }
 
-    // Iterating through the string 
-    containerNames
+    containerNamesArr
       .slice(1)
       .forEach((containerName, idx) => {
-        const string = `OR container_name = $${idx + 2} `;
-        queryStringStart += string;
+        const additionalParameter = `OR container_name = $${idx + 2} `;
+        queryString += additionalParameter;
       });
       
-    queryStringStart += queryStringEnd;
     
-    return query(queryStringStart, containerNames);
+    queryString += queryStringEnd;
+    
+    return query(queryString, containerNamesArr);
   };
 
+  // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
     datasets: memory,
@@ -78,48 +79,53 @@ const Metrics = (props) => {
     datasets: cpu,
   };
 
+  /**
+   * Resets all graph data in global store
+   * Builds memory and cpu object for input into Line Components
+   * @return
+   */
   const formatData = async () => {
-    buildMemory('clear');
-    buildCpu('clear');
-    buildAxis('clear');
-    //if active containers is empty render the empty graphs
-    if (!Object.keys(activeContainers).length) {
-      return;
-    }
-    // DB QUERY RESPONSE
-    let output = await getMetricsFromDb();
-
-    const colorGenerator = () => {
+    const generateLineColor = () => {
       const colorOptions = ['red', 'blue', 'green', 'purple', 'yellow', 'grey', 'orange'];
-      
-      return colorOptions[Math.floor(Math.random() * 7)]
-    }
-    
-    // build function that will return formated object into necessary
-    // datastructure for chart.js line graphs
-    const graphBuilder = (containerName) => {
-      
-      
+      return colorOptions[Math.floor(Math.random() * 7)];
+    };
+
+    /**
+     * Builds linegraph
+     * @param {*} containerName
+     */
+    const buildLineGraphObj = (containerName) => {
       const obj = {
         label: containerName,
         data: [],
         fill: false,
-        borderColor: colorGenerator(),
+        borderColor: generateLineColor(),
       };
+
       return obj;
     };
+
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
+
+    if (!Object.keys(activeContainers).length) {
+      return;
+    }
+
+    const containerMetrics = await getContainerMetrics();
 
     const auxObj = {};
 
     Object.keys(activeContainers).forEach((container) => {
       auxObj[container] = {
-        memory: graphBuilder(container),
-        cpu: graphBuilder(container),
+        memory: buildLineGraphObj(container),
+        cpu: buildLineGraphObj(container),
       };
     });
 
-    // iterate through each row from query and buld Memory and CPU objects [{ }, {} ]
-    output.rows.forEach((dataPoint) => {
+    // iterate through each row from query and buld Memory and CPU objects [{}, {}]
+    containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       auxObj[currentContainer].cpu.data.push(
         dataPoint.cpu_pct.replace('%', '')
@@ -129,11 +135,32 @@ const Metrics = (props) => {
       );
       buildAxis(dataPoint.created_at);
     });
+
+    let longest = 0;
+
     Object.keys(auxObj).forEach((containerName) => {
+      if (auxObj[containerName].memory.data.length > longest) {
+        longest = auxObj[containerName].memory.data.length;
+      }
+    });
+
+    // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
+    Object.keys(auxObj).forEach((containerName) => {
+
+      if (auxObj[containerName].memory.data.length < longest) {
+        console.log('in loop:', containerName, longest - auxObj[containerName].memory.data.length)
+        let lengthToAdd = longest - auxObj[containerName].memory.data.length
+        for (let i = 0; i < lengthToAdd; i += 1) {
+          console.log(i, lengthToAdd)
+          auxObj[containerName].memory.data.unshift("0.00");
+          auxObj[containerName].cpu.data.unshift("0.00");
+        }
+      }
+      console.log('this is longest: ', longest);
+      console.log('this is auxObj: ', auxObj);
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
     });
-
   };
 
   const fetchGitData = async (containerName) => {
@@ -215,6 +242,7 @@ const Metrics = (props) => {
           <Checkbox
             name={container.name}
             value={container.name}
+            color='primary'
             inputProps={{ 'aria-label': container.name  }}
           />
         } 
@@ -242,8 +270,6 @@ const Metrics = (props) => {
     result.push(<div></div>);
     currentList = result;
   };
-
-
 
   const handleChange = (e) => {
 
@@ -292,7 +318,6 @@ const Metrics = (props) => {
     maintainAspectRatio: false,
   };
 
-
 	/* Consider if we can combine these two. Wasn't rendering active containers when tested*/
   selectList();
   useEffect(() => {
@@ -318,21 +343,21 @@ const Metrics = (props) => {
             value='4'
             defaultChecked
           ></input>
-          <label htmlFor='4-hours'>4 hours</label>
+          <label htmlFor='4-hours'> 4 hours</label>
           <input
             type='radio'
             id='12-hours'
             name='timePeriod'
             value='12'
           ></input>
-          <label htmlFor='12-hours'>12 hours</label>
+          <label htmlFor='12-hours'> 12 hours</label>
           <input
             type='radio'
             id='other'
             name='timePeriod'
             value='24'
           ></input>
-          <label htmlFor='24-hours'>24 hours</label>
+          <label htmlFor='24-hours'> 24 hours</label>
           <br></br>
           {currentList}
         </form>
@@ -364,22 +389,6 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
-
-// block: "0B/0B",
-// cid: "db06b75e6db7",
-// cpu: "4.00%", CPU PERCENTAGE
-// mp: "0.18%", MEMORY PERCENTAGE
-// mul: "2.523MiB/1.945GiB",
-// name: "compassionate_goldberg",
-// net: "50B/0B", TRANSMITTED / RECEIVED
-// pids: "3" MAYBE
-
-// write a handleChange function
-// build state with selected containers --> ['container-1', 'container-2']
-// query db for information based on current selections (for now this will be dummy data)
-// create a object to be pushed into the dataset prop for the respective graph
-// push the object into the graph
-// component should rerender when update
 
 // const cpu = {
 // 	labels: dataLabels,

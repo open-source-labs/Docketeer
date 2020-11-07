@@ -2,10 +2,16 @@ version: "3.8"
 services:
   postgres:
     image: postgres:latest
-    volumes:
-      - docketeerdb:/var/lib/postgresql/data
+    container_name: docketeer-db
+    ports:
+      - "5432:5432"
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: docketeer-db
+    volumes:
+      - docketeerdb:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: always
 volumes:
-  docketeerdb:
+  docketeerdb: {}

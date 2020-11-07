@@ -1,11 +1,19 @@
-import { combineReducers } from 'redux';
-import listsReducer from './ListsReducer';
+import { combineReducers } from "redux";
+import graphsReducer from "./graphReducer";
+import imageListReducer from "./imageListReducer";
+import containerListReducer from "./containerListReducer";
+import dockerComposeReducer from "./dockerComposeReducer";
+import notificationReducer from "./notificationReducer";
 
 /**
  * Reducer store
  */
 const reducers = combineReducers({
-	lists: listsReducer,
+  graphs: graphsReducer,
+  images: imageListReducer,
+  containersList: containerListReducer,
+  networkList: dockerComposeReducer,
+  notificationList: notificationReducer,
 });
 
 export default reducers;

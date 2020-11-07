@@ -5,6 +5,7 @@ import { format as formatUrl } from "url";
 
 import verifyCode from "./twilio/verifyCode";
 import verifyMobileNumber from "./twilio/verifyMobile";
+import postEvent from "./twilio/postEvent";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -76,10 +77,15 @@ app.on("ready", () => {
 //   module.hot.accept();
 // }
 
-ipcMain.handle("verify-number", async (event, args) => {
+ipcMain.handle("verify-number", async (_, args) => {
   return await verifyMobileNumber(args);
 });
 
-ipcMain.handle("verify-code", async (event, args) => {
+ipcMain.handle("verify-code", async (_, args) => {
   return await verifyCode(args);
+});
+
+ipcMain.handle("post-event", async (_, args) => {
+  const { mobileNumber, triggeringEvent } = args;
+  return await postEvent(mobileNumber, triggeringEvent);
 });

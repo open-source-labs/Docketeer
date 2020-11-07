@@ -7,7 +7,7 @@ import ToggleDisplay from "../display/ToggleDisplay";
 /**
  * 
  * @param {*} props 
- * Display Running containers
+ * Display Running container
  */
 const Running = (props) => {
 
@@ -15,15 +15,17 @@ const Running = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    props.runIm(run, props.runningList, helper.addRunning, props.addRunningContainers);
+    props.runIm(run, props.runningList, helper.addRunning, props.addRunningcontainer);
   };
 
-  let renderRunningList = props.runningList.map((ele, i) => {
+  let renderRunningList = props.runningList.map((container, i) => {
     let cpuData = parseFloat(
-      ele["cpu"].substring(0, ele["cpu"].length - 1)
+      // container["CPUPerc"].substring(0, container["CPUPerc"].length - 1)
+      container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
     let memoryData = parseFloat(
-      ele["mp"].substring(0, ele["mp"].length - 1)
+      // container["MemPerc"].substring(0, container["mp"].length - 1)
+      container.MemPerc.substring(0, container.MemPerc.length - 1)
     ).toFixed(2);
     const stack = "stack";
     const chartInfo = {
@@ -53,8 +55,8 @@ const Running = (props) => {
     return (
       <div className="box box-running" key={`runningBox${i}`}>
         <div className="box-label">
-          <h3>{ele["name"]}</h3>
-          <p>{ele["cid"]}</p>
+          <h3>{container.Name}</h3>
+          <p>{container.ID}</p>
         </div>
         <div className="box-info">
           <div className="chart">
@@ -112,12 +114,12 @@ const Running = (props) => {
               />
             </div>
           </div>
-          <ToggleDisplay ele={ele} />
+          <ToggleDisplay container={container} />
         </div>
         <div className="box-button box-button-running">
           <button
             className="stop-btn"
-            onClick={() => props.stop(ele["cid"], props.stopRunningContainer)}
+            onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
             STOP
           </button>
@@ -127,9 +129,9 @@ const Running = (props) => {
   });
 
   return (
-    <div className="renderContainers">
+    <div className="rendercontainer">
       <div className="header">
-        <span className="tabTitle">Running Containers</span>
+        <span className="tabTitle">Running container</span>
         <div className="runByButton">
           <label>Enter Image ID or Repo</label>
           <span>
@@ -146,7 +148,7 @@ const Running = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderRunningList}</div>
+      <div className="container">{renderRunningList}</div>
     </div>
   );
 };

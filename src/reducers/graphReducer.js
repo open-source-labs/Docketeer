@@ -28,7 +28,7 @@ const graphReducer = (state = initialState, action) => {
         !state.graphAxis.length
       ) {
         const newAxis = state.graphAxis;
-        newAxis.push(formatedDate);
+        newAxis.push(payloadDate);
         return { ...state, graphAxis: newAxis };
       }
       return { ...state };

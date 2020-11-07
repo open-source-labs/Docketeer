@@ -40,23 +40,41 @@ const mapDispatchToProps = (dispatch) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
+<<<<<<< HEAD
     '& .MuiTextField-root': {
       // margin: theme.spacing(1),
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
       verticalAlign: 'middle',
+=======
+    "& .MuiTextField-root": {
+      // margin: theme.spacing(1),
+      marginLeft: 5,
+      marginBottom: 15,
+      width: 200,
+      verticalAlign: "middle",
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
     },
   },
   button: {
     marginLeft: 5,
     width: 100,
+<<<<<<< HEAD
     verticalAlign: 'top',
   },
   verifiedIcon: {
     verticalAlign: 'top',
     //marginTop: 8,
     color: 'green',
+=======
+    verticalAlign: "top",
+  },
+  verifiedIcon: {
+    verticalAlign: "top",
+    //marginTop: 8,
+    color: "green",
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
   },
   description: {
     marginLeft: 5,
@@ -71,6 +89,14 @@ let isVerified = false;
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const classes = useStyles();
+<<<<<<< HEAD
+=======
+  let state = store.getState();
+  let runningContainers = state.containersList.runningList;
+  let stoppedContainers = state.containersList.stoppedList;
+  console.log('RUNNING CONTAINERS: ', runningContainers);
+  console.log('STOPPED CONTAINERS: ', stoppedContainers);
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -207,7 +233,11 @@ const Settings = (props) => {
       else {
         alert(`Phone: ${mobileNumber} is valid`);
         // ask SMS service for a verification code
+<<<<<<< HEAD
         query(queryType.INSERT_USER, ["admin", mobileNumber, 5, 2], (err, res) => {     // ADDED 2 COMMAS AFTER MOBILENUMBER -> MAKE SURE THAT IT WORKS
+=======
+        query(queryType.INSERT_USER, ["admin", mobileNumber], (err, res) => {
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
           if (err) {
             console.log(`Error in insert user. Error: ${err}`);
           } else {
@@ -321,21 +351,36 @@ const monitoringFrequency = () => {
   //////////////////DISCUSS BEFORE DELETING EVERYTHING FROM THE STATE  
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
+<<<<<<< HEAD
       container.cid
+=======
+      container.ID
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
     );
-    let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
+    let isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
     let isStoppedSelected = isSelected(
       props.stoppedNotificationList,
+<<<<<<< HEAD
       container.cid
+=======
+      container.ID
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
     );
 
     return (
       <TableRow key={i}>
         <TableCell>
+<<<<<<< HEAD
           <span className="container-name">{container.name}</span>
         </TableCell>
         <TableCell>
           <span className="container-id">{container.cid}</span>
+=======
+          <span className="container-name">{container.Name}</span>
+        </TableCell>
+        <TableCell>
+          <span className="container-id">{container.ID}</span>
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
         </TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
@@ -343,14 +388,19 @@ const monitoringFrequency = () => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
+<<<<<<< HEAD
                     container.cid,
                     container.name,
+=======
+                    container.ID,
+                    container.Name,
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
                     categories.MEMORY
                   )
-                : handleUnCheckSetting(container.cid, categories.MEMORY)
+                : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isMemorySelected}
           /> */}
           <TextField
@@ -372,14 +422,19 @@ const monitoringFrequency = () => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
+<<<<<<< HEAD
                     container.cid,
                     container.name,
+=======
+                    container.ID,
+                    container.Name,
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
                     categories.CPU
                   )
-                : handleUnCheckSetting(container.cid, categories.CPU)
+                : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isCpuSelected}
           /> */}
                     <TextField
@@ -401,14 +456,19 @@ const monitoringFrequency = () => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
+<<<<<<< HEAD
                     container.cid,
                     container.name,
+=======
+                    container.ID,
+                    container.Name,
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
                     categories.STOPPED
                   )
-                : handleUnCheckSetting(container.cid, categories.STOPPED)
+                : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isStoppedSelected}
           />
         </TableCell>
@@ -416,7 +476,7 @@ const monitoringFrequency = () => {
           {/* <button
             className="stop-btn"
             onClick={() =>
-              props.stop(container.cid, props.stopRunningContainer)
+              props.stop(container.ID, props.stopRunningContainer)
             }
           >
             STOP
@@ -450,6 +510,7 @@ const monitoringFrequency = () => {
   });
 
   // TODO: concat runningList with stoppedList if container can have
+<<<<<<< HEAD
   // const renderStoppedList = props.stoppedList.map((container, i) => {
   //   let isMemorySelected = isSelected(
   //     props.memoryNotificationList,
@@ -527,12 +588,92 @@ const monitoringFrequency = () => {
   //     </TableRow>
   //   );
   // });
+=======
+  const renderStoppedList = props.stoppedList.map((container, i) => {
+    let isMemorySelected = isSelected(
+      props.memoryNotificationList,
+      container.ID
+    );
+    let isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
+    let isStoppedSelected = isSelected(
+      props.stoppedNotificationList,
+      container.ID
+    );
+
+    return (
+      <TableRow key={i}>
+        <TableCell>{container.Names}</TableCell>
+        <TableCell>{container.ID}</TableCell>
+        <TableCell>{container.Image}</TableCell>
+        <TableCell align="center">
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Names,
+                    categories.MEMORY
+                  )
+                : handleUnCheckSetting(container.ID, categories.MEMORY)
+            }
+            role="checkbox"
+            key={container.ID}
+            checked={isMemorySelected}
+          />
+        </TableCell>
+        <TableCell align="center">
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Names,
+                    categories.CPU
+                  )
+                : handleUnCheckSetting(container.ID, categories.CPU)
+            }
+            role="checkbox"
+            key={container.ID}
+            checked={isCpuSelected}
+          />
+        </TableCell>
+        <TableCell align="center">
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Names,
+                    categories.STOPPED
+                  )
+                : handleUnCheckSetting(container.ID, categories.STOPPED)
+            }
+            role="checkbox"
+            key={container.ID}
+            checked={isStoppedSelected}
+          />
+        </TableCell>
+        <TableCell align="center">
+          <button
+            className="run-btn"
+            onClick={() =>
+              props.runStopped(container.ID, props.runStoppedContainer, props.refreshRunningContainers)
+            }
+          >
+            RUN
+          </button>
+        </TableCell>
+      </TableRow>
+    );
+  });
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
 
   return (
     <div className="renderContainers">
       <div className="header">
         <h1 className="tabTitle">Settings</h1>
       </div>
+<<<<<<< HEAD
       
       <div className="metric-section-title">
         <h3>Notifications</h3>
@@ -578,6 +719,49 @@ const monitoringFrequency = () => {
             </form>
 
             {showVerificationInput ? (
+=======
+
+      <div className="metric-section-title">
+        <h3>Account</h3>
+      </div>
+
+      <div className="settings-container">
+        <form className={classes.root} autoComplete="off">
+          <div>
+            <TextField
+              required
+              id="phone-number"
+              label="Phone Number"
+              helperText="* use country code (+1)"
+              variant="outlined"
+              value={mobileNumber}
+              onChange={(e) => {
+                setMobileNumber(e.target.value);
+                isVerified = false;
+              }}
+              size="small"
+            />
+            {!isVerified ? (
+              <Button
+                className={classes.button}
+                size="medium"
+                variant="contained"
+                onClick={(e) => handlePhoneNumberSubmit(e)}
+                endIcon={<SendIcon />}
+              >
+                Verify
+              </Button>
+            ) : (
+              <CheckCircleIcon
+                fontSize="large"
+                className={classes.verifiedIcon}
+              />
+            )}
+          </div>
+        </form>
+
+        {showVerificationInput ? (
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
           <form className={classes.root} autoComplete="off">
             <div className="verification-code">
               <TextField
@@ -593,7 +777,11 @@ const monitoringFrequency = () => {
               <Button
                 className={classes.button}
                 size="medium"
+<<<<<<< HEAD
                 color="default"
+=======
+                color="primary"
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
                 variant="contained"
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}
@@ -603,6 +791,7 @@ const monitoringFrequency = () => {
             </div>
           </form>
         ) : null}
+<<<<<<< HEAD
             
           <p>2. Setup / update notification criteria. Recommended values will be used by default </p> 
           <br></br>
@@ -681,6 +870,20 @@ const monitoringFrequency = () => {
       <div className="settings-container">
         <div id="description" className={classes.description}>
         </div>
+=======
+      </div>
+
+      <div className="metric-section-title">
+        <h3> Notifications</h3>
+        <p>
+          Allows you to define alert conditions and receive text notifications
+          when your containers meet a condition
+        </p>
+      </div>
+
+      <div className="settings-container">
+        <div id="description" className={classes.description}></div>
+>>>>>>> e64a55f1dfb276b379a14ee14c01de108e50f32c
 
         <TableContainer>
           <Table>

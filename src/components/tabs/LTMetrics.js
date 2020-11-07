@@ -10,7 +10,21 @@ import * as queryType from '../../constants/queryTypes';
 import {Link, Redirect, BrowserRouter} from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Chip from '@material-ui/core/Chip';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import * as categories from '../../constants/notificationCategories';
+import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 /**
  *
  * @param {*} props
@@ -73,66 +87,66 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    const data = [
-      {
-        time: '1',
-        name: 'amazing_morse',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '4.00%',
-        mp: '0.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '2',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '6.00%',
-        mp: '2%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '3',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '8.00%',
-        mp: '5.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-    ];
-    if (Object.keys(activeContainers).length > 1)
-      data.push(
-        {
-          name: 'wizardly_benz',
-          time: '1',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '8.00%',
-          mp: '5.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        },
-        {
-          name: 'wizardly_benz',
-          time: '2',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '10.00%',
-          mp: '18.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        }
-      );
+    // const data = [
+    //   {
+    //     time: '1',
+    //     name: 'amazing_morse',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '4.00%',
+    //     mp: '0.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '2',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '6.00%',
+    //     mp: '2%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '3',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '8.00%',
+    //     mp: '5.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    // ];
+    // if (Object.keys(activeContainers).length > 1)
+    //   data.push(
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '1',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '8.00%',
+    //       mp: '5.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     },
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '2',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '10.00%',
+    //       mp: '18.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     }
+    //   );
     // build two fundtion that will return formated object for each container to in datapoins
     const graphBuilder = (containerName) => {
       const obj = {
@@ -238,6 +252,7 @@ const Metrics = (props) => {
 
   // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
+  console.log('RUNNING LIST', props.runningList)
   const selectList = () => {
 		const result = [];
     props.runningList.forEach((container) => {
@@ -245,12 +260,12 @@ const Metrics = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            name={container.name}
-            value={container.name}
-            inputProps={{ 'aria-label': container.name  }}  
+            name={container.Name}
+            value={container.Name}
+            inputProps={{ 'aria-label': container.Name  }}  
           />
         } 
-        label={container.name}
+        label={container.Name}
       />  
       );
     });
@@ -330,6 +345,28 @@ const Metrics = (props) => {
             handleChange(e);
           }}
         >
+          <input
+            type='radio'
+            id='4-hours'
+            name='timePeriod'
+            value='4'
+            defaultChecked
+          ></input>
+          <label htmlFor='4-hours'>4 hours</label>
+          <input
+            type='radio'
+            id='12-hours'
+            name='timePeriod'
+            value='12'
+          ></input>
+          <label htmlFor='12-hours'>12 hours</label>
+          <input
+            type='radio'
+            id='other'
+            name='timePeriod'
+            value='24'
+          ></input>
+          <label htmlFor='24-hours'>24 hours</label>
           {currentList}
         </form>
           <p>Please Select a Time Period</p>

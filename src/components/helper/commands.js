@@ -475,28 +475,33 @@ export const dockerComposeDown = (filePath, networkName) => {
 };
 
 export const writeToDb = () => {
-  const interval = 300000;
-  setInterval(() => {
-    let state = store.getState();
+  const interval = 300000
+	setInterval(() => {
+		let state = store.getState();
     let runningContainers = state.lists.runningList;
-    if (!runningContainers.length) return;
-    let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `;
-    runningContainers.forEach((container, idx) => {
-      // no need to worry about sql injections as it would be self sabotaging!
-      let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`;
-      if (idx === runningContainers.length - 1) dbQuery += string;
+    let stoppedContainers = state.lists.stoppedList;
+		if (!runningContainers.length) return;
+		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
+		runningContainers.forEach((container, idx) => {
+			// no need to worry about sql injections as it would be self sabotaging! 
+			let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
+			if (idx === runningContainers.length - 1 && stoppedContainers.length === 0) dbQuery += string;
+			else dbQuery += string + ', ';
+    })
+    stoppedContainers.forEach((container, idx) => {
+      let string = `('${container.cid}', '${container.name}', '0.00%', '0.00%', '00.0MiB/0.00GiB', '0.00kB/0.00kB', '00.0MB/00.0MB', '0', current_timestamp)`
+      if (idx === stoppedContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
-    });
-    query(dbQuery);
-  }, interval);
-};
+    })
+    console.log(dbQuery)
+		query(dbQuery)
+	}, interval)
+}
 
-export const setDbSessionTimeZone = async () => {
+export const setDbSessionTimeZone = () => {
   const currentTime = new Date()
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  await query(`set time zone ${offsetTimeZoneInHours}`);
-  let result = await query('select now()')
-  console.log('here is teh offset ', result);
+  query(`set time zone ${offsetTimeZoneInHours}`);
 }
 
 export const getContainerGitUrl = (container) => {

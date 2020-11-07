@@ -107,72 +107,6 @@ const Metrics = (props) => {
     },
   };
 
-  // const fetchGitData = async (containerName) => {
-  //   const ob = {};
-  //   ob[containerName] = [];
-  //   let time = Number(timePeriod);
-  //   let date = new Date();
-  //   date.setHours(date.getHours() - (time));
-  //   date = date.toISOString()
-  //   console.log('********DATE ISOOOO***********', date)
-  //   const url = await helper.getContainerGitUrl(containerName);
-  //   // formate needed = 2020-10-26T18:44:25Z
-  //   //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
-  //   //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T18%3A44%3A25Z
-
-  //   //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
-  //   //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
-  //   if (url.rows.length) {
-  //     const url = 'https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
-  //       since: `${date}`
-  //     })
-  //     console.log('URL**********', url);
-  //     let data = await fetch(url)
-  //     const jsonData = await data.json();
-
-  //     jsonData.forEach(commitData => {
-  //       ob[containerName].push({time: commitData.commit.author.date, url: commitData.html_url, author: commitData.commit.author.name})
-  //     })
-  //   } else {
-  //     ob[containerName].push({time: '', url: 'Connect github repo in settings' })
-  //   }
-  //   return ob;
-  // }
-
-  //   const renderGitInfo = () => {
-  //     Promise.all(Object.keys(activeContainers).map(container => {
-  //       return fetchGitData(container)
-  //     })).then(data => setGitUrls(data))
-  //   }
-
-  //   // [{container: [{time: x, url: x}]},{}]
-  //     let gitData;
-  //     gitData = gitUrls.map(el =>  {
-  //       let name = Object.keys(el);
-  //       const li = [<tr><th>Date</th><th>Time</th><th>URL</th><th>Author</th></tr>]
-  //       console.log('EL', el[name])
-  //       el[name].forEach(ob => {
-  //         let author = '';
-  //         let date = 'n/a'
-  //         let time = 'n/a'
-  //         let url = <Link Redirect to="/" style={selectedStyling}>Connect via settings page
-  //       </Link>
-  //         let text = ''
-  //         if (ob.time.length) {
-  //           time = ob.time;
-  //           author = ob.author;
-  //           text = 'Github Commits'
-  //           url = <a href={url} target='_blank'>{text}</a>
-  //           time = time.split('T');
-  //           date = time[0];
-  //           time = time[1];
-  //           time = time.split('').slice(0, time.length - 1);
-  //         }
-  //       li.push(<tr><td>{date}</td><td>{time}</td><td>{url}</td><td>{author}</td></tr>)
-  //       })
-  //       return (<div><h2>{name}</h2><table className={'ltTable'}>{li}</table></div>)
-  //     });
-
   return (
     <div className="renderContainers">
       <div className="header">
@@ -227,25 +161,9 @@ const Metrics = (props) => {
         </div>
       </div>
       <LineChartDisplay />
-      {/* <div className="gitHub-table"> 
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>URL</TableCell>
-              <TableCell>Author</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {gitData}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div> */}
-    </div>
-  );
+		</div>
+    
+	);
 };
 
 export default Metrics;

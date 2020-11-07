@@ -237,12 +237,12 @@ const Metrics = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              name={container.name}
-              value={container.name}
-              inputProps={{ "aria-label": container.name }}
+              name={container.Name}
+              value={container.Name}
+              inputProps={{ "aria-label": container.Name }}
             />
           }
-          label={container.name}
+          label={container.Name}
         />
       );
     });

@@ -18,6 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import store from '../../renderer/store';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -68,6 +69,11 @@ let isVerified = false;
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const classes = useStyles();
+  let state = store.getState();
+  let runningContainers = state.containersList.runningList;
+  let stoppedContainers = state.containersList.stoppedList;
+  console.log('RUNNING CONTAINERS: ', runningContainers);
+  console.log('STOPPED CONTAINERS: ', stoppedContainers);
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -233,21 +239,21 @@ const Settings = (props) => {
   const renderRunningList = props.runningList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
-      container.cid
+      container.ID
     );
-    let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
+    let isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
     let isStoppedSelected = isSelected(
       props.stoppedNotificationList,
-      container.cid
+      container.ID
     );
 
     return (
       <TableRow key={i}>
         <TableCell>
-          <span className="container-name">{container.name}</span>
+          <span className="container-name">{container.Name}</span>
         </TableCell>
         <TableCell>
-          <span className="container-id">{container.cid}</span>
+          <span className="container-id">{container.ID}</span>
         </TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
@@ -255,14 +261,14 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Name,
                     categories.MEMORY
                   )
-                : handleUnCheckSetting(container.cid, categories.MEMORY)
+                : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isMemorySelected}
           />
         </TableCell>
@@ -271,14 +277,14 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Name,
                     categories.CPU
                   )
-                : handleUnCheckSetting(container.cid, categories.CPU)
+                : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isCpuSelected}
           />
         </TableCell>
@@ -287,14 +293,14 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Name,
                     categories.STOPPED
                   )
-                : handleUnCheckSetting(container.cid, categories.STOPPED)
+                : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isStoppedSelected}
           />
         </TableCell>
@@ -302,7 +308,7 @@ const Settings = (props) => {
           <button
             className="stop-btn"
             onClick={() =>
-              props.stop(container.cid, props.stopRunningContainer)
+              props.stop(container.ID, props.stopRunningContainer)
             }
           >
             STOP
@@ -316,32 +322,32 @@ const Settings = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
-      container.cid
+      container.ID
     );
-    let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
+    let isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
     let isStoppedSelected = isSelected(
       props.stoppedNotificationList,
-      container.cid
+      container.ID
     );
 
     return (
       <TableRow key={i}>
-        <TableCell>{container.name}</TableCell>
-        <TableCell>{container.cid}</TableCell>
-        <TableCell>{container.img}</TableCell>
+        <TableCell>{container.Names}</TableCell>
+        <TableCell>{container.ID}</TableCell>
+        <TableCell>{container.Image}</TableCell>
         <TableCell align="center">
           <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Names,
                     categories.MEMORY
                   )
-                : handleUnCheckSetting(container.cid, categories.MEMORY)
+                : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isMemorySelected}
           />
         </TableCell>
@@ -350,14 +356,14 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Names,
                     categories.CPU
                   )
-                : handleUnCheckSetting(container.cid, categories.CPU)
+                : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isCpuSelected}
           />
         </TableCell>
@@ -366,14 +372,14 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.cid,
-                    container.name,
+                    container.ID,
+                    container.Names,
                     categories.STOPPED
                   )
-                : handleUnCheckSetting(container.cid, categories.STOPPED)
+                : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role="checkbox"
-            key={container.cid}
+            key={container.ID}
             checked={isStoppedSelected}
           />
         </TableCell>
@@ -381,7 +387,7 @@ const Settings = (props) => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runStopped(container.cid, props.runStoppedContainer, props.refreshRunningContainers)
+              props.runStopped(container.ID, props.runStoppedContainer, props.refreshRunningContainers)
             }
           >
             RUN

@@ -87,66 +87,66 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    const data = [
-      {
-        time: '1',
-        name: 'amazing_morse',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '4.00%',
-        mp: '0.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '2',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '6.00%',
-        mp: '2%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '3',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '8.00%',
-        mp: '5.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-    ];
-    if (Object.keys(activeContainers).length > 1)
-      data.push(
-        {
-          name: 'wizardly_benz',
-          time: '1',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '8.00%',
-          mp: '5.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        },
-        {
-          name: 'wizardly_benz',
-          time: '2',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '10.00%',
-          mp: '18.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        }
-      );
+    // const data = [
+    //   {
+    //     time: '1',
+    //     name: 'amazing_morse',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '4.00%',
+    //     mp: '0.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '2',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '6.00%',
+    //     mp: '2%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '3',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '8.00%',
+    //     mp: '5.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    // ];
+    // if (Object.keys(activeContainers).length > 1)
+    //   data.push(
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '1',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '8.00%',
+    //       mp: '5.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     },
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '2',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '10.00%',
+    //       mp: '18.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     }
+    //   );
     // build two fundtion that will return formated object for each container to in datapoins
     const graphBuilder = (containerName) => {
       const obj = {
@@ -255,6 +255,7 @@ const Metrics = (props) => {
 
   // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
+  console.log('RUNNING LIST', props.runningList)
   const selectList = () => {
 		const result = [];
     props.runningList.forEach((container) => {
@@ -262,12 +263,12 @@ const Metrics = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            name={container.name}
-            value={container.name}
-            inputProps={{ 'aria-label': container.name  }}  
+            name={container.Name}
+            value={container.Name}
+            inputProps={{ 'aria-label': container.Name  }}  
           />
         } 
-        label={container.name}
+        label={container.Name}
       />  
       );
     });

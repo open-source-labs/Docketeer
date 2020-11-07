@@ -9,9 +9,11 @@ import store from '../../renderer/store';
  * @param {*} callback
  * on app start-up, get the containers that are already running by calling addRunning
  */
+
+ // docker stats --no-stream --format "{{ json . }}"
 export const addRunning = (runningList, callback) => {
   exec(
-    'docker stats --no-stream --format \'{"block": "{{.BlockIO}}", "cid": "{{.ID}}", "cpu": "{{.CPUPerc}}", "mp": "{{.MemPerc}}", "mul": "{{.MemUsage}}", "name": "{{.Name}}", "net": "{{.NetIO}}", "pids": "{{.PIDs}}"},\'',
+    `docker stats --no-stream --format '{{json .}},'`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -23,7 +25,7 @@ export const addRunning = (runningList, callback) => {
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
       const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
-      const output = `[${dockerOutput}]`;
+      const output = `[${stdout}]`;
       const convertedValue = JSON.parse(output);
       const newList = [];
 
@@ -50,7 +52,8 @@ export const addRunning = (runningList, callback) => {
  */
 export const refreshRunning = (refreshRunningContainers) => {
   exec(
-    'docker stats --no-stream --format \'{"block": "{{.BlockIO}}", "cid": "{{.ID}}", "cpu": "{{.CPUPerc}}", "mp": "{{.MemPerc}}", "mul": "{{.MemUsage}}", "name": "{{.Name}}", "net": "{{.NetIO}}", "pids": "{{.PIDs}}"},\'',
+    `docker stats --no-stream --format '{{json .}},'`,
+
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -60,11 +63,10 @@ export const refreshRunning = (refreshRunningContainers) => {
         console.log(`stderr: ${stderr}`);
         return;
 			}
-			console.log('INSIDE REFRESH RUNNING!')
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
-      const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
-      const output = `[${dockerOutput}]`;
-      const convertedValue = JSON.parse(output);
+			const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+      // const output = `[${dockerOutput}]`;
+      const convertedValue = JSON.parse(dockerOutput);
 
       refreshRunningContainers(convertedValue);
     },
@@ -78,7 +80,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  */
 export const refreshStopped = (refreshStoppedContainers) => {
   exec(
-    'docker ps -f "status=exited" --format \'{"cid": "{{.ID}}", "img": "{{.Image}}", "created": "{{.RunningFor}}", "name": "{{.Names}}"},\'',
+    `docker ps -f "status=exited" --format '{{json .}},'`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -478,7 +480,7 @@ export const writeToDb = () => {
   const interval = 300000;
   setInterval(() => {
     let state = store.getState();
-    let runningContainers = state.lists.runningList;
+    let runningContainers = state.containersList.runningList;
     if (!runningContainers.length) return;
     let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `;
     runningContainers.forEach((container, idx) => {

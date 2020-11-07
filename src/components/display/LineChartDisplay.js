@@ -231,10 +231,10 @@ const Metrics = (props) => {
 
   // [{container: [{time: x, url: x}]},{}]
   let gitData;
-  gitData = gitUrls.map((el) => {
+  gitData = gitUrls.map((el, index) => {
     let name = Object.keys(el);
     const li = [
-      <tr>
+      <tr key={index}>
         <th>Date</th>
         <th>Time</th>
         <th>URL</th>
@@ -286,18 +286,18 @@ const Metrics = (props) => {
   let currentList;
   const selectList = () => {
     const result = [];
-    runningList.forEach((container) => {
+    runningList.forEach((container, index) => {
       result.push(
         <FormControlLabel
         control={
           <Checkbox
-            name={container.name}
-            value={container.name}
+            name={container.Name}
+            value={container.Name}
             color='primary'
-            inputProps={{ 'aria-label': container.name  }}
+            inputProps={{ 'aria-label': container.Name  }}
           />
         } 
-        label={container.name}
+        label={container.Name}
       />  
       );
     });
@@ -307,12 +307,12 @@ const Metrics = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            name={container.name}
-            value={container.name}
-            inputProps={{ 'aria-label': container.name  }}  
+            name={container.Name}
+            value={container.Name}
+            inputProps={{ 'aria-label': container.Name  }}  
           />
         } 
-        label={container.name}
+        label={container.Name}
       />  
       );
     });
@@ -420,7 +420,7 @@ const Metrics = (props) => {
       <div className="allCharts">
         <Line data={cpuObj} options={cpuOptions} />
       </div>
-      <div class="metric-section-title">
+      <div className="metric-section-title">
         <h3>GitHub History</h3>
       </div>
       <div className="gitHub-container">{gitData}</div>

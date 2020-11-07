@@ -56,11 +56,11 @@ const convertToMetricsArr = (array) => {
     let netArray = [0,0];
     let blockArray = [0,0];
     for(let i = 0; i < array.length; i++) {
-        let cpu = array[i]['cpu'].replace(/([%])+/g, '');
+        let cpu = array[i]['CPUPerc'].replace(/([%])+/g, '');
         cpuSum += parseFloat(cpu);
-        let memory = array[i]['mp'].replace(/([%])+/g, '');
+        let memory = array[i]['MemPerc'].replace(/([%])+/g, '');
         memorySum += parseFloat(memory)
-        let splittedNet = array[i]['net'].split('/');
+        let splittedNet = array[i]['NetIO'].split('/');
         let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));
         let netTotal;
         if(splittedNet[1].slice(-2) === 'kB'){
@@ -70,7 +70,7 @@ const convertToMetricsArr = (array) => {
         }  
         netArray[0] += netvalue;
         netArray[1] += netTotal;
-        let splittedBlock = array[i]['block'].split('/');
+        let splittedBlock = array[i]['BlockIO'].split('/');
         let blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ''));
         let blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ''));
         blockArray[0] += blockValue;

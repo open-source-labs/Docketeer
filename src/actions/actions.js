@@ -124,3 +124,13 @@ export const removeStoppedNotificationSetting = (data) => ({
   type: types.REMOVE_STOPPED_NOTIFICATION_SETTING,
   payload: data,
 });
+
+export const addNotificationFrequency = (data) => ({
+  type: types.NOTIFICATION_FREQUENCY,
+  payload: data,
+});
+
+export const addMonitoringFrequency = (data) => ({
+  type: types.MONITORING_FREQUENCY,
+  payload: data,
+});

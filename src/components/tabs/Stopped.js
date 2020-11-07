@@ -8,22 +8,22 @@ import React from 'react';
  */
 const Stopped = (props) => {
 
-	const renderStoppedList = props.stoppedList.map((ele, i) => {
+	const renderStoppedList = props.stoppedList.map((container, i) => {
 		return (
 			<div className="box" key={`stoppedBox${i}`}>
 				<div className="box-label">
-					<h3>{ele['name']}</h3>
-					<p>{ele['cid']}</p>
+					<h3>{container.Names}</h3>
+					<p>{container.ID}</p>
 				</div>
 
 				<div className="stopped-info">
-					<li>Img: {ele['img']}</li>
-					<li>Created: {ele['created']}</li>
-					<li>name: {ele['name']}</li>
+					<li>Img: {container.Image}</li>
+					<li>Created: {container.RunningFor}</li>
+					<li>name: {container.Names}</li>
 				</div>
 				<div className="stopped-button">
-					<button className="run-btn" onClick={() => props.runStopped(ele['cid'], props.runStoppedContainer)}>RUN</button>
-					<button className="stop-btn" onClick={() => props.remove(ele['cid'], props.removeContainer)}>REMOVE</button>
+					<button className="run-btn" onClick={() => props.runStopped(container['ID'], props.runStoppedContainer)}>RUN</button>
+					<button className="stop-btn" onClick={() => props.remove(container['ID'], props.removeContainer)}>REMOVE</button>
 				</div>
 			</div>
 

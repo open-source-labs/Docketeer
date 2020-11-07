@@ -75,7 +75,7 @@ const App = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-
+    
     startNotificationRequester();
     return () => clearInterval(interval);
   }, []);

@@ -9,9 +9,11 @@ import store from '../../renderer/store';
  * @param {*} callback
  * on app start-up, get the containers that are already running by calling addRunning
  */
+
+ // docker stats --no-stream --format "{{ json . }}"
 export const addRunning = (runningList, callback) => {
   exec(
-    'docker stats --no-stream --format \'{"block": "{{.BlockIO}}", "cid": "{{.ID}}", "cpu": "{{.CPUPerc}}", "mp": "{{.MemPerc}}", "mul": "{{.MemUsage}}", "name": "{{.Name}}", "net": "{{.NetIO}}", "pids": "{{.PIDs}}"},\'',
+    `docker stats --no-stream --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -50,7 +52,8 @@ export const addRunning = (runningList, callback) => {
  */
 export const refreshRunning = (refreshRunningContainers) => {
   exec(
-    'docker stats --no-stream --format \'{"block": "{{.BlockIO}}", "cid": "{{.ID}}", "cpu": "{{.CPUPerc}}", "mp": "{{.MemPerc}}", "mul": "{{.MemUsage}}", "name": "{{.Name}}", "net": "{{.NetIO}}", "pids": "{{.PIDs}}"},\'',
+    `docker stats --no-stream --format "{{json .}},"`,
+
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -60,11 +63,10 @@ export const refreshRunning = (refreshRunningContainers) => {
         console.log(`stderr: ${stderr}`);
         return;
 			}
-			console.log('INSIDE REFRESH RUNNING!')
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
-      const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
-      const output = `[${dockerOutput}]`;
-      const convertedValue = JSON.parse(output);
+			const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+      // const output = `[${dockerOutput}]`;
+      const convertedValue = JSON.parse(dockerOutput);
 
       refreshRunningContainers(convertedValue);
     },
@@ -78,7 +80,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  */
 export const refreshStopped = (refreshStoppedContainers) => {
   exec(
-    'docker ps -f "status=exited" --format \'{"cid": "{{.ID}}", "img": "{{.Image}}", "created": "{{.RunningFor}}", "name": "{{.Names}}"},\'',
+    `docker ps -f "status=exited" --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message}`);
@@ -475,22 +477,16 @@ export const dockerComposeDown = (filePath, networkName) => {
 };
 
 export const writeToDb = () => {
-  const interval = 300000
-	setInterval(() => {
-		let state = store.getState();
-    let runningContainers = state.lists.runningList;
-    let stoppedContainers = state.lists.stoppedList;
-		if (!runningContainers.length) return;
-		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
-		runningContainers.forEach((container, idx) => {
-			// no need to worry about sql injections as it would be self sabotaging! 
-			let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`
-			if (idx === runningContainers.length - 1 && stoppedContainers.length === 0) dbQuery += string;
-			else dbQuery += string + ', ';
-    })
-    stoppedContainers.forEach((container, idx) => {
-      let string = `('${container.cid}', '${container.name}', '0.00%', '0.00%', '00.0MiB/0.00GiB', '0.00kB/0.00kB', '00.0MB/00.0MB', '0', current_timestamp)`
-      if (idx === stoppedContainers.length - 1) dbQuery += string;
+  const interval = 300000;
+  setInterval(() => {
+    let state = store.getState();
+    let runningContainers = state.containersList.runningList;
+    if (!runningContainers.length) return;
+    let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `;
+    runningContainers.forEach((container, idx) => {
+      // no need to worry about sql injections as it would be self sabotaging!
+      let string = `('${container.cid}', '${container.name}', '${container.cpu}', '${container.mp}', '${container.mul}', '${container.net}', '${container.block}', '${container.pids}', current_timestamp)`;
+      if (idx === runningContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
     })
     console.log(dbQuery)
@@ -504,6 +500,8 @@ export const setDbSessionTimeZone = () => {
   query(`set time zone ${offsetTimeZoneInHours}`);
 }
 
+
 export const getContainerGitUrl = (container) => {
-  return query(`Select github_url from containers where name = '${container}'`);
-};
+	return query(`Select github_url from containers where name = '${container}'`);
+
+}

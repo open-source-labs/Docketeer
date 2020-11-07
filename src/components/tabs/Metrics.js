@@ -112,7 +112,7 @@ const Metrics = (props) => {
       <div className="header">
         <h1 className="tabTitle">Metrics</h1>
       </div>
-      <div class="metric-section-title">
+      <div className="metric-section-title">
         <h3>Aggregate</h3>
       </div>
       <div className="aggregate-conatiner">

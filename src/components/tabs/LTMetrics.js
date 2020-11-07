@@ -87,66 +87,66 @@ const Metrics = (props) => {
     }
     // DB QUERY LIKELY GOING HERE
     let output = await getData();
-    const data = [
-      {
-        time: '1',
-        name: 'amazing_morse',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '4.00%',
-        mp: '0.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '2',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '6.00%',
-        mp: '2%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-      {
-        name: 'amazing_morse',
-        time: '3',
-        block: '0B/0B',
-        cid: 'db06b75e6db7',
-        cpu: '8.00%',
-        mp: '5.18%',
-        mul: '2.523MiB/1.945GiB',
-        net: '50B/0B',
-        pids: '3',
-      },
-    ];
-    if (Object.keys(activeContainers).length > 1)
-      data.push(
-        {
-          name: 'wizardly_benz',
-          time: '1',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '8.00%',
-          mp: '5.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        },
-        {
-          name: 'wizardly_benz',
-          time: '2',
-          block: '0B/0B',
-          cid: 'db06b75e6db7',
-          cpu: '10.00%',
-          mp: '18.18%',
-          mul: '2.523MiB/1.945GiB',
-          net: '50B/0B',
-          pids: '3',
-        }
-      );
+    // const data = [
+    //   {
+    //     time: '1',
+    //     name: 'amazing_morse',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '4.00%',
+    //     mp: '0.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '2',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '6.00%',
+    //     mp: '2%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    //   {
+    //     name: 'amazing_morse',
+    //     time: '3',
+    //     block: '0B/0B',
+    //     cid: 'db06b75e6db7',
+    //     cpu: '8.00%',
+    //     mp: '5.18%',
+    //     mul: '2.523MiB/1.945GiB',
+    //     net: '50B/0B',
+    //     pids: '3',
+    //   },
+    // ];
+    // if (Object.keys(activeContainers).length > 1)
+    //   data.push(
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '1',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '8.00%',
+    //       mp: '5.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     },
+    //     {
+    //       name: 'wizardly_benz',
+    //       time: '2',
+    //       block: '0B/0B',
+    //       cid: 'db06b75e6db7',
+    //       cpu: '10.00%',
+    //       mp: '18.18%',
+    //       mul: '2.523MiB/1.945GiB',
+    //       net: '50B/0B',
+    //       pids: '3',
+    //     }
+    //   );
     // build two fundtion that will return formated object for each container to in datapoins
     const graphBuilder = (containerName) => {
       const obj = {
@@ -191,7 +191,6 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - (time));
     date = date.toISOString()
-    console.log('********DATE ISOOOO***********', date)
     const url = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
@@ -204,7 +203,6 @@ const Metrics = (props) => {
       const url = 'https://api.github.com/repos/oslabs-beta/Docketeer/commits?' + new URLSearchParams({
         since: `${date}`
       })
-      console.log('URL**********', url);
       let data = await fetch(url)
       const jsonData = await data.json();
 
@@ -229,7 +227,6 @@ const Metrics = (props) => {
       gitData = gitUrls.map(el =>  {
         let name = Object.keys(el);
         const li = [<tr><th>Date</th><th>Time</th><th>URL</th><th>Author</th></tr>]
-        console.log('EL', el[name])
         el[name].forEach(ob => {
           let author = '';
           let date = 'n/a'
@@ -255,6 +252,7 @@ const Metrics = (props) => {
 
   // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
+  console.log('RUNNING LIST', props.runningList)
   const selectList = () => {
 		const result = [];
     props.runningList.forEach((container) => {
@@ -262,30 +260,30 @@ const Metrics = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            name={container.name}
-            value={container.name}
-            inputProps={{ 'aria-label': container.name  }}  
+            name={container.Name}
+            value={container.Name}
+            inputProps={{ 'aria-label': container.Name  }}  
           />
         } 
-        label={container.name}
+        label={container.Name}
       />  
       );
     });
-
 
     result.push(<div></div>);
     currentList = result;
   };
 
-
-
   const handleChange = (e) => {
-
-		if (e.target.type === 'radio') {
+    console.log('HIT HANDLE CHANGE')
+    console.log('e.target.name', e.target.name)
+		if (e.target.name === 'timePeriod') {
+      console.log('HIT IF CONDITION IN HANDLE CHANGE')
       setTimePeriod(e.target.value);
 			return;
 		}
     const containerName = e.target.name;
+    
     // deep copy the state object - shallow copy didn't work
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
@@ -341,6 +339,7 @@ const Metrics = (props) => {
         <span className='tabTitle'>Metrics</span>
       </div>
       <div style={{ marginTop: '150px' }}>
+        <p>Please Select a Container</p>
         <form
           onChange={(e) => {
             handleChange(e);
@@ -370,6 +369,7 @@ const Metrics = (props) => {
           <label htmlFor='24-hours'>24 hours</label>
           {currentList}
         </form>
+          <p>Please Select a Time Period</p>
       </div>
 
       <div className='allCharts'>
@@ -402,30 +402,3 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
-
-// block: "0B/0B",
-// cid: "db06b75e6db7",
-// cpu: "4.00%", CPU PERCENTAGE
-// mp: "0.18%", MEMORY PERCENTAGE
-// mul: "2.523MiB/1.945GiB",
-// name: "compassionate_goldberg",
-// net: "50B/0B", TRANSMITTED / RECEIVED
-// pids: "3" MAYBE
-
-// write a handleChange function
-// build state with selected containers --> ['container-1', 'container-2']
-// query db for information based on current selections (for now this will be dummy data)
-// create a object to be pushed into the dataset prop for the respective graph
-// push the object into the graph
-// component should rerender when update
-
-// const cpu = {
-// 	labels: dataLabels,
-// 	datasets: [
-// 		{
-// 			label: activeContainers,
-// 			 data: cpuData,
-// 			 fill: false
-// 		},
-// 	],
-// };

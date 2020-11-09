@@ -133,21 +133,6 @@ const Running = (props) => {
     <div className="renderContainers">
       <div className="header">
         <h1 className="tabTitle">Running Containers</h1>
-        <div className="runByButton">
-          <label>Enter Image ID or Repo</label>
-          <span>
-            <input
-              type="text"
-              value={run}
-              onChange={(e) => {
-                setRun(e.target.value);
-              }}
-            ></input>
-          </span>
-          <button className="run-btn" onClick={(e) => handleClick(e)}>
-            Run
-          </button>
-        </div>
       </div>
       <div className="containers">{renderRunningList}</div>
     </div>

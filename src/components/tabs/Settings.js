@@ -317,7 +317,6 @@ const monitoringFrequency = () => {
   // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
   let allContainersList = props.runningList.concat(props.stoppedList)
   const renderAllContainersList = allContainersList.map((container, i) => {
-  //////////////////DISCUSS BEFORE DELETING EVERYTHING FROM THE STATE  
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID
@@ -340,7 +339,7 @@ const monitoringFrequency = () => {
         </TableCell>
         <TableCell>{container.img}</TableCell>
         <TableCell align="center">
-          {/* <Checkbox
+          <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
@@ -353,23 +352,10 @@ const monitoringFrequency = () => {
             role="checkbox"
             key={container.ID}
             checked={isMemorySelected}
-          /> */}
-          <TextField
-                className={classes.textfield}
-                id="textfield"
-                label="Attribute value, %"
-                helperText="* 80% is recommended"
-                variant="outlined"
-                value={tempMonitoringFrequency}
-                  onChange={(e) => {
-                    setTempMonitoringFrequency(e.target.value);
-                    console.log(tempMonitoringFrequency);
-                  }}
-                  size="small"
-              />
+          />
         </TableCell>
         <TableCell align="center">
-          {/* <Checkbox
+          <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
@@ -382,20 +368,7 @@ const monitoringFrequency = () => {
             role="checkbox"
             key={container.ID}
             checked={isCpuSelected}
-          /> */}
-                    <TextField
-                className={classes.textfield}
-                id="textfield"
-                label="Hurdle rate, %"
-                helperText="* 80% is recommended"
-                variant="outlined"
-                value={tempMonitoringFrequency}
-                  onChange={(e) => {
-                    setTempMonitoringFrequency(e.target.value);
-                    console.log(tempMonitoringFrequency);
-                  }}
-                  size="small"
-              />
+          />
         </TableCell>
         <TableCell align="center">
           <Checkbox
@@ -414,27 +387,19 @@ const monitoringFrequency = () => {
           />
         </TableCell>
         <TableCell align="center">
-          {/* <button
-            className="stop-btn"
-            onClick={() =>
-              props.stop(container.ID, props.stopRunningContainer)
-            }
-          >
-            STOP
-          </button> */}
-                    <TextField
-                className={classes.textfield}
-                id="textfield"
-                label="Main repository url"
-                helperText="* e.g.: https://github.com/companyRepo/projectRepo"
-                variant="outlined"
-                value={tempMonitoringFrequency}
-                  onChange={(e) => {
-                    setTempMonitoringFrequency(e.target.value);
-                    console.log(tempMonitoringFrequency);
-                  }}
-                  size="small"
-              />
+          <TextField
+            className={classes.textfield}
+            id="textfield"
+            label="Main repository url"
+            helperText="* e.g.: https://github.com/companyRepo/projectRepo"
+            variant="outlined"
+            value={tempMonitoringFrequency}
+            onChange={(e) => {
+              setTempMonitoringFrequency(e.target.value);
+              console.log(tempMonitoringFrequency);
+            }}
+            size="small"
+          />
         </TableCell>
         <TableCell>
           <Button
@@ -449,85 +414,6 @@ const monitoringFrequency = () => {
       </TableRow>
     );
   });
-
-  // TODO: concat runningList with stoppedList if container can have
-  // const renderStoppedList = props.stoppedList.map((container, i) => {
-  //   let isMemorySelected = isSelected(
-  //     props.memoryNotificationList,
-  //     container.cid
-  //   );
-  //   let isCpuSelected = isSelected(props.cpuNotificationList, container.cid);
-  //   let isStoppedSelected = isSelected(
-  //     props.stoppedNotificationList,
-  //     container.cid
-  //   );
-
-  //   return (
-  //     <TableRow key={i}>
-  //       <TableCell>{container.name}</TableCell>
-  //       <TableCell>{container.cid}</TableCell>
-  //       <TableCell>{container.img}</TableCell>
-  //       <TableCell align="center">
-  //         <Checkbox
-  //           onClick={(event) =>
-  //             event.target.checked
-  //               ? handleCheckSetting(
-  //                   container.cid,
-  //                   container.name,
-  //                   categories.MEMORY
-  //                 )
-  //               : handleUnCheckSetting(container.cid, categories.MEMORY)
-  //           }
-  //           role="checkbox"
-  //           key={container.cid}
-  //           checked={isMemorySelected}
-  //         />
-  //       </TableCell>
-  //       <TableCell align="center">
-  //         <Checkbox
-  //           onClick={(event) =>
-  //             event.target.checked
-  //               ? handleCheckSetting(
-  //                   container.cid,
-  //                   container.name,
-  //                   categories.CPU
-  //                 )
-  //               : handleUnCheckSetting(container.cid, categories.CPU)
-  //           }
-  //           role="checkbox"
-  //           key={container.cid}
-  //           checked={isCpuSelected}
-  //         />
-  //       </TableCell>
-  //       <TableCell align="center">
-  //         <Checkbox
-  //           onClick={(event) =>
-  //             event.target.checked
-  //               ? handleCheckSetting(
-  //                   container.cid,
-  //                   container.name,
-  //                   categories.STOPPED
-  //                 )
-  //               : handleUnCheckSetting(container.cid, categories.STOPPED)
-  //           }
-  //           role="checkbox"
-  //           key={container.cid}
-  //           checked={isStoppedSelected}
-  //         />
-  //       </TableCell>
-  //       <TableCell align="center">
-  //         <button
-  //           className="run-btn"
-  //           onClick={() =>
-  //             props.runStopped(container.cid, props.runStoppedContainer, props.refreshRunningContainers)
-  //           }
-  //         >
-  //           RUN
-  //         </button>
-  //       </TableCell>
-  //     </TableRow>
-  //   );
-  // });
 
   return (
     <div className="renderContainers">
@@ -690,8 +576,8 @@ const monitoringFrequency = () => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align="center">Memory exceeds attribute value</TableCell>
-                <TableCell align="center">CPU exceeds attribute value</TableCell>
+                <TableCell align="center">Memory > 80%</TableCell>
+                <TableCell align="center">CPU > 80%</TableCell>
                 <TableCell align="center">Container Stops</TableCell>
                 <TableCell align="center">GitHub repository url</TableCell>
                 <TableCell align="center">Apply settings</TableCell>
@@ -699,8 +585,6 @@ const monitoringFrequency = () => {
             </TableHead>
             <TableBody>
               {renderAllContainersList}
-              {/* {renderRunningList} */}
-              {/* {renderStoppedList} */}
             </TableBody>
           </Table>
         </TableContainer>

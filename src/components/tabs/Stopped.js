@@ -34,7 +34,7 @@ const Stopped = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<span className="tabTitle">Exited Containers</span>
+				<h1 className="tabTitle">Exited Containers</h1>
 				<span></span>
 			</div>
 			<div className="containers">

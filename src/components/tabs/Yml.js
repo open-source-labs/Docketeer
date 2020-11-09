@@ -161,7 +161,7 @@ const Yml = (props) => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <span className="tabTitle">Docker Compose</span>
+        <h1 className="tabTitle">Docker Compose</h1>
       </div>
       <div className="settings-container">
         <div id="drag-file">

@@ -40,7 +40,7 @@ const Images = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<span className="tabTitle">Images</span>
+				<h1 className="tabTitle">Images</h1>
 				<div className="runByButton">
 					<label>Enter Image Repo</label>
 					<span><input type="text" value={repo} onChange={(e) => { setRepo(e.target.value) }}></input></span>

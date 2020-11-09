@@ -477,7 +477,7 @@ export const dockerComposeDown = (filePath, networkName) => {
 };
 
 export const writeToDb = () => {
-  const interval = 300000;
+  const interval = 30000;
   setInterval(() => {
     let state = store.getState();
     let runningContainers = state.containersList.runningList;
@@ -489,7 +489,6 @@ export const writeToDb = () => {
       if (idx === runningContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
     })
-    console.log(dbQuery)
 		query(dbQuery)
 	}, interval)
 }

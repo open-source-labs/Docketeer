@@ -21,7 +21,7 @@ const initialState = {
 const graphReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.BUILD_AXIS:
-      console.log('action.payload build axis:', action.payload);
+      // console.log('action.payload build axis:', action.payload);
       if (action.payload === 'clear') return { ...state, graphAxis: [] };
       // cuts day of week from begingin and the timezone off the end.
       let formatedDate = action.payload.toString().slice(4, 24)

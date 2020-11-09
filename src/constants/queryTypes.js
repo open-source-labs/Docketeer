@@ -87,3 +87,11 @@ export const INSERT_MONITORING_FREQUENCY = `
   DO
     UPDATE SET monitoring_frequency = $4;  
 `;
+
+export const INSERT_GITHUB = `  
+  INSERT INTO containers (container_id, github_url)
+  VALUES ($1, $2)
+  ON CONFLICT ON CONSTRAINT unique_name
+  DO
+    UPDATE SET github_url = $2;  
+`;

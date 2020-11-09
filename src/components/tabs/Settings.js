@@ -234,18 +234,15 @@ const notificationFrequency = () => {
               if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
               else {
                 if (tempNotifFreq) frequency = tempNotifFreq
-                console.log("notificationFrequency: ", frequency)                                               //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
                   query(
-                    queryType.INSERT_NOTIFICATION_FREQUENCY,    // CHANGE DB QUERY
+                    queryType.INSERT_NOTIFICATION_FREQUENCY,
                     ['admin', , frequency, ,],
                     (err, res) => {
                       if (err) {
                         console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
                       } else {
                         console.log(`*** Inserted ${res} into users table. ***`);
-                        console.log("global state before state update: ", props.notificationFrequency)          // CHECK HOW THE STATE HAS CHANGED
                         props.addNotificationFrequency(frequency);                                              // ADDING TO GLOBAL STATE
-                        console.log("global state after state update: ", props.notificationFrequency)           // CHECK HOW THE STATE HAS CHANGED
                       }
                     },
                   );
@@ -261,7 +258,6 @@ const monitoringFrequency = () => {
               if (isNaN(Number(tempMonitoringFrequency))) alert('Please enter monitoring frequency in numerical format. ex: 15');
               else {
                 if (tempMonitoringFrequency) frequency = tempMonitoringFrequency
-                console.log("monitoringFrequency: ", frequency)                                             //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
                 query(
                   queryType.INSERT_MONITORING_FREQUENCY,    // CHANGE DB QUERY
                   ['admin', , , frequency,],
@@ -270,14 +266,11 @@ const monitoringFrequency = () => {
                       console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
                     } else {
                       console.log(`*** Inserted ${res} into users table. ***`);
-                      console.log("global state before state update: ", props.monitoringFrequency)          // CHECK HOW THE STATE HAS CHANGED
                       props.addMonitoringFrequency(frequency);                                         // ADDING TO GLOBAL STATE
-                      console.log("global state after state update: ", props.monitoringFrequency)           // CHECK HOW THE STATE HAS CHANGED
                     }
                   },
                 );
               }
-              // }
 };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
@@ -304,6 +297,30 @@ const monitoringFrequency = () => {
       isVerified = result === "approved" ? true : false;
     } else alert("Please try verification code again");
   };
+
+      // GITHUB URL FORM
+      const [tempGithubLink, setTempGithubLink] = useState('');
+      const githubLink = () => {
+        // DESCRIBE PRELIMINARY CHECKS
+        if (!tempGithubLink) alert('Please provide a link in accordance with provided example');      //DISCUSS WHAT DO WE WANT TO TEST HERE?
+        else {
+          let github_url = tempGithubLink
+          console.log("github_url: ", github_url)                                                     //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
+         // QUERY TO BE UPDATED - DOUBLE CHECK QUERYTYPES FILE
+          query(
+            queryType.INSERT_GITHUB,
+            [[container_id], github_url],                             // USE THE RIGHT CONTAINER_ID
+            (err, res) => {
+              if (err) {
+                console.log(`INSERT_GITHUB. Error: ${err}`);
+              } else {
+                console.log(`*** Inserted ${res} into containers table. ***`);
+                // props.addMonitoringFrequency(frequency);                                             // DO WE NEED TO UPDATE THE STATE
+              }
+            },
+          );
+        }
+};
 
   /**
    * Checks to see if the containerId is in the array
@@ -393,10 +410,10 @@ const monitoringFrequency = () => {
             label="Main repository url"
             helperText="* e.g.: https://github.com/companyRepo/projectRepo"
             variant="outlined"
-            value={tempMonitoringFrequency}
+            value={tempGithubLink}
             onChange={(e) => {
-              setTempMonitoringFrequency(e.target.value);
-              console.log(tempMonitoringFrequency);
+              setTempGithubLink(e.target.value);
+              console.log(tempGithubLink);
             }}
             size="small"
           />
@@ -406,7 +423,7 @@ const monitoringFrequency = () => {
             className={classes.button}
             size="medium"
             variant="contained"
-            onClick={(e) => monitoringFrequency(e)}
+            onClick={(e) => githubLink(e)}
           >
             Confirm
           </Button>

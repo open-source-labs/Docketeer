@@ -12,6 +12,7 @@ import * as helper from "./helper/commands";
 import Docketeer from "../../assets/docketeer-title.png";
 import Settings from "./tabs/Settings";
 import startNotificationRequester from "./helper/notificationsRequester";
+import initDatabase from "./helper/initDatabase";
 import { HelpOutlineSharp } from "@material-ui/icons";
 
 /**
@@ -61,6 +62,7 @@ const App = (props) => {
   const [color, setColor] = useState(false);
 
   useEffect(() => {
+    initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
@@ -75,8 +77,9 @@ const App = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-    
+
     startNotificationRequester();
+
     return () => clearInterval(interval);
   }, []);
 

@@ -18,7 +18,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import store from '../../renderer/store';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -332,7 +331,9 @@ const monitoringFrequency = () => {
     return (
       <TableRow key={i}>
         <TableCell>
-          <span className="container-name">{container.Name}</span>
+          <span className="container-name">
+            {container.Names ? container.Names : container.Name} {/* Stopped containers have a .Names key. Running containers have a .Name key */}
+            </span>
         </TableCell>
         <TableCell>
           <span className="container-id">{container.ID}</span>
@@ -402,7 +403,7 @@ const monitoringFrequency = () => {
               event.target.checked
                 ? handleCheckSetting(
                     container.ID,
-                    container.Name,
+                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
                     categories.STOPPED
                   )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)

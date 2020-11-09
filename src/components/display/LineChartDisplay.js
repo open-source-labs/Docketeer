@@ -306,8 +306,8 @@ const Metrics = (props) => {
       result.push(
         <FormControlLabel
         control={
-          <Checkbox
-            name={container.Names}
+          <Checkbox      
+            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
             value={container.Names}
             inputProps={{ 'aria-label': container.Names  }}  
           />

@@ -9,7 +9,7 @@ configure({ adapter: new Adapter() });
 function shallowSetup() {
 
   const props = {
-    runningList: [{ block: "1B/2B", cid: "6f49565a501c", cpu: "20.00%", mp: "0.00%", mul: "5B/6B", name: "checkpoint_nginx_1", net: "3B/4B", pids: "0" }, { block: "3B/4B", cid: "6f49565a501c", cpu: "30.00%", mp: "20.00%", mul: "5B/6B", name: "checkpoint_nginx_2", net: "5B/6B", pids: "0" }]
+    runningList: [{ BlockIO: "1B/2B", ID: "6f49565a501c", CPUPerc: "20.00%", MemPerc: "0.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_1", NetIO: "3B/4B", PIDs: "0" }, { BlockIO: "3B/4B", ID: "6f49565a501c", CPUPerc: "30.00%", MemPerc: "20.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_2", NetIO: "5B/6B", PIDs: "0" }]
   }
 
   const enzymeWrapper = shallow(<Metrics {...props} />);

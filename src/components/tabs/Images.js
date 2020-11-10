@@ -27,7 +27,6 @@ const Images = (props) => {
 				<div className="stopped-info">
 					<li><strong>ID:</strong>{ele['imgid']} </li>
 					<li><strong>Size:</strong>{ele['size']}</li>
-					{/* <li><strong>Tag: </strong>{ele['tag']}</li> */}
 				</div>
 				<div className="stopped-button">
 					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)}>RUN</button>

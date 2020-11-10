@@ -11,13 +11,13 @@ function shallowSetup() {
 	const props = {
 		runningList: [{
 			block: "0B/0B",
-			cid: "a802306eeac3",
-			cpu: "0.17%",
-			mp: "0.11%",
-			mul: "2.195MiB/1.944GiB",
-			name: "blissful_matsumoto",
-			net: "796B/0B",
-			pids: "5"
+			ID: "a802306eeac3",
+			CPUPerc: "0.17%",
+			MemPerc: "0.11%",
+			MemUsage: "2.195MiB/1.944GiB",
+			Name: "blissful_matsumoto",
+			NetIO: "796B/0B",
+			PIDs: "5"
 		}]
 	}
 	const enzymeWrapper = shallow(<Running {...props} />);
@@ -38,14 +38,6 @@ describe('Running containers are being rendered', () => {
 	it('Should render the correct number of containers', () => {
 		expect(enzymeWrapper.find('.containers').children().length).toEqual(1);
 	});
-
-	it('Should render a button with className run-btn with the text "Run"', () => {
-		expect(enzymeWrapper.find('.run-btn').text()).toEqual('Run');
-	})
-
-	it('Should render a button with className run-btn that has a defined onClick Prop', () => {
-		expect(enzymeWrapper.find('.run-btn').prop('onClick')).toBeDefined();
-	})
 
 });
 

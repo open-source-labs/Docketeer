@@ -198,7 +198,9 @@ const Yml = (props) => {
         modalErrormessage
         modalErrormessage={modalErrormessage}
       />
-      <NetworkDisplay />
+      <h2 className="netDisplay">
+        <NetworkDisplay />
+      </h2>
     </div>
   );
 };

@@ -185,17 +185,15 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - time);
     date = date.toISOString();
-    // console.log("********DATE ISOOOO***********", date);
-    const url = await helper.getContainerGitUrl(containerName);
+    const urlObj = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T18%3A44%3A25Z
 
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
-    if (url.rows.length) {
-      const url =
-        "https://api.github.com/repos/oslabs-beta/Docketeer/commits?" +
+    if (urlObj.rows.length) {
+      const url = urlObj.rows[0].github_url +
         new URLSearchParams({
           since: `${date}`,
         });
@@ -419,7 +417,7 @@ const Metrics = (props) => {
         <Line data={cpuObj} options={cpuOptions} />
       </div>
       <div className="metric-section-title">
-        <h3>GitHub History</h3>
+        <h4>GitHub History</h4>
       </div>
       <div className="gitHub-container">{gitData}</div>
     </div>

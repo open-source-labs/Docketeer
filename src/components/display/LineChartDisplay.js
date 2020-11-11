@@ -185,22 +185,27 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - time);
     date = date.toISOString();
-    // console.log("********DATE ISOOOO***********", date);
-    const url = await helper.getContainerGitUrl(containerName);
+    const urlObj = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T18%3A44%3A25Z
 
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
-    if (url.rows.length) {
-      const url =
-        "https://api.github.com/repos/oslabs-beta/Docketeer/commits?" +
+
+    // https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-11-10T16%3A21%3A10.242Z
+    // "https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
+    if (urlObj.rows.length) {
+      console.log('URL OBJ', urlObj)
+      console.log('URL OBJ ROWS LENGTH', urlObj.rows.length)
+      const url = urlObj.rows[0].github_url +
         new URLSearchParams({
           since: `${date}`,
         });
-      // console.log("URL**********", url);
+
+      console.log("URL**********", url);
       let data = await fetch(url);
+      console.log('DATA', data);
       const jsonData = await data.json();
 
       jsonData.forEach((commitData) => {
@@ -300,20 +305,21 @@ const Metrics = (props) => {
       );
     });
 
-    // stoppedList.forEach((container) => {
-    //   result.push(
-    //     <FormControlLabel
-    //     control={
-    //       <Checkbox      
-    //         name={container.Names} /* docker stopped containers use .Names property instead of .Name */
-    //         value={container.Names}
-    //         inputProps={{ 'aria-label': container.Names  }}  
-    //       />
-    //     } 
-    //     label={container.Names}
-    //   />  
-    //   );
-    // });
+    stoppedList.forEach((container) => {
+      result.push(
+        <FormControlLabel
+        control={
+          <Checkbox      
+            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
+            value={container.Names}
+            color='primary'
+            inputProps={{ 'aria-label': container.Names }}  
+          />
+        } 
+        label={container.Names}
+      />  
+      );
+    });
 
     result.push(<div></div>);
     currentList = result;

@@ -187,7 +187,6 @@ const Yml = () => {
           </button>
         </div>
       </div>
-<<<<<<< HEAD
       <div className="settings-container">
         <TableContainer>
           <Table>
@@ -206,17 +205,6 @@ const Yml = () => {
           </Table>
         </TableContainer>
       </div>
-=======
-      <ModalDisplay
-        modalValid={modalValid}
-        setModalValid={setModalValid}
-        modalErrormessage
-        modalErrormessage={modalErrormessage}
-      />
-      <h2 className="netDisplay">
-        <NetworkDisplay />
-      </h2>
->>>>>>> 3711e6e640517a7b98e11fb3b1f91be4b4204798
     </div>
   );
 };

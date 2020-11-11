@@ -289,34 +289,20 @@ const Metrics = (props) => {
   let currentList;
   const selectList = () => {
     const result = [];
-    runningList.forEach((container, index) => {
+    const completeContainerList = [...runningList, ...stoppedList];
+    completeContainerList.forEach((container) => {
+      const containerNameKey = container.Name ? container.Name : container.Names;
       result.push(
         <FormControlLabel
         control={
           <Checkbox
-            name={container.Name}
-            value={container.Name}
+            name={containerNameKey}
+            value={containerNameKey}
             color='primary'
-            inputProps={{ 'aria-label': container.Name  }}
+            inputProps={{ 'aria-label': containerNameKey }}
           />
         } 
-        label={container.Name}
-      />  
-      );
-    });
-
-    stoppedList.forEach((container) => {
-      result.push(
-        <FormControlLabel
-        control={
-          <Checkbox      
-            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
-            value={container.Names}
-            color='primary'
-            inputProps={{ 'aria-label': container.Names }}  
-          />
-        } 
-        label={container.Names}
+        label={containerNameKey}
       />  
       );
     });

@@ -1,8 +1,7 @@
-import { exec, spawn } from 'child_process';
-import query from './psqlQuery';
-import { INSERT_NETWORK, DELETE_NETWORK } from '../../constants/queryTypes';
-import parseContainerFormat from './parseContainerFormat';
-import store from '../../renderer/store';
+import { exec } from "child_process";
+import query from "./psqlQuery";
+import parseContainerFormat from "./parseContainerFormat";
+import store from "../../renderer/store";
 /**
  *
  * @param {*} runningList
@@ -10,7 +9,7 @@ import store from '../../renderer/store';
  * on app start-up, get the containers that are already running by calling addRunning
  */
 
- // docker stats --no-stream --format "{{ json . }}"
+// docker stats --no-stream --format "{{ json . }}"
 export const addRunning = (runningList, callback) => {
   exec(
     `docker stats --no-stream --format "{{json .}},"`,
@@ -24,7 +23,7 @@ export const addRunning = (runningList, callback) => {
         return;
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
-      const dockerOutput = stdout.trim().slice(0, -1).replaceAll(' ', '');
+      const dockerOutput = stdout.trim().slice(0, -1).replaceAll(" ", "");
       const output = `[${dockerOutput}]`;
       const convertedValue = JSON.parse(output);
       const newList = [];
@@ -37,10 +36,10 @@ export const addRunning = (runningList, callback) => {
             break;
           }
         }
-        isInTheList ? '' : newList.push(convertedValue[i]);
+        isInTheList ? "" : newList.push(convertedValue[i]);
       }
-      newList.length ? callback(newList) : '';
-    },
+      newList.length ? callback(newList) : "";
+    }
   );
 };
 
@@ -62,14 +61,17 @@ export const refreshRunning = (refreshRunningContainers) => {
       if (stderr) {
         console.log(`stderr: ${stderr}`);
         return;
-			}
+      }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
-			const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+      const dockerOutput = `[${stdout
+        .trim()
+        .slice(0, -1)
+        .replaceAll(" ", "")}]`;
       // const output = `[${dockerOutput}]`;
       const convertedValue = JSON.parse(dockerOutput);
 
       refreshRunningContainers(convertedValue);
-    },
+    }
   );
 };
 
@@ -95,7 +97,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
       let output = `[${dockerOutput}]`;
       output = JSON.parse(output);
       refreshStoppedContainers(output);
-    },
+    }
   );
 };
 
@@ -115,11 +117,11 @@ export const refreshImages = (callback) => {
       return;
     }
     let value = parseContainerFormat.convert(stdout);
-    let objArray = ['reps', 'tag', 'imgid', 'size'];
+    let objArray = ["reps", "tag", "imgid", "size"];
     const resultImages = [];
     for (let i = 0; i < value.length; i++) {
       let innerArray = [];
-      if (value[i][0] !== '<none>') {
+      if (value[i][0] !== "<none>") {
         innerArray.push(value[i][0]);
         innerArray.push(value[i][1]);
         innerArray.push(value[i][2]);
@@ -129,7 +131,7 @@ export const refreshImages = (callback) => {
     }
     let convertedValue = parseContainerFormat.convertArrToObj(
       resultImages,
-      objArray,
+      objArray
     );
 
     callback(convertedValue);
@@ -182,7 +184,11 @@ export const stop = (id, callback) => {
  * @param {*} callback
  * Start the container
  */
-export const runStopped = (id, runStoppedContainerDispatcher, refreshRunningContainers) => {
+export const runStopped = (
+  id,
+  runStoppedContainerDispatcher,
+  refreshRunningContainers
+) => {
   exec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
@@ -234,7 +240,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
     if (error) {
       alert(
         `${error.message}` +
-          '\nPlease stop running container first then remove.',
+          "\nPlease stop running container first then remove."
       );
       return;
     }
@@ -253,7 +259,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
  */
 export const handlePruneClick = (e) => {
   e.preventDefault();
-  exec('docker system prune --force', (error, stdout, stderr) => {
+  exec("docker system prune --force", (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -285,108 +291,12 @@ export const pullImage = (repo) => {
 
 /**
  *
- * @param {*} filepath
- * @param {*} callback
- * @param {*} callback_2
- * @param {*} callback_3
- * Docker compose command functionality
+ * @param {*} getDockerNetworkReducer
+ * Display all containers network based on docker-compose when the application starts
  */
-export const connectContainers = (
-  filepath,
-  callback,
-  callback_2,
-  callback_3,
-) => {
-  let child = spawn(
-    `cd ${filepath} && docker-compose up -d && docker network ls`,
-    {
-      shell: true,
-    },
-  );
-  let newNetwork = '';
-  child.stderr.on('data', function (data) {
-    let output = data.toString(); // change buffer to string
-    let temp = output.match(/(["])(?:(?=(\\?))\2.)*?\1/g); // find only letter in quotation
-    if (temp) newNetwork = temp;
-  });
-
-  child.on('exit', function (exitCode) {
-    if (exitCode !== 0) {
-      console.log('There was an error while executing docker-compose');
-      callback_2(true);
-      callback_3('There was an error while executing docker-compose');
-    } else {
-      if (!newNetwork) {
-        console.log('Your docker-compose is already defined');
-        callback_2(true);
-        callback_3('Your docker-compose is already defined');
-      } else {
-        // Inspect to get the network information
-        exec(
-          `docker network inspect ${newNetwork}`,
-          (error, stdout, stderr) => {
-            if (error) {
-              alert(`${error.message}`);
-              return;
-            }
-            if (stderr) {
-              console.log(`stderr: ${stderr}`);
-              return;
-            }
-
-            // parse string to Object
-            let parsed = JSON.parse(stdout);
-            let containerIds = Object.keys(parsed[0]['Containers']);
-            console.log('containerIds: ', containerIds);
-
-            let resultString = '';
-            for (let i = 0; i < containerIds.length; i++) {
-              resultString += containerIds[i] + ' ';
-            }
-
-            // Get stats for each container and display it
-            exec(
-              `docker stats --no-stream ${resultString}`,
-              (error, stdout, stderr) => {
-                if (error) {
-                  alert(`${error.message}`);
-                  return;
-                }
-                if (stderr) {
-                  console.log(`stderr: ${stderr}`);
-                  return;
-                }
-                let value = parseContainerFormat.convert(stdout);
-                let objArray = ['cid', 'name'];
-                let composeValue = parseContainerFormat.convertArrToObj(
-                  value,
-                  objArray,
-                ); // [{cid: xxxx, name: container1}, {cid:xxxx, name: container2}];
-                let savedArr = [];
-                let networks = {};
-                networks[newNetwork] = [];
-                networks[newNetwork].push(composeValue);
-                networks.filepath = filepath;
-                // example format: [{parentName: [{cid: 21312, name: sdfew},{cid: 21312, name: sdfew},{cid: 21312, name: sdfew}]}]
-
-                savedArr.push(networks);
-                callback(savedArr);
-              },
-            );
-          },
-        );
-      }
-    }
-  });
-};
-
-/**
- *
- * @param {*} callback
- * Display all container network based on docker-compose when the application starts
- */
-export const displayNetwork = (callback) => {
-  exec('docker network ls', (error, stdout, stderr) => {
+export const networkContainers = (getDockerNetworkReducer) => {
+  // exec("docker network ls", (error, stdout, stderr) => {
+  exec(`docker network ls --format "{{json .}},"`, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -395,74 +305,20 @@ export const displayNetwork = (callback) => {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    let networkValue = parseContainerFormat.convert(stdout);
 
-    const temp = [];
-    for (let i = 0; i < networkValue.length; i++) {
-      let name = networkValue[i][1];
-      if (name === 'bridge' || name === 'host' || name === 'none') {
-      } else {
-        temp.push(networkValue[i][0]);
-      }
-    }
-    let networkStringLists = temp.join(' ');
-
-    exec(
-      `docker network inspect ${networkStringLists}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-        }
-        if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-        }
-        let parsedArr = JSON.parse(stdout);
-
-        let obj = {};
-        const final = [];
-        for (let i = 0; i < parsedArr.length; i++) {
-          let network = parsedArr[i];
-          obj[network['Name']] = [network['Containers']];
-        }
-        let keys = Object.keys(obj);
-
-        let listnetworks = {};
-        for (let i = 0; i < keys.length; i++) {
-          let parent = keys[i];
-          let containerKeys = Object.keys(parsedArr[i].Containers);
-          let networkarrrrs = [];
-
-          for (let j = 0; j < containerKeys.length; j++) {
-            let containerId = containerKeys[j];
-            let innerObj = {
-              cid: containerId,
-              name: obj[parent][0][containerId]['Name'],
-            };
-            networkarrrrs.push(innerObj);
-          }
-          listnetworks[parent] = [];
-          listnetworks[parent].push(networkarrrrs);
-        }
-        callback(listnetworks);
-      },
+    // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
+    const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(" ", "")}]`;
+    // remove docker network defaults named: bridge, host, and none
+    const networkContainers = JSON.parse(dockerOutput).filter(
+      ({ Name }) => Name !== "bridge" && Name !== "host" && Name !== "none"
     );
+    // dispatch the network containers to the redux store
+    getDockerNetworkReducer(networkContainers);
   });
 };
 
-export const addNetworkToDb = (networkName, filePath) => {
-  const values = [networkName, filePath];
-  return query(INSERT_NETWORK, values);
-};
-
-export const deleteNetworkFromDb = (networkName) => {
-  const value = [networkName.replaceAll('"', '')]; // <--- need to figure out why its coming in with ""
-  return query(DELETE_NETWORK, value);
-};
-
-export const dockerComposeDown = (filePath, networkName) => {
-  exec(`cd ${filePath} && docker-compose down`, (error, stdout, stderr) => {
+export const inspectDockerContainer = (containerId) => {
+  exec(`docker inspect ${containerId}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -473,35 +329,128 @@ export const dockerComposeDown = (filePath, networkName) => {
     }
     console.log(stdout);
   });
-  deleteNetworkFromDb(networkName);
+};
+
+export const dockerComposeUp = (fileLocation) => {
+  return new Promise((resolve, reject) => {
+    const cmd = `cd ${fileLocation} && docker-compose up -d`;
+
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        console.warn(error.message);
+        return;
+      }
+
+      if (stderr) {
+        resolve(stderr);
+      }
+
+      if (stdout) {
+        console.log(stdout);
+      }
+    });
+  });
+};
+
+export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
+  if (getComposeStacksReducer && filePath) {
+    exec(
+      `docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
+        const dockerOutput = `[${stdout
+          .trim()
+          .slice(0, -1)
+          .replaceAll(" ", "")}]`;
+        const parseDockerOutput = JSON.parse(dockerOutput);
+        parseDockerOutput[parseDockerOutput.length - 1].FilePath = filePath;
+
+        getComposeStacksReducer(parseDockerOutput);
+      }
+    );
+  } else {
+    exec(
+      `docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+        }
+        const dockerOutput = `[${stdout
+          .trim()
+          .slice(0, -1)
+          .replaceAll(" ", "")}]`;
+        const parseDockerOutput = JSON.parse(dockerOutput);
+        getComposeStacksReducer(parseDockerOutput);
+      }
+    );
+  }
+};
+
+export const dockerComposeDown = (filePath) => {
+  return new Promise((resolve, reject) => {
+    const cmd = `cd ${filePath} && docker-compose down`;
+
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        console.warn(error.message);
+        return;
+      }
+
+      if (stderr) {
+        console.log(stderr);
+        resolve(stderr);
+      }
+
+      if (stdout) {
+        console.log(stdout);
+      }
+    });
+  });
 };
 
 export const writeToDb = () => {
   const interval = 300000;
-  setInterval(() => {
+	setInterval(() => {
     let state = store.getState();
-    let runningContainers = state.containersList.runningList;
-    if (!runningContainers.length) return;
-    let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `;
-    runningContainers.forEach((container, idx) => {
-      // no need to worry about sql injections as it would be self sabotaging!
-      let string = `('${container.ID}', '${container.Name}', '${container.CPUPerc}', '${container.MemPerc}', '${container.MemUsage}', '${container.NetIO}', '${container.BlockIO}', '${container.PIDs}', current_timestamp)`;
-      if (idx === runningContainers.length - 1) dbQuery += string;
-      else dbQuery += string + ', ';
+    let fullContainerList = [...state.containersList.runningList, ...state.containersList.stoppedList];
+
+		if (!fullContainerList) return;
+		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
+		fullContainerList.forEach((container, idx) => {
+      let string;
+      if (container.Name) {
+        string = `('${container.ID}', '${container.Name}', '${container.CPUPerc}', '${container.MemPerc}', '${container.MemUsage}', '${container.NetIO}', '${container.BlockIO}', '${container.PIDs}', current_timestamp)`
+      } else {
+        // This is necessary to account for what we
+        // receive from the 'docker stats' command for stopped containers.
+        // Note: Name becomes Names (plural) when container is stopped
+        string = `('${container.ID}', '${container.Names}', '0.00%', '0.00%', '00.0MiB/0.00GiB', '0.00kB/0.00kB', '00.0MB/00.0MB', '0', current_timestamp)`
+      }
+			if (idx === runningContainers.length - 1 && stoppedContainers.length === 0) dbQuery += string;
+			else dbQuery += string + ', ';
     })
-    console.log(dbQuery)
 		query(dbQuery)
 	}, interval)
 }
 
 export const setDbSessionTimeZone = () => {
-  const currentTime = new Date()
+  const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
   query(`set time zone ${offsetTimeZoneInHours}`);
-}
-
+};
 
 export const getContainerGitUrl = (container) => {
-	return query(`Select github_url from containers where name = '${container}'`);
-
-}
+  return query(`Select github_url from containers where name = '${container}'`);
+};

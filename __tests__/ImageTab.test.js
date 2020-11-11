@@ -30,8 +30,8 @@ describe("Shallow all of the properties of the Images", () => {
       enzymeWrapper.find("div.renderContainers").find("div").length
     ).toEqual(8);
   });
-  it("Should render <span> tag in Images with a title Images", () => {
-    expect(enzymeWrapper.containsMatchingElement(<span>Images</span>)).toBe(
+  it("Should render <h1> tag in Images with a title Images", () => {
+    expect(enzymeWrapper.containsMatchingElement(<h1>Images</h1>)).toBe(
       true
     );
     expect(enzymeWrapper.find(".tabTitle").text()).toEqual("Images");
@@ -53,10 +53,9 @@ describe("Shallow all of the properties of the Images", () => {
   it(`render a div with a class name "containers" and all of it properties`, () => {
     expect(enzymeWrapper.find("div.containers"));
     expect(enzymeWrapper.find("div.box").find("div").length).toEqual(4);
-    expect(enzymeWrapper.find("div.images-header").find("span").length).toEqual(
-      1
-    );
-    expect(enzymeWrapper.find("div.stopped-info").find("li").length).toEqual(3);
+    expect(enzymeWrapper.find("div.box-label").find("h3").length).toEqual(1);
+    expect(enzymeWrapper.find("div.box-label").find("p").length).toEqual(1);
+    expect(enzymeWrapper.find("div.stopped-info").find("li").length).toEqual(2);
     expect(
       enzymeWrapper.find("div.stopped-button").find("button").length
     ).toEqual(2);

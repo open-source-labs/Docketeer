@@ -322,30 +322,21 @@ const updateState = async () => {
             output.forEach(el => {
               stateObject[el.id] = el.github_url
             })
-            console.log("stateObject in the updateState: ", stateObject)
 }  
- console.log("stateObject after updateState: ", stateObject)
-  // console.log("keys in the stateObject: ", Object.keys(stateObject))
-  // console.log("O element of allContainersList: ", allContainersList[0])
-    
-
-
   // CHANGE LINKS IN THE RENDERED COMPONENTS TO THE NEW STATE
-  
-  
       const [tempGithubLink, setTempGithubLink] = useState(stateObject);
       const githubLink = (event) => {
         // DESCRIBE PRELIMINARY CHECKS
         if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
         if (!event.target.id) alert('Please provide a container ID');
         else {
-         let github_url = tempGithubLink
-         console.log("container.id: ", event.target.id)
-         console.log("github_url: ", github_url)
-         console.log("container.name: ", event.target.name)
+         let github_url = tempGithubLink[event.target.id]
+         console.log("container.id: ", event.target.id)                                   // CHANGE 
+         console.log("github_url: ", github_url)                                          // CHANGE
+         console.log("container.name: ", event.target.name)                               // CHANGE
           query(
             queryType.INSERT_GITHUB,
-            [event.target.id, event.target.name, github_url],
+            [event.target.id, event.target.name, github_url],                             // CHANGE
             (err, res) => {
               if (err) {
                 console.log(`INSERT_GITHUB. Error: ${err}`);

@@ -192,13 +192,21 @@ const Metrics = (props) => {
 
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
+
+    // https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-11-10T16%3A21%3A10.242Z
+    // "https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
     if (urlObj.rows.length) {
-      const url = urlObj.rows[0].github_url +
+      console.log('URL OBJ', urlObj)
+      console.log('URL OBJ ROWS LENGTH', urlObj.rows.length)
+      // const url = urlObj.rows[0].github_url +
+      const url = "https://api.github.com/repos/oslabs-beta/Docketeer/commits?" +
         new URLSearchParams({
           since: `${date}`,
         });
-      // console.log("URL**********", url);
+
+      console.log("URL**********", url);
       let data = await fetch(url);
+      console.log('DATA', data);
       const jsonData = await data.json();
 
       jsonData.forEach((commitData) => {
@@ -298,20 +306,20 @@ const Metrics = (props) => {
       );
     });
 
-    // stoppedList.forEach((container) => {
-    //   result.push(
-    //     <FormControlLabel
-    //     control={
-    //       <Checkbox      
-    //         name={container.Names} /* docker stopped containers use .Names property instead of .Name */
-    //         value={container.Names}
-    //         inputProps={{ 'aria-label': container.Names  }}  
-    //       />
-    //     } 
-    //     label={container.Names}
-    //   />  
-    //   );
-    // });
+    stoppedList.forEach((container) => {
+      result.push(
+        <FormControlLabel
+        control={
+          <Checkbox      
+            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
+            value={container.Names}
+            inputProps={{ 'aria-label': container.Names }}  
+          />
+        } 
+        label={container.Names}
+      />  
+      );
+    });
 
     result.push(<div></div>);
     currentList = result;
@@ -417,7 +425,7 @@ const Metrics = (props) => {
         <Line data={cpuObj} options={cpuOptions} />
       </div>
       <div className="metric-section-title">
-        <h4>GitHub History</h4>
+        <h3>GitHub History</h3>
       </div>
       <div className="gitHub-container">{gitData}</div>
     </div>

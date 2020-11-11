@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS containers (
   id TEXT PRIMARY KEY,
   name TEXT,
-  github_url TEXT
+  github_url TEXT,
+  CONSTRAINT unique_id UNIQUE(id)
 );
 
 CREATE TABLE IF NOT EXISTS docker_networks (
@@ -45,7 +46,6 @@ CREATE TABLE IF NOT EXISTS container_settings (
   notification_settings_id INT REFERENCES notification_settings(id),
   CONSTRAINT container_setting PRIMARY KEY(container_id, notification_settings_id)
 );
-
 
 INSERT INTO notification_settings (metric_name, triggering_value) VALUES
 ('memory', 80),

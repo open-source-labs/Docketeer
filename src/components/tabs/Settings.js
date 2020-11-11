@@ -289,8 +289,51 @@ const monitoringFrequency = () => {
     } else alert("Please try verification code again");
   };
 
-      // GITHUB URL FORM
-      const [tempGithubLink, setTempGithubLink] = useState('');
+    /**
+   * Checks to see if the containerId is in the array
+   * @param {array} array the notification settings array (ex: memoryNotificationList)
+   * @param {string} containerId the container's ID
+   * @returns {number} -1 or the index of the container ID within the array
+   */
+  // general function to check if a container is in a notification setting list
+  const isSelected = (set, containerId) => set.has(containerId);
+
+  // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+  let allContainersList = props.runningList.concat(props.stoppedList)
+  // GITHUB URL FORM
+  // CREATE A STATE OBJECT FROM ARRAY OF ALL CONTAINERS
+    
+  // MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS
+  
+   // COMBINE INF ABOVE TO MAKE AN OBJECT STATE
+    // create an object with list of containers
+    const stateObject = {};
+    allContainersList.forEach (el => {
+      if (!stateObject[el.ID]) stateObject[el.ID]=''
+    });
+    
+ const getData = () => {
+      return query(queryType.GET_CONTAINERS,[]);
+ };
+
+const updateState = async () => {
+            let output = await getData();
+            // update with data from DB
+            output.forEach(el => {
+              stateObject[el.id] = el.github_url
+            })
+            console.log("stateObject in the updateState: ", stateObject)
+}  
+ console.log("stateObject after updateState: ", stateObject)
+  // console.log("keys in the stateObject: ", Object.keys(stateObject))
+  // console.log("O element of allContainersList: ", allContainersList[0])
+    
+
+
+  // CHANGE LINKS IN THE RENDERED COMPONENTS TO THE NEW STATE
+  
+  
+      const [tempGithubLink, setTempGithubLink] = useState(stateObject);
       const githubLink = (event) => {
         // DESCRIBE PRELIMINARY CHECKS
         if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
@@ -314,17 +357,8 @@ const monitoringFrequency = () => {
         }
 };
 
-  /**
-   * Checks to see if the containerId is in the array
-   * @param {array} array the notification settings array (ex: memoryNotificationList)
-   * @param {string} containerId the container's ID
-   * @returns {number} -1 or the index of the container ID within the array
-   */
-  // general function to check if a container is in a notification setting list
-  const isSelected = (set, containerId) => set.has(containerId);
 
-  // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
-  let allContainersList = props.runningList.concat(props.stoppedList)
+
   const renderAllContainersList = allContainersList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
@@ -400,11 +434,12 @@ const monitoringFrequency = () => {
             className={classes.textfield}
             id="textfield"
             label="Main repository url"
-            helperText="* e.g.: https://github.com/companyRepo/projectRepo"
+            helperText="* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
             variant="outlined"
-            value={tempGithubLink}
+            value={tempGithubLink[container.ID]}
             onChange={(e) => {
-              setTempGithubLink(e.target.value);
+              stateObject[container.ID]=e.target.value
+              setTempGithubLink(stateObject);
               console.log(tempGithubLink);
             }}
             size="small"

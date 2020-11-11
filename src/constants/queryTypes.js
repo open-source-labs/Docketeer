@@ -89,9 +89,9 @@ export const INSERT_MONITORING_FREQUENCY = `
 `;
 
 export const INSERT_GITHUB = `  
-  INSERT INTO containers (container_id, github_url)
-  VALUES ($1, $2)
-  ON CONFLICT ON CONSTRAINT unique_name
-  DO
-    UPDATE SET github_url = $2;  
+  INSERT INTO containers (id, name, github_url)
+  VALUES ($1, $2, $3);
 `;
+  // ON CONFLICT (container_id)
+  // DO
+  //   UPDATE SET github_url = $2;  

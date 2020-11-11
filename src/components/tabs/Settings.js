@@ -37,6 +37,15 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),    
 });
 
+// root: {
+//   "& > *": {
+//   ...
+//   }
+// },
+// ...
+
+// },
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -47,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
       verticalAlign: 'middle',
     },
   },
+  button: {
+    '& > *': {
+      pointerEvents: 'none',
+    }
+  },  
   button: {
     marginLeft: 5,
     width: 100,
@@ -165,29 +179,6 @@ const Settings = (props) => {
     await ipcRenderer.invoke("verify-number", mobileNumber);
   };
 
-  // const fetchVerificationCode = () => {
-  //   fetch('http://localhost:5000/mobile', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'Application/JSON',
-  //     },
-  //     body: JSON.stringify({
-  //       mobileNumber: tempPhoneNumber,
-  //     }),
-  //   })
-  //     .then((response) => {
-  //       console.log('phone sent to verification: ', tempPhoneNumber);
-
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log('Data from nofication service: ', data);
-  //     })
-  //     .catch((err) =>
-  //       console.log('handlePhoneNumberSubmit fetch ERROR: ', err),
-  //     );
-  // };
-
   // fetch on component mount only because of empty dependency array
   useEffect(() => {
     fetchNotificationSettings();
@@ -300,22 +291,23 @@ const monitoringFrequency = () => {
 
       // GITHUB URL FORM
       const [tempGithubLink, setTempGithubLink] = useState('');
-      const githubLink = () => {
+      const githubLink = (event) => {
         // DESCRIBE PRELIMINARY CHECKS
-        if (!tempGithubLink) alert('Please provide a link in accordance with provided example');      //DISCUSS WHAT DO WE WANT TO TEST HERE?
+        if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
+        if (!event.target.id) alert('Please provide a container ID');
         else {
-          let github_url = tempGithubLink
-          console.log("github_url: ", github_url)                                                     //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
-         // QUERY TO BE UPDATED - DOUBLE CHECK QUERYTYPES FILE
+         let github_url = tempGithubLink
+         console.log("container.id: ", event.target.id)
+         console.log("github_url: ", github_url)
+         console.log("container.name: ", event.target.name)
           query(
             queryType.INSERT_GITHUB,
-            [[container_id], github_url],                             // USE THE RIGHT CONTAINER_ID
+            [event.target.id, event.target.name, github_url],
             (err, res) => {
               if (err) {
                 console.log(`INSERT_GITHUB. Error: ${err}`);
               } else {
                 console.log(`*** Inserted ${res} into containers table. ***`);
-                // props.addMonitoringFrequency(frequency);                                             // DO WE NEED TO UPDATE THE STATE
               }
             },
           );
@@ -345,7 +337,7 @@ const monitoringFrequency = () => {
     );
 
     return (
-      <TableRow key={i}>
+      <TableRow key={i} id="settings-row">
         <TableCell>
           <span className="container-name">
             {container.Names ? container.Names : container.Name} {/* Stopped containers have a .Names key. Running containers have a .Name key */}
@@ -423,7 +415,9 @@ const monitoringFrequency = () => {
             className={classes.button}
             size="medium"
             variant="contained"
-            onClick={(e) => githubLink(e)}
+            name={container.Names ? container.Names : container.Name}
+            id={container.ID}
+            onClick={(e) => githubLink(e) }
           >
             Confirm
           </Button>

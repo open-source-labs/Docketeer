@@ -37,6 +37,15 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),    
 });
 
+// root: {
+//   "& > *": {
+//   ...
+//   }
+// },
+// ...
+
+// },
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -47,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
       verticalAlign: 'middle',
     },
   },
+  button: {
+    '& > *': {
+      pointerEvents: 'none',
+    }
+  },  
   button: {
     marginLeft: 5,
     width: 100,
@@ -165,29 +179,6 @@ const Settings = (props) => {
     await ipcRenderer.invoke("verify-number", mobileNumber);
   };
 
-  // const fetchVerificationCode = () => {
-  //   fetch('http://localhost:5000/mobile', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'Application/JSON',
-  //     },
-  //     body: JSON.stringify({
-  //       mobileNumber: tempPhoneNumber,
-  //     }),
-  //   })
-  //     .then((response) => {
-  //       console.log('phone sent to verification: ', tempPhoneNumber);
-
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log('Data from nofication service: ', data);
-  //     })
-  //     .catch((err) =>
-  //       console.log('handlePhoneNumberSubmit fetch ERROR: ', err),
-  //     );
-  // };
-
   // fetch on component mount only because of empty dependency array
   useEffect(() => {
     fetchNotificationSettings();
@@ -234,18 +225,15 @@ const notificationFrequency = () => {
               if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
               else {
                 if (tempNotifFreq) frequency = tempNotifFreq
-                console.log("notificationFrequency: ", frequency)                                               //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
                   query(
-                    queryType.INSERT_NOTIFICATION_FREQUENCY,    // CHANGE DB QUERY
+                    queryType.INSERT_NOTIFICATION_FREQUENCY,
                     ['admin', , frequency, ,],
                     (err, res) => {
                       if (err) {
                         console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
                       } else {
                         console.log(`*** Inserted ${res} into users table. ***`);
-                        console.log("global state before state update: ", props.notificationFrequency)          // CHECK HOW THE STATE HAS CHANGED
                         props.addNotificationFrequency(frequency);                                              // ADDING TO GLOBAL STATE
-                        console.log("global state after state update: ", props.notificationFrequency)           // CHECK HOW THE STATE HAS CHANGED
                       }
                     },
                   );
@@ -261,7 +249,6 @@ const monitoringFrequency = () => {
               if (isNaN(Number(tempMonitoringFrequency))) alert('Please enter monitoring frequency in numerical format. ex: 15');
               else {
                 if (tempMonitoringFrequency) frequency = tempMonitoringFrequency
-                console.log("monitoringFrequency: ", frequency)                                             //DELETE AFTER INTEGRATION TESTS WILL BE PASSED
                 query(
                   queryType.INSERT_MONITORING_FREQUENCY,    // CHANGE DB QUERY
                   ['admin', , , frequency,],
@@ -270,14 +257,11 @@ const monitoringFrequency = () => {
                       console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
                     } else {
                       console.log(`*** Inserted ${res} into users table. ***`);
-                      console.log("global state before state update: ", props.monitoringFrequency)          // CHECK HOW THE STATE HAS CHANGED
                       props.addMonitoringFrequency(frequency);                                         // ADDING TO GLOBAL STATE
-                      console.log("global state after state update: ", props.monitoringFrequency)           // CHECK HOW THE STATE HAS CHANGED
                     }
                   },
                 );
               }
-              // }
 };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
@@ -305,7 +289,7 @@ const monitoringFrequency = () => {
     } else alert("Please try verification code again");
   };
 
-  /**
+    /**
    * Checks to see if the containerId is in the array
    * @param {array} array the notification settings array (ex: memoryNotificationList)
    * @param {string} containerId the container's ID
@@ -316,6 +300,56 @@ const monitoringFrequency = () => {
 
   // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
   let allContainersList = props.runningList.concat(props.stoppedList)
+  // GITHUB URL FORM
+  // CREATE A STATE OBJECT FROM ARRAY OF ALL CONTAINERS
+    
+  // MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS
+  
+   // COMBINE INF ABOVE TO MAKE AN OBJECT STATE
+    // create an object with list of containers
+    const stateObject = {};
+    allContainersList.forEach (el => {
+      if (!stateObject[el.ID]) stateObject[el.ID]=''
+    });
+    
+ const getData = () => {
+      return query(queryType.GET_CONTAINERS,[]);
+ };
+
+const updateState = async () => {
+            let output = await getData();
+            // update with data from DB
+            output.forEach(el => {
+              stateObject[el.id] = el.github_url
+            })
+}  
+  // CHANGE LINKS IN THE RENDERED COMPONENTS TO THE NEW STATE
+      const [tempGithubLink, setTempGithubLink] = useState(stateObject);
+      const githubLink = (event) => {
+        // DESCRIBE PRELIMINARY CHECKS
+        if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
+        if (!event.target.id) alert('Please provide a container ID');
+        else {
+         let github_url = tempGithubLink[event.target.id]
+         console.log("container.id: ", event.target.id)                                   // CHANGE 
+         console.log("github_url: ", github_url)                                          // CHANGE
+         console.log("container.name: ", event.target.name)                               // CHANGE
+          query(
+            queryType.INSERT_GITHUB,
+            [event.target.id, event.target.name, github_url],                             // CHANGE
+            (err, res) => {
+              if (err) {
+                console.log(`INSERT_GITHUB. Error: ${err}`);
+              } else {
+                console.log(`*** Inserted ${res} into containers table. ***`);
+              }
+            },
+          );
+        }
+};
+
+
+
   const renderAllContainersList = allContainersList.map((container, i) => {
     let isMemorySelected = isSelected(
       props.memoryNotificationList,
@@ -328,7 +362,7 @@ const monitoringFrequency = () => {
     );
 
     return (
-      <TableRow key={i}>
+      <TableRow key={i} id="settings-row">
         <TableCell>
           <span className="container-name">
             {container.Names ? container.Names : container.Name} {/* Stopped containers have a .Names key. Running containers have a .Name key */}
@@ -391,12 +425,13 @@ const monitoringFrequency = () => {
             className={classes.textfield}
             id="textfield"
             label="Main repository url"
-            helperText="* e.g.: https://github.com/companyRepo/projectRepo"
+            helperText="* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
             variant="outlined"
-            value={tempMonitoringFrequency}
+            value={tempGithubLink[container.ID]}
             onChange={(e) => {
-              setTempMonitoringFrequency(e.target.value);
-              console.log(tempMonitoringFrequency);
+              stateObject[container.ID]=e.target.value
+              setTempGithubLink(stateObject);
+              console.log(tempGithubLink);
             }}
             size="small"
           />
@@ -406,7 +441,9 @@ const monitoringFrequency = () => {
             className={classes.button}
             size="medium"
             variant="contained"
-            onClick={(e) => monitoringFrequency(e)}
+            name={container.Names ? container.Names : container.Name}
+            id={container.ID}
+            onClick={(e) => githubLink(e) }
           >
             Confirm
           </Button>

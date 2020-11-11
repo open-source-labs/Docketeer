@@ -37,6 +37,11 @@ export const GET_PHONE_NUMBER = `
   WHERE username = $1;
 `;
 
+export const GET_CONTAINERS = `
+SELECT *
+FROM containers;
+`
+
 /* Notification Settings Queries */
 export const GET_NOTIFICATION_SETTINGS = `
   SELECT cs.container_id, metric_name, triggering_value
@@ -87,3 +92,14 @@ export const INSERT_MONITORING_FREQUENCY = `
   DO
     UPDATE SET monitoring_frequency = $4;  
 `;
+
+export const INSERT_GITHUB = `  
+  INSERT INTO containers (id, name, github_url)
+  VALUES ($1, $2, $3)
+  ON CONFLICT ON CONSTRAINT unique_id
+  DO
+    UPDATE SET github_url = $3;
+`;
+  // ON CONFLICT (container_id)
+  // DO
+  //   UPDATE SET github_url = $2;  

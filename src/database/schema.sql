@@ -29,12 +29,6 @@ CREATE TABLE IF NOT EXISTS containers (
   cpu_hurdle INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS docker_networks (
-  id SERIAL PRIMARY KEY,
-  network_name TEXT,
-  file_path TEXT
-);
-
 CREATE TABLE IF NOT EXISTS notification_settings (
   id SERIAL PRIMARY KEY,
   metric_name TEXT NOT NULL,

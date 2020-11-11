@@ -60,8 +60,13 @@ export const composeymlFiles = (data) => ({
   payload: data,
 });
 
-export const getComposeYmlFiles = (data) => ({
-  type: types.GET_COMPOSED_YML_FILES,
+export const getNetworkContainers = (data) => ({
+  type: types.GET_NETWORK_CONTAINERS,
+  payload: data,
+});
+
+export const getContainerStacks = (data) => ({
+  type: types.GET_CONTAINER_STACKS,
   payload: data,
 });
 

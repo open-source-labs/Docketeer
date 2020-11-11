@@ -1,31 +1,31 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 const initialState = {
   imagesList: [],
   runningList: [],
   stoppedList: [],
   networkList: [],
-  phoneNumber: '',
-  notificationFrequency: '',
-  monitoringFrequency: '',
+  phoneNumber: "",
+  notificationFrequency: "",
+  monitoringFrequency: "",
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
   graphAxis: [],
   graphMemory: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: ''
+      fill: "",
     },
   ],
   graphCpu: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: ''
+      fill: "",
     },
-  ]	
+  ],
 };
 
 const listsReducer = (state = initialState, action) => {
@@ -39,13 +39,13 @@ const listsReducer = (state = initialState, action) => {
       for (let container of action.payload) {
         newRunningList.push(container);
       }
-      			return { ...state, runningList: newRunningList };
-    
+      return { ...state, runningList: newRunningList };
+
     case types.ADD_PHONE_NUMBER:
       return {
-                ...state,
-                phoneNumber: action.payload,
-              };
+        ...state,
+        phoneNumber: action.payload,
+      };
 
     case types.NOTIFICATION_FREQUENCY:
       return {
@@ -55,10 +55,9 @@ const listsReducer = (state = initialState, action) => {
 
     case types.MONITORING_FREQUENCY:
       return {
-          ...state,
-          monitoringFrequency: action.payload,
-      };  
-
+        ...state,
+        monitoringFrequency: action.payload,
+      };
 
     case types.REMOVE_CONTAINER:
       const removeContainerList = [];
@@ -67,7 +66,7 @@ const listsReducer = (state = initialState, action) => {
           removeContainerList.push(container);
         }
       }
-      			return { ...state, stoppedList: removeContainerList };
+      return { ...state, stoppedList: removeContainerList };
 
     case types.STOP_RUNNING_CONTAINER:
       const newStoppedList = state.stoppedList.slice();
@@ -76,20 +75,20 @@ const listsReducer = (state = initialState, action) => {
         if (container.cid !== action.payload) {
           newestRunningList.push(container);
         }
-      			}
+      }
 
       return {
         ...state,
         runningList: newestRunningList,
         stoppedList: newStoppedList,
-      			};
+      };
 
     case types.ADD_STOPPED_CONTAINERS:
       const newerStoppedList = state.stoppedList.slice();
       for (let container of action.payload) {
         newerStoppedList.push(container);
       }
-      			return { ...state, stoppedList: newerStoppedList };
+      return { ...state, stoppedList: newerStoppedList };
 
     case types.RUN_STOPPED_CONTAINER:
       const runningListCopy = state.runningList.slice();
@@ -127,7 +126,7 @@ const listsReducer = (state = initialState, action) => {
       for (let container of action.payload) {
         newRunningList2.push(container);
       }
-      			return { ...state, runningList: newRunningList2 };
+      return { ...state, runningList: newRunningList2 };
 
     case types.REFRESH_STOPPED_CONTAINERS:
       const newStoppedList4 = [];
@@ -140,35 +139,35 @@ const listsReducer = (state = initialState, action) => {
       for (let image of action.payload) {
         newImagesList2.push(image);
       }
-      ;			return { ...state, imagesList: newImagesList2 }
+      return { ...state, imagesList: newImagesList2 };
 
     case types.COMPOSE_YML_FILES:
-      console.log('action.payload compose YML FILESs: ', action.payload);
+      console.log("action.payload compose YML FILESs: ", action.payload);
       const newnetworkList = state.networkList.slice();
 
       newnetworkList.push(action.payload[0]);
-      			return { ...state, networkList: newnetworkList };
+      return { ...state, networkList: newnetworkList };
 
-    case types.GET_COMPOSED_YML_FILES:
+    case types.GET_NETWORK_CONTAINERS:
       const newNetworkList2 = state.networkList.slice();
-      			console.log('action.payload get compose:', action.payload);
+      console.log("action.payload get compose:", action.payload);
 
-      			let keys = Object.keys(action.payload);
+      let keys = Object.keys(action.payload);
 
       for (let i = 0; i < keys.length; i++) {
-        console.log('action.payload[keys[i]]: ', action.payload[keys[i]])
-        let newKey = keys[i]
+        console.log("action.payload[keys[i]]: ", action.payload[keys[i]]);
+        let newKey = keys[i];
         let obj = {};
         obj[newKey] = action.payload[keys[i]];
         newNetworkList2.push(obj);
       }
 
-      // console.log('GET_COMPOSED_YML_FILES action.payload: ', action.payload);
-      // console.log('GET_COMPOSED_YML_FILES networkList state: ', newNetworkList2);
+      // console.log('GET_NETWORK_CONTAINERS action.payload: ', action.payload);
+      // console.log('GET_NETWORK_CONTAINERS networkList state: ', newNetworkList2);
       return { ...state, networkList: newNetworkList2 };
 
     case types.COMPOSE_DOWN:
-      console.log('Compose down action.payload: ', action.payload);
+      console.log("Compose down action.payload: ", action.payload);
       const newNetworkList = state.networkList.slice();
       const targetNetwork = action.payload; // parse this because " "
 
@@ -184,29 +183,32 @@ const listsReducer = (state = initialState, action) => {
       return { ...state, networkList: newNetworkList };
 
     case types.BUILD_AXIS:
-      console.log('action.payload build axis:', action.payload);
-      if (action.payload === 'clear') return { ...state, graphAxis: [] };
+      console.log("action.payload build axis:", action.payload);
+      if (action.payload === "clear") return { ...state, graphAxis: [] };
       // cuts day of week from begingin and the timezone off the end.
-      let formatedDate = action.payload.toString().slice(4, 24)
+      let formatedDate = action.payload.toString().slice(4, 24);
       // compare two string dates
-      if (formatedDate > state.graphAxis[state.graphAxis.length - 1] || !state.graphAxis.length) {
+      if (
+        formatedDate > state.graphAxis[state.graphAxis.length - 1] ||
+        !state.graphAxis.length
+      ) {
         const newAxis = state.graphAxis;
         newAxis.push(formatedDate);
         return { ...state, graphAxis: newAxis };
       }
-        return {...state}
+      return { ...state };
 
     case types.BUILD_MEMORY:
-      console.log('action.payload build memory:', action.payload);
-      if (action.payload === 'clear') return { ...state, graphMemory: []};
+      console.log("action.payload build memory:", action.payload);
+      if (action.payload === "clear") return { ...state, graphMemory: [] };
       let newMemory = state.graphMemory.slice();
 
       newMemory.push(action.payload[0]);
-      	return { ...state, graphMemory: newMemory };
+      return { ...state, graphMemory: newMemory };
 
     case types.BUILD_CPU:
-      console.log('action.payload build cpu:', action.payload);
-      if (action.payload === 'clear') return   {...state, graphCpu: []};
+      console.log("action.payload build cpu:", action.payload);
+      if (action.payload === "clear") return { ...state, graphCpu: [] };
       const newCpu = state.graphCpu.slice();
       newCpu.push(action.payload[0]);
       return { ...state, graphCpu: newCpu };
@@ -278,10 +280,8 @@ const listsReducer = (state = initialState, action) => {
       };
 
     default:
-      	return state;
+      return state;
   }
 };
 
 export default listsReducer;
-
-

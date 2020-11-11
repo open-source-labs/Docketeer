@@ -1,9 +1,9 @@
 @font-face {
-  font-family: 'Maven Pro';
+  font-family: "Maven Pro";
   src: url(./font/MavenPro-Regular.ttf);
 }
 * {
-  font-family: 'Maven Pro', sans-serif;
+  font-family: "Maven Pro", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -42,7 +42,7 @@ body {
   color: #042331;
   /* margin: 15px 10px 0px 10px; */
   margin: 0px 10px;
-  padding: 0px 25px 0px 25px ;
+  padding: 0px 25px 0px 25px;
   min-width: 78vw;
   height: 100%;
   /* flex-wrap: wrap; */
@@ -161,7 +161,6 @@ body {
 .box-label p {
   font-size: 14px;
   color: rgb(187, 186, 186);
-
 }
 
 .box-info {
@@ -319,23 +318,23 @@ ul {
 }
 
 .settings-container {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    background-color: white;
-    margin: 20px 0px 20px 0px;
-    /* border-radius: 30px; */
-    /* width: 94%; */
-    /* margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color: white;
+  margin: 20px 0px 20px 0px;
+  /* border-radius: 30px; */
+  /* width: 94%; */
+  /* margin-top: 25px;
     margin-left: 20px;
     margin-right: 20px; */
-    padding: 15px;
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-      0 0 40px rgba(0, 0, 0, 0.1) inset;
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-      0 0 40px rgba(0, 0, 0, 0.1) inset;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  padding: 15px;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 .container-name {
@@ -371,10 +370,10 @@ ul {
   font-size: 24px;
   text-align: center;
   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
--moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 .section {
@@ -451,17 +450,9 @@ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 
 .btn-compose-up {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
+  justify-content: space-between;
+  align-items: flex-end;
 }
-
-#uploadFile {
-  margin-top: 100px;
-}
-/* 
-.yml-icon {
-  font-size: 3rem;
-} */
 
 .yml-boxes {
   border: 1px solid #bab2b5;
@@ -497,7 +488,7 @@ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 .yml-info p {
   margin: auto;
   text-align: center;
-} 
+}
 
 .yml-info-box {
   /* border: 1px solid #bab2b5; */
@@ -511,7 +502,6 @@ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
   height: 100px;
   color: white;
   background: #052e41c0;
-
 }
 
 .network-container {

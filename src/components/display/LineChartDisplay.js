@@ -198,8 +198,7 @@ const Metrics = (props) => {
     if (urlObj.rows.length) {
       console.log('URL OBJ', urlObj)
       console.log('URL OBJ ROWS LENGTH', urlObj.rows.length)
-      // const url = urlObj.rows[0].github_url +
-      const url = "https://api.github.com/repos/oslabs-beta/Docketeer/commits?" +
+      const url = urlObj.rows[0].github_url +
         new URLSearchParams({
           since: `${date}`,
         });
@@ -313,6 +312,7 @@ const Metrics = (props) => {
           <Checkbox      
             name={container.Names} /* docker stopped containers use .Names property instead of .Name */
             value={container.Names}
+            color='primary'
             inputProps={{ 'aria-label': container.Names }}  
           />
         } 

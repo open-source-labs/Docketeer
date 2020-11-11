@@ -477,7 +477,7 @@ export const dockerComposeDown = (filePath, networkName) => {
 };
 
 export const writeToDb = () => {
-  const interval = 10000;
+  const interval = 300000;
 	setInterval(() => {
 		let state = store.getState();
     let runningContainers = state.containersList.runningList;

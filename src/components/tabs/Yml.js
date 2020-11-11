@@ -154,7 +154,7 @@ const Yml = () => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <span className="tabTitle">Docker Compose</span>
+        <h1 className="tabTitle">Docker Compose</h1>
       </div>
       <div className="settings-container">
         <div id="drag-file">
@@ -187,6 +187,7 @@ const Yml = () => {
           </button>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="settings-container">
         <TableContainer>
           <Table>
@@ -205,6 +206,17 @@ const Yml = () => {
           </Table>
         </TableContainer>
       </div>
+=======
+      <ModalDisplay
+        modalValid={modalValid}
+        setModalValid={setModalValid}
+        modalErrormessage
+        modalErrormessage={modalErrormessage}
+      />
+      <h2 className="netDisplay">
+        <NetworkDisplay />
+      </h2>
+>>>>>>> 3711e6e640517a7b98e11fb3b1f91be4b4204798
     </div>
   );
 };

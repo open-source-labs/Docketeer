@@ -433,7 +433,6 @@ export const writeToDb = () => {
       if (idx === runningContainers.length - 1) dbQuery += string;
       else dbQuery += string + ", ";
     });
-    console.log(dbQuery);
     query(dbQuery);
   }, interval);
 };

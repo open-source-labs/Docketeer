@@ -26,6 +26,7 @@ const Metrics = (props) => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState("4");
+  const [graphColor, setGraphColor] = useState(0);
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const axis = useSelector((state) => state.graphs.graphAxis);
@@ -45,27 +46,28 @@ const Metrics = (props) => {
     borderBottomRightRadius: "10px",
   };
 
-  const getContainerMetrics = () => {
-    let queryString = `SELECT * FROM metrics WHERE container_name = $1 `;
+  const getContainerMetrics = async () => {
+    let queryString = `SELECT * FROM metrics WHERE (container_name = $1 `;
     let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
     let containerNamesArr = Object.keys(activeContainers);
     
     if (containerNamesArr.length === 1) {
-      queryString += queryStringEnd;
-      return query(queryString, containerNamesArr);
+      queryString += (')' + queryStringEnd);
+      const result =  await query(queryString, containerNamesArr);
+      // console.log('query result: ', result, timePeriod);
+      return result;
     }
 
     containerNamesArr
       .slice(1)
       .forEach((containerName, idx) => {
-        const additionalParameter = `OR container_name = $${idx + 2} `;
+        let additionalParameter = `OR container_name = $${idx + 2} `;
+        if(idx === containerNamesArr.length - 2) additionalParameter += ')';
         queryString += additionalParameter;
       });
       
-    
     queryString += queryStringEnd;
-    
     return query(queryString, containerNamesArr);
   };
 
@@ -84,6 +86,7 @@ const Metrics = (props) => {
    * Builds memory and cpu object for input into Line Components
    * @return
    */
+  let counter = 0;
   const formatData = async () => {
     buildMemory("clear");
     buildCpu("clear");
@@ -95,7 +98,7 @@ const Metrics = (props) => {
     // DB QUERY LIKELY GOING HERE
     let output = await getContainerMetrics();
 
-    const generateLineColor = () => {
+    const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
         "red",
         "blue",
@@ -105,10 +108,9 @@ const Metrics = (props) => {
         "grey",
         "orange",
       ];
-
-      return colorOptions[Math.floor(Math.random() * 7)];
+      let idx = activeContainers.indexOf(containerName)
+      return colorOptions[idx];
     };
-
     // build function that will return formated object into necessary
     // datastructure for chart.js line graphs
     const buildLineGraphObj = (containerName) => {
@@ -116,7 +118,7 @@ const Metrics = (props) => {
         label: containerName,
         data: [],
         fill: false,
-        borderColor: generateLineColor(),
+        borderColor: generateLineColor(containerName, Object.keys(activeContainers)),
       };
 
       return obj;
@@ -153,7 +155,7 @@ const Metrics = (props) => {
       buildAxis(dataPoint.created_at);
     });
 
-    let longest = 0;
+    let longest = 0; // 32
 
     Object.keys(auxObj).forEach((containerName) => {
       if (auxObj[containerName].memory.data.length > longest) {
@@ -165,16 +167,12 @@ const Metrics = (props) => {
     Object.keys(auxObj).forEach((containerName) => {
 
       if (auxObj[containerName].memory.data.length < longest) {
-        console.log('in loop:', containerName, longest - auxObj[containerName].memory.data.length)
-        let lengthToAdd = longest - auxObj[containerName].memory.data.length
+        const lengthToAdd = longest - auxObj[containerName].memory.data.length
         for (let i = 0; i < lengthToAdd; i += 1) {
-          console.log(i, lengthToAdd)
           auxObj[containerName].memory.data.unshift("0.00");
           auxObj[containerName].cpu.data.unshift("0.00");
         }
       }
-      console.log('this is longest: ', longest);
-      console.log('this is auxObj: ', auxObj);
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
     });
@@ -187,7 +185,7 @@ const Metrics = (props) => {
     let date = new Date();
     date.setHours(date.getHours() - time);
     date = date.toISOString();
-    console.log("********DATE ISOOOO***********", date);
+    // console.log("********DATE ISOOOO***********", date);
     const url = await helper.getContainerGitUrl(containerName);
     // formate needed = 2020-10-26T18:44:25Z
     //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
@@ -201,7 +199,7 @@ const Metrics = (props) => {
         new URLSearchParams({
           since: `${date}`,
         });
-      console.log("URL**********", url);
+      // console.log("URL**********", url);
       let data = await fetch(url);
       const jsonData = await data.json();
 
@@ -302,20 +300,20 @@ const Metrics = (props) => {
       );
     });
 
-    stoppedList.forEach((container) => {
-      result.push(
-        <FormControlLabel
-        control={
-          <Checkbox      
-            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
-            value={container.Names}
-            inputProps={{ 'aria-label': container.Names  }}  
-          />
-        } 
-        label={container.Names}
-      />  
-      );
-    });
+    // stoppedList.forEach((container) => {
+    //   result.push(
+    //     <FormControlLabel
+    //     control={
+    //       <Checkbox      
+    //         name={container.Names} /* docker stopped containers use .Names property instead of .Name */
+    //         value={container.Names}
+    //         inputProps={{ 'aria-label': container.Names  }}  
+    //       />
+    //     } 
+    //     label={container.Names}
+    //   />  
+    //   );
+    // });
 
     result.push(<div></div>);
     currentList = result;

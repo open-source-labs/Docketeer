@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS containers (
   id TEXT PRIMARY KEY,
   name TEXT,
   github_url TEXT,
-  memory_hurdle INTEGER,
-  cpu_hurdle INTEGER
+  CONSTRAINT unique_id UNIQUE(id)
 );
 
 CREATE TABLE IF NOT EXISTS notification_settings (

@@ -300,20 +300,20 @@ const Metrics = (props) => {
       );
     });
 
-    stoppedList.forEach((container) => {
-      result.push(
-        <FormControlLabel
-        control={
-          <Checkbox      
-            name={container.Names} /* docker stopped containers use .Names property instead of .Name */
-            value={container.Names}
-            inputProps={{ 'aria-label': container.Names  }}  
-          />
-        } 
-        label={container.Names}
-      />  
-      );
-    });
+    // stoppedList.forEach((container) => {
+    //   result.push(
+    //     <FormControlLabel
+    //     control={
+    //       <Checkbox      
+    //         name={container.Names} /* docker stopped containers use .Names property instead of .Name */
+    //         value={container.Names}
+    //         inputProps={{ 'aria-label': container.Names  }}  
+    //       />
+    //     } 
+    //     label={container.Names}
+    //   />  
+    //   );
+    // });
 
     result.push(<div></div>);
     currentList = result;

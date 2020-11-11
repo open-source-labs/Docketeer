@@ -135,7 +135,6 @@ const Yml = () => {
                     .dockerComposeDown(container.FilePath)
                     .then((res) => {
                       if (res) {
-                        // helper.dockerComposeStacks(composeDown);
                         composeDown(container.FilePath);
                       }
                     })

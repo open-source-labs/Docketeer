@@ -31,8 +31,8 @@ const App = (props) => {
     dispatch(actions.refreshStoppedContainers(data));
   const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getComposeYmlFiles = (data) =>
-    dispatch(actions.getComposeYmlFiles(data));
+  const getNetworkContainers = (data) =>
+    dispatch(actions.getNetworkContainers(data));
   const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const runStoppedContainer = (data) =>
     dispatch(actions.runStoppedContainer(data));
@@ -67,7 +67,7 @@ const App = (props) => {
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
     helper.writeToDb();
-    helper.displayNetwork(getComposeYmlFiles);
+    helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
   }, []);
 

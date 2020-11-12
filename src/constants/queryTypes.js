@@ -42,17 +42,12 @@ SELECT *
 FROM containers;
 `
 
-/* Notification Settings Queries */
 export const GET_NOTIFICATION_SETTINGS = `
   SELECT cs.container_id, metric_name, triggering_value
   FROM container_settings cs
   INNER JOIN notification_settings ns ON cs.notification_settings_id = ns.id;
 `;
 
-// container id, setting (name and value)
-/**
- * params $1 container id, $2 container name, $3 metric name
- */
 export const INSERT_CONTAINER_SETTING = `  
   INSERT INTO container_settings (container_id, notification_settings_id)  
   SELECT $1, id 
@@ -67,16 +62,11 @@ export const INSERT_CONTAINER = `
   DO NOTHING;
 `;
 
-// container id, setting (name and value)
-/**
- * params $1 container id, $2 metric name
- */
 export const DELETE_CONTAINER_SETTING = `
   DELETE FROM container_settings
   WHERE container_id = $1 and notification_settings_id = (SELECT id FROM notification_settings where metric_name = $2);
 `;
 
-// SETTING NOTIFICATION AND MONITORING RULES ON THE SETTINS TAB OF THE APP
 export const INSERT_NOTIFICATION_FREQUENCY = `  
   INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
   VALUES ($1, $2, $3, $4)
@@ -100,6 +90,3 @@ export const INSERT_GITHUB = `
   DO
     UPDATE SET github_url = $3;
 `;
-  // ON CONFLICT (container_id)
-  // DO
-  //   UPDATE SET github_url = $2;  

@@ -37,19 +37,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data)),    
 });
 
-// root: {
-//   "& > *": {
-//   ...
-//   }
-// },
-// ...
-
-// },
-
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
-      // margin: theme.spacing(1),
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
@@ -68,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
   verifiedIcon: {
     verticalAlign: 'top',
-    //marginTop: 8,
     color: 'green',
   },
   description: {
@@ -169,8 +158,6 @@ const Settings = (props) => {
         props.addMemoryNotificationSetting(tempMemory);
         props.addCpuNotificationSetting(tempCPU);
         props.addStoppedNotificationSetting(tempStopped);
-
-        console.log("** Settings returned: **", res.rows);
       }
     });
   };
@@ -184,8 +171,7 @@ const Settings = (props) => {
     fetchNotificationSettings();
   }, []);
 
-  // SELECT cs.container_id, metric_name, triggering_value FROM container_settings  as cs INNER JOIN notification_settings as ns ON cs. notification_settings.id = ns.id;
-  /**
+   /**
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
@@ -197,7 +183,7 @@ const Settings = (props) => {
       else {
         alert(`Phone: ${mobileNumber} is valid`);
         // ask SMS service for a verification code
-        query(queryType.INSERT_USER, ["admin", mobileNumber, 5, 2], (err, res) => {     // ADDED 2 COMMAS AFTER MOBILENUMBER -> MAKE SURE THAT IT WORKS
+        query(queryType.INSERT_USER, ["admin", mobileNumber, 5, 2], (err, res) => {
           if (err) {
             console.log(`Error in insert user. Error: ${err}`);
           } else {
@@ -219,26 +205,24 @@ const Settings = (props) => {
   // 4. THEN UPDATE THE STATE
 const [tempNotifFreq, setTempNotifFreq] = useState('');
 const notificationFrequency = () => {
-              // default value for Notification Frequency
-              let frequency = 5
-              // alert if input is not a number
-              if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
-              else {
-                if (tempNotifFreq) frequency = tempNotifFreq
-                  query(
-                    queryType.INSERT_NOTIFICATION_FREQUENCY,
-                    ['admin', , frequency, ,],
-                    (err, res) => {
-                      if (err) {
-                        console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
-                      } else {
-                        console.log(`*** Inserted ${res} into users table. ***`);
-                        props.addNotificationFrequency(frequency);                                              // ADDING TO GLOBAL STATE
-                      }
-                    },
-                  );
-              }
-              // }
+  // default value for Notification Frequency
+  let frequency = 5
+  // alert if input is not a number
+  if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
+  else {
+    if (tempNotifFreq) frequency = tempNotifFreq
+    query(
+    queryType.INSERT_NOTIFICATION_FREQUENCY,
+    ['admin', , frequency, ,],
+    (err, res) => {
+      if (err) {
+      console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
+      } else {
+      console.log(`*** Inserted ${res} into users table. ***`);
+      props.addNotificationFrequency(frequency);
+      }
+    });
+  }
 };
 
 const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
@@ -250,14 +234,14 @@ const monitoringFrequency = () => {
               else {
                 if (tempMonitoringFrequency) frequency = tempMonitoringFrequency
                 query(
-                  queryType.INSERT_MONITORING_FREQUENCY,    // CHANGE DB QUERY
+                  queryType.INSERT_MONITORING_FREQUENCY,
                   ['admin', , , frequency,],
                   (err, res) => {
                     if (err) {
                       console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
                     } else {
                       console.log(`*** Inserted ${res} into users table. ***`);
-                      props.addMonitoringFrequency(frequency);                                         // ADDING TO GLOBAL STATE
+                      props.addMonitoringFrequency(frequency);
                     }
                   },
                 );
@@ -272,16 +256,12 @@ const monitoringFrequency = () => {
 
   // Verify code
   const handleSubmit = async () => {
-    console.log("submitted code");
-
     const body = {
       code: formData,
       mobileNumber: mobileNumber,
     };
 
     const result = await ipcRenderer.invoke("verify-code", body);
-
-    console.log("successfully verified code", result);
 
     if (result === "approved") {
       showVerificationInput = false;
@@ -298,45 +278,36 @@ const monitoringFrequency = () => {
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
 
-  // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
-  let allContainersList = props.runningList.concat(props.stoppedList)
+  let allContainersList = props.runningList.concat(props.stoppedList)             // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+
   // GITHUB URL FORM
-  // CREATE A STATE OBJECT FROM ARRAY OF ALL CONTAINERS
-    
-  // MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS
-  
-   // COMBINE INF ABOVE TO MAKE AN OBJECT STATE
-    // create an object with list of containers
+   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
     const stateObject = {};
     allContainersList.forEach (el => {
       if (!stateObject[el.ID]) stateObject[el.ID]=''
     });
     
- const getData = () => {
+    // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
+    const getData = () => {
       return query(queryType.GET_CONTAINERS,[]);
- };
+     };
 
-const updateState = async () => {
-            let output = await getData();
-            // update with data from DB
-            output.forEach(el => {
-              stateObject[el.id] = el.github_url
-            })
-}  
-  // CHANGE LINKS IN THE RENDERED COMPONENTS TO THE NEW STATE
-      const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-      const githubLink = (event) => {
-        // DESCRIBE PRELIMINARY CHECKS
+    const updateState = async () => {
+      let output = await getData();
+      output.forEach(el => {
+        stateObject[el.id] = el.github_url
+      })
+    }  
+
+    const [tempGithubLink, setTempGithubLink] = useState(stateObject);
+    const githubLink = (event) => {
         if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
         if (!event.target.id) alert('Please provide a container ID');
         else {
          let github_url = tempGithubLink[event.target.id]
-         console.log("container.id: ", event.target.id)                                   // CHANGE 
-         console.log("github_url: ", github_url)                                          // CHANGE
-         console.log("container.name: ", event.target.name)                               // CHANGE
           query(
             queryType.INSERT_GITHUB,
-            [event.target.id, event.target.name, github_url],                             // CHANGE
+            [event.target.id, event.target.name, github_url],
             (err, res) => {
               if (err) {
                 console.log(`INSERT_GITHUB. Error: ${err}`);
@@ -346,9 +317,7 @@ const updateState = async () => {
             },
           );
         }
-};
-
-
+    };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
     let isMemorySelected = isSelected(
@@ -431,7 +400,6 @@ const updateState = async () => {
             onChange={(e) => {
               stateObject[container.ID]=e.target.value
               setTempGithubLink(stateObject);
-              console.log(tempGithubLink);
             }}
             size="small"
           />
@@ -477,8 +445,7 @@ const updateState = async () => {
                   value={mobileNumber}
                   onChange={(e) => {
                     setMobileNumber(e.target.value);
-                    console.log(mobileNumber);
-                    isVerified = false;
+                     isVerified = false;
                   }}
                   size="small"
                 />
@@ -540,7 +507,6 @@ const updateState = async () => {
                 value={tempNotifFreq}
                   onChange={(e) => {
                     setTempNotifFreq(e.target.value);
-                    console.log(tempNotifFreq);
                   }}
                   size="small"
               />
@@ -566,7 +532,6 @@ const updateState = async () => {
                 value={tempMonitoringFrequency}
                   onChange={(e) => {
                     setTempMonitoringFrequency(e.target.value);
-                    console.log(tempMonitoringFrequency);
                   }}
                   size="small"
               />
@@ -629,6 +594,5 @@ const updateState = async () => {
     </div>
   );
 };
-
 
 export default connect(null, mapDispatchToProps)(Settings);

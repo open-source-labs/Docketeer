@@ -28,8 +28,6 @@ awesome when someone starts to use it.
 
 Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a GUI for Docker.
 
-Download our app: [https://www.docketeer.io/](https://www.docketeer.io/)
-
 
 ## 👶 Install
 

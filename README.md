@@ -58,6 +58,12 @@ Managing Docker images, containers and networks from the command line while also
 
 ## 🚀 Basic usage
 
+### Settings
+
+> On the settings page you can set up container specific sms notifications along with notification rules and connect containers to specific github repositories.
+
+<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_b853288e21e14ea5b891cf7ee8b6126c~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
+
 ### Running Containers
 
 >Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. You can also run a container based on the id or repo of an image from the top-right.
@@ -70,7 +76,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Exited Containers tab, you can view the containers that exited or were stopped. You can click to re-run or remove any exited container.
 
-<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
+<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
 
 
 
@@ -78,7 +84,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Images tab, you can view the images that are available for you locally. You can click to run or remove any image and you can also pull images from DockerHub by providing repo:version and clicking pull on the top-right.
 
-<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_61106dadc6a94bce980e2c11dcc025d0~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
+<img width="1297" alt="images" src="https://static.wixstatic.com/media/57c1fb_61106dadc6a94bce980e2c11dcc025d0~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
 
 
 
@@ -93,7 +99,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml file to run multi-container applications and view your separate networks.
 
-<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_92172f479ea24682bb1b37b0a42d61b6~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
+<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_92172f479ea24682bb1b37b0a42d61b6~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
 
 ## 🛠 Development
 

@@ -51,7 +51,6 @@ Download our app: [https://www.docketeer.io/](https://www.docketeer.io/)
      VERIFICATION_SERVICE_SID='code from verify service instance'
 
     4. Verification service was created here: https://www.twilio.com/console/verify/services code length and serviceSID can be taken from your Twilio account console.
-
     5. All historical messages from the Twilio account can be found here: https://www.twilio.com/console/sms/logs
 
 

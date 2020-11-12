@@ -62,14 +62,15 @@ Managing Docker images, containers and networks from the command line while also
 
 >Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. You can also run a container based on the id or repo of an image from the top-right.
 
-<img width="1297" alt="running" src="https://user-images.githubusercontent.com/67434664/94055509-08f91d00-fdab-11ea-9d2d-3938f9c3d988.png">
+<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_4c29afde2afd4ac6a776eae9ba102cde~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
+
 
 
 ### Exited Containers
 
 > On the Exited Containers tab, you can view the containers that exited or were stopped. You can click to re-run or remove any exited container.
 
-<img width="1297" alt="exited" src="https://user-images.githubusercontent.com/67434664/94055552-144c4880-fdab-11ea-992d-a7b5ebb0ad1e.png">
+<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_4c29afde2afd4ac6a776eae9ba102cde~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
 
 
 
@@ -77,7 +78,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Images tab, you can view the images that are available for you locally. You can click to run or remove any image and you can also pull images from DockerHub by providing repo:version and clicking pull on the top-right.
 
-<img width="1297" alt="images" src="https://user-images.githubusercontent.com/67434664/94055551-13b3b200-fdab-11ea-9efa-6b2152a59777.png">
+<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
 
 
 
@@ -85,15 +86,14 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Metrics tab, you can view the total amount of resources that your containers are currently using.
 
-<img width="1297" alt="metrics" src="https://user-images.githubusercontent.com/67434664/94055553-144c4880-fdab-11ea-8bf3-ad0bed7f411e.png">
-
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_85898fa6a4e045b5a2c7f7fbc327fa5a~mv2.png/v1/crop/x_0,y_86,w_2779,h_1594/fill/w_869,h_498,al_c,q_90,usm_0.66_1.00_0.01/Metrics%201.webp">
 
 
 ### Docker Compose
 
 > On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml file to run multi-container applications and view your separate networks.
 
-![compose](https://user-images.githubusercontent.com/67434664/94055554-14e4df00-fdab-11ea-9bd3-7832c22fd85f.png)
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_92172f479ea24682bb1b37b0a42d61b6~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
 
 ## 🛠 Development
 

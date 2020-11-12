@@ -15,31 +15,32 @@ If you plan to use notification functionality you also need to follow the instru
 
 ### Running Containers
 Once you open the app, you will have a chance to (i) set-up the notification rules for containers and (ii) provide details of GitHub urls for getting access to latest commits in the project repository file  
-[ADD IMAGE]
+// ADD IMAGE HERE <img width="1297" alt="running" src="">
+
 
 ### Running Containers
 On the running containers tab you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. 
-<img width="1297" alt="running" src="https://user-images.githubusercontent.com/67434664/94055509-08f91d00-fdab-11ea-9d2d-3938f9c3d988.png">
+// UPDATE IMAGE HERE <img width="1297" alt="running" src="https://user-images.githubusercontent.com/67434664/94055509-08f91d00-fdab-11ea-9d2d-3938f9c3d988.png">
 
 
 ### Exited Containers
 On the Exited Containers tab, you can view the containers that exited or were stopped. You can click to re-run or remove any exited container.
-<img width="1297" alt="exited" src="https://user-images.githubusercontent.com/67434664/94055552-144c4880-fdab-11ea-992d-a7b5ebb0ad1e.png">
+// UPDATE IMAGE HERE <img width="1297" alt="exited" src="https://user-images.githubusercontent.com/67434664/94055552-144c4880-fdab-11ea-992d-a7b5ebb0ad1e.png">
 
 
 ### Images
 On the Images tab, you can view the images that are available for you locally. You can (i) run or remove any image and (ii) pull images from DockerHub by providing repo:version and clicking pull on the top-right.
-<img width="1297" alt="images" src="https://user-images.githubusercontent.com/67434664/94055551-13b3b200-fdab-11ea-9efa-6b2152a59777.png">
+// UPDATE IMAGE HERE <img width="1297" alt="images" src="https://user-images.githubusercontent.com/67434664/94055551-13b3b200-fdab-11ea-9efa-6b2152a59777.png">
 
 
 ### Metrics
 On the Metrics tab, you can view (i) the total amount of resources that your containers are currently using, (ii) CPU and memory dynamics overtime, and (iii) history of GitHub commits (if you provided GitHub url details on the Settings tab) 
-<img width="1297" alt="metrics" src="https://user-images.githubusercontent.com/67434664/94055553-144c4880-fdab-11ea-8bf3-ad0bed7f411e.png">
+// UPDATE IMAGE HERE <img width="1297" alt="metrics" src="https://user-images.githubusercontent.com/67434664/94055553-144c4880-fdab-11ea-8bf3-ad0bed7f411e.png">
 
 
 ### Docker Compose
 On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml file to run multi-container applications and view your separate networks, including environments created outside of Docketeer.
-![compose](https://user-images.githubusercontent.com/67434664/94055554-14e4df00-fdab-11ea-9bd3-7832c22fd85f.png)
+// UPDATE IMAGE HERE ![compose](https://user-images.githubusercontent.com/67434664/94055554-14e4df00-fdab-11ea-9bd3-7832c22fd85f.png)
 
 ## Twilio account setup
 1. Download the helper library from https://www.twilio.com/docs/node/install
@@ -102,6 +103,5 @@ npm run test
 - Anton Abdukhamidov [@GitHub](https://github.com/abdukhamidov-anton) [@LinkedIn](https://www.linkedin.com/in/anton-abdukhamidov-1163733b/)
 
 
-## LICENSE
-
+## License
 Distributed under the MIT License. See LICENSE for more information.

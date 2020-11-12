@@ -6,9 +6,9 @@
 
 - [🧰 Features](#-features)
 - [👶 Install](#-install)
-- [🚀 Usage](#basic-usage)
-- [🛠 Developing](#development)
-- [🧪 Testing](#testing)
+- [🚀 Usage](#-basic-usage)
+- [🛠 Developing](#-development)
+- [🧪 Testing](#-testing)
 - [🧙 Contributors](#-contributors)
 - [⭐ Show your support](#-show-your-support)
 - [📝 License](#-license)

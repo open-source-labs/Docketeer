@@ -5,7 +5,7 @@
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
   "scripts": {
-    "dev": "electron-webpack dev",
+    "dev": "NODE_ENV=development electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",

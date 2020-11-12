@@ -70,7 +70,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Exited Containers tab, you can view the containers that exited or were stopped. You can click to re-run or remove any exited container.
 
-<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_4c29afde2afd4ac6a776eae9ba102cde~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
+<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
 
 
 
@@ -78,7 +78,7 @@ Managing Docker images, containers and networks from the command line while also
 
 > On the Images tab, you can view the images that are available for you locally. You can click to run or remove any image and you can also pull images from DockerHub by providing repo:version and clicking pull on the top-right.
 
-<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
+<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_61106dadc6a94bce980e2c11dcc025d0~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
 
 
 

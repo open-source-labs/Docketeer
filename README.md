@@ -6,8 +6,8 @@
 
 - [🧰 Features](#-features)
 - [👶 Install](#-install)
-- [🚀 Usage](#-usage)
-- [🛠 Developing](#-developing)
+- [🚀 Usage](#basic-usage)
+- [🛠 Developing](#development)
 - [🧙 Contributors](#-contributors)
 - [⭐ Show your support](#-show-your-support)
 - [📝 License](#-license)

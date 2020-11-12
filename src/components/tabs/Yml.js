@@ -1,29 +1,64 @@
-/* eslint-disable react/jsx-no-duplicate-props */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
-import ModalDisplay from "../display/ModalDisplay";
-import NetworkChildrenList from "./NetworkChildrenList";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 /**
- * 
- * @param {*} props 
- * display all docker-compose network and 
+ *
+ * @param {*} props
+ * display all docker-compose network and
  * drag and drop or upload functionality
- * 
+ *
  */
-const Yml = (props) => {
+const useStyles = makeStyles(() => ({
+  root: {
+    "& .MuiTextField-root": {
+      marginLeft: 5,
+      marginBottom: 15,
+      width: 220,
+      verticalAlign: "middle",
+    },
+  },
+  button: {
+    marginLeft: 5,
+    width: 100,
+    verticalAlign: "top",
+  },
+  verifiedIcon: {
+    verticalAlign: "top",
+    color: "green",
+  },
+  description: {
+    marginLeft: 5,
+    marginBottom: 30,
+  },
+}));
 
-  const [filepath, setFilepath] = useState("");
-  const [fileList, setfileList] = useState("");
-  const [modalValid, setModalValid] = useState(false);
-  const [modalErrormessage, setModalErrormessage] = useState("");
+const Yml = () => {
+  const classes = useStyles();
+  const [filePath, setFilePath] = useState("");
+  const [ymlFile, setYmlFile] = useState("");
+  const dispatch = useDispatch();
+
+  const composeStack = useSelector((state) => state.networkList.composeStack);
+
+  const getContainerStacks = (data) =>
+    dispatch(actions.getContainerStacks(data));
+  const composeDown = (data) => dispatch(actions.composeDown(data));
 
   useEffect(() => {
+    helper.dockerComposeStacks(getContainerStacks);
+
     let holder = document.getElementById("drag-file");
     let uploadHolder = document.getElementById("uploadFile");
+
     holder.ondragover = () => {
       holder.style = "background-color: #EDEDED";
       return false;
@@ -35,112 +70,142 @@ const Yml = (props) => {
     holder.ondragend = () => {
       return false;
     };
-    holder.ondrop = (e) => {
-      e.preventDefault();
-      let fileList = e.dataTransfer.files;
-      if (fileList.length > 1) return;
-      if (fileList[0].type === "application/x-yaml") {
-        let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
-        const filteredArr = filePath.split("/");
-        filteredArr.pop();
-        let filteredPath = filteredArr.join("/");
-        setFilepath(filteredPath);
-        setfileList(fileList[0].name);
-      }
-      return false;
-    };
+
+    // holder.ondrop = (e) => {
+    //   e.preventDefault();
+    //   let fileList = e.dataTransfer.files;
+    //   if (fileList.length > 1) return;
+    //   if (fileList[0].type === "application/x-yaml") {
+    //     let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
+    //     const filteredArr = filePath.split("/");
+    //     filteredArr.pop();
+    //     let filteredPath = filteredArr.join("/");
+    //     setFilepath(filteredPath);
+    //     setfileList(fileList[0].name);
+    //   }
+    //   return false;
+    // };
+
     uploadHolder.onchange = (e) => {
       e.preventDefault();
-      let uploadYmlFile = e.target.files[0].path; // File Path + Yaml File Name
-      const filteredUploadYmlArr = uploadYmlFile.split("/");
-      let uploadYmlFileName =
-        filteredUploadYmlArr[filteredUploadYmlArr.length - 1];
-      filteredUploadYmlArr.pop();
-      let uploadYmlFilePath = filteredUploadYmlArr.join("/");
+      if (
+        e.target.files.length &&
+        e.target.files[0].type === "application/x-yaml"
+      ) {
+        const ymlFile = e.target.files[0];
+        const filePath = e.target.files[0].path;
 
-      setFilepath(uploadYmlFilePath);
-      setfileList(uploadYmlFileName);
+        const reader = new FileReader();
+        reader.readAsText(ymlFile);
+        reader.onload = function (e) {
+          setYmlFile(e.target.result);
+        };
+
+        const directoryPath = filePath.replace("/docker-compose.yml", "");
+        setFilePath(directoryPath);
+      }
     };
   }, []);
 
-  /**
-   * networkList is array from the redux store
-   * Only display relationship of containers when networkList's length is more than 1
-   * networkList file format looks like in this format below
-   *
-   * [{
-   *  "a": [
-   *        {"cid": "1", "name": "conatiner1"},
-   *        {"cid": "2", "name": "container2"}
-   *      ]
-   * },
-   * {
-   *  "b": [
-   *        {"cid": "3", "name": "container3"},
-   *        {"cid": "4", "name": "container4"}
-   *       ]
-   * }]
-   */
-  const NetworkDisplay = () => {
-    if (props.networkList.length) {
-      let newArray = [];
-      for (let i = 0; i < props.networkList.length; i++) {
-        let keys = Object.keys(props.networkList[i]); // save keys in this format ["parentName"]
-        let parent = keys[0];
-        newArray.push(
-          <div className="yml-boxes box-shadow" key={`yml-boxes${i}`}>
-            <div className="yml-labels" key={`yml-labels${i}`}>
-              <p>Network: {parent}</p>
-            </div>
-            <NetworkChildrenList
-              networkList={props.networkList[i]}
-              parent={keys[0]}
-            />
-          </div>
-        );
-      }
-
-      return <div>{newArray}</div>;
-    } else {
-      return <></>;
-    }
+  const TableData = () => {
+    return composeStack.map((container, index) => {
+      return (
+        <TableRow key={index}>
+          <TableCell>
+            <span className="container-name">{container.Name}</span>
+          </TableCell>
+          <TableCell>
+            <span className="container-id">{container.ID}</span>
+          </TableCell>
+          <TableCell>
+            <span className="container-drive">{container.Driver}</span>
+          </TableCell>
+          <TableCell>
+            <span className="container-scope">{container.Scope}</span>
+          </TableCell>
+          <TableCell>
+            <span className="container-scope">{container.CreatedAt}</span>
+          </TableCell>
+          {container.FilePath && (
+            <TableCell className="btn-compose-up">
+              <button
+                className="btn"
+                onClick={() => {
+                  helper
+                    .dockerComposeDown(container.FilePath)
+                    .then((res) => {
+                      if (res) {
+                        composeDown(container.FilePath);
+                      }
+                    })
+                    .catch((err) => console.log(err));
+                }}
+              >
+                Docker Compose Down
+              </button>
+            </TableCell>
+          )}
+        </TableRow>
+      );
+    });
   };
 
-	return (
-
-		<div className="renderContainers">
-			<div className="header">
-				<span className="tabTitle">Docker Compose</span>
-				<span></span>
-			</div>
-			<div className="drag-container">
-				<div className="drag-container-box box-shadow" id="drag-file">
-					Drag and drop or upload your Docker Compose file here to run it.
-          <p><i className="fas fa-file yml-icon"></i></p>
-					<p className="fileList">{fileList}</p>
-					<input className="upload-btn" id="uploadFile" type="file" accept=".yml">
-					</input>
-					<button
-						id="btn"
-						className="btn"
-						onClick={() => {
-							helper.connectContainers(filepath, props.composeymlFiles, setModalValid, setModalErrormessage)
-							setfileList("");
-						}}
-					>
-						Docker Compose Up
-     			 	</button>
-				</div>
-
-			</div>
-
-			<ModalDisplay modalValid={modalValid} setModalValid={setModalValid} modalErrormessage modalErrormessage={modalErrormessage} />
-			<div className="containers">
-				<NetworkDisplay />
-			</div>
-		</div>
-	);
-
+  return (
+    <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Docker Compose</h1>
+      </div>
+      <div className="settings-container">
+        <div id="drag-file">
+          Drag and drop or upload your Docker Compose file here to run it.
+          {ymlFile && (
+            <pre style={{ margin: "1rem 0rem" }}>
+              <code>{ymlFile}</code>
+            </pre>
+          )}
+          <br />
+        </div>
+        <div className="btn-compose-up">
+          <input id="uploadFile" type="file" accept=".yml"></input>
+          <button
+            className="btn"
+            onClick={() => {
+              helper
+                .dockerComposeUp(filePath)
+                .then((res) => {
+                  if (res) {
+                    helper.dockerComposeStacks(getContainerStacks, filePath);
+                    setYmlFile("");
+                    setFilePath("");
+                  }
+                })
+                .catch((err) => console.log(err));
+            }}
+          >
+            Docker Compose Up
+          </button>
+        </div>
+      </div>
+      <div className="settings-container">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Container ID</TableCell>
+                <TableCell>Driver</TableCell>
+                <TableCell>Scope</TableCell>
+                <TableCell>Created At</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableData />
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
+  );
 };
 
 export default Yml;

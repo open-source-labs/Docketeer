@@ -20,13 +20,13 @@ const Images = (props) => {
 
 		return (
 			<div className="box" key={`imageBox${i}`}>
-				<div className="images-header">
-					<span>ID: {ele['imgid']}</span>
+				<div className="box-label">
+					<h3>{ele['reps']}</h3>
+          <p>{ele['tag']}</p>
 				</div>
 				<div className="stopped-info">
-					<li>Repository : {ele['reps']}</li>
-					<li>Size : {ele['size']}</li>
-					<li>Tag : {ele['tag']}</li>
+					<li><strong>ID:</strong>{ele['imgid']} </li>
+					<li><strong>Size:</strong>{ele['size']}</li>
 				</div>
 				<div className="stopped-button">
 					<button className="run-btn" onClick={() => props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)}>RUN</button>
@@ -39,7 +39,7 @@ const Images = (props) => {
 	return (
 		<div className="renderContainers">
 			<div className="header">
-				<span className="tabTitle">Images</span>
+				<h1 className="tabTitle">Images</h1>
 				<div className="runByButton">
 					<label>Enter Image Repo</label>
 					<span><input type="text" value={repo} onChange={(e) => { setRepo(e.target.value) }}></input></span>

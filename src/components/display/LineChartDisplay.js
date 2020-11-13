@@ -11,10 +11,10 @@ import { Link, Redirect, BrowserRouter } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-/** TODO 
+/** TODO
  * 1. Remove prop drilling from parent components
  * 2. Move get files from DB to its own helpers
- * 
+ *
  */
 
 /**
@@ -51,22 +51,19 @@ const Metrics = (props) => {
     let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
     let containerNamesArr = Object.keys(activeContainers);
-    
+
     if (containerNamesArr.length === 1) {
-      queryString += (')' + queryStringEnd);
-      const result =  await query(queryString, containerNamesArr);
-      // console.log('query result: ', result, timePeriod);
+      queryString += ")" + queryStringEnd;
+      const result = await query(queryString, containerNamesArr);
       return result;
     }
 
-    containerNamesArr
-      .slice(1)
-      .forEach((containerName, idx) => {
-        let additionalParameter = `OR container_name = $${idx + 2} `;
-        if(idx === containerNamesArr.length - 2) additionalParameter += ')';
-        queryString += additionalParameter;
-      });
-      
+    containerNamesArr.slice(1).forEach((containerName, idx) => {
+      let additionalParameter = `OR container_name = $${idx + 2} `;
+      if (idx === containerNamesArr.length - 2) additionalParameter += ")";
+      queryString += additionalParameter;
+    });
+
     queryString += queryStringEnd;
     return query(queryString, containerNamesArr);
   };
@@ -86,7 +83,7 @@ const Metrics = (props) => {
    * Builds memory and cpu object for input into Line Components
    * @return
    */
-  let counter = 0;
+
   const formatData = async () => {
     buildMemory("clear");
     buildCpu("clear");
@@ -108,7 +105,7 @@ const Metrics = (props) => {
         "grey",
         "orange",
       ];
-      let idx = activeContainers.indexOf(containerName)
+      let idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
     };
     // build function that will return formated object into necessary
@@ -118,15 +115,18 @@ const Metrics = (props) => {
         label: containerName,
         data: [],
         fill: false,
-        borderColor: generateLineColor(containerName, Object.keys(activeContainers)),
+        borderColor: generateLineColor(
+          containerName,
+          Object.keys(activeContainers)
+        ),
       };
 
       return obj;
     };
 
-    buildMemory('clear');
-    buildCpu('clear');
-    buildAxis('clear');
+    buildMemory("clear");
+    buildCpu("clear");
+    buildAxis("clear");
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -165,9 +165,8 @@ const Metrics = (props) => {
 
     // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
     Object.keys(auxObj).forEach((containerName) => {
-
       if (auxObj[containerName].memory.data.length < longest) {
-        const lengthToAdd = longest - auxObj[containerName].memory.data.length
+        const lengthToAdd = longest - auxObj[containerName].memory.data.length;
         for (let i = 0; i < lengthToAdd; i += 1) {
           auxObj[containerName].memory.data.unshift("0.00");
           auxObj[containerName].cpu.data.unshift("0.00");
@@ -186,26 +185,15 @@ const Metrics = (props) => {
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
-    // formate needed = 2020-10-26T18:44:25Z
-    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=%272020-10-27T17%3A14%3A17.446Z%27
-    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T18%3A44%3A25Z
 
-    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T21%3A40%3A22.314Z
-    //https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-10-26T17%3A39%3A54.191Z
-
-    // https://api.github.com/repos/oslabs-beta/Docketeer/commits?since=2020-11-10T16%3A21%3A10.242Z
-    // "https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
     if (urlObj.rows.length) {
-      console.log('URL OBJ', urlObj)
-      console.log('URL OBJ ROWS LENGTH', urlObj.rows.length)
-      const url = urlObj.rows[0].github_url +
+      const url =
+        urlObj.rows[0].github_url +
         new URLSearchParams({
           since: `${date}`,
         });
 
-      console.log("URL**********", url);
       let data = await fetch(url);
-      console.log('DATA', data);
       const jsonData = await data.json();
 
       jsonData.forEach((commitData) => {
@@ -232,7 +220,6 @@ const Metrics = (props) => {
     ).then((data) => setGitUrls(data));
   };
 
-  // [{container: [{time: x, url: x}]},{}]
   let gitData;
   gitData = gitUrls.map((el, index) => {
     let name = Object.keys(el);
@@ -278,7 +265,7 @@ const Metrics = (props) => {
       );
     });
     return (
-      <div>
+      <div key={index}>
         <h2>{name}</h2>
         <table className={"ltTable"}>{li}</table>
       </div>
@@ -291,19 +278,21 @@ const Metrics = (props) => {
     const result = [];
     const completeContainerList = [...runningList, ...stoppedList];
     completeContainerList.forEach((container) => {
-      const containerNameKey = container.Name ? container.Name : container.Names;
+      const containerNameKey = container.Name
+        ? container.Name
+        : container.Names;
       result.push(
         <FormControlLabel
-        control={
-          <Checkbox
-            name={containerNameKey}
-            value={containerNameKey}
-            color='primary'
-            inputProps={{ 'aria-label': containerNameKey }}
-          />
-        } 
-        label={containerNameKey}
-      />  
+          control={
+            <Checkbox
+              name={containerNameKey}
+              value={containerNameKey}
+              color="primary"
+              inputProps={{ "aria-label": containerNameKey }}
+            />
+          }
+          label={containerNameKey}
+        />
       );
     });
 
@@ -357,7 +346,7 @@ const Metrics = (props) => {
     maintainAspectRatio: false,
   };
 
-	/* Consider if we can combine these two. Wasn't rendering active containers when tested*/
+  /* Consider if we can combine these two. Wasn't rendering active containers when tested*/
   selectList();
   useEffect(() => {
     formatData();
@@ -382,21 +371,16 @@ const Metrics = (props) => {
             value="4"
             defaultChecked
           ></input>
-          <label htmlFor='4-hours'> 4 hours</label>
+          <label htmlFor="4-hours"> 4 hours</label>
           <input
             type="radio"
             id="12-hours"
             name="timePeriod"
             value="12"
           ></input>
-          <label htmlFor='12-hours'> 12 hours</label>
-          <input
-            type='radio'
-            id='other'
-            name='timePeriod'
-            value='24'
-          ></input>
-          <label htmlFor='24-hours'> 24 hours</label>
+          <label htmlFor="12-hours"> 12 hours</label>
+          <input type="radio" id="other" name="timePeriod" value="24"></input>
+          <label htmlFor="24-hours"> 24 hours</label>
           <br></br>
           {currentList}
         </form>
@@ -419,14 +403,3 @@ const Metrics = (props) => {
 };
 
 export default Metrics;
-
-// const cpu = {
-// 	labels: dataLabels,
-// 	datasets: [
-// 		{
-// 			label: activeContainers,
-// 			 data: cpuData,
-// 			 fill: false
-// 		},
-// 	],
-// };

@@ -1,5 +1,5 @@
 {
-  "name": "Docketeer",
+  "name": "docketeer",
   "version": "1.0.0",
   "license": "MIT",
   "description": "A Docker Visualizer",
@@ -84,7 +84,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/Docketeer.git"
+    "url": "git+https://github.com/oslabs-beta/docketeer.git"
   },
   "build": {
     "extraResources": [

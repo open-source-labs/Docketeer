@@ -82,7 +82,6 @@ const sendNotification = async (
     ),
   };
 
-  console.log("sent a post event");
   await ipcRenderer.invoke("post-event", body);
 };
 

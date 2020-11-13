@@ -5,20 +5,6 @@ import { convertToMetricsArr } from "../helper/parseContainerFormat";
 import { Pie } from "react-chartjs-2";
 import LineChartDisplay from "../display/LineChartDisplay.js";
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import * as categories from "../../constants/notificationCategories";
-import { makeStyles } from "@material-ui/core/styles";
-import SendIcon from "@material-ui/icons/Send";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-
 /**
  *
  * @param {*} props
@@ -116,7 +102,6 @@ const Metrics = (props) => {
         <h3>Aggregate</h3>
       </div>
       <div className="aggregate-conatiner">
-        {/* <div className="section"> */}
         <div className="pieChart">
           <Pie data={cpu} options={options2} width={2000} height={1300} />
           <div className="legend-container">
@@ -144,7 +129,7 @@ const Metrics = (props) => {
             </div>
           </div>
         </div>
-        {/* </div> */}
+
         <div className="">
           <div className="chart-container">
             <h1 className="chart-title">NET IO:</h1>
@@ -161,28 +146,8 @@ const Metrics = (props) => {
         </div>
       </div>
       <LineChartDisplay />
-		</div>
-    
-	);
+    </div>
+  );
 };
 
 export default Metrics;
-//   {
-//   tooltips: {
-//     enabled: false,
-//   },
-//   title: {
-//     display: true,
-//     text: "CPU",
-//     fontSize: 23,
-//   },
-//   legend: { display: true, position: "bottom" },
-//   responsive: false,
-//   maintainAspectRatio: true,
-//   plugins: {
-//     labels: {
-//       render: "percentage",
-//       precision: 2,
-//     },
-//   },
-// }

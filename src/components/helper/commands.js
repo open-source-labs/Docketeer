@@ -423,23 +423,21 @@ export const dockerComposeDown = (filePath) => {
 export const writeToDb = () => {
   const interval = 300000;
 	setInterval(() => {
-    let state = store.getState();
-    let fullContainerList = [...state.containersList.runningList, ...state.containersList.stoppedList];
-
-		if (!fullContainerList) return;
+		let state = store.getState();
+    let runningContainers = state.containersList.runningList;
+    let stoppedContainers = state.containersList.stoppedList;
+		if (!runningContainers.length) return;
 		let dbQuery = `insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values `
-		fullContainerList.forEach((container, idx) => {
-      let string;
-      if (container.Name) {
-        string = `('${container.ID}', '${container.Name}', '${container.CPUPerc}', '${container.MemPerc}', '${container.MemUsage}', '${container.NetIO}', '${container.BlockIO}', '${container.PIDs}', current_timestamp)`
-      } else {
-        // This is necessary to account for what we
-        // receive from the 'docker stats' command for stopped containers.
-        // Note: Name becomes Names (plural) when container is stopped
-        string = `('${container.ID}', '${container.Names}', '0.00%', '0.00%', '00.0MiB/0.00GiB', '0.00kB/0.00kB', '00.0MB/00.0MB', '0', current_timestamp)`
-      }
+		runningContainers.forEach((container, idx) => {
+			// no need to worry about sql injections as it would be self sabotaging! 
+			let string = `('${container.ID}', '${container.Name}', '${container.CPUPerc}', '${container.MemPerc}', '${container.MemUsage}', '${container.NetIO}', '${container.BlockIO}', '${container.PIDs}', current_timestamp)`
 			if (idx === runningContainers.length - 1 && stoppedContainers.length === 0) dbQuery += string;
 			else dbQuery += string + ', ';
+    })
+    stoppedContainers.forEach((container, idx) => {
+      let string = `('${container.ID}', '${container.Names}', '0.00%', '0.00%', '00.0MiB/0.00GiB', '0.00kB/0.00kB', '00.0MB/00.0MB', '0', current_timestamp)`
+      if (idx === stoppedContainers.length - 1) dbQuery += string;
+      else dbQuery += string + ', ';
     })
 		query(dbQuery)
 	}, interval)

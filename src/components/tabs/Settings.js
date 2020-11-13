@@ -21,8 +21,10 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
+  addNotificationFrequency: (data) =>
+    dispatch(actions.addNotificationFrequency(data)),
+  addMonitoringFrequency: (data) =>
+    dispatch(actions.addMonitoringFrequency(data)),
   addMemoryNotificationSetting: (data) =>
     dispatch(actions.addMemoryNotificationSetting(data)),
   addCpuNotificationSetting: (data) =>
@@ -34,31 +36,31 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),    
+    dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
+    "& .MuiTextField-root": {
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: 'middle',
+      verticalAlign: "middle",
     },
   },
   button: {
-    '& > *': {
-      pointerEvents: 'none',
-    }
-  },  
+    "& > *": {
+      pointerEvents: "none",
+    },
+  },
   button: {
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top',
+    verticalAlign: "top",
   },
   verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
+    verticalAlign: "top",
+    color: "green",
   },
   description: {
     marginLeft: 5,
@@ -171,7 +173,7 @@ const Settings = (props) => {
     fetchNotificationSettings();
   }, []);
 
-   /**
+  /**
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
@@ -183,70 +185,77 @@ const Settings = (props) => {
       else {
         alert(`Phone: ${mobileNumber} is valid`);
         // ask SMS service for a verification code
-        query(queryType.INSERT_USER, ["admin", mobileNumber, 5, 2], (err, res) => {
-          if (err) {
-            console.log(`Error in insert user. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-            props.addPhoneNumber(mobileNumber);
-            showVerificationInput = true;
-            // ask SMS service for a verification code
-            verifyMobileNumber();
+        query(
+          queryType.INSERT_USER,
+          ["admin", mobileNumber, 5, 2],
+          (err, res) => {
+            if (err) {
+              console.log(`Error in insert user. Error: ${err}`);
+            } else {
+              console.log(`*** Inserted ${res} into users table. ***`);
+              props.addPhoneNumber(mobileNumber);
+              showVerificationInput = true;
+              // ask SMS service for a verification code
+              verifyMobileNumber();
+            }
           }
-        });
+        );
       }
     }
   };
 
-// SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE 
+  // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM
   // 2. MAKE SURE THAT IT HAS THE RIGHT FORMAT
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
-const [tempNotifFreq, setTempNotifFreq] = useState('');
-const notificationFrequency = () => {
-  // default value for Notification Frequency
-  let frequency = 5
-  // alert if input is not a number
-  if (isNaN(Number(tempNotifFreq))) alert('Please enter notification frequency in numerical format. ex: 15');
-  else {
-    if (tempNotifFreq) frequency = tempNotifFreq
-    query(
-    queryType.INSERT_NOTIFICATION_FREQUENCY,
-    ['admin', , frequency, ,],
-    (err, res) => {
-      if (err) {
-      console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
-      } else {
-      console.log(`*** Inserted ${res} into users table. ***`);
-      props.addNotificationFrequency(frequency);
-      }
-    });
-  }
-};
+  const [tempNotifFreq, setTempNotifFreq] = useState("");
+  const notificationFrequency = () => {
+    // default value for Notification Frequency
+    let frequency = 5;
+    // alert if input is not a number
+    if (isNaN(Number(tempNotifFreq)))
+      alert("Please enter notification frequency in numerical format. ex: 15");
+    else {
+      if (tempNotifFreq) frequency = tempNotifFreq;
+      query(
+        queryType.INSERT_NOTIFICATION_FREQUENCY,
+        ["admin", , frequency, ,],
+        (err, res) => {
+          if (err) {
+            console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into users table. ***`);
+            props.addNotificationFrequency(frequency);
+          }
+        }
+      );
+    }
+  };
 
-const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
-const monitoringFrequency = () => {
-              // default value for Monitoring Frequency
-              let frequency = 2
-              // alert if input is not a number
-              if (isNaN(Number(tempMonitoringFrequency))) alert('Please enter monitoring frequency in numerical format. ex: 15');
-              else {
-                if (tempMonitoringFrequency) frequency = tempMonitoringFrequency
-                query(
-                  queryType.INSERT_MONITORING_FREQUENCY,
-                  ['admin', , , frequency,],
-                  (err, res) => {
-                    if (err) {
-                      console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
-                    } else {
-                      console.log(`*** Inserted ${res} into users table. ***`);
-                      props.addMonitoringFrequency(frequency);
-                    }
-                  },
-                );
-              }
-};
+  const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState("");
+  const monitoringFrequency = () => {
+    // default value for Monitoring Frequency
+    let frequency = 2;
+    // alert if input is not a number
+    if (isNaN(Number(tempMonitoringFrequency)))
+      alert("Please enter monitoring frequency in numerical format. ex: 15");
+    else {
+      if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
+      query(
+        queryType.INSERT_MONITORING_FREQUENCY,
+        ["admin", , , frequency],
+        (err, res) => {
+          if (err) {
+            console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into users table. ***`);
+            props.addMonitoringFrequency(frequency);
+          }
+        }
+      );
+    }
+  };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState("");
@@ -269,7 +278,7 @@ const monitoringFrequency = () => {
     } else alert("Please try verification code again");
   };
 
-    /**
+  /**
    * Checks to see if the containerId is in the array
    * @param {array} array the notification settings array (ex: memoryNotificationList)
    * @param {string} containerId the container's ID
@@ -278,46 +287,47 @@ const monitoringFrequency = () => {
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
 
-  let allContainersList = props.runningList.concat(props.stoppedList)             // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+  let allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
 
   // GITHUB URL FORM
-   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
-    const stateObject = {};
-    allContainersList.forEach (el => {
-      if (!stateObject[el.ID]) stateObject[el.ID]=''
+  // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
+  const stateObject = {};
+  allContainersList.forEach((el) => {
+    if (!stateObject[el.ID]) stateObject[el.ID] = "";
+  });
+
+  // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
+  const getData = () => {
+    return query(queryType.GET_CONTAINERS, []);
+  };
+
+  const updateState = async () => {
+    let output = await getData();
+    output.forEach((el) => {
+      stateObject[el.id] = el.github_url;
     });
-    
-    // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-    const getData = () => {
-      return query(queryType.GET_CONTAINERS,[]);
-     };
+  };
 
-    const updateState = async () => {
-      let output = await getData();
-      output.forEach(el => {
-        stateObject[el.id] = el.github_url
-      })
-    }  
-
-    const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-    const githubLink = (event) => {
-        if (!tempGithubLink) alert('Please provide a link in accordance with provided example');
-        if (!event.target.id) alert('Please provide a container ID');
-        else {
-         let github_url = tempGithubLink[event.target.id]
-          query(
-            queryType.INSERT_GITHUB,
-            [event.target.id, event.target.name, github_url],
-            (err, res) => {
-              if (err) {
-                console.log(`INSERT_GITHUB. Error: ${err}`);
-              } else {
-                console.log(`*** Inserted ${res} into containers table. ***`);
-              }
-            },
-          );
+  const [tempGithubLink, setTempGithubLink] = useState(stateObject);
+  const githubLink = (event) => {
+    if (!tempGithubLink)
+      alert("Please provide a link in accordance with provided example");
+    if (!event.target.id) alert("Please provide a container ID");
+    else {
+      let github_url = tempGithubLink[event.target.id];
+      query(
+        queryType.INSERT_GITHUB,
+        [event.target.id, event.target.name, github_url],
+        (err, res) => {
+          if (err) {
+            console.log(`INSERT_GITHUB. Error: ${err}`);
+          } else {
+            console.log(`*** Inserted ${res} into containers table. ***`);
+          }
         }
-    };
+      );
+    }
+  };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
     let isMemorySelected = isSelected(
@@ -334,8 +344,9 @@ const monitoringFrequency = () => {
       <TableRow key={i} id="settings-row">
         <TableCell>
           <span className="container-name">
-            {container.Names ? container.Names : container.Name} {/* Stopped containers have a .Names key. Running containers have a .Name key */}
-            </span>
+            {container.Names ? container.Names : container.Name}{" "}
+            {/* Stopped containers have a .Names key. Running containers have a .Name key */}
+          </span>
         </TableCell>
         <TableCell>
           <span className="container-id">{container.ID}</span>
@@ -398,7 +409,7 @@ const monitoringFrequency = () => {
             variant="outlined"
             value={tempGithubLink[container.ID]}
             onChange={(e) => {
-              stateObject[container.ID]=e.target.value
+              stateObject[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
             }}
             size="small"
@@ -411,7 +422,7 @@ const monitoringFrequency = () => {
             variant="contained"
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
-            onClick={(e) => githubLink(e) }
+            onClick={(e) => githubLink(e)}
           >
             Confirm
           </Button>
@@ -425,50 +436,54 @@ const monitoringFrequency = () => {
       <div className="header">
         <h1 className="tabTitle">Settings</h1>
       </div>
-      
+
       <div className="metric-section-title">
         <h3>Notifications</h3>
       </div>
       <div className="settings-container">
-          <p>Allows you (i) to customize monitoring and notification frequency and (ii) to define alert conditions for sms notifications when your container meets a condition</p>
-          <br></br>
-          <p>1. Link mobile phone to your account</p> 
-          <br></br>
-          <form className={classes.root} autoComplete="off">
-              <div>
-                <TextField
-                  required
-                  id="textfield"
-                  label="Phone Number"
-                  helperText="* use country code (+1)"
-                  variant="outlined"
-                  value={mobileNumber}
-                  onChange={(e) => {
-                    setMobileNumber(e.target.value);
-                     isVerified = false;
-                  }}
-                  size="small"
-                />
-                {!isVerified ? (
-                  <Button
-                    className={classes.button}
-                    size="medium"
-                    variant="contained"
-                    onClick={(e) => handlePhoneNumberSubmit(e)}
-                    endIcon={<SendIcon />}
-                  >
-                    Verify
-                  </Button>
-                ) : (
-                  <CheckCircleIcon
-                    fontSize="large"
-                    className={classes.verifiedIcon}
-                  />
-                )}
-              </div>
-            </form>
+        <p>
+          Allows you (i) to customize monitoring and notification frequency and
+          (ii) to define alert conditions for sms notifications when your
+          container meets a condition
+        </p>
+        <br></br>
+        <p>1. Link mobile phone to your account</p>
+        <br></br>
+        <form className={classes.root} autoComplete="off">
+          <div>
+            <TextField
+              required
+              id="textfield"
+              label="Phone Number"
+              helperText="* use country code (+1)"
+              variant="outlined"
+              value={mobileNumber}
+              onChange={(e) => {
+                setMobileNumber(e.target.value);
+                isVerified = false;
+              }}
+              size="small"
+            />
+            {!isVerified ? (
+              <Button
+                className={classes.button}
+                size="medium"
+                variant="contained"
+                onClick={(e) => handlePhoneNumberSubmit(e)}
+                endIcon={<SendIcon />}
+              >
+                Verify
+              </Button>
+            ) : (
+              <CheckCircleIcon
+                fontSize="large"
+                className={classes.verifiedIcon}
+              />
+            )}
+          </div>
+        </form>
 
-            {showVerificationInput ? (
+        {showVerificationInput ? (
           <form className={classes.root} autoComplete="off">
             <div className="verification-code">
               <TextField
@@ -494,73 +509,83 @@ const monitoringFrequency = () => {
             </div>
           </form>
         ) : null}
-            
-          <p>2. Setup / update notification criteria. Recommended values will be used by default </p> 
-          <br></br>
-          <div>
-            <form className={classes.root} autoComplete="off">
-              <TextField
-                id="textfield"
-                label="Notification frequency, min"
-                helperText="* 5 min is recommended"
-                variant="outlined"
-                value={tempNotifFreq}
-                  onChange={(e) => {
-                    setTempNotifFreq(e.target.value);
-                  }}
-                  size="small"
-              />
-              <Button
-                className={classes.button}
-                size="medium"
-                variant="contained"
-                onClick={(e) => notificationFrequency(e)}
-              >
-                Confirm
-              </Button>
-            </form>
-          </div>
 
-          <div>
-            <form className={classes.root} autoComplete="off">
-              <TextField
-                className={classes.textfield}
-                id="textfield"
-                label="Monitoring frequency, min"
-                helperText="* 2 min is recommended"
-                variant="outlined"
-                value={tempMonitoringFrequency}
-                  onChange={(e) => {
-                    setTempMonitoringFrequency(e.target.value);
-                  }}
-                  size="small"
-              />
-              <Button
-                className={classes.button}
-                size="medium"
-                variant="contained"
-                onClick={(e) => monitoringFrequency(e)}
-              >
-                Confirm
-              </Button>
-            </form>
-          </div>
+        <p>
+          2. Setup / update notification criteria. Recommended values will be
+          used by default{" "}
+        </p>
+        <br></br>
+        <div>
+          <form className={classes.root} autoComplete="off">
+            <TextField
+              id="textfield"
+              label="Notification frequency, min"
+              helperText="* 5 min is recommended"
+              variant="outlined"
+              value={tempNotifFreq}
+              onChange={(e) => {
+                setTempNotifFreq(e.target.value);
+              }}
+              size="small"
+            />
+            <Button
+              className={classes.button}
+              size="medium"
+              variant="contained"
+              onClick={(e) => notificationFrequency(e)}
+            >
+              Confirm
+            </Button>
+          </form>
+        </div>
 
-          <br></br>
-          <p>3. Setup / update attribute values for notification triggers in Containers settings table below. Recommended values will be used by default </p> 
-          <br></br>
+        <div>
+          <form className={classes.root} autoComplete="off">
+            <TextField
+              className={classes.textfield}
+              id="textfield"
+              label="Monitoring frequency, min"
+              helperText="* 2 min is recommended"
+              variant="outlined"
+              value={tempMonitoringFrequency}
+              onChange={(e) => {
+                setTempMonitoringFrequency(e.target.value);
+              }}
+              size="small"
+            />
+            <Button
+              className={classes.button}
+              size="medium"
+              variant="contained"
+              onClick={(e) => monitoringFrequency(e)}
+            >
+              Confirm
+            </Button>
+          </form>
+        </div>
 
+        <br></br>
+        <p>
+          3. Setup / update attribute values for notification triggers in
+          Containers settings table below. Recommended values will be used by
+          default{" "}
+        </p>
+        <br></br>
       </div>
 
       <div className="metric-section-title">
         <h3>GitHub commits</h3>
       </div>
       <div className="settings-container">
-          <p>Allows you to get access to latest GitHub commits in your project repository on "Metrics" tab for selected containers</p>
-          <br></br>
-          <p>1. Add GitHub repositories url in Containers settingss table below</p>
+        <p>
+          Allows you to get access to latest GitHub commits in your project
+          repository on "Metrics" tab for selected containers
+        </p>
+        <br></br>
+        <p>
+          1. Add GitHub repositories url in Containers settingss table below
+        </p>
       </div>
-
 
       <div className="metric-section-title">
         <h3> Containers setting table</h3>
@@ -568,8 +593,7 @@ const monitoringFrequency = () => {
       </div>
 
       <div className="settings-container">
-        <div id="description" className={classes.description}>
-        </div>
+        <div id="description" className={classes.description}></div>
 
         <TableContainer>
           <Table>
@@ -585,9 +609,7 @@ const monitoringFrequency = () => {
                 <TableCell align="center">Apply settings</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {renderAllContainersList}
-            </TableBody>
+            <TableBody>{renderAllContainersList}</TableBody>
           </Table>
         </TableContainer>
       </div>

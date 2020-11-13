@@ -157,7 +157,7 @@ const Yml = () => {
       </div>
       <div className="settings-container">
         <div id="drag-file">
-          Drag and drop or upload your Docker Compose file here to run it.
+          Upload your Docker Compose file here to compose
           {ymlFile && (
             <pre style={{ margin: "1rem 0rem" }}>
               <code>{ymlFile}</code>

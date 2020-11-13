@@ -1,8 +1,0 @@
-version: "3.6"
-services:
-  php:
-    image: php:7.4-apache
-    volumes:
-      - "./php:/var/php/html"
-    ports:
-      - 9090:9090

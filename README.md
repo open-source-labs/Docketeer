@@ -35,7 +35,7 @@ Managing Docker images, containers and networks from the command line while also
 > - https://github.com/open-source-labs/Docketeer.git  
 > 2. CD into directory, then npm install
 > 3. Configure the environment variables for Twilio API following the example below.
-> 4. npm run start
+> 4. npm run dev
 
 
 ## Twilio setup

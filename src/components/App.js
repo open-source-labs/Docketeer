@@ -14,12 +14,9 @@ import startNotificationRequester from "./helper/notificationsRequester";
 import initDatabase from "./helper/initDatabase";
 
 /**
- *
- * @param {*} props
  * Container component that has all redux logic along with react router
  */
-
-const App = (props) => {
+const App = () => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -57,7 +54,6 @@ const App = (props) => {
   );
 
   const [selected, setSelected] = useState("/");
-  const [color, setColor] = useState(false);
 
   useEffect(() => {
     initDatabase();
@@ -93,14 +89,14 @@ const App = (props) => {
       <div className="container">
         <nav className="tab">
           <header id="title">
-            <img src={Docketeer} width={140} />
+            <img src={Docketeer} width={160} />
           </header>
           <div className="viewsAndButton">
             <ul>
               <li>
                 <Link
                   to="/"
-                  style={selected === "/" ? selectedStyling : {}}
+                  style={selected === "/" ? selectedStyling : null}
                   onClick={() => setSelected("/")}
                 >
                   <i className="fas fa-settings"></i> Settings
@@ -109,27 +105,16 @@ const App = (props) => {
               <li>
                 <Link
                   to="/running"
-                  style={selected === "/running" ? selectedStyling : {}}
-                  onClick={() => {
-                    setSelected((sel) => "/running");
-                  }}
+                  style={selected === "/running" ? selectedStyling : null}
+                  onClick={() => setSelected(() => "/running")}
                 >
-                  <i className="fas fa-box-open"></i> Running Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/stopped"
-                  style={selected === "/stopped" ? selectedStyling : {}}
-                  onClick={() => setSelected("/stopped")}
-                >
-                  <i className="fas fa-archive"></i> Exited Containers
+                  <i className="fas fa-box-open"></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
                   to="/images"
-                  style={selected === "/images" ? selectedStyling : {}}
+                  style={selected === "/images" ? selectedStyling : null}
                   onClick={() => setSelected("/images")}
                 >
                   <i className="fas fa-database"></i> Images
@@ -138,7 +123,7 @@ const App = (props) => {
               <li>
                 <Link
                   to="/metrics"
-                  style={selected === "/metrics" ? selectedStyling : {}}
+                  style={selected === "/metrics" ? selectedStyling : null}
                   onClick={() => setSelected("/metrics")}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
@@ -147,7 +132,7 @@ const App = (props) => {
               <li>
                 <Link
                   to="/yml"
-                  style={selected === "/yml" ? selectedStyling : {}}
+                  style={selected === "/yml" ? selectedStyling : null}
                   onClick={() => setSelected("/yml")}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
@@ -169,18 +154,8 @@ const App = (props) => {
                 renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/metrics">
-            <Metrics
-              showGeneralMetrics={helper.showGeneralMetrics}
-              runningList={runningList}
-            />
+            <Metrics runningList={runningList} />
           </Route>
-          {/* <Route path='/LTMetrics'>
-            <LTMetrics
-              showGeneralMetrics={helper.showGeneralMetrics}
-              runningList={runningList}
-              stoppedList={stoppedList}
-            />
-          </Route> */}
           <Route path="/yml">
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
@@ -194,15 +169,6 @@ const App = (props) => {
               runningList={runningList}
             />
           </Route>
-          <Route path="/stopped">
-            <Stopped
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
           <Route path="/running">
             <Running
               runIm={helper.runIm}
@@ -210,6 +176,12 @@ const App = (props) => {
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
               addRunningContainers={addRunningContainers}
+              //
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
             />
           </Route>
           <Route path="/">

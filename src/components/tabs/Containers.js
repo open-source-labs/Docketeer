@@ -164,7 +164,7 @@ const Containers = (props) => {
           Exited Containers: {props.stoppedList.length}
         </h1>
       </div>
-      <div className="containers">{renderStoppedList}</div>
+      <div className="stopped-containers">{renderStoppedList}</div>
     </div>
   );
 };

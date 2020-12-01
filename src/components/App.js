@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../actions/actions";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Metrics from "./tabs/Metrics";
 import Images from "./tabs/Images";
 import Yml from "./tabs/Yml";
-import Running from "./tabs/Running";
-import Stopped from "./tabs/Stopped";
+import Containers from "./tabs/Containers";
 import * as helper from "./helper/commands";
 import Docketeer from "../../assets/docketeer-title.png";
 import Settings from "./tabs/Settings";
@@ -170,13 +169,13 @@ const App = () => {
             />
           </Route>
           <Route path="/running">
-            <Running
+            <Containers
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
               addRunningContainers={addRunningContainers}
-              //
+              // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}
               removeContainer={removeContainer}

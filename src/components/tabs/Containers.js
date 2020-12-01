@@ -9,19 +9,7 @@ import ToggleDisplay from "../display/ToggleDisplay";
  * @param {*} props
  * Display all running and stopped containers
  */
-const Running = (props) => {
-  // const [run, setRun] = useState("");
-
-  // const handleClick = (e) => {
-  //   e.preventDefault();
-  //   props.runIm(
-  //     run,
-  //     props.runningList,
-  //     helper.addRunning,
-  //     props.addRunningcontainer
-  //   );
-  // };
-
+const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
       <div className="box" key={`stoppedBox-${i}`}>
@@ -55,7 +43,7 @@ const Running = (props) => {
     );
   });
 
-  let renderRunningList = props.runningList.map((container, i) => {
+  const renderRunningList = props.runningList.map((container, i) => {
     let cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -165,16 +153,20 @@ const Running = (props) => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <h1 className="tabTitle">Running Containers</h1>
+        <h1 className="tabTitle">
+          Running Containers: {props.runningList.length}
+        </h1>
       </div>
       <div className="containers">{renderRunningList}</div>
 
       <div className="header">
-        <h1 className="tabTitle">Exited Containers</h1>
+        <h1 className="tabTitle">
+          Exited Containers: {props.stoppedList.length}
+        </h1>
       </div>
       <div className="containers">{renderStoppedList}</div>
     </div>
   );
 };
 
-export default Running;
+export default Containers;

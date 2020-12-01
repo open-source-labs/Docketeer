@@ -22,8 +22,11 @@ function shallowSetup() {
     ],
     stoppedList: [
       {
-        ID: "a802306eeac3",
-        Name: "blissful_matsumoto",
+        Name: "zealous",
+        ID: "c902ec744095",
+        Img: "84c5f6e03bf0",
+        Created: "2 days ago",
+        name: "zealous_pare",
       },
     ],
   };
@@ -36,7 +39,7 @@ function shallowSetup() {
 }
 
 describe("Running containers are being rendered", () => {
-  const { enzymeWrapper, props } = shallowSetup();
+  const { enzymeWrapper } = shallowSetup();
   it("Should render <div> tag that has class renderContainers in Running", () => {
     expect(enzymeWrapper.type()).toEqual("div");
     expect(enzymeWrapper.hasClass("renderContainers")).toEqual(true);
@@ -47,5 +50,36 @@ describe("Running containers are being rendered", () => {
     expect(enzymeWrapper.find(".stopped-containers").children().length).toEqual(
       1
     );
+  });
+});
+
+describe("It should render the exited containers", () => {
+  const { enzymeWrapper } = shallowSetup();
+  it("Should render <div> tag in Stopped", () => {
+    expect(enzymeWrapper.type()).toEqual("div");
+  });
+
+  it("Should have className run-btn in Stopped component", () => {
+    expect(
+      enzymeWrapper.find(".stopped-button").props().children[0].props.className
+    ).toEqual("run-btn");
+  });
+
+  it("ClassName run-btn in Stopped component have onClick function", () => {
+    expect(
+      enzymeWrapper.find(".stopped-button").props().children[0].props.onClick
+    ).toBeDefined();
+  });
+
+  it("Should have className stop-btn in Stopped component", () => {
+    expect(
+      enzymeWrapper.find(".stopped-button").props().children[1].props.className
+    ).toEqual("stop-btn");
+  });
+
+  it("ClassName stop-btn in Stopped component have onClick function", () => {
+    expect(
+      enzymeWrapper.find(".stopped-button").props().children[1].props.onClick
+    ).toBeDefined();
   });
 });

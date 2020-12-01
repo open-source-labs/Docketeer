@@ -344,14 +344,14 @@ const Settings = (props) => {
       <TableRow key={i} id="settings-row">
         <TableCell>
           <span className="container-name">
-            {container.Names ? container.Names : container.Name}{" "}
+            {container.Names ? container.Names : container.Name}
             {/* Stopped containers have a .Names key. Running containers have a .Name key */}
           </span>
         </TableCell>
         <TableCell>
           <span className="container-id">{container.ID}</span>
         </TableCell>
-        <TableCell>{container.img}</TableCell>
+        <TableCell>{container.Image}</TableCell>
         <TableCell align="center">
           <Checkbox
             onClick={(event) =>

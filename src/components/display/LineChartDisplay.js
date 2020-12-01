@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { convertToMetricsArr } from "../helper/parseContainerFormat";
-import { Pie, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import * as actions from "../../actions/actions";
 import query from "../helper/psqlQuery";
 import * as helper from "../helper/commands";
-import * as queryType from "../../constants/queryTypes";
-import { Link, Redirect, BrowserRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -26,7 +24,6 @@ const Metrics = (props) => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState("4");
-  const [graphColor, setGraphColor] = useState(0);
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const axis = useSelector((state) => state.graphs.graphAxis);
@@ -88,7 +85,7 @@ const Metrics = (props) => {
     buildMemory("clear");
     buildCpu("clear");
     buildAxis("clear");
-    //if active containers is empty render the empty graphs
+    // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
     }
@@ -246,7 +243,7 @@ const Metrics = (props) => {
         author = ob.author;
         text = "Github Commits";
         url = (
-          <a href={url} target="_blank">
+          <a href={url} target="_blank" rel="noreferrer">
             {text}
           </a>
         );
@@ -346,7 +343,7 @@ const Metrics = (props) => {
     maintainAspectRatio: false,
   };
 
-  /* Consider if we can combine these two. Wasn't rendering active containers when tested*/
+  /* Consider if we can combine these two. Wasn't rendering active containers when tested */
   selectList();
   useEffect(() => {
     formatData();

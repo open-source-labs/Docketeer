@@ -16,6 +16,7 @@ const Login = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
+    
   const handleClick = (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;

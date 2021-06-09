@@ -9,16 +9,6 @@ const SignupModal = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    // setUsername(document.getElementById('username').value);
-    // setPassword(document.getElementById('password').value);
-    // setEmail(document.getElementById('email').value);
-
-    // const signupUsername = document.getElementById('signupUsername').value;
-    // const signupPassword = document.getElementById('signupPassword').value;
-    // const signupEmail = document.getElementById('signupEmail').value;
-    // setUsername(document.getElementById('username').value);
-    // setPassword(document.getElementById('password').value);
-    // setEmail(document.getElementById('email').value);
 
     setUsername(document.getElementById('signupUsername').value);
     setPassword(document.getElementById('signupPassword').value);

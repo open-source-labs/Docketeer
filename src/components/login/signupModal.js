@@ -14,7 +14,7 @@ const SignupModal = () => {
     setPassword(document.getElementById('signupPassword').value);
     setEmail(document.getElementById('signupEmail').value);
     console.log(username, password, email);
-
+    //comment
   };
 
   return (

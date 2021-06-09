@@ -51,7 +51,8 @@ const App = () => {
   const stoppedNotificationList = useSelector(
     (state) => state.notificationList.stoppedNotificationList
   );
-
+  
+  // declare a local state variable called selected, initialize to "/"
   const [selected, setSelected] = useState("/");
 
   useEffect(() => {

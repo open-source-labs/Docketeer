@@ -9,7 +9,7 @@ const SignupModal = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-
+    // comment
     setUsername(document.getElementById('signupUsername').value);
     setPassword(document.getElementById('signupPassword').value);
     setEmail(document.getElementById('signupEmail').value);

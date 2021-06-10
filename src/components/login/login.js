@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import App from '../App';
 import SignupModal from './signupModal';
+import fetch from 'electron-fetch';
 
 const Login = () => {
   useEffect(() => {
@@ -11,11 +12,21 @@ const Login = () => {
 
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ modalIsOpen, setIsOpen ] = useState(false);
-.
+
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
-    
+  // fetch('http://www.google.com')
+  // .then((response)=>{
+  //   console.log(response);
+  //   return response.json();
+  // }).then((data)=>{
+  //   console.log('next one');
+  //   console.log('big BIG DATA', data);
+  // }).catch((err)=>{
+  //   console.error('dis is baaad man(error)', err)
+  // })
+  
   const handleClick = (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;

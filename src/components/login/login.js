@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import App from '../App';
 import SignupModal from './signupModal';
 
+class DebugRouter extends Router {
+  constructor(props){
+    super(props);
+    console.log('initial history is: ', JSON.stringify(this.history, null,2))
+    this.history.listen((location, action)=>{
+      console.log(
+        `The current URL is ${location.pathname}${location.search}${location.hash}`
+      )
+      console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
+    });
+  }
+}
 const Login = () => {
   useEffect(() => {
     Modal.setAppElement('body');
@@ -22,7 +34,6 @@ const Login = () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     console.log('clicked');
-    setSelected('/app');
     authenticateUser(username, password);
   }
   
@@ -38,10 +49,12 @@ const Login = () => {
   if (loggedIn){
     return (
       <div>
-        <Redirect to="/app"/>
-        <Switch>
-          <Route component={App} exact path="/app" />
-        </Switch>
+        <Router>
+          <Redirect to="/app"/>
+          <Switch>
+            <Route component={App} exact path="/app" />
+          </Switch>
+        </Router>
       </div>
     )
   };

@@ -35,7 +35,7 @@ const Login = () => {
     console.log('clicked');
     authenticateUser(username, password);
   }
-  
+       
   const authenticateUser = (username, password) => {
     if (username === 'codesmith' && password === 'narwhals'){
       setLoggedIn(true);

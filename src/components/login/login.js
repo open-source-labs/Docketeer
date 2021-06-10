@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import App from '../App';
 import SignupModal from './signupModal';
 
@@ -12,7 +11,7 @@ const Login = () => {
 
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ modalIsOpen, setIsOpen ] = useState(false);
-
+.
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
@@ -22,7 +21,6 @@ const Login = () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     console.log('clicked');
-    setSelected('/app');
     authenticateUser(username, password);
   }
   
@@ -37,12 +35,12 @@ const Login = () => {
 
   if (loggedIn){
     return (
-      <div>
+      <Router>
         <Redirect to="/app"/>
         <Switch>
           <Route component={App} exact path="/app" />
         </Switch>
-      </div>
+      </Router>
     )
   };
   

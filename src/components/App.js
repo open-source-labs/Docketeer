@@ -104,7 +104,7 @@ const App = () => {
               </li>
               <li>
                 <Link
-                  to="/app/running"
+                  to="/running"
                   style={selected === "/running" ? selectedStyling : null}
                   onClick={() => setSelected(() => "/running")}
                 >

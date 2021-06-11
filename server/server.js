@@ -1,5 +1,5 @@
-const path = require('path');
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 
 const app = express();
@@ -7,7 +7,7 @@ const PORT = 3000;
 
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-app.use(cors()); // this enables ALL cors requests
+app.use(cors()); // enables ALL cors requests
 
 // Sample route handler to test out connection between Electron app and backend server hosted on Port 3000
 app.post('/', (req, res) => {
@@ -22,7 +22,6 @@ app.use('/', (req, res) => {
 
 // Global Error Handler
 app.get('/', (req, res, next, err)=> {
-
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
@@ -32,7 +31,6 @@ app.get('/', (req, res, next, err)=> {
   const errorObj = Object.assign(defaultErr, err);
   
   return res.status(errObj.status).json(errorObj.message);
-
 })
 
 // Open up server on PORT

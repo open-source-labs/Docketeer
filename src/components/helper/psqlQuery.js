@@ -1,10 +1,10 @@
 const { Pool } = require("pg");
 
 const PG_URI =
-  'postgres://iantsjub:JOVo9S8diTeALh2foS2Kjk9HGBoUUAnY@kashin.db.elephantsql.com/iantsjub';
+  'postgres://xttcmwad:l_TsGQzJ02tn6aM7fQJTp1TyjbKT5k6i@kashin.db.elephantsql.com/xttcmwad';
 
 const pool = new Pool({
-  host: "localhost",
+  host: "localhost", 
   user: "postgres",
   password: "postgres",
   database: "docketeer-db",
@@ -15,7 +15,7 @@ const cloudPool = new Pool({
   connectionString: PG_URI,
 });
 
-const cloudQuery = (text, params, callback) => {
+export const cloudQuery = (text, params, callback) => {
   console.log('executed cloud query', text);
   return cloudPool.query(text, params, callback);
 }

@@ -11,3 +11,4 @@ src/components/display/.RunningContainers.js.icloud
 src/components/display/.StoppedContainers.js.icloud
 src/database/docketeerdb
 .env
+yarn.lock

@@ -6,7 +6,7 @@
   "author": "Team Docketeer",
   "proxy": "http://localhost:3000",
   "scripts": {
-    "dev": "NODE_ENV=development electron-webpack dev",
+    "dev": "cross-env NODE_ENV=development electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",
@@ -81,7 +81,14 @@
   "electronWebpack": {
     "whiteListedModules": [
       "react-redux"
-    ]
+    ],
+    "main": {
+      "sourceDirectory": "src/main"
+    },
+    "renderer": {
+      "sourceDirectory": "src/renderer",
+      "template": "src/renderer/index.html"
+    }
   },
   "repository": {
     "type": "git",

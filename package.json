@@ -5,6 +5,7 @@
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
   "proxy": "http://localhost:3000",
+  "main": "./src/main/main.js",
   "scripts": {
     "dev": "NODE_ENV=development electron-webpack dev",
     "compile": "electron-webpack",

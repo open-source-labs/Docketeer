@@ -15,6 +15,15 @@ app.post('/', (req, res) => {
   res.status(200).json('response sent to client');
 })
 
+// test route handler for logins... remove once we merge with Cat's end
+app.post('/login', (req, res) => {
+  if (req.body.username === 'codesmith' && req.body.password === 'narwhals'){
+    return res.status(200).json(true);
+  }
+  else {
+    return res.status(200).json(false);
+  }
+})
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
   res.status(404).json('404 Not Found');

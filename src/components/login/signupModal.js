@@ -66,11 +66,12 @@ const SignupModal = () => {
       return response.json();
     })
     .then((data) => {
-      if (data === true) {
-        setLoggedIn(true);
+      console.log(data);
+      if (typeof data === 'object') {
+        window.alert(data.error);
       }
       else {
-        window.alert('incorrect password');
+        setLoggedIn(true);
       }
     })
     .catch((err) => {

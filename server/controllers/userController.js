@@ -1,4 +1,5 @@
 const db = require('../models/cloudModel');
+const bcrypt = require('bcryptjs');
 
 const userController = {};
 
@@ -7,9 +8,24 @@ userController.createUser = (req, res, next) => {
   if (res.locals.error) return next();
 
   const { username, email, password, phone } = req.body;
-  const userDetails = [username, email, password, phone];
+  // let hashPassword;
 
+  // bcrypt.hash(password, 10)
+  //   .then((hash) => {
+  //     console.log('hash: ', hash);
+  //     hashPassword = `'${hash}'`;
+  //     console.log(hashPassword);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     return next({
+  //       log: `Error in userController newUser: ${err}`,
+  //       message: { err: 'An error occured creating hash with bcrypt. See userController.newUser.' },
+  //     });
+  //   });
+  
   const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING _id;`;
+  const userDetails = [username, email, password, phone];
 
   if (username && password) {
     db.query(createUser, userDetails)

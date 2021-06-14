@@ -76,6 +76,7 @@ app.on("ready", () => {
   mainWindow = createMainWindow();
 });
 
+// comment out lines 79-83 if dev tools is slowing app
 app.whenReady().then(() => {
   installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
       .then((name) => console.log(`Added Extension:  ${name}`))

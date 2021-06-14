@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module User Controller
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies username/password upon login or signup
+ *
+ * ************************************
+ */
+
 const db = require('../models/cloudModel');
 const bcrypt = require('bcryptjs');
 

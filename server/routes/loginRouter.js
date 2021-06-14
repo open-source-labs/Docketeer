@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module Login Router
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Routes all requests to login endpoint 
+ *
+ * ************************************
+ */
+
 const express = require('express');
 const userController = require('../controllers/userController');
 const cookieController = require('../controllers/cookieController');
@@ -14,16 +25,5 @@ router.post('/',
     return res.status(200).json(res.locals.id);
   }
 );
-
-// router.get('/', userController.getUsers, (req, res) => {
-//   console.log('made it back to signup router');
-//   return res.status(200).json(res.locals.users);
-// });
-
-// router.post('/', userController.newUser, (req, res) => {
-//   console.log('made it back to signup router');
-//   return res.status(200).json('user added');
-// });
-
 
 module.exports = router;

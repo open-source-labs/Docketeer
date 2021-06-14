@@ -1,13 +1,13 @@
 /**
- * ************************************
- *
- * @module <file name or app component>
- * @author Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara, Alex Smith
- * @date 6/10/2021
- * @description schema for user information/roles database
- *
- * ************************************
- */
+* ************************************
+*
+* @module Cloud Database Schema
+* @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+* @date 6/14/2021
+* @description Schema for elephantSQL cloud database that contains user/role information
+*
+* ************************************
+*/
 
 CREATE TABLE IF NOT EXISTS roles (
   _id SERIAL NOT NULL,

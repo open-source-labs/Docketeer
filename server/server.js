@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module Server
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Server listens on port 3000 and routes all incoming requests, handles global middleware errors and unknown endpoint errors
+ *
+ * ************************************
+ */
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -12,12 +23,6 @@ const PORT = 3000;
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
-
-// Sample route handler to test out connection between Electron app and backend server hosted on Port 3000
-// app.post('/', (req, res) => {
-//   console.log('Request body: ', req.body);
-//   res.status(200).json('response sent to client');
-// })
 
 // route all requests to signup through signupRouter
 app.use('/signup', signupRouter);

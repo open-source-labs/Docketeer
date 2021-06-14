@@ -28,27 +28,27 @@ const Login = () => {
   const closeModal = () => setIsOpen(false);
   
   // example fetch request to localhost:3000/
-  fetch('http://localhost:3000/', 
-    { 
-      method: 'POST', 
-      // mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        key: 'hello',
-      })
-    })
-    .then((response) => {
-      console.log('RESPONSE: ', response);
-      return response.json();
-    })
-    .then((data) => {
-      console.log('DATA: ', data);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  // fetch('http://localhost:3000/', 
+  //   { 
+  //     method: 'POST', 
+  //     // mode: 'no-cors',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       key: 'hello',
+  //     })
+  //   })
+  //   .then((response) => {
+  //     console.log('RESPONSE: ', response);
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     console.log('DATA: ', data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
 
   // change what you need
   console.log(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);

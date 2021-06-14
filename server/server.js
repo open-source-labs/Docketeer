@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+// import router
+const signupRouter = require('./routes/signupRouter');
+
 const app = express();
 const PORT = 3000;
 
@@ -10,10 +13,13 @@ app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
 
 // Sample route handler to test out connection between Electron app and backend server hosted on Port 3000
-app.post('/', (req, res) => {
-  console.log('Request body: ', req.body);
-  res.status(200).json('response sent to client');
-})
+// app.post('/', (req, res) => {
+//   console.log('Request body: ', req.body);
+//   res.status(200).json('response sent to client');
+// })
+
+// route all requests to signup through signupRouter
+app.use('/signup', signupRouter)
 
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
@@ -29,6 +35,8 @@ app.get('/', (req, res, next, err)=> {
   };
 
   const errorObj = Object.assign(defaultErr, err);
+
+  console.log(errorObj.log);
   
   return res.status(errObj.status).json(errorObj.message);
 })

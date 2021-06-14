@@ -2,6 +2,8 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 import { format as formatUrl } from "url";
+// import server from "../../server/server.js";
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
 import verifyCode from "./twilio/verifyCode";
 import verifyMobileNumber from "./twilio/verifyMobile";
@@ -74,6 +76,12 @@ app.on("ready", () => {
   mainWindow = createMainWindow();
 });
 
+// comment out lines 79-83 if dev tools is slowing app
+app.whenReady().then(() => {
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+});
 // if (module.hot) {
 //   module.hot.accept();
 // }

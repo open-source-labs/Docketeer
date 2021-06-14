@@ -1,77 +1,90 @@
-import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+/**
+ * ************************************
+ *
+ * @module Login
+ * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @date 6/10/2021
+ * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
+ *
+ * ************************************
+ */
+import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import App from '../App';
 import SignupModal from './signupModal';
-// import fetch from 'electron-fetch';
+import DebugRouter from '../debug/debugRouter';
 
-class DebugRouter extends Router {
-  constructor(props){
-    super(props);
-    console.log('initial history is: ', JSON.stringify(this.history, null,2))
-    this.history.listen((location, action)=>{
-      console.log(
-        `The current URL is ${location.pathname}${location.search}${location.hash}`
-      )
-      console.log(`The last navigation action was ${action}`, JSON.stringify(this.history, null,2));
-    });
-  }
-}
+
 const Login = () => {
+  
+  // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
     Modal.setAppElement('body');
   }, []);
 
+  // Local state variables 
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ modalIsOpen, setIsOpen ] = useState(false);
+
+  // Modal functions
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
-  // example fetch request to localhost:3000/
-  // fetch('http://localhost:3000/', 
-  //   { 
-  //     method: 'POST', 
-  //     // mode: 'no-cors',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       key: 'hello',
-  //     })
-  //   })
-  //   .then((response) => {
-  //     console.log('RESPONSE: ', response);
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     console.log('DATA: ', data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   })
+  // callback function invoked when 'login' button is clicked
+  const handleLogin = (e) => {
+    e.preventDefault(); // prevents form submit from reloading page
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const username = usernameInput.value;
+    const password = passwordInput.value;
 
-  // change what you need
-  console.log(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
-  const handleClick = (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    // clears input fields after login
+    usernameInput.value = '';
+    passwordInput.value = '';
+
     console.log('clicked');
     authenticateUser(username, password);
   }
-       
+  
+  // callback function which will send request to endpoint http://localhost:3000/login and expect either SSID in cookie.
   const authenticateUser = (username, password) => {
-    if (username === 'codesmith' && password === 'narwhals'){
-      setLoggedIn(true);
-    }
-    else {
-      window.alert('incorrect password');
-    }
+
+    fetch('http://localhost:3000/login', 
+    { 
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data === true) {
+        setLoggedIn(true);
+      }
+      else {
+        window.alert('incorrect password');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
+  // Upon successful login, redirect to /app location and render the App component
+
+  // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
   if (loggedIn){
     return (
-      <Router>
+      <Router
+        history={BrowserHistory}
+      >
         <Redirect to="/app"/>
         <Switch>
           <Route component={App} exact path="/app" />
@@ -80,25 +93,32 @@ const Login = () => {
     )
   };
   
+  // Else render the login page
   return (
-    <Route id="route" path="/"> 
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={handleClick}>
-          <input id="username" type="text" placeholder="username"></input>
-          <input id="password" type="password" placeholder="password"></input>
-          <input type="submit"></input>
-        </form>
-        <button id="signup" onClick={openModal}>Sign Up</button>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel='Modal to make user account'
-        >
-          <SignupModal />
-        </Modal>
-      </div>
-    </Route>
+    <Router 
+      history={BrowserHistory}
+    >
+      <Route id="route" path="/"> 
+        <div>
+          <h1>Login</h1>
+          <form onSubmit={handleLogin}>
+            <input id="username" type="text" placeholder="username"></input>
+            <br></br>
+            <input id="password" type="password" placeholder="password"></input>
+            <br></br>
+            <input type="submit"></input>
+          </form>
+          <button id="signup" onClick={openModal}>Sign Up</button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel='Modal to make user account'
+          >
+            <SignupModal />
+          </Modal>
+        </div>
+      </Route>
+    </Router>
   );
 };
 

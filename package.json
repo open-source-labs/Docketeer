@@ -5,6 +5,7 @@
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
   "proxy": "http://localhost:3000",
+  "main": "./src/main/main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development concurrently 'electron-webpack dev' 'nodemon server/server.js'",
     "compile": "electron-webpack",
@@ -35,6 +36,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "electron-chartjs": "^1.0.0",
+    "electron-devtools-installer": "^3.2.0",
     "electron-fetch": "^1.7.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",

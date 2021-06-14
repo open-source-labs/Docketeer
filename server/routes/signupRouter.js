@@ -34,6 +34,7 @@ router.post('/',
   userController.createUser,
   cookieController.setCookie,
   cookieController.setSSIDCookie,
+  cookieController.setAdminCookie,
   (req, res) => {
     console.log('made it back to signup router');
     if (res.locals.error) return res.status(200).json(res.locals.error);

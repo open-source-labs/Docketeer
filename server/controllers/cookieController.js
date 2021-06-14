@@ -24,11 +24,21 @@ cookieController.setCookie = (req, res, next) => {
 // store the user id in a cookie
 cookieController.setSSIDCookie = (req, res, next) => {
   if (res.locals.error) return next();
- 
-  res.cookie('ssid', res.locals.id, { httpOnly: true });
+  
+  res.cookie('ssid', res.locals.user._id, { httpOnly: true });
   next();
 }
 
 // admin secret cookie
+cookieController.setAdminCookie = (req, res, next) => {
+  if (res.locals.error) return next();
+
+  const { role } = res.locals.user;
+  
+  if (role === 'admin') res.cookie('adminType', role, { httpOnly: true });
+  if (role === 'system admin') res.cookie('adminType', role, { httpOnly: true });
+
+  return next();
+}
 
 module.exports = cookieController;

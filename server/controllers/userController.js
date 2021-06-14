@@ -4,13 +4,12 @@
  * @module User Controller
  * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
  * @date 6/14/2021
- * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies username/password upon login or signup
+ * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  *
  * ************************************
  */
 
 const db = require('../models/cloudModel');
-// const bcrypt = require('bcryptjs');
 
 const userController = {};
 
@@ -21,13 +20,14 @@ userController.createUser = (req, res, next) => {
   const { username, email, phone } = req.body;
   const { hash } = res.locals;
   
-  const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING _id;`;
+  const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *;`;
   const userDetails = [username, email, hash, phone];
 
   if (username && hash) {
     db.query(createUser, userDetails)
     .then((data) => {
-      res.locals.id = data.rows[0]._id;
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
       console.log('user added');
       return next();
     })

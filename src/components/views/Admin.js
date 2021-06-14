@@ -24,7 +24,7 @@ import Login from "../login/login";
 /**
  * Container component that has all redux logic along with react router
  */
-const AdminView = () => {
+const AdminView = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
   const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
@@ -50,10 +50,10 @@ const AdminView = () => {
   
   // declare a local state variable called selected, initialize to "/"
   const [selected, setSelected] = useState("/");
-  const [ loggedIn, setLoggedIn ] = useState(true);
+  // const [ loggedIn, setLoggedIn ] = useState(true);
 
   const handleLogout = (e) => {
-    setLoggedIn(false);
+    props.setLoggedIn(false);
   };
 
   useEffect(() => {
@@ -86,17 +86,17 @@ const AdminView = () => {
     borderBottomRightRadius: "10px",
   };
 
-  if (!loggedIn) {
-    console.log('loggedOut');
-    return (
-      <Router>
-        <Redirect to="/"/>
-        <Switch>
-          <Route component={Login} exact path="/" />
-        </Switch>
-      </Router>
-    )
-  }
+  // if (!loggedIn) {
+  //   console.log('loggedOut');
+  //   return (
+  //     <Router>
+  //       <Redirect to="/"/>
+  //       <Switch>
+  //         <Route component={Login} exact path="/" />
+  //       </Switch>
+  //     </Router>
+  //   )
+  // }
   return (
     <Router>
       <div className="container">

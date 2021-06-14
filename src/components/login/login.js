@@ -18,6 +18,7 @@ import DebugRouter from '../debug/debugRouter';
 
 const Login = () => {
   
+  console.log('LOGIN COMPONENT');
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
     Modal.setAppElement('body');
@@ -81,14 +82,18 @@ const Login = () => {
 
   // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
   if (loggedIn){
+    console.log('LOGGED IN');
     return (
       <Router
         history={BrowserHistory}
       >
         <Redirect to="/app"/>
         <Switch>
-          <Route component={App} exact path="/app" />
-        </Switch>
+          {/* <Route component={App} exact path="/app" /> */}
+          <Route path="/app">
+            <App loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+          </Route>
+        </Switch> 
       </Router>
     )
   };

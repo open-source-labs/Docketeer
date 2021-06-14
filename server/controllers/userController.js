@@ -4,16 +4,17 @@ const userController = {};
 
 // create new user
 userController.createUser = (req, res, next) => {
-  const { username, email, password } = req.body;
-  console.log(username, email, password);
-  const userDetails = [username, email, password];
+  if (res.locals.error) return next();
 
-  const createUser = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3);`;
+  const { username, email, password, phone } = req.body;
+  const userDetails = [username, email, password, phone];
 
-  if (username && password.length > 6) {
+  const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING _id;`;
+
+  if (username && password) {
     db.query(createUser, userDetails)
-    .then((response) => {
-      console.log(response);
+    .then((data) => {
+      res.locals.id = data.rows[0]._id;
       console.log('user added');
       return next();
     })
@@ -54,7 +55,7 @@ userController.verifyUser = (req, res, next) => {
     return next();
   }
 
-  const checkUser = `SELECT * FROM users WHERE username='${username}';`
+  const checkUser = `SELECT * FROM users WHERE username='${username}';`;
 
   db.query(checkUser)
     .then((data) => {

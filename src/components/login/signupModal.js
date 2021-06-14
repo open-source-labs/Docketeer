@@ -25,9 +25,9 @@ const SignupModal = () => {
       document.getElementById('password-alert').innerHTML = 'Warning: Passwords do not match';
     }
 
-    if(!checkEmail(email)) {
-      document.getElementById('email-alert').innerHTML = 'Warning: Email is invalid'
-    }
+    // if(!checkEmail(email)) {
+    //   document.getElementById('email-alert').innerHTML = 'Warning: Email is invalid'
+    // }
     console.log('password: ', confirmPassword(password, confirmationPassword));
     console.log(username, password, confirmationPassword, email, phone);
 
@@ -48,7 +48,34 @@ const SignupModal = () => {
   }
 
   const signupUser = (email, username, password, phone) => {
-
+    console.log('SIGN UP USER');
+    fetch('http://localhost:3000/signup', 
+    { 
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email,
+        phone: phone
+      })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data === true) {
+        setLoggedIn(true);
+      }
+      else {
+        window.alert('incorrect password');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   };
 
   return (

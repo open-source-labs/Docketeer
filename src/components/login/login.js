@@ -10,7 +10,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import App from '../App';
 import SignupModal from './signupModal';
 import DebugRouter from '../debug/debugRouter';
@@ -31,28 +31,6 @@ const Login = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
-  // example fetch request to localhost:3000/
-  // fetch('http://localhost:3000/', 
-  //   { 
-  //     method: 'POST', 
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       key: 'hello',
-  //     })
-  //   })
-  //   .then((response) => {
-  //     console.log('RESPONSE: ', response);
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     console.log('DATA: ', data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   })
-
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {
     e.preventDefault(); // prevents form submit from reloading page
@@ -104,7 +82,9 @@ const Login = () => {
   // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
   if (loggedIn){
     return (
-      <Router>
+      <Router
+        history={BrowserHistory}
+      >
         <Redirect to="/app"/>
         <Switch>
           <Route component={App} exact path="/app" />
@@ -115,26 +95,30 @@ const Login = () => {
   
   // Else render the login page
   return (
-    <Route id="route" path="/"> 
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={handleLogin}>
-          <input id="username" type="text" placeholder="username"></input>
-          <br></br>
-          <input id="password" type="password" placeholder="password"></input>
-          <br></br>
-          <input type="submit"></input>
-        </form>
-        <button id="signup" onClick={openModal}>Sign Up</button>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel='Modal to make user account'
-        >
-          <SignupModal />
-        </Modal>
-      </div>
-    </Route>
+    <Router 
+      history={BrowserHistory}
+    >
+      <Route id="route" path="/"> 
+        <div>
+          <h1>Login</h1>
+          <form onSubmit={handleLogin}>
+            <input id="username" type="text" placeholder="username"></input>
+            <br></br>
+            <input id="password" type="password" placeholder="password"></input>
+            <br></br>
+            <input type="submit"></input>
+          </form>
+          <button id="signup" onClick={openModal}>Sign Up</button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel='Modal to make user account'
+          >
+            <SignupModal />
+          </Modal>
+        </div>
+      </Route>
+    </Router>
   );
 };
 

@@ -7,7 +7,7 @@
   "proxy": "http://localhost:3000",
   "main": "./src/main/main.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development electron-webpack dev",
+    "dev": "cross-env NODE_ENV=development concurrently 'electron-webpack dev' 'nodemon server/server.js'",
     "compile": "electron-webpack",
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",
@@ -36,6 +36,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "electron-chartjs": "^1.0.0",
+    "electron-devtools-installer": "^3.2.0",
     "electron-fetch": "^1.7.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
@@ -68,6 +69,7 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.2.1",
     "babel-polyfill": "^6.26.0",
+    "concurrently": "^6.2.0",
     "electron": "^10.1.0",
     "electron-builder": "^22.4.1",
     "electron-webpack": "^2.8.2",
@@ -75,6 +77,7 @@
     "enzyme-to-json": "^3.5.0",
     "eslint": "^7.9.0",
     "eslint-plugin-react": "^7.20.6",
+    "nodemon": "^2.0.7",
     "react-test-renderer": "^16.13.1",
     "redux-thunk": "^2.3.0",
     "webpack": "^4.44.1"

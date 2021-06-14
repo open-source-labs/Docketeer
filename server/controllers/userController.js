@@ -3,31 +3,35 @@ const bcrypt = require('bcryptjs');
 
 const userController = {};
 
+// hash user password with bcrypt
+userController.bcrypt = (req, res, next) => {
+  const { password } = req.body;
+  const saltRounds = 10;
+
+  bcrypt.hash(password, saltRounds)
+    .then((hash) => {
+      res.locals.hash = hash;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController bcrypt: ${err}`,
+        message: { err: 'An error occured creating hash with bcrypt. See userController.bcrypt.' },
+      });
+    })
+}
+
 // create new user
 userController.createUser = (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { username, email, password, phone } = req.body;
-  // let hashPassword;
-
-  // bcrypt.hash(password, 10)
-  //   .then((hash) => {
-  //     console.log('hash: ', hash);
-  //     hashPassword = `'${hash}'`;
-  //     console.log(hashPassword);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     return next({
-  //       log: `Error in userController newUser: ${err}`,
-  //       message: { err: 'An error occured creating hash with bcrypt. See userController.newUser.' },
-  //     });
-  //   });
+  const { username, email, phone } = req.body;
+  const { hash } = res.locals;
   
   const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING _id;`;
-  const userDetails = [username, email, password, phone];
+  const userDetails = [username, email, hash, phone];
 
-  if (username && password) {
+  if (username && hash) {
     db.query(createUser, userDetails)
     .then((data) => {
       res.locals.id = data.rows[0]._id;
@@ -62,7 +66,7 @@ userController.getAllUsers = (req, res, next) => {
     });
 }
 
-// verify user
+// verify user's information is complete and check if entered password is correct
 userController.verifyUser = (req, res, next) => {
   const { username, password } = req.body;
 

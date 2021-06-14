@@ -15,7 +15,7 @@ signupController.usernameCheck = (req, res, next) => {
         res.locals.error = 'Username already exists.';
         return next();
       } else {
-        console.log('Username checked for uniqueness.');
+        console.log('Username is unique.');
         return next();
       }
     })

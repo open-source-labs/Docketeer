@@ -19,12 +19,12 @@ app.use(cors()); // enables ALL cors requests
 // })
 
 // route all requests to signup through signupRouter
-app.use('/signup', signupRouter)
+app.use('/signup', signupRouter);
 
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
-  res.status(404).json('404 Not Found');
-})
+  return res.status(404).json('404 Not Found');
+});
 
 // Global Error Handler
 app.get('/', (req, res, next, err)=> {
@@ -39,7 +39,7 @@ app.get('/', (req, res, next, err)=> {
   console.log(errorObj.log);
   
   return res.status(errObj.status).json(errorObj.message);
-})
+});
 
 // Open up server on PORT
 app.listen(PORT, ()=> {

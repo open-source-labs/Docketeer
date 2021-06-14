@@ -2,8 +2,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 import { format as formatUrl } from "url";
-import server from "../../server/server.js";
-
 
 import verifyCode from "./twilio/verifyCode";
 import verifyMobileNumber from "./twilio/verifyMobile";

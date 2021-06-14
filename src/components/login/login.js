@@ -65,7 +65,7 @@ const Login = () => {
       return response.json();
     })
     .then((data) => {
-      if (typeof data === 'object') {
+      if (data.hasOwnProperty('error')) {
         window.alert(data.error);
       }
       else {
@@ -76,7 +76,7 @@ const Login = () => {
       console.log(err);
     })
   }
-
+  
   // Upon successful login, redirect to /app location and render the App component
 
   // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.

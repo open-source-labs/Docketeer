@@ -11,6 +11,7 @@
 
 const express = require('express');
 const signupController = require('../controllers/signupController');
+const bcryptController = require('../controllers/bcryptController');
 const userController = require('../controllers/userController');
 const cookieController = require('../controllers/cookieController');
 
@@ -29,7 +30,7 @@ router.get('/',
 router.post('/', 
   signupController.usernameCheck,
   signupController.passwordCheck,
-  userController.bcrypt,
+  bcryptController.hashPassword,
   userController.createUser,
   cookieController.setCookie,
   cookieController.setSSIDCookie,

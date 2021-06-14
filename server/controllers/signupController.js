@@ -53,6 +53,16 @@ signupController.passwordCheck = (req, res, next) => {
   }
 }
 
+// verify user's information is complete
+signupController.completedFormCheck = (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) res.locals.error = 'Missing username or password.'
+  return next();
+}
+
+
+
 // verify admin role
 
 module.exports = signupController;

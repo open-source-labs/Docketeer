@@ -10,27 +10,9 @@
  */
 
 const db = require('../models/cloudModel');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 const userController = {};
-
-// hash user password with bcrypt
-userController.bcrypt = (req, res, next) => {
-  const { password } = req.body;
-  const saltRounds = 10;
-
-  bcrypt.hash(password, saltRounds)
-    .then((hash) => {
-      res.locals.hash = hash;
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController bcrypt: ${err}`,
-        message: { err: 'An error occured creating hash with bcrypt. See userController.bcrypt.' },
-      });
-    })
-}
 
 // create new user
 userController.createUser = (req, res, next) => {
@@ -77,35 +59,61 @@ userController.getAllUsers = (req, res, next) => {
     });
 }
 
-// verify user's information is complete and check if entered password is correct
+// verify user exists and send back user info
 userController.verifyUser = (req, res, next) => {
-  const { username, password } = req.body;
+  if (res.locals.error) return next();
 
-  if (!username || !password) {
-    res.locals.error = 'Missing username or password.';
-    return next();
-  }
+  const { username } = req.body;
 
-  const checkUser = `SELECT * FROM users WHERE username='${username}';`;
+  const getUser = `SELECT * FROM users WHERE username='${username}';`;
 
-  db.query(checkUser)
+  db.query(getUser)
     .then((data) => {
-      if (data.rows[0].password === password) {
-        res.locals.id = data.rows[0]._id;
-        return next();
-      } else {
-        res.locals.error = 'Incorrect username or password.';
-        return next();
-      }
+      data.rows[0] ? res.locals.user = data.rows[0] : res.locals.error = 'Incorrect username or password.';
+      return next();
     })
     .catch((err) => {
-      res.locals.error = err;
       return next({
-        log: `Error in userController verifyUser: ${err}`,
-        message: { err: 'An error occured verifying user. See userController.verifyUser.' },
+        log: `Error in userController checkUserExists: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.checkUserExists.' },
       });
-    });
-};
+    })
+}
+
+// verify user's information is complete and check if entered password is correct
+// userController.verifyUser = (req, res, next) => {
+//   if (res.locals.error) return next();
+
+//   const { username, password } = req.body;
+//   const { hash } = res.locals;
+
+//   if (!username || !password) {
+//     res.locals.error = 'Missing username or password.';
+//     return next();
+//   }
+
+//   const checkUser = `SELECT * FROM users WHERE username='${username}';`;
+
+//   db.query(checkUser)
+//     .then((data) => {
+//       console.log(data);
+//       if (data.rows[0].password === hash) {
+//         console.log(data.rows[0].password, hash);
+//         res.locals.id = data.rows[0]._id;
+//         return next();
+//       } else {
+//         res.locals.error = 'Incorrect username or password.';
+//         return next();
+//       }
+//     })
+//     .catch((err) => {
+//       res.locals.error = err;
+//       return next({
+//         log: `Error in userController verifyUser: ${err}`,
+//         message: { err: 'An error occured verifying user. See userController.verifyUser.' },
+//       });
+//     });
+// };
 
 // update user
 

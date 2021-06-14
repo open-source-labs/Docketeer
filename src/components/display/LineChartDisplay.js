@@ -310,6 +310,7 @@ const Metrics = (props) => {
     } else {
       copyObj[containerName] = true;
     }
+    console.log(copyObj);
     setActiveContainers(copyObj);
   };
 
@@ -347,7 +348,7 @@ const Metrics = (props) => {
   selectList();
   useEffect(() => {
     formatData();
-    renderGitInfo();
+    //renderGitInfo();
   }, [activeContainers, timePeriod]);
 
   return (

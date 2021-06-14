@@ -4,6 +4,7 @@ const cors = require('cors');
 
 // import router
 const signupRouter = require('./routes/signupRouter');
+const loginRouter = require('./routes/loginRouter');
 
 const app = express();
 const PORT = 3000;
@@ -20,6 +21,7 @@ app.use(cors()); // enables ALL cors requests
 
 // route all requests to signup through signupRouter
 app.use('/signup', signupRouter);
+app.use('/login', loginRouter);
 
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {

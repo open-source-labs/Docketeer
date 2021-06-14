@@ -65,11 +65,11 @@ const Login = () => {
       return response.json();
     })
     .then((data) => {
-      if (data === true) {
-        setLoggedIn(true);
+      if (typeof data === 'object') {
+        window.alert(data.error);
       }
       else {
-        window.alert('incorrect password');
+        setLoggedIn(true);
       }
     })
     .catch((err) => {

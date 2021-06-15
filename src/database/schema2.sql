@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR (255) NOT NULL,
     password VARCHAR (255) NOT NULL,
   phone VARCHAR (255),
+  role VARCHAR (255) DEFAULT 'user',
   role_id INTEGER DEFAULT 3,
   contact_pref VARCHAR (255),
   mem_threshold INTEGER DEFAULT 80,

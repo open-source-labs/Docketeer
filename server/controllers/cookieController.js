@@ -4,7 +4,7 @@
  * @module Cookie Controller
  * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
  * @date 6/14/2021
- * @description Contains middleware that sets cookie upon login/signup, stores the user id in a HTTP-only cookie, and sets HTTP-only cookie specifically for admins
+ * @description Contains middleware that stores the user id in a HTTP-only cookie and sets HTTP-only cookie specifically for admins
  *
  * ************************************
  */
@@ -12,14 +12,6 @@
 const db = require('../models/cloudModel');
 
 const cookieController = {};
-
-// set a cookie with a random number
-cookieController.setCookie = (req, res, next) => {
-  if (res.locals.error) return next();
-  
-  res.cookie('secret', Math.floor(Math.random() * 100));
-  return next();
-};
 
 // store the user id in a cookie
 cookieController.setSSIDCookie = (req, res, next) => {

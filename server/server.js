@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module Server
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Server listens on port 3000 and routes all incoming requests, handles global middleware errors and unknown endpoint errors
+ *
+ * ************************************
+ */
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');

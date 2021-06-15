@@ -21,7 +21,6 @@ router.post('/',
   signupController.completedFormCheck,
   userController.verifyUser,
   bcryptController.comparePassword,
-  cookieController.setCookie,
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
   (req, res) => {

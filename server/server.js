@@ -25,7 +25,6 @@ app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
 
-// Routers
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);

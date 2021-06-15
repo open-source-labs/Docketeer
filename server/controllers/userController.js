@@ -36,8 +36,8 @@ userController.createUser = (req, res, next) => {
           log: `Error in userController newUser: ${err}`,
           message: { err: 'An error occured creating new user in database. See userController.newUser.' },
         });
-      }
-      );}
+      });
+  }
 };
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {

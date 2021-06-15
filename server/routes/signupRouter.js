@@ -31,7 +31,6 @@ router.post('/',
   signupController.passwordCheck,
   bcryptController.hashPassword,
   userController.createUser,
-  cookieController.setCookie,
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
   (req, res) => {

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { HashRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { HashRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import Login from './login/login';
 import AdminView from './views/Admin';
 import UserView from './views/User';
 
 const App = (props) => {
 
-  let isAdmin = true;
-
-  if (isAdmin) {
+  const role = useSelector((state) => state.session.role);
+  if (role === 'admin') {
     return (
       <div>
-        <AdminView loggedIn={props.loggedIn} setLoggedIn={props.setLoggedIn} />
+        <AdminView />
       </div>
-    )
+    );
   }
 
   else {
@@ -22,8 +21,8 @@ const App = (props) => {
       <div>
         <UserView />
       </div>
-    )
+    );
   }
-}
+};
 
 export default App;

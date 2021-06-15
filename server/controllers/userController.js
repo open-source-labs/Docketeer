@@ -20,30 +20,30 @@ userController.createUser = (req, res, next) => {
   const { username, email, phone } = req.body;
   const { hash } = res.locals;
   
-  const createUser = `INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *;`;
+  const createUser = 'INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *;';
   const userDetails = [username, email, hash, phone];
 
   if (username && hash) {
     db.query(createUser, userDetails)
-    .then((data) => {
-      res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('user added');
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController newUser: ${err}`,
-        message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+      .then((data) => {
+        res.locals.user = data.rows[0];
+        console.log(res.locals.user);
+        console.log('user added');
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in userController newUser: ${err}`,
+          message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+        });
       });
-    });
   }
-}
+};
 
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
   console.log('made it to userController.getUsers');
-  const allUsers = `SELECT * FROM users;`;
+  const allUsers = 'SELECT * FROM users;';
 
   db.query(allUsers)
     .then((response) => {
@@ -57,7 +57,7 @@ userController.getAllUsers = (req, res, next) => {
         message: { err: 'An error occured retrieving all users from database. See userController.getUsers.' },
       });
     });
-}
+};
 
 // verify user exists and send back user info
 userController.verifyUser = (req, res, next) => {
@@ -77,8 +77,8 @@ userController.verifyUser = (req, res, next) => {
         log: `Error in userController checkUserExists: ${err}`,
         message: { err: 'An error occured while checking if username exists. See userController.checkUserExists.' },
       });
-    })
-}
+    });
+};
 
 // verify user's information is complete and check if entered password is correct
 // userController.verifyUser = (req, res, next) => {

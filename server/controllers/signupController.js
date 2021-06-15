@@ -35,8 +35,8 @@ signupController.usernameCheck = (req, res, next) => {
         log: `Error in signupController usernameCheck: ${err}`,
         message: { err: 'An error occured while checking if username exists. See signupController.usernameCheck.' },
       });
-    })
-}
+    });
+};
 
 // verify password meets requirements
 signupController.passwordCheck = (req, res, next) => {
@@ -51,15 +51,15 @@ signupController.passwordCheck = (req, res, next) => {
     res.locals.error = 'Password must be at least 6 characters.';
     return next();
   }
-}
+};
 
 // verify user's information is complete
 signupController.completedFormCheck = (req, res, next) => {
   const { username, password } = req.body;
 
-  if (!username || !password) res.locals.error = 'Missing username or password.'
+  if (!username || !password) res.locals.error = 'Missing username or password.';
   return next();
-}
+};
 
 // verify admin role
 

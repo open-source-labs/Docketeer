@@ -17,28 +17,28 @@ const cookieController = {};
 cookieController.setCookie = (req, res, next) => {
   if (res.locals.error) return next();
   
-  res.cookie('secret', Math.floor(Math.random() * 100))
-  next();
-}
+  res.cookie('secret', Math.floor(Math.random() * 100));
+  return next();
+};
 
 // store the user id in a cookie
 cookieController.setSSIDCookie = (req, res, next) => {
   if (res.locals.error) return next();
   
   res.cookie('ssid', res.locals.user._id, { httpOnly: true });
-  next();
-}
+  return next();
+};
 
 // set admin cookie for users with admin privileges
 cookieController.setAdminCookie = (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { role } = res.locals.user;
+  const { role_id } = res.locals.user;
   
-  if (role === 'admin') res.cookie('adminType', role, { httpOnly: true });
-  if (role === 'system admin') res.cookie('adminType', role, { httpOnly: true });
+  if (role_id === 1) res.cookie('adminType', 'system admin', { httpOnly: true });
+  if (role_id === 2) res.cookie('adminType', 'admin', { httpOnly: true });
 
   return next();
-}
+};
 
 module.exports = cookieController;

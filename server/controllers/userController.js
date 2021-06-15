@@ -42,7 +42,7 @@ userController.createUser = (req, res, next) => {
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
   console.log('made it to userController.getUsers');
-  const allUsers = 'SELECT * FROM users;';
+  const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
 
   db.query(allUsers)
     .then((response) => {
@@ -102,7 +102,7 @@ userController.switchUserRole = (req, res, next) => {
   db.query(query, parameters)
     .then((data) => {
       console.log('successfully switched user role');
-      res.locals.user = data;
+      res.locals.user = data.rows[0];
       return next();
     })
     .catch((err) => {

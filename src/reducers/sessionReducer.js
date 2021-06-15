@@ -63,12 +63,6 @@ export default function (state = initialState, action){
     };
   }
 
-  case types.UPDATE_USER_LIST: {
-    
-    return {
-      ...initialState
-    };
-  }
   default: return {...state};
   }
 }

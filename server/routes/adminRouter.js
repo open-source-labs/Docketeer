@@ -31,7 +31,7 @@ router.get('/',
 router.post('/switch', 
   userController.switchUserRole, 
   (req, res) => {
-    return res.status(200).json('USER ROLE SWITCHED');
+    return res.status(200).json(res.locals.user);
   }
 );
 

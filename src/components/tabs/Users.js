@@ -19,6 +19,9 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Checkbox from '@material-ui/core/Checkbox';
 
+// Redux Imports (actions)
+import * as actions from '../../actions/actions';
+
 // Table Style Generator
 export const useStyles = makeStyles({
   table: {
@@ -95,9 +98,11 @@ TablePaginationActions.propTypes = {
 };
 
 const UserTable = () => {
+
   const classes = useStyles();
   const rows = useSelector((state) => state.userList.userList);
-
+  const dispatch = useDispatch();
+  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
 
   const tempSelected = {};
   for (let i = 0; i < rows.length; i++){
@@ -163,7 +168,14 @@ const UserTable = () => {
         return response.json();
       })
       .then((data) => {
-
+        console.log(data);
+        const { _id, role } = data;
+        console.log('DISPATCHING UPDATE_USER_ROLE: ', _id);
+        const payload = {
+          _id,
+          role,
+        };
+        updateUserRole(payload);
       })
       .catch((err) => {
         console.log(err);

@@ -22,6 +22,7 @@ import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
+
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
 import Containers from '../tabs/Containers';
@@ -49,7 +50,7 @@ const SysAdmin = (props) => {
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
   const updateUserList = (data) => dispatch(actions.updateUserList(data));
-
+  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
@@ -108,14 +109,9 @@ const SysAdmin = (props) => {
         return response.json();
       })
       .then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-          window.alert(data.error);
-        }
-        else {
-          console.log('ADMIN USER LIST');
-          console.log(data);
-          updateUserList(data);
-        }
+        console.log('ADMIN USER LIST');
+        console.log(data);
+        updateUserList(data);
       })
       .catch((err) => {
         console.log(err);

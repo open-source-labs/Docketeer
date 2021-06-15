@@ -9,12 +9,28 @@ export default function (state = initialState, action){
 
   // Change isLoggedIn state variable depending on previous value
   case types.UPDATE_USER_LIST: {
-    const userList = action.payload;
+    const newUserList = action.payload;
     return { 
-      userList,  
+      userList: newUserList,  
     };
   }
 
+  case types.UPDATE_USER_ROLE: {
+    console.log('IN UPDATE_USER_ROLE');
+    console.log(action.payload);
+    const { _id, role } = action.payload;
+    const newUserList = [ ...state.userList ];
+    for (let i = 0; i < newUserList.length; i++){
+      if (newUserList[i]._id === _id){
+        newUserList[i].role = role;
+        break;
+      }
+    }
+    return {
+      ...state,
+      userList: newUserList,
+    };
+  }
   default: {
     return {
       ...state

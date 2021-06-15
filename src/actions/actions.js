@@ -158,3 +158,8 @@ export const updateUserList = (data) => ({
   type: types.UPDATE_USER_LIST,
   payload: data,
 });
+
+export const updateUserRole = (data) => ({
+  type: types.UPDATE_USER_ROLE,
+  payload: data,
+});

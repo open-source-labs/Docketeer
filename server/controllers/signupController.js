@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module Signup Controller
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
+ *
+ * ************************************
+ */
+
 const db = require('../models/cloudModel');
 
 const signupController = {};
@@ -15,7 +26,7 @@ signupController.usernameCheck = (req, res, next) => {
         res.locals.error = 'Username already exists.';
         return next();
       } else {
-        console.log('Username checked for uniqueness.');
+        console.log('Username is unique.');
         return next();
       }
     })
@@ -40,6 +51,14 @@ signupController.passwordCheck = (req, res, next) => {
     res.locals.error = 'Password must be at least 6 characters.';
     return next();
   }
+}
+
+// verify user's information is complete
+signupController.completedFormCheck = (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) res.locals.error = 'Missing username or password.'
+  return next();
 }
 
 // verify admin role

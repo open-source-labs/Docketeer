@@ -153,3 +153,8 @@ export const logoutUser = (data) => ({
   type: types.LOGOUT_USER,
   payload: data,
 });
+
+export const updateUserList = (data) => ({
+  type: types.UPDATE_USER_LIST,
+  payload: data,
+});

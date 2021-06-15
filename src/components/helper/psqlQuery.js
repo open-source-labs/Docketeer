@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module psqlQuery
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description Creates pool to connect application with docketeer-db container, exports function to facilitate database queries
+ *
+ * ************************************
+ */
+
 const { Pool } = require("pg");
 
 const pool = new Pool({
@@ -12,26 +23,3 @@ export default async (text, params, callback) => {
   let rows = await pool.query(text, params, callback);
   return rows;
 };
-
-// const PG_URI =
-//   'postgres://xttcmwad:l_TsGQzJ02tn6aM7fQJTp1TyjbKT5k6i@kashin.db.elephantsql.com/xttcmwad';
-
-// const cloudPool = new Pool({
-//   connectionString: PG_URI,
-// });
-
-// export const cloudQuery = (text, params, callback) => {
-//   console.log('executed cloud query', text);
-//   return cloudPool.query(text, params, callback);
-// }
-
-// cloudQuery('SELECT * FROM account').then((data) => {
-//   console.log(data);
-// });
-
-// module.exports = {
-//   cloudQuery: (text, params, callback) => {
-//     console.log('executed cloud query', text);
-//     return cloudPool.query(text, params, callback);
-//   }
-// };

@@ -5,7 +5,7 @@ import containerListReducer from './containerListReducer';
 import dockerComposeReducer from './dockerComposeReducer';
 import notificationReducer from './notificationReducer';
 import sessionReducer from './sessionReducer';
-
+import userListReducer from './userListReducer';
 /**
  * Reducer store
  */
@@ -16,6 +16,7 @@ const reducers = combineReducers({
   networkList: dockerComposeReducer,
   notificationList: notificationReducer,
   session: sessionReducer,
+  userList: userListReducer,
 });
 
 export default reducers;

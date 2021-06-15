@@ -1,3 +1,13 @@
+/**
+* ************************************
+*
+* @module Container Database Schema
+* @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+* @date 6/14/2021
+* @description Schema for docketeer-db containerized database that tracks containers and metrics
+*
+* ************************************
+*/
 
 CREATE TABLE IF NOT EXISTS metrics (
   id SERIAL PRIMARY KEY,

@@ -29,7 +29,7 @@ cookieController.setSSIDCookie = (req, res, next) => {
   next();
 }
 
-// admin secret cookie
+// set admin cookie for users with admin privileges
 cookieController.setAdminCookie = (req, res, next) => {
   if (res.locals.error) return next();
 

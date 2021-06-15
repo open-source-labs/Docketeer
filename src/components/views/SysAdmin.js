@@ -1,3 +1,15 @@
+/**
+ * ************************************
+ *
+ * @module SysAdmin
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description View Component for system admins
+ *
+ * ************************************
+ */
+
+
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';

@@ -1,3 +1,15 @@
+/**
+ * ************************************
+ *
+ * @module SysAdmin
+ * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @date 6/14/2021
+ * @description View Component for system admins
+ *
+ * ************************************
+ */
+
+
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,10 +22,12 @@ import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
+
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
 import Containers from '../tabs/Containers';
 import Settings from '../tabs/Settings';
+import UserList from '../tabs/Users';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -22,7 +36,7 @@ import initDatabase from '../helper/initDatabase';
 /**
  * Container component that has all redux logic along with react router
  */
-const AdminView = (props) => {
+const SysAdmin = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
   const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
@@ -35,7 +49,8 @@ const AdminView = (props) => {
   const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-
+  const updateUserList = (data) => dispatch(actions.updateUserList(data));
+  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
@@ -81,6 +96,27 @@ const AdminView = (props) => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:3000/admin', 
+      { 
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('ADMIN USER LIST');
+        console.log(data);
+        updateUserList(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
@@ -105,6 +141,15 @@ const AdminView = (props) => {
                   onClick={() => setSelected('/')}
                 >
                   <i className="fas fa-settings"></i> Settings
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/users"
+                  style={selected === '/users' ? selectedStyling : null}
+                  onClick={() => setSelected('/users')}
+                >
+                  <i className="fas fa-settings"></i> Users
                 </Link>
               </li>
               <li>
@@ -167,6 +212,9 @@ const AdminView = (props) => {
           <Route path="/metrics">
             <Metrics runningList={runningList} />
           </Route>
+          <Route path="/users">
+            <UserList />
+          </Route>
           <Route path="/yml">
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
@@ -216,4 +264,4 @@ const AdminView = (props) => {
   );
 };
 
-export default AdminView;
+export default SysAdmin;

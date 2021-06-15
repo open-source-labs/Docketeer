@@ -1,7 +1,7 @@
 /**
  * ************************************
  *
- * @module User Controller
+ * @module UserController
  * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
  * @date 6/14/2021
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
@@ -39,11 +39,10 @@ userController.createUser = (req, res, next) => {
       });
   }
 };
-
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
   console.log('made it to userController.getUsers');
-  const allUsers = 'SELECT * FROM users;';
+  const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
 
   db.query(allUsers)
     .then((response) => {
@@ -80,6 +79,39 @@ userController.verifyUser = (req, res, next) => {
     });
 };
 
+userController.switchUserRole = (req, res, next) => {
+
+  const roleMap = {
+    sysadmin: 1,
+    admin: 2,
+    user: 3,
+  };
+
+  const { _id, changeToAdmin } = req.body;
+
+  const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+
+  // Array destructuring assignment and ternary operator
+  const [ newRole, newRoleId ] = changeToAdmin ? [ 'admin', roleMap.admin ] : [ 'user', roleMap.user ];
+
+  // const newRoleId = changeToAdmin ? roleMap.admin : roleMap.user;
+  console.log('NEW ROLE: ', newRole);
+  console.log('ROLE ID: ', newRoleId);
+  console.log(req.body);
+  const parameters = [ newRole, newRoleId, _id ];
+  db.query(query, parameters)
+    .then((data) => {
+      console.log('successfully switched user role');
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController switchUserRole: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.switchUserRole.' },
+      });
+    });
+};
 // verify user's information is complete and check if entered password is correct
 // userController.verifyUser = (req, res, next) => {
 //   if (res.locals.error) return next();
@@ -118,7 +150,6 @@ userController.verifyUser = (req, res, next) => {
 // update user
 
 // get one user
-
 
 
 module.exports = userController;

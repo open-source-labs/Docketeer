@@ -10,9 +10,9 @@ import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
-import Images from '../tabs/Images';
+import ImagesUser from '../tabs/ImagesUser';
 import Yml from '../tabs/Yml';
-import Containers from '../tabs/Containers';
+import ContainersUser from '../tabs/ContainersUser';
 import Settings from '../tabs/Settings';
 
 // helper function imports
@@ -169,7 +169,7 @@ const UserView = (props) => {
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
           <Route path="/images">
-            <Images
+            <ImagesUser
               runIm={helper.runIm}
               removeIm={helper.removeIm}
               addRunningContainers={addRunningContainers}
@@ -179,7 +179,7 @@ const UserView = (props) => {
             />
           </Route>
           <Route path="/running">
-            <Containers
+            <ContainersUser
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}

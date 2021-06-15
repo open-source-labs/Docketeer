@@ -32,34 +32,8 @@ const Images = (props) => {
             {ele['size']}
           </li>
         </div>
-        <div className="stopped-button">
-          <button
-            className="run-btn"
-            onClick={() =>
-              props.runIm(
-                ele['imgid'],
-                props.runningList,
-                helper.addRunning,
-                props.addRunningContainers
-              )
-            }
-          >
-            RUN
-          </button>
-          <button
-            className="stop-btn"
-            onClick={() =>
-              props.removeIm(
-                ele['imgid'],
-                props.imagesList,
-                helper.refreshImages,
-                props.refreshImagesList
-              )
-            }
-          >
-            REMOVE
-          </button>
-        </div>
+        <br></br>
+        <br></br>
       </div>
     );
   });

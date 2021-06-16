@@ -1,7 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/actions';
 import { ipcRenderer } from 'electron';
+import PropTypes from 'prop-types';
+
+// Material UI Imports
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -78,6 +82,23 @@ let isVerified = false;
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState('');
   const classes = useStyles();
+
+  // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
+  // https://reactjs.org/docs/typechecking-with-proptypes.html
+  Settings.propTypes = {
+    addMonitoringFrequency: PropTypes.func.isRequired,
+    addMemoryNotificationSetting: PropTypes.func.isRequired,
+    addCpuNotificationSetting: PropTypes.func.isRequired,
+    addStoppedNotificationSetting: PropTypes.func.isRequired,
+    addPhoneNumber: PropTypes.func.isRequired,
+    addNotificationFrequency: PropTypes.func.isRequired,
+    runningList: PropTypes.array.isRequired,
+    stoppedList: PropTypes.array.isRequired,
+    memoryNotificationList: PropTypes.object.isRequired,
+    cpuNotificationList: PropTypes.object.isRequired,
+    stoppedNotificationList: PropTypes.object.isRequired,
+  };
+
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
@@ -223,7 +244,8 @@ const Settings = (props) => {
       if (tempNotifFreq) frequency = tempNotifFreq;
       query(
         queryType.INSERT_NOTIFICATION_FREQUENCY,
-        ['admin', , frequency, ,],
+        // ['admin', , frequency, ,],
+        ['admin', undefined, frequency, undefined, undefined],
         (err, res) => {
           if (err) {
             console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
@@ -247,7 +269,8 @@ const Settings = (props) => {
       if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
       query(
         queryType.INSERT_MONITORING_FREQUENCY,
-        ['admin', , , frequency],
+        // ['admin', , , frequency],
+        ['admin', undefined, undefined, frequency],
         (err, res) => {
           if (err) {
             console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
@@ -332,7 +355,7 @@ const Settings = (props) => {
     }
   };
 
-  const [value, setValue] = React.useState('email');
+  const [value, setValue] = useState('email');
 
   const handleRadioChange = (event) => {
     setValue(event.target.value);
@@ -343,6 +366,26 @@ const Settings = (props) => {
     //   .catch((err) => { 
     //     console.log('error updating handleRadioChange. See Settings line 340');
     //   });
+  };
+
+  const [ cpuThreshold, setCpuThreshold ] = useState('80');
+  const [ memThreshold, setMemThreshold ] = useState('80');
+  const [ stoppedContainers, setStoppedContainers ] = useState(false);
+
+  const handleCpuChange = (event) => {
+    console.log('BEFORE: CPU threshold set: ', cpuThreshold);
+    setCpuThreshold(document.getElementById('cpu-threshold-input').value);
+    console.log('AFTER: CPU threshold set: ', cpuThreshold);
+  };
+
+  const handleMemChange = (event) => {
+    setMemThreshold(document.getElementById('mem-threshold-input').value);
+    console.log('MEM threshold set: ', memThreshold);
+  };
+
+  const handleStoppedContainersChange = (event) => {
+    setStoppedContainers(document.getElementById('stopped-containers-input').checked);
+    console.log('Stopped containers set: ', stoppedContainers);
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
@@ -527,10 +570,23 @@ const Settings = (props) => {
         {/* <br></br> */}
         <p>2. Contact preference:</p>
         <br></br>
-        <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
-          <FormControlLabel value="email" control={<Radio />} label="Email" />
-          <FormControlLabel value="phone" control={<Radio />} label="Phone" />
-        </RadioGroup>
+        <FormControl component="fieldset">
+          <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
+            <FormControlLabel value="email" control={<Radio />} label="Email" />
+            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
+          </RadioGroup>
+          <br></br>
+          <Button
+            className={classes.button}
+            size="medium"
+            variant="contained"
+            name="submit-contact-pref"
+            id="submit-contact-pref"
+            onClick={(e) => console.log('RADIO BUTTON CLICKED: ', value)}
+          >
+            Submit
+          </Button>
+        </FormControl>
 
         
         {/* <br></br>
@@ -611,38 +667,55 @@ const Settings = (props) => {
           <div>
             <TextField
               required
-              id="textfield"
+              id="cpu-threshold-input"
               label="CPU Threshold"
               helperText="* 80% CPU usage recommended"
               variant="outlined"
-              value={mobileNumber}
+              // value="80" set this later
+              onChange={handleCpuChange}
               size="small"
             />
+            <Button
+              className={classes.button}
+              size="medium"
+              variant="contained"
+              onClick={() => console.log(cpuThreshold)}
+            >
+              Confirm
+            </Button>
             <br></br>
             <TextField
               required
-              id="textfield"
+              id="mem-threshold-input"
               label="Memory Threshold"
               helperText="* 80% memory recommended"
               variant="outlined"
-              value={mobileNumber}
+              onChange={handleMemChange}
+              // value="80" set this later
               size="small"
             />
+
+            <Button
+              className={classes.button}
+              size="medium"
+              variant="contained"
+              onClick={() => console.log(memThreshold)}
+            >
+              Confirm
+            </Button>
             <br></br>
             {/* <p>2. Receive notification if container stops</p>
             <FormControlLabel value={true} control={<Checkbox />} label="" />
             <br></br> */}
             <br></br>
             <p>3. Stopped containers:</p>
-            <FormControlLabel value={true} control={<Checkbox />} label="Receive notification when a container stops" />
+            <FormControlLabel value={true} control={<Checkbox id="stopped-containers-input" onChange={handleStoppedContainersChange}/>} label="Receive notification when a container stops" />
           </div>
-          <br></br>
           <Button
             className={classes.button}
-            type="submit"
             size="medium"
             variant="contained"
-            onClick={(e) => console.log('Form submit clicked!')}
+            onClick={()=> console.log(stoppedContainers)}
             endIcon={<SendIcon />}
           >
             Submit
@@ -682,7 +755,7 @@ const Settings = (props) => {
       </div>
       <div className="settings-container">
         <p>
-          Allows you to get access to latest GitHub commits in your project
+          Allows you to get access to latest GitHub commits in your project 
           repository on "Metrics" tab for selected containers
         </p>
         <br></br>

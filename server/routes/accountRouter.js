@@ -21,16 +21,32 @@ router.post('/thresholds',
   }
 );
  
-// router.post('/', 
-//   (req, res) => {
-//     return res.status(200).json('successfully configured');
-//   }
-// );
+router.post('/contact', 
+  configController.updateContactPref,
+  (req, res) => {
+    return res.status(200).json('successfully configured contact preferences');
+  }
+);
 
-// router.post('/', 
-//   (req, res) => {
-//     return res.status(200).json('successfully configured');
-//   }
-// );
+router.post('/cpu', 
+  configController.updateCPUThreshold,
+  (req, res) => {
+    return res.status(200).json('successfully configured CPU threshold');
+  }
+);
+
+router.post('/memory', 
+  configController.updateMemThreshold,
+  (req, res) => {
+    return res.status(200).json('successfully configured memory threshold');
+  }
+);
+
+router.post('/stops',
+  configController.updateStopPref,
+  (req, res) => {
+    return res.status(200).json('successfully configured container stops preference');
+  }
+);
 
 module.exports = router;

@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../actions/actions";
-import { ipcRenderer } from "electron";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import * as categories from "../../constants/notificationCategories";
-import query from "../helper/psqlQuery";
-import * as queryType from "../../constants/queryTypes";
-import { makeStyles } from "@material-ui/core/styles";
-import SendIcon from "@material-ui/icons/Send";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
+import { ipcRenderer } from 'electron';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import * as categories from '../../constants/notificationCategories';
+import query from '../helper/psqlQuery';
+import * as queryType from '../../constants/queryTypes';
+import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Radio from '@material-ui/core/Radio';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -41,26 +46,24 @@ const mapDispatchToProps = (dispatch) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& .MuiTextField-root": {
+    '& .MuiTextField-root': {
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: "middle",
+      verticalAlign: 'middle',
     },
   },
   button: {
-    "& > *": {
-      pointerEvents: "none",
+    '& > *': {
+      pointerEvents: 'none',
     },
-  },
-  button: {
     marginLeft: 5,
     width: 100,
-    verticalAlign: "top",
+    verticalAlign: 'top',
   },
   verifiedIcon: {
-    verticalAlign: "top",
-    color: "green",
+    verticalAlign: 'top',
+    color: 'green',
   },
   description: {
     marginLeft: 5,
@@ -68,12 +71,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// showVerificationInput IS ISED FOR RENDERING THE VERIFICATION CODE COMPONENT
+// showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
 let isVerified = false;
 
 const Settings = (props) => {
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState('');
   const classes = useStyles();
   // handle check
   // I couldve made this a single function where queryType gets passed in
@@ -89,7 +92,7 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log("** INSERT_CONTAINER returned: **", res);
+          console.log('** INSERT_CONTAINER returned: **', res);
         }
       }
     );
@@ -103,7 +106,7 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log("** INSERT_CONTAINER_SETTING returned: **", res);
+          console.log('** INSERT_CONTAINER_SETTING returned: **', res);
         }
       }
     );
@@ -122,7 +125,7 @@ const Settings = (props) => {
         } else {
           // if all good, call fetchNotificationSettings
           fetchNotificationSettings();
-          console.log("** DELETE_CONTAINER_SETTING returned: **", res);
+          console.log('** DELETE_CONTAINER_SETTING returned: **', res);
         }
       }
     );
@@ -136,23 +139,23 @@ const Settings = (props) => {
         // find a way to set the three lists here
         // iterate through res.row
         // if the metric_name = "memory"
-        let tempMemory = [];
-        let tempCPU = [];
-        let tempStopped = [];
+        const tempMemory = [];
+        const tempCPU = [];
+        const tempStopped = [];
 
         res.rows.forEach((el, i) => {
           switch (el.metric_name) {
-            case categories.MEMORY.toLowerCase():
-              tempMemory.push(el.container_id);
-              break;
-            case categories.CPU.toLowerCase():
-              tempCPU.push(el.container_id);
-              break;
-            case categories.STOPPED.toLowerCase():
-              tempStopped.push(el.container_id);
-              break;
-            default:
-              break;
+          case categories.MEMORY.toLowerCase():
+            tempMemory.push(el.container_id);
+            break;
+          case categories.CPU.toLowerCase():
+            tempCPU.push(el.container_id);
+            break;
+          case categories.STOPPED.toLowerCase():
+            tempStopped.push(el.container_id);
+            break;
+          default:
+            break;
           }
         });
 
@@ -165,7 +168,7 @@ const Settings = (props) => {
   };
 
   const verifyMobileNumber = async () => {
-    await ipcRenderer.invoke("verify-number", mobileNumber);
+    await ipcRenderer.invoke('verify-number', mobileNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -177,17 +180,17 @@ const Settings = (props) => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    if (!mobileNumber) alert("Please enter phone number");
+    if (!mobileNumber) alert('Please enter phone number');
     else {
       // alert if input is not a number
       if (isNaN(Number(mobileNumber)))
-        alert("Please enter phone number in numerical format. ex: 123456789");
+        alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         alert(`Phone: ${mobileNumber} is valid`);
         // ask SMS service for a verification code
         query(
           queryType.INSERT_USER,
-          ["admin", mobileNumber, 5, 2],
+          ['admin', mobileNumber, 5, 2],
           (err, res) => {
             if (err) {
               console.log(`Error in insert user. Error: ${err}`);
@@ -209,18 +212,18 @@ const Settings = (props) => {
   // 2. MAKE SURE THAT IT HAS THE RIGHT FORMAT
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
-  const [tempNotifFreq, setTempNotifFreq] = useState("");
+  const [tempNotifFreq, setTempNotifFreq] = useState('');
   const notificationFrequency = () => {
     // default value for Notification Frequency
     let frequency = 5;
     // alert if input is not a number
     if (isNaN(Number(tempNotifFreq)))
-      alert("Please enter notification frequency in numerical format. ex: 15");
+      alert('Please enter notification frequency in numerical format. ex: 15');
     else {
       if (tempNotifFreq) frequency = tempNotifFreq;
       query(
         queryType.INSERT_NOTIFICATION_FREQUENCY,
-        ["admin", , frequency, ,],
+        ['admin', , frequency, ,],
         (err, res) => {
           if (err) {
             console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
@@ -233,18 +236,18 @@ const Settings = (props) => {
     }
   };
 
-  const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState("");
+  const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
   const monitoringFrequency = () => {
     // default value for Monitoring Frequency
     let frequency = 2;
     // alert if input is not a number
     if (isNaN(Number(tempMonitoringFrequency)))
-      alert("Please enter monitoring frequency in numerical format. ex: 15");
+      alert('Please enter monitoring frequency in numerical format. ex: 15');
     else {
       if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
       query(
         queryType.INSERT_MONITORING_FREQUENCY,
-        ["admin", , , frequency],
+        ['admin', , , frequency],
         (err, res) => {
           if (err) {
             console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
@@ -258,7 +261,7 @@ const Settings = (props) => {
   };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
-  const [formData, updateFormData] = useState("");
+  const [formData, updateFormData] = useState('');
   const handleChange = (value) => {
     updateFormData(value);
   };
@@ -270,12 +273,12 @@ const Settings = (props) => {
       mobileNumber: mobileNumber,
     };
 
-    const result = await ipcRenderer.invoke("verify-code", body);
+    const result = await ipcRenderer.invoke('verify-code', body);
 
-    if (result === "approved") {
+    if (result === 'approved') {
       showVerificationInput = false;
-      isVerified = result === "approved" ? true : false;
-    } else alert("Please try verification code again");
+      isVerified = result === 'approved' ? true : false;
+    } else alert('Please try verification code again');
   };
 
   /**
@@ -287,13 +290,13 @@ const Settings = (props) => {
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
 
-  let allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+  const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
 
   // GITHUB URL FORM
   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
   const stateObject = {};
   allContainersList.forEach((el) => {
-    if (!stateObject[el.ID]) stateObject[el.ID] = "";
+    if (!stateObject[el.ID]) stateObject[el.ID] = '';
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
@@ -302,7 +305,7 @@ const Settings = (props) => {
   };
 
   const updateState = async () => {
-    let output = await getData();
+    const output = await getData();
     output.forEach((el) => {
       stateObject[el.id] = el.github_url;
     });
@@ -311,10 +314,10 @@ const Settings = (props) => {
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   const githubLink = (event) => {
     if (!tempGithubLink)
-      alert("Please provide a link in accordance with provided example");
-    if (!event.target.id) alert("Please provide a container ID");
+      alert('Please provide a link in accordance with provided example');
+    if (!event.target.id) alert('Please provide a container ID');
     else {
-      let github_url = tempGithubLink[event.target.id];
+      const github_url = tempGithubLink[event.target.id];
       query(
         queryType.INSERT_GITHUB,
         [event.target.id, event.target.name, github_url],
@@ -329,13 +332,19 @@ const Settings = (props) => {
     }
   };
 
+  const [value, setValue] = React.useState('email');
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
+
   const renderAllContainersList = allContainersList.map((container, i) => {
-    let isMemorySelected = isSelected(
+    const isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID
     );
-    let isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
-    let isStoppedSelected = isSelected(
+    const isCpuSelected = isSelected(props.cpuNotificationList, container.ID);
+    const isStoppedSelected = isSelected(
       props.stoppedNotificationList,
       container.ID
     );
@@ -357,10 +366,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.MEMORY
-                  )
+                  container.ID,
+                  container.Name,
+                  categories.MEMORY
+                )
                 : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role="checkbox"
@@ -373,10 +382,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.CPU
-                  )
+                  container.ID,
+                  container.Name,
+                  categories.CPU
+                )
                 : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role="checkbox"
@@ -389,10 +398,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                    categories.STOPPED
-                  )
+                  container.ID,
+                  container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+                  categories.STOPPED
+                )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role="checkbox"
@@ -438,13 +447,11 @@ const Settings = (props) => {
       </div>
 
       <div className="metric-section-title">
-        <h3>Notifications</h3>
+        <h3>Communication</h3>
       </div>
       <div className="settings-container">
         <p>
-          Allows you (i) to customize monitoring and notification frequency and
-          (ii) to define alert conditions for sms notifications when your
-          container meets a condition
+          Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
         </p>
         <br></br>
         <p>1. Link mobile phone to your account</p>
@@ -510,9 +517,37 @@ const Settings = (props) => {
           </form>
         ) : null}
 
+        {/* <br></br> */}
+        <p>2. Contact preference:</p>
+        <br></br>
+        <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
+          <p>
+            <FormControlLabel value="email" control={<Radio />} label="Email" />
+            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
+          </p>
+        </RadioGroup>
+
+        
+        {/* <br></br>
         <p>
-          2. Setup / update notification criteria. Recommended values will be
-          used by default{" "}
+          3. Setup / update attribute values for notification triggers in
+          Containers settings table below. Recommended values will be used by
+          default.
+        </p>
+        <br></br> */}
+      </div>
+
+      <div className="metric-section-title">
+        <h3>Notification preferences</h3>
+      </div>
+      <div className="settings-container">
+        <p>
+          Allows you to (i) customize monitoring and notification frequency, and (ii) define container conditions that will trigger notifications. When a container hits a threshold, an alert is sent via your preferred method of communication. Recommended values will be used by default.
+        </p>
+        
+        <br></br>
+        <p>
+          1. Setup / update notification criteria
         </p>
         <br></br>
         <div>
@@ -565,12 +600,76 @@ const Settings = (props) => {
         </div>
 
         <br></br>
-        <p>
-          3. Setup / update attribute values for notification triggers in
-          Containers settings table below. Recommended values will be used by
-          default{" "}
-        </p>
+        <p>2. Configure notification thresholds</p>
         <br></br>
+        <form className={classes.root} autoComplete="off">
+          <div>
+            <TextField
+              required
+              id="textfield"
+              label="CPU Threshold"
+              helperText="* 80% CPU usage recommended"
+              variant="outlined"
+              value={mobileNumber}
+              size="small"
+            />
+            <br></br>
+            <TextField
+              required
+              id="textfield"
+              label="Memory Threshold"
+              helperText="* 80% memory recommended"
+              variant="outlined"
+              value={mobileNumber}
+              size="small"
+            />
+            <br></br>
+            {/* <p>2. Receive notification if container stops</p>
+            <FormControlLabel value={true} control={<Checkbox />} label="" />
+            <br></br> */}
+            <br></br>
+            <p>3. Stopped containers:</p>
+            <FormControlLabel value={true} control={<Checkbox />} label="Receive notification when container stops" />
+          </div>
+          <br></br>
+          <Button
+            className={classes.button}
+            type="submit"
+            size="medium"
+            variant="contained"
+            onClick={(e) => console.log('Form submit clicked!')}
+            endIcon={<SendIcon />}
+          >
+            Submit
+          </Button>
+        </form>
+
+        {showVerificationInput ? (
+          <form className={classes.root} autoComplete="off">
+            <div className="verification-code">
+              <TextField
+                required
+                id="verification-code"
+                label="Verification code"
+                variant="outlined"
+                onChange={(e) => {
+                  handleChange(e.target.value);
+                }}
+                size="small"
+              />
+              <Button
+                className={classes.button}
+                size="medium"
+                color="default"
+                variant="contained"
+                onClick={handleSubmit}
+                endIcon={<SendIcon />}
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        ) : null}
       </div>
 
       <div className="metric-section-title">
@@ -602,8 +701,8 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align="center">Memory > 80%</TableCell>
-                <TableCell align="center">CPU > 80%</TableCell>
+                <TableCell align="center">Memory {'>'} 80%</TableCell>
+                <TableCell align="center">CPU {'>'} 80%</TableCell>
                 <TableCell align="center">Container Stops</TableCell>
                 <TableCell align="center">GitHub repository url</TableCell>
                 <TableCell align="center">Apply settings</TableCell>

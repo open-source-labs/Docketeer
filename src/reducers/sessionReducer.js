@@ -12,6 +12,7 @@ const initialState = {
   cpu_threshold: '',
   container_stops: '',
   isLoggedIn: false,
+  userList: [],
 };
 
 export default function (state = initialState, action){
@@ -38,7 +39,7 @@ export default function (state = initialState, action){
       mem_threshold,
       cpu_threshold,
       container_stops,
-    } = action.payload.user;
+    } = action.payload;
 
     return { 
       ...state,
@@ -61,6 +62,7 @@ export default function (state = initialState, action){
       ...initialState 
     };
   }
+
   default: return {...state};
   }
 }

@@ -19,7 +19,7 @@ bcryptController.hashPassword = (req, res, next) => {
   const { password } = req.body;
   const saltRounds = 10;
 
-  console.log('hit userController bcrypt')
+  console.log('hit userController bcrypt');
   bcrypt.hash(password, saltRounds)
     .then((hash) => {
       res.locals.hash = hash;
@@ -30,8 +30,8 @@ bcryptController.hashPassword = (req, res, next) => {
         log: `Error in bcryptController hashPassword: ${err}`,
         message: { err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.' },
       });
-    })
-}
+    });
+};
 
 // compare user's inputted password with password in database
 bcryptController.comparePassword = (req, res, next) => {
@@ -56,14 +56,14 @@ bcryptController.comparePassword = (req, res, next) => {
             log: `Error in bcryptController comparePassword: ${err}`,
             message: { err: 'An error occured comparing inputted password with saved password. See bcryptController.copmarePassword.' },
           });
-        })
+        });
     })
     .catch((err) => {
       return next({
         log: `Error in bcryptController comparePassword: ${err}`,
         message: { err: 'An error occured retrieving hashed password from database. See bcryptController.comparePassword.' },
       });
-    })
-}
+    });
+};
 
 module.exports = bcryptController;

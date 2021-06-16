@@ -10,15 +10,27 @@
  */
 
 const express = require('express');
-const userController = require('../controllers/userController');
+const configController = require('../controllers/configController');
 
 const router = express.Router();
 
 router.post('/thresholds', 
-  userController.configureThresholds,
+  configController.configureThresholds,
   (req, res) => {
     return res.status(200).json('succesfully configured thresholds');
   }
 );
  
+// router.post('/', 
+//   (req, res) => {
+//     return res.status(200).json('successfully configured');
+//   }
+// );
+
+// router.post('/', 
+//   (req, res) => {
+//     return res.status(200).json('successfully configured');
+//   }
+// );
+
 module.exports = router;

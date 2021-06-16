@@ -336,6 +336,13 @@ const Settings = (props) => {
 
   const handleRadioChange = (event) => {
     setValue(event.target.value);
+
+    // fetch('/accounts')
+    //   .then((response) => response.json())
+    //   .then((data) => console.log(data));
+    //   .catch((err) => { 
+    //     console.log('error updating handleRadioChange. See Settings line 340');
+    //   });
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
@@ -521,10 +528,8 @@ const Settings = (props) => {
         <p>2. Contact preference:</p>
         <br></br>
         <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
-          <p>
-            <FormControlLabel value="email" control={<Radio />} label="Email" />
-            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
-          </p>
+          <FormControlLabel value="email" control={<Radio />} label="Email" />
+          <FormControlLabel value="phone" control={<Radio />} label="Phone" />
         </RadioGroup>
 
         
@@ -629,7 +634,7 @@ const Settings = (props) => {
             <br></br> */}
             <br></br>
             <p>3. Stopped containers:</p>
-            <FormControlLabel value={true} control={<Checkbox />} label="Receive notification when container stops" />
+            <FormControlLabel value={true} control={<Checkbox />} label="Receive notification when a container stops" />
           </div>
           <br></br>
           <Button

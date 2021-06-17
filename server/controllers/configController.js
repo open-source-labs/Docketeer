@@ -50,8 +50,8 @@ configController.updateContactPref = (req, res, next) => {
 
   db.query(inputPref, prefDetails)
     .then((data) => {
-      res.locals.pref = data.rows[0];
-      console.log(res.locals.pref);
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
       console.log('contact preference updated');
       return next();
     })
@@ -74,8 +74,8 @@ configController.updateCPUThreshold = (req, res, next) => {
 
   db.query(inputCPU, CPUDetails)
     .then((data) => {
-      res.locals.pref = data.rows[0];
-      console.log(res.locals.pref);
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
       console.log('CPU threshold updated');
       return next();
     })
@@ -98,8 +98,8 @@ configController.updateMemThreshold = (req, res, next) => {
 
   db.query(inputMem, memDetails)
     .then((data) => {
-      res.locals.pref = data.rows[0];
-      console.log(res.locals.pref);
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
       console.log('memory threshold updated');
       return next();
     })
@@ -122,8 +122,8 @@ configController.updateStopPref = (req, res, next) => {
 
   db.query(inputStopPref, stopPrefDetails)
     .then((data) => {
-      res.locals.pref = data.rows[0];
-      console.log(res.locals.pref);
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
       console.log('container stops updated');
       return next();
     })

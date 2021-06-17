@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
@@ -367,15 +367,119 @@ const Settings = (props) => {
     //     console.log('error updating handleRadioChange. See Settings line 340');
     //   });
   };
-
+  // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
   const [ cpuThreshold, setCpuThreshold ] = useState('80');
   const [ memThreshold, setMemThreshold ] = useState('80');
   const [ stoppedContainers, setStoppedContainers ] = useState(false);
+
+  const dispatch = useDispatch();
+  const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
+
+  const _id = useSelector((state) => state.session._id);
+  const handleRadioSubmit = (value) => {
+    console.log('RADIO SUBMIT: ', _id);
+    fetch('http://localhost:3000/account/contact', 
+      { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          contact_pref: value,
+        })
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        updateUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleCpuChange = (event) => {
     console.log('BEFORE: CPU threshold set: ', cpuThreshold);
     setCpuThreshold(document.getElementById('cpu-threshold-input').value);
     console.log('AFTER: CPU threshold set: ', cpuThreshold);
+  };
+
+  const handleCpuSubmit = (value) => {
+    console.log('CPU SUBMIT: ', _id);
+    fetch('http://localhost:3000/account/cpu', 
+      { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          cpu_threshold: value,
+        })
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        updateUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleMemSubmit = (value) => {
+    console.log('Memory SUBMIT: ', _id);
+    fetch('http://localhost:3000/account/memory', 
+      { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          mem_threshold: value,
+        })
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        updateUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleStoppedContainersSubmit = (value) => {
+    console.log('Memory SUBMIT: ', _id);
+    fetch('http://localhost:3000/account/stops', 
+      { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id,
+          container_stops: value,
+        })
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        updateUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleMemChange = (event) => {
@@ -582,7 +686,7 @@ const Settings = (props) => {
             variant="contained"
             name="submit-contact-pref"
             id="submit-contact-pref"
-            onClick={(e) => console.log('RADIO BUTTON CLICKED: ', value)}
+            onClick={() => handleRadioSubmit(value)}
           >
             Submit
           </Button>
@@ -679,7 +783,7 @@ const Settings = (props) => {
               className={classes.button}
               size="medium"
               variant="contained"
-              onClick={() => console.log(cpuThreshold)}
+              onClick={() => handleCpuSubmit(cpuThreshold)}
             >
               Confirm
             </Button>
@@ -699,7 +803,7 @@ const Settings = (props) => {
               className={classes.button}
               size="medium"
               variant="contained"
-              onClick={() => console.log(memThreshold)}
+              onClick={() => handleMemSubmit(memThreshold)}
             >
               Confirm
             </Button>
@@ -715,7 +819,7 @@ const Settings = (props) => {
             className={classes.button}
             size="medium"
             variant="contained"
-            onClick={()=> console.log(stoppedContainers)}
+            onClick={()=> handleStoppedContainersSubmit(stoppedContainers)}
             endIcon={<SendIcon />}
           >
             Submit

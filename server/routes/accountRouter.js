@@ -24,28 +24,28 @@ router.post('/thresholds',
 router.post('/contact', 
   configController.updateContactPref,
   (req, res) => {
-    return res.status(200).json('successfully configured contact preferences');
+    return res.status(200).json(res.locals.user);
   }
 );
 
 router.post('/cpu', 
   configController.updateCPUThreshold,
   (req, res) => {
-    return res.status(200).json('successfully configured CPU threshold');
+    return res.status(200).json(res.locals.user);
   }
 );
 
 router.post('/memory', 
   configController.updateMemThreshold,
   (req, res) => {
-    return res.status(200).json('successfully configured memory threshold');
+    return res.status(200).json(res.locals.user);
   }
 );
 
 router.post('/stops',
   configController.updateStopPref,
   (req, res) => {
-    return res.status(200).json('successfully configured container stops preference');
+    return res.status(200).json(res.locals.user);
   }
 );
 

@@ -113,9 +113,9 @@ const Login = () => {
   };
 
   // class fireBase extends Component {
-   useEffect(()=>{
-      startFirebaseUI ('#firebaseui');
-    }, []);
+  //  useEffect(()=>{
+  //     startFirebaseUI ('#firebaseui');
+  //   }, []);
       // return (
       //   <div id="firebaseui"></div> 
       // );

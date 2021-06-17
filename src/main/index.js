@@ -10,10 +10,6 @@ import postEvent from './twilio/postEvent';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-
-// import React, { Component } from 'react'; 
-// import { startFirebaseUI } from '../firebase.js';
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 
 let mainWindow;
@@ -101,19 +97,4 @@ ipcMain.handle('post-event', async (_, args) => {
   const { mobileNumber, triggeringEvent } = args;
   return await postEvent(mobileNumber, triggeringEvent);
 });
-
-// class fireB extends Component {
-//   componentDidMount() {
-//     startFirebaseUI ('#firebaseui')
-//   }
-//   render() {
-//     return (
-//       <div id="firebaseui"></div> 
-//     );
-//   }
-// }
-
-// export default App;
-
-// Firebaseui will create users for you, you don't need to do that manually. It will also throw a nasty error if it can't find the element so make sure you don't ever call it without the element on the page!
 

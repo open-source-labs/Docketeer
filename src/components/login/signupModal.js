@@ -16,11 +16,28 @@ import { useDispatch } from 'react-redux';
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
+// Material UI Imports
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
 const SignupModal = (props) => {
 
   // Map dispatch to props, particularly the reducer method updateSession to update state.session.isLoggedIn
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
+
+  // Material UI
+  const classes = useStyles();
 
   // onClick callback method
   const handleClick = (e) => {
@@ -104,16 +121,23 @@ const SignupModal = (props) => {
   return (
     <div>
       <h1>Signup</h1>
-      <form onSubmit={handleClick}>
-        <input id="signupEmail" type="text" placeholder="email"></input><br></br>
-        <input id="signupUsername" type="text" placeholder="username"></input><br></br>
+      <form onSubmit={handleClick} className={classes.root} >
+        {/* <input id="signupEmail" type="text" placeholder="email"></input><br></br> */}
+        <TextField id="signupEmail" label="Email" variant="outlined" /><br></br>
+        <TextField id="signupUsername" label="Username" variant="outlined" /><br></br>
+        <TextField id="signupPassword" label="Password" variant="outlined" type="password" /><br></br>
+        <TextField id="signupPasswordConfirmation" label="Password" variant="outlined" type="password" /><br></br>
+        <TextField id="signupPhone" label="Phone" variant="outlined" /><br></br>
+        {/* <input id="signupUsername" type="text" placeholder="username"></input><br></br>
         <input id="signupPassword" type="password" placeholder="password"></input><br></br>
         <input id="signupPasswordConfirmation" type="password" placeholder="confirm"></input>
         <span id="password-alert"></span> 
         <br></br>
-        <input id="signupPhone" type="text" placeholder="phone number"></input><br></br>
-
-        <input type="submit"></input>
+        <input id="signupPhone" type="text" placeholder="phone number"></input><br></br> */}
+        <Button variant="contained" size="medium" className={classes.button} type="submit">
+          Submit
+        </Button>
+        {/* <input type="submit"></input> */}
       </form>
     </div>
   );

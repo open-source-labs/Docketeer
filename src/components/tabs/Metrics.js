@@ -1,9 +1,9 @@
 /* eslint-disable no-tabs */
 /* eslint-disable react/prop-types */
-import React from "react";
-import { convertToMetricsArr } from "../helper/parseContainerFormat";
-import { Pie } from "react-chartjs-2";
-import LineChartDisplay from "../display/LineChartDisplay.js";
+import React from 'react';
+import { convertToMetricsArr } from '../helper/parseContainerFormat';
+import { Pie } from 'react-chartjs-2';
+import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**
  *
@@ -11,16 +11,16 @@ import LineChartDisplay from "../display/LineChartDisplay.js";
  * Display general metrics
  */
 const Metrics = (props) => {
-  let result = convertToMetricsArr(props.runningList);
-  let cpuData = (100 - result[0]).toFixed(2);
-  let memoryData = (100 - result[1]).toFixed(2);
+  const result = convertToMetricsArr(props.runningList);
+  const cpuData = (100 - result[0]).toFixed(2);
+  const memoryData = (100 - result[1]).toFixed(2);
 
   const cpu = {
     labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
     datasets: [
       {
-        label: "CPU",
-        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
+        label: 'CPU',
+        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
         data: [cpuData, result[0]],
       },
     ],
@@ -30,65 +30,65 @@ const Metrics = (props) => {
     labels: [`Available: ${memoryData}%`, `Usage: ${result[1].toFixed(2)}%`],
     datasets: [
       {
-        label: "Memory",
-        backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
+        label: 'Memory',
+        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
         data: [memoryData, result[1]],
       },
     ],
   };
 
-  let options = {
+  const options = {
     tooltips: {
       enabled: false,
     },
     title: {
       display: true,
-      text: "MEMORY",
+      text: 'MEMORY',
       fontSize: 23,
     },
-    legend: { display: false, position: "bottom" },
+    legend: { display: false, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
       datalabels: {
         formatter: (value, ctx) => {
           let sum = 0;
-          let dataArr = ctx.chart.data.datasets[0].data;
+          const dataArr = ctx.chart.data.datasets[0].data;
           dataArr.map((data) => {
             sum += data;
           });
-          let percentage = ((value * 100) / sum).toFixed(2) + "%";
+          const percentage = ((value * 100) / sum).toFixed(2) + '%';
           return percentage;
         },
-        color: "#fff",
+        color: '#fff',
       },
     },
   };
 
-  let options2 = {
+  const options2 = {
     tooltips: {
       enabled: false,
     },
     title: {
       display: true,
-      text: "CPU",
+      text: 'CPU',
       fontSize: 23,
     },
-    legend: { display: false, position: "bottom" },
+    legend: { display: false, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
       datalabels: {
         formatter: (value, ctx) => {
           let sum = 0;
-          let dataArr = ctx.chart.data.datasets[0].data;
+          const dataArr = ctx.chart.data.datasets[0].data;
           dataArr.map((data) => {
             sum += data;
           });
-          let percentage = ((value * 100) / sum).toFixed(2) + "%";
+          const percentage = ((value * 100) / sum).toFixed(2) + '%';
           return percentage;
         },
-        color: "#fff",
+        color: '#fff',
       },
     },
   };

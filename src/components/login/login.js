@@ -23,8 +23,22 @@ import App from '../App';
 import SignupModal from './signupModal';
 import DebugRouter from '../debug/debugRouter';
 
+// Material UI Imports
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Docketeer from '../../../assets/docketeer-title.png';
+import Button from '@material-ui/core/Button';
 // Helper Functions Import
 // import { handleLogin, authenticateUser } from '../helper/loginHelper';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 const Login = () => {
   
@@ -43,6 +57,9 @@ const Login = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
+  // Material UI
+  const classes = useStyles();
+
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
     Modal.setAppElement('body');
@@ -123,16 +140,37 @@ const Login = () => {
       history={BrowserHistory}
     >
       <Route id="route" path="/"> 
-        <div>
-          <h1>Login</h1>
-          <form onSubmit={handleLogin}>
-            <input id="username" type="text" placeholder="username"></input>
-            <br></br>
-            <input id="password" type="password" placeholder="password"></input>
-            <br></br>
-            <input type="submit"></input>
-          </form>
-          <button id="signup" onClick={openModal}>Sign Up</button>
+        <header>
+          <img src={Docketeer} width={160} />
+        </header>
+        <br></br>
+        <br></br>
+        <br></br>
+        <div className="renderContainers">
+          <div className="header">
+            <h1 className="tabTitle">Login</h1>
+          </div>
+          <div className="settings-container">
+            <form className={classes.root} onSubmit={handleLogin}>
+              {/* <input id="username" type="text" placeholder="username"></input> */}
+              <TextField id="username" label="Username" variant="outlined" />
+              <br></br>
+              <br></br>
+              {/* <input id="password" type="password" placeholder="password"></input> */}
+              <TextField id="password" label="Password" type="password" variant="outlined" />
+              {/* <input type="submit"></input> */}
+              <br></br>
+              <br></br>
+              <Button variant="contained" color="primary" type="submit" size="medium" className={classes.button}>
+                Login
+              </Button>
+              <hr></hr>
+              <Button variant="contained" size="medium" className={classes.button} onClick={openModal}>
+                Sign Up
+              </Button>
+            </form>
+          </div>
+          {/* <button id="signup" onClick={openModal}>Sign Up</button> */}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}

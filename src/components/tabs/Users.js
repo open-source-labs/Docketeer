@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 // Material UI imports
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -183,76 +184,86 @@ const UserTable = () => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>id</TableCell>
-            <TableCell>Username</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Contact Preference</TableCell>
-            <TableCell>Memory Threshold</TableCell>
-            <TableCell>CPU Threshold</TableCell>
-            <TableCell>Admin</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row, index) => {
-            // const isItemSelected = isSelected(row.name);
-            const labelId = `enhanced-table-checkbox-${index}`;
-            return (
-              <TableRow 
-                key={row._id}
-                hover
-              >
-                <TableCell component="th" scope="row">
-                  {row._id}
-                </TableCell>
-                <TableCell>{row.username}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.phone}</TableCell>
-                <TableCell>{row.role}</TableCell>
-                <TableCell>{row.contact_pref}</TableCell>
-                <TableCell>{row.mem_threshold}</TableCell>
-                <TableCell>{row.cpu_threshold}</TableCell>
-                <TableCell>
-                  <Checkbox 
-                    id={`${row._id}`}
-                    userid={`${row._id}`}
-                    checked={selected[row._id]}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onChange={handleCheckboxClick}
-                  />
-                </TableCell>
+    <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Users</h1>
+      </div>
+      <div className="metric-section-title">
+        <h3>List of Users in Docketeer</h3>
+      </div>
+      <div className="settings-containers">
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>id</TableCell>
+                <TableCell>Username</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell>Contact Preference</TableCell>
+                <TableCell>Memory Threshold</TableCell>
+                <TableCell>CPU Threshold</TableCell>
+                <TableCell>Admin</TableCell>
               </TableRow>
-            );})}
-          
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
-              colSpan={10}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : rows
+              ).map((row, index) => {
+                // const isItemSelected = isSelected(row.name);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow 
+                    key={row._id}
+                    hover
+                  >
+                    <TableCell component="th" scope="row">
+                      {row._id}
+                    </TableCell>
+                    <TableCell>{row.username}</TableCell>
+                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.phone}</TableCell>
+                    <TableCell>{row.role}</TableCell>
+                    <TableCell>{row.contact_pref}</TableCell>
+                    <TableCell>{row.mem_threshold}</TableCell>
+                    <TableCell>{row.cpu_threshold}</TableCell>
+                    <TableCell>
+                      <Checkbox 
+                        id={`${row._id}`}
+                        userid={`${row._id}`}
+                        checked={selected[row._id]}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                        onChange={handleCheckboxClick}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );})}
+              
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
+                  colSpan={10}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                  }}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
   );
 };
 

@@ -165,6 +165,7 @@ const Login = () => {
                 Login
               </Button>
               <hr></hr>
+              <div className="g-signin2" data-onsuccess="onSignIn" style={{width: '200px', borderRadius:'4px'}}></div>
               <Button variant="contained" size="medium" className={classes.button} onClick={openModal}>
                 Sign Up
               </Button>

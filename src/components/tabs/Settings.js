@@ -30,22 +30,14 @@ import Radio from '@material-ui/core/Radio';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) =>
-    dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) =>
-    dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) =>
-    dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) =>
-    dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) =>
-    dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) =>
-    dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) =>
-    dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),
+  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
+  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
+  addMemoryNotificationSetting: (data) => dispatch(actions.addMemoryNotificationSetting(data)),
+  addCpuNotificationSetting: (data) => dispatch(actions.addCpuNotificationSetting(data)),
+  addStoppedNotificationSetting: (data) => dispatch(actions.addStoppedNotificationSetting(data)),
+  removeMemoryNotificationSetting: (data) => dispatch(actions.removeMemoryNotificationSetting(data)),
+  removeCpuNotificationSetting: (data) => dispatch(actions.removeCpuNotificationSetting(data)),
+  removeStoppedNotificationSetting: (data) => dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -354,30 +346,22 @@ const Settings = (props) => {
       );
     }
   };
-
-  const [value, setValue] = useState('email');
-
-  const handleRadioChange = (event) => {
-    setValue(event.target.value);
-
-    // fetch('/accounts')
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data));
-    //   .catch((err) => { 
-    //     console.log('error updating handleRadioChange. See Settings line 340');
-    //   });
-  };
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
   const [ cpuThreshold, setCpuThreshold ] = useState('80');
   const [ memThreshold, setMemThreshold ] = useState('80');
   const [ stoppedContainers, setStoppedContainers ] = useState(false);
+  const [value, setValue] = useState('email');
 
   const dispatch = useDispatch();
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
 
   const _id = useSelector((state) => state.session._id);
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
+
   const handleRadioSubmit = (value) => {
-    console.log('RADIO SUBMIT: ', _id);
     fetch('http://localhost:3000/account/contact', 
       { 
         method: 'POST', 
@@ -393,7 +377,6 @@ const Settings = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         updateUser(data);
       })
       .catch((err) => {
@@ -402,9 +385,7 @@ const Settings = (props) => {
   };
 
   const handleCpuChange = (event) => {
-    console.log('BEFORE: CPU threshold set: ', cpuThreshold);
     setCpuThreshold(document.getElementById('cpu-threshold-input').value);
-    console.log('AFTER: CPU threshold set: ', cpuThreshold);
   };
 
   const handleCpuSubmit = (value) => {
@@ -424,7 +405,6 @@ const Settings = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         updateUser(data);
       })
       .catch((err) => {
@@ -433,7 +413,6 @@ const Settings = (props) => {
   };
 
   const handleMemSubmit = (value) => {
-    console.log('Memory SUBMIT: ', _id);
     fetch('http://localhost:3000/account/memory', 
       { 
         method: 'POST', 
@@ -449,7 +428,6 @@ const Settings = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         updateUser(data);
       })
       .catch((err) => {
@@ -458,7 +436,6 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersSubmit = (value) => {
-    console.log('Memory SUBMIT: ', _id);
     fetch('http://localhost:3000/account/stops', 
       { 
         method: 'POST', 
@@ -474,7 +451,6 @@ const Settings = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         updateUser(data);
       })
       .catch((err) => {
@@ -484,12 +460,10 @@ const Settings = (props) => {
 
   const handleMemChange = (event) => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
-    console.log('MEM threshold set: ', memThreshold);
   };
 
   const handleStoppedContainersChange = (event) => {
     setStoppedContainers(document.getElementById('stopped-containers-input').checked);
-    console.log('Stopped containers set: ', stoppedContainers);
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {

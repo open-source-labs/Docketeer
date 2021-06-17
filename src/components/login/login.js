@@ -133,6 +133,7 @@ const Login = () => {
             <input type="submit"></input>
           </form>
           <button id="signup" onClick={openModal}>Sign Up</button>
+          <div className="g-signin2" data-onsuccess="onSignIn"></div>
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}

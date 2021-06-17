@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module Login
- * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Biggie Smalls, Griffin Silver, Lorenzo Guevara
  * @date 6/10/2021
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  *
@@ -10,11 +10,13 @@
  */
 
 // NPM Module Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
+// import React, { Component } from 'react'; 
 
+import { startFirebaseUI } from '../../renderer/firebase.js';
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
@@ -22,9 +24,22 @@ import * as actions from '../../actions/actions';
 import App from '../App';
 import SignupModal from './signupModal';
 import DebugRouter from '../debug/debugRouter';
-
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // Helper Functions Import
 // import { handleLogin, authenticateUser } from '../helper/loginHelper';
+import firebase from 'firebase';
+
+const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  signInSuccessUrl: '/signedIn',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+  ],
+};
 
 const Login = () => {
   
@@ -97,6 +112,21 @@ const Login = () => {
       });
   };
 
+  // class fireBase extends Component {
+   useEffect(()=>{
+      startFirebaseUI ('#firebaseui');
+    }, []);
+      // return (
+      //   <div id="firebaseui"></div> 
+      // );
+    
+  // }
+  
+  // export default App;
+  
+  // Firebaseui will create users for you, you don't need to do that manually. It will also throw a nasty error if it can't find the element so make sure you don't ever call it without the element on the page!
+  
+  
   // Upon successful login, redirect to /app location and render the App component
 
   // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
@@ -133,6 +163,8 @@ const Login = () => {
             <input type="submit"></input>
           </form>
           <button id="signup" onClick={openModal}>Sign Up</button>
+          <div id="firebaseui"></div> 
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}

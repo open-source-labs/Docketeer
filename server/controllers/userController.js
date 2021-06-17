@@ -39,6 +39,7 @@ userController.createUser = (req, res, next) => {
       });
   }
 };
+
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
   console.log('made it to userController.getUsers');
@@ -112,42 +113,32 @@ userController.switchUserRole = (req, res, next) => {
       });
     });
 };
-// verify user's information is complete and check if entered password is correct
-// userController.verifyUser = (req, res, next) => {
-//   if (res.locals.error) return next();
 
-//   const { username, password } = req.body;
-//   const { hash } = res.locals;
+// update configuration thresholds
+userController.configureThresholds = (req, res, next) => {
+  if (res.locals.error) return next();
 
-//   if (!username || !password) {
-//     res.locals.error = 'Missing username or password.';
-//     return next();
-//   }
+  const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
+  
+  const inputThresholds = 'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
+  const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
 
-//   const checkUser = `SELECT * FROM users WHERE username='${username}';`;
+  db.query(inputThresholds, thresholdDetails)
+    .then((data) => {
+      console.log('raw data:', data);
+      res.locals.user = data.rows[0];
+      console.log(res.locals.user);
+      console.log('user added');
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController newUser: ${err}`,
+        message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+      });
+    });
 
-//   db.query(checkUser)
-//     .then((data) => {
-//       console.log(data);
-//       if (data.rows[0].password === hash) {
-//         console.log(data.rows[0].password, hash);
-//         res.locals.id = data.rows[0]._id;
-//         return next();
-//       } else {
-//         res.locals.error = 'Incorrect username or password.';
-//         return next();
-//       }
-//     })
-//     .catch((err) => {
-//       res.locals.error = err;
-//       return next({
-//         log: `Error in userController verifyUser: ${err}`,
-//         message: { err: 'An error occured verifying user. See userController.verifyUser.' },
-//       });
-//     });
-// };
-
-// update user
+};
 
 // get one user
 

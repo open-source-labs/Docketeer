@@ -26,8 +26,9 @@ import DebugRouter from '../debug/debugRouter';
 // Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Docketeer from '../../../assets/docketeer-title.png';
 import Button from '@material-ui/core/Button';
+
+import Docketeer from '../../../assets/docketeer-title.png';
 // Helper Functions Import
 // import { handleLogin, authenticateUser } from '../helper/loginHelper';
 

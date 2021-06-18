@@ -22,8 +22,12 @@ const getTargetStat = (containerObject, notificationSettingType) => {
 };
 
 const getContainerObject = (containerList, containerId) => {
+  // console.log('GET CONTAINER OBJECT: ', containerList, containerId);
   for (let i = 0; i < containerList.length; i += 1) {
     const containerObject = containerList[i];
+    // console.log('containerObject: ', containerList[i]);
+    // console.log('CID: ', containerObject.cid);
+    // console.log('ID: ', containerObject.ID);
     if (containerObject.cid === containerId) return containerObject;
   }
   // container not present in container list (ex: running or stopped notificationList)
@@ -105,14 +109,21 @@ const checkForNotifications = (
   containerList,
   triggeringValue
 ) => {
+  if(notificationType === 'MEMORY'){
+    console.log('checkForNotifications: ', notificationType, ' ', triggeringValue);
+    console.log(containerList, notificationType);
+    console.log('notificationSettingsSet: ', notificationSettingsSet);
+  }
   // scan notification settings
   notificationSettingsSet.forEach((containerId) => {
     // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
+    // console.log('CONTAINER OBJECT ', notificationType, containerObject);
     if (containerObject) {
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
       // if the stat should trigger rule
+      // console.log('TRIGGER ALERT: ', stat, ' vs ', triggeringValue);
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
         if (isContainerInSentNotifications(notificationType, containerId)) {

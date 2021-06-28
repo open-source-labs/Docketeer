@@ -1,7 +1,7 @@
 /**
  * ************************************
  *
- * @module ServerRouter
+ * @module AdminRouter
  * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
  * @date 6/14/2021
  * @description Routes all requests to admin endpoint 

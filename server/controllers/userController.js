@@ -53,8 +53,29 @@ userController.getAllUsers = (req, res, next) => {
     })
     .catch((err) => {
       return next({
-        log: `Error in userController getUsers: ${err}`,
-        message: { err: 'An error occured retrieving all users from database. See userController.getUsers.' },
+        log: `Error in userController getAllUsers: ${err}`,
+        message: { err: 'An error occured retrieving all users from database. See userController.getAllUsers.' },
+      });
+    });
+};
+
+// get information for one user
+userController.getOneUser = (req, res, next) => {
+  const { _id } = req.body;
+  
+  const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
+
+  db.query(oneUser)
+    .then((response) => {
+      res.locals.users = response.rows;
+      console.log(res.locals.users);
+      console.log('retrieved user from database');
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController getOneUser: ${err}`,
+        message: { err: 'An error occured retrieving user from database. See userController.getOneUser.' },
       });
     });
 };
@@ -69,7 +90,7 @@ userController.verifyUser = (req, res, next) => {
 
   db.query(getUser)
     .then((data) => {
-      data.rows[0] ? res.locals.user = data.rows[0] : res.locals.error = 'Incorrect username or password.';
+      if (data.rows[0]) res.locals.user = data.rows[0]; else res.locals.error = 'Incorrect username or password.';
       return next();
     })
     .catch((err) => {
@@ -115,32 +136,29 @@ userController.switchUserRole = (req, res, next) => {
 };
 
 // update configuration thresholds
-userController.configureThresholds = (req, res, next) => {
-  if (res.locals.error) return next();
+// userController.configureThresholds = (req, res, next) => {
+//   if (res.locals.error) return next();
 
-  const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
+//   const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
   
-  const inputThresholds = 'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
-  const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
+//   const inputThresholds = 'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
+//   const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
 
-  db.query(inputThresholds, thresholdDetails)
-    .then((data) => {
-      console.log('raw data:', data);
-      res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('user added');
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController newUser: ${err}`,
-        message: { err: 'An error occured creating new user in database. See userController.newUser.' },
-      });
-    });
+//   db.query(inputThresholds, thresholdDetails)
+//     .then((data) => {
+//       console.log('raw data:', data);
+//       res.locals.user = data.rows[0];
+//       console.log(res.locals.user);
+//       console.log('user added');
+//       return next();
+//     })
+//     .catch((err) => {
+//       return next({
+//         log: `Error in userController newUser: ${err}`,
+//         message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+//       });
+//     });
 
-};
-
-// get one user
-
+// };
 
 module.exports = userController;

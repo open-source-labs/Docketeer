@@ -5,6 +5,9 @@ import * as actions from '../../actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
 
+// React Component Imports
+import AccountDisplay from '../display/AccountDisplay';
+
 // Material UI Imports
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -580,6 +583,7 @@ const Settings = (props) => {
       <div className="header">
         <h1 className="tabTitle">Settings</h1>
       </div>
+      <AccountDisplay />
       <div className="metric-section-title">
         <h3>Communication</h3>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import NewUserDisplay from './NewUserDisplay';
+import NewUserDisplay from '../display/NewUserDisplay';
 
 // Material UI imports
 import { makeStyles, useTheme } from '@material-ui/core/styles';

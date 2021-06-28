@@ -1,5 +1,5 @@
-import twilio from "twilio";
-import { config } from "dotenv";
+import twilio from 'twilio';
+import { config } from 'dotenv';
 
 config();
 
@@ -15,7 +15,7 @@ const verifyCode = (body) => {
     .verificationChecks.create({ to: mobileNumber, code })
     .then((data) => data.status)
     .catch(function (err) {
-      console.error("Could not check the code with Twilio API");
+      console.error('Could not check the code with Twilio API');
       console.error(err);
     });
 };

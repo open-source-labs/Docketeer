@@ -20,7 +20,7 @@ userController.createUser = (req, res, next) => {
   const { username, email, phone } = req.body;
   const { hash } = res.locals;
   
-  const createUser = 'INSERT INTO users (username, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *;';
+  const createUser = 'INSERT INTO users (username, email, password, phone, role) VALUES ($1, $2, $3, $4, \'user\') RETURNING *;';
   const userDetails = [username, email, hash, phone];
 
   if (username && hash) {

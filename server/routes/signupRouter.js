@@ -34,7 +34,7 @@ router.post('/',
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
   (req, res) => {
-    if (res.locals.error) return res.status(200).json(res.locals.error);
+    if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json('successfully added new user to database');
   }
 );

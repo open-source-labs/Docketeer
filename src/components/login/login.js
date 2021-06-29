@@ -53,10 +53,6 @@ const Login = () => {
 
   // React Hooks: Local state variables 
   const [ modalIsOpen, setIsOpen ] = useState(false);
-
-  // Modal functions
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
   
   // Material UI
   const classes = useStyles();
@@ -161,25 +157,13 @@ const Login = () => {
               <TextField id="password" label="Password" type="password" variant="outlined" />
               {/* <input type="submit"></input> */}
               <br></br>
-              <br></br>
               <Button variant="contained" color="primary" type="submit" size="medium" className={classes.button}>
                 Login
               </Button>
               <hr></hr>
               <div className="g-signin2" data-onsuccess="onSignIn" style={{width: '200px', borderRadius:'4px'}}></div>
-              <Button variant="contained" size="medium" className={classes.button} onClick={openModal}>
-                Sign Up
-              </Button>
             </form>
           </div>
-          {/* <button id="signup" onClick={openModal}>Sign Up</button> */}
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel='Modal to make user account'
-          >
-            <SignupModal closeModal={closeModal}/>
-          </Modal>
         </div>
       </Route>
     </Router>

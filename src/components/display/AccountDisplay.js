@@ -19,6 +19,9 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 
+// Helper Function Imports
+import { handlePasswordChange, confirmPassword, checkPasswordLength, checkCurrentPassword } from '../helper/settingsHelper';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -81,7 +84,7 @@ const AccountDisplay = () => {
             label="Current Password"
             variant="outlined"
             type="password"
-            // value="80" set this later
+            onChange={() => checkCurrentPassword()}
             size="small"
           />
           <br></br>
@@ -95,7 +98,7 @@ const AccountDisplay = () => {
             label="New Password"
             variant="outlined"
             type="password"
-            // value="80" set this later
+            onChange={() => checkPasswordLength()}
             size="small"
           />
           <br></br>
@@ -109,18 +112,20 @@ const AccountDisplay = () => {
             label="Confirm New Password"
             variant="outlined"
             type="password"
+            onChange={() => confirmPassword()}
             // value="80" set this later
             size="small"
           />
           <br></br>
           <span id="confirm-new-password-alert"></span>
           <br></br>
+          <br></br>
           <Button
             className={classes.button}
             size="medium"
             color="default"
             variant="contained"
-            onClick={() => console.log('click')}
+            onClick={() => handlePasswordChange()}
             endIcon={<SendIcon />}
           >
                 Submit

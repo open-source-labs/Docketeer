@@ -18,6 +18,7 @@ router.get('/',
   dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,
+  dbController.createAdminPassword,
   dbController.insertAdmin,
   (req, res) => {
 

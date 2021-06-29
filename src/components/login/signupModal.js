@@ -122,22 +122,15 @@ const SignupModal = (props) => {
     <div>
       <h1>Signup</h1>
       <form onSubmit={handleClick} className={classes.root} >
-        {/* <input id="signupEmail" type="text" placeholder="email"></input><br></br> */}
         <TextField id="signupEmail" label="Email" variant="outlined" /><br></br>
         <TextField id="signupUsername" label="Username" variant="outlined" /><br></br>
         <TextField id="signupPassword" label="Password" variant="outlined" type="password" /><br></br>
+        <span id="password-alert"></span>
         <TextField id="signupPasswordConfirmation" label="Password" variant="outlined" type="password" /><br></br>
         <TextField id="signupPhone" label="Phone" variant="outlined" /><br></br>
-        {/* <input id="signupUsername" type="text" placeholder="username"></input><br></br>
-        <input id="signupPassword" type="password" placeholder="password"></input><br></br>
-        <input id="signupPasswordConfirmation" type="password" placeholder="confirm"></input>
-        <span id="password-alert"></span> 
-        <br></br>
-        <input id="signupPhone" type="text" placeholder="phone number"></input><br></br> */}
         <Button variant="contained" size="medium" className={classes.button} type="submit">
           Submit
         </Button>
-        {/* <input type="submit"></input> */}
       </form>
     </div>
   );

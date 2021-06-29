@@ -5,6 +5,9 @@ import * as actions from '../../actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
 
+// React Component Imports
+import AccountDisplay from '../display/AccountDisplay';
+
 // Material UI Imports
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -353,6 +356,7 @@ const Settings = (props) => {
   const cpu_threshold = useSelector((state) => state.session.cpu_threshold);
   const container_stops = useSelector((state) => state.session.container_stops);
   const contact_pref = useSelector((state) => state.session.contact_pref);
+  const phone = useSelector((state) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
   const [ cpuThreshold, setCpuThreshold ] = useState(cpu_threshold);
@@ -579,7 +583,7 @@ const Settings = (props) => {
       <div className="header">
         <h1 className="tabTitle">Settings</h1>
       </div>
-
+      <AccountDisplay />
       <div className="metric-section-title">
         <h3>Communication</h3>
       </div>
@@ -588,17 +592,16 @@ const Settings = (props) => {
           Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
         </p>
         <br></br>
-        <p>1. Link mobile phone to your account</p>
+        <p>1. Verify your mobile phone number on Twilio</p>
         <br></br>
         <form className={classes.root} autoComplete="off">
           <div>
             <TextField
               required
               id="textfield"
-              label="Phone Number"
+              label={phone}
               helperText="* use country code (+1)"
               variant="outlined"
-              value={mobileNumber}
               onChange={(e) => {
                 setMobileNumber(e.target.value);
                 isVerified = false;
@@ -650,8 +653,7 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
-
-        {/* <br></br> */}
+        
         <p>2. Contact preference:</p>
         <br></br>
         <FormControl component="fieldset">
@@ -671,15 +673,6 @@ const Settings = (props) => {
             Submit
           </Button>
         </FormControl>
-
-        
-        {/* <br></br>
-        <p>
-          3. Setup / update attribute values for notification triggers in
-          Containers settings table below. Recommended values will be used by
-          default.
-        </p>
-        <br></br> */}
       </div>
 
       <div className="metric-section-title">
@@ -748,6 +741,7 @@ const Settings = (props) => {
         <p>2. Configure notification thresholds</p>
         <br></br>
         <form className={classes.root} autoComplete="off">
+          Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
             <TextField
               required
@@ -768,6 +762,8 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
+            <br></br>
+            Current Memory Threshold: {`>${mem_threshold}%`}
             <br></br>
             <TextField
               required
@@ -807,33 +803,6 @@ const Settings = (props) => {
             Submit
           </Button>
         </form>
-
-        {showVerificationInput ? (
-          <form className={classes.root} autoComplete="off">
-            <div className="verification-code">
-              <TextField
-                required
-                id="verification-code"
-                label="Verification code"
-                variant="outlined"
-                onChange={(e) => {
-                  handleChange(e.target.value);
-                }}
-                size="small"
-              />
-              <Button
-                className={classes.button}
-                size="medium"
-                color="default"
-                variant="contained"
-                onClick={handleSubmit}
-                endIcon={<SendIcon />}
-              >
-                Submit
-              </Button>
-            </div>
-          </form>
-        ) : null}
       </div>
 
       <div className="metric-section-title">
@@ -846,7 +815,7 @@ const Settings = (props) => {
         </p>
         <br></br>
         <p>
-          1. Add GitHub repositories url in Containers settingss table below
+          1. Add GitHub repositories url in Containers settings table below
         </p>
       </div>
 
@@ -865,8 +834,8 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align="center">Memory {'>'} 80%</TableCell>
-                <TableCell align="center">CPU {'>'} 80%</TableCell>
+                <TableCell align="center">Memory {`>${mem_threshold}%`}</TableCell>
+                <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
                 <TableCell align="center">Container Stops</TableCell>
                 <TableCell align="center">GitHub repository url</TableCell>
                 <TableCell align="center">Apply settings</TableCell>

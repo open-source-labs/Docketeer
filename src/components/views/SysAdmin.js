@@ -9,7 +9,6 @@
  * ************************************
  */
 
-
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -105,12 +104,9 @@ const SysAdmin = (props) => {
         },
       })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log('ADMIN USER LIST');
-        console.log(data);
         updateUserList(data);
       })
       .catch((err) => {

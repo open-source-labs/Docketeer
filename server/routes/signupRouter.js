@@ -14,6 +14,7 @@ const signupController = require('../controllers/signupController');
 const bcryptController = require('../controllers/bcryptController');
 const userController = require('../controllers/userController');
 const cookieController = require('../controllers/cookieController');
+const apiController = require('../controllers/apiController');
 
 const router = express.Router();
 
@@ -31,6 +32,7 @@ router.post('/',
   signupController.passwordCheck,
   bcryptController.hashPassword,
   userController.createUser,
+  apiController.signupEmail,
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
   (req, res) => {

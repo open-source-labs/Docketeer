@@ -14,13 +14,7 @@ const configController = require('../controllers/configController');
 
 const router = express.Router();
 
-router.post('/thresholds', 
-  configController.configureThresholds,
-  (req, res) => {
-    return res.status(200).json('succesfully configured thresholds');
-  }
-);
- 
+// Route handler: updates user's contact preference 
 router.post('/contact', 
   configController.updateContactPref,
   (req, res) => {
@@ -28,6 +22,7 @@ router.post('/contact',
   }
 );
 
+// Route handler: updates user's CPU threshold
 router.post('/cpu', 
   configController.updateCPUThreshold,
   (req, res) => {
@@ -35,6 +30,7 @@ router.post('/cpu',
   }
 );
 
+// Route handler: updates user's memory threshold
 router.post('/memory', 
   configController.updateMemThreshold,
   (req, res) => {
@@ -42,6 +38,7 @@ router.post('/memory',
   }
 );
 
+// Route handler: updates user's preference to receive notifications for container stops
 router.post('/stops',
   configController.updateStopPref,
   (req, res) => {

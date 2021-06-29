@@ -19,10 +19,10 @@ const router = express.Router();
 // Route Handler: Send email notification to user
 // send fetch request from frontend when event emitter finds container issue
 router.post('/', 
-  userController.getOneUser, 
+  // userController.getOneUser, 
   apiController.sendEmailAlert,
   (req, res) => {
-    return res.status(200).json(res.locals.users);
+    return res.status(200).json('alert email sent to user');
   }
 );
 

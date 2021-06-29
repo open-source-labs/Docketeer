@@ -34,17 +34,18 @@ apiController.sendEmailAlert = (req, res, next) => {
   const { email, containerName, time, date, stopped } = req.body;
   let emailBody;
 
-  if (stopped) {
-    emailBody = ` <h2>Alert: Container ${containerName} has stopped!</h2>
-                  <p>Container ${containerName} stopped running at ${time} on ${date}.</p>
+  console.log(typeof stopped, stopped, 'stopped');
+  if (stopped === 'true') {
+    emailBody = ` <h2>Alert: ${containerName} has stopped!</h2>
+                  <h3>Container <b>${containerName}</b> stopped running at <b>${time}</b> on <b>${date}</b>.</h3>
                   <p>Please login to Docketeer for more details.</p>
                   <br />
                   <p>Warmest regards,</p>
                   <p>Team Docketeer</p> `;
   } else {
     const { percent, type, threshold } = req.body;
-    emailBody = ` <h2>Alert: Container ${containerName} has breached ${type} threshold!</h2>
-                  <p>Container ${containerName} used ${percent}% ${type} at ${time} on ${date}.</p>
+    emailBody = ` <h2>Alert: ${containerName} has breached the ${type} threshold!</h2>
+                  <h3>Container <b>${containerName}</b> used <b>${percent}%<b> ${type} at <b>${time}</b> on <b>${date}</b>.</h3>
                   <p>This exceeds the ${type} threshold of ${threshold}%.</p>
                   <p>Please login to Docketeer for more details.</p>
                   <br />

@@ -49,7 +49,7 @@ export const updatePassword = (password, newPassword) => {
         window.alert(data.error);
         return;
       }
-      window.alert('Successfully updated your password.')
+      window.alert('Successfully updated your password.');
     })
     .catch((err) => {
       console.log(err);
@@ -92,4 +92,63 @@ export const checkPasswordLength = () => {
     newPasswordAlert.innerHTML = '';
   }
   return newPassword.length >= 6;
+};
+
+export const handleEmailUpdate = () => {
+  console.log('email update button clicked');
+};
+
+export const handlePhoneUpdate = () => {
+  console.log('phone update button clicked');
+  const newPhoneNumber = document.getElementById('update-phone-input').value;
+  const newPhoneAlert = document.getElementById('update-phone-alert');
+
+  if (!checkPhone(newPhoneNumber)) {
+    window.alert('Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900');
+    return;
+  }
+
+  const state = store.getState();
+  const username = store.session.username;
+
+  updatePhone(username, newPhoneNumber);
+};
+
+export const checkPhone = (phone) => {
+  const regex = /[+][1][\d]{10}$/;
+  const phoneAlert = document.getElementById('update-phone-alert');
+  if (phone.match(regex) === null) {
+    phoneAlert.innerHTML = 'Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900';
+  }
+  else {
+    phoneAlert.innerHTML = '';
+  }
+  return phone.match(regex) !== null;
+};
+
+export const updatePhone = (username, phone) => {
+  fetch('http://localhost:3000/account/password', 
+    { 
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        phone,
+      })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (Object.prototype.hasOwnProperty.call(data, 'error')){
+        window.alert(data.error);
+        return;
+      }
+      window.alert('Successfully updated your phone.');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

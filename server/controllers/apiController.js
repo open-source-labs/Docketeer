@@ -31,18 +31,32 @@ apiController.sendEmailAlert = (req, res, next) => {
   console.log('hit apiController');
   console.log('gmail', gmail.username, gmail.password);
   
-  const { email, containerName, time, stopped } = req.body;
+  const { email, containerName, time, date, stopped } = req.body;
+  let emailBody;
 
   if (stopped) {
+    emailBody = ` <h2>Alert: Container ${containerName} has stopped!</h2>
+                  <p>Container ${containerName} stopped running at ${time} on ${date}.</p>
+                  <p>Please login to Docketeer for more details.</p>
+                  <br />
+                  <p>Warmest regards,</p>
+                  <p>Team Docketeer</p> `;
+  } else {
     const { percent, type, threshold } = req.body;
-    const emailBody = ``;
+    emailBody = ` <h2>Alert: Container ${containerName} has breached ${type} threshold!</h2>
+                  <p>Container ${containerName} used ${percent}% ${type} at ${time} on ${date}.</p>
+                  <p>This exceeds the ${type} threshold of ${threshold}%.</p>
+                  <p>Please login to Docketeer for more details.</p>
+                  <br />
+                  <p>Warmest regards,</p>
+                  <p>Team Docketeer</p> `;
   }
 
   const mailDetails = {
     from: 'team.docketeer@gmail.com',
     to: email,
     subject: 'Docketeer: Container Issue',
-    html: '<h1>container notification</h1>'
+    html: `${emailBody}`
   };
 
   transporter.sendMail(mailDetails)

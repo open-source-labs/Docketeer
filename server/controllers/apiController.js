@@ -31,12 +31,17 @@ apiController.sendEmailAlert = (req, res, next) => {
   console.log('hit apiController');
   console.log('gmail', gmail.username, gmail.password);
   
-  const { email } = req.body;
+  const { email, containerName, time, stopped } = req.body;
+
+  if (stopped) {
+    const { percent, type, threshold } = req.body;
+    const emailBody = ``;
+  }
 
   const mailDetails = {
     from: 'team.docketeer@gmail.com',
     to: email,
-    subject: 'Docketeer: test mail',
+    subject: 'Docketeer: Container Issue',
     html: '<h1>container notification</h1>'
   };
 
@@ -66,19 +71,12 @@ apiController.signupEmail = (req, res, next) => {
     to: email,
     subject: 'Docketeer: Account Details',
     html: `<h1>Welcome to Docketeer</h1>
-          <p>We are so excited to have you on board!</p>
-          </br>
-          </br>
+          <p>We are so excited to have you onboard!</p>
           <h3>Username: ${username}</h3>
-          </br>
           <h3>Password: ${password}</h3>
-          </br>
-          </br>
           <p>For any questions or concerns, please reach out to us at team.docketeer@gmail.com.</p>
-          </br>
-          </br>
+          <br/>
           <p>Warmest regards,</p>
-          </br>
           <p>Team Docketeer</p>`
   };
 

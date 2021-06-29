@@ -14,8 +14,8 @@ const dbController = require('../controllers/dbController');
   
 const router = express.Router();
 
-router.use('/',
-  // dbController.createRoles,
+router.get('/',
+  dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,
   dbController.insertAdmin,

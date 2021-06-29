@@ -11,7 +11,7 @@
 
 CREATE TABLE IF NOT EXISTS roles (
   _id SERIAL NOT NULL,
-  role VARCHAR (255) UNIQUE NOT NULL,
+  role VARCHAR (255) NOT NULL,
   PRIMARY KEY (_id)
 ) WITH (
   OIDS = FALSE
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- establish roles
-INSERT INTO Roles (role) VALUES ('system admin');
-INSERT INTO Roles (role) VALUES ('admin');
-INSERT INTO Roles (role) VALUES ('user');
+INSERT INTO roles (role) VALUES ('system admin');
+INSERT INTO roles (role) VALUES ('admin');
+INSERT INTO roles (role) VALUES ('user');
 

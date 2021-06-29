@@ -14,7 +14,7 @@ const bcrypt = require('bcryptjs');
 
 const bcryptController = {};
 
-// hash user password with bcrypt
+// Hash user password with bCrypt
 bcryptController.hashPassword = (req, res, next) => {
   const { password } = req.body;
   const saltRounds = 10;
@@ -33,10 +33,35 @@ bcryptController.hashPassword = (req, res, next) => {
     });
 };
 
-// compare user's inputted password with password in database
+// Hash new user password with bCrypt - User updated password
+bcryptController.hashNewPassword = (req, res, next) => {
+
+  // if there is an error property on res.locals, return next(). i.e., incorrect password entered
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
+    return next();
+  }
+  // else bCrypt the new password and move to next middleware
+  const { newPassword } = req.body;
+  const saltRounds = 10;
+
+  bcrypt.hash(newPassword, saltRounds)
+    .then((hash) => {
+      res.locals.hash = hash;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in bcryptController hashNewPassword: ${err}`,
+        message: { err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.' },
+      });
+    });
+};
+
+// Compare user's inputted password with password in database
 bcryptController.comparePassword = (req, res, next) => {
   if (res.locals.error) return next();
 
+  console.log(req.body);
   const { username, password } = req.body;
 
   const getHash = `SELECT password FROM users WHERE username='${ username }';`;

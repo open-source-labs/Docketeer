@@ -197,14 +197,14 @@ export default function start() {
       state.notificationList.memoryNotificationList,
       categories.MEMORY,
       state.containersList.runningList,
-      state.session.cpu_threshold // triggering value
+      state.session.mem_threshold // triggering value
     );
     // check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
       state.notificationList.cpuNotificationList,
       categories.CPU,
       state.containersList.runningList,
-      state.session.mem_threshold // triggering value
+      state.session.cpu_threshold // triggering value
     );
     // check if any containers register to stopped notification trigger notification
     checkForNotifications(

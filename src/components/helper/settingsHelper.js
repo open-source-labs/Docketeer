@@ -1,3 +1,5 @@
+import store from '../../renderer/store';
+
 export const handlePasswordChange = () => {
   console.log('handle password click');
   const currentPassword = document.getElementById('current-password-input').value;
@@ -19,17 +21,48 @@ export const handlePasswordChange = () => {
     return;
   }
 
-  updatePassword(newPassword);
+  updatePassword(currentPassword, newPassword);
 };
 
-export const updatePassword = () => {
+export const updatePassword = (password, newPassword) => {
   console.log('New password sent to server!');
+
+  const state = store.getState();
+  const username = state.session.username;
+  fetch('http://localhost:3000/account/password', 
+    { 
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password: password,
+        newPassword: newPassword,
+      })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (Object.prototype.hasOwnProperty.call(data, 'error')){
+        window.alert(data.error);
+        return;
+      }
+      window.alert('Successfully updated your password.')
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 export const checkCurrentPassword = () => {
   const password = document.getElementById('current-password-input').value;
   const passwordAlert = document.getElementById('current-password-alert');
   if (password === ''){
     passwordAlert.innerHTML = 'Warning: Please enter your current password';
+  }
+  else{
+    passwordAlert.innerHTML = '';
   }
   return (password !== '');
 };

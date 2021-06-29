@@ -135,30 +135,33 @@ userController.switchUserRole = (req, res, next) => {
     });
 };
 
-// update configuration thresholds
-// userController.configureThresholds = (req, res, next) => {
-//   if (res.locals.error) return next();
-
-//   const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
+userController.updatePassword = (req, res, next) => {
+  // if there is an error property on res.locals, return next(). i.e., incorrect password entered
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
+    res.locals.error = 'Incorrect password. Please enter the correct password to update it.';
+    return next();
+  }
   
-//   const inputThresholds = 'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
-//   const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
+  console.log(res.locals);
+  console.log(req.body);
+  const { hash } = res.locals;
+  const { username } = req.body;
 
-//   db.query(inputThresholds, thresholdDetails)
-//     .then((data) => {
-//       console.log('raw data:', data);
-//       res.locals.user = data.rows[0];
-//       console.log(res.locals.user);
-//       console.log('user added');
-//       return next();
-//     })
-//     .catch((err) => {
-//       return next({
-//         log: `Error in userController newUser: ${err}`,
-//         message: { err: 'An error occured creating new user in database. See userController.newUser.' },
-//       });
-//     });
-
-// };
+  const query = 'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ hash, username ];
+  console.log(parameters);
+  db.query(query, parameters)
+    .then((data) => {
+      console.log('successfully updated password');
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updatePassword: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updatePassword.' },
+      });
+    });
+};
 
 module.exports = userController;

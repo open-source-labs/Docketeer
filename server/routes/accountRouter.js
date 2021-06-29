@@ -11,19 +11,24 @@
 
 const express = require('express');
 const configController = require('../controllers/configController');
+const userController = require('../controllers/userController');
+const bcryptController = require('../controllers/bcryptController');
 
 const router = express.Router();
-
-// router.post('/thresholds', 
-//   configController.configureThresholds,
-//   (req, res) => {
-//     return res.status(200).json('succesfully configured thresholds');
-//   }
-// );
  
 router.post('/contact', 
   configController.updateContactPref,
   (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
+
+router.post('/password', 
+  bcryptController.comparePassword,
+  bcryptController.hashNewPassword,
+  userController.updatePassword,
+  (req, res) => {
+    if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);
   }
 );

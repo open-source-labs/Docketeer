@@ -15,22 +15,23 @@ const gmail = require('../../security/gmail');
 
 const apiController = {};
 
-apiController.sendEmail = (req, res, next) => {
+// create transporter object
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: gmail.username,
+    pass: gmail.password
+  }
+});
+
+// sends notification email when container issue occurs
+apiController.issueEmail = (req, res, next) => {
   console.log('hit apiController');
   console.log('gmail', gmail.username, gmail.password);
   
   const { email } = req.body;
-
-  // create transporter object
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: gmail.username,
-      pass: gmail.password
-    }
-  });
 
   const mailDetails = {
     from: 'team.docketeer@gmail.com',
@@ -53,5 +54,7 @@ apiController.sendEmail = (req, res, next) => {
       });
     });
 };
+
+// sends email with username/password when user signs up
 
 module.exports = apiController;

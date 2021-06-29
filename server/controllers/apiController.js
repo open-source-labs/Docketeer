@@ -4,12 +4,11 @@
  * @module API Controller
  * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
  * @date 6/14/2021
- * @description Contains middleware that sends email to user
+ * @description Contains middleware that sends emails to user for container issues and signup information
  *
  * ************************************
  */
 
-const express = require('express');
 const nodemailer = require('nodemailer');
 const gmail = require('../../security/gmail');
 
@@ -34,6 +33,7 @@ apiController.sendEmailAlert = (req, res, next) => {
   const { email, containerName, time, date, stopped } = req.body;
   let emailBody;
 
+  // depending on container issue, a different email body is sent to user
   console.log(typeof stopped, stopped, 'stopped');
   if (stopped === 'true') {
     emailBody = ` <h2>Alert: ${containerName} has stopped!</h2>

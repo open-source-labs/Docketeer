@@ -29,6 +29,13 @@ router.post('/password',
   userController.updatePassword,
   (req, res) => {
     if (res.locals.error) return res.status(200).json(res.locals);
+    return res.status(200).json('Successfully updated your password.');
+  }
+);
+
+router.post('/phone', 
+  userController.updatePhone,
+  (req, res) => {
     return res.status(200).json(res.locals.user);
   }
 );

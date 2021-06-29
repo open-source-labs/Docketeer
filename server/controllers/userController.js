@@ -141,18 +141,16 @@ userController.updatePassword = (req, res, next) => {
     res.locals.error = 'Incorrect password. Please enter the correct password to update it.';
     return next();
   }
-  
-  console.log(res.locals);
-  console.log(req.body);
   const { hash } = res.locals;
   const { username } = req.body;
 
+  // Note: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
+
   const query = 'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
   const parameters = [ hash, username ];
-  console.log(parameters);
+
   db.query(query, parameters)
     .then((data) => {
-      console.log('successfully updated password');
       res.locals.user = data.rows[0];
       return next();
     })
@@ -160,6 +158,26 @@ userController.updatePassword = (req, res, next) => {
       return next({
         log: `Error in userController updatePassword: ${err}`,
         message: { err: 'An error occured while checking if username exists. See userController.updatePassword.' },
+      });
+    });
+};
+
+userController.updatePhone = (req, res, next) => {
+
+  const { username, phone } = req.body;
+
+  const query = 'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ phone, username ];
+
+  db.query(query, parameters)
+    .then((data) => {
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updatePhone: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updatePhone.' },
       });
     });
 };

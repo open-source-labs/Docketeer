@@ -1,4 +1,19 @@
+/**
+ * ************************************
+ *
+ * @module setingsHelper
+ * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @date 6/10/2021
+ * @description Helper functions for updating account information in AccountDisplay Component in Settings tab
+ *
+ * ************************************
+ */
+
+// Redux Store Import
 import store from '../../renderer/store';
+
+// Dispatch Actions Import
+import * as actions from '../../actions/actions';
 
 export const handlePasswordChange = () => {
   console.log('handle password click');
@@ -109,7 +124,7 @@ export const handlePhoneUpdate = () => {
   }
 
   const state = store.getState();
-  const username = store.session.username;
+  const username = state.session.username;
 
   updatePhone(username, newPhoneNumber);
 };
@@ -127,7 +142,8 @@ export const checkPhone = (phone) => {
 };
 
 export const updatePhone = (username, phone) => {
-  fetch('http://localhost:3000/account/password', 
+  console.log('UPDATE PHONE');
+  fetch('http://localhost:3000/account/phone', 
     { 
       method: 'POST', 
       headers: {
@@ -142,13 +158,15 @@ export const updatePhone = (username, phone) => {
       return response.json();
     })
     .then((data) => {
-      if (Object.prototype.hasOwnProperty.call(data, 'error')){
-        window.alert(data.error);
-        return;
-      }
-      window.alert('Successfully updated your phone.');
+      console.log(data);
+      document.getElementById('update-phone-input').value = '';
+      updateUser(data);
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+export const updateUser = (data) => {
+  store.dispatch(actions.updateUser(data));
 };

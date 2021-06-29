@@ -40,6 +40,13 @@ router.post('/phone',
   }
 );
 
+router.post('/email',
+  userController.updateEmail,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
+
 router.post('/cpu', 
   configController.updateCPUThreshold,
   (req, res) => {

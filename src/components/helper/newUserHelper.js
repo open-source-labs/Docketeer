@@ -12,6 +12,7 @@
 // Redux Store Import
 import store from '../../renderer/store';
 
+// Dispatch Actions Import
 import * as actions from '../../actions/actions';
 
 export const handleNewUser = (e) => {

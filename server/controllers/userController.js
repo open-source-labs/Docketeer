@@ -182,4 +182,22 @@ userController.updatePhone = (req, res, next) => {
     });
 };
 
+userController.updateEmail = (req, res, next) => {
+  const { username, email } = req.body;
+
+  const query = 'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ email, username ];
+
+  db.query(query, parameters)
+    .then((data) => {
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updateEmail: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updateEmail.' },
+      });
+    });
+};
 module.exports = userController;

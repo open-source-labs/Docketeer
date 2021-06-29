@@ -110,7 +110,42 @@ export const checkPasswordLength = () => {
 };
 
 export const handleEmailUpdate = () => {
-  console.log('email update button clicked');
+  const email = document.getElementById('update-email-input').value;
+  const emailAlert = document.getElementById('update-email-alert');
+
+  const state = store.getState();
+  const username = state.session.username;
+
+  if (email === ''){
+    window.alert('Please input a valid email');
+    return;
+  }
+
+  updateEmail(username, email);
+};
+
+export const updateEmail = (username, email) => {
+  fetch('http://localhost:3000/account/email', 
+    { 
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+      })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      updateUser(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const handlePhoneUpdate = () => {

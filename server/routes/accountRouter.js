@@ -14,12 +14,12 @@ const configController = require('../controllers/configController');
 
 const router = express.Router();
 
-router.post('/thresholds', 
-  configController.configureThresholds,
-  (req, res) => {
-    return res.status(200).json('succesfully configured thresholds');
-  }
-);
+// router.post('/thresholds', 
+//   configController.configureThresholds,
+//   (req, res) => {
+//     return res.status(200).json('succesfully configured thresholds');
+//   }
+// );
  
 router.post('/contact', 
   configController.updateContactPref,

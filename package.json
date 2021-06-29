@@ -46,6 +46,7 @@
     "fix-path": "^3.0.0",
     "jest": "^26.4.2",
     "node-fetch": "^2.6.1",
+    "nodemailer": "^6.6.2",
     "pg": "^8.4.1",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.10.0",

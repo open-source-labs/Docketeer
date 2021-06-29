@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // sends notification email when container issue occurs
-apiController.issueEmail = (req, res, next) => {
+apiController.sendEmailAlert = (req, res, next) => {
   console.log('hit apiController');
   console.log('gmail', gmail.username, gmail.password);
   
@@ -49,12 +49,38 @@ apiController.issueEmail = (req, res, next) => {
     .catch((err) => {
       console.log('hit error', err);
       return next({
-        log: `Error in apiController sendEmail: ${err}`,
-        message: { err: 'An error occured creating new user in database. See apiController.sendEmail.' },
+        log: `Error in apiController sendEmailAlert: ${err}`,
+        message: { err: 'An error occured creating new user in database. See apiController.sendEmailAlert.' },
       });
     });
 };
 
 // sends email with username/password when user signs up
+apiController.signupEmail = (req, res, next) => {
+  console.log('hit apiController');
+
+  const { email, username, password } = req.body;
+
+  const mailDetails = {
+    from: 'team.docketeer@gmail.com',
+    to: email,
+    subject: 'Docketeer: Account Details',
+    html: '<h1>Welcome to Docketeer</h1>'
+  };
+
+  transporter.sendMail(mailDetails)
+    .then((info) => {
+      console.log('Email sent successfully.');
+      console.log(info);
+      return next();
+    })
+    .catch((err) => {
+      console.log('hit error', err);
+      return next({
+        log: `Error in apiController signupEmail: ${err}`,
+        message: { err: 'An error occured creating new user in database. See apiController.signupEmail.' },
+      });
+    });
+};
 
 module.exports = apiController;

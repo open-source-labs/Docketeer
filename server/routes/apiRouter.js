@@ -20,7 +20,7 @@ const router = express.Router();
 // send fetch request from frontend when event emitter finds container issue
 router.post('/', 
   userController.getOneUser, 
-  apiController.issueEmail,
+  apiController.sendEmailAlert,
   (req, res) => {
     return res.status(200).json(res.locals.users);
   }

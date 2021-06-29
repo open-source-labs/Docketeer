@@ -65,7 +65,21 @@ apiController.signupEmail = (req, res, next) => {
     from: 'team.docketeer@gmail.com',
     to: email,
     subject: 'Docketeer: Account Details',
-    html: '<h1>Welcome to Docketeer</h1>'
+    html: `<h1>Welcome to Docketeer</h1>
+          <p>We are so excited to have you on board!</p>
+          </br>
+          </br>
+          <h3>Username: ${username}</h3>
+          </br>
+          <h3>Password: ${password}</h3>
+          </br>
+          </br>
+          <p>For any questions or concerns, please reach out to us at team.docketeer@gmail.com.</p>
+          </br>
+          </br>
+          <p>Warmest regards,</p>
+          </br>
+          <p>Team Docketeer</p>`
   };
 
   transporter.sendMail(mailDetails)

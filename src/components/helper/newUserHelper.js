@@ -34,7 +34,7 @@ export const handleNewUser = (e) => {
     return;
   }
   if (!checkPhone(phone)){
-    window.alert('Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n12345678900');
+    window.alert('Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900');
     return;
   }
   return createNewUser(email, username, password, phone);
@@ -69,10 +69,8 @@ export const checkPasswordLength = () => {
 };
 
 export const checkPhone = (phone) => {
-  const regex = /[1][\d]{10}$/;
+  const regex = /[+][1][\d]{10}$/;
   const phoneAlert = document.getElementById('phone-alert');
-  console.log(phone);
-  console.log(phone.match(regex) === null);
   if (phone.match(regex) === null) {
     phoneAlert.innerHTML = 'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900';
   }

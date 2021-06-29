@@ -59,7 +59,16 @@ const Login = () => {
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
-    Modal.setAppElement('body');
+    fetch('http://localhost:3000/db')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return console.log(data);
+      })
+      .catch((err) => {
+        return console.log(err);
+      });
   }, []);
   
   // callback function invoked when 'login' button is clicked
@@ -97,6 +106,7 @@ const Login = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         }

@@ -15,7 +15,8 @@ const userController = require('../controllers/userController');
 const bcryptController = require('../controllers/bcryptController');
 
 const router = express.Router();
- 
+
+// Route handler: updates user's contact preference 
 router.post('/contact', 
   configController.updateContactPref,
   (req, res) => {
@@ -54,6 +55,7 @@ router.post('/cpu',
   }
 );
 
+// Route handler: updates user's memory threshold
 router.post('/memory', 
   configController.updateMemThreshold,
   (req, res) => {
@@ -61,6 +63,7 @@ router.post('/memory',
   }
 );
 
+// Route handler: updates user's preference to receive notifications for container stops
 router.post('/stops',
   configController.updateStopPref,
   (req, res) => {

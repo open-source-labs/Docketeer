@@ -101,6 +101,7 @@ userController.verifyUser = (req, res, next) => {
     });
 };
 
+// switches role of user upon designation by system admin
 userController.switchUserRole = (req, res, next) => {
 
   const roleMap = {

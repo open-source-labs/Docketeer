@@ -9,7 +9,7 @@ const App = (props) => {
 
   const role = useSelector((state) => state.session.role);
 
-  if (role === 'sysadmin'){
+  if (role === 'system admin'){
     return (
       <div>
         <SysAdminView />

@@ -10,6 +10,7 @@
  */
 
 const db = require('../models/cloudModel');
+const bcrypt = require('bcryptjs');
 
 const dbController = {};
 
@@ -46,7 +47,9 @@ dbController.createTable = (req, res, next) => {
 };
 
 dbController.insertAdmin = (req, res, next) => {
-  db.query('INSERT INTO users (username, email, password, phone) VALUES (\'sysadmin\', \'sysadmin@email.com\', \'narwhals\', \'5105553333\');')
+  const { password } = res.locals;
+  const parameters = [ password ];
+  db.query('INSERT INTO users (username, email, password, phone, role, role_id) VALUES (\'sysadmin\', \'sysadmin@email.com\', $1, \'12062268346\', \'system admin\', \'1\') ON CONFLICT DO NOTHING;', parameters)
     .then(() => {
       return next();
     })
@@ -55,4 +58,20 @@ dbController.insertAdmin = (req, res, next) => {
     });
 };
 
+dbController.createAdminPassword = (req, res, next) => {
+  const saltRounds = 10;
+
+  // make a file called systemAdmin.js, make it have admin details such as password, email, phone number, and add to gitignore
+  bcrypt.hash('narwhals', saltRounds)
+    .then((hash) => {
+      res.locals.password = hash;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in bcryptController hashPassword: ${err}`,
+        message: { err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.' },
+      });
+    });
+};
 module.exports = dbController;

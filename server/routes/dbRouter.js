@@ -19,6 +19,7 @@ router.get('/',
   dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,
+  dbController.createAdminPassword,
   dbController.insertAdmin,
   (req, res) => {
     // if (res.locals.error) return res.status(200).json(res.locals);

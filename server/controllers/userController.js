@@ -136,4 +136,69 @@ userController.switchUserRole = (req, res, next) => {
     });
 };
 
+userController.updatePassword = (req, res, next) => {
+  // if there is an error property on res.locals, return next(). i.e., incorrect password entered
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
+    res.locals.error = 'Incorrect password. Please enter the correct password to update it.';
+    return next();
+  }
+  const { hash } = res.locals;
+  const { username } = req.body;
+
+  // Note: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
+
+  const query = 'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ hash, username ];
+
+  db.query(query, parameters)
+    .then((data) => {
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updatePassword: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updatePassword.' },
+      });
+    });
+};
+
+userController.updatePhone = (req, res, next) => {
+
+  const { username, phone } = req.body;
+
+  const query = 'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ phone, username ];
+
+  db.query(query, parameters)
+    .then((data) => {
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updatePhone: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updatePhone.' },
+      });
+    });
+};
+
+userController.updateEmail = (req, res, next) => {
+  const { username, email } = req.body;
+
+  const query = 'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [ email, username ];
+
+  db.query(query, parameters)
+    .then((data) => {
+      res.locals.user = data.rows[0];
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController updateEmail: ${err}`,
+        message: { err: 'An error occured while checking if username exists. See userController.updateEmail.' },
+      });
+    });
+};
 module.exports = userController;

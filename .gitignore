@@ -13,3 +13,4 @@ src/components/display/.StoppedContainers.js.icloud
 src/database/docketeerdb
 .env
 yarn.lock
+/security

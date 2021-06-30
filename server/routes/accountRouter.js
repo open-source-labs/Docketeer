@@ -11,6 +11,8 @@
 
 const express = require('express');
 const configController = require('../controllers/configController');
+const userController = require('../controllers/userController');
+const bcryptController = require('../controllers/bcryptController');
 
 const router = express.Router();
 
@@ -22,7 +24,30 @@ router.post('/contact',
   }
 );
 
-// Route handler: updates user's CPU threshold
+router.post('/password', 
+  bcryptController.comparePassword,
+  bcryptController.hashNewPassword,
+  userController.updatePassword,
+  (req, res) => {
+    if (res.locals.error) return res.status(200).json(res.locals);
+    return res.status(200).json('Successfully updated your password.');
+  }
+);
+
+router.post('/phone', 
+  userController.updatePhone,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
+
+router.post('/email',
+  userController.updateEmail,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
+
 router.post('/cpu', 
   configController.updateCPUThreshold,
   (req, res) => {

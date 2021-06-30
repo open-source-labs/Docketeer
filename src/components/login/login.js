@@ -59,7 +59,6 @@ const Login = () => {
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
-    Modal.setAppElement('body');
     fetch('http://localhost:3000/db')
       .then((response) => {
         return response.json();
@@ -107,6 +106,7 @@ const Login = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         }

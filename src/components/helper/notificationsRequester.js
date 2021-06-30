@@ -110,20 +110,11 @@ const checkForNotifications = (
   containerList,
   triggeringValue
 ) => {
-  // if(notificationType === 'MEMORY'){
-  //   console.log('--------checkForNotifications---------');
-  //   console.log('Type: ', notificationType);
-  //   console.log('Threshold %: ', triggeringValue);
-  //   console.log('Container List: ', containerList);
-  //   console.log('Notifs Settings Set: ', notificationSettingsSet);
-  // }
   // scan notification settings
   notificationSettingsSet.forEach((containerId) => {
     // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
-    // if (notificationType === 'MEMORY'){
-    //   console.log('CONTAINER OBJECT: ', containerObject);
-    // }
+    
     if (containerObject) {
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
@@ -197,14 +188,14 @@ export default function start() {
       state.notificationList.memoryNotificationList,
       categories.MEMORY,
       state.containersList.runningList,
-      state.session.cpu_threshold // triggering value
+      state.session.mem_threshold // triggering value
     );
     // check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
       state.notificationList.cpuNotificationList,
       categories.CPU,
       state.containersList.runningList,
-      state.session.mem_threshold // triggering value
+      state.session.cpu_threshold // triggering value
     );
     // check if any containers register to stopped notification trigger notification
     checkForNotifications(

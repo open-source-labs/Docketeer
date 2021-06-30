@@ -110,20 +110,11 @@ const checkForNotifications = (
   containerList,
   triggeringValue
 ) => {
-  if(notificationType === 'MEMORY'){
-    console.log('--------checkForNotifications---------');
-    console.log('Type: ', notificationType);
-    console.log('Threshold %: ', triggeringValue);
-    console.log('Container List: ', containerList);
-    console.log('Notifs Settings Set: ', notificationSettingsSet);
-  }
   // scan notification settings
   notificationSettingsSet.forEach((containerId) => {
     // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
-    if (notificationType === 'MEMORY'){
-      console.log('CONTAINER OBJECT: ', containerObject);
-    }
+    
     if (containerObject) {
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);

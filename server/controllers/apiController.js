@@ -52,7 +52,7 @@ apiController.sendEmailAlert = (req, res, next) => {
                   <p>Warmest regards,</p>
                   <p>Team Docketeer</p> `;
   }
-
+  console.log('EMAIL: ', email);
   const mailDetails = {
     from: 'team.docketeer@gmail.com',
     to: email,

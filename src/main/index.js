@@ -7,6 +7,7 @@ import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electro
 import verifyCode from './twilio/verifyCode';
 import verifyMobileNumber from './twilio/verifyMobile';
 import postEvent from './twilio/postEvent';
+import emailEvent from './email/emailEvent';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -98,3 +99,6 @@ ipcMain.handle('post-event', async (_, args) => {
   return await postEvent(mobileNumber, triggeringEvent);
 });
 
+ipcMain.handle('email-event', async (_, args) => {
+  return await emailEvent(args);
+});

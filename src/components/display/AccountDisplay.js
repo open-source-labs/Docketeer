@@ -20,7 +20,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 
 // Helper Function Imports
-import { handlePasswordChange, confirmPassword, checkPasswordLength, checkCurrentPassword } from '../helper/settingsHelper';
+import { handlePasswordChange, confirmPassword, checkPasswordLength, checkCurrentPassword, handleEmailUpdate, handlePhoneUpdate, checkPhone } from '../helper/settingsHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +60,7 @@ const AccountDisplay = () => {
       </div>
       <div className="settings-container">
         <p>
-          View your account information below. You can also update certain fields.
+          View your account information.
         </p>
         <br></br>
         <strong>Email</strong>
@@ -72,11 +72,60 @@ const AccountDisplay = () => {
         <strong>Phone</strong>
         <p>{session.phone}</p>
         <br></br>
-        <p><strong>Update your password:</strong></p>
-
+      </div>
+      <div className="metric-section-title">
+        <h3>Update Your Account</h3>
+      </div>
+      <div className="settings-container">
+        <p>1. Update your email address</p>
         <br></br>
         <form className={classes.root} autoComplete="off">
-          <p>1. Current Password</p>
+          <TextField
+            className={classes.textfield}
+            id="update-email-input"
+            label="Email"
+            helperText={session.email}
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            className={classes.button}
+            size="medium"
+            variant="contained"
+            onClick={() => handleEmailUpdate()}
+          >
+              Update
+          </Button>
+          <br></br>
+          <span id="update-email-alert"></span>
+        </form>
+        <p>2. Update your phone number</p>
+        <br></br>
+        <form className={classes.root} autoComplete="off">
+          <TextField
+            className={classes.textfield}
+            id="update-phone-input"
+            label="Phone Number"
+            helperText={session.phone}
+            onChange={() => checkPhone(document.getElementById('update-phone-input').value)}
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            className={classes.button}
+            size="medium"
+            variant="contained"
+            onClick={() => handlePhoneUpdate()}
+          >
+              Update
+          </Button>
+          <br></br>
+          <span id="update-phone-alert"></span>
+        </form>
+        <p>3. Use the form below to update your password:</p>
+        <br></br>
+        <form className={classes.root} autoComplete="off">
+          <p>Current Password</p>
           <br></br>
           <TextField
             required
@@ -87,10 +136,9 @@ const AccountDisplay = () => {
             onChange={() => checkCurrentPassword()}
             size="small"
           />
-          <br></br>
           <span id="current-password-alert"></span>
           <br></br>
-          <p>2. New Password</p>
+          <p>New Password</p>
           <br></br>
           <TextField
             required
@@ -101,10 +149,9 @@ const AccountDisplay = () => {
             onChange={() => checkPasswordLength()}
             size="small"
           />
-          <br></br>
           <span id="new-password-alert"></span>
           <br></br>
-          <p>3. Confirm New Password</p>
+          <p>Confirm New Password</p>
           <br></br>
           <TextField
             required
@@ -116,7 +163,6 @@ const AccountDisplay = () => {
             // value="80" set this later
             size="small"
           />
-          <br></br>
           <span id="confirm-new-password-alert"></span>
           <br></br>
           <br></br>

@@ -1,6 +1,7 @@
 DS_Store
 dist/
 node_modules/
+security/
 thumbs.db
 .idea/
 package-lock.json
@@ -12,3 +13,4 @@ src/components/display/.StoppedContainers.js.icloud
 src/database/docketeerdb
 .env
 yarn.lock
+/security

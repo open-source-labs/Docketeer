@@ -109,9 +109,10 @@ const sendNotification = async (
   const timeString = date.toLocaleTimeString();
   const type = notificationType === 'CPU' ? notificationType : notificationType.toLowerCase();
   const stopped = type === 'stopped' ? 'true' : 'false';
+  
   const body = {
     email,
-    containerName: containerObject.Name,
+    containerName: (stopped === 'true' ? containerObject.Names : containerObject.Name),
     time: timeString,
     date: dateString,
     stopped,

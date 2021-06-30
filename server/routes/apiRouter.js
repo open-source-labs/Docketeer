@@ -10,7 +10,7 @@
  */
 
 const express = require('express');
-const userController = require('../controllers/userController');
+// const userController = require('../controllers/userController');
 const apiController = require('../controllers/apiController');
 
 
@@ -19,10 +19,11 @@ const router = express.Router();
 // Route Handler: Send email notification to user
 // send fetch request from frontend when event emitter finds container issue
 router.post('/', 
-  userController.getOneUser, 
-  apiController.sendEmail,
+  // may need depending on what info is sent over in request body
+  // userController.getOneUser, 
+  apiController.sendEmailAlert,
   (req, res) => {
-    return res.status(200).json(res.locals.users);
+    return res.status(200).json('alert email sent to user');
   }
 );
 

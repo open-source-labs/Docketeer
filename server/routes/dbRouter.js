@@ -14,6 +14,7 @@ const dbController = require('../controllers/dbController');
   
 const router = express.Router();
 
+// Route handler: instantiates user and roles tables of database, adds role types 
 router.get('/',
   dbController.createRoles,
   dbController.insertRoles,
@@ -21,7 +22,6 @@ router.get('/',
   dbController.createAdminPassword,
   dbController.insertAdmin,
   (req, res) => {
-
     // if (res.locals.error) return res.status(200).json(res.locals);
     console.log('in dbrouter!');
     return res.status(200).json('Database initialized successfully');

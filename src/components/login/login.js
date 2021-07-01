@@ -20,7 +20,6 @@ import * as actions from '../../actions/actions';
 
 // React Component Imports
 import App from '../App';
-import SignupModal from './signupModal';
 import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports

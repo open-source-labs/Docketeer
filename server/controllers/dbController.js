@@ -11,6 +11,7 @@
 
 const db = require('../models/cloudModel');
 const bcrypt = require('bcryptjs');
+const sysadmin = require('../../security/sysadmin');
 
 const dbController = {};
 
@@ -47,9 +48,16 @@ dbController.createTable = (req, res, next) => {
 };
 
 dbController.insertAdmin = (req, res, next) => {
+
   const { password } = res.locals;
-  const parameters = [ password ];
-  db.query('INSERT INTO users (username, email, password, phone, role, role_id) VALUES (\'sysadmin\', \'sysadmin@email.com\', $1, \'12062268346\', \'system admin\', \'1\') ON CONFLICT DO NOTHING;', parameters)
+  const email = (sysadmin.email === null || sysadmin.email === '') ? 'sysadmin@email.com' : sysadmin.email;
+  const phone = (sysadmin.phone === null || sysadmin.phone === '') ? '+15013456789' : sysadmin.email;
+
+  console.log('EMAIL: ', email);
+  console.log('SYSADMIN.email: ', sysadmin.email);
+  const parameters = [ email, password, phone ];
+
+  db.query('INSERT INTO users (username, email, password, phone, role, role_id) VALUES (\'sysadmin\', $1, $2, $3, \'system admin\', \'1\') ON CONFLICT DO NOTHING;', parameters)
     .then(() => {
       return next();
     })

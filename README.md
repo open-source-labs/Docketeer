@@ -32,7 +32,12 @@ Managing Docker images, containers and networks from the command line while also
 
 ## Install
 
-1. **Fork** and **clone** this repository to your machine.
+1. **Fork** and **clone** this [repository](https://github.com/open-source-labs/Docketeer.git) to your machine.
+
+```
+git clone https://github.com/open-source-labs/Docketeer.git
+```
+
 2. Navigate to the project directory and install dependencies.
 
 ```
@@ -40,20 +45,19 @@ npm install
 ```
 
 3. Create a `.env` file in the project's top-level directory.
+
 4. Configure environment variables for Twilio API. Refer to **Twilio Setup** section below.
+
 5. Create a folder called `security` in the project's top-level directory.
+
 6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
+
 7. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `PG_URI` the file `cloudModel.js` located in `Docketeer/server/models/`.
+
 8. You are all set! Now just enter the following command to start up Docketeer!
-```npm run dev```
-
-## Setup 
-> 1. Clone the repo
-> - https://github.com/open-source-labs/Docketeer.git  
-> 2. CD into directory, then npm install
-> 3. Configure the environment variables for Twilio API following the example below.
-> 4. npm run dev
-
+```
+npm run dev
+```
 
 ## Twilio setup
     1. Download the helper library from https://www.twilio.com/docs/node/install

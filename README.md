@@ -35,7 +35,7 @@ Managing Docker images, containers and networks from the command line while also
 1. **Fork** and **clone** this repository to your machine.
 2. Navigate to the project directory and install dependencies.
 
-```npm install```
+``npm install``
 
 3. Create a `.env` file in the project's top-level directory.
 4. Configure environment variables for Twilio API. Refer to **Twilio Setup** section below.

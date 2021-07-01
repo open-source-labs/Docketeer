@@ -2,7 +2,7 @@
 
 #### 🏠 [Homepage](https://www.docketeer.io/) | 🗃 [Repository](https://github.com/open-source-labs/Docketeer) | 🐛 [Issue Tracker](https://github.com/open-source-labs/Docketeer/issues?q=is%3Aopen+is%3Aissue)
 
-## 🪑 Table of Content
+##Table of Contents
 
 - [Features](#-features)
 - [Install](#-install)

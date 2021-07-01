@@ -1,8 +1,10 @@
 ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png)
 
-#### 🏠 [Homepage](https://www.docketeer.io/) | 🗃 [Repository](https://github.com/open-source-labs/Docketeer) | 🐛 [Issue Tracker](https://github.com/open-source-labs/Docketeer/issues?q=is%3Aopen+is%3Aissue)
+#### [Homepage](https://www.docketeer.io/)
+### [Repository](https://github.com/open-source-labs/Docketeer)
+### [Issue Tracker](https://github.com/open-source-labs/Docketeer/issues?q=is%3Aopen+is%3Aissue)
 
-##Table of Contents
+## Table of Contents
 
 - [Features](#-features)
 - [Install](#-install)
@@ -13,7 +15,7 @@
 - [Show your support](#-show-your-support)
 - [License](#-license)
 
-##Features
+## Features
 
 <!--
 A brief description of your project, what it is used for and how does life get
@@ -25,13 +27,26 @@ awesome when someone starts to use it.
 - List its most useful/innovative/noteworthy features.
 - State its goals/what problem(s) it solves.
 -->
+Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
-Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a GUI for Docker.
 
+## Install
 
-##Install
+1. **Fork** and **clone** this repository to your machine.
+2. Navigate to the project directory and install dependencies.
 
-> 1. Clone repo 
+```npm install```
+
+3. Create a `.env` file in the project's top-level directory.
+4. Configure environment variables for Twilio API. Refer to **Twilio Setup** section below.
+5. Create a folder called `security` in the project's top-level directory.
+6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
+7. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `PG_URI` the file `cloudModel.js` located in `Docketeer/server/models/`.
+8. You are all set! Now just enter the following command to start up Docketeer!
+```npm run dev```
+
+## Setup 
+> 1. Clone the repo
 > - https://github.com/open-source-labs/Docketeer.git  
 > 2. CD into directory, then npm install
 > 3. Configure the environment variables for Twilio API following the example below.
@@ -56,7 +71,7 @@ Managing Docker images, containers and networks from the command line while also
 <!-- > Getting started with Docketeer is easy: visit [docketeer.io](https://www.docketeer.io/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running. -->
 
 
-##Basic usage
+## Basic usage
 
 ### Settings
 
@@ -115,7 +130,7 @@ npm run dev
 
 
 
-##Testing
+## Testing
 
 To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal: 
 
@@ -127,7 +142,7 @@ npm install
 npm run test
 ```
 
-##Contributors
+## Contributors
 
 - Dan Lin [@GitHub](https://github.com/ilikecolddrinks) [@LinkedIn](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@GitHub](https://github.com/kadirgund) [@LinkedIn](https://www.linkedin.com/in/kadirgund/)
@@ -144,6 +159,6 @@ npm run test
 Give a ⭐️ if this project helped you!
 
 
-##LICENSE
+## LICENSE
 
 Distributed under the MIT License. See LICENSE for more information.

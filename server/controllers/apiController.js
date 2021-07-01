@@ -10,31 +10,27 @@
  */
 
 const nodemailer = require('nodemailer');
-const gmail = require('../../security/gmail');
+const email = require('../../security/email');
 
 const apiController = {};
 
 // create transporter object
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
+  host: email.host,
+  port: email.port,
   secure: true,
   auth: {
-    user: gmail.username,
-    pass: gmail.password
+    user: email.username,
+    pass: email.password
   }
 });
 
 // sends notification email when container issue occurs
 apiController.sendEmailAlert = (req, res, next) => {
-  console.log('hit apiController');
-  console.log('gmail', gmail.username, gmail.password);
   
   const { email, containerName, time, date, stopped } = req.body;
   let emailBody;
 
-  // depending on container issue, a different email body is sent to user
-  console.log(typeof stopped, stopped, 'stopped');
   if (stopped === 'true') {
     emailBody = ` <h2>Alert: ${containerName} has stopped!</h2>
                   <h3>Container <b>${containerName}</b> stopped running at <b>${time}</b> on <b>${date}</b>.</h3>
@@ -62,12 +58,9 @@ apiController.sendEmailAlert = (req, res, next) => {
 
   transporter.sendMail(mailDetails)
     .then((info) => {
-      console.log('Email sent successfully.');
-      console.log(info);
       return next();
     })
     .catch((err) => {
-      console.log('hit error', err);
       return next({
         log: `Error in apiController sendEmailAlert: ${err}`,
         message: { err: 'An error occured creating new user in database. See apiController.sendEmailAlert.' },
@@ -77,7 +70,6 @@ apiController.sendEmailAlert = (req, res, next) => {
 
 // sends email with username/password when user signs up
 apiController.signupEmail = (req, res, next) => {
-  console.log('hit apiController');
 
   const { email, username, password } = req.body;
 
@@ -97,12 +89,9 @@ apiController.signupEmail = (req, res, next) => {
 
   transporter.sendMail(mailDetails)
     .then((info) => {
-      console.log('Email sent successfully.');
-      console.log(info);
       return next();
     })
     .catch((err) => {
-      console.log('hit error', err);
       return next({
         log: `Error in apiController signupEmail: ${err}`,
         message: { err: 'An error occured creating new user in database. See apiController.signupEmail.' },

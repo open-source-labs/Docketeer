@@ -74,20 +74,54 @@ const sendNotification = async (
   notificationType,
   containerId,
   stat,
-  triggeringValue
+  triggeringValue,
+  containerObject,
 ) => {
-  // request notification
+
+  // Pull the current state, note we do this within this function as opposed to accessing the global state variable in the file because contact preferences may have been updated since the initialization of state variable in the file.
+  const currentState = store.getState();
+  const contactPreference = currentState.session.contact_pref;
+  const email = currentState.session.email;
+  // If the user's contact preferences are set to phone
+  if (contactPreference === 'phone'){
+    // Construct the message body which will be used to send a text
+    const body = {
+      mobileNumber: state.session.phone,
+      triggeringEvent: constructNotificationMessage(
+        notificationType,
+        stat,
+        triggeringValue,
+        containerId
+      ),
+    };
+  
+    // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
+    return await ipcRenderer.invoke('post-event', body);
+  }
+
+  // Else if the user's contact preferences are set to email, or null (default to email)
+  console.log('EMAIL NOTIFICATION');
+  console.log('CONTAINER OBJECT: ', containerObject);
+  console.log(notificationType, containerId, stat, triggeringValue);
+
+  const date = new Date();
+  const dateString = date.toLocaleDateString();
+  const timeString = date.toLocaleTimeString();
+  const type = notificationType === 'CPU' ? notificationType : notificationType.toLowerCase();
+  const stopped = type === 'stopped' ? 'true' : 'false';
+  
   const body = {
-    mobileNumber: state.session.phone,
-    triggeringEvent: constructNotificationMessage(
-      notificationType,
-      stat,
-      triggeringValue,
-      containerId
-    ),
+    email,
+    containerName: (stopped === 'true' ? containerObject.Names : containerObject.Name),
+    time: timeString,
+    date: dateString,
+    stopped,
+    percent: stat,
+    type,
+    threshold: triggeringValue,
   };
 
-  await ipcRenderer.invoke('post-event', body);
+  await ipcRenderer.invoke('email-event', body);
 };
 
 /**
@@ -141,7 +175,8 @@ const checkForNotifications = (
               notificationType,
               containerId,
               stat,
-              triggeringValue
+              triggeringValue,
+              containerObject,
             );
             console.log(
               `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`

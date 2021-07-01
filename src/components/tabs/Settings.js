@@ -292,7 +292,7 @@ const Settings = (props) => {
     };
 
     const result = await ipcRenderer.invoke('verify-code', body);
-
+    console.log('RESULT: ', result);
     if (result === 'approved') {
       showVerificationInput = false;
       isVerified = result === 'approved' ? true : false;

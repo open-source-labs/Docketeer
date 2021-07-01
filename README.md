@@ -46,9 +46,17 @@ npm install
 
 3. Create a `.env` file in the project's top-level directory.
 
+> - Docketeer
+>   ...
+>   - .env
+>   - server
+>   - src
+>   ...
+
 4. In the `.env` file, configure the following environment variables for Twilio API. Refer to **Twilio Setup** section below.
 
 ```
+// .env
 TWILIO_NUMBER=''
 TWILIO_ACCOUNT_SID=''
 TWILIO_AUTH_TOKEN=''
@@ -58,7 +66,7 @@ VERIFICATION_SERVICE_SID=''
 
 5. Create a folder called `security` in the project's top-level directory.
 
-6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. 
+6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
 
 > - Docketeer
 >   ...
@@ -69,11 +77,42 @@ VERIFICATION_SERVICE_SID=''
 >   - src
 >   ...
 
-6.These files will store variables related to the email notification service and system admin setup respectively.
+7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the ```.gitignore``` file.
 
-7. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `PG_URI` the file `cloudModel.js` located in `Docketeer/server/models/`.
+```
+// email.js
+module.exports = {
+  host: 'smtp.gmail.com',
+  port: 465,
+  username: 'example@gmail.com',
+  password: 'narwhals',
+};
+```
 
-8. You are all set! Now just enter the following command to start up Docketeer!
+8. In the `sysadmin.js ` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
+
+```
+// sysadmin.js
+module.exports = {
+  phone: '',
+  email: '',
+};
+```
+
+10. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `PG_URI` the file `cloudModel.js` located in `Docketeer/server/models/`.
+
+```
+// cloudModel.js
+...
+const { Pool } = require('pg');
+
+// Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+
+const PG_URI = '';
+...
+```
+
+``. You are all set! Now just enter the following command to start up Docketeer!
 ```
 npm run dev
 ```

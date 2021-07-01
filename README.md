@@ -4,16 +4,16 @@
 
 ## 🪑 Table of Content
 
-- [🧰 Features](#-features)
-- [👶 Install](#-install)
-- [🚀 Usage](#-basic-usage)
-- [🛠 Developing](#-development)
-- [🧪 Testing](#-testing)
-- [🧙 Contributors](#-contributors)
-- [⭐ Show your support](#-show-your-support)
-- [📝 License](#-license)
+- [Features](#-features)
+- [Install](#-install)
+- [Usage](#-basic-usage)
+- [Developing](#-development)
+- [Testing](#-testing)
+- [Contributors](#-contributors)
+- [Show your support](#-show-your-support)
+- [License](#-license)
 
-## 🧰 Features
+##Features
 
 <!--
 A brief description of your project, what it is used for and how does life get
@@ -29,7 +29,7 @@ awesome when someone starts to use it.
 Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a GUI for Docker.
 
 
-## 👶 Install
+##Install
 
 > 1. Clone repo 
 > - https://github.com/open-source-labs/Docketeer.git  
@@ -56,7 +56,7 @@ Managing Docker images, containers and networks from the command line while also
 <!-- > Getting started with Docketeer is easy: visit [docketeer.io](https://www.docketeer.io/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running. -->
 
 
-## 🚀 Basic usage
+##Basic usage
 
 ### Settings
 
@@ -115,7 +115,7 @@ npm run dev
 
 
 
-## 🧪 Testing
+##Testing
 
 To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal: 
 
@@ -127,7 +127,7 @@ npm install
 npm run test
 ```
 
-## 🧙 Contributors
+##Contributors
 
 - Dan Lin [@GitHub](https://github.com/ilikecolddrinks) [@LinkedIn](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@GitHub](https://github.com/kadirgund) [@LinkedIn](https://www.linkedin.com/in/kadirgund/)
@@ -144,6 +144,6 @@ npm run test
 Give a ⭐️ if this project helped you!
 
 
-## 📝 LICENSE
+##LICENSE
 
 Distributed under the MIT License. See LICENSE for more information.

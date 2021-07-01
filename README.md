@@ -1,6 +1,6 @@
 ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png)
 
-#### [Homepage](https://www.docketeer.io/)
+### [Homepage](https://www.docketeer.io/)
 ### [Repository](https://github.com/open-source-labs/Docketeer)
 ### [Issue Tracker](https://github.com/open-source-labs/Docketeer/issues?q=is%3Aopen+is%3Aissue)
 

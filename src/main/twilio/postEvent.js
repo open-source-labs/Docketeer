@@ -1,5 +1,5 @@
-import twilio from "twilio";
-import { config } from "dotenv";
+import twilio from 'twilio';
+import { config } from 'dotenv';
 
 config();
 
@@ -16,10 +16,10 @@ const postEvent = (mobileNumber, eventMessage) => {
       from: twilioNumber,
     })
     .then(() => {
-      console.log("User notified");
+      console.log('User notified');
     })
     .catch(function (err) {
-      console.error("Could not notify user");
+      console.error('Could not notify user');
       console.error(err);
     });
 };

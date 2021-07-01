@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import { Bar } from "react-chartjs-2";
-import ToggleDisplay from "../display/ToggleDisplay";
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
  *
@@ -26,14 +26,14 @@ const Containers = (props) => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runStopped(container["ID"], props.runStoppedContainer)
+              props.runStopped(container['ID'], props.runStoppedContainer)
             }
           >
             RUN
           </button>
           <button
             className="stop-btn"
-            onClick={() => props.remove(container["ID"], props.removeContainer)}
+            onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
           </button>
@@ -43,21 +43,21 @@ const Containers = (props) => {
   });
 
   const renderRunningList = props.runningList.map((container, i) => {
-    let cpuData = parseFloat(
+    const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
-    let memoryData = parseFloat(
+    const memoryData = parseFloat(
       container.MemPerc.substring(0, container.MemPerc.length - 1)
     ).toFixed(2);
-    const stack = "stack";
+    const stack = 'stack';
     const chartInfo = {
-      labels: ["CPU", "Memory"],
+      labels: ['CPU', 'Memory'],
       datasets: [
         {
           stack,
           label: Math.random(),
-          backgroundColor: ["rgba(44, 130, 201, 1)", "rgba(19, 221, 29, 1)"],
-          borderColor: "rgba(0,0,0,0)",
+          backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
+          borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [cpuData, memoryData],
           barPercentage: 0.4,
@@ -65,8 +65,8 @@ const Containers = (props) => {
         {
           stack,
           label: Math.random(),
-          backgroundColor: ["rgba(155, 198, 233, 1)", "rgba(217, 252, 219, 1)"],
-          borderColor: "rgba(0,0,0,0)",
+          backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
+          borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
           barPercentage: 0.4,
@@ -108,7 +108,7 @@ const Containers = (props) => {
                   },
                   legend: {
                     display: false,
-                    position: "right",
+                    position: 'right',
                   },
 
                   scales: {

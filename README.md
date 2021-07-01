@@ -48,9 +48,11 @@ npm install
 
 > - Docketeer
 >   ...
+>   
 >   - .env
 >   - server
 >   - src
+>   
 >   ...
 
 4. In the `.env` file, configure the following environment variables for Twilio API. Refer to **Twilio Setup** section below.
@@ -70,11 +72,13 @@ VERIFICATION_SERVICE_SID=''
 
 > - Docketeer
 >   ...
+>   
 >   - security
 >       - email.js
 >       - sysadmin.js
 >   - server
 >   - src
+>   
 >   ...
 
 7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the ```.gitignore``` file.
@@ -217,6 +221,11 @@ npm run test
 - Matt Jones [@GitHub](https://github.com/mc-jones) [@LinkedIn](https://www.linkedin.com/in/mc-jones/)
 - Chai Lee [@GitHub](https://github.com/seachai) [@LinkedIn](https://www.linkedin.com/in/chai-lee-5a064649/)
 - Anton Abdukhamidov [@GitHub](https://github.com/abdukhamidov-anton) [@LinkedIn](https://www.linkedin.com/in/anton-abdukhamidov-1163733b/)
+- Alex Smith [@Github](https://github.com/ajsmith925) [@LinkedIn](https://www.linkedin.com/in/ajsmith925/)
+- Catherine Larcheveque [@Github](https://github.com/charcharryu) [@LinkedIn](https://www.linkedin.com/in/charcharryu/)
+- Charles Ryu [@Github](https://github.com/charcharryu) [@LinkedIn](https://www.linkedin.com/in/charcharryu/)
+- Griffin Silver [@Github](https://www.linkedin.com/in/griffin-silver-1ab675140/) [@LinkedIn](https://github.com/griffinrogersilver)
+- Lorenzo Guevara [@Github](https://github.com/lo-guevara) [@LinkedIn](https://www.linkedin.com/in/lorenzoguevara/)
 
 ## ⭐ Show your support
 

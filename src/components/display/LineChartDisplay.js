@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Line } from "react-chartjs-2";
-import * as actions from "../../actions/actions";
-import query from "../helper/psqlQuery";
-import * as helper from "../helper/commands";
-import { Link } from "react-router-dom";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Line } from 'react-chartjs-2';
+import * as actions from '../../actions/actions';
+import query from '../helper/psqlQuery';
+import * as helper from '../helper/commands';
+import { Link } from 'react-router-dom';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /** TODO
  * 1. Remove prop drilling from parent components
@@ -23,7 +23,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 const Metrics = (props) => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
-  const [timePeriod, setTimePeriod] = useState("4");
+  const [timePeriod, setTimePeriod] = useState('4');
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const axis = useSelector((state) => state.graphs.graphAxis);
@@ -37,27 +37,27 @@ const Metrics = (props) => {
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
 
   const selectedStyling = {
-    background: "#e1e4e6",
-    color: "#042331",
-    borderTopRightRadius: "10px",
-    borderBottomRightRadius: "10px",
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
   };
 
   const getContainerMetrics = async () => {
-    let queryString = `SELECT * FROM metrics WHERE (container_name = $1 `;
-    let queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
+    let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
+    const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
-    let containerNamesArr = Object.keys(activeContainers);
+    const containerNamesArr = Object.keys(activeContainers);
 
     if (containerNamesArr.length === 1) {
-      queryString += ")" + queryStringEnd;
+      queryString += ')' + queryStringEnd;
       const result = await query(queryString, containerNamesArr);
       return result;
     }
 
     containerNamesArr.slice(1).forEach((containerName, idx) => {
       let additionalParameter = `OR container_name = $${idx + 2} `;
-      if (idx === containerNamesArr.length - 2) additionalParameter += ")";
+      if (idx === containerNamesArr.length - 2) additionalParameter += ')';
       queryString += additionalParameter;
     });
 
@@ -82,27 +82,27 @@ const Metrics = (props) => {
    */
 
   const formatData = async () => {
-    buildMemory("clear");
-    buildCpu("clear");
-    buildAxis("clear");
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
     // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
     }
     // DB QUERY LIKELY GOING HERE
-    let output = await getContainerMetrics();
+    const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
-        "red",
-        "blue",
-        "green",
-        "purple",
-        "yellow",
-        "grey",
-        "orange",
+        'red',
+        'blue',
+        'green',
+        'purple',
+        'yellow',
+        'grey',
+        'orange',
       ];
-      let idx = activeContainers.indexOf(containerName);
+      const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
     };
     // build function that will return formated object into necessary
@@ -121,9 +121,9 @@ const Metrics = (props) => {
       return obj;
     };
 
-    buildMemory("clear");
-    buildCpu("clear");
-    buildAxis("clear");
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -144,10 +144,10 @@ const Metrics = (props) => {
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       auxObj[currentContainer].cpu.data.push(
-        dataPoint.cpu_pct.replace("%", "")
+        dataPoint.cpu_pct.replace('%', '')
       );
       auxObj[currentContainer].memory.data.push(
-        dataPoint.memory_pct.replace("%", "")
+        dataPoint.memory_pct.replace('%', '')
       );
       buildAxis(dataPoint.created_at);
     });
@@ -165,8 +165,8 @@ const Metrics = (props) => {
       if (auxObj[containerName].memory.data.length < longest) {
         const lengthToAdd = longest - auxObj[containerName].memory.data.length;
         for (let i = 0; i < lengthToAdd; i += 1) {
-          auxObj[containerName].memory.data.unshift("0.00");
-          auxObj[containerName].cpu.data.unshift("0.00");
+          auxObj[containerName].memory.data.unshift('0.00');
+          auxObj[containerName].cpu.data.unshift('0.00');
         }
       }
       buildMemory([auxObj[containerName].memory]);
@@ -177,7 +177,7 @@ const Metrics = (props) => {
   const fetchGitData = async (containerName) => {
     const ob = {};
     ob[containerName] = [];
-    let time = Number(timePeriod);
+    const time = Number(timePeriod);
     let date = new Date();
     date.setHours(date.getHours() - time);
     date = date.toISOString();
@@ -190,7 +190,7 @@ const Metrics = (props) => {
           since: `${date}`,
         });
 
-      let data = await fetch(url);
+      const data = await fetch(url);
       const jsonData = await data.json();
 
       jsonData.forEach((commitData) => {
@@ -202,8 +202,8 @@ const Metrics = (props) => {
       });
     } else {
       ob[containerName].push({
-        time: "",
-        url: "Connect github repo in settings",
+        time: '',
+        url: 'Connect github repo in settings',
       });
     }
     return ob;
@@ -219,7 +219,7 @@ const Metrics = (props) => {
 
   let gitData;
   gitData = gitUrls.map((el, index) => {
-    let name = Object.keys(el);
+    const name = Object.keys(el);
     const li = [
       <tr key={index}>
         <th>Date</th>
@@ -229,28 +229,28 @@ const Metrics = (props) => {
       </tr>,
     ];
     el[name].forEach((ob) => {
-      let author = "";
-      let date = "n/a";
-      let time = "n/a";
+      let author = '';
+      let date = 'n/a';
+      let time = 'n/a';
       let url = (
         <Link Redirect to="/" style={selectedStyling}>
           Connect via settings page
         </Link>
       );
-      let text = "";
+      let text = '';
       if (ob.time.length) {
         time = ob.time;
         author = ob.author;
-        text = "Github Commits";
+        text = 'Github Commits';
         url = (
           <a href={url} target="_blank" rel="noreferrer">
             {text}
           </a>
         );
-        time = time.split("T");
+        time = time.split('T');
         date = time[0];
         time = time[1];
-        time = time.split("").slice(0, time.length - 1);
+        time = time.split('').slice(0, time.length - 1);
       }
       li.push(
         <tr>
@@ -264,7 +264,7 @@ const Metrics = (props) => {
     return (
       <div key={index}>
         <h2>{name}</h2>
-        <table className={"ltTable"}>{li}</table>
+        <table className={'ltTable'}>{li}</table>
       </div>
     );
   });
@@ -285,7 +285,7 @@ const Metrics = (props) => {
               name={containerNameKey}
               value={containerNameKey}
               color="primary"
-              inputProps={{ "aria-label": containerNameKey }}
+              inputProps={{ 'aria-label': containerNameKey }}
             />
           }
           label={containerNameKey}
@@ -298,7 +298,7 @@ const Metrics = (props) => {
   };
 
   const handleChange = (e) => {
-    if (e.target.type === "radio") {
+    if (e.target.type === 'radio') {
       setTimePeriod(e.target.value);
       return;
     }
@@ -310,35 +310,36 @@ const Metrics = (props) => {
     } else {
       copyObj[containerName] = true;
     }
+    console.log(copyObj);
     setActiveContainers(copyObj);
   };
 
-  let cpuOptions = {
+  const cpuOptions = {
     tooltips: {
       enabled: true,
-      mode: "index",
+      mode: 'index',
     },
     title: {
       display: true,
-      text: "CPU",
+      text: 'CPU',
       fontSize: 23,
     },
-    legend: { display: true, position: "bottom" },
+    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false,
   };
 
-  let memoryOptions = {
+  const memoryOptions = {
     tooltips: {
       enabled: true,
-      mode: "index",
+      mode: 'index',
     },
     title: {
       display: true,
-      text: "MEMORY",
+      text: 'MEMORY',
       fontSize: 23,
     },
-    legend: { display: true, position: "bottom" },
+    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false,
   };
@@ -347,7 +348,7 @@ const Metrics = (props) => {
   selectList();
   useEffect(() => {
     formatData();
-    renderGitInfo();
+    // renderGitInfo();
   }, [activeContainers, timePeriod]);
 
   return (

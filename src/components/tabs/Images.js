@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import * as helper from "../helper/commands";
+import React, { useState } from 'react';
+import * as helper from '../helper/commands';
 
 /**
  *
@@ -8,7 +8,7 @@ import * as helper from "../helper/commands";
  * Render Images of the user has
  */
 const Images = (props) => {
-  const [repo, setRepo] = useState("");
+  const [repo, setRepo] = useState('');
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -19,17 +19,17 @@ const Images = (props) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
-          <h3>{ele["reps"]}</h3>
-          <p>{ele["tag"]}</p>
+          <h3>{ele['reps']}</h3>
+          <p>{ele['tag']}</p>
         </div>
         <div className="stopped-info">
           <li>
             <strong>ID:</strong>
-            {ele["imgid"]}
+            {ele['imgid']}
           </li>
           <li>
             <strong>Size:</strong>
-            {ele["size"]}
+            {ele['size']}
           </li>
         </div>
         <div className="stopped-button">
@@ -37,7 +37,7 @@ const Images = (props) => {
             className="run-btn"
             onClick={() =>
               props.runIm(
-                ele["imgid"],
+                ele['imgid'],
                 props.runningList,
                 helper.addRunning,
                 props.addRunningContainers
@@ -50,7 +50,7 @@ const Images = (props) => {
             className="stop-btn"
             onClick={() =>
               props.removeIm(
-                ele["imgid"],
+                ele['imgid'],
                 props.imagesList,
                 helper.refreshImages,
                 props.refreshImagesList

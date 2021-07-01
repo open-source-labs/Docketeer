@@ -46,11 +46,30 @@ npm install
 
 3. Create a `.env` file in the project's top-level directory.
 
-4. Configure environment variables for Twilio API. Refer to **Twilio Setup** section below.
+4. In the `.env` file, configure the following environment variables for Twilio API. Refer to **Twilio Setup** section below.
+
+```
+TWILIO_NUMBER=''
+TWILIO_ACCOUNT_SID=''
+TWILIO_AUTH_TOKEN=''
+SERVICE_SID=''
+VERIFICATION_SERVICE_SID=''
+```
 
 5. Create a folder called `security` in the project's top-level directory.
 
-6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
+6. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. 
+
+> - Docketeer
+>   ...
+>   - security
+>       - email.js
+>       - sysadmin.js
+>   - server
+>   - src
+>   ...
+
+6.These files will store variables related to the email notification service and system admin setup respectively.
 
 7. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `PG_URI` the file `cloudModel.js` located in `Docketeer/server/models/`.
 

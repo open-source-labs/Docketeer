@@ -150,7 +150,6 @@ const checkForNotifications = (
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
       // if the stat should trigger rule
-      // console.log('TRIGGER ALERT: ', stat, ' vs ', triggeringValue);
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
         if (isContainerInSentNotifications(notificationType, containerId)) {

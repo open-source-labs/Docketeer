@@ -1,5 +1,5 @@
-import twilio from "twilio";
-import { config } from "dotenv";
+import twilio from 'twilio';
+import { config } from 'dotenv';
 
 config();
 
@@ -8,7 +8,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifySid = process.env.VERIFICATION_SERVICE_SID;
 
 const verifyMobileNumber = async (mobileNumber) => {
-  const notificationChannel = "sms";
+  const notificationChannel = 'sms';
   const client = twilio(accountSid, authToken);
 
   client.verify

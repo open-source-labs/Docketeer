@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 
 const emailEvent = (args) => {
-  console.log('INSIDE EMAIL EVENT');
-  console.log('ARGS: ', args);
   fetch('http://localhost:3000/api', 
     { 
       method: 'POST', 

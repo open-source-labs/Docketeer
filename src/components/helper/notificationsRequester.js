@@ -100,9 +100,6 @@ const sendNotification = async (
   }
 
   // Else if the user's contact preferences are set to email, or null (default to email)
-  console.log('EMAIL NOTIFICATION');
-  console.log('CONTAINER OBJECT: ', containerObject);
-  console.log(notificationType, containerId, stat, triggeringValue);
 
   const date = new Date();
   const dateString = date.toLocaleDateString();
@@ -153,7 +150,6 @@ const checkForNotifications = (
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
       // if the stat should trigger rule
-      // console.log('TRIGGER ALERT: ', stat, ' vs ', triggeringValue);
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
         if (isContainerInSentNotifications(notificationType, containerId)) {

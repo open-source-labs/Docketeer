@@ -10,7 +10,6 @@ export const handleLogin = (e) => {
   usernameInput.value = '';
   passwordInput.value = '';
 
-  console.log('clicked');
   authenticateUser(username, password);
 };
 
@@ -35,7 +34,6 @@ export const authenticateUser = (username, password) => {
         window.alert(data.error);
       }
       else {
-        // updateSession();
         console.log('LOGGED IN');
       }
     })

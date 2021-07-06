@@ -22,8 +22,6 @@ router.get('/',
   dbController.createAdminPassword,
   dbController.insertAdmin,
   (req, res) => {
-    // if (res.locals.error) return res.status(200).json(res.locals);
-    console.log('in dbrouter!');
     return res.status(200).json('Database initialized successfully');
   }
 );

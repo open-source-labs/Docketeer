@@ -116,7 +116,7 @@ const PG_URI = '';
 ...
 ```
 
-``. You are all set! Now just enter the following command to start up Docketeer!
+You are all set! Now just enter the following command to start up Docketeer!
 ```
 npm run dev
 ```

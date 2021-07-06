@@ -19,7 +19,6 @@ bcryptController.hashPassword = (req, res, next) => {
   const { password } = req.body;
   const saltRounds = 10;
 
-  console.log('hit userController bcrypt');
   bcrypt.hash(password, saltRounds)
     .then((hash) => {
       res.locals.hash = hash;
@@ -61,7 +60,6 @@ bcryptController.hashNewPassword = (req, res, next) => {
 bcryptController.comparePassword = (req, res, next) => {
   if (res.locals.error) return next();
 
-  console.log(req.body);
   const { username, password } = req.body;
 
   const getHash = `SELECT password FROM users WHERE username='${ username }';`;

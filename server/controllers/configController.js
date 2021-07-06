@@ -24,10 +24,7 @@ configController.configureThresholds = (req, res, next) => {
 
   db.query(inputThresholds, thresholdDetails)
     .then((data) => {
-      console.log('raw data:', data);
       res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('user added');
       return next();
     })
     .catch((err) => {
@@ -51,8 +48,6 @@ configController.updateContactPref = (req, res, next) => {
   db.query(inputPref, prefDetails)
     .then((data) => {
       res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('contact preference updated');
       return next();
     })
     .catch((err) => {
@@ -75,8 +70,6 @@ configController.updateCPUThreshold = (req, res, next) => {
   db.query(inputCPU, CPUDetails)
     .then((data) => {
       res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('CPU threshold updated');
       return next();
     })
     .catch((err) => {
@@ -99,8 +92,6 @@ configController.updateMemThreshold = (req, res, next) => {
   db.query(inputMem, memDetails)
     .then((data) => {
       res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('memory threshold updated');
       return next();
     })
     .catch((err) => {
@@ -123,8 +114,6 @@ configController.updateStopPref = (req, res, next) => {
   db.query(inputStopPref, stopPrefDetails)
     .then((data) => {
       res.locals.user = data.rows[0];
-      console.log(res.locals.user);
-      console.log('container stops updated');
       return next();
     })
     .catch((err) => {

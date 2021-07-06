@@ -16,12 +16,10 @@ import store from '../../renderer/store';
 import * as actions from '../../actions/actions';
 
 export const handlePasswordChange = () => {
-  console.log('handle password click');
   const currentPassword = document.getElementById('current-password-input').value;
   const newPassword = document.getElementById('new-password-input').value;
   const newPasswordConfirmation = document.getElementById('new-password-confirmation-input').value;
 
-  console.log(currentPassword, newPassword, newPasswordConfirmation);
   if (!checkCurrentPassword()) {
     window.alert('Warning: Please enter your current password');
     return;
@@ -40,8 +38,6 @@ export const handlePasswordChange = () => {
 };
 
 export const updatePassword = (password, newPassword) => {
-  console.log('New password sent to server!');
-
   const state = store.getState();
   const username = state.session.username;
   fetch('http://localhost:3000/account/password', 
@@ -149,7 +145,6 @@ export const updateEmail = (username, email) => {
 };
 
 export const handlePhoneUpdate = () => {
-  console.log('phone update button clicked');
   const newPhoneNumber = document.getElementById('update-phone-input').value;
   const newPhoneAlert = document.getElementById('update-phone-alert');
 
@@ -177,7 +172,6 @@ export const checkPhone = (phone) => {
 };
 
 export const updatePhone = (username, phone) => {
-  console.log('UPDATE PHONE');
   fetch('http://localhost:3000/account/phone', 
     { 
       method: 'POST', 

@@ -82,7 +82,6 @@ const Login = () => {
     usernameInput.value = '';
     passwordInput.value = '';
 
-    console.log('clicked');
     authenticateUser(username, password);
   };
   
@@ -101,16 +100,13 @@ const Login = () => {
         })
       })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         }
         else {
-          console.log(data);
           updateSession(); // loggedIn = true 
           updateUser(data); // update user info in sessions reducer
         }
@@ -124,7 +120,6 @@ const Login = () => {
 
   // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
   if (session){
-    console.log('LOGGED IN');
     return (
       <Router
         history={BrowserHistory}

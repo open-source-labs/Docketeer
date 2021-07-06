@@ -399,7 +399,6 @@ const Settings = (props) => {
   };
 
   const handleCpuSubmit = (value) => {
-    console.log('CPU SUBMIT: ', _id);
     fetch('http://localhost:3000/account/cpu', 
       { 
         method: 'POST', 

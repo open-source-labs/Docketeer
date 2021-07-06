@@ -24,7 +24,6 @@ export const handleNewUser = (e) => {
   const email = document.getElementById('signupEmail').value;
   const phone = document.getElementById('signupPhone').value;
 
-  console.log(username, password, confirmationPassword, email, phone);
 
   if (!checkPasswordLength()) {
     window.alert('Warning: Password must be 6 characters or longer');
@@ -104,8 +103,6 @@ export const createNewUser = (email, username, password, phone) => {
         window.alert(data.error);
       }
       else {
-        console.log('NEW USER SUCCESSFULLY CREATED');
-        console.log(data);
         document.getElementById('signupUsername').value = '';
         document.getElementById('signupPassword').value = '';
         document.getElementById('signupPasswordConfirmation').value = '';
@@ -134,7 +131,6 @@ export const getUpdatedUserList = () => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       updateUserList(data);
     });
 };

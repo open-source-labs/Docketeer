@@ -27,8 +27,6 @@ userController.createUser = (req, res, next) => {
     db.query(createUser, userDetails)
       .then((data) => {
         res.locals.user = data.rows[0];
-        console.log(res.locals.user);
-        console.log('user added');
         return next();
       })
       .catch((err) => {
@@ -42,13 +40,11 @@ userController.createUser = (req, res, next) => {
 
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
-  console.log('made it to userController.getUsers');
   const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
 
   db.query(allUsers)
     .then((response) => {
       res.locals.users = response.rows;
-      console.log('retrieved all users from database');
       return next();
     })
     .catch((err) => {
@@ -68,8 +64,6 @@ userController.getOneUser = (req, res, next) => {
   db.query(oneUser)
     .then((response) => {
       res.locals.users = response.rows;
-      console.log(res.locals.users);
-      console.log('retrieved user from database');
       return next();
     })
     .catch((err) => {
@@ -118,13 +112,9 @@ userController.switchUserRole = (req, res, next) => {
   const [ newRole, newRoleId ] = changeToAdmin ? [ 'admin', roleMap.admin ] : [ 'user', roleMap.user ];
 
   // const newRoleId = changeToAdmin ? roleMap.admin : roleMap.user;
-  console.log('NEW ROLE: ', newRole);
-  console.log('ROLE ID: ', newRoleId);
-  console.log(req.body);
   const parameters = [ newRole, newRoleId, _id ];
   db.query(query, parameters)
     .then((data) => {
-      console.log('successfully switched user role');
       res.locals.user = data.rows[0];
       return next();
     })

@@ -8,7 +8,6 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifySid = process.env.VERIFICATION_SERVICE_SID;
 
 const verifyCode = (body) => {
-  console.log('VERIFYCODE CALLBACK');
   const { mobileNumber, code } = body;
   const client = twilio(accountSid, authToken);
   return client.verify

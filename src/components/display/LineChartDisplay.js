@@ -310,7 +310,6 @@ const Metrics = (props) => {
     } else {
       copyObj[containerName] = true;
     }
-    console.log(copyObj);
     setActiveContainers(copyObj);
   };
 

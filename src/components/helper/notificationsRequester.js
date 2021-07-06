@@ -100,9 +100,6 @@ const sendNotification = async (
   }
 
   // Else if the user's contact preferences are set to email, or null (default to email)
-  console.log('EMAIL NOTIFICATION');
-  console.log('CONTAINER OBJECT: ', containerObject);
-  console.log(notificationType, containerId, stat, triggeringValue);
 
   const date = new Date();
   const dateString = date.toLocaleDateString();

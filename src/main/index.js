@@ -91,7 +91,6 @@ ipcMain.handle('verify-number', async (_, args) => {
 });
 
 ipcMain.handle('verify-code', async (_, args) => {
-  console.log('IPC MAIN VERIFY-CODE: ', args);
   return await verifyCode(args);
 });
 

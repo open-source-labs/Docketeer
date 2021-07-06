@@ -16,7 +16,7 @@ const sysadmin = require('../../security/sysadmin');
 const dbController = {};
 
 dbController.createRoles = (req, res, next) => {
-  console.log('create roles controller');
+
   db.query('CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);')
     .then(() => {
       return next();
@@ -37,7 +37,6 @@ dbController.insertRoles = (req, res, next) => {
 };
 
 dbController.createTable = (req, res, next) => {
-  console.log('create users controller');
   db.query('CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT \'user\', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);')
     .then(() => {
       return next();
@@ -53,8 +52,6 @@ dbController.insertAdmin = (req, res, next) => {
   const email = (sysadmin.email === null || sysadmin.email === '') ? 'sysadmin@email.com' : sysadmin.email;
   const phone = (sysadmin.phone === null || sysadmin.phone === '') ? '+15013456789' : sysadmin.email;
 
-  console.log('EMAIL: ', email);
-  console.log('SYSADMIN.email: ', sysadmin.email);
   const parameters = [ email, password, phone ];
 
   db.query('INSERT INTO users (username, email, password, phone, role, role_id) VALUES (\'sysadmin\', $1, $2, $3, \'system admin\', \'1\') ON CONFLICT DO NOTHING;', parameters)

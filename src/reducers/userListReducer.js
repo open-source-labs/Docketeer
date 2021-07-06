@@ -16,8 +16,6 @@ export default function (state = initialState, action){
   }
 
   case types.UPDATE_USER_ROLE: {
-    console.log('IN UPDATE_USER_ROLE');
-    console.log(action.payload);
     const { _id, role } = action.payload;
     const newUserList = [ ...state.userList ];
     for (let i = 0; i < newUserList.length; i++){

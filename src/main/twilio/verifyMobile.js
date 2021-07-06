@@ -15,7 +15,7 @@ const verifyMobileNumber = async (mobileNumber) => {
     .services(verifySid)
     .verifications.create({ to: mobileNumber, channel: notificationChannel })
     .then((verification) => console.log(verification.sid))
-    .then(() => console.log("Verification code sent to user"))
+    .then(() => console.log('Verification code sent to user'))
     .catch((err) => console.error(err));
 };
 

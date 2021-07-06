@@ -21,12 +21,10 @@ signupController.usernameCheck = (req, res, next) => {
 
   db.query(checkUsernameExists)
     .then((data) => {
-      console.log(data.rows[0]);
       if (data.rows[0]) {
         res.locals.error = 'Username already exists.';
         return next();
       } else {
-        console.log('Username is unique.');
         return next();
       }
     })
@@ -45,7 +43,6 @@ signupController.passwordCheck = (req, res, next) => {
   const { password } = req.body;
 
   if (password.length >= 6) {
-    console.log('Password meets requirements.');
     return next();
   } else {
     res.locals.error = 'Password must be at least 6 characters.';

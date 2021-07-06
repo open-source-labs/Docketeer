@@ -134,8 +134,7 @@ const UserTable = () => {
   const handleCheckboxClick = (event) => {
     // event persist is required to access target property of event. Without this, a synthetic event object would be used where target is re-assigned to null for performance reasons
     event.persist();
-    console.log(event.target);
-    console.log('checkbox clicked: ', event.target.getAttribute('id'));
+
     const id = event.target.getAttribute('id');
     const invertPreviousValue = (!selected[id]);
     // Bug: unable to pull custom attribute on Checkbox props, even with getAttribute https://www.pluralsight.com/guides/how-to-access-custom-attributes-from-aevent-object-in-react
@@ -166,13 +165,10 @@ const UserTable = () => {
         })
       })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         const { _id, role } = data;
-        console.log('DISPATCHING UPDATE_USER_ROLE: ', _id);
         const payload = {
           _id,
           role,

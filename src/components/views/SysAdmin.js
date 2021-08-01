@@ -43,7 +43,7 @@ const SysAdmin = (props) => {
   const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data) => dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.removeContainer(id));
+  const removeContainer = (id) => dispatch(actions.Container(id));
   const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
   const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
@@ -55,7 +55,7 @@ const SysAdmin = (props) => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-
+  const userInfo = useSelector((state) => state.session);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -98,10 +98,14 @@ const SysAdmin = (props) => {
   useEffect(() => {
     fetch('http://localhost:3000/admin', 
       { 
-        method: 'GET', 
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          token: userInfo.token,
+          username: userInfo.username,   
+        })
       })
       .then((response) => {
         return response.json();

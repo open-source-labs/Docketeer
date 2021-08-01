@@ -6,9 +6,7 @@ import UserView from './views/UserView';
 import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
-
   const role = useSelector((state) => state.session.role);
-
   if (role === 'system admin'){
     return (
       <div>

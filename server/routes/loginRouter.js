@@ -23,6 +23,7 @@ router.post('/',
   bcryptController.comparePassword,
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
+  bcryptController.hashCookie,
   (req, res) => {
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);

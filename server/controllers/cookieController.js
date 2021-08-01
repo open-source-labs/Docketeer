@@ -24,11 +24,16 @@ cookieController.setSSIDCookie = (req, res, next) => {
 // set admin cookie for users with admin privileges
 cookieController.setAdminCookie = (req, res, next) => {
   if (res.locals.error) return next();
-
+  
   const { role_id } = res.locals.user;
   
-  if (role_id === 1) res.cookie('adminType', 'system admin', { httpOnly: true });
-  if (role_id === 2) res.cookie('adminType', 'admin', { httpOnly: true });
+  if (role_id === 1) {
+    res.cookie('adminType', 'system admin', { httpOnly: true });
+    res.locals.cookie = 'system admin';
+  }
+  if (role_id === 2) {
+    res.cookie('adminType', 'admin', { httpOnly: true });
+  }
 
   return next();
 };

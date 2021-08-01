@@ -40,19 +40,22 @@ userController.createUser = (req, res, next) => {
 
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
-  const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
-
-  db.query(allUsers)
-    .then((response) => {
-      res.locals.users = response.rows;
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController getAllUsers: ${err}`,
-        message: { err: 'An error occured retrieving all users from database. See userController.getAllUsers.' },
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
+    return next();
+  }else{
+    const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
+    db.query(allUsers)
+      .then((response) => {
+        res.locals.users = response.rows;
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in userController getAllUsers: ${err}`,
+          message: { err: 'An error occured retrieving all users from database. See userController.getAllUsers.' },
+        });
       });
-    });
+  }
 };
 
 // get information for one user
@@ -190,5 +193,29 @@ userController.updateEmail = (req, res, next) => {
         message: { err: 'An error occured while checking if username exists. See userController.updateEmail.' },
       });
     });
+};
+
+/**
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/01/2021
+ * @description verifies clients hash token that matches databases token 
+ */
+userController.verifySysadmin = (req, res, next) =>{
+  const {username, token} = req.body;
+
+  const query = `SELECT * FROM users WHERE username='${username}' AND token='${token}';`;
+  db.query(query)
+    .then((data) => {
+      
+      if (!data.rows[0]) res.locals.error = 'Access Denied';
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController verifySysadmin: ${err}`,
+        message: { err: 'An error occured while checking if token exists. See userController.verifySysadmin.' },
+      });
+    });
+
 };
 module.exports = userController;

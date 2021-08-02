@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module psqlQuery
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Creates pool to connect application with docketeer-db container, exports function to facilitate database queries
  *
  * ************************************

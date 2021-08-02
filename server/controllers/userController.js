@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module UserController
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  *
  * ************************************
@@ -196,8 +196,6 @@ userController.updateEmail = (req, res, next) => {
 };
 
 /**
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/01/2021
  * @description verifies clients hash token that matches databases token 
  */
 userController.verifySysadmin = (req, res, next) =>{

@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module Database Router
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/23/2021
  * @description Routes all endpoints for initializing the database for new users
  *

@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module SysAdmin
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description View Component for system admins
  *
  * ************************************
@@ -69,6 +69,23 @@ const SysAdmin = (props) => {
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
+    fetch('http://localhost:3000/logout', 
+      { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: userInfo.username,   
+        })
+      })
+      .then(data => data.json())
+      .then((response) => {
+        return console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // props.setLoggedIn(false);
   };
 

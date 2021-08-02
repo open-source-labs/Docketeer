@@ -2,18 +2,15 @@
  * ************************************
  *
  * @module AdminRouter
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Routes all requests to admin endpoint 
  *
  * ************************************
  */
 
 const express = require('express');
-const signupController = require('../controllers/signupController');
-const bcryptController = require('../controllers/bcryptController');
 const userController = require('../controllers/userController');
-const cookieController = require('../controllers/cookieController');
 
 const router = express.Router();
 

@@ -13,9 +13,10 @@ const { Pool } = require('pg');
 
 // Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
 
-const PG_URI = '';
+const PG_URI =
+  'postgres://ewmaosrz:lBbhQu9YAH7eA6GVtXoE8mPJ7OnOeloj@batyr.db.elephantsql.com/ewmaosrz';
 
-const cloudPool = new Pool({ 
+const cloudPool = new Pool({
   connectionString: PG_URI,
 });
 
@@ -23,5 +24,5 @@ module.exports = {
   query: function (text, params, callback) {
     console.log('executed cloud query', text);
     return cloudPool.query(text, params, callback);
-  }
+  },
 };

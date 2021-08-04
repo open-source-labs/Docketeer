@@ -94,52 +94,52 @@ const Metrics = (props) => {
   };
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Metrics</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Metrics</h1>
       </div>
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Aggregate</h3>
       </div>
-      <div className="aggregate-conatiner">
-        <div className="pieChart">
+      <div className='aggregate-conatiner'>
+        <div className='pieChart'>
           <Pie data={cpu} options={options2} width={2000} height={1300} />
-          <div className="legend-container">
-            <div className="legend-section">
-              <div className="avaliable-box"></div>
-              <p className="legend-text">Available {cpuData}%</p>
+          <div className='legend-container'>
+            <div className='legend-section'>
+              <div className='avaliable-box'></div>
+              <p className='legend-text'>Available {cpuData}%</p>
             </div>
-            <div className="legend-section">
-              <div className="usage-box"></div>
-              <p className="legend-text">Usage {result[0].toFixed(2)}%</p>
+            <div className='legend-section'>
+              <div className='usage-box'></div>
+              <p className='legend-text'>Usage {result[0].toFixed(2)}%</p>
             </div>
           </div>
         </div>
 
-        <div className="pieChart">
+        <div className='pieChart'>
           <Pie data={memory} options={options} width={2000} height={1300} />
-          <div className="legend-container">
-            <div className="legend-section">
-              <div className="avaliable-box"></div>
-              <p className="legend-text">Available {memoryData}%</p>
+          <div className='legend-container'>
+            <div className='legend-section'>
+              <div className='avaliable-box'></div>
+              <p className='legend-text'>Available {memoryData}%</p>
             </div>
-            <div className="legend-section">
-              <div className="usage-box"></div>
-              <p className="legend-text">Usage {result[1].toFixed(2)}%</p>
+            <div className='legend-section'>
+              <div className='usage-box'></div>
+              <p className='legend-text'>Usage {result[1].toFixed(2)}%</p>
             </div>
           </div>
         </div>
 
-        <div className="">
-          <div className="chart-container">
-            <h1 className="chart-title">NET IO:</h1>
-            <p className="chart-number">
+        <div className=''>
+          <div className='chart-container'>
+            <h1 className='chart-title'>NET IO:</h1>
+            <p className='chart-number'>
               {result[2][0]}kB / {result[2][1]}kB
             </p>
           </div>
-          <div className="chart-container">
-            <h1 className="chart-title">BLOCK IO:</h1>
-            <p className="chart-number">
+          <div className='chart-container'>
+            <h1 className='chart-title'>BLOCK IO:</h1>
+            <p className='chart-number'>
               {result[3][0]}B / {result[3][1]}B
             </p>
           </div>

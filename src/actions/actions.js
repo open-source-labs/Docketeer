@@ -95,6 +95,16 @@ export const buildCpu = (data) => ({
   payload: data,
 });
 
+export const buildWrittenIO = (data) => ({
+  type: types.BUILD_WRITTEN_IO,
+  payload: data,
+});
+
+export const buildReadIO = (data) => ({
+  type: types.BUILD_READ_IO,
+  payload: data,
+});
+
 export const addPhoneNumber = (data) => ({
   type: types.ADD_PHONE_NUMBER,
   payload: data,

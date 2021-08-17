@@ -1,13 +1,5 @@
-// import React from 'react';
-// import { configure, shallow } from 'enzyme';
-// import Adapter from 'enzyme-adapter-react-16';
-// // import { imageListReducer, graphReducer, dockerComposeReducer, containerListReducer }
-// import * as subject from '../src/reducers/index';
-// configure({ adapter: new Adapter() }); // enzyme
-
-
-import subject from '../src/reducers/containerListReducer';
-import imageList from '../src/reducers/imageListReducer';
+import subject from '../src/reducers/containerListReducer'; // import containerList reducer
+import imageList from '../src/reducers/imageListReducer'; // import imageList reducer
 
 
 describe("Dockeeter reducer", () => {

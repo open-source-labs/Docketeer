@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module newUserHelper
- * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/10/2021
  * @description Helper functions for creating a new user in the NewUserDisplay component
  *

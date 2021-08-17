@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
-
+import * as oAuth from './googleAuth';
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
@@ -166,6 +166,7 @@ const Login = () => {
               </Button>
               <hr></hr>
               <div className="g-signin2" data-onsuccess="onSignIn" style={{width: '200px', borderRadius:'4px'}}></div>
+              
             </form>
           </div>
         </div>

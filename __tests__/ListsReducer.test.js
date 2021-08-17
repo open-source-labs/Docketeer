@@ -1,6 +1,16 @@
-//import subject from "../src/reducers/ListsReducer.js";
+// import React from 'react';
+// import { configure, shallow } from 'enzyme';
+// import Adapter from 'enzyme-adapter-react-16';
+// // import { imageListReducer, graphReducer, dockerComposeReducer, containerListReducer }
+// import * as subject from '../src/reducers/index';
+// configure({ adapter: new Adapter() }); // enzyme
 
-xdescribe("Dockeeter reducer", () => {
+
+import subject from '../src/reducers/containerListReducer';
+import imageList from '../src/reducers/imageListReducer';
+
+
+describe("Dockeeter reducer", () => {
   let state;
 
   beforeEach(() => {
@@ -30,13 +40,21 @@ xdescribe("Dockeeter reducer", () => {
           fill: "",
         },
       ],
+      graphWrittenIO: [
+        {
+          label: "",
+          data: [],
+          fill: "",
+        },
+      ],
+      graphReadIO: [
+        {
+          label: "",
+          data: [],
+          fill: "",
+        },
+      ]
     };
-  });
-
-  describe("default state", () => {
-    it("should return a default state when given an undefined input", () => {
-      expect(subject(undefined, { type: undefined })).toEqual(state);
-    });
   });
 
   describe("unrecognized action types", () => {
@@ -86,10 +104,10 @@ xdescribe("Dockeeter reducer", () => {
         type: "REFRESH_IMAGES",
         payload: [{ imgid: "123" }, { imgid: "456" }],
       };
-      expect(subject(state, action).imagesList.length).toEqual(2);
+      expect(imageList(state, action).imagesList.length).toEqual(2);
       action = { type: "REFRESH_IMAGES", payload: [{ imgid: "789" }] };
-      expect(subject(state, action).imagesList.length).toEqual(1);
-      expect(subject(state, action).imagesList[0].imgid).toEqual("789");
+      expect(imageList(state, action).imagesList.length).toEqual(1);
+      expect(imageList(state, action).imagesList[0].imgid).toEqual("789");
     });
   });
 

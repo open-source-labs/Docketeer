@@ -1,7 +1,9 @@
 ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png)
 
 ### [Homepage](https://www.docketeer.io/)
+
 ### [Repository](https://github.com/open-source-labs/Docketeer)
+
 ### [Issue Tracker](https://github.com/open-source-labs/Docketeer/issues?q=is%3Aopen+is%3Aissue)
 
 ## Table of Contents
@@ -27,8 +29,8 @@ awesome when someone starts to use it.
 - List its most useful/innovative/noteworthy features.
 - State its goals/what problem(s) it solves.
 -->
-Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
+Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
 ## Install
 
@@ -48,11 +50,11 @@ npm install
 
 > - Docketeer
 >   ...
->   
+>
 >   - .env
 >   - server
 >   - src
->   
+>
 >   ...
 
 4. In the `.env` file, configure the following environment variables for Twilio API. Refer to **Twilio Setup** section below.
@@ -72,16 +74,16 @@ VERIFICATION_SERVICE_SID=''
 
 > - Docketeer
 >   ...
->   
+>
 >   - security
->       - email.js
->       - sysadmin.js
+>     - email.js
+>     - sysadmin.js
 >   - server
 >   - src
->   
+>
 >   ...
 
-7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the ```.gitignore``` file.
+7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the `.gitignore` file.
 
 ```
 // email.js
@@ -117,11 +119,13 @@ const PG_URI = '';
 ```
 
 You are all set! Now just enter the following command to start up Docketeer!
+
 ```
 npm run dev
 ```
 
 ## Twilio setup
+
     1. Download the helper library from https://www.twilio.com/docs/node/install
     2. In order to manage Twilio SMS notifications follow the step plan : https://www.twilio.com/docs/notify/quickstart/sms#messagingservice
     3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID in a newly created .env file in the Docketeer folder in the following format:
@@ -135,9 +139,7 @@ npm run dev
     4. Verification service was created here: https://www.twilio.com/console/verify/services code length and serviceSID can be taken from your Twilio account console.
     5. All historical messages from the Twilio account can be found here: https://www.twilio.com/console/sms/logs
 
-
 <!-- > Getting started with Docketeer is easy: visit [docketeer.io](https://www.docketeer.io/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running. -->
-
 
 ## Basic usage
 
@@ -149,11 +151,9 @@ npm run dev
 
 ### Running Containers
 
->Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. You can also run a container based on the id or repo of an image from the top-right.
+> Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. You can also run a container based on the id or repo of an image from the top-right.
 
 <img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_4c29afde2afd4ac6a776eae9ba102cde~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
-
-
 
 ### Exited Containers
 
@@ -161,22 +161,17 @@ npm run dev
 
 <img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
 
-
-
 ### Images
 
 > On the Images tab, you can view the images that are available for you locally. You can click to run or remove any image and you can also pull images from DockerHub by providing repo:version and clicking pull on the top-right.
 
 <img width="1297" alt="images" src="https://static.wixstatic.com/media/57c1fb_61106dadc6a94bce980e2c11dcc025d0~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
 
-
-
 ### Metrics
 
 > On the Metrics tab, you can view the total amount of resources that your containers are currently using.
 
 <img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_85898fa6a4e045b5a2c7f7fbc327fa5a~mv2.png/v1/crop/x_0,y_86,w_2779,h_1594/fill/w_869,h_498,al_c,q_90,usm_0.66_1.00_0.01/Metrics%201.webp">
-
 
 ### Docker Compose
 
@@ -196,11 +191,9 @@ npm install
 npm run dev
 ```
 
-
-
 ## Testing
 
-To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal: 
+To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal:
 
 ```
 npm install
@@ -230,7 +223,6 @@ npm run test
 ## ⭐ Show your support
 
 Give a ⭐️ if this project helped you!
-
 
 ## LICENSE
 

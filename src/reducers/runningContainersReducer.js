@@ -2,6 +2,7 @@ import * as types from "../constants/actionTypes";
 
 const initialState = {
   runningList: [],
+  stoppedList: [],
 };
 
 export default function (state = initialState, action) {

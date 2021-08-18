@@ -2,7 +2,7 @@
 * ************************************
 *
 * @module Container Database Schema
-* @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
+* @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
 * @date 6/14/2021
 * @description Schema for docketeer-db containerized database that tracks containers and metrics
 *

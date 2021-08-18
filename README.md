@@ -135,38 +135,40 @@ npm run dev
 ### Settings
 
 > On the settings page you can set up container specific sms notifications along with notification rules and connect containers to specific github repositories.
+<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_364f1d7c6cd046299346e22fd851ce52~mv2.png/v1/fill/w_636,h_352,al_c,q_85,usm_0.66_1.00_0.01/Screen%20Shot%202021-06-30%20at%2010_43_56%20PM.webp">
+<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_e7313cd1c7184706bf7dc18a2d09c7db~mv2.png/v1/fill/w_634,h_339,al_c,q_85,usm_0.66_1.00_0.01/Screen%20Shot%202021-06-30%20at%2010_54_48%20PM.webp">
 
-<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_b853288e21e14ea5b891cf7ee8b6126c~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
+### Running & Exited Containers 
 
-### Running Containers
+> Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. Additionally, designated administrators can run a container based on the id or repo of an image from the top-right. Administrators can click to re-run or remove any exited container.
 
-> Once you open the app, you will be able to see any containers that are already running. You can stop or see more details about any container with the click of a button. You can also run a container based on the id or repo of an image from the top-right.
-
-<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_4c29afde2afd4ac6a776eae9ba102cde~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
-
-### Exited Containers
-
-> On the Exited Containers tab, you can view the containers that exited or were stopped. You can click to re-run or remove any exited container.
-
-<img width="1297" alt="exited" src="https://static.wixstatic.com/media/57c1fb_33a06de6eaeb47d1af714990cfd36a12~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Running%20containers.webp">
+<img width="1297" alt="running" src="https://static.wixstatic.com/media/57c1fb_9af6a065f7264dbaae802b62c24c3495~mv2.gif">
 
 ### Images
 
 > On the Images tab, you can view the images that are available for you locally. You can click to run or remove any image and you can also pull images from DockerHub by providing repo:version and clicking pull on the top-right.
 
-<img width="1297" alt="images" src="https://static.wixstatic.com/media/57c1fb_61106dadc6a94bce980e2c11dcc025d0~mv2.png/v1/crop/x_0,y_86,w_2784,h_1594/fill/w_870,h_498,al_c,q_90,usm_0.66_1.00_0.01/Exited%20Containers.webp">
+<img width="1297" alt="images" src="https://static.wixstatic.com/media/57c1fb_2b7afa47a1b84eb4a18408e24c96eb9e~mv2.png/v1/fill/w_636,h_180,al_c,q_85,usm_0.66_1.00_0.01/Images.webp">
 
 ### Metrics
 
-> On the Metrics tab, you can view the total amount of resources that your containers are currently using.
+> On the Metrics tab, you can view the total amount of resources that your containers are currently using including the CPU and memory usage, as well as IO read and written bytes of the containers over specific time periods. You can also view the Github commits for any container linked to a repository.
 
-<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_85898fa6a4e045b5a2c7f7fbc327fa5a~mv2.png/v1/crop/x_0,y_86,w_2779,h_1594/fill/w_869,h_498,al_c,q_90,usm_0.66_1.00_0.01/Metrics%201.webp">
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_eb64952713024c859066eaef057efb33~mv2.gif">
+
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_0a1852150268436ca01de90430550a3f~mv2.gif">
+
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_3a22406d83aa44fd8c40197ce35296b7~mv2.gif">
+
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_0e7076749b6141f7953d8ab5847d975e~mv2.gif">
+
+<img width="1297" alt="metrics" src="https://static.wixstatic.com/media/57c1fb_ba33549d96db41179511c92b42e01a9b~mv2.gif">
 
 ### Docker Compose
 
 > On the Docker Compose tab, you can drag and drop or upload a docker-compose.yml file to run multi-container applications and view your separate networks.
 
-<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_92172f479ea24682bb1b37b0a42d61b6~mv2.png/v1/crop/x_0,y_86,w_2784,h_1598/fill/w_870,h_500,al_c,q_90,usm_0.66_1.00_0.01/Docker%20Compose.webp">
+<img width="1297" alt="compose" src="https://static.wixstatic.com/media/57c1fb_bcfe785a4e2f47db8652c0f32ce36bc4~mv2.png/v1/fill/w_619,h_192,al_c,q_85,usm_0.66_1.00_0.01/compose.webp">
 
 ## 🛠 Development
 

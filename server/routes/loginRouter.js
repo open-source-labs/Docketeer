@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module Login Router
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Routes all requests to login endpoint 
  *
  * ************************************
@@ -23,6 +23,7 @@ router.post('/',
   bcryptController.comparePassword,
   cookieController.setSSIDCookie,
   cookieController.setAdminCookie,
+  bcryptController.hashCookie,
   (req, res) => {
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);

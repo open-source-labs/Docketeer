@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module API Controller
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Contains middleware that sends emails to user for container issues and signup information
  *
  * ************************************

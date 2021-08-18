@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module Database Controller
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/20/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Contains middleware that checks if the database has a user table and creates one if it doesn't
  *
  * ************************************
@@ -67,7 +67,7 @@ dbController.createAdminPassword = (req, res, next) => {
   const saltRounds = 10;
 
   // make a file called systemAdmin.js, make it have admin details such as password, email, phone number, and add to gitignore
-  bcrypt.hash('narwhals', saltRounds)
+  bcrypt.hash('belugas', saltRounds)
     .then((hash) => {
       res.locals.password = hash;
       return next();
@@ -79,4 +79,22 @@ dbController.createAdminPassword = (req, res, next) => {
       });
     });
 };
+
+/**
+ * @description removes token from database
+ */
+
+dbController.removeToken = (req, res, next) => {
+  const {username} = req.body;
+
+  db.query('UPDATE users SET token = null WHERE username=$1', [username])
+    .then(() => {
+      res.locals.logout = 'successfully logged out';
+      return next();
+    })
+    .catch((err) => {
+      if (err) return next(err);
+    });
+};
+
 module.exports = dbController;

@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module setingsHelper
- * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/10/2021
  * @description Helper functions for updating account information in AccountDisplay Component in Settings tab
  *

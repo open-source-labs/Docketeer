@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module Server
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Server listens on port 3000 and routes all incoming requests, handles global middleware errors and unknown endpoint errors
  *
  * ************************************
@@ -20,6 +20,7 @@ const adminRouter = require('./routes/adminRouter');
 const accountRouter = require('./routes/accountRouter');
 const apiRouter = require('./routes/apiRouter');
 const dbRouter = require('./routes/dbRouter');
+const logoutRouter = require('./routes/logoutRouter');
 
 const app = express();
 const PORT = 3000;
@@ -34,6 +35,7 @@ app.use('/admin', adminRouter);
 app.use('/account', accountRouter);
 app.use('/api', apiRouter);
 app.use('/db', dbRouter);
+app.use('/logout', logoutRouter);
 
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {

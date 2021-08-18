@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module Signup Controller
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
  *
  * ************************************

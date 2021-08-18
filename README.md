@@ -93,11 +93,11 @@ module.exports = {
   host: 'smtp.gmail.com',
   port: 465,
   username: 'example@gmail.com',
-  password: 'belugas',
+  password: 'beluga',
 };
 ```
 
-8. In the `sysadmin.js ` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
+8. In the `sysadmin.js` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
 
 ```
 // sysadmin.js

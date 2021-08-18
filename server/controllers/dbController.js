@@ -67,7 +67,7 @@ dbController.createAdminPassword = (req, res, next) => {
   const saltRounds = 10;
 
   // make a file called systemAdmin.js, make it have admin details such as password, email, phone number, and add to gitignore
-  bcrypt.hash('narwhals', saltRounds)
+  bcrypt.hash('belugas', saltRounds)
     .then((hash) => {
       res.locals.password = hash;
       return next();

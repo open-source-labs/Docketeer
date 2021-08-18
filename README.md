@@ -58,7 +58,7 @@ npm install
 >   ...
 
 4. In the `.env` file, configure the following environment variables for Twilio API & Postgres URI. Refer to **Twilio Setup** section below. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `POSTGRES_URI`.
-// Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
 
 ```
 // .env

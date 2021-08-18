@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module Bcrypt Controller
- * @author Catherine Larcheveque, Lorenzo Guevara, Charles Ryu, Griffin Silver, Alex Smith
- * @date 6/14/2021
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
+ * @date 08/02/2021
  * @description Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
  *
  * ************************************
@@ -88,5 +88,32 @@ bcryptController.comparePassword = (req, res, next) => {
       });
     });
 };
+/**
+ * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
+ */
+bcryptController.hashCookie = (req, res, next) =>{
+  const { role_id, username } = res.locals.user;
+  const saltRounds = 10;
+  if (role_id === 1) {
+    bcrypt.hash(res.locals.cookie, saltRounds)
+      .then((hash) => {
+        res.locals.user.token = hash;
+        db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)');
+        db.query('UPDATE users SET token=$1 WHERE username=$2', [res.locals.user.token, username]);
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in bcryptController hashCookeis: ${err}`,
+          message: { err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.' },
+        });
+      });
+  } else {
+    return next();
+  }
+};
+
+
+
 
 module.exports = bcryptController;

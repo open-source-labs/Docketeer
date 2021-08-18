@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../actions/actions';
 import query from '../helper/psqlQuery';
 import * as helper from '../helper/commands';
@@ -26,6 +26,8 @@ const Metrics = (props) => {
   const [timePeriod, setTimePeriod] = useState('4');
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
+  const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
+  const readIO = useSelector((state) => state.graphs.graphReadIO);
   const axis = useSelector((state) => state.graphs.graphAxis);
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
@@ -35,6 +37,8 @@ const Metrics = (props) => {
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
   const buildMemory = (data) => dispatch(actions.buildMemory(data));
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
+  const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
+  const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
 
   const selectedStyling = {
     background: '#e1e4e6',
@@ -74,7 +78,14 @@ const Metrics = (props) => {
     labels: axis,
     datasets: cpu,
   };
-
+  const writtenIOObj = {
+    labels: axis,
+    datasets: writtenIO,
+  };
+  const readIOObj = {
+    labels: axis,
+    datasets: readIO,
+  };
   /**
    * Resets all graph data in global store
    * Builds memory and cpu object for input into Line Components
@@ -85,6 +96,8 @@ const Metrics = (props) => {
     buildMemory('clear');
     buildCpu('clear');
     buildAxis('clear');
+    buildWrittenIO('clear');
+    buildReadIO('clear');
     // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
@@ -120,10 +133,26 @@ const Metrics = (props) => {
 
       return obj;
     };
+    //Datastructure for Bargraph
+    const buildBarGraphObj = (containerName) => {
+      const obj = {
+        label: containerName,
+        data: [],
+        fill: false,
+        backgroundColor: generateLineColor(
+          containerName,
+          Object.keys(activeContainers)
+        ),
+      };
+
+      return obj;
+    };
 
     buildMemory('clear');
     buildCpu('clear');
     buildAxis('clear');
+    buildWrittenIO('clear');
+    buildReadIO('clear');
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -137,18 +166,29 @@ const Metrics = (props) => {
       auxObj[container] = {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
+        writtenIO: buildBarGraphObj(container),
+        readIO: buildBarGraphObj(container),
       };
+      // console.log('This is the auxobj', auxObj);
     });
 
-    // iterate through each row from query and buld Memory and CPU objects [{}, {}]
+    // iterate through each row from query and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
+      const writtenReadIO = dataPoint.block_io.split('/');
       auxObj[currentContainer].cpu.data.push(
         dataPoint.cpu_pct.replace('%', '')
       );
       auxObj[currentContainer].memory.data.push(
         dataPoint.memory_pct.replace('%', '')
       );
+      auxObj[currentContainer].writtenIO.data.push(
+        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ''))
+      );
+      auxObj[currentContainer].readIO.data.push(
+        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
+      );
+
       buildAxis(dataPoint.created_at);
     });
 
@@ -167,10 +207,14 @@ const Metrics = (props) => {
         for (let i = 0; i < lengthToAdd; i += 1) {
           auxObj[containerName].memory.data.unshift('0.00');
           auxObj[containerName].cpu.data.unshift('0.00');
+          auxObj[containerName].writtenIO.data.unshift('0.00');
+          auxObj[containerName].readIO.data.unshift('0.00');
         }
       }
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
+      buildWrittenIO([auxObj[containerName].writtenIO]);
+      buildReadIO([auxObj[containerName].readIO]);
     });
   };
 
@@ -233,7 +277,7 @@ const Metrics = (props) => {
       let date = 'n/a';
       let time = 'n/a';
       let url = (
-        <Link Redirect to="/" style={selectedStyling}>
+        <Link Redirect to='/' style={selectedStyling}>
           Connect via settings page
         </Link>
       );
@@ -243,7 +287,7 @@ const Metrics = (props) => {
         author = ob.author;
         text = 'Github Commits';
         url = (
-          <a href={url} target="_blank" rel="noreferrer">
+          <a href={url} target='_blank' rel='noreferrer'>
             {text}
           </a>
         );
@@ -284,7 +328,7 @@ const Metrics = (props) => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color="primary"
+              color='primary'
               inputProps={{ 'aria-label': containerNameKey }}
             />
           }
@@ -343,6 +387,35 @@ const Metrics = (props) => {
     maintainAspectRatio: false,
   };
 
+  const writtenIOOptions = {
+    tooltips: {
+      enabled: true,
+      mode: 'index',
+    },
+    title: {
+      display: true,
+      text: 'IO BYTES WRITTEN BY IMAGE',
+      fontSize: 23,
+    },
+    legend: { display: true, position: 'bottom' },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+  const readIOOptions = {
+    tooltips: {
+      enabled: true,
+      mode: 'index',
+    },
+    title: {
+      display: true,
+      text: 'IO BYTES READ BY IMAGE',
+      fontSize: 23,
+    },
+    legend: { display: true, position: 'bottom' },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   /* Consider if we can combine these two. Wasn't rendering active containers when tested */
   selectList();
   useEffect(() => {
@@ -352,49 +425,55 @@ const Metrics = (props) => {
 
   return (
     <div>
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Over Time</h3>
       </div>
-      <div className="metrics-options-form">
+      <div className='metrics-options-form'>
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
           <input
-            type="radio"
-            id="4-hours"
-            name="timePeriod"
-            value="4"
+            type='radio'
+            id='4-hours'
+            name='timePeriod'
+            value='4'
             defaultChecked
           ></input>
-          <label htmlFor="4-hours"> 4 hours</label>
+          <label htmlFor='4-hours'> 4 hours</label>
           <input
-            type="radio"
-            id="12-hours"
-            name="timePeriod"
-            value="12"
+            type='radio'
+            id='12-hours'
+            name='timePeriod'
+            value='12'
           ></input>
-          <label htmlFor="12-hours"> 12 hours</label>
-          <input type="radio" id="other" name="timePeriod" value="24"></input>
-          <label htmlFor="24-hours"> 24 hours</label>
+          <label htmlFor='12-hours'> 12 hours</label>
+          <input type='radio' id='other' name='timePeriod' value='24'></input>
+          <label htmlFor='24-hours'> 24 hours</label>
           <br></br>
           {currentList}
         </form>
         <div></div>
       </div>
 
-      <div className="allCharts">
+      <div className='allCharts'>
         <Line data={memoryObj} options={memoryOptions} />
       </div>
 
-      <div className="allCharts">
+      <div className='allCharts'>
         <Line data={cpuObj} options={cpuOptions} />
       </div>
-      <div className="metric-section-title">
+      <div className='allCharts'>
+        <Bar data={writtenIOObj} options={writtenIOOptions} />
+      </div>
+      <div className='allCharts'>
+        <Bar data={readIOObj} options={readIOOptions} />
+      </div>
+      <div className='metric-section-title'>
         <h3>GitHub History</h3>
       </div>
-      <div className="gitHub-container">{gitData}</div>
+      <div className='gitHub-container'>{gitData}</div>
     </div>
   );
 };

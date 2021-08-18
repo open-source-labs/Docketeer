@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module DebugRouter
- * @author Lorenzo Guevara
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/10/2021
  * @description Debug Router for react-router-dom, this component is essentially a BrowserRouter component from react-router-dom which you can use to wrap your routes. It operates the same way, but console logs the current react-router-dom location and location history, so helpful for debugging.
  *

@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module NewUserDisplay
- * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/10/2021
  * @description Signup component that will be rendered in SysAdmin view, in Users tab, where sysadmin can create an account for new user in organization
  *

@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module Login
- * @author Alex Smith, Catherine Larcheveque, Charles Ryu, Griffin Silver, Lorenzo Guevara
+ * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
  * @date 6/10/2021
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  *
@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
-
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
@@ -166,6 +165,7 @@ const Login = () => {
               </Button>
               <hr></hr>
               <div className="g-signin2" data-onsuccess="onSignIn" style={{width: '200px', borderRadius:'4px'}}></div>
+              
             </form>
           </div>
         </div>

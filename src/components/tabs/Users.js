@@ -137,9 +137,6 @@ const UserTable = () => {
 
     const id = event.target.getAttribute('id');
     const invertPreviousValue = (!selected[id]);
-    // Bug: unable to pull custom attribute on Checkbox props, even with getAttribute https://www.pluralsight.com/guides/how-to-access-custom-attributes-from-aevent-object-in-react
-    // console.log('checkbox clicked: ', event.target.getAttribute('userid'));
-    // console.log('checkbox clicked: ', event.target.userid);
 
     // create temporary copy of selected object
     const temp = {

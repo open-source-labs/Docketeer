@@ -219,6 +219,10 @@ npm run test
 - Charles Ryu [@Github](https://github.com/charcharryu) [@LinkedIn](https://www.linkedin.com/in/charcharryu/)
 - Griffin Silver [@Github](https://www.linkedin.com/in/griffin-silver-1ab675140/) [@LinkedIn](https://github.com/griffinrogersilver)
 - Lorenzo Guevara [@Github](https://github.com/lo-guevara) [@LinkedIn](https://www.linkedin.com/in/lorenzoguevara/)
+- May Li [@Github](https://github.com/msscloudy) [@LinkedIn](https://www.linkedin.com/in/maysli)
+- Ricardo Cortez [@Github](https://github.com/rcortez88) [@LinkedIn](https://www.linkedin.com/in/rcortez88/)
+- Emma Czech [@Github](https://github.com/emczech) [@LinkedIn](https://https://www.linkedin.com/in/emczech/)
+- Brent Speight [@Github](https://github.com/brentspeight) [@LinkedIn](https://www.linkedin.com/in/brent-speight/)
 
 ## ⭐ Show your support
 

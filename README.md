@@ -106,13 +106,13 @@ module.exports = {
 ```
 9. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable PG_URI the file cloudModel.js located in Docketeer/server/models/.
 // cloudModel.js
-...
+```
 const { Pool } = require('pg');
 
 // Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
 
 const PG_URI = '';
-...
+```
 
 
 You are all set! Now just enter the following command to start up Docketeer!

@@ -57,8 +57,7 @@ npm install
 >
 >   ...
 
-4. In the `.env` file, configure the following environment variables for Twilio API & Postgres URI. Refer to **Twilio Setup** section below. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable `POSTGRES_URI`.
-Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+4. In the .env file, configure the following environment variables for Twilio API. Refer to Twilio Setup section below.
 
 ```
 // .env
@@ -67,7 +66,6 @@ TWILIO_ACCOUNT_SID=''
 TWILIO_AUTH_TOKEN=''
 SERVICE_SID=''
 VERIFICATION_SERVICE_SID=''
-POSTGRES_URI=''
 ```
 
 5. Create a folder called `security` in the project's top-level directory.
@@ -106,6 +104,16 @@ module.exports = {
   email: '',
 };
 ```
+9. Connect your cloud relational database (PostgreSQL) by copying and pasting the connection string to the variable PG_URI the file cloudModel.js located in Docketeer/server/models/.
+// cloudModel.js
+...
+const { Pool } = require('pg');
+
+// Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+
+const PG_URI = '';
+...
+
 
 You are all set! Now just enter the following command to start up Docketeer!
 

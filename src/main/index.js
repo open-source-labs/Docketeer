@@ -25,18 +25,6 @@ function createMainWindow() {
     },
   });
 
-  window.webContents.on('did-frame-finish-load', () => {
-    if (isDevelopment) {
-      window.webContents.openDevTools();
-      window.webContents.on('devtools-opened', () => {
-      window.focus();
-      setImmediate(() => {
-        window.focus();
-      });
-    });
-  }});
-  
-
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   } else {
@@ -49,11 +37,20 @@ function createMainWindow() {
     );
   }
 
+  window.webContents.on('did-frame-finish-load', () => {
+    if (isDevelopment) {
+      window.webContents.openDevTools();
+      window.webContents.on('devtools-opened', () => {
+      window.focus();
+      setImmediate(() => {
+        window.focus();
+      });
+    });
+  }});
+  
   window.on('closed', () => {
     mainWindow = null;
   });
-
-  
 
   return window;
 }

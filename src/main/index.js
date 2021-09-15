@@ -55,29 +55,30 @@ function createMainWindow() {
   return window;
 }
 
-// quit application when all windows are closed
-app.on('window-all-closed', () => {
-  // on macOS it is common for applications to stay open until the user explicitly quits
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('activate', () => {
-  // on macOS it is common to re-create a window even after all windows have been closed
-  if (mainWindow === null) {
-    mainWindow = createMainWindow();
-  }
-});
+// app.on('activate', () => {
+//   // on macOS it is common to re-create a window even after all windows have been closed
+//   if (mainWindow === null) {
+//     mainWindow = createMainWindow();
+//   }
+// });
 
 // create main BrowserWindow when electron is ready
-app.on('ready', () => {
-  // server;
-  mainWindow = createMainWindow();
-});
+// app.on('ready', () => {
+//   // server;
+//   mainWindow = createMainWindow();
+// });
 
 // comment out lines 79-83 if dev tools is slowing app
 app.whenReady().then(() => {
+  mainWindow = createMainWindow();
+
+  app.on('activate', () => {
+    // on macOS it is common to re-create a window even after all windows have been closed
+    if (mainWindow === null) {
+      mainWindow = createMainWindow();
+    }
+  });
+
   installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
@@ -85,6 +86,14 @@ app.whenReady().then(() => {
 // if (module.hot) {
 //   module.hot.accept();
 // }
+
+// quit application when all windows are closed
+app.on('window-all-closed', () => {
+  // on macOS it is common for applications to stay open until the user explicitly quits
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
 
 ipcMain.handle('verify-number', async (_, args) => {
   return await verifyMobileNumber(args);

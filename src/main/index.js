@@ -41,10 +41,10 @@ function createMainWindow() {
     if (isDevelopment) {
       window.webContents.openDevTools();
       window.webContents.on('devtools-opened', () => {
-      window.focus();
-      setImmediate(() => {
         window.focus();
-      });
+        setImmediate(() => {
+          window.focus();
+        });
     });
   }});
   

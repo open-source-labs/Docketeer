@@ -10,6 +10,7 @@
  */
 
 const { Pool } = require('pg');
+
 const dotenv = require('dotenv');
 dotenv.config();
 // Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
@@ -22,7 +23,7 @@ const cloudPool = new Pool({
 
 module.exports = {
   query: function (text, params, callback) {
-    console.log('executed cloud query', text);
+    console.log('Executed query...', text);
     return cloudPool.query(text, params, callback);
   },
 };

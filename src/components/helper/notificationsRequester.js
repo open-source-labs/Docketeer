@@ -2,7 +2,7 @@
 import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
 import * as categories from '../../constants/notificationCategories';
-
+import {cpuNotification, memoryNotification} from '../../main/slack/slack.js'
 // object that holds what notifications have been sent
 const sentNotifications = {};
 let state;
@@ -158,6 +158,11 @@ const checkForNotifications = (
             notificationType,
             containerId
           );
+
+            //sends a slack message if CPU or memory passes threshold
+            cpuNotification();
+            memoryNotification();
+
 
           // calculate time between now and last notification sent time
           const spentTime = Math.floor(

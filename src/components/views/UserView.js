@@ -14,6 +14,7 @@ import ImagesUser from '../tabs/ImagesUser';
 import Yml from '../tabs/Yml';
 import ContainersUser from '../tabs/ContainersUser';
 import Settings from '../tabs/Settings';
+import VolumeHistory from '../tabs/VolumeHistory';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -40,7 +41,7 @@ const UserView = (props) => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-
+  const volumeHistory = useSelector((state) => state.volumeHistory);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -141,6 +142,15 @@ const UserView = (props) => {
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/volume"
+                  style={selected === '/volume' ? selectedStyling : null}
+                  onClick={() => setSelected('/volume')}
+                >
+                  <i className="fas fa-file-upload"></i> Volume History
+                </Link>
+              </li>
             </ul>
             <div>
               <button
@@ -162,6 +172,10 @@ const UserView = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
+          <Route path ="/volume">
+            <VolumeHistory 
+              volumeHistory={volumeHistory}/>
+          </Route>
           <Route path="/metrics">
             <Metrics runningList={runningList} />
           </Route>

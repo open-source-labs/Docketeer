@@ -9,6 +9,8 @@ import '../components/css/running.css';
 import '../components/css/static.css';
 import Login from '../components/login/login';
 import { HashRouter as Router } from 'react-router-dom';
+import memoryNotification from '../main/slack/memoryNotification.js'
+import cpuNotification  from '../main/slack/cpuNotification.js'
 //const request = require('request-promise')
 /**
  * Electron's path configuration is done invoking fixPath
@@ -16,23 +18,22 @@ import { HashRouter as Router } from 'react-router-dom';
  */
 const request = require('request')
 
-// let webhook = 'https://hooks.slack.com/services/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'
 
-// const payload={"text":"FUCK!!!!"}
+//import dotenv
 
-// const headers = {"Content-type": "application/json"}
+//cpuNotification()
+const dotenv = require('dotenv');
+dotenv.config();
 
-// const fuck = request.post({url: webhook, payload: payload, headers: headers}, function(err, res){
-//     if(err){console.log(err)}
-//     if(res){console.log(res.body)}
-// })
-// const testing = async function(){
+// const URL = process.env.URL
+
+// const cpuNotification = async function(){
 //   try {
 //     console.log('here')
-//     const payload = {"text": "Testing Message belugas"}
+//     const payload = {"text": "The CPU threshold has been met or exceeded"}
 //     console.log('here2')
 //     (await request({
-//       url: 'https://hooks.slack.com/services/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',
+//       url: URL,
 //       method: 'POST',
 //       body: payload,
 //       json: true
@@ -41,7 +42,8 @@ const request = require('request')
 //     console.log('this is our error', e)
 //   }
 // }
-// testing();
+memoryNotification();
+cpuNotification();
 
 const fixPath = require('fix-path');
 fixPath();

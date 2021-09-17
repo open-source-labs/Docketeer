@@ -22,7 +22,7 @@ const cloudPool = new Pool({
 });
 
 module.exports = {
-  query(text, params, callback) {
+  query: (text, params, callback) => {
     console.log('Executed query...', text);
     return cloudPool.query(text, params, callback);
   },

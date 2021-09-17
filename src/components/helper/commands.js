@@ -19,7 +19,7 @@ export const addRunning = (runningList, callback) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`addRunning stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
@@ -59,7 +59,7 @@ export const refreshRunning = (refreshRunningContainers) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`refreshRunning stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
@@ -89,7 +89,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`refreshStopped stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout and slice to remove trailing comma
@@ -113,7 +113,7 @@ export const refreshImages = (callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`refreshImages stderr: ${stderr}`);
       return;
     }
     const value = parseContainerFormat.convert(stdout);
@@ -151,7 +151,7 @@ export const remove = (id, callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`remove stderr: ${stderr}`);
       return;
     }
     callback(id);
@@ -171,7 +171,7 @@ export const stop = (id, callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`stop stderr: ${stderr}`);
       return;
     }
     callback(id);
@@ -195,7 +195,7 @@ export const runStopped = (
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`runStopped stderr: ${stderr}`);
       return;
     }
     runStoppedContainerDispatcher(id);
@@ -220,7 +220,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`runIm stderr: ${stderr}`);
       return;
     }
   });
@@ -245,7 +245,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`removeIm stderr: ${stderr}`);
       return;
     }
     callback_1(callback_2);
@@ -265,7 +265,7 @@ export const handlePruneClick = (e) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`handlePruneClick stderr: ${stderr}`);
       return;
     }
   });
@@ -283,7 +283,7 @@ export const pullImage = (repo) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`pullImage stderr: ${stderr}`);
       return;
     }
   });
@@ -298,11 +298,11 @@ export const networkContainers = (getDockerNetworkReducer) => {
   // exec("docker network ls", (error, stdout, stderr) => {
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      console.log(`networkContainers error: ${error.message}`);
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
 
@@ -320,11 +320,11 @@ export const networkContainers = (getDockerNetworkReducer) => {
 export const inspectDockerContainer = (containerId) => {
   exec(`docker inspect ${containerId}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      console.log(`inspectDockerContainer error: ${error.message}`);
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`inspectDockerContainer stderr: ${stderr}`);
       return;
     }
     console.log(stdout);
@@ -358,11 +358,11 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
         if (error) {
-          console.log(`error: ${error.message}`);
+          console.log(`dockerComposeStacks error: ${error.message}`);
           return;
         }
         if (stderr) {
-          console.log(`stderr: ${stderr}`);
+          console.log(`dockerComposeStacks stderr: ${stderr}`);
           return;
         }
         const dockerOutput = `[${stdout
@@ -380,11 +380,11 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
         if (error) {
-          console.log(`error: ${error.message}`);
+          console.log(`dockerComposeStacks error: ${error.message}`);
           return;
         }
         if (stderr) {
-          console.log(`stderr: ${stderr}`);
+          console.log(`dockerComposeStacks stderr: ${stderr}`);
           return;
         }
         const dockerOutput = `[${stdout
@@ -451,4 +451,34 @@ export const setDbSessionTimeZone = () => {
 
 export const getContainerGitUrl = (container) => {
   return query(`Select github_url from containers where name = '${container}'`);
+};
+
+/**
+ *
+ * @param {*} getVolumeHistory
+ * Display all history of all volumes when application starts
+ */
+export const dockerVolume = (getVolumeHistory) => {
+  // exec("docker network ls", (error, stdout, stderr) => {
+  exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
+    if (error) {
+      console.log(`dockerVolume error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`dockerVolume stderr: ${stderr}`);
+      return;
+    }
+
+    // trim whitespace at end out standard output,slice to remove trailing comma and remove spaces
+    const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+    /**
+     * stores docker volumes properties that contains: Name
+     */ 
+    const networkContainers = JSON.parse(dockerOutput).filter(
+      ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
+    );
+    // dispatch the network containers to the redux store
+    // getDockerNetworkReducer(networkContainers);
+  });
 };

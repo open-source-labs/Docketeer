@@ -3,9 +3,6 @@
 Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 
 */
-#github_logo {
-  height: 10px;
-}
 .hljs {
   display: block;
   overflow-x: auto;

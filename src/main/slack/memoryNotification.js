@@ -1,10 +1,10 @@
 const request = require('request');
 
-//import dotenv
+// import dotenv
 const dotenv = require('dotenv');
 dotenv.config();
 
-const URL = process.env.URL
+const URL = process.env.URL;
 
 const memoryNotification = async function(){
     try {

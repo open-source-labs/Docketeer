@@ -42,7 +42,7 @@ const AdminView = (props) => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const volumeHistory = useSelector((state) => state.volumeHistory);
+  const volumeHistory = useSelector((state) => state.volumeList);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);

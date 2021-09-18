@@ -6,6 +6,8 @@ import dockerComposeReducer from './dockerComposeReducer';
 import notificationReducer from './notificationReducer';
 import sessionReducer from './sessionReducer';
 import userListReducer from './userListReducer';
+import volumeHistoryReducer from './volumeHistoryReducer';
+
 /**
  * Reducer store
  */
@@ -17,6 +19,7 @@ const reducers = combineReducers({
   notificationList: notificationReducer,
   session: sessionReducer,
   userList: userListReducer,
+  volumeList: volumeHistoryReducer,
 });
 
 export default reducers;

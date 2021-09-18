@@ -21,7 +21,6 @@ import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
-
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
 import Containers from '../tabs/Containers';
@@ -57,7 +56,7 @@ const SysAdmin = (props) => {
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
   const userInfo = useSelector((state) => state.session);
-  const volumeHistory = useSelector((state) => state.volumeHistory);
+  const volumeHistory = useSelector((state) => state.volumeList);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);

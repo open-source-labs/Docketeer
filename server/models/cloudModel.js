@@ -9,21 +9,40 @@
  * ************************************
  */
 
-const { Pool } = require('pg');
-require('dotenv').config();
+ const { Pool } = require('pg');
 
-// Connects to database. 
-// Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+ const dotenv = require('dotenv');
+ dotenv.config();
+ // Copy and paste your PostgreSQL Connectiion URL below to connect your cloud database. Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
+ 
+ const PG_URI = process.env.POSTGRES_URI;
+ 
+ const cloudPool = new Pool({
+   connectionString: PG_URI,
+ });
+ 
+ module.exports = {
+   query: function (text, params, callback) {
+     console.log('Executed query...', text);
+     return cloudPool.query(text, params, callback);
+   },
+ };
 
-const PG_URI = `${process.env.POSTGRES_URI}`;
+// const { Pool } = require('pg');
+// require('dotenv').config();
 
-const cloudPool = new Pool({
-  connectionString: PG_URI,
-});
+// // Connects to database. 
+// // Note: no need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.
 
-module.exports = {
-  query: function (text, params, callback) {
-    console.log('Executed query...', text);
-    return cloudPool.query(text, params, callback);
-  },
-};
+// const PG_URI = `${process.env.POSTGRES_URI}`;
+
+// const cloudPool = new Pool({
+//   connectionString: PG_URI,
+// });
+
+// module.exports = {
+//   query: function (text, params, callback) {
+//     console.log('Executed query...', text);
+//     return cloudPool.query(text, params, callback);
+//   },
+// };

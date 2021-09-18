@@ -459,7 +459,6 @@ export const getContainerGitUrl = (container) => {
  * Display all history of all volumes when application starts
  */
 export const dockerVolume = (getVolumeHistory) => {
-  // exec("docker network ls", (error, stdout, stderr) => {
   exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
       console.log(`dockerVolume error: ${error.message}`);
@@ -475,10 +474,9 @@ export const dockerVolume = (getVolumeHistory) => {
     /**
      * stores docker volumes properties that contains: Name
      */ 
-    const networkContainers = JSON.parse(dockerOutput).filter(
-      ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
-    );
-    // dispatch the network containers to the redux store
+    const volumeFinder = JSON.parse(dockerOutput).find( ({ name }) => name );
+    // dispatch the network containers to the redux store; taken from line 315
+    getVolumeHistory(volumeFinder); // <-- not sure if that's correct or even needed :')
     // getDockerNetworkReducer(networkContainers);
   });
 };

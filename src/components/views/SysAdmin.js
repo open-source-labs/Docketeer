@@ -50,6 +50,7 @@ const SysAdmin = (props) => {
   const logoutUser = () => dispatch(actions.logoutUser());
   const updateUserList = (data) => dispatch(actions.updateUserList(data));
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  const getVolumeHistory = (data) => dispatch(actions.getVolumeList(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
@@ -98,6 +99,7 @@ const SysAdmin = (props) => {
     helper.writeToDb();
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
+    helper.dockerVolume(getVolumeHistory);
   }, []);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
@@ -238,7 +240,9 @@ const SysAdmin = (props) => {
         <Switch>
           <Route path ="/volume">
             <VolumeHistory 
-              volumeHistory={volumeHistory}/>
+              volumeHistory={volumeHistory}
+              getVolumeHistory={getVolumeHistory}
+            />
           </Route>
           <Route path="/metrics">
             <Metrics runningList={runningList} />

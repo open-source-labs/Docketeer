@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import * as helper from '../helper/commands';
 
 /**
  *
@@ -10,8 +11,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const volumeHistory = props => {
   // set state for volume history cards
-  const [ volumeName, setVolumeName ] = useState('');
-
+  const [volumeName, setVolumeName] = useState('');
+  
+  // added to grab all of the volume history on load/after DOM finishes rendering
+  // useEffect(() => {
+  //   helper.dockerVolume(props.getVolumeHistory);       
+  // });
+ 
+  // Searches state for specific volume
   const handleClick = (e) => {
     e.preventDefault();
     props.volumeHistory.find(vol => vol === volumeName);

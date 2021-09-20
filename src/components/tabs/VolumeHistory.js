@@ -12,6 +12,7 @@ import * as helper from '../helper/commands';
 const volumeHistory = props => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
+  console.log('PROPS VOLUME HIST:', props.volumeHistory);
   
   // added to grab all of the volume history on load/after DOM finishes rendering
   // useEffect(() => {
@@ -25,11 +26,13 @@ const volumeHistory = props => {
   };
 
   const renderVolumeHistory = props.volumeHistory.map((ele, i) => {
+    console.log('renderVolumeHistory console log:', ele);
+
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
-          <h3>{ele['reps']}</h3>
-          <p>{ele['tag']}</p>
+          <h3>{ele['Name']}</h3>
+          {/* <p>{ele['name']}</p> */}
         </div>
         <div className="stopped-info">
           <li>

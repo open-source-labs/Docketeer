@@ -50,14 +50,15 @@ const SysAdmin = (props) => {
   const logoutUser = () => dispatch(actions.logoutUser());
   const updateUserList = (data) => dispatch(actions.updateUserList(data));
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
-  const getVolumeHistory = (data) => dispatch(actions.getVolumeList(data));
+  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
+  //const getcontainersinVolume = (data) => dispatch(actions.containersInVolume(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
   const userInfo = useSelector((state) => state.session);
-  const volumeHistory = useSelector((state) => state.volumeList);
+  const volumeHistory = useSelector((state) => state.volumeList.arrayOfVolumeNames);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -99,7 +100,7 @@ const SysAdmin = (props) => {
     helper.writeToDb();
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
-    helper.dockerVolume(getVolumeHistory);
+    helper.getAllDockerVolumes(getVolumeList);
   }, []);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
@@ -241,17 +242,22 @@ const SysAdmin = (props) => {
           <Route path ="/volume">
             <VolumeHistory 
               volumeHistory={volumeHistory}
-              getVolumeHistory={getVolumeHistory}
+              getVolumeList={getVolumeList}
             />
           </Route>
           <Route path="/metrics">
-            <Metrics runningList={runningList} />
+            <Metrics
+              runningList={runningList}
+            />
           </Route>
           <Route path="/users">
             <UserList />
           </Route>
           <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
+            <Yml
+              networkList={networkList}
+              composeymlFiles={composeymlFiles}
+            />
           </Route>
           <Route path="/images">
             <Images

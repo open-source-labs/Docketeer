@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
+import { filterOneProperty } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 /**
  *
@@ -455,47 +456,55 @@ export const getContainerGitUrl = (container) => {
 
 /**
  *
- * @param {*} getVolumeHistory
+ * @param {*} getVolumeList
  * Display all history of all volumes when application starts
  */
-export const dockerVolume = (getVolumeHistory) => {
-  console.log('Entered dockervolume command');
+export const getAllDockerVolumes = (getVolumeList) => {
+  console.log('Entered getAllDockerVolumes command');
   exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
-      console.log(`dockerVolume error: ${error.message}`);
+      console.log(`getAllDockerVolumes error: ${error.message}`);
       return;
     }
     if (stderr) {
-      console.log(`dockerVolume stderr: ${stderr}`);
+      console.log(`getAllDockerVolumes stderr: ${stderr}`);
       return;
     }
 
     // trim whitespace at end out standard output,slice to remove trailing comma and remove spaces
-    const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
-    /**
-     * stores docker volumes properties that contains: Name
-     */ 
-    
-    const volumeFinder = (dockerOutput) => {
-      const arrayOfNames = [];
-      return function innerFunc() {
-        // dockerOutput is an Array 
-        // iterate through dockerOutput Array 
-        dockerOutput.forEach((element) => {
-          // element is each individual object
-          if (typeof element === 'object') {
-            for (const key of element) {
-              if (key === 'Name') { 
-                arrayOfNames.push(element[key]);
-              }
-            }
-          }
-        });
-        return arrayOfNames;
-      };
-    };
-    // const volumeFinder = JSON.parse(dockerOutput).find(({ name }) => name );
-    console.log('this is the volumeFinder result', volumeFinder);
-    getVolumeHistory(volumeFinder); 
+    const dockerOutput = JSON.parse( 
+      `[${stdout
+        .trim()
+        .slice(0, -1)
+        .replaceAll(' ', '')}]`
+    );
+
+    // return getVolumeList(dockerOutput); 
+    return getVolumeList(filterOneProperty(dockerOutput, 'Name')); 
   });
+};
+
+export const getVolumeContainers = (getVolumeContainersList, volumeId) => {
+  console.log('Entered getVolumeContainers command');
+  exec(`docker ps -a --filter volume=${volumeId} --format "{{json .}},"`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`getVolumeContainers error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`getVolumeContainers stderr: ${stderr}`);
+        return;
+      }
+
+      // trim whitespace at end out standard output,slice to remove trailing comma and remove spaces
+      const dockerOutput = JSON.parse(
+        `[${stdout
+          .trim()
+          .slice(0, -1)
+          .replaceAll(' ', '')}]`
+      );
+
+      return getVolumeContainersList(dockerOutput);
+    });
 };

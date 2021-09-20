@@ -36,12 +36,14 @@ const UserView = (props) => {
   const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
+  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
+  const getcontainersinVolume = (data) => dispatch(actions.containersInVolume(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const volumeHistory = useSelector((state) => state.volumeList);
+  const volumeHistory = useSelector((state) => state.volumeList.arrayOfVolumeNames);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -174,13 +176,20 @@ const UserView = (props) => {
         <Switch>
           <Route path ="/volume">
             <VolumeHistory 
-              volumeHistory={volumeHistory}/>
+              volumeHistory={volumeHistory}
+              getVolumeList={getVolumeList}
+            />
           </Route>
           <Route path="/metrics">
-            <Metrics runningList={runningList} />
+            <Metrics
+              runningList={runningList}
+            />
           </Route>
           <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
+            <Yml
+              networkList={networkList}
+              composeymlFiles={composeymlFiles}
+            />
           </Route>
           <Route path="/images">
             <ImagesUser

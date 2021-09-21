@@ -4,6 +4,10 @@ import store from '../../renderer/store';
 import * as categories from '../../constants/notificationCategories'; 
 // import {cpuNotification, memoryNotification} from '../../main/slack/slack.js'
 // object that holds what notifications have been sent
+import memoryNotification from '../../main/slack/memoryNotification.js'
+import cpuNotification  from '../../main/slack/cpuNotification.js'
+const dotenv = require('dotenv');
+dotenv.config();
 const sentNotifications = {};
 let state;
 
@@ -147,8 +151,10 @@ const checkForNotifications = (
     const containerObject = getContainerObject(containerList, containerId);
     
     if (containerObject) {
+      console.log(triggeringValue);
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
+      console.log(stat);
       // if the stat should trigger rule
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
@@ -159,7 +165,7 @@ const checkForNotifications = (
             containerId
           );
 
-            //sends a slack message if CPU or memory passes threshold
+            // sends a slack message if CPU or memory passes threshold
             // cpuNotification();
             // memoryNotification();
 
@@ -179,6 +185,8 @@ const checkForNotifications = (
               triggeringValue,
               containerObject,
             );
+            // memoryNotification();
+            // cpuNotification();
             console.log(
               `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`
             );
@@ -188,6 +196,7 @@ const checkForNotifications = (
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
             // resend interval not yet met
+            // cpuNotification();
             console.log(
               `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`
             );
@@ -200,6 +209,8 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
+          memoryNotification();
+          cpuNotification(); 
           console.log(
             `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`
           );

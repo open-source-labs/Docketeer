@@ -9,45 +9,47 @@ import * as helper from '../helper/commands';
  * Render Volume History
  */
 
-const volumeHistory = props => {
+const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
   console.log('PROPS VOLUME HIST:', props.volumeHistory);
-  
+
   // added to grab all of the volume history on load/after DOM finishes rendering
   // useEffect(() => {
-  //   helper.dockerVolume(props.getVolumeHistory);       
+  //   helper.dockerVolume(props.getVolumeHistory);
   // });
- 
+
   // Searches state for specific volume
   const handleClick = (e) => {
     e.preventDefault();
-    props.volumeHistory.find(vol => vol === volumeName);
+    props.volumeHistory.find((vol) => vol === volumeName);
   };
 
   const renderVolumeHistory = props.volumeHistory.map((ele, i) => {
     console.log('renderVolumeHistory console log:', ele);
+    console.log('typeof: ', typeof ele);
+    console.log(ele.Name);
 
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
-          <h3>{ele['Name']}</h3>
-          {/* <p>{ele['name']}</p> */}
+          <h3>{ele.Name}</h3>
+          {/* <p>{ele['tag']}</p> */}
         </div>
         <div className="stopped-info">
           <li>
             <strong>Volume Name:</strong>
-            {ele['volumeid']}
+            {/* {ele['volumeid']} */}
           </li>
           <li>
             <strong>Containers:</strong>
-            {ele['size']}
+            {/* {ele['size']} */}
           </li>
         </div>
       </div>
     );
   });
-  
+
   return (
     <div className="renderContainers">
       <div className="header">
@@ -61,7 +63,7 @@ const volumeHistory = props => {
               onChange={(e) => {
                 setVolumeName(e.target.value);
               }}
-            ></input>
+            />
           </span>
           <button className="run-btn" onClick={(e) => handleClick(e)}>
             Find

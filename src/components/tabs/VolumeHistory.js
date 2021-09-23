@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as helper from '../helper/commands';
 
+
 /**
  *
  * @param {*} props
@@ -12,20 +13,23 @@ import * as helper from '../helper/commands';
 const volumeHistory = props => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
-  console.log('PROPS VOLUME HIST:', props.volumeHistory);
-  
+  console.log('PROPS VOLUME HIST:', props.arrayOfVolumeNames);
+
+  // redux mapState to props
+
+
   // added to grab all of the volume history on load/after DOM finishes rendering
-  // useEffect(() => {
-  //   helper.dockerVolume(props.getVolumeHistory);       
-  // });
+  useEffect(() => {
+    helper.dockerVolume(props.arrayOfVolumeNames);       
+  });
  
   // Searches state for specific volume
   const handleClick = (e) => {
     e.preventDefault();
-    props.volumeHistory.find(vol => vol === volumeName);
+    props.arrayOfVolumeNames.find(vol => vol === volumeName);
   };
-
-  const renderVolumeHistory = props.volumeHistory.map((ele, i) => {
+  
+  const renderVolumeHistory = props.arrayOfVolumeNames.map((ele, i) => {
     console.log('renderVolumeHistory console log:', ele);
 
     return (
@@ -36,12 +40,15 @@ const volumeHistory = props => {
         </div>
         <div className="stopped-info">
           <li>
-            <strong>Volume Name:</strong>
-            {ele['volumeid']}
+            <strong>Container Names:</strong>
+            {ele['Names']}
           </li>
           <li>
-            <strong>Containers:</strong>
+            <strong>Status:</strong>
             {ele['size']}
+          </li>
+          <li>
+            
           </li>
         </div>
       </div>
@@ -74,3 +81,4 @@ const volumeHistory = props => {
 };
 
 export default volumeHistory;
+// include connect method at the bottom

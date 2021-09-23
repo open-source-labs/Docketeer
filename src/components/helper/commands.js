@@ -1,8 +1,9 @@
 import { exec } from 'child_process';
 import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
-import { filterOneProperty } from './volumeHistoryHelper';
+import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
 import store from '../../renderer/store';
+import { getVolumeContainersList } from '../../actions/actions';
 /**
  *
  * @param {*} runningList
@@ -455,12 +456,11 @@ export const getContainerGitUrl = (container) => {
 };
 
 /**
- *
+ * Docker command to retrieve the list of running volumes
+ * 
  * @param {*} getVolumeList
- * Display all history of all volumes when application starts
  */
 export const getAllDockerVolumes = (getVolumeList) => {
-  console.log('Entered getAllDockerVolumes command');
   exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
       console.log(`getAllDockerVolumes error: ${error.message}`);
@@ -471,7 +471,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
       return;
     }
 
-    // trim whitespace at end out standard output,slice to remove trailing comma and remove spaces
+    // remove spaces and trailing comma at end
     const dockerOutput = JSON.parse( 
       `[${stdout
         .trim()
@@ -479,14 +479,17 @@ export const getAllDockerVolumes = (getVolumeList) => {
         .replaceAll(' ', '')}]`
     );
 
-    // return getVolumeList(dockerOutput); 
     return getVolumeList(filterOneProperty(dockerOutput, 'Name')); 
   });
 };
 
-export const getVolumeContainers = (getVolumeContainersList, volumeId) => {
-  console.log('Entered getVolumeContainers command');
-  exec(`docker ps -a --filter volume=${volumeId} --format "{{json .}},"`,
+/**
+ * Docker command to retrieve the list of containers running in specified volume
+ * 
+ * @param {string} volumeName
+ */
+export const getVolumeContainers = (volumeName) => {
+  exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
     (error, stdout, stderr) => {
       if (error) {
         console.log(`getVolumeContainers error: ${error.message}`);
@@ -496,15 +499,15 @@ export const getVolumeContainers = (getVolumeContainersList, volumeId) => {
         console.log(`getVolumeContainers stderr: ${stderr}`);
         return;
       }
-
-      // trim whitespace at end out standard output,slice to remove trailing comma and remove spaces
+      console.log('entered the docker command getVolumeContainers');       
+      // remove spaces and trailing comma at end
       const dockerOutput = JSON.parse(
         `[${stdout
           .trim()
           .slice(0, -1)
           .replaceAll(' ', '')}]`
       );
-
-      return getVolumeContainersList(dockerOutput);
+      // console.log('this is the dockerOutput:', dockerOutput);
+      return listOfVolumeProperties(dockerOutput, getVolumeContainersList);
     });
 };

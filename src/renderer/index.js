@@ -9,10 +9,12 @@ import '../components/css/running.css';
 import '../components/css/static.css';
 import Login from '../components/login/login';
 import { HashRouter as Router } from 'react-router-dom';
+
 /**
  * Electron's path configuration is done invoking fixPath
  * Will not run without this logic
  */
+
 const fixPath = require('fix-path');
 fixPath();
 

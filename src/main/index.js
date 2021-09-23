@@ -1,4 +1,3 @@
-'use strict';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
@@ -53,7 +52,7 @@ function createMainWindow() {
   });
 
   return window;
-};
+}
 
 app.whenReady().then(() => {
   // creates main browser window when electron is ready

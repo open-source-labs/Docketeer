@@ -2,7 +2,6 @@
 import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
 import * as categories from '../../constants/notificationCategories'; 
-// import {cpuNotification, memoryNotification} from '../../main/slack/slack.js'
 // object that holds what notifications have been sent
 import memoryNotification from '../../main/slack/memoryNotification.js'
 import cpuNotification  from '../../main/slack/cpuNotification.js'
@@ -164,12 +163,6 @@ const checkForNotifications = (
             notificationType,
             containerId
           );
-
-            // sends a slack message if CPU or memory passes threshold
-            // cpuNotification();
-            // memoryNotification();
-
-
           // calculate time between now and last notification sent time
           const spentTime = Math.floor(
             (Date.now() - notificationLastSent) / 1000
@@ -185,8 +178,6 @@ const checkForNotifications = (
               triggeringValue,
               containerObject,
             );
-            // memoryNotification();
-            // cpuNotification();
             console.log(
               `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`
             );
@@ -195,8 +186,6 @@ const checkForNotifications = (
             // update date.now in object that stores sent notifications
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
-            // resend interval not yet met
-            // cpuNotification();
             console.log(
               `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`
             );

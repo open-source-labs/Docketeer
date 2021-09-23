@@ -15,7 +15,6 @@ import { HashRouter as Router } from 'react-router-dom';
  * Will not run without this logic
  */
 
-
 const fixPath = require('fix-path');
 fixPath();
 

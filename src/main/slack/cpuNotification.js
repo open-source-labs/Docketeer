@@ -25,26 +25,5 @@ const cpuNotification = async function(){
 };
 
 
-// const memoryNotification = async function(){
-//   try {
-//     console.log('here')
-//     const payload = {"text": "the memory threshold has been met or exceeded"}
-//     console.log('here2')
-//     (await request({
-//       url: URL,
-//       method: 'POST',
-//       body: payload,
-//       json: true
-//     }))
-//   } catch(e){
-//     console.log('this is our error', e)
-//   }
-// }
-// testing();
-// function message(){
-//     function testing()
-//     return testing;
-// }
 export default cpuNotification;
-// export default cpuNotification;
-// export default memoryNotification;
+

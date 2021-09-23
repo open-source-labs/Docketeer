@@ -487,8 +487,9 @@ export const getAllDockerVolumes = (getVolumeList) => {
  * Docker command to retrieve the list of containers running in specified volume
  * 
  * @param {string} volumeName
+ * @param {callback} getVolumeContainersList
  */
-export const getVolumeContainers = (volumeName) => {
+export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
     (error, stdout, stderr) => {
       if (error) {
@@ -499,7 +500,7 @@ export const getVolumeContainers = (volumeName) => {
         console.log(`getVolumeContainers stderr: ${stderr}`);
         return;
       }
-      console.log('entered the docker command getVolumeContainers');       
+      
       // remove spaces and trailing comma at end
       const dockerOutput = JSON.parse(
         `[${stdout
@@ -507,7 +508,7 @@ export const getVolumeContainers = (volumeName) => {
           .slice(0, -1)
           .replaceAll(' ', '')}]`
       );
-      // console.log('this is the dockerOutput:', dockerOutput);
-      return listOfVolumeProperties(dockerOutput, getVolumeContainersList);
+
+      return getVolumeContainersList(listOfVolumeProperties(dockerOutput));
     });
 };

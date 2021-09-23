@@ -10,7 +10,7 @@ import * as helper from '../helper/commands';
  * Render Volume History
  */
 
-const volumeHistory = props => {
+const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
   console.log('PROPS VOLUME HIST:', props.arrayOfVolumeNames);
@@ -31,12 +31,14 @@ const volumeHistory = props => {
   
   const renderVolumeHistory = props.arrayOfVolumeNames.map((ele, i) => {
     console.log('renderVolumeHistory console log:', ele);
+    console.log('typeof: ', typeof ele);
+    console.log(ele.Name);
 
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
-          <h3>{ele['Name']}</h3>
-          {/* <p>{ele['name']}</p> */}
+          <h3>{ele.Name}</h3>
+          {/* <p>{ele['tag']}</p> */}
         </div>
         <div className="stopped-info">
           <li>
@@ -54,7 +56,7 @@ const volumeHistory = props => {
       </div>
     );
   });
-  
+
   return (
     <div className="renderContainers">
       <div className="header">
@@ -68,7 +70,7 @@ const volumeHistory = props => {
               onChange={(e) => {
                 setVolumeName(e.target.value);
               }}
-            ></input>
+            />
           </span>
           <button className="run-btn" onClick={(e) => handleClick(e)}>
             Find

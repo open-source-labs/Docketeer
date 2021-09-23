@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
     const volumeListState = [...volumeListCopy, ...action.payload];
     return {
       ...state,
-      arrayOfVolumeNames: volumeListState 
+      arrayOfVolumeNames: volumeListState,
     };
    
   // create 
@@ -31,4 +31,4 @@ export default function (state = initialState, action) {
   default:
     return state;
   }
-} 
+}

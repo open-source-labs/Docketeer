@@ -19,6 +19,21 @@ export const filterOneProperty = (input, filterInput) => {
 
   return filteredOutput;
 };
+// const arrayOfValues = [];
+// input.forEach((element) => {
+//   if (typeof element === 'object') {
+//     for (const [key, value] of Object.entries(element)) {
+//       if (key === filterInput) {
+//         console.log('element', element[key]);
+//         console.log([key, value]);
+//         console.log('element type of', typeof element[key]);
+//         arrayOfValues.push(JSON.parse(`{${key}: ${value}}`));
+//         console.log(arrayOfValues);
+//       }
+//     }
+//   }
+// });
+// return arrayOfValues;
 
 // V--- I DON'T THINK THIS IS ACTUALLY DOING ANYTHING WITH THE STATE
 // export const updatedVolumeHistoryTab = (data) => { 

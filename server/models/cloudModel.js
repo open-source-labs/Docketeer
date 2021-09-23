@@ -21,12 +21,12 @@
    connectionString: PG_URI,
  });
  
- module.exports = {
-   query: function (text, params, callback) {
-     console.log('Executed query...', text);
-     return cloudPool.query(text, params, callback);
-   },
- };
+//  module.exports = {
+//    query: function (text, params, callback) {
+//      console.log('Executed query...', text);
+//      return cloudPool.query(text, params, callback);
+//    },
+//  };
 
 // const { Pool } = require('pg');
 // require('dotenv').config();
@@ -46,3 +46,9 @@
 //     return cloudPool.query(text, params, callback);
 //   },
 // };
+module.exports = {
+  query: (text, params, callback) => {
+    console.log('Executed query...', text);
+    return cloudPool.query(text, params, callback);
+  },
+};

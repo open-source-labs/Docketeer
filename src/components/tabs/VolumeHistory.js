@@ -11,19 +11,9 @@ import * as helper from '../helper/commands';
 const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
-  
-  // added to grab all of the volume history on load/after DOM finishes rendering
-  // useEffect(() => {
-  //   helper.dockerVolume(props.arrayOfVolumeNames);       
-  // });
- 
-  // Searches state for specific volume
-  const handleClick = (e) => {
-    e.preventDefault();
-    props.arrayOfVolumeNames.find(vol => vol === volumeName);
-  };
-  
-  const renderVolumeHistory = props.arrayOfVolumeNames.map((ele, i) => {
+  const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
+
+  const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
@@ -47,6 +37,25 @@ const volumeHistory = (props) => {
     );
   });
 
+  let renderList = renderVolumeHistory(volumeList);
+
+ // Searches state for specific volume
+    const handleClick = (e) => {
+      console.log('volume name: ', volumeName);
+      e.preventDefault();
+      const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
+      console.log('result :', result);
+      
+      // need to match the container details with the volume result
+      setVolumeList(result);
+      renderList = renderVolumeHistory(volumeList);
+    };
+    // renderVolumeHistory must be initialized first, and then once we find a volume, we reassign the value of renderVolumeHistory
+    // when a user wants the whole list back, the whole list has to render back again 
+    // populate based on what's typed in the search bar WHILE it's being typed, so if the search bar is empty the page will be "reset", having the whole list back
+  
+    // Whatever contains that substring, needs to be in the new array that we render
+
   return (
     <div className="renderContainers">
       <div className="header">
@@ -67,9 +76,10 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderVolumeHistory}</div>
+      <div className="containers">{renderList}</div> 
     </div>
   );
 };
 
 export default volumeHistory;
+

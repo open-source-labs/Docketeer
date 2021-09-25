@@ -13,6 +13,9 @@ const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
 
+  let renderList = renderVolumeHistory(volumeList);
+
+  // Creates the card components of Name and container details
   const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
     return (
       <div className="box" key={`volume${i}`}>
@@ -37,24 +40,18 @@ const volumeHistory = (props) => {
     );
   });
 
-  let renderList = renderVolumeHistory(volumeList);
-
- // Searches state for specific volume
-    const handleClick = (e) => {
-      console.log('volume name: ', volumeName);
-      e.preventDefault();
-      const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
-      console.log('result :', result);
-      
-      // need to match the container details with the volume result
-      setVolumeList(result);
-      renderList = renderVolumeHistory(volumeList);
-    };
-    // renderVolumeHistory must be initialized first, and then once we find a volume, we reassign the value of renderVolumeHistory
-    // when a user wants the whole list back, the whole list has to render back again 
-    // populate based on what's typed in the search bar WHILE it's being typed, so if the search bar is empty the page will be "reset", having the whole list back
-  
-    // Whatever contains that substring, needs to be in the new array that we render
+  /** FUNCTIONALITY FOR SEARCH BAR
+   * 
+   * this function takes the value of the searched name and renders an individual card with the stats that we are looking for (container names, status, running for)
+   * 
+   */
+  const handleClick = (e) => {
+    e.preventDefault();
+    const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
+    
+    setVolumeList(result);
+    renderList = renderVolumeHistory(volumeList);
+  };
 
   return (
     <div className="renderContainers">

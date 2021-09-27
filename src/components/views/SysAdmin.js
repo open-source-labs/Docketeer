@@ -174,7 +174,7 @@ const SysAdmin = (props) => {
                   style={selected === '/users' ? selectedStyling : null}
                   onClick={() => setSelected('/users')}
                 >
-                  <i className="fas fa-settings"></i> Users
+                  <i className="fas fa-users"></i> Users
                 </Link>
               </li>
               <li>
@@ -219,7 +219,7 @@ const SysAdmin = (props) => {
                   style={selected === '/volume' ? selectedStyling : null}
                   onClick={() => setSelected('/volume')}
                 >
-                  <i className="fas fa-file-upload"></i> Volume History
+                  <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
             </ul>

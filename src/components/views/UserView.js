@@ -6,6 +6,7 @@ import { HashRouter as Router, Switch, Route, Link, Redirect } from 'react-route
 // static imports
 import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
+import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
@@ -37,13 +38,14 @@ const UserView = (props) => {
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  const getcontainersinVolume = (data) => dispatch(actions.containersInVolume(data));
+  const getVolumeContainersList = (data) => dispatch(actions.getVolumeContainersList(data));
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const volumeHistory = useSelector((state) => state.volumeList.arrayOfVolumeNames);
+  const arrayOfVolumeNames = useSelector((state) => state.volumeList.arrayOfVolumeNames);
+  const volumeContainers = useSelector((state) => state.volumeList.allContainers);
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -69,6 +71,10 @@ const UserView = (props) => {
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
   }, []);
+
+  useEffect(() => {
+    history.volumeByName(helper.getVolumeContainers, arrayOfVolumeNames, getVolumeContainersList);
+  }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
   useEffect(() => {
@@ -176,8 +182,8 @@ const UserView = (props) => {
         <Switch>
           <Route path ="/volume">
             <VolumeHistory 
-              volumeHistory={volumeHistory}
-              getVolumeList={getVolumeList}
+              arrayOfVolumeNames={arrayOfVolumeNames}
+              volumeContainers={volumeContainers}
             />
           </Route>
           <Route path="/metrics">

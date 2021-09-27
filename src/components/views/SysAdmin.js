@@ -110,15 +110,15 @@ const SysAdmin = (props) => {
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     helper.refreshRunning(refreshRunningContainers);
-  //     helper.refreshStopped(refreshStoppedContainers);
-  //     helper.refreshImages(refreshImagesList);
-  //   }, 5000);
-  //   startNotificationRequester();
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      helper.refreshRunning(refreshRunningContainers);
+      helper.refreshStopped(refreshStoppedContainers);
+      helper.refreshImages(refreshImagesList);
+    }, 5000);
+    startNotificationRequester();
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     fetch('http://localhost:3000/admin', 
@@ -142,6 +142,7 @@ const SysAdmin = (props) => {
         console.log(err);
       });
   }, []);
+  
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
@@ -149,7 +150,6 @@ const SysAdmin = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-  
   return (
     <Router>
       <div className="container">

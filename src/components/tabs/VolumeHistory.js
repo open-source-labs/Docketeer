@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as helper from '../helper/commands';
 
 /**
  *
@@ -12,8 +10,6 @@ const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
-
-  let renderList = renderVolumeHistory(volumeList);
 
   // Creates the card components of Name and container details
   const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
@@ -40,15 +36,14 @@ const volumeHistory = (props) => {
     );
   });
 
-  /** FUNCTIONALITY FOR SEARCH BAR
-   * 
-   * this function takes the value of the searched name and renders an individual card with the stats that we are looking for (container names, status, running for)
-   * 
-   */
+  // Initializes the volume history tab to be the list of volumes
+  let renderList = renderVolumeHistory(volumeList);
+
+  // Search bar: Finds volume name and renders an individual card
   const handleClick = (e) => {
     e.preventDefault();
     const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
-    
+
     setVolumeList(result);
     renderList = renderVolumeHistory(volumeList);
   };

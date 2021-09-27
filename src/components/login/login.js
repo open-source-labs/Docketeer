@@ -65,7 +65,7 @@ const Login = () => {
         return console.log('Connected to DB successfully', data);
       })
       .catch((err) => {
-        return console.log('error is occuring at DB connection:', err);
+        return console.log('Fetch request to /db failed:', err);
       });
   }, []);
   
@@ -111,7 +111,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.log('error is occuring after connection to DB', err);
+        console.log('Fetch: POST error to /login', err);
       });
   };
 

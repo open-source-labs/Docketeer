@@ -1,61 +1,52 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as helper from '../helper/commands';
-
 
 /**
  *
  * @param {*} props
  * Render Volume History
  */
-
 const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
-  console.log('PROPS VOLUME HIST:', props.arrayOfVolumeNames);
+  const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
 
-  // redux mapState to props
-
-
-  // added to grab all of the volume history on load/after DOM finishes rendering
-  useEffect(() => {
-    helper.dockerVolume(props.arrayOfVolumeNames);       
-  });
- 
-  // Searches state for specific volume
-  const handleClick = (e) => {
-    e.preventDefault();
-    props.arrayOfVolumeNames.find(vol => vol === volumeName);
-  };
-  
-  const renderVolumeHistory = props.arrayOfVolumeNames.map((ele, i) => {
-    console.log('renderVolumeHistory console log:', ele);
-    console.log('typeof: ', typeof ele);
-    console.log(ele.Name);
-
+  // Creates the card components of Name and container details
+  const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
           <h3>{ele.Name}</h3>
-          {/* <p>{ele['tag']}</p> */}
         </div>
-        <div className="stopped-info">
+        <div className="volume-details">
           <li>
-            <strong>Container Names:</strong>
-            {ele['Names']}
+            <strong>Container Names: </strong>
+            {props.volumeContainers[i]['Names']}
           </li>
           <li>
-            <strong>Status:</strong>
-            {ele['size']}
+            <strong>Status: </strong>
+            {props.volumeContainers[i]['Status']}
           </li>
           <li>
-            
+            <strong>Running For: </strong>
+            {props.volumeContainers[i]['RunningFor']}
           </li>
         </div>
       </div>
     );
   });
+
+  // Initializes the volume history tab to be the list of volumes
+  let renderList = renderVolumeHistory(volumeList);
+
+  // Search bar: Finds volume name and renders an individual card
+  const handleClick = (e) => {
+    e.preventDefault();
+    const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
+
+    setVolumeList(result);
+    renderList = renderVolumeHistory(volumeList);
+  };
 
   return (
     <div className="renderContainers">
@@ -77,10 +68,10 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderVolumeHistory}</div>
+      <div className="containers">{renderList}</div> 
     </div>
   );
 };
 
 export default volumeHistory;
-// include connect method at the bottom
+

@@ -89,7 +89,7 @@ dbController.removeToken = (req, res, next) => {
 
   db.query('UPDATE users SET token = null WHERE username=$1', [username])
     .then(() => {
-      res.locals.logout = 'successfully logged out';
+      res.locals.logout = 'Successfully logged out.';
       return next();
     })
     .catch((err) => {

@@ -158,6 +158,12 @@ body {
   justify-content: flex-start;
 }
 
+.box-label h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .box-label p {
   font-size: 14px;
   color: rgb(187, 186, 186);

@@ -14,7 +14,7 @@ const Containers = (props) => {
       <div className="box" key={`stoppedBox-${i}`}>
         <div className="box-label">
           <h3>{container.Names}</h3>
-          <p>{container.ID}</p>
+          <p>ID: {container.ID}</p>
         </div>
 
         <div className="stopped-info">
@@ -62,7 +62,7 @@ const Containers = (props) => {
       <div className="box box-running" key={`runningBox-${i}`}>
         <div className="box-label">
           <h3>{container.Name}</h3>
-          <p>{container.ID}</p>
+          <p>ID: {container.ID}</p>
         </div>
         <div className="box-info">
           <div className="chart">

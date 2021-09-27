@@ -57,7 +57,7 @@ npm install
 >
 >   ...
 
-4. In the .env file, configure the following environment variables for Twilio API. Refer to Twilio Setup section below.
+4. In the .env file, configure the following environment variables for Twilio API, Slack API, and Postgres URI. Refer to Twilio Setup section below.
 
 ```
 // .env
@@ -66,6 +66,8 @@ TWILIO_ACCOUNT_SID=''
 TWILIO_AUTH_TOKEN=''
 SERVICE_SID=''
 VERIFICATION_SERVICE_SID=''
+SLACK_API=''
+POSTGRES_URI=''
 ```
 
 5. Create a folder called `security` in the project's top-level directory.

@@ -500,7 +500,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         return;
       }
       
-      // remove spaces and trailing comma at end
       const dockerOutput = JSON.parse(
         `[${stdout
           .trim()

@@ -103,14 +103,10 @@ const SysAdmin = (props) => {
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
     helper.getAllDockerVolumes(getVolumeList);
-    
-    // history.volumeByName(helper.getVolumeContainers, getVolumeContainersList, arrayOfVolumeNames);
-    // history.listOfVolumeContainers(volumeByName, getVolumeContainersList);
-    // helper.getVolumeContainers(getcontainersinVolume, getVolumeList); // <--access from the store
   }, []);
 
   useEffect(() => {
-    history.volumeByName(helper.getVolumeContainers, getVolumeContainersList, arrayOfVolumeNames);
+    history.volumeByName(helper.getVolumeContainers, arrayOfVolumeNames, getVolumeContainersList);
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
@@ -120,9 +116,7 @@ const SysAdmin = (props) => {
   //     helper.refreshStopped(refreshStoppedContainers);
   //     helper.refreshImages(refreshImagesList);
   //   }, 5000);
-
   //   startNotificationRequester();
-
   //   return () => clearInterval(interval);
   // }, []);
 
@@ -251,8 +245,8 @@ const SysAdmin = (props) => {
         <Switch>
           <Route path ="/volume">
             <VolumeHistory 
-              volumeHistory={arrayOfVolumeNames}
-              getVolumeList={getVolumeList}
+              arrayOfVolumeNames={arrayOfVolumeNames}
+              volumeContainers={volumeContainers}
             />
           </Route>
           <Route path="/metrics">

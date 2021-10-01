@@ -110,7 +110,6 @@ const SysAdmin = (props) => {
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
-<<<<<<< HEAD
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     helper.refreshRunning(refreshRunningContainers);
@@ -120,7 +119,7 @@ const SysAdmin = (props) => {
   //   startNotificationRequester();
   //   return () => clearInterval(interval);
   // }, []);
-=======
+
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers);
@@ -130,7 +129,6 @@ const SysAdmin = (props) => {
     startNotificationRequester();
     return () => clearInterval(interval);
   }, []);
->>>>>>> dev
 
   useEffect(() => {
     fetch('http://localhost:3000/admin', 

@@ -3,7 +3,7 @@ import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
 import store from '../../renderer/store';
-import { getVolumeContainersList } from '../../actions/actions';
+
 /**
  *
  * @param {*} runningList
@@ -471,7 +471,6 @@ export const getAllDockerVolumes = (getVolumeList) => {
       return;
     }
 
-    // remove spaces and trailing comma at end
     const dockerOutput = JSON.parse( 
       `[${stdout
         .trim()
@@ -506,7 +505,7 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         `[${stdout
           .trim()
           .slice(0, -1)
-          .replaceAll(' ', '')}]`
+        }]`
       );
 
       return getVolumeContainersList(listOfVolumeProperties(dockerOutput));

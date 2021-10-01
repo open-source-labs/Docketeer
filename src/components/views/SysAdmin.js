@@ -110,6 +110,7 @@ const SysAdmin = (props) => {
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
+<<<<<<< HEAD
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     helper.refreshRunning(refreshRunningContainers);
@@ -119,6 +120,17 @@ const SysAdmin = (props) => {
   //   startNotificationRequester();
   //   return () => clearInterval(interval);
   // }, []);
+=======
+  useEffect(() => {
+    const interval = setInterval(() => {
+      helper.refreshRunning(refreshRunningContainers);
+      helper.refreshStopped(refreshStoppedContainers);
+      helper.refreshImages(refreshImagesList);
+    }, 5000);
+    startNotificationRequester();
+    return () => clearInterval(interval);
+  }, []);
+>>>>>>> dev
 
   useEffect(() => {
     fetch('http://localhost:3000/admin', 
@@ -142,6 +154,7 @@ const SysAdmin = (props) => {
         console.log(err);
       });
   }, []);
+  
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
@@ -149,7 +162,6 @@ const SysAdmin = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-  
   return (
     <Router>
       <div className="container">
@@ -174,7 +186,7 @@ const SysAdmin = (props) => {
                   style={selected === '/users' ? selectedStyling : null}
                   onClick={() => setSelected('/users')}
                 >
-                  <i className="fas fa-settings"></i> Users
+                  <i className="fas fa-users"></i> Users
                 </Link>
               </li>
               <li>
@@ -219,7 +231,7 @@ const SysAdmin = (props) => {
                   style={selected === '/volume' ? selectedStyling : null}
                   onClick={() => setSelected('/volume')}
                 >
-                  <i className="fas fa-file-upload"></i> Volume History
+                  <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
             </ul>

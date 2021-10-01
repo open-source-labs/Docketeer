@@ -4,7 +4,6 @@ import * as types from '../constants/actionTypes';
 const initialState = {
   arrayOfVolumeNames: [],
   allContainers: [],
-  // stoppedContainers: []
 };
 
 export default function (state = initialState, action) {

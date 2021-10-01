@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as helper from '../helper/commands';
 
 /**
  *
@@ -11,19 +9,10 @@ import * as helper from '../helper/commands';
 const volumeHistory = (props) => {
   // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
-  
-  // added to grab all of the volume history on load/after DOM finishes rendering
-  // useEffect(() => {
-  //   helper.dockerVolume(props.arrayOfVolumeNames);       
-  // });
- 
-  // Searches state for specific volume
-  const handleClick = (e) => {
-    e.preventDefault();
-    props.arrayOfVolumeNames.find(vol => vol === volumeName);
-  };
-  
-  const renderVolumeHistory = props.arrayOfVolumeNames.map((ele, i) => {
+  const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
+
+  // Creates the card components of Name and container details
+  const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
     return (
       <div className="box" key={`volume${i}`}>
         <div className="box-label">
@@ -47,6 +36,18 @@ const volumeHistory = (props) => {
     );
   });
 
+  // Initializes the volume history tab to be the list of volumes
+  let renderList = renderVolumeHistory(volumeList);
+
+  // Search bar: Finds volume name and renders an individual card
+  const handleClick = (e) => {
+    e.preventDefault();
+    const result = props.arrayOfVolumeNames.filter(vol => vol.Name.includes(volumeName));
+
+    setVolumeList(result);
+    renderList = renderVolumeHistory(volumeList);
+  };
+
   return (
     <div className="renderContainers">
       <div className="header">
@@ -67,7 +68,7 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderVolumeHistory}</div>
+      <div className="containers">{renderList}</div> 
     </div>
   );
 };

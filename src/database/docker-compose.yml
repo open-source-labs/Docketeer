@@ -13,6 +13,8 @@ services:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
       - ./docketeerdb:/var/lib/postgresql/data
     restart: always
+    mem_limit: 400m
+    cpus: 0.5
 volumes:
   schema: {}
   docketeerdb: {}

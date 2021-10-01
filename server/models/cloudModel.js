@@ -10,6 +10,8 @@
  */
 
 const { Pool } = require('pg');
+
+
 require('dotenv').config();
 
 // Mo need to create any tables, upon start up Docketeer will create those tables in your DB instance automatically.

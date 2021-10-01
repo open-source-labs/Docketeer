@@ -74,4 +74,3 @@ const volumeHistory = (props) => {
 };
 
 export default volumeHistory;
-

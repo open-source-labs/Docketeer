@@ -4,7 +4,7 @@
  * @param {Array of Objects} input
  * @param {string} filterInput
  */ 
- export const filterOneProperty = (input, filterInput) => {
+export const filterOneProperty = (input, filterInput) => {
   const filteredOutput = [];
 
   for (let i = 0; i < input.length; i++) {

@@ -1,0 +1,21 @@
+{
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
+  "exclude": [
+    "node_modules",
+  ],
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "jsx": "react", 
+    "outDir": "./build",
+    // "module": "commonjs",
+  }
+}

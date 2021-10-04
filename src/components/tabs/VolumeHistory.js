@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 
-
-
 /**
  * Render Volume History
  * @param {*} props

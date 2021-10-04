@@ -225,6 +225,11 @@ npm run test
 - Ricardo Cortez [@Github](https://github.com/rcortez88) [@LinkedIn](https://www.linkedin.com/in/rcortez88/)
 - Emma Czech [@Github](https://github.com/emczech) [@LinkedIn](https://https://www.linkedin.com/in/emczech/)
 - Brent Speight [@Github](https://github.com/brentspeight) [@LinkedIn](https://www.linkedin.com/in/brent-speight/)
+- Eric Lee [@Github](https://github.com/errc-lee)
+- Kristine Aguda [@Github](https://github.com/kaguda)
+- Dylan Feldman [@Github](https://github.com/dfeldman24)
+- Tre Hultzen [@Github](https://github.com/THultz)
+- Kenneth Hui [@Github](https://github.com/kennethhui121)
 
 ## ⭐ Show your support
 

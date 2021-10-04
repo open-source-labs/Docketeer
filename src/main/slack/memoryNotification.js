@@ -1,24 +1,19 @@
 const request = require('request');
+require('dotenv').config();
 
-// import dotenv
-const dotenv = require('dotenv');
-dotenv.config();
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
 
-const URL = process.env.URL;
-
-const memoryNotification = async function(){
+const memoryNotification = async function() {
   try {
-    console.log('here');
     const payload = {"text": "The Memory threshold has been met or exceeded"};
-    console.log('here2')
-    (await request({
-      url: URL,
+    await request({
+      url: SLACK_WEBHOOK,
       method: 'POST',
       body: payload,
       json: true
-    }));
-  } catch(e){
-    console.log('this is our error', e);
+    });
+  } catch(err){
+    console.log('memoryNotification ERR: ', err);
   }
 };
 

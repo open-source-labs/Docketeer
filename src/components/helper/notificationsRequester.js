@@ -58,14 +58,19 @@ const constructNotificationMessage = (
 ) => {
   let message = '';
   switch (notificationType) {
+
   case categories.STOPPED:
     message = `Container with ID of ${containerId} has stopped`;
     break;
   case categories.CPU || categories.MEMORY:
-    message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      message = `${notificationType} alert for container with ID of ${containerId}. 
+        Current Value: ${stat};
+        Alert Setting: ${triggeringValue}`;
     break;
   default:
-    message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      message = `${notificationType} alert for container with ID of ${containerId}. 
+        Current Value: ${stat}; 
+        Alert Setting: ${triggeringValue}`;
     break;
   }
 
@@ -179,7 +184,11 @@ const checkForNotifications = (
               containerObject,
             );
             console.log(
-              `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`
+              `** Notification SENT. ${notificationType} 
+              containerId: ${containerId} 
+              stat: ${stat} 
+              triggeringValue: ${triggeringValue} 
+              spentTime: ${spentTime}`
             );
             console.log('sentNofications: ', sentNotifications);
 
@@ -187,7 +196,8 @@ const checkForNotifications = (
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
             console.log(
-              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`
+              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\n
+              Last sent notification time: ${notificationLastSent}`
             );
           }
         } else {
@@ -201,7 +211,10 @@ const checkForNotifications = (
           memoryNotification();
           cpuNotification(); 
           console.log(
-            `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`
+            `** Notification SENT. ${notificationType} 
+            containerId: ${containerId} 
+            stat: ${stat} 
+            triggeringValue: ${triggeringValue}`
           );
         }
       } else {

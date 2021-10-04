@@ -21,7 +21,6 @@ const App = (props) => {
       </div>
     );
   }
-
   else {
     return (
       <div>

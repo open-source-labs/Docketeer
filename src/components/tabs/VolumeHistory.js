@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- *
- * @param {*} props
  * Render Volume History
+ * @param {*} props
+ * 
+ * May need to be refactored to render the correct container to history
  */
 const volumeHistory = (props) => {
-  // set state for volume history cards
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState(props.arrayOfVolumeNames);
 

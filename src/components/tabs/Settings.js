@@ -147,6 +147,9 @@ const Settings = (props) => {
     );
   };
 
+  /**
+   * @title NOTIFICATION PREFERENCES
+   */
   const fetchNotificationSettings = () => {
     return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
       if (err) {
@@ -182,6 +185,10 @@ const Settings = (props) => {
       }
     });
   };
+
+/**
+ * @title COMMUNICATION
+ */
 
   const verifyMobileNumber = async () => {
     await ipcRenderer.invoke('verify-number', mobileNumber);

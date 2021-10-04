@@ -52,7 +52,6 @@ const Metrics = (props) => {
     const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
     const containerNamesArr = Object.keys(activeContainers);
-
     if (containerNamesArr.length === 1) {
       queryString += ')' + queryStringEnd;
       const result = await query(queryString, containerNamesArr);

@@ -1,7 +1,9 @@
 import { exec } from 'child_process';
 import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
+import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
 import store from '../../renderer/store';
+
 /**
  *
  * @param {*} runningList
@@ -19,7 +21,7 @@ export const addRunning = (runningList, callback) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`addRunning stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
@@ -59,7 +61,7 @@ export const refreshRunning = (refreshRunningContainers) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`refreshRunning stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout,slice to remove trailing comma and remove spaces
@@ -89,7 +91,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
         return;
       }
       if (stderr) {
-        console.log(`stderr: ${stderr}`);
+        console.log(`refreshStopped stderr: ${stderr}`);
         return;
       }
       // trim whitespace at end out stdout and slice to remove trailing comma
@@ -113,7 +115,7 @@ export const refreshImages = (callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`refreshImages stderr: ${stderr}`);
       return;
     }
     const value = parseContainerFormat.convert(stdout);
@@ -151,7 +153,7 @@ export const remove = (id, callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`remove stderr: ${stderr}`);
       return;
     }
     callback(id);
@@ -171,7 +173,7 @@ export const stop = (id, callback) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`stop stderr: ${stderr}`);
       return;
     }
     callback(id);
@@ -195,7 +197,7 @@ export const runStopped = (
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`runStopped stderr: ${stderr}`);
       return;
     }
     runStoppedContainerDispatcher(id);
@@ -220,7 +222,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`runIm stderr: ${stderr}`);
       return;
     }
   });
@@ -245,7 +247,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`removeIm stderr: ${stderr}`);
       return;
     }
     callback_1(callback_2);
@@ -265,7 +267,7 @@ export const handlePruneClick = (e) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`handlePruneClick stderr: ${stderr}`);
       return;
     }
   });
@@ -283,7 +285,7 @@ export const pullImage = (repo) => {
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`pullImage stderr: ${stderr}`);
       return;
     }
   });
@@ -298,11 +300,11 @@ export const networkContainers = (getDockerNetworkReducer) => {
   // exec("docker network ls", (error, stdout, stderr) => {
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      console.log(`networkContainers error: ${error.message}`);
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
 
@@ -320,11 +322,11 @@ export const networkContainers = (getDockerNetworkReducer) => {
 export const inspectDockerContainer = (containerId) => {
   exec(`docker inspect ${containerId}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`error: ${error.message}`);
+      console.log(`inspectDockerContainer error: ${error.message}`);
       return;
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`);
+      console.log(`inspectDockerContainer stderr: ${stderr}`);
       return;
     }
     console.log(stdout);
@@ -358,11 +360,11 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
         if (error) {
-          console.log(`error: ${error.message}`);
+          console.log(`dockerComposeStacks error: ${error.message}`);
           return;
         }
         if (stderr) {
-          console.log(`stderr: ${stderr}`);
+          console.log(`dockerComposeStacks stderr: ${stderr}`);
           return;
         }
         const dockerOutput = `[${stdout
@@ -380,11 +382,11 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
         if (error) {
-          console.log(`error: ${error.message}`);
+          console.log(`dockerComposeStacks error: ${error.message}`);
           return;
         }
         if (stderr) {
-          console.log(`stderr: ${stderr}`);
+          console.log(`dockerComposeStacks stderr: ${stderr}`);
           return;
         }
         const dockerOutput = `[${stdout
@@ -451,4 +453,60 @@ export const setDbSessionTimeZone = () => {
 
 export const getContainerGitUrl = (container) => {
   return query(`Select github_url from containers where name = '${container}'`);
+};
+
+/**
+ * Docker command to retrieve the list of running volumes
+ * 
+ * @param {*} getVolumeList
+ */
+export const getAllDockerVolumes = (getVolumeList) => {
+  exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
+    if (error) {
+      console.log(`getAllDockerVolumes error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`getAllDockerVolumes stderr: ${stderr}`);
+      return;
+    }
+
+    const dockerOutput = JSON.parse( 
+      `[${stdout
+        .trim()
+        .slice(0, -1)
+        .replaceAll(' ', '')}]`
+    );
+
+    return getVolumeList(filterOneProperty(dockerOutput, 'Name')); 
+  });
+};
+
+/**
+ * Docker command to retrieve the list of containers running in specified volume
+ * 
+ * @param {string} volumeName
+ * @param {callback} getVolumeContainersList
+ */
+export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
+  exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`getVolumeContainers error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`getVolumeContainers stderr: ${stderr}`);
+        return;
+      }
+      
+      const dockerOutput = JSON.parse(
+        `[${stdout
+          .trim()
+          .slice(0, -1)
+        }]`
+      );
+
+      return getVolumeContainersList(listOfVolumeProperties(dockerOutput));
+    });
 };

@@ -1,9 +1,12 @@
 /* eslint-disable implicit-arrow-linebreak */
 import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
-import * as categories from '../../constants/notificationCategories';
-
+import * as categories from '../../constants/notificationCategories'; 
 // object that holds what notifications have been sent
+import memoryNotification from '../../main/slack/memoryNotification.js'
+import cpuNotification  from '../../main/slack/cpuNotification.js'
+const dotenv = require('dotenv');
+dotenv.config();
 const sentNotifications = {};
 let state;
 
@@ -55,14 +58,19 @@ const constructNotificationMessage = (
 ) => {
   let message = '';
   switch (notificationType) {
+
   case categories.STOPPED:
     message = `Container with ID of ${containerId} has stopped`;
     break;
   case categories.CPU || categories.MEMORY:
-    message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      message = `${notificationType} alert for container with ID of ${containerId}. 
+        Current Value: ${stat};
+        Alert Setting: ${triggeringValue}`;
     break;
   default:
-    message = `${notificationType} alert for container with ID of ${containerId}. Current Value: ${stat}; Alert Setting: ${triggeringValue}`;
+      message = `${notificationType} alert for container with ID of ${containerId}. 
+        Current Value: ${stat}; 
+        Alert Setting: ${triggeringValue}`;
     break;
   }
 
@@ -147,8 +155,10 @@ const checkForNotifications = (
     const containerObject = getContainerObject(containerList, containerId);
     
     if (containerObject) {
+      console.log(triggeringValue);
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
+      console.log(stat);
       // if the stat should trigger rule
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
@@ -158,7 +168,6 @@ const checkForNotifications = (
             notificationType,
             containerId
           );
-
           // calculate time between now and last notification sent time
           const spentTime = Math.floor(
             (Date.now() - notificationLastSent) / 1000
@@ -175,16 +184,20 @@ const checkForNotifications = (
               containerObject,
             );
             console.log(
-              `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue} spentTime: ${spentTime}`
+              `** Notification SENT. ${notificationType} 
+              containerId: ${containerId} 
+              stat: ${stat} 
+              triggeringValue: ${triggeringValue} 
+              spentTime: ${spentTime}`
             );
             console.log('sentNofications: ', sentNotifications);
 
             // update date.now in object that stores sent notifications
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
-            // resend interval not yet met
             console.log(
-              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\nLast sent notification time: ${notificationLastSent}`
+              `** Resend Interval Not Met. ${notificationType} is at ${stat}.\n
+              Last sent notification time: ${notificationLastSent}`
             );
           }
         } else {
@@ -195,8 +208,13 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
+          memoryNotification();
+          cpuNotification(); 
           console.log(
-            `** Notification SENT. ${notificationType} containerId: ${containerId} stat: ${stat} triggeringValue: ${triggeringValue}`
+            `** Notification SENT. ${notificationType} 
+            containerId: ${containerId} 
+            stat: ${stat} 
+            triggeringValue: ${triggeringValue}`
           );
         }
       } else {

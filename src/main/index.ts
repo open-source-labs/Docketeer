@@ -1,19 +1,19 @@
-'use strict';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS
+} from 'electron-devtools-installer';
 import verifyCode from './twilio/verifyCode';
 import verifyMobileNumber from './twilio/verifyMobile';
 import postEvent from './twilio/postEvent';
 import emailEvent from './email/emailEvent';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
+let mainWindow: BrowserWindow | null;
 
-let mainWindow;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function createMainWindow() {
   const window = new BrowserWindow({
@@ -21,13 +21,19 @@ function createMainWindow() {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
-      allowRendererProcessReuse: false,
     },
   });
 
-  if (isDevelopment) {
-    window.webContents.openDevTools();
-  }
+  // comment out lines 30-38 if dev tools is slowing app
+  app.whenReady().then(() => {
+    const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+    const extensionsPlural = extensions.length > 0 ? 's' : '';
+    Promise.all(extensions.map(extension => installExtension(extension)))
+      .then(names =>
+        console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
+      .catch(err =>
+        console.log('[electron-extensions] An error occurred: ', err));
+  });
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
@@ -41,19 +47,35 @@ function createMainWindow() {
     );
   }
 
+  window.webContents.on('did-frame-finish-load', () => {
+    if (isDevelopment) {
+      window.webContents.openDevTools();
+      window.webContents.on('devtools-opened', () => {
+        window.focus();
+        setImmediate(() => {
+          window.focus();
+        });
+    });
+  }});
+  
   window.on('closed', () => {
     mainWindow = null;
   });
 
-  window.webContents.on('devtools-opened', () => {
-    window.focus();
-    setImmediate(() => {
-      window.focus();
-    });
-  });
-
   return window;
 }
+
+app.whenReady().then(() => {
+  // creates main browser window when electron is ready
+  mainWindow = createMainWindow();
+
+  app.on('activate', () => {
+    // on macOS it is common to re-create a window even after all windows have been closed
+    if (mainWindow === null) {
+      mainWindow = createMainWindow();
+    }
+  });
+});
 
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
@@ -62,29 +84,6 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-app.on('activate', () => {
-  // on macOS it is common to re-create a window even after all windows have been closed
-  if (mainWindow === null) {
-    mainWindow = createMainWindow();
-  }
-});
-
-// create main BrowserWindow when electron is ready
-app.on('ready', () => {
-  // server;
-  mainWindow = createMainWindow();
-});
-
-// comment out lines 79-83 if dev tools is slowing app
-app.whenReady().then(() => {
-  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-});
-// if (module.hot) {
-//   module.hot.accept();
-// }
 
 ipcMain.handle('verify-number', async (_, args) => {
   return await verifyMobileNumber(args);

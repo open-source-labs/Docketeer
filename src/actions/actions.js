@@ -173,3 +173,16 @@ export const updateUserRole = (data) => ({
   type: types.UPDATE_USER_ROLE,
   payload: data,
 });
+
+// get volume 
+export const getVolumeList = (data) => ({
+  type: types.GET_VOLUME_LIST,
+  payload: data,
+});
+
+// get containers that live in volume
+export const getVolumeContainersList = (data) => ({
+  type: types.GET_VOLUME_CONTAINERS_LIST,
+  payload: data,
+});
+

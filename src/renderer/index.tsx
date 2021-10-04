@@ -1,21 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import store from './store';
 import { Provider } from 'react-redux';
-import App from '../components/App';
 import '../components/css/styles.css';
 import '../components/css/metric.css';
 import '../components/css/running.css';
 import '../components/css/static.css';
 import Login from '../components/login/login';
-import { HashRouter as Router } from 'react-router-dom';
 
-/**
- * Electron's path configuration is done invoking fixPath
- * Will not run without this logic
- */
-
-const fixPath = require('fix-path');
+import fixPath from 'fix-path'; // Required for Electron's path configuration
 fixPath();
 
 ReactDOM.render(
@@ -25,5 +19,4 @@ ReactDOM.render(
     </Router>
   </Provider>,
   document.getElementById('app')
-
 );

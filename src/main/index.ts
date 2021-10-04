@@ -1,18 +1,19 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS
+} from 'electron-devtools-installer';
 import verifyCode from './twilio/verifyCode';
 import verifyMobileNumber from './twilio/verifyMobile';
 import postEvent from './twilio/postEvent';
 import emailEvent from './email/emailEvent';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
+let mainWindow: BrowserWindow | null;
 
-let mainWindow;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function createMainWindow() {
   const window = new BrowserWindow({
@@ -20,8 +21,18 @@ function createMainWindow() {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
-      allowRendererProcessReuse: false,
     },
+  });
+
+  // comment out lines 30-38 if dev tools is slowing app
+  app.whenReady().then(() => {
+    const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+    const extensionsPlural = extensions.length > 0 ? 's' : '';
+    Promise.all(extensions.map(extension => installExtension(extension)))
+      .then(names =>
+        console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
+      .catch(err =>
+        console.log('[electron-extensions] An error occurred: ', err));
   });
 
   if (isDevelopment) {
@@ -64,21 +75,7 @@ app.whenReady().then(() => {
       mainWindow = createMainWindow();
     }
   });
-
-  // comment out lines 70-78 if dev tools is slowing app
-  if (isDevelopment) {
-    const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
-    const extensionsPlural = extensions.length > 0 ? 's' : '';
-    Promise.all(extensions.map(extension => installExtension(extension)))
-      .then(names =>
-        console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
-      .catch(err =>
-        console.log('[electron-extensions] An error occurred: ', err));
-  }
 });
-// if (module.hot) {
-//   module.hot.accept();
-// }
 
 // quit application when all windows are closed
 app.on('window-all-closed', () => {

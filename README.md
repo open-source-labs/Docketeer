@@ -6,12 +6,7 @@ awesome when someone starts to use it.
 - List its most useful/innovative/noteworthy features.
 - State its goals/what problem(s) it solves. -->
 
-
 <!-- To help keep this READme organized, use two line breaks for each ## -->
-
-<!-- ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png) -->
-
-![logo](assets/docketeer-title2.png)
 
 #
 
@@ -28,11 +23,14 @@ awesome when someone starts to use it.
 
 #
 
+<!-- ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png) -->
+
+![logo](assets/docketeer-title2.png)
 
 ## About
 Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
-##### *Currently Docketeer does not support M1 chips. 
+##### **Currently Docketeer does not support M1 chips.**
 
 
 ## Installation
@@ -121,17 +119,17 @@ npm run dev
 
 ## Features
 
-### System Wide Notifications
+### ➮ System Wide Notifications
 Docketeer offers monitoring support for teams by incorporating sms, email and slack notification as well as configurable options based on a container's memory or cpu usage.
 
-### Viewing 
+### ➮ Viewing 
 You can view a list of running and exited containers, available images, volume history, and docker-compose files stored locally. 
 
-### Live Metrics
+### ➮ Live Metrics
 Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
 ![alt text](assets/docketeer-metrics.gif)
 
-### Uploading
+### ➮ Uploading
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
 <br> Demo can found on our [site](https://www.docketeer.org/demo).
@@ -151,11 +149,11 @@ npm run test
 
 ## Troubleshoot
 
-### Cannot connect to the Docker daemon
-Make sure that you have Docker running.
+#### **Cannot connect to the Docker daemon**
+⤷ Make sure that you have Docker running!
 
-### Working with WSL
-Users may need to install a third-party App to run electron. A helpful article can be found [here](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242).
+#### **Working with WSL**
+⤷ Users may need to install a third-party App to run electron. A helpful article can be found [here](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242).
 
 
 ## Contributing

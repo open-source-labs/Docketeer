@@ -14,12 +14,12 @@ awesome when someone starts to use it.
 
 
 ## Table of Contents
-- [About](#-about)
-- [Installation](#-installation)
-- [Features](#-featurs)
-- [Testing](#-testing)
-- [Contributing](#-contributing)
-- [Show your support](#-show-your-support)
+- [About](#about)
+- [Installation](#installation)
+- [Features](#features)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [Show your support](#show-your-support)
 
 #
 

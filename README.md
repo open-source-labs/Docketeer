@@ -53,7 +53,7 @@ root
 ```
 
 4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below.
-```
+```js
 // .env
 TWILIO_NUMBER=''
 TWILIO_ACCOUNT_SID=''
@@ -75,7 +75,7 @@ root
 ```
 
 7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the `.gitignore` file.
-```
+```js
 // email.js
 module.exports = {
   host: 'smtp.gmail.com',
@@ -86,7 +86,7 @@ module.exports = {
 ```
 
 8. In the `sysadmin.js` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
-```
+```js
 // sysadmin.js
 module.exports = {
   phone: '',
@@ -101,18 +101,19 @@ npm run dev
 
 
 ## Twilio setup
-  1. Follow documents found [here](https://www.twilio.com/docs/node/install) to download the helper library.
-  2. In order to manage Twilio SMS notifications follow the [step plan](https://www.twilio.com/docs/notify/quickstart/sms#messagingservice).
-  3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID in a newly created .env file in the Docketeer folder in the following format:
-
-    MY_PHONE_NUMBER='your mobile number'
-    TWILIO_ACCOUNT_SID='code from your console'
-    TWILIO_AUTH_TOKEN='token from your console'
-    SERVICE_SID='code from notify service instance'
-    VERIFICATION_SERVICE_SID='code from verify service instance'
-
-  4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
-  5. All historical messages from the Twilio account can be found [here](https://www.twilio.com/console/sms/logs).
+1. Follow documents found [here](https://www.twilio.com/docs/node/install) to download the helper library.
+2. In order to manage Twilio SMS notifications follow the [step plan](https://www.twilio.com/docs/notify/quickstart/sms#messagingservice).
+3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID in a newly created .env file in the Docketeer folder in the following format:
+```js
+  // .env.js
+  MY_PHONE_NUMBER='your mobile number'
+  TWILIO_ACCOUNT_SID='code from your console'
+  TWILIO_AUTH_TOKEN='token from your console'
+  SERVICE_SID='code from notify service instance'
+  VERIFICATION_SERVICE_SID='code from verify service instance'
+  ```
+4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
+5. All historical messages from the Twilio account can be found [here](https://www.twilio.com/console/sms/logs).
 
 <!-- > Getting started with Docketeer is easy: visit [docketeer.org](https://www.docketeer.org/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running. -->
 
@@ -160,29 +161,29 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
-- Dan Lin [@DanLin91](https://github.com/DanLin91) [@LinkedIn](https://www.linkedin.com/in/danlin91/)
-- Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) [@LinkedIn](https://www.linkedin.com/in/kadirgund/)
-- Minchan Jun [@MinchanJun](https://github.com/MinchanJun) [@LinkedIn](https://www.linkedin.com/in/minchan-jun/)
-- Wilmer Sinchi [@sinchiw](https://github.com/sinchiw) [@LinkedIn](https://www.linkedin.com/in/wilmer-sinchi-143b7681/)
-- Richie Edwards [@richie-edwards](https://github.com/richie-edwards) [@LinkedIn](https://www.linkedin.com/in/richieedwards/)
-- Mitesh Patel [@mit1812](https://github.com/mit1812) [@LinkedIn](https://www.linkedin.com/in/mitesh-patel-8702728b/)
-- Matt Jones [@mc-jones](https://github.com/mc-jones) [@LinkedIn](https://www.linkedin.com/in/mc-jones/)
-- Chai Lee [@seachai](https://github.com/seachai) [@LinkedIn](https://www.linkedin.com/in/chai-lee-5a064649/)
-- Anton Abdukhamidov [@abdukhamidov-anton](https://github.com/abdukhamidov-anton) [@LinkedIn](https://www.linkedin.com/in/anton-abdukhamidov-1163733b/)
-- Alex Smith [@ajsmith925](https://github.com/ajsmith925) [@LinkedIn](https://www.linkedin.com/in/ajsmith925/)
-- Catherine Larcheveque [@clarcheveque](https://github.com/clarcheveque) [@LinkedIn](https://www.linkedin.com/in/clarcheveque/)
-- Charles Ryu [@charcharryu](https://github.com/charcharryu) [@LinkedIn](https://www.linkedin.com/in/charcharryu/)
-- Griffin Silver [@griffinrogersilver](https://github.com/griffinrogersilver) [@LinkedIn](https://www.linkedin.com/in/griffin-silver-1ab675140/) 
-- Lorenzo Guevara [@lo-guevara](https://github.com/lo-guevara) [@LinkedIn](https://www.linkedin.com/in/lorenzoguevara/)
-- May Li [@msscloudy](https://github.com/msscloudy) [@LinkedIn](https://www.linkedin.com/in/maysli)
-- Ricardo Cortez [@rcortez88](https://github.com/rcortez88) [@LinkedIn](https://www.linkedin.com/in/rcortez88/)
-- Emma Czech [@emczech](https://github.com/emczech) [@LinkedIn](https://https://www.linkedin.com/in/emczech/)
-- Brent Speight [@brentspeight](https://github.com/brentspeight) [@LinkedIn](https://www.linkedin.com/in/brent-speight/)
-- Eric Lee [@errc-lee](https://github.com/errc-lee) [@LinkedIn](https://www.linkedin.com/in/errc-lee/)
-- Kristine Aguda [@kaguda](https://github.com/kaguda) [@LinkedIn](https://www.linkedin.com/in/kristine-aguda/)
-- Dylan Feldman [@dfeldman24](https://github.com/dfeldman24) [@LinkedIn](www.linkedin.com/in/dylan-feldman)
-- Tre Hultzen [@THultz](https://github.com/THultz) [@LinkedIn](https://www.linkedin.com/in/tre-hultzen/)
-- Kenneth Hui [@kennethhui121](https://github.com/kennethhui121) [@LinkedIn](https://www.linkedin.com/in/kenneth-hui/)
+- Dan Lin [@DanLin91](https://github.com/DanLin91) | [Linkedin](https://www.linkedin.com/in/danlin91/)
+- Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) | [Linkedin](https://www.linkedin.com/in/kadirgund/)
+- Minchan Jun [@MinchanJun](https://github.com/MinchanJun) | [Linkedin](https://www.linkedin.com/in/minchan-jun/)
+- Wilmer Sinchi [@sinchiw](https://github.com/sinchiw) | [Linkedin](https://www.linkedin.com/in/wilmer-sinchi-143b7681/)
+- Richie Edwards [@richie-edwards](https://github.com/richie-edwards) | [Linkedin](https://www.linkedin.com/in/richieedwards/)
+- Mitesh Patel [@mit1812](https://github.com/mit1812) | [Linkedin](https://www.linkedin.com/in/mitesh-patel-8702728b/)
+- Matt Jones [@mc-jones](https://github.com/mc-jones) | [Linkedin](https://www.linkedin.com/in/mc-jones/)
+- Chai Lee [@seachai](https://github.com/seachai) | [Linkedin](https://www.linkedin.com/in/chai-lee-5a064649/)
+- Anton Abdukhamidov [@abdukhamidov-anton](https://github.com/abdukhamidov-anton) | [Linkedin](https://www.linkedin.com/in/anton-abdukhamidov-1163733b/)
+- Alex Smith [@ajsmith925](https://github.com/ajsmith925) | [Linkedin](https://www.linkedin.com/in/ajsmith925/)
+- Catherine Larcheveque [@clarcheveque](https://github.com/clarcheveque) | [Linkedin](https://www.linkedin.com/in/clarcheveque/)
+- Charles Ryu [@charcharryu](https://github.com/charcharryu) | [Linkedin](https://www.linkedin.com/in/charcharryu/)
+- Griffin Silver [@griffinrogersilver](https://github.com/griffinrogersilver) | [Linkedin](https://www.linkedin.com/in/griffin-silver-1ab675140/) 
+- Lorenzo Guevara [@lo-guevara](https://github.com/lo-guevara) | [Linkedin](https://www.linkedin.com/in/lorenzoguevara/)
+- May Li [@msscloudy](https://github.com/msscloudy) | [Linkedin](https://www.linkedin.com/in/maysli)
+- Ricardo Cortez [@rcortez88](https://github.com/rcortez88) | [Linkedin](https://www.linkedin.com/in/rcortez88/)
+- Emma Czech [@emczech](https://github.com/emczech) | [Linkedin](https://https://www.linkedin.com/in/emczech/)
+- Brent Speight [@brentspeight](https://github.com/brentspeight) | [Linkedin](https://www.linkedin.com/in/brent-speight/)
+- Eric Lee [@errc-lee](https://github.com/errc-lee) | [Linkedin](https://www.linkedin.com/in/errc-lee/)
+- Kristine Aguda [@kaguda](https://github.com/kaguda) | [Linkedin](https://www.linkedin.com/in/kristine-aguda/)
+- Dylan Feldman [@dfeldman24](https://github.com/dfeldman24) | [Linkedin](www.linkedin.com/in/dylan-feldman)
+- Tre Hultzen [@THultz](https://github.com/THultz) | [Linkedin](https://www.linkedin.com/in/tre-hultzen/)
+- Kenneth Hui [@kennethhui121](https://github.com/kennethhui121) | [Linkedin](https://www.linkedin.com/in/kenneth-hui/)
 
 ### License
 Docketeer is [MIT Licensed](https://github.com/open-source-labs/Docketeer/blob/master/LICENSE)

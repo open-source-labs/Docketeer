@@ -29,7 +29,7 @@ Run npm run lint to comform to our lint rules
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under Quell's MIT License.
+By contributing, you agree that your contributions will be licensed under Docketeer's MIT License.
 
 ### References
 

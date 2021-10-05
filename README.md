@@ -10,7 +10,7 @@ awesome when someone starts to use it.
 
 #
 
-# [Docketeer](https://www.docketeer.org/) &middot; ![Github](https://img.shields.io/github/repo-size/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/github/license/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/badge/PRs-welcome-orange)
+# [Docketeer](https://www.docketeer.org/) &middot; ![Github](https://img.shields.io/github/repo-size/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/github/license/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/badge/PRs-welcome-orange) ![GitHub](https://img.shields.io/github/last-commit/open-source-labs/Docketeer)
 
 
 ## Table of Contents

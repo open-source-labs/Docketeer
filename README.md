@@ -158,9 +158,9 @@ npm run test
 
 #### **using Docketeer with M1 Chip**
 ⤷ If you are still interested in being a contributor to Docketeer, here are a few articles that may provide some solutions. However, due to how recent the release of the M1 Chip is, there is no guarantee that these solutions will work for your machine. 
-[Medium article](https://moinism.medium.com/running-electron-on-apple-silicon-m1-mac-8d463342a2b5)
-[electron](https://www.electronjs.org/blog/electron-11-0/)
-[Apple](https://www.electronjs.org/blog/apple-silicon/)
+- [Medium article](https://moinism.medium.com/running-electron-on-apple-silicon-m1-mac-8d463342a2b5)
+- [electron](https://www.electronjs.org/blog/electron-11-0/)
+- [Apple](https://www.electronjs.org/blog/apple-silicon/)
 
 ## Contributing
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.

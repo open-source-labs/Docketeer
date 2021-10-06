@@ -156,7 +156,7 @@ npm run test
 #### **Working with WSL**
 ⤷ Users may need to install a third-party App to run electron. A helpful article can be found [here](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242).
 
-#### **using Docketeer with M1 Chip**
+#### **Using Docketeer with M1 Chip**
 ⤷ If you are still interested in being a contributor to Docketeer, here are a few articles that may provide some solutions. However, due to how recent the release of the M1 Chip is, there is no guarantee that these solutions will work for your machine. 
 - [Medium article](https://moinism.medium.com/running-electron-on-apple-silicon-m1-mac-8d463342a2b5)
 - [electron](https://www.electronjs.org/blog/electron-11-0/)

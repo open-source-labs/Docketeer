@@ -30,7 +30,7 @@ awesome when someone starts to use it.
 ## About
 Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
-##### **Currently Docketeer does not support M1 chips.**
+##### **Currently Docketeer does not support M1 chips. Please see our Troubleshoot section for more information.**
 
 
 ## Installation

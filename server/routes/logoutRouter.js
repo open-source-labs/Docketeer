@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module Logout Router
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Routes all requests to logout endpoint 
- *
- * ************************************
  */
-
 const express = require('express');
 const dbController = require('../controllers/dbController');
 

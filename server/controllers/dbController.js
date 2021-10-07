@@ -1,12 +1,6 @@
 /**
- * ************************************
- *
  * @module Database Controller
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that checks if the database has a user table and creates one if it doesn't
- *
- * ************************************
  */
 
 const db = require('../models/cloudModel');

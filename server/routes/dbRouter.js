@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module Database Router
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 6/23/2021
  * @description Routes all endpoints for initializing the database for new users
- *
- * ************************************
  */
-
 const express = require('express');
 const dbController = require('../controllers/dbController');
   

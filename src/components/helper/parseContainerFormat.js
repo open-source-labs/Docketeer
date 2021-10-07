@@ -1,7 +1,7 @@
 /**
- *
- * @param {*} stdout
  * Parse all the stdout output into array to manipulate data properly.
+ *
+ *  @param {*} stdout
  */
 const convert = (stdout) => {
   let newArray = stdout.split("\n");
@@ -16,11 +16,10 @@ const convert = (stdout) => {
 };
 
 /**
- *
+ * Converts all the array into array of objects containing key of the value
+ * 
  * @param {*} array
  * @param {*} objArray
- *
- * converting all the array into array of objects containing key of the value
  */
 const convertArrToObj = (array, objArray) => {
   const result = [];
@@ -35,17 +34,17 @@ const convertArrToObj = (array, objArray) => {
 };
 
 /**
- *
+ * Customize metrics of containers to display the entire usage of the system. array is element of object that has each container's information.
+ * return array as in this format: [a,b,[c1,c2],[d1,d2]]
+ *  a: Sum of CPU
+ *  b: Sum of Memory
+ *  c: c1 Net I/O total
+ *     c2 Net I/O System Total
+ *  d: d1 Block I/O total
+ *     d2 Block I/O System Total
+ *  Refactoring is welcomed since it is not optimized way.
+ * 
  * @param {*} array
- *  Customize metrics of containers to display the entire usage of the system. array is element of object that has each container's information.
- *  return array as in this format: [a,b,[c1,c2],[d1,d2]]
- *   a: Sum of CPU
- *   b: Sum of Memory
- *   c: c1 Net I/O total
- *      c2 Net I/O System Total
- *   d: d1 Block I/O total
- *      d2 Block I/O System Total
- *   Refactoring is welcomed since it is not optimized way.
  */
 const convertToMetricsArr = (array) => {
   let newArr = [];

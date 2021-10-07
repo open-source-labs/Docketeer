@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module AdminRouter
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Routes all requests to admin endpoint 
- *
- * ************************************
  */
-
 const express = require('express');
 const userController = require('../controllers/userController');
 

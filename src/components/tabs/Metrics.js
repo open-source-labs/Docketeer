@@ -6,9 +6,9 @@ import { Pie } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**
- *
- * @param {*} props
  * Display general metrics
+ * 
+ * @param {*} props
  */
 const Metrics = (props) => {
   const result = convertToMetricsArr(props.runningList);

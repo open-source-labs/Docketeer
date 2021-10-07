@@ -1,15 +1,7 @@
 /**
- * ************************************
- *
  * @module AccountDisplay
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
- *
- * ************************************
  */
-
-// Npm Module Imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -19,8 +11,15 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 
-// Helper Function Imports
-import { handlePasswordChange, confirmPassword, checkPasswordLength, checkCurrentPassword, handleEmailUpdate, handlePhoneUpdate, checkPhone } from '../helper/settingsHelper';
+import {
+  handlePasswordChange,
+  confirmPassword,
+  checkPasswordLength,
+  checkCurrentPassword,
+  handleEmailUpdate,
+  handlePhoneUpdate,
+  checkPhone
+} from '../helper/settingsHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,9 +49,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountDisplay = () => {
-
   const session = useSelector((state) => state.session);
   const classes = useStyles();
+
   return(
     <div>
       <div className="metric-section-title">
@@ -62,23 +61,23 @@ const AccountDisplay = () => {
         <p>
           View your account information.
         </p>
-        <br></br>
+        <br/>
         <strong>Email</strong>
         <p>{session.email}</p>
-        <br></br>
+        <br/>
         <strong>Username</strong>
         <p>{session.username}</p>
-        <br></br>
+        <br/>
         <strong>Phone</strong>
         <p>{session.phone}</p>
-        <br></br>
+        <br/>
       </div>
       <div className="metric-section-title">
         <h3>Update Your Account</h3>
       </div>
       <div className="settings-container">
         <p>1. Update your email address</p>
-        <br></br>
+        <br/>
         <form className={classes.root} autoComplete="off">
           <TextField
             className={classes.textfield}
@@ -94,13 +93,13 @@ const AccountDisplay = () => {
             variant="contained"
             onClick={() => handleEmailUpdate()}
           >
-              Update
+            Update
           </Button>
-          <br></br>
+          <br/>
           <span id="update-email-alert"></span>
         </form>
         <p>2. Update your phone number</p>
-        <br></br>
+        <br/>
         <form className={classes.root} autoComplete="off">
           <TextField
             className={classes.textfield}
@@ -117,16 +116,16 @@ const AccountDisplay = () => {
             variant="contained"
             onClick={() => handlePhoneUpdate()}
           >
-              Update
+            Update
           </Button>
-          <br></br>
+          <br/>
           <span id="update-phone-alert"></span>
         </form>
         <p>3. Use the form below to update your password:</p>
-        <br></br>
+        <br/>
         <form className={classes.root} autoComplete="off">
           <p>Current Password</p>
-          <br></br>
+          <br/>
           <TextField
             required
             id="current-password-input"
@@ -137,9 +136,9 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="current-password-alert"></span>
-          <br></br>
+          <br/>
           <p>New Password</p>
-          <br></br>
+          <br/>
           <TextField
             required
             id="new-password-input"
@@ -150,9 +149,9 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="new-password-alert"></span>
-          <br></br>
+          <br/>
           <p>Confirm New Password</p>
-          <br></br>
+          <br/>
           <TextField
             required
             id="new-password-confirmation-input"
@@ -164,8 +163,8 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="confirm-new-password-alert"></span>
-          <br></br>
-          <br></br>
+          <br/>
+          <br/>
           <Button
             className={classes.button}
             size="medium"
@@ -174,13 +173,12 @@ const AccountDisplay = () => {
             onClick={() => handlePasswordChange()}
             endIcon={<SendIcon />}
           >
-                Submit
+            Submit
           </Button>
         </form>
       </div>
     </div>
   );
-
 };
 
 export default AccountDisplay;

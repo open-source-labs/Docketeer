@@ -5,6 +5,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS
 } from 'electron-devtools-installer';
+
 import verifyCode from './twilio/verifyCode';
 import verifyMobileNumber from './twilio/verifyMobile';
 import postEvent from './twilio/postEvent';

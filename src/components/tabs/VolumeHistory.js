@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 /**
  * Render Volume History
- * @param {*} props
- * 
  * May need to be refactored to render the correct container to history
+ * 
+ * @param {*} props
  */
 const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');

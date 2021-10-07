@@ -10,10 +10,7 @@ dotenv.config();
 const sentNotifications = {};
 let state;
 
-/**
- * The amount of seconds to wait before resend notification
- * when container problem has not been addressed
- */
+// The amount of seconds to wait before resend notification when container problem has not been addressed
 const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {

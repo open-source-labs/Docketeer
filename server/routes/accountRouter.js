@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module AccountRouter
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Routes all requests to change user information
- *
- * ************************************
  */
-
 const express = require('express');
 const configController = require('../controllers/configController');
 const userController = require('../controllers/userController');

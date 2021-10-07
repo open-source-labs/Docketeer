@@ -1,12 +1,6 @@
 /**
- * ************************************
- *
  * @module Login Router
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Routes all requests to login endpoint 
- *
- * ************************************
  */
 
 const express = require('express');

@@ -1,15 +1,7 @@
 /**
- * ************************************
- *
  * @module Login
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 6/10/2021
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
- *
- * ************************************
  */
-
-// NPM Module Imports
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, BrowserHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -40,16 +32,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  
-  // React-Redux: Map dispatch to props
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
 
-  // React-Redux: Map state to props
   const session = useSelector((state) => state.session.isLoggedIn);
 
-  // React Hooks: Local state variables 
   const [ modalIsOpen, setIsOpen ] = useState(false);
   
   // Material UI

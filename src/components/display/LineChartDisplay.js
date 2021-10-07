@@ -16,9 +16,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
  */
 
 /**
- *
+ * Displays general metrics
+ * 
  * @param {*} props
- * Display general metrics
  */
 const Metrics = (props) => {
   const [activeContainers, setActiveContainers] = useState({});
@@ -33,7 +33,6 @@ const Metrics = (props) => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
 
   const dispatch = useDispatch();
-
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
   const buildMemory = (data) => dispatch(actions.buildMemory(data));
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
@@ -85,12 +84,11 @@ const Metrics = (props) => {
     labels: axis,
     datasets: readIO,
   };
+
   /**
    * Resets all graph data in global store
    * Builds memory and cpu object for input into Line Components
-   * @return
    */
-
   const formatData = async () => {
     buildMemory('clear');
     buildCpu('clear');
@@ -158,7 +156,7 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
-
+    
     const auxObj = {};
 
     Object.keys(activeContainers).forEach((container) => {

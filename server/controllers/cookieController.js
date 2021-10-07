@@ -1,12 +1,6 @@
 /**
- * ************************************
- *
  * @module Cookie Controller
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that stores the user id in a HTTP-only cookie and sets HTTP-only cookie specifically for admins
- *
- * ************************************
  */
 
 const cookieController = {};
@@ -31,6 +25,7 @@ cookieController.setAdminCookie = (req, res, next) => {
   }
   if (role_id === 2) {
     res.cookie('adminType', 'admin', { httpOnly: true });
+    res.locals.cookie = 'admin';
   }
 
   return next();

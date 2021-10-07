@@ -4,9 +4,9 @@ import { Bar } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
- *
- * @param {*} props
  * Display all running and stopped containers
+ * 
+ * @param {*} props
  */
 const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {

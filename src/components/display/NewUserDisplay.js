@@ -1,15 +1,7 @@
 /**
- * ************************************
- *
  * @module NewUserDisplay
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 6/10/2021
  * @description Signup component that will be rendered in SysAdmin view, in Users tab, where sysadmin can create an account for new user in organization
- *
- * ************************************
  */
-
-// Npm Module Imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -18,8 +10,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-// Helper Function Imports
-import { handleNewUser, checkPasswordLength, confirmPassword, checkPhone } from '../helper/newUserHelper';
+import {
+  handleNewUser,
+  checkPasswordLength,
+  confirmPassword,
+  checkPhone
+} from '../helper/newUserHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {

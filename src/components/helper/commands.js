@@ -530,6 +530,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         }]`
       );
 
-      return getVolumeContainersList(listOfVolumeProperties(dockerOutput));
+      return getVolumeContainersList(listOfVolumeProperties(volumeName, dockerOutput));
     });
 };

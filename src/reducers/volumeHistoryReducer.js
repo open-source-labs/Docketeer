@@ -1,9 +1,16 @@
 /* eslint-disable no-case-declarations */
 import * as types from '../constants/actionTypes';
 
+/**
+ * @description Reducer for the list of containers running in each volume
+ * State has been separated into two arrays for future implementation
+ * 
+ * @param {Array} arrayOfVolumeNames List of volumes running
+ * @param {nested Objects} volumeContainersList Containers running under each volume
+ */
 const initialState = {
   arrayOfVolumeNames: [],
-  allContainers: [],
+  volumeContainersList: [],
 };
 
 export default function (state = initialState, action) {
@@ -17,12 +24,12 @@ export default function (state = initialState, action) {
       };
     
     case types.GET_VOLUME_CONTAINERS_LIST:
-      const containersListState = [...state.allContainers, action.payload];
+      const newVolumeContainersList = [...state.volumeContainersList, action.payload];
       return {
         ...state,
-        allContainers: containersListState
+        volumeContainersList: newVolumeContainersList
       }; 
-      
+    
     default:
       return state;
   }

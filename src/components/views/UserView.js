@@ -44,7 +44,7 @@ const UserView = (props) => {
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
   const arrayOfVolumeNames = useSelector((state) => state.volumeList.arrayOfVolumeNames);
-  const volumeContainers = useSelector((state) => state.volumeList.allContainers);
+  const volumeContainersList = useSelector((state) => state.volumeList.volumeContainersList);
   
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
@@ -183,7 +183,7 @@ const UserView = (props) => {
           <Route path ="/volume">
             <VolumeHistory 
               arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainers={volumeContainers}
+              volumeContainersList={volumeContainersList}
             />
           </Route>
           <Route path="/metrics">

@@ -110,16 +110,6 @@ const SysAdmin = (props) => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      helper.refreshRunning(refreshRunningContainers);
-      helper.refreshStopped(refreshStoppedContainers);
-      helper.refreshImages(refreshImagesList);
-    }, 5000);
-    startNotificationRequester();
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     fetch('http://localhost:3000/admin', 
       { 
         method: 'POST', 

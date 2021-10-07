@@ -70,6 +70,7 @@ const UserView = (props) => {
     helper.writeToDb();
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
+    helper.getAllDockerVolumes(getVolumeList);
   }, []);
 
   useEffect(() => {
@@ -83,9 +84,7 @@ const UserView = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-
     startNotificationRequester();
-
     return () => clearInterval(interval);
   }, []);
 

@@ -70,6 +70,7 @@ const AdminView = (props) => {
     helper.writeToDb();
     helper.networkContainers(getNetworkContainers);
     helper.setDbSessionTimeZone();
+    helper.getAllDockerVolumes(getVolumeList);
   }, []);
 
   useEffect(() => {
@@ -83,9 +84,7 @@ const AdminView = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-
     startNotificationRequester();
-
     return () => clearInterval(interval);
   }, []);
 
@@ -96,7 +95,6 @@ const AdminView = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-  
   return (
     <Router>
       <div className="container">

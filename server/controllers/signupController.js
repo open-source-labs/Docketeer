@@ -1,12 +1,6 @@
 /**
- * ************************************
- *
  * @module Signup Controller
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
- *
- * ************************************
  */
 
 const db = require('../models/cloudModel');

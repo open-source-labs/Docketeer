@@ -1,12 +1,6 @@
 /**
-* ************************************
-*
 * @module Cloud Database Schema
-* @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
-* @date 6/14/2021
 * @description Schema for elephantSQL cloud database that contains user/role information
-*
-* ************************************
 */
 
 CREATE TABLE IF NOT EXISTS roles (

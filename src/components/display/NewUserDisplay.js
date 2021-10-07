@@ -37,24 +37,24 @@ const NewUserDisplay = () => {
         <p>
           Create a new Docketeer account for an employee. Please confirm with the employee that their information is accurate before submitting.
         </p>
-        <br></br>
+        <br/>
         <p>
           Note: For the password, please choose random string of 6 characters, numbers, and symbols. Upon account creation, the user will receive an email with credentials and be able to update their password when logging in.
         </p>
-        <br></br>
+        <br/>
         <form className={classes.root} >
           <TextField 
             id="signupEmail" 
             label="Email" 
             variant="outlined" 
           />
-          <br></br>
+          <br/>
           <TextField 
             id="signupUsername" 
             label="Username" 
             variant="outlined" 
           />
-          <br></br>
+          <br/>
           <TextField 
             id="signupPassword" 
             label="Password" 
@@ -63,7 +63,7 @@ const NewUserDisplay = () => {
             onChange={() => checkPasswordLength()}
           />
           <span id="password-length-alert"></span>
-          <br></br>
+          <br/>
           <TextField 
             id="signupPasswordConfirmation" 
             label="Confirm Password" 
@@ -72,7 +72,7 @@ const NewUserDisplay = () => {
             onChange={() => confirmPassword()}
           />
           <span id="password-confirmation-alert"></span>
-          <br></br>
+          <br/>
           <TextField 
             id="signupPhone" 
             label="Phone" 
@@ -82,9 +82,9 @@ const NewUserDisplay = () => {
                 checkPhone(document.getElementById('signupPhone').value);
               }
             }
-          /><br></br>
+          /><br/>
           <span id="phone-alert"></span>
-          <br></br>
+          <br/>
           <Button 
             variant="contained" 
             size="medium" 

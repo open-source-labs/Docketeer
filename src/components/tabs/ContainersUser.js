@@ -18,9 +18,17 @@ const Containers = (props) => {
         </div>
 
         <div className="stopped-info">
-          <li>Img: {container.Image}</li>
-          <li>Created: {container.RunningFor}</li>
-          <li>name: {container.Names}</li>
+          <ul>
+            <li>
+              <strong>Img: </strong> {container.Image}
+            </li>
+            <li>
+              <strong>Created: </strong>{container.RunningFor}
+            </li>
+            <li>
+              <strong>Name: </strong>{container.Names}
+            </li>
+          </ul>
         </div>
       </div>
     );
@@ -120,8 +128,8 @@ const Containers = (props) => {
             </div>
           </div>
           <ToggleDisplay container={container} />
-          <br></br>
-          <br></br>
+          <br/>
+          <br/>
         </div>
       </div>
     );

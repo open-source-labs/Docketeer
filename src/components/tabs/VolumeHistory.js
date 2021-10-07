@@ -21,7 +21,7 @@ const volumeHistory = (props) => {
       >
         <strong>Container Name: </strong>
         {container['Names']}
-        <ul className='volume-container-list'>
+        <ul>
           <li>
             <strong>Status: </strong>
             {container['State']}
@@ -42,7 +42,7 @@ const volumeHistory = (props) => {
     ele.containers.length
       ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
       : details.push(
-        <div>
+        <div className='volume-container-details'>
           No container found in this volume
         </div>
       );

@@ -14,6 +14,18 @@ body {
   background: #042331;
 }
 
+i {
+  color: rgb(105, 105, 72);
+  transition: 0.3s;
+}
+
+ul {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
   background: #042331;
@@ -62,6 +74,7 @@ body {
   background: #e1e4e6;
   /* min-width: 78vw; */
 }
+
 .header span {
   font-size: 24px;
 }
@@ -221,18 +234,6 @@ body {
   padding-left: 25px;
 }
 
-i {
-  color: rgb(105, 105, 72);
-  transition: 0.3s;
-}
-
-ul {
-  width: 100%;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 .box-button {
   position: relative;
   text-align: center;
@@ -257,9 +258,13 @@ ul {
 }
 
 .stopped-info {
-  font-size: 14px;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.stopped-info ul {
+  font-size: 14px;
+  overflow: hidden;
 }
 
 .stopped-button {
@@ -611,11 +616,11 @@ ul {
 .toggle-button {
   text-align: center;
 }
-
 .toggle-button-detail {
   font-size: 12px;
   padding: 0px 75px;
 }
+
 .arrow {
   color: white;
 }
@@ -655,4 +660,13 @@ ul {
   border: 2px solid white;
   color: #052e41c0;
   background-color: white;
+}
+
+.volume-container-details {
+  padding: 5px;
+  border-top: lightgray dotted 2px;
+}
+
+.volume-container-details ul {
+  margin-left: 1rem;
 }

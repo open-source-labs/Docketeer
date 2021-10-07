@@ -597,9 +597,9 @@ const Settings = (props) => {
         <p>
           Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
         </p>
-        <br></br>
+        <br/>
         <p>1. Verify your mobile phone number on Twilio</p>
-        <br></br>
+        <br/>
         <form className={classes.root} autoComplete="off">
           <div>
             <TextField
@@ -661,13 +661,13 @@ const Settings = (props) => {
         ) : null}
         
         <p>2. Contact preference:</p>
-        <br></br>
+        <br/>
         <FormControl component="fieldset">
           <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
             <FormControlLabel value="email" control={<Radio />} label="Email" />
             <FormControlLabel value="phone" control={<Radio />} label="Phone" />
           </RadioGroup>
-          <br></br>
+          <br/>
           <Button
             className={classes.button}
             size="medium"
@@ -689,11 +689,11 @@ const Settings = (props) => {
           Allows you to (i) customize monitoring and notification frequency, and (ii) define container conditions that will trigger notifications. When a container hits a threshold, an alert is sent via your preferred method of communication. Recommended values will be used by default.
         </p>
         
-        <br></br>
+        <br/>
         <p>
           1. Setup / update notification criteria
         </p>
-        <br></br>
+        <br/>
         <div>
           <form className={classes.root} autoComplete="off">
             <TextField
@@ -743,9 +743,9 @@ const Settings = (props) => {
           </form>
         </div>
 
-        <br></br>
+        <br/>
         <p>2. Configure notification thresholds</p>
-        <br></br>
+        <br/>
         <form className={classes.root} autoComplete="off">
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
@@ -768,9 +768,9 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br></br>
+            <br/>
             Current Memory Threshold: {`>${mem_threshold}%`}
-            <br></br>
+            <br/>
             <TextField
               required
               id="mem-threshold-input"
@@ -791,11 +791,11 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br></br>
+            <br/>
             {/* <p>2. Receive notification if container stops</p>
             <FormControlLabel value={true} control={<Checkbox />} label="" />
-            <br></br> */}
-            <br></br>
+            <br/> */}
+            <br/>
             <p>3. Stopped containers:</p>
             <FormControlLabel value={true} control={<Checkbox id="stopped-containers-input" onChange={handleStoppedContainersChange}/>} label="Receive notification when a container stops" />
           </div>
@@ -819,7 +819,7 @@ const Settings = (props) => {
           Allows you to get access to latest GitHub commits in your project 
           repository on "Metrics" tab for selected containers
         </p>
-        <br></br>
+        <br/>
         <p>
           1. Add GitHub repositories url in Containers settings table below
         </p>

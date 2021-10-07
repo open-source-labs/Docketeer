@@ -23,14 +23,14 @@ const Images = (props) => {
           <p>{ele['tag']}</p>
         </div>
         <div className="stopped-info">
-          <li>
-            <strong>ID:</strong>
-            {ele['imgid']}
-          </li>
-          <li>
-            <strong>Size:</strong>
-            {ele['size']}
-          </li>
+          <ul>
+            <li>
+              <strong>ID: </strong>{ele['imgid']}
+            </li>
+            <li>
+              <strong>Size: </strong>{ele['size']}
+            </li>
+          </ul>
         </div>
         <div className="stopped-button">
           <button

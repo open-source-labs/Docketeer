@@ -257,7 +257,7 @@ const UserTable = () => {
           </Table>
         </TableContainer>
       </div>
-      <br></br>
+      <br/>
       <NewUserDisplay />
     </div>
   );

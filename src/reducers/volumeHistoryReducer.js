@@ -1,33 +1,36 @@
 /* eslint-disable no-case-declarations */
 import * as types from '../constants/actionTypes';
 
+/**
+ * @description Reducer for the list of containers running in each volume
+ * State has been separated into two arrays for future implementation
+ * 
+ * @param {Array} arrayOfVolumeNames List of volumes running
+ * @param {nested Objects} volumeContainersList Containers running under each volume
+ */
 const initialState = {
   arrayOfVolumeNames: [],
-  allContainers: [],
+  volumeContainersList: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
   
-  // create a copy and return a copy of the actual list of volumes
-  case types.GET_VOLUME_LIST:
-    const volumeListCopy = state.arrayOfVolumeNames.slice();
-    const volumeListState = [...volumeListCopy, ...action.payload];
-    return {
-      ...state,
-      arrayOfVolumeNames: volumeListState,
-    };
-   
-  // create 
-  case types.GET_VOLUME_CONTAINERS_LIST:
-    const newContainersList = state.allContainers.slice();
-    const containersListState = [...newContainersList, action.payload];
-    return {
-      ...state,
-      allContainers: containersListState
-    }; 
+    case types.GET_VOLUME_LIST:
+      const volumeListState = [...state.arrayOfVolumeNames, ...action.payload];
+      return {
+        ...state,
+        arrayOfVolumeNames: volumeListState,
+      };
     
-  default:
-    return state;
+    case types.GET_VOLUME_CONTAINERS_LIST:
+      const newVolumeContainersList = [...state.volumeContainersList, action.payload];
+      return {
+        ...state,
+        volumeContainersList: newVolumeContainersList
+      }; 
+    
+    default:
+      return state;
   }
 }

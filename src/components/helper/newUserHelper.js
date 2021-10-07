@@ -1,18 +1,8 @@
 /**
- * ************************************
- *
  * @module newUserHelper
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 6/10/2021
  * @description Helper functions for creating a new user in the NewUserDisplay component
- *
- * ************************************
  */
-
-// Redux Store Import
 import store from '../../renderer/store';
-
-// Dispatch Actions Import
 import * as actions from '../../actions/actions';
 
 export const handleNewUser = (e) => {
@@ -23,7 +13,6 @@ export const handleNewUser = (e) => {
   const confirmationPassword = document.getElementById('signupPasswordConfirmation').value;
   const email = document.getElementById('signupEmail').value;
   const phone = document.getElementById('signupPhone').value;
-
 
   if (!checkPasswordLength()) {
     window.alert('Warning: Password must be 6 characters or longer');
@@ -48,10 +37,9 @@ export const confirmPassword = () => {
   if (password !== confirmationPassword) {
     passwordConfirmationAlert.innerHTML = 'Warning: Passwords do not match';
   }
-  else{
+  else {
     passwordConfirmationAlert.innerHTML = '';
   }
-
   return password === confirmationPassword;
 };
 
@@ -81,7 +69,6 @@ export const checkPhone = (phone) => {
 };
 
 export const createNewUser = (email, username, password, phone) => {
-  
   fetch('http://localhost:3000/signup', 
     { 
       method: 'POST', 
@@ -110,7 +97,10 @@ export const createNewUser = (email, username, password, phone) => {
         document.getElementById('signupPhone').value = '';
         document.getElementById('password-length-alert').innerHTML = '';
         document.getElementById('password-confirmation-alert').innerHTML = '';
-        window.alert((`New user has been successfully created. \n\nAn email with the user's credentials and login instructions has been sent to ${email}`));
+
+        window.alert((`New user has been successfully created. \n\n
+          An email with the user's credentials and login instructions has been sent to ${email}`));
+
         getUpdatedUserList();
       }
     })

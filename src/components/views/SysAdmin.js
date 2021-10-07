@@ -1,14 +1,3 @@
-/**
- * ************************************
- *
- * @module SysAdmin
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
- * @description View Component for system admins
- *
- * ************************************
- */
-
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,9 +22,7 @@ import VolumeHistory from '../tabs/VolumeHistory';
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
-/**
- * Container component that has all redux logic along with react router
- */
+// Container component that has all redux logic along with react router
 const SysAdmin = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
@@ -53,6 +40,7 @@ const SysAdmin = (props) => {
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) => dispatch(actions.getVolumeContainersList(data));
+
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
@@ -60,14 +48,15 @@ const SysAdmin = (props) => {
   const networkList = useSelector((state) => state.networkList.networkList);
   const userInfo = useSelector((state) => state.session);
   const arrayOfVolumeNames = useSelector((state) => state.volumeList.arrayOfVolumeNames);
-  const volumeContainers = useSelector((state) => state.volumeList.allContainers);
+  const volumeContainersList = useSelector((state) => state.volumeList.volumeContainersList);
+  
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
   const cpuNotificationList = useSelector((state) => state.notificationList.cpuNotificationList);
   const stoppedNotificationList = useSelector((state) => state.notificationList.stoppedNotificationList);
   
-  // declare a local state variable called selected, initialize to "/"
+  // Local state for routers
   const [selected, setSelected] = useState('/');
   // const [ loggedIn, setLoggedIn ] = useState(true);
 
@@ -256,7 +245,7 @@ const SysAdmin = (props) => {
           <Route path ="/volume">
             <VolumeHistory 
               arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainers={volumeContainers}
+              volumeContainersList={volumeContainersList}
             />
           </Route>
           <Route path="/metrics">

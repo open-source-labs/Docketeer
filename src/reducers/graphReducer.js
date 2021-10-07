@@ -36,13 +36,13 @@ const graphReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.BUILD_AXIS:
       if (action.payload === 'clear') return { ...state, graphAxis: [] };
+
       // cuts day of week from begingin and the timezone off the end.
       let formatedDate = action.payload.toString().slice(4, 24);
+      
       // compare two string dates
-      if (
-        formatedDate > state.graphAxis[state.graphAxis.length - 1] ||
-        !state.graphAxis.length
-      ) {
+      if (formatedDate > state.graphAxis[state.graphAxis.length - 1]
+        || !state.graphAxis.length) {
         const newAxis = state.graphAxis;
         newAxis.push(formatedDate);
         return { ...state, graphAxis: newAxis };

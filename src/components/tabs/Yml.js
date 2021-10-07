@@ -10,12 +10,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+
 /**
- *
+ * Displays all docker-compose network; drag and drop or upload functionality
+ * 
  * @param {*} props
- * display all docker-compose network and
- * drag and drop or upload functionality
- *
  */
 const useStyles = makeStyles(() => ({
   root: {

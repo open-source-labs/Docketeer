@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module SignupRouter
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Routes all requests to signup endpoint 
- *
- * ************************************
  */
-
 const express = require('express');
 const signupController = require('../controllers/signupController');
 const bcryptController = require('../controllers/bcryptController');

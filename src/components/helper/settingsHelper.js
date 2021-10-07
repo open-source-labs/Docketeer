@@ -1,18 +1,9 @@
 /**
- * ************************************
- *
  * @module setingsHelper
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 6/10/2021
  * @description Helper functions for updating account information in AccountDisplay Component in Settings tab
- *
- * ************************************
  */
 
-// Redux Store Import
 import store from '../../renderer/store';
-
-// Dispatch Actions Import
 import * as actions from '../../actions/actions';
 
 export const handlePasswordChange = () => {

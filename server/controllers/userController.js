@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module UserController
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
- *
- * ************************************
  */
-
 const db = require('../models/cloudModel');
 
 const userController = {};

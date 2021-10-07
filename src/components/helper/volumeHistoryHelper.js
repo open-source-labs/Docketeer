@@ -31,29 +31,48 @@ export const volumeByName = (getVolumeContainers, arrayOfVolumeNames, getVolumeC
 };
 
 /**
- * Updates the state of volumes list
+ * Stores the list of all containers in their respective volume
+ * Edit this fucntion for the details of containers as needed
  * 
+ * @param {string} volumeName
  * @param {Array} dockerOutput
+ * 
+ * Command: ""/docker-entrypoint.…""
+ * CreatedAt: "2021-10-06 21:52:19 -0700 PDT"
+ * ID: "fc614e66202d"
+ * Image: "docker/getting-started"
+ * Labels: "desktop.docker.io/wsl-distro=Ubuntu,maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>"
+ * LocalVolumes: "1"
+ * Mounts: "todo-db"
+ * Names: "busy_shaw"
+ * Networks: "bridge"
+ * Ports: "80/tcp, 0.0.0.0:3001->3001/tcp, :::3001->3001/tcp"
+ * RunningFor: "35 minutes ago"
+ * Size: "1.09kB (virtual 28MB)"
+ * State: "running"
+ * Status: "Up 35 minutes" 
  */
-export const listOfVolumeProperties = (dockerOutput) => {
-  const cache = {};
+export const listOfVolumeProperties = (volumeName, dockerOutput) => {
+  const volumeList = {
+    vol_name: volumeName,
+    containers: [],
+  };
+  let containerProperties = {};
 
+  // list of containers
   for (let i = 0; i < dockerOutput.length; i++) {
-    const volumePropsObj = dockerOutput[i];
+    const container = dockerOutput[i];
     
-    // Edit this for the details of containers in the respective volume as needed
-    for (const key in volumePropsObj) {
-      if (key === 'Names') {
-        cache['Names'] = volumePropsObj['Names'];
-      } 
-      if (key === 'RunningFor') {
-        cache['RunningFor'] = volumePropsObj['RunningFor'];
-      } 
-      if (key === 'Status') {
-        cache['Status'] = volumePropsObj['Status'];
-      } 
+    // properties in each container
+    for (const key in container) {
+      if (key === 'Names') containerProperties['Names'] = container['Names'];
+      if (key === 'State') containerProperties['State'] = container['State'];
+      if (key === 'Status') containerProperties['Status'] = container['Status'];
     }
+    volumeList.containers.push(containerProperties);
+    containerProperties = {};
   }
 
-  return cache;
+  return volumeList;
 };
+

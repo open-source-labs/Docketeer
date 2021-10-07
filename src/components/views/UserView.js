@@ -21,9 +21,7 @@ import VolumeHistory from '../tabs/VolumeHistory';
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
-/**
- * Container component that has all redux logic along with react router
- */
+// Container component that has all redux logic along with react router
 const UserView = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
@@ -39,13 +37,15 @@ const UserView = (props) => {
   const logoutUser = () => dispatch(actions.logoutUser());
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) => dispatch(actions.getVolumeContainersList(data));
+
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
   const arrayOfVolumeNames = useSelector((state) => state.volumeList.arrayOfVolumeNames);
-  const volumeContainers = useSelector((state) => state.volumeList.allContainers);
+  const volumeContainersList = useSelector((state) => state.volumeList.volumeContainersList);
+  
   // map state to props
   const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
   const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
@@ -183,7 +183,7 @@ const UserView = (props) => {
           <Route path ="/volume">
             <VolumeHistory 
               arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainers={volumeContainers}
+              volumeContainersList={volumeContainersList}
             />
           </Route>
           <Route path="/metrics">

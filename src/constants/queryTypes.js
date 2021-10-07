@@ -1,5 +1,5 @@
 /**
- * PSQL Queries
+ * @description PSQL Queries
  */
 
 const GET_METRICS = `

@@ -2,9 +2,9 @@
 import React from "react";
 
 /**
+ * Display all stopped containers with functionality
  *
  * @param {*} props
- * Display all stopped containers with functionality
  */
 const Stopped = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {

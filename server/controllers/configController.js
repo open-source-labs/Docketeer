@@ -1,12 +1,6 @@
 /**
- * ************************************
- *
  * @module ConfigController
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
- *
- * ************************************
  */
 
 const db = require('../models/cloudModel');

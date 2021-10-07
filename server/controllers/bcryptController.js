@@ -1,14 +1,7 @@
 /**
- * ************************************
- *
  * @module Bcrypt Controller
- * @author Brent Speight, Emma Czech, May Li, Ricardo Cortez
- * @date 08/02/2021
  * @description Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
- *
- * ************************************
  */
-
 const db = require('../models/cloudModel');
 const bcrypt = require('bcryptjs');
 

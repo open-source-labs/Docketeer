@@ -249,7 +249,7 @@ const UserTable = () => {
                     native: true,
                   }}
                   onPageChange={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
                 />
               </TableRow>

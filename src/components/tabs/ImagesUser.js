@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import * as helper from '../helper/commands';
 
 /**
- *
- * @param {*} props
  * Render Images of the user has
+ * 
+ * @param {*} props
  */
 const Images = (props) => {
   const [repo, setRepo] = useState('');

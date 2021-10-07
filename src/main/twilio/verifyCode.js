@@ -22,7 +22,12 @@ const verifyCode = (body) => {
     });
 };
 
-// Function to automate adding numbers as verified outgoing call IDs via Twilio API. Note: the use of this API endpoint is restricted to premium Twilio Accounts. So teams will need to manually add the numbers of their developers on the Twilio console.
+/**
+ * @description Function to automate adding numbers as verified outgoing call IDs via Twilio API. 
+ * 
+ * Note: the use of this API endpoint is restricted to premium Twilio Accounts. 
+ * So teams will need to manually add the numbers of their developers on the Twilio console.
+ */ 
 const addVerifiedNumber = (phoneNumber, status) => {
   const client = twilio(accountSid, authToken);
   client.validationRequests

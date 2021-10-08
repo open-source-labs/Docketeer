@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 /**
  * Render Volume History
- * May need to be refactored to render the correct container to history
+ * May need to be refactored to auto refresh
  * 
  * @param {*} props
  */
@@ -21,7 +21,7 @@ const volumeHistory = (props) => {
       >
         <strong>Container Name: </strong>
         {container['Names']}
-        <ul className='volume-container-list'>
+        <ul>
           <li>
             <strong>Status: </strong>
             {container['State']}
@@ -42,7 +42,7 @@ const volumeHistory = (props) => {
     ele.containers.length
       ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
       : details.push(
-        <div>
+        <div className='volume-container-details'>
           No container found in this volume
         </div>
       );

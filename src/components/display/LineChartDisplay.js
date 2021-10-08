@@ -448,7 +448,7 @@ const Metrics = (props) => {
           <label htmlFor='12-hours'> 12 hours</label>
           <input type='radio' id='other' name='timePeriod' value='24'></input>
           <label htmlFor='24-hours'> 24 hours</label>
-          <br></br>
+          <br/>
           {currentList}
         </form>
         <div></div>

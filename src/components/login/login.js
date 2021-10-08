@@ -131,9 +131,9 @@ const Login = () => {
         <header>
           <img src={Docketeer} width={160} />
         </header>
-        <br></br>
-        <br></br>
-        <br></br>
+        <br/>
+        <br/>
+        <br/>
         <div className="renderContainers">
           <div className="header">
             <h1 className="tabTitle">Login</h1>
@@ -142,18 +142,17 @@ const Login = () => {
             <form className={classes.root} onSubmit={handleLogin}>
               {/* <input id="username" type="text" placeholder="username"></input> */}
               <TextField id="username" label="Username" variant="outlined" />
-              <br></br>
-              <br></br>
+              <br/>
+              <br/>
               {/* <input id="password" type="password" placeholder="password"></input> */}
               <TextField id="password" label="Password" type="password" variant="outlined" />
               {/* <input type="submit"></input> */}
-              <br></br>
+              <br/>
               <Button variant="contained" color="primary" type="submit" size="medium" className={classes.button}>
                 Login
               </Button>
-              <hr></hr>
+              <hr/>
               <div className="g-signin2" data-onsuccess="onSignIn" style={{width: '200px', borderRadius:'4px'}}></div>
-              
             </form>
           </div>
         </div>

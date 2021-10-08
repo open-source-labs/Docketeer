@@ -664,7 +664,8 @@ ul {
 
 .volume-container-details {
   padding: 5px;
-  border-top: lightgray dotted 2px;
+  border-top: lightgray solid 2px;
+  overflow: hidden;
 }
 
 .volume-container-details ul {

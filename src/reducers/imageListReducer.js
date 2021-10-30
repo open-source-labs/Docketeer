@@ -27,10 +27,10 @@ export default function (state = initialState, action) {
       const newRemoveImage = [];
       for (const image of state.imagesList) {
         if (image.id !== action.payload) {
-          newRunningList.push(image);
+          newRemoveImage.push(image);
         }
       }
-      return { ...state, imageList: newRemoveImage };
+      return { ...state, imagesList: newRemoveImage };
 
     default:
       return state;

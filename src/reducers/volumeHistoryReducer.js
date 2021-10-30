@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
     case types.GET_VOLUME_CONTAINERS_LIST:
       const newVolumeContainersList = [...state.volumeContainersList];
       if (newVolumeContainersList.length) {
-        // ensures no duplicate volumesgit
+        // ensures no duplicate volumes
         for (let i = 0; i < newVolumeContainersList.length; i += 1) {
           if (newVolumeContainersList[i].vol_name === action.payload.vol_name) {
             return state;

@@ -1,5 +1,5 @@
-import subject from '../src/reducers/containerListReducer'; // import containerList reducer
-import imageList from '../src/reducers/imageListReducer'; // import imageList reducer
+import containerListReducer from '../src/reducers/containerListReducer'; // import containerList reducer
+import imageListReducer from '../src/reducers/imageListReducer'; // import imageListReducer reducer
 
 
 describe("Dockeeter reducer", () => {
@@ -10,48 +10,12 @@ describe("Dockeeter reducer", () => {
       imagesList: [],
       runningList: [],
       stoppedList: [],
-      networkList: [],
-      notificationFrequency: "",
-      phoneNumber: "",
-      memoryNotificationList: new Set(),
-      monitoringFrequency: "",
-      cpuNotificationList: new Set(),
-      stoppedNotificationList: new Set(),
-      graphAxis: [],
-      graphMemory: [
-        {
-          label: "",
-          data: [],
-          fill: "",
-        },
-      ],
-      graphCpu: [
-        {
-          label: "",
-          data: [],
-          fill: "",
-        },
-      ],
-      graphWrittenIO: [
-        {
-          label: "",
-          data: [],
-          fill: "",
-        },
-      ],
-      graphReadIO: [
-        {
-          label: "",
-          data: [],
-          fill: "",
-        },
-      ]
     };
   });
 
   describe("unrecognized action types", () => {
     it("should return the original without any duplication", () => {
-      expect(subject(state, { type: "qqqq" })).toBe(state);
+      expect(containerListReducer(state, { type: "qqqq" })).toBe(state);
     });
   });
 
@@ -62,13 +26,13 @@ describe("Dockeeter reducer", () => {
         type: "REFRESH_RUNNING_CONTAINERS",
         payload: [{ cid: "123" }, { cid: "456" }],
       };
-      expect(subject(state, action).runningList.length).toEqual(2);
+      expect(containerListReducer(state, action).runningList.length).toEqual(2);
       action = {
         type: "REFRESH_RUNNING_CONTAINERS",
         payload: [{ cid: "789" }],
       };
-      expect(subject(state, action).runningList.length).toEqual(1);
-      expect(subject(state, action).runningList[0].cid).toEqual("789");
+      expect(containerListReducer(state, action).runningList.length).toEqual(1);
+      expect(containerListReducer(state, action).runningList[0].cid).toEqual("789");
     });
   });
 
@@ -79,13 +43,13 @@ describe("Dockeeter reducer", () => {
         type: "REFRESH_STOPPED_CONTAINERS",
         payload: [{ cid: "123" }, { cid: "456" }],
       };
-      expect(subject(state, action).stoppedList.length).toEqual(2);
+      expect(containerListReducer(state, action).stoppedList.length).toEqual(2);
       action = {
         type: "REFRESH_STOPPED_CONTAINERS",
         payload: [{ cid: "789" }],
       };
-      expect(subject(state, action).stoppedList.length).toEqual(1);
-      expect(subject(state, action).stoppedList[0].cid).toEqual("789");
+      expect(containerListReducer(state, action).stoppedList.length).toEqual(1);
+      expect(containerListReducer(state, action).stoppedList[0].cid).toEqual("789");
     });
   });
 
@@ -96,10 +60,10 @@ describe("Dockeeter reducer", () => {
         type: "REFRESH_IMAGES",
         payload: [{ imgid: "123" }, { imgid: "456" }],
       };
-      expect(imageList(state, action).imagesList.length).toEqual(2);
+      expect(imageListReducer(state, action).imagesList.length).toEqual(2);
       action = { type: "REFRESH_IMAGES", payload: [{ imgid: "789" }] };
-      expect(imageList(state, action).imagesList.length).toEqual(1);
-      expect(imageList(state, action).imagesList[0].imgid).toEqual("789");
+      expect(imageListReducer(state, action).imagesList.length).toEqual(1);
+      expect(imageListReducer(state, action).imagesList[0].imgid).toEqual("789");
     });
   });
 
@@ -109,7 +73,7 @@ describe("Dockeeter reducer", () => {
         stoppedList: [{ cid: "123" }, { cid: "456" }],
       };
       const action = { type: "REMOVE_CONTAINER", payload: "123" };
-      expect(subject(newState, action).stoppedList[0].cid).toEqual("456");
+      expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual("456");
     });
   });
 
@@ -120,7 +84,7 @@ describe("Dockeeter reducer", () => {
         stoppedList: [],
       };
       const action = { type: "STOP_RUNNING_CONTAINER", payload: "123" };
-      newState = subject(newState, action);
+      newState = containerListReducer(newState, action);
       expect(newState.runningList[0].cid).toEqual("456");
     });
   });
@@ -132,16 +96,17 @@ describe("Dockeeter reducer", () => {
         stoppedList: [{ cid: "123" }, { cid: "456" }],
       };
       const action = { type: "RUN_STOPPED_CONTAINER", payload: "123" };
-      expect(subject(newState, action).stoppedList[0].cid).toEqual("456");
+      expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual("456");
     });
   });
 
   describe("REMOVE_IMAGE", () => {
     it("should remove a specified image from the imagesList", () => {
       const newState = {
-        imagesList: [{ imgid: "123" }, { imgid: "456" }],
+        imagesList: [{ id: "123" }, { id: "456" }],
       };
       const action = { type: "REMOVE_IMAGE", payload: "123" };
+      expect(imageListReducer(newState, action).imagesList[0].id).toEqual("456");
     });
   });
 });

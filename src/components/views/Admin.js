@@ -1,59 +1,85 @@
 // module imports
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { HashRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 // static imports
-import * as actions from '../../actions/actions';
-import * as helper from '../helper/commands';
-import * as history from '../helper/volumeHistoryHelper';
-import Docketeer from '../../../assets/docketeer-title.png';
+import * as actions from "../../actions/actions";
+import * as helper from "../helper/commands";
+import * as history from "../helper/volumeHistoryHelper";
+import Docketeer from "../../../assets/docketeer-title.png";
 
 // tab component imports
-import Metrics from '../tabs/Metrics';
-import Images from '../tabs/Images';
-import Yml from '../tabs/Yml';
-import Containers from '../tabs/Containers';
-import Settings from '../tabs/Settings';
-import VolumeHistory from '../tabs/VolumeHistory';
+import Metrics from "../tabs/Metrics";
+import Images from "../tabs/Images";
+import Yml from "../tabs/Yml";
+import Containers from "../tabs/Containers";
+import Settings from "../tabs/Settings";
+import VolumeHistory from "../tabs/VolumeHistory";
+import ProcessLogs from "../tabs/ProcessLogs";
 
 // helper function imports
-import startNotificationRequester from '../helper/notificationsRequester';
-import initDatabase from '../helper/initDatabase';
+import startNotificationRequester from "../helper/notificationsRequester";
+import initDatabase from "../helper/initDatabase";
 
 // Container component that has all redux logic along with react router
 const AdminView = (props) => {
   const dispatch = useDispatch();
-  const addRunningContainers = (data) => dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data) => dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data) => dispatch(actions.refreshStoppedContainers(data));
+  const addRunningContainers = (data) =>
+    dispatch(actions.addRunningContainers(data));
+  const refreshRunningContainers = (data) =>
+    dispatch(actions.refreshRunningContainers(data));
+  const refreshStoppedContainers = (data) =>
+    dispatch(actions.refreshStoppedContainers(data));
   const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data) => dispatch(actions.getNetworkContainers(data));
+  const getNetworkContainers = (data) =>
+    dispatch(actions.getNetworkContainers(data));
   const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (data) => dispatch(actions.runStoppedContainer(data));
-  const stopRunningContainer = (id) => dispatch(actions.stopRunningContainer(id));
+  const runStoppedContainer = (data) =>
+    dispatch(actions.runStoppedContainer(data));
+  const stopRunningContainer = (id) =>
+    dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data) => dispatch(actions.getVolumeContainersList(data));
+  const getVolumeContainersList = (data) =>
+    dispatch(actions.getVolumeContainersList(data));
 
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const arrayOfVolumeNames = useSelector((state) => state.volumeList.arrayOfVolumeNames);
-  const volumeContainersList = useSelector((state) => state.volumeList.volumeContainersList);
-  
+  const arrayOfVolumeNames = useSelector(
+    (state) => state.volumeList.arrayOfVolumeNames
+  );
+  const volumeContainersList = useSelector(
+    (state) => state.volumeList.volumeContainersList
+  );
+
   // map state to props
-  const phoneNumber = useSelector((state) => state.notificationList.phoneNumber);
-  const memoryNotificationList = useSelector((state) => state.notificationList.memoryNotificationList);
-  const cpuNotificationList = useSelector((state) => state.notificationList.cpuNotificationList);
-  const stoppedNotificationList = useSelector((state) => state.notificationList.stoppedNotificationList);
-  
+  const phoneNumber = useSelector(
+    (state) => state.notificationList.phoneNumber
+  );
+  const memoryNotificationList = useSelector(
+    (state) => state.notificationList.memoryNotificationList
+  );
+  const cpuNotificationList = useSelector(
+    (state) => state.notificationList.cpuNotificationList
+  );
+  const stoppedNotificationList = useSelector(
+    (state) => state.notificationList.stoppedNotificationList
+  );
+
   // declare a local state variable called selected, initialize to "/"
-  const [selected, setSelected] = useState('/');
+  const [selected, setSelected] = useState("/");
   // const [ loggedIn, setLoggedIn ] = useState(true);
 
   const handleLogout = (e) => {
@@ -74,10 +100,14 @@ const AdminView = (props) => {
   }, []);
 
   useEffect(() => {
-    history.volumeByName(helper.getVolumeContainers, arrayOfVolumeNames, getVolumeContainersList);
+    history.volumeByName(
+      helper.getVolumeContainers,
+      arrayOfVolumeNames,
+      getVolumeContainersList
+    );
   }, [arrayOfVolumeNames]);
 
-  // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications 
+  // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
   useEffect(() => {
     const interval = setInterval(() => {
       helper.refreshRunning(refreshRunningContainers);
@@ -89,10 +119,10 @@ const AdminView = (props) => {
   }, []);
 
   const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    background: "#e1e4e6",
+    color: "#042331",
+    borderTopRightRadius: "10px",
+    borderBottomRightRadius: "10px",
   };
 
   return (
@@ -107,8 +137,8 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/app"
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
+                  style={selected === "/" ? selectedStyling : null}
+                  onClick={() => setSelected("/")}
                 >
                   <i className="fas fa-settings"></i> Settings
                 </Link>
@@ -116,8 +146,8 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
+                  style={selected === "/running" ? selectedStyling : null}
+                  onClick={() => setSelected(() => "/running")}
                 >
                   <i className="fas fa-box-open"></i> Containers
                 </Link>
@@ -125,8 +155,8 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/images"
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
+                  style={selected === "/images" ? selectedStyling : null}
+                  onClick={() => setSelected("/images")}
                 >
                   <i className="fas fa-database"></i> Images
                 </Link>
@@ -134,8 +164,8 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
+                  style={selected === "/metrics" ? selectedStyling : null}
+                  onClick={() => setSelected("/metrics")}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
@@ -143,8 +173,8 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/yml"
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
+                  style={selected === "/yml" ? selectedStyling : null}
+                  onClick={() => setSelected("/yml")}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
@@ -152,10 +182,19 @@ const AdminView = (props) => {
               <li>
                 <Link
                   to="/volume"
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
+                  style={selected === "/volume" ? selectedStyling : null}
+                  onClick={() => setSelected("/volume")}
                 >
                   <i className="fas fa-file-upload"></i> Volume History
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/logs"
+                  style={selected === "/logs" ? selectedStyling : null}
+                  onClick={() => setSelected("/logs")}
+                >
+                  <i className="fas fa-file-upload"></i> Process Logs
                 </Link>
               </li>
             </ul>
@@ -165,11 +204,9 @@ const AdminView = (props) => {
                 onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
-              </button><span> </span> 
-              <button
-                className="btn"
-                onClick={(e) => handleLogout(e)}
-              >
+              </button>
+              <span> </span>
+              <button className="btn" onClick={(e) => handleLogout(e)}>
                 Logout
               </button>
             </div>
@@ -179,22 +216,20 @@ const AdminView = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path ="/volume">
-            <VolumeHistory 
+          <Route path="/volume">
+            <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
           </Route>
           <Route path="/metrics">
-            <Metrics
-              runningList={runningList}
-            />
+            <Metrics runningList={runningList} />
+          </Route>
+          <Route path="/logs">
+            <ProcessLogs />
           </Route>
           <Route path="/yml">
-            <Yml
-              networkList={networkList}
-              composeymlFiles={composeymlFiles}
-            />
+            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
           <Route path="/images">
             <Images

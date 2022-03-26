@@ -10,6 +10,8 @@ import store from '../../renderer/store';
  * @param {*} runningList
  * @param {*} callback
  */
+
+
 export const addRunning = (runningList, callback) => {
   exec(
     'docker stats --no-stream --format "{{json .}},"',
@@ -144,7 +146,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
+  exec(`docker images`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;

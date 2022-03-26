@@ -78,6 +78,23 @@ exec(inputCommandString, (error, stdout, stderr) => {
   console.error(`stderr: ${stderr}`);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //container ID: 1cb7e06fb524
 // 1) grab all container IDs and put each container's log into an array of log objects 
 // containers = [{containerID: xx, stream: stdout or stderr, log: xx, timestamp: xx, details: xx }, {...}, {...}]

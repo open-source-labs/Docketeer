@@ -186,3 +186,8 @@ export const getVolumeContainersList = (data) => ({
   payload: data,
 });
 
+// get container process logs
+export const getLogs = (data) => ({
+  type: types.GET_LOGS,
+  payload: data,
+});

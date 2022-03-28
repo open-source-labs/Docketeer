@@ -139,12 +139,13 @@ export const getLogs = (getLogs) => {
     // console.error(`stderr: ${stderr}`);
   });
 
+  // payload data to pass into getLogs action creator:
   const containerLogs = {
-    stdout: stdoutLogObjArray,
-    stderr: stderrLogObjArray
-  }
+    stdoutLogs: stdoutLogObjArray,
+    stderrLogs: stderrLogObjArray
+  };
 
-  // invoke getLogs action creator passing in payload 
+  // invoke getLogs action creator passing in payload data
   return getLogs(containerLogs);
 }
 

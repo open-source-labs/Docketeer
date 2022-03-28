@@ -8,7 +8,7 @@ export const handleGetLogs = (e) => {
     // build out object to send to buildLogsCommand based on the radio button selected
     const optionsObj = {
         containerId: containerId,
-        since: '0m',
+        since: '00h00m00s',
         tail: '0'
     };
 
@@ -16,16 +16,16 @@ export const handleGetLogs = (e) => {
     const buildOptionsObj = optionsObj => {
         // check if current logs options checked
         if (document.getElementById('currentLogsInput').checked) {
-            // do something for current logs
+            // do something for current logs - maybe delete for option 3
         }
         // check if since option checked
         else if (document.getElementById('sinceInput').checked) {
-            sinceValue = document.getElementById('id').value;
+            sinceValue = document.getElementById('sinceInput').value; // 00h00m00s
             optionsObj.since = sinceValue;
         }
         // check if tail option checked
         else if (document.getElementById('tailInput').checked) {
-            tailValue = document.getElementById('id').value;
+            tailValue = document.getElementById('tailInput').value;
             optionsObj.tail = tailValue;
         }
         return optionsObj;

@@ -34,10 +34,9 @@ options obj template:
 
 const testOptionsObject = {
   containerId: '89a96001a722',
-  details: false,
-  timestamps: true,
+  // details: false,
   since: '420000m',
-  tail: '6'
+  // tail: '6' 
 };
 
 
@@ -58,71 +57,96 @@ function buildLogsCommand (obj){
   return commandString += `${obj.containerId}`;
 }
 
-const inputCommandString = buildLogsCommand(testOptionsObject);
+// const inputCommandString = buildLogsCommand(testOptionsObject);
+const inputCommandString = 'docker logs --since 2022-03-16T20:21:59.243430800Z --until 2022-03-16T21:27:06.846033700Z --timestamps 7c42396fd211'
+
 // console.log(inputCommandString)
 
-exec(inputCommandString, (error, stdout, stderr) => {
-  if (error) {
-    console.error(`exec error: ${error}`);
-    return;
+
+/**
+ * Grabs all active containers on app-start up
+ * 
+ * @param {*} runningList
+ * @param {*} callback
+ */
+
+export const getLogs = (getLogs) => {
+  exec(inputCommandString, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    // console.log(typeof stdout)
+    // console.log(stdout.trim().split('\n'));
+    // console.log(stderr.trim().split('\n'));
+    const output = stdout;
+
+    // const stdoutArray = stdout.trim().split('\n');
+    // const stderrArray = stderr.trim().split('\n');
+    const stdoutArray = stdout.split(' ');
+    console.log('stdout ', stdout)
+    console.log('stdoutArray ', stdoutArray)
+    const timestamp = stdoutArray[0];
+    const logMsg = stdoutArray.splice(1).join(' ');
+    console.log('timestamp ', timestamp)
+    console.log('logMsg ', logMsg)
+    const stderrArray = stderr.trim();
+
+
+
+    const l = '2022-03-24T18:00:43.214081Z';
+    const length = l.length;
+    console.log(length);
+
+
+    const testString = '2022-03-25T00:57:22.543165260Z';
+    console.log(testString.length)
+
+    // take each string element, transform it into an object such that: {timestamp: ..., logMsg: ...}, then push each object to output array.
+    const stdoutLogObjArray = stdoutArray.map(log => {
+      // timestamp character length = 27
+      const timestamp = log.slice(0, 30);
+      const logMsg = log.slice(30);
+
+      const logObj = {
+        timestamp: timestamp,
+        logMsg: logMsg
+      };
+
+      return logObj;
+    });
+
+    console.log('stdoutLogObjArray ', stdoutLogObjArray);
+
+    // build out array of stderr log objects
+    const stderrLogObjArray = stderrArray.map(log => {
+      // timestamp character length = 27
+      const timestamp = log.slice(0, 27);
+      const logMsg = log.slice(27);
+
+      const logObj = {
+        timestamp: timestamp,
+        logMsg: logMsg
+      };
+
+      return logObj;
+    });
+
+    console.log('stderrLogObjArray ', stderrLogObjArray);
+
+    // console.log('output ', );
+    // console.log(`stdout: ${stdout}`);
+    // console.error(`stderr: ${stderr}`);
+  });
+
+  const containerLogs = {
+    stdout: stdoutLogObjArray,
+    stderr: stderrLogObjArray
   }
-  // console.log(typeof stdout)
-  // console.log(stdout.trim().split('\n'));
-  // console.log(stderr.trim().split('\n'));
-  const output = stdout;
 
-  const stdoutArray = stdout.trim().split('\n');
-  const stderrArray = stderr.trim().split('\n');
-
-  const stdoutLogObjArray = [];
-  const stderrLogObjArray = [];
-
-  const l = '2022-03-24T18:00:43.214081Z';
-  const length = l.length;
-  console.log(length);
-
-
-  const testString = '2022-03-25T00:57:22.543165260Z';
-  console.log(testString.length)
-
-  // take each string element, transform it into an object such that: {timestamp: ..., logMsg: ...}, then push each object to output array.
-  stdoutArray.map(log => {
-    // timestamp character length = 27
-    const timestamp = log.slice(0, 28);
-    const logMsg = log.slice(28);
-
-    const logObj = {
-      timestamp: timestamp,
-      logMsg: logMsg
-    };
-
-    stdoutLogObjArray.push(logObj);
-  });
-
-  console.log('stdoutLogObjArray ', stdoutLogObjArray);
-
-  // build out array of stderr log objects
-  stderrArray.map(log => {
-    // timestamp character length = 27
-    const timestamp = log.slice(0, 27);
-    const logMsg = log.slice(27);
-
-    const logObj = {
-      timestamp: timestamp,
-      logMsg: logMsg
-    };
-
-    stderrLogObjArray.push(logObj);
-  });
-
-  console.log('stderrLogObjArray ', stderrLogObjArray);
-
-  // console.log('output ', );
-  // console.log(`stdout: ${stdout}`);
-  // console.error(`stderr: ${stderr}`);
-});
-
-
+  // invoke getLogs action creator passing in payload 
+  return getLogs(containerLogs);
+}
 
 // figure out what stderr output will look like and then figure out how/when to return it
 // new modest goal for object output of call to exec: 

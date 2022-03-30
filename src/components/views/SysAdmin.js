@@ -9,6 +9,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
+
 // static imports
 import * as actions from "../../actions/actions";
 import * as helper from "../helper/commands";
@@ -24,6 +25,8 @@ import Settings from "../tabs/Settings";
 import UserList from "../tabs/Users";
 import VolumeHistory from "../tabs/VolumeHistory";
 import ProcessLogs from "../tabs/ProcessLogs";
+// import ContainerLogsOutput from "../tabs/ProcessLogsTable";
+import ProcessLogsTable from "../display/ProcessLogsTable";
 
 // helper function imports
 import startNotificationRequester from "../helper/notificationsRequester";
@@ -167,6 +170,8 @@ const SysAdmin = (props) => {
     borderBottomRightRadius: "10px",
   };
 
+
+
   return (
     <Router>
       <div className="container">
@@ -245,7 +250,7 @@ const SysAdmin = (props) => {
                   style={selected === "/logs" ? selectedStyling : null}
                   onClick={() => setSelected("/logs")}
                 >
-                  <i className="fas fa-file-upload"></i> Process Logs
+                  <i className="fas fa-log"></i> Process Logs
                 </Link>
               </li>
             </ul>
@@ -280,8 +285,25 @@ const SysAdmin = (props) => {
             <UserList />
           </Route>
           <Route path="/logs">
-            <ProcessLogs />
+            <ProcessLogs 
+              runIm={helper.runIm}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              runningList={runningList}
+              addRunningContainers={addRunningContainers}
+              // Stopped Containers
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
+            />
           </Route>
+
+          <Route path="/logTable/:containerId" >
+            <ProcessLogsTable />
+          </Route>
+
           <Route path="/yml">
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
@@ -310,6 +332,7 @@ const SysAdmin = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
+
           <Route path="/">
             <Settings
               runningList={runningList}
@@ -325,6 +348,7 @@ const SysAdmin = (props) => {
               stoppedNotificationList={stoppedNotificationList}
             />
           </Route>
+
         </Switch>
       </div>
     </Router>

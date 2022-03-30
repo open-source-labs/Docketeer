@@ -5,6 +5,7 @@ import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 
+
 /**
  * Grabs all active containers on app-start up
  * 
@@ -544,10 +545,11 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  * @param {object} optionsObj 
  */
 
-export const getLogs = (optionsObj, getContainerLogs) => {
+export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
+  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
-    console.log(optionsObj.since);
+    // console.log(optionsObj.since);
     inputCommandString += `--since ${optionsObj.since} `;
   }
   optionsObj.tail ? inputCommandString += `--tail ${optionsObj.tail} ` : inputCommandString += '--tail 50 ';
@@ -563,7 +565,11 @@ export const getLogs = (optionsObj, getContainerLogs) => {
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
-  return getContainerLogs(containerLogs);
+
+  console.log('containerLogs being returned in commands.js line 569: ', containerLogs);
+  
+  // return the invocation of the getContainerLogs dispatch function, passing in the payload
+  return getContainerLogsDispatcher(containerLogs);
 };
 
 

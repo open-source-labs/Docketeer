@@ -1,4 +1,5 @@
 import { getLogs } from './commands';
+<<<<<<< HEAD
 import { useDispatch } from 'react';
 import * as actions from '../../actions/actions';
 
@@ -23,10 +24,19 @@ export const handleGetLogs = (e) => {
 // helper function to build options object based on the radio button selected on the process logs tab
 const buildOptionsObj = containerId => {
 
+=======
+import { useDispatch } from 'react-redux';
+import * as actions from '../../actions/actions';
+
+// helper function to build options object based on the radio button selected on the process logs tab
+export const buildOptionsObj = containerId => {
+
+>>>>>>> master
   const optionsObj = {
     containerId: containerId
   };
     
+<<<<<<< HEAD
   // check if since option checked
   if (document.getElementById('sinceInput').checked) {
     const sinceValue = document.getElementById('sinceInput').value; // 00h00m00s
@@ -41,6 +51,23 @@ const buildOptionsObj = containerId => {
   return optionsObj;
 };
 
+=======
+  // check if current logs options checked
+
+  // check if since option checked
+  if (document.getElementById('sinceInput').checked) {
+    const sinceValue = document.getElementById('sinceText').value; // 00h00m00s
+    optionsObj.since = sinceValue;
+  }
+  // check if tail option checked
+  else if (document.getElementById('tailInput').checked) {
+    const tailValue = document.getElementById('tailText').value;
+    optionsObj.tail = tailValue;
+  }
+  return optionsObj;
+};
+
+>>>>>>> master
 // makeArrayOfObjects transforms input string (where string is a batch of logs) to an array of objects: [{logmsg:..., timestamp:...}, {logmsg:..., timestamp:...}, ...]
 export const makeArrayOfObjects = string => {
   const arrayOfObjects = string.trim().split('\n').map((element) => {

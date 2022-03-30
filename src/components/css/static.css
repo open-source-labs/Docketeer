@@ -43,3 +43,8 @@
   content: url(../../../assets/document.svg);
   width: 70px;
 }
+
+.fa-log {
+  content: url(../../../assets/docketeer_logs.svg);
+  width: 22px;
+}

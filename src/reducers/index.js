@@ -7,6 +7,7 @@ import notificationReducer from './notificationReducer';
 import sessionReducer from './sessionReducer';
 import userListReducer from './userListReducer';
 import volumeHistoryReducer from './volumeHistoryReducer';
+import processLogsReducer from './processLogsReducer';
 
 /**
  * Reducer store
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   session: sessionReducer,
   userList: userListReducer,
   volumeList: volumeHistoryReducer,
+  // processLogs: processLogsReducer,
 });
 
 export default reducers;

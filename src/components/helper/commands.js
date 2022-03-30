@@ -3,6 +3,7 @@ import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
 import store from '../../renderer/store';
+import { makeArrayOfObjects } from './processLogHelper';
 
 /**
  * Grabs all active containers on app-start up
@@ -10,6 +11,8 @@ import store from '../../renderer/store';
  * @param {*} runningList
  * @param {*} callback
  */
+
+
 export const addRunning = (runningList, callback) => {
   exec(
     'docker stats --no-stream --format "{{json .}},"',
@@ -144,7 +147,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  exec(`docker rm --force ${id}`, (error, stdout, stderr) => {
+  exec(`docker images`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -533,3 +536,38 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
       return getVolumeContainersList(listOfVolumeProperties(volumeName, dockerOutput));
     });
 };
+
+/**
+ * Gets container logs from command line
+ * 
+ * @param {callback} getContainerLogs
+ * @param {object} optionsObj 
+ */
+
+export const getLogs = (optionsObj, getContainerLogs) => {
+  // build inputCommandString to get logs from command line
+  let inputCommandString = 'docker logs --timestamps ';
+  if (optionsObj.since) {
+    console.log(optionsObj.since);
+    inputCommandString += `--since ${optionsObj.since} `;
+  }
+  optionsObj.tail ? inputCommandString += `--tail ${optionsObj.tail} ` : inputCommandString += '--tail 50 ';
+  inputCommandString += `${optionsObj.containerId}`;
+
+  const containerLogs = { stdout: [], stderr: [] };
+  
+  exec(inputCommandString, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    containerLogs.stdout = makeArrayOfObjects(stdout);
+    containerLogs.stderr = makeArrayOfObjects(stderr);
+  });
+
+  // return the invocation of the getContainerLogs dispatch function, passing in the payload
+  return getContainerLogs(containerLogs);
+};
+
+
+

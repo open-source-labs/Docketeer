@@ -545,7 +545,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = (optionsObj, getContainerLogs) => {
-  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     console.log(optionsObj.since);
@@ -564,8 +563,6 @@ export const getLogs = (optionsObj, getContainerLogs) => {
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
-
-  // return the invocation of the getContainerLogs dispatch function, passing in the payload
   return getContainerLogs(containerLogs);
 };
 

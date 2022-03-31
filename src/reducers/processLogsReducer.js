@@ -1,7 +1,10 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-  containerLogs: {},
+  containerLogs: {
+    stdoutLogs: [],
+    stderrLogs: [],
+  },
 };
 
 const processLogsReducer = (state = initialState, action) => {

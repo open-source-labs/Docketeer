@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useEffect, useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import * as helper from '../helper/commands';
 import {string} from 'prop-types';
 import console from 'console';
@@ -31,18 +31,26 @@ const ProcessLogsTable = (props) => {
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
 
-  const [logs, setLogs] = useState({});
-  
+  // const [logs, setLogs] = useState({});
 
-  // upon page render, dispatch the getLogs action creator to trigger state change for containerLogs  
-  useEffect => (() => {
-    const containerLogs = useSelector(state => state.containerLogs);
-    // const { stdoutLogs, stderrLogs } = containerLogs; 
-    setLogs(containerLogs);
-  });
+  // The selector will be run whenever the function component renders 
+  // useSelector() will also subscribe to the Redux store, and run your selector whenever an action is dispatched.
+  const containerLogs = useSelector(state => state.processLogs.containerLogs);
+  console.log('containerLogs ', containerLogs);
+
+   
+
+  // after first component render AND after every render, tell useEffect to do something
+  useEffect(() => {
+    console.log('useEffect is being triggered, containerLogs within store has been changed and component is being re-renderd');
+    // const containerLogs = useSelector(state => state.containerLogs);
+    // console.log('containerLogs ', containerLogs);
+    // const { stdoutLogs, stderrLogs } = containerLogs;
+    // setLogs(containerLogs)
+  }, [containerLogs]);
   
-  const { stdoutLogs, stderrLogs } = logs;
-  console.log('logs after setLogs updated the logs', logs)
+  // const { stdoutLogs, stderrLogs } = logs;
+  // console.log('logs after setLogs updated the logs', logs)
 
   // callback function invoked when 'get logs' button is clicked
   const handleGetLogs = (e) => {
@@ -54,13 +62,13 @@ const ProcessLogsTable = (props) => {
     const optionsObj = buildOptionsObj(containerId);
 
     // invoke getLogs to get logs from command line, then dispatch the action creator to the reducer to update the store
-    getLogs(optionsObj, getContainerLogsDispatcher);
-    // after store is updated, get the updated containerLogs from the store
-    
-    // indicate to the component that the store has been updated in order to re-render the component using useEffect
-    setLogs({});
-    return; 
+    return getLogs(optionsObj, getContainerLogsDispatcher);   
   };
+
+  // creating array of log elements to be displayed.
+  // const logsToBeDisplayed = logs.stdoutLogs.map((element) => {
+  //   return [element.timestamp, element.logMsg];
+  // });
 
   // when user clicks button, the action creator getLogs is called to produce an action
   // action is fed to the dispatch, which forwards the action to the reducer which creates a new state
@@ -82,7 +90,13 @@ const ProcessLogsTable = (props) => {
 
         <button id={id} type='button' onClick={handleGetLogs}>Get Logs</button>
       </form>
-      {logs.stdoutLogs}
+
+      <div>
+        <h1>stdoutLogs </h1>
+
+      </div>
+
+      {/* {logs.stdoutLogs} */}
       
 
     </div>

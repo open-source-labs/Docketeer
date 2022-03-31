@@ -4,7 +4,7 @@ const initialState = {
   containerLogs: {},
 };
 
-export const processLogsReducer = (state = initialState, action) => {
+const processLogsReducer = (state = initialState, action) => {
 
   switch (action.type) {
 
@@ -19,3 +19,5 @@ export const processLogsReducer = (state = initialState, action) => {
   }
     
 };
+
+export default processLogsReducer;

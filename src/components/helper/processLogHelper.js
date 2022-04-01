@@ -2,6 +2,9 @@ import { getLogs } from './commands';
 import { useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 
+
+// nicolaka containerId: '7c42396fd211'
+
 // helper function to build options object based on the radio button selected on the process logs tab
 export const buildOptionsObj = containerId => {
 
@@ -43,3 +46,4 @@ export const makeArrayOfObjects = string => {
   });
   return arrayOfObjects;
 };
+

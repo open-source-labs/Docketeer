@@ -14,8 +14,6 @@ import ProcessLogsCard from '../display/ProcessLogsCard';
 
 const ProcessLogs = (props) => {
 
-
-
   const renderRunningList = [];
   props.runningList.map((container, index) => {
     renderRunningList.push(

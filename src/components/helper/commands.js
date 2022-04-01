@@ -562,14 +562,16 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
       console.error(`exec error: ${error}`);
       return;
     }
+
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
 
-  console.log('containerLogs being returned in commands.js line 569: ', containerLogs);
+  console.log('containerLogs being returned in commands.js line: ', containerLogs);
   
   // return the invocation of the getContainerLogs dispatch function, passing in the payload
-  return getContainerLogsDispatcher(containerLogs);
+  // return getContainerLogsDispatcher(containerLogs);
+  return containerLogs
 };
 
 

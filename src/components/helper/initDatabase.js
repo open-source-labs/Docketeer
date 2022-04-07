@@ -10,9 +10,9 @@ export default () => {
       ? path.resolve(__dirname, "..", "..", "database")
       : path.join(path.dirname(__dirname), "database");
 
-  exec(`cd ${directory} ; docker-compose up -d`, (error, stdout, stderr) => {
+  exec(`cd ${directory} ; docker-compose up --no-recreate -d`, (error, stdout, stderr) => {
     if (error) {
-      alert(`${error.message}`);
+      alert(`${error.message} `);
       return;
     }
     if (stderr) {

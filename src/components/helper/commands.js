@@ -294,9 +294,9 @@ export const pullImage = (repo) => {
 /**
  * Display all containers network based on docker-compose when the application starts
  * 
- * @param {*} getDockerNetworkReducer
+ * @param {*} getNetworkContainers
  */
-export const networkContainers = (getDockerNetworkReducer) => {
+export const networkContainers = (getNetworkContainers) => {
   // exec("docker network ls", (error, stdout, stderr) => {
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
@@ -307,14 +307,16 @@ export const networkContainers = (getDockerNetworkReducer) => {
       console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
-
+    console.log('stdout in networkContainer helper fn', stdout)
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+    console.log('dockerOutput in networkContainer helper fn', dockerOutput )
     // remove docker network defaults named: bridge, host, and none
     const networkContainers = JSON.parse(dockerOutput).filter(
       ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
     );
-  
-    getDockerNetworkReducer(networkContainers);
+    console.log('networkContainers in networkContainer helper fn', networkContainers)
+
+    getNetworkContainers(networkContainers);
   });
 };
 
@@ -371,6 +373,7 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
           .slice(0, -1)
           .replaceAll(' ', '')}]`;
         const parseDockerOutput = JSON.parse(dockerOutput);
+        console.log('parseDockerOutput ', parseDockerOutput)
         parseDockerOutput[parseDockerOutput.length - 1].FilePath = filePath;
 
         getComposeStacksReducer(parseDockerOutput);

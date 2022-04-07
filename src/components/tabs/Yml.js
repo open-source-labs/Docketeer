@@ -52,6 +52,7 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
+  // when component mounts, useEffect runs cb passed in as the first argument
   useEffect(() => {
     helper.dockerComposeStacks(getContainerStacks);
 
@@ -108,6 +109,7 @@ const Yml = () => {
 
   const TableData = () => {
     return composeStack.map((container, index) => {
+      console.log('container.FilePath ', container.FilePath);
       return (
         <TableRow key={index}>
           <TableCell>
@@ -123,7 +125,7 @@ const Yml = () => {
             <span className="container-scope">{container.Scope}</span>
           </TableCell>
           <TableCell>
-            <span className="container-scope">{container.CreatedAt}</span>
+            <span className="container-createdAt">{container.CreatedAt}</span>
           </TableCell>
           {container.FilePath && (
             <TableCell className="btn-compose-up">

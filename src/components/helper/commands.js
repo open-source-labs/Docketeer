@@ -148,7 +148,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  exec(`docker images`, (error, stdout, stderr) => {
+  exec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -307,14 +307,14 @@ export const networkContainers = (getNetworkContainers) => {
       console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
-    console.log('stdout in networkContainer helper fn', stdout)
+    console.log('stdout in networkContainer helper fn', stdout);
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
-    console.log('dockerOutput in networkContainer helper fn', dockerOutput )
+    console.log('dockerOutput in networkContainer helper fn', dockerOutput );
     // remove docker network defaults named: bridge, host, and none
     const networkContainers = JSON.parse(dockerOutput).filter(
       ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
     );
-    console.log('networkContainers in networkContainer helper fn', networkContainers)
+    console.log('networkContainers in networkContainer helper fn', networkContainers);
 
     getNetworkContainers(networkContainers);
   });
@@ -334,9 +334,18 @@ export const inspectDockerContainer = (containerId) => {
   });
 };
 
-export const dockerComposeUp = (fileLocation) => {
+export const dockerComposeUp = (fileLocation, ymlFileName) => {
+  console.log(' ymlFilename from comands.js', ymlFileName);
+
   return new Promise((resolve, reject) => {
-    const cmd = `cd ${fileLocation} && docker-compose up -d`;
+    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
+    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
+    let cmd = `cd ${fileLocation} && docker-compose up -d`;
+    if (!nativeYmlFilenames.includes(ymlFileName)) {
+      cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
+    }
+    console.log('cmd, ', cmd);
+    // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
@@ -355,8 +364,8 @@ export const dockerComposeUp = (fileLocation) => {
   });
 };
 
-export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
-  if (getComposeStacksReducer && filePath) {
+export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
+  if (getContainerStacks && filePath ) {
     exec(
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
@@ -373,10 +382,10 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
           .slice(0, -1)
           .replaceAll(' ', '')}]`;
         const parseDockerOutput = JSON.parse(dockerOutput);
-        console.log('parseDockerOutput ', parseDockerOutput)
+        console.log('parseDockerOutput ', parseDockerOutput);
         parseDockerOutput[parseDockerOutput.length - 1].FilePath = filePath;
-
-        getComposeStacksReducer(parseDockerOutput);
+        parseDockerOutput[parseDockerOutput.length - 1].YmlFileName = ymlFileName;
+        getContainerStacks(parseDockerOutput);
       }
     );
   } else {
@@ -397,7 +406,7 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
           .replaceAll(' ', '')}]`;
         
         const parseDockerOutput = JSON.parse(dockerOutput);
-        getComposeStacksReducer(parseDockerOutput);
+        getContainerStacks(parseDockerOutput);
       }
     );
   }
@@ -574,7 +583,7 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
   
   // return the invocation of the getContainerLogs dispatch function, passing in the payload
   // return getContainerLogsDispatcher(containerLogs);
-  return containerLogs
+  return containerLogs;
 };
 
 

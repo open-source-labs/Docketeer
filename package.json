@@ -28,7 +28,6 @@
     "clsx": "^1.1.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
-    "electron-chartjs": "^1.0.0",
     "electron-fetch": "^1.7.3",
     "express": "^4.17.1",
     "fix-path": "^3.0.0",

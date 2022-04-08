@@ -335,7 +335,15 @@ export const inspectDockerContainer = (containerId) => {
 };
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
+<<<<<<< HEAD
   console.log(' ymlFilename from comands.js', ymlFileName);
+=======
+<<<<<<< HEAD
+  console.log(' ymlFilename from comands.js', ymlFileName);
+=======
+  console.log(' ymlFilename from comands.js:', ymlFileName);
+>>>>>>> adf7fc96a42fd44639fce4ac3446784ae7037442
+>>>>>>> master
 
   return new Promise((resolve, reject) => {
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
@@ -344,7 +352,15 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
+<<<<<<< HEAD
     console.log('cmd, ', cmd);
+=======
+<<<<<<< HEAD
+    console.log('cmd, ', cmd);
+=======
+    console.log('cmd: ', cmd);
+>>>>>>> adf7fc96a42fd44639fce4ac3446784ae7037442
+>>>>>>> master
     // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
     exec(cmd, (error, stdout, stderr) => {
@@ -578,7 +594,11 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
   
+<<<<<<< HEAD
   return containerLogs
+=======
+  return containerLogs;
+>>>>>>> master
 };
 
 

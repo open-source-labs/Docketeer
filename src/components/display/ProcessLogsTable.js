@@ -52,7 +52,7 @@ const ProcessLogsTable = (props) => {
   // useSelector() will also subscribe to the Redux store, and run your selector whenever an action is dispatched.
   // const containerLogs = useSelector(state => state.processLogs.containerLogs);
   // const { stdoutLogs, stderrLogs } = containerLogs;
-  console.log('logs ', logs)
+  console.log('logs ', logs);
   // console.log('containerLogs ', containerLogs);
 
    
@@ -80,7 +80,7 @@ const ProcessLogsTable = (props) => {
 
     // invoke getLogs to get logs from command line, then dispatch the action creator to the reducer to update the store
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);  
-    console.log('containerLogs in handlegetLogs fn ', containerLogs)
+    console.log('containerLogs in handlegetLogs fn ', containerLogs);
     setLogs(containerLogs);
   };
 
@@ -117,8 +117,8 @@ const ProcessLogsTable = (props) => {
   return (
     <div className="renderContainers">
       
-      <h1>Coming soon!</h1>
-      <h1>ID: {id} </h1> 
+      
+      <h1>Container ID: {id} </h1> 
 
       <form>
         

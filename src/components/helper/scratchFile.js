@@ -86,6 +86,7 @@ export const dockerComposeDown = (filePath) => {
     }
   });
   return;
+<<<<<<< HEAD
 };
 
 export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
@@ -135,4 +136,6 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
       }
     );
   }
+=======
+>>>>>>> master
 };

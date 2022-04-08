@@ -100,7 +100,6 @@ const Yml = () => {
         reader.onload = function (e) {
           setYmlFile(e.target.result);
         };
-
         const directoryPath = filePath.replace("/docker-compose.yml", "");
         setFilePath(directoryPath);
       }

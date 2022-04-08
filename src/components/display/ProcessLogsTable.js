@@ -6,6 +6,19 @@ import console from 'console';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 
+
+/* for process logs table
+ */
+// import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+/*
+ */
+
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 import { SettingsCellOutlined } from '@material-ui/icons';
@@ -39,7 +52,7 @@ const ProcessLogsTable = (props) => {
   // useSelector() will also subscribe to the Redux store, and run your selector whenever an action is dispatched.
   // const containerLogs = useSelector(state => state.processLogs.containerLogs);
   // const { stdoutLogs, stderrLogs } = containerLogs;
-  console.log('logs ', logs)
+  console.log('logs ', logs);
   // console.log('containerLogs ', containerLogs);
 
    
@@ -67,52 +80,45 @@ const ProcessLogsTable = (props) => {
 
     // invoke getLogs to get logs from command line, then dispatch the action creator to the reducer to update the store
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);  
-    console.log('containerLogs in handlegetLogs fn ', containerLogs)
+    console.log('containerLogs in handlegetLogs fn ', containerLogs);
     setLogs(containerLogs);
   };
 
-  // creating array of log elements to be displayed.
-  // const logsToBeDisplayed = logs.stdoutLogs.map((element) => {
-  //   return [element.timestamp, element.logMsg];
-  // });
+  const StdoutTableData = () => {
+    return stdout.map((log, index) => {
+      return (
+        <TableRow key={index}>
+          <TableCell>
+            <span className="log-timestamp">{log.timeStamp}</span>
+          </TableCell>
+          <TableCell>
+            <span className="log-message">{log.logMsg}</span>
+          </TableCell>
+        </TableRow>
+      );
+    });
+  };
 
-  // when user clicks button, the action creator getLogs is called to produce an action
-  // action is fed to the dispatch, which forwards the action to the reducer which creates a new state
-
-  /*
-  const 
-  
-  */
-  
-//  const stdoutLogArray = stdoutLogs.map((log => {
-//   return <Log
-//      timestamp={log.timestamp}
-//      logMsg={log.logMsg}
-//    >
-//     </Log>
-//  })
-   
-//   const stderrLogArray = stderrLogs.map((log => {
-//     return <Log
-//       timestamp={log.timestamp}
-//       logMsg={log.logMsg}
-//     >
-//     </Log>
-//   })
-  
-  const stdoutLogArray = stdout.map((log, i) => {
-    return <p key={`stdlog_${i}`}> <strong>timestamp:</strong> {log.timeStamp} <strong>log:</strong> {log.logMsg}</p>;
-  }); 
-  
-  const stderrLogArray = stderr.map((log, i) => {
-    return <p key={`stdlog_${i}`}> <strong>timestamp:</strong> {log.timeStamp} <strong>log:</strong> {log.logMsg}</p>;
-  });
+  const StderrTableData = () => {
+    return stderr.map((log, index) => {
+      return (
+        <TableRow key={index}>
+          <TableCell>
+            <span className="log-timestamp">{log.timeStamp}</span>
+          </TableCell>
+          <TableCell>
+            <span className="log-message">{log.logMsg}</span>
+          </TableCell>
+        </TableRow>
+      );
+    });
+  };
 
   return (
     <div className="renderContainers">
       
-      <h1>Coming soon!</h1>
-      <h1>ID: {id} </h1> 
+      
+      <h1>Container ID: {id} </h1> 
 
       <form>
         
@@ -129,16 +135,38 @@ const ProcessLogsTable = (props) => {
 
       </form>
 
-      <div>
-        <h1>stdout Logs</h1>
-        {stdoutLogArray}
-        <h1> </h1>
-        <h1>stderr Logs</h1>
-        {stderrLogArray}
+      <div className="process-logs-container">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>TimeStamp</TableCell>
+                <TableCell>Log Message</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <StdoutTableData />
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-
-      
+      <div className="process-logs-container">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>TimeStamp</TableCell>
+                <TableCell>Log Message</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <StderrTableData />
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
+
   );
 };
 

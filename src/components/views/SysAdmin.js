@@ -1,36 +1,36 @@
 // module imports
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   HashRouter as Router,
   Switch,
   Route,
   Link,
   Redirect,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 
 // static imports
-import * as actions from "../../actions/actions";
-import * as helper from "../helper/commands";
-import * as history from "../helper/volumeHistoryHelper";
-import Docketeer from "../../../assets/docketeer-title.png";
+import * as actions from '../../actions/actions';
+import * as helper from '../helper/commands';
+import * as history from '../helper/volumeHistoryHelper';
+import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import UserList from "../tabs/Users";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import UserList from '../tabs/Users';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
 // import ContainerLogsOutput from "../tabs/ProcessLogsTable";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-import startNotificationRequester from "../helper/notificationsRequester";
-import initDatabase from "../helper/initDatabase";
+import startNotificationRequester from '../helper/notificationsRequester';
+import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const SysAdmin = (props) => {
@@ -86,16 +86,16 @@ const SysAdmin = (props) => {
   );
 
   // Local state for routers
-  const [selected, setSelected] = useState("/");
+  const [selected, setSelected] = useState('/');
   // const [ loggedIn, setLoggedIn ] = useState(true);
 
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
-    fetch("http://localhost:3000/logout", {
-      method: "POST",
+    fetch('http://localhost:3000/logout', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: userInfo.username,
@@ -142,10 +142,10 @@ const SysAdmin = (props) => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/admin", {
-      method: "POST",
+    fetch('http://localhost:3000/admin', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         token: userInfo.token,
@@ -164,10 +164,10 @@ const SysAdmin = (props) => {
   }, []);
 
   const selectedStyling = {
-    background: "#e1e4e6",
-    color: "#042331",
-    borderTopRightRadius: "10px",
-    borderBottomRightRadius: "10px",
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
   };
 
 
@@ -184,8 +184,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/app"
-                  style={selected === "/" ? selectedStyling : null}
-                  onClick={() => setSelected("/")}
+                  style={selected === '/' ? selectedStyling : null}
+                  onClick={() => setSelected('/')}
                 >
                   <i className="fas fa-settings"></i> Settings
                 </Link>
@@ -193,8 +193,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/users"
-                  style={selected === "/users" ? selectedStyling : null}
-                  onClick={() => setSelected("/users")}
+                  style={selected === '/users' ? selectedStyling : null}
+                  onClick={() => setSelected('/users')}
                 >
                   <i className="fas fa-users"></i> Users
                 </Link>
@@ -202,8 +202,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/running"
-                  style={selected === "/running" ? selectedStyling : null}
-                  onClick={() => setSelected(() => "/running")}
+                  style={selected === '/running' ? selectedStyling : null}
+                  onClick={() => setSelected(() => '/running')}
                 >
                   <i className="fas fa-box-open"></i> Containers
                 </Link>
@@ -211,8 +211,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/images"
-                  style={selected === "/images" ? selectedStyling : null}
-                  onClick={() => setSelected("/images")}
+                  style={selected === '/images' ? selectedStyling : null}
+                  onClick={() => setSelected('/images')}
                 >
                   <i className="fas fa-database"></i> Images
                 </Link>
@@ -220,8 +220,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/metrics"
-                  style={selected === "/metrics" ? selectedStyling : null}
-                  onClick={() => setSelected("/metrics")}
+                  style={selected === '/metrics' ? selectedStyling : null}
+                  onClick={() => setSelected('/metrics')}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
@@ -229,8 +229,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/yml"
-                  style={selected === "/yml" ? selectedStyling : null}
-                  onClick={() => setSelected("/yml")}
+                  style={selected === '/yml' ? selectedStyling : null}
+                  onClick={() => setSelected('/yml')}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
@@ -238,8 +238,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/volume"
-                  style={selected === "/volume" ? selectedStyling : null}
-                  onClick={() => setSelected("/volume")}
+                  style={selected === '/volume' ? selectedStyling : null}
+                  onClick={() => setSelected('/volume')}
                 >
                   <i className="fas fa-volume-history"></i> Volume History
                 </Link>
@@ -247,8 +247,8 @@ const SysAdmin = (props) => {
               <li>
                 <Link
                   to="/logs"
-                  style={selected === "/logs" ? selectedStyling : null}
-                  onClick={() => setSelected("/logs")}
+                  style={selected === '/logs' ? selectedStyling : null}
+                  onClick={() => setSelected('/logs')}
                 >
                   <i className="fas fa-log"></i> Process Logs
                 </Link>

@@ -45,6 +45,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.2",
     "source-map-support": "^0.5.19",
     "style-loader": "^1.2.1",
     "twilio": "^3.50.0"
@@ -60,7 +61,7 @@
     "babel-polyfill": "^6.26.0",
     "concurrently": "^6.2.0",
     "css-loader": "^4.3.0",
-    "electron": "11.0.0",
+    "electron": "^11.0.0",
     "electron-builder": "^22.4.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-webpack": "^2.8.2",

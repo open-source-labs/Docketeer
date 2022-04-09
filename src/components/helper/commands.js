@@ -331,20 +331,20 @@ export const inspectDockerContainer = (containerId) => {
     console.log(stdout);
   });
 };
-
+/**
+ * Composes container network from passed in yml/yaml file location and name
+ * 
+ * @param {string} fileLocations
+ * @param {string} ymlFileName
+ */
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
-  console.log(' ymlFilename from comands.js:', ymlFileName);
-
   return new Promise((resolve, reject) => {
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
-    console.log('cmd: ', cmd);
-    // const cmd = `cd ${fileLocation} && docker-compose up -d`;
-
+    
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
@@ -549,14 +549,14 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 };
 
 /**
- * Gets container logs from command line
+ * Builds and executes a docker logs command to generate logs
  * 
  * @param {callback} getContainerLogs
- * @param {object} optionsObj 
+ * @param {object} optionsObj
+ * @returns {object} containerLogs
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     inputCommandString += `--since ${optionsObj.since} `;
@@ -571,11 +571,9 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
       console.error(`exec error: ${error}`);
       return;
     }
-
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
-  
   return containerLogs;
 };
 

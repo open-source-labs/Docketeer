@@ -39,8 +39,14 @@ export const makeArrayOfObjects = string => {
       obj.logMsg = logMsg.trim();
     }
     else {
-      obj.logMsg = timeStampLogArray.join(' ').trim();
-      obj.timeStamp = '----';
+      if(timeStampLogArray.join(' ').trim() === ''){
+        obj.timeStamp = '';
+        obj.logMsg = '';
+      }
+      else{
+        obj.logMsg = timeStampLogArray.join(' ').trim();
+        obj.timeStamp = '----';
+      }
     }
     return obj;
   });

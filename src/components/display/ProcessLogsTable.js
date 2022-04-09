@@ -31,8 +31,6 @@ import { SettingsCellOutlined } from '@material-ui/icons';
  * @param {*} props
  */
 
-
-
 const ProcessLogsTable = (props) => {
 
   // useDispatch returns a reference to the dispatch function from the redux store
@@ -140,6 +138,10 @@ const ProcessLogsTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>STDOUT:</TableCell>
+                <TableCell> </TableCell>
+              </TableRow>
+              <TableRow>
                 <TableCell>TimeStamp</TableCell>
                 <TableCell>Log Message</TableCell>
               </TableRow>
@@ -154,6 +156,8 @@ const ProcessLogsTable = (props) => {
         <TableContainer>
           <Table>
             <TableHead>
+              <TableCell>STDERR:</TableCell>
+              <TableCell> </TableCell>
               <TableRow>
                 <TableCell>TimeStamp</TableCell>
                 <TableCell>Log Message</TableCell>

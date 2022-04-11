@@ -285,7 +285,7 @@ const SysAdmin = (props) => {
             <UserList />
           </Route>
           <Route path="/logs">
-            <ProcessLogs 
+            <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}

@@ -24,6 +24,7 @@ import Containers from "../tabs/Containers";
 import Settings from "../tabs/Settings";
 import VolumeHistory from "../tabs/VolumeHistory";
 import ProcessLogs from "../tabs/ProcessLogs";
+import ProcessLogsTable from "../display/ProcessLogsTable";
 
 // helper function imports
 import startNotificationRequester from "../helper/notificationsRequester";
@@ -186,7 +187,7 @@ const AdminView = (props) => {
                   style={selected === "/volume" ? selectedStyling : null}
                   onClick={() => setSelected("/volume")}
                 >
-                  <i className="fas fa-file-upload"></i> Volume History
+                  <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
               <li>
@@ -195,7 +196,7 @@ const AdminView = (props) => {
                   style={selected === "/logs" ? selectedStyling : null}
                   onClick={() => setSelected("/logs")}
                 >
-                  <i className="fas fa-file-upload"></i> Process Logs
+                  <i className="fas fa-log"></i> Process Logs
                 </Link>
               </li>
             </ul>
@@ -227,7 +228,22 @@ const AdminView = (props) => {
             <Metrics runningList={runningList} />
           </Route>
           <Route path="/logs">
-            <ProcessLogs />
+            <ProcessLogs 
+              runIm={helper.runIm}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              runningList={runningList}
+              addRunningContainers={addRunningContainers}
+              // Stopped Containers
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
+            />
+          </Route>
+          <Route path="/logTable/:containerId" >
+            <ProcessLogsTable />
           </Route>
           <Route path="/yml">
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />

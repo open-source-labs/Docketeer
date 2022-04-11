@@ -40,6 +40,3 @@ ProcessLogsCard.propTypes = {
 
 export default ProcessLogsCard;
 
-// Line 14, conditional statement was added because of difference in property name. 
-// runningList.Container has "Name" property while StoppedList.container has "Names"
-// It is best to correct this inconsistency to remove the conditional statement. 

@@ -1,19 +1,19 @@
 // module imports
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   HashRouter as Router,
   Switch,
   Route,
   Link,
   Redirect,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 // static imports
-import * as actions from "../../actions/actions";
-import * as helper from "../helper/commands";
-import * as history from "../helper/volumeHistoryHelper";
-import Docketeer from "../../../assets/docketeer-title.png";
+import * as actions from '../../actions/actions';
+import * as helper from '../helper/commands';
+import * as history from '../helper/volumeHistoryHelper';
+import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from "../tabs/Metrics";
@@ -26,8 +26,8 @@ import ProcessLogs from "../tabs/ProcessLogs";
 import ProcessLogsTable from "../display/ProcessLogsTable";
 
 // helper function imports
-import startNotificationRequester from "../helper/notificationsRequester";
-import initDatabase from "../helper/initDatabase";
+import startNotificationRequester from '../helper/notificationsRequester';
+import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {
@@ -80,7 +80,7 @@ const UserView = (props) => {
   );
 
   // declare a local state variable called selected, initialize to "/"
-  const [selected, setSelected] = useState("/");
+  const [selected, setSelected] = useState('/');
   // const [ loggedIn, setLoggedIn ] = useState(true);
 
   const handleLogout = (e) => {
@@ -120,26 +120,26 @@ const UserView = (props) => {
   }, []);
 
   const selectedStyling = {
-    background: "#e1e4e6",
-    color: "#042331",
-    borderTopRightRadius: "10px",
-    borderBottomRightRadius: "10px",
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
   };
 
   return (
     <Router>
-      <div className="container">
-        <nav className="tab">
-          <header id="title">
+      <div className='container'>
+        <nav className='tab'>
+          <header id='title'>
             <img src={Docketeer} width={160} />
           </header>
-          <div className="viewsAndButton">
+          <div className='viewsAndButton'>
             <ul>
               <li>
                 <Link
-                  to="/app"
-                  style={selected === "/" ? selectedStyling : null}
-                  onClick={() => setSelected("/")}
+                  to='/app'
+                  style={selected === '/' ? selectedStyling : null}
+                  onClick={() => setSelected('/')}
                 >
                   <i className="fas fa-settings"></i> Settings
                 </Link>
@@ -147,53 +147,53 @@ const UserView = (props) => {
               <li>
                 <Link
                   to="/running"
-                  style={selected === "/running" ? selectedStyling : null}
-                  onClick={() => setSelected(() => "/running")}
+                  style={selected === '/running' ? selectedStyling : null}
+                  onClick={() => setSelected(() => '/running')}
                 >
-                  <i className="fas fa-box-open"></i> Containers
+                  <i className='fas fa-box-open'></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/images"
-                  style={selected === "/images" ? selectedStyling : null}
-                  onClick={() => setSelected("/images")}
+                  to='/images'
+                  style={selected === '/images' ? selectedStyling : null}
+                  onClick={() => setSelected('/images')}
                 >
-                  <i className="fas fa-database"></i> Images
+                  <i className='fas fa-database'></i> Images
                 </Link>
               </li>
               <li>
                 <Link
                   to="/metrics"
-                  style={selected === "/metrics" ? selectedStyling : null}
-                  onClick={() => setSelected("/metrics")}
+                  style={selected === '/metrics' ? selectedStyling : null}
+                  onClick={() => setSelected('/metrics')}
                 >
-                  <i className="fas fa-chart-pie"></i> Metrics
+                  <i className='fas fa-chart-pie'></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/yml"
-                  style={selected === "/yml" ? selectedStyling : null}
-                  onClick={() => setSelected("/yml")}
+                  to='/yml'
+                  style={selected === '/yml' ? selectedStyling : null}
+                  onClick={() => setSelected('/yml')}
                 >
-                  <i className="fas fa-file-upload"></i> Docker Compose
+                  <i className='fas fa-file-upload'></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/volume"
-                  style={selected === "/volume" ? selectedStyling : null}
-                  onClick={() => setSelected("/volume")}
+                  to='/volume'
+                  style={selected === '/volume' ? selectedStyling : null}
+                  onClick={() => setSelected('/volume')}
                 >
                   <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/logs"
-                  style={selected === "/logs" ? selectedStyling : null}
-                  onClick={() => setSelected("/logs")}
+                  to='/logs'
+                  style={selected === '/logs' ? selectedStyling : null}
+                  onClick={() => setSelected('/logs')}
                 >
                   <i className="fas fa-log"></i> Process Logs
                 </Link>
@@ -201,13 +201,13 @@ const UserView = (props) => {
             </ul>
             <div>
               <button
-                className="btn"
+                className='btn'
                 onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
               </button>
               <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
+              <button className='btn' onClick={(e) => handleLogout(e)}>
                 Logout
               </button>
             </div>
@@ -217,13 +217,13 @@ const UserView = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/volume">
+          <Route path='/volume'>
             <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
           </Route>
-          <Route path="/metrics">
+          <Route path='/metrics'>
             <Metrics runningList={runningList} />
           </Route>
           <Route path="/logs">
@@ -244,10 +244,10 @@ const UserView = (props) => {
           <Route path="/logTable/:containerId" >
             <ProcessLogsTable />
           </Route>
-          <Route path="/yml">
+          <Route path='/yml'>
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
-          <Route path="/images">
+          <Route path='/images'>
             <ImagesUser
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -257,7 +257,7 @@ const UserView = (props) => {
               runningList={runningList}
             />
           </Route>
-          <Route path="/running">
+          <Route path='/running'>
             <ContainersUser
               runIm={helper.runIm}
               stop={helper.stop}
@@ -272,7 +272,7 @@ const UserView = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path="/">
+          <Route path='/'>
             <Settings
               runningList={runningList}
               stop={helper.stop}

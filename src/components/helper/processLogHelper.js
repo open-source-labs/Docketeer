@@ -3,23 +3,23 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 
 
-// nicolaka containerId: '7c42396fd211'
-
-// helper function to build options object based on the radio button selected on the process logs tab
+/**
+ * Use user input to build options object to pass to getLogs()
+ * 
+ * @param {string} containerId
+ * @returns {object} optionsObj
+ */
 export const buildOptionsObj = containerId => {
 
   const optionsObj = {
     containerId: containerId
   };
     
-  // check if current logs options checked
-
-  // check if since option checked
   if (document.getElementById('sinceInput').checked) {
-    const sinceValue = document.getElementById('sinceText').value; // 00h00m00s
+    const sinceValue = document.getElementById('sinceText').value;
     optionsObj.since = sinceValue;
   }
-  // check if tail option checked
+  
   else if (document.getElementById('tailInput').checked) {
     const tailValue = document.getElementById('tailText').value;
     optionsObj.tail = tailValue;
@@ -27,7 +27,12 @@ export const buildOptionsObj = containerId => {
   return optionsObj;
 };
 
-// makeArrayOfObjects transforms input string (where string is a batch of logs) to an array of objects: [{logmsg:..., timestamp:...}, {logmsg:..., timestamp:...}, ...]
+
+/**
+ * Transforms batch of logs, as string, to array of objects [{logmsg:..., timestamp:...}, {logmsg:..., timestamp:...}, ...]. * Called by getLogs()
+ * @param {string} string
+ * @returns {array} arrayOfObjects
+ */
 export const makeArrayOfObjects = string => {
   const arrayOfObjects = string.trim().split('\n').map((element) => {
     const obj = {};
@@ -39,8 +44,14 @@ export const makeArrayOfObjects = string => {
       obj.logMsg = logMsg.trim();
     }
     else {
-      obj.logMsg = timeStampLogArray.join(' ').trim();
-      obj.timeStamp = '----';
+      if(timeStampLogArray.join(' ').trim() === ''){
+        obj.timeStamp = '';
+        obj.logMsg = '';
+      }
+      else{
+        obj.logMsg = timeStampLogArray.join(' ').trim();
+        obj.timeStamp = '----';
+      }
     }
     return obj;
   });

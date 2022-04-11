@@ -148,7 +148,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  exec(`docker images`, (error, stdout, stderr) => {
+  exec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -331,11 +331,20 @@ export const inspectDockerContainer = (containerId) => {
     console.log(stdout);
   });
 };
-
-export const dockerComposeUp = (fileLocation) => {
+/**
+ * Composes container network from passed in yml/yaml file location and name
+ * 
+ * @param {string} fileLocations
+ * @param {string} ymlFileName
+ */
+export const dockerComposeUp = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-    const cmd = `cd ${fileLocation} && docker-compose up -d`;
-
+    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
+    let cmd = `cd ${fileLocation} && docker-compose up -d`;
+    if (!nativeYmlFilenames.includes(ymlFileName)) {
+      cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
+    }
+    
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
@@ -353,8 +362,8 @@ export const dockerComposeUp = (fileLocation) => {
   });
 };
 
-export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
-  if (getComposeStacksReducer && filePath) {
+export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
+  if (getContainerStacks && filePath ) {
     exec(
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
@@ -371,9 +380,10 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
           .slice(0, -1)
           .replaceAll(' ', '')}]`;
         const parseDockerOutput = JSON.parse(dockerOutput);
+        console.log('parseDockerOutput ', parseDockerOutput);
         parseDockerOutput[parseDockerOutput.length - 1].FilePath = filePath;
-
-        getComposeStacksReducer(parseDockerOutput);
+        parseDockerOutput[parseDockerOutput.length - 1].YmlFileName = ymlFileName;
+        getContainerStacks(parseDockerOutput);
       }
     );
   } else {
@@ -394,7 +404,7 @@ export const dockerComposeStacks = (getComposeStacksReducer, filePath) => {
           .replaceAll(' ', '')}]`;
         
         const parseDockerOutput = JSON.parse(dockerOutput);
-        getComposeStacksReducer(parseDockerOutput);
+        getContainerStacks(parseDockerOutput);
       }
     );
   }
@@ -539,17 +549,16 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 };
 
 /**
- * Gets container logs from command line
+ * Builds and executes a docker logs command to generate logs
  * 
  * @param {callback} getContainerLogs
- * @param {object} optionsObj 
+ * @param {object} optionsObj
+ * @returns {object} containerLogs
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
-    // console.log(optionsObj.since);
     inputCommandString += `--since ${optionsObj.since} `;
   }
   optionsObj.tail ? inputCommandString += `--tail ${optionsObj.tail} ` : inputCommandString += '--tail 50 ';
@@ -562,16 +571,10 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
       console.error(`exec error: ${error}`);
       return;
     }
-
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
-
-  console.log('containerLogs being returned in commands.js line: ', containerLogs);
-  
-  // return the invocation of the getContainerLogs dispatch function, passing in the payload
-  // return getContainerLogsDispatcher(containerLogs);
-  return containerLogs
+  return containerLogs;
 };
 
 

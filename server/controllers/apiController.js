@@ -9,13 +9,13 @@ const apiController = {};
 
 // create transporter object
 const transporter = nodemailer.createTransport({
-  host: email.host,
-  port: email.port,
-  secure: true,
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: email.username,
-    pass: email.password
-  }
+    pass: email.password,
+  },
 });
 
 // sends notification email when container issue occurs
@@ -47,31 +47,33 @@ apiController.sendEmailAlert = (req, res, next) => {
     from: 'team.docketeer@gmail.com',
     to: email,
     subject: 'Docketeer: Container Issue',
-    html: `${emailBody}`
+    html: `${emailBody}`,
   };
 
-  transporter.sendMail(mailDetails)
+  transporter
+    .sendMail(mailDetails)
     .then((info) => {
       return next();
     })
     .catch((err) => {
       return next({
         log: `Error in apiController sendEmailAlert: ${err}`,
-        message: { err: 'An error occured creating new user in database. See apiController.sendEmailAlert.' },
+        message: {
+          err: 'An error occured creating new user in database. See apiController.sendEmailAlert.',
+        },
       });
     });
 };
 
 // sends email with username/password when user signs up
 apiController.signupEmail = (req, res, next) => {
-
   const { email, username, password } = req.body;
 
   const mailDetails = {
     from: 'team.docketeer@gmail.com',
     to: email,
     subject: 'Docketeer: Account Details',
-    html:`
+    html: `
       <h1>Welcome to Docketeer</h1>
       <p>We are so excited to have you onboard!</p>
       <h3>Username: ${username}</h3>
@@ -79,17 +81,20 @@ apiController.signupEmail = (req, res, next) => {
       <p>For any questions or concerns, please reach out to us at team.docketeer@gmail.com.</p>
       <br/>
       <p>Warmest regards,</p>
-      <p>Team Docketeer</p>`
+      <p>Team Docketeer</p>`,
   };
 
-  transporter.sendMail(mailDetails)
+  transporter
+    .sendMail(mailDetails)
     .then((info) => {
       return next();
     })
     .catch((err) => {
       return next({
         log: `Error in apiController signupEmail: ${err}`,
-        message: { err: 'An error occured creating new user in database. See apiController.signupEmail.' },
+        message: {
+          err: 'An error occured creating new user in database. See apiController.signupEmail.',
+        },
       });
     });
 };

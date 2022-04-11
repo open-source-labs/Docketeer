@@ -25,7 +25,6 @@ import Settings from "../tabs/Settings";
 import UserList from "../tabs/Users";
 import VolumeHistory from "../tabs/VolumeHistory";
 import ProcessLogs from "../tabs/ProcessLogs";
-// import ContainerLogsOutput from "../tabs/ProcessLogsTable";
 import ProcessLogsTable from "../display/ProcessLogsTable";
 
 // helper function imports

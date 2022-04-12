@@ -112,6 +112,8 @@ const Yml = () => {
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
 
+        console.log('directoryPath from YML.js', directoryPath);
+
         // old code:
         // const directoryPath = filePath.replace('/docker-compose.yml', '');
         // setFilePath(directoryPath);
@@ -124,7 +126,8 @@ const Yml = () => {
 
   const TableData = () => {
     return composeStack.map((container, index) => {
-      console.log('container.FilePath ', container.FilePath);
+      // console.log('container.FilePath from Yml.js composeStack', container.FilePath);
+      // console.log('container.YmlFileName from Yml.js composeStack', container.YmlFileName);
       return (
         <TableRow key={index}>
           <TableCell>
@@ -142,16 +145,16 @@ const Yml = () => {
           <TableCell>
             <span className="container-createdAt">{container.CreatedAt}</span>
           </TableCell>
-          {container.FilePath && (
+          {container.FilePath && container.YmlFileName && (
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
                 onClick={() => {
                   helper
-                    .dockerComposeDown(container.FilePath)
+                    .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        composeDown(container.FilePath);
+                        composeDown({ filePath: container.FilePath, ymlFileName: container.YmlFileName });
                       }
                     })
                     .catch((err) => console.log(err));

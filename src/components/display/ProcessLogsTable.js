@@ -26,6 +26,7 @@ const ProcessLogsTable = (props) => {
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) => dispatch(actions.getContainerLogs(data));
   
+  // Grab container ID from URL parameter
   const urlString = window.location.href;
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
@@ -33,6 +34,7 @@ const ProcessLogsTable = (props) => {
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
+  // Get logs button handler function. Grabs logs and updates component state   
   const handleGetLogs = (e) => {
     const containerId = e.target.id;
     const optionsObj = buildOptionsObj(containerId);

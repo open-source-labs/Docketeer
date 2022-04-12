@@ -17,16 +17,15 @@ import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from '../tabs/Metrics';
-import Images from '../tabs/Images';
-import Yml from '../tabs/Yml';
-import Containers from '../tabs/Containers';
-import Settings from '../tabs/Settings';
-import UserList from '../tabs/Users';
-import VolumeHistory from '../tabs/VolumeHistory';
-import ProcessLogs from '../tabs/ProcessLogs';
-// import ContainerLogsOutput from "../tabs/ProcessLogsTable";
-import ProcessLogsTable from '../display/ProcessLogsTable';
+import Metrics from "../tabs/Metrics";
+import Images from "../tabs/Images";
+import Yml from "../tabs/Yml";
+import Containers from "../tabs/Containers";
+import Settings from "../tabs/Settings";
+import UserList from "../tabs/Users";
+import VolumeHistory from "../tabs/VolumeHistory";
+import ProcessLogs from "../tabs/ProcessLogs";
+import ProcessLogsTable from "../display/ProcessLogsTable";
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -285,7 +284,7 @@ const SysAdmin = (props) => {
             <UserList />
           </Route>
           <Route path="/logs">
-            <ProcessLogs 
+            <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}

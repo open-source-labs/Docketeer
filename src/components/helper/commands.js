@@ -333,21 +333,29 @@ export const inspectDockerContainer = (containerId) => {
     console.log(stdout);
   });
 };
-
+/**
+ * Composes container network from passed in yml/yaml file location and name
+ * 
+ * @param {string} fileLocations
+ * @param {string} ymlFileName
+ */
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
+<<<<<<< HEAD
 <<<<<<< HEAD
   console.log(' ymlFilename from comands.js', ymlFileName);
 =======
   console.log(' ymlFilename from comands.js:', ymlFileName);
 >>>>>>> adf7fc96a42fd44639fce4ac3446784ae7037442
 
+=======
+>>>>>>> b6c1acfbd89901a9bae8989975b58d2c0210055a
   return new Promise((resolve, reject) => {
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
     console.log('cmd, ', cmd);
 =======
@@ -355,6 +363,9 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
 >>>>>>> adf7fc96a42fd44639fce4ac3446784ae7037442
     // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
+=======
+    
+>>>>>>> b6c1acfbd89901a9bae8989975b58d2c0210055a
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
@@ -559,14 +570,14 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 };
 
 /**
- * Gets container logs from command line
+ * Builds and executes a docker logs command to generate logs
  * 
  * @param {callback} getContainerLogs
- * @param {object} optionsObj 
+ * @param {object} optionsObj
+ * @returns {object} containerLogs
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     inputCommandString += `--since ${optionsObj.since} `;
@@ -581,11 +592,9 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
       console.error(`exec error: ${error}`);
       return;
     }
-
     containerLogs.stdout = makeArrayOfObjects(stdout);
     containerLogs.stderr = makeArrayOfObjects(stderr);
   });
-  
   return containerLogs;
 };
 

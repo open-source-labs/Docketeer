@@ -106,21 +106,13 @@ const Yml = () => {
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
         console.log('ymlFileName from YML.js', ymlFileName);
-<<<<<<< HEAD
-        console.log('filePath from YML.js', filePath)
-=======
         console.log('filePath from YML.js', filePath);
->>>>>>> master
         
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
 
-<<<<<<< HEAD
-      // old code:
-=======
         // old code:
->>>>>>> master
         // const directoryPath = filePath.replace('/docker-compose.yml', '');
         // setFilePath(directoryPath);
 
@@ -195,15 +187,9 @@ const Yml = () => {
             className="btn"
             onClick={() => {
               helper
-<<<<<<< HEAD
-                .dockerComposeUp(filePath, ymlFileName) // dockerComposeUp(filePath, ymlFileName)
-                .then((res) => {
-                  if (res) { // may need to add parameter passing in ymlFileName
-=======
                 .dockerComposeUp(filePath, ymlFileName) 
                 .then((res) => {
                   if (res) { 
->>>>>>> master
                     helper.dockerComposeStacks(getContainerStacks, filePath, ymlFileName);
                     setYmlFile('');
                     setFilePath('');

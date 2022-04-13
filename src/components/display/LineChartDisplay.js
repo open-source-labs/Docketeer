@@ -130,7 +130,7 @@ const Metrics = (props) => {
 
       return obj;
     };
-    //Datastructure for Bargraph
+    // Datastructure for Bargraph
     const buildBarGraphObj = (containerName) => {
       const obj = {
         label: containerName,

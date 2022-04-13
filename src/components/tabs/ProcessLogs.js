@@ -13,21 +13,27 @@ import ProcessLogsCard from '../display/ProcessLogsCard';
 
 
 const ProcessLogs = (props) => {
-
+  
+  // populate running containers. Needs unique keys
   const renderRunningList = [];
   props.runningList.map((container, index) => {
     renderRunningList.push(
       <Link to={`/LogTable/${container.ID}`}> 
-      {/* <Link to='/logTable'> */}
         <ProcessLogsCard index={index} container={container} key={container.ID} status="Running" />
       </Link>
     );
   });
 
-
+  // Populate stopped containers. Needs unique keys
   const renderStoppedList = [];
   props.stoppedList.map((container, index) => {
-    renderStoppedList.push(<ProcessLogsCard index={index} container={container} status="Stopped" />);
+    
+    renderStoppedList.push(
+      <Link to={`/LogTable/${container.ID}`}> 
+        <ProcessLogsCard index={index} container={container} status="Stopped" />
+      </Link>
+    );
+    
   });
 
   return (

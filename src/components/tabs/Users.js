@@ -66,24 +66,36 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
-        aria-label="first page"
+        aria-label='first page'
       >
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label='previous page'
+      >
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
+        aria-label='next page'
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
+        aria-label='last page'
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -100,29 +112,30 @@ TablePaginationActions.propTypes = {
 };
 
 const UserTable = () => {
-
   const classes = useStyles();
   const rows = useSelector((state) => state.userList.userList);
   const dispatch = useDispatch();
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
 
   const tempSelected = {};
-  for (let i = 0; i < rows.length; i++){
-    tempSelected[rows[i]._id] = (rows[i].role === 'admin' || rows[i].role === 'sysadmin');
+  for (let i = 0; i < rows.length; i++) {
+    tempSelected[rows[i]._id] =
+      rows[i].role === 'admin' || rows[i].role === 'sysadmin';
   }
 
   // Local state variables for table pagination
-  const [ page, setPage ] = useState(0);
-  const [ rowsPerPage, setRowsPerPage ] = useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Local state variable to keep track of which admin checkboxes are selected
-  const [ selected, setSelected ] = React.useState(tempSelected);
+  const [selected, setSelected] = React.useState(tempSelected);
 
   // Determine how many empty rows to display on a certain page, e.g. if rowsPerPage = 5, and there are only 3 rows, should display 2 rows
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   // Update local state variable page upon clicking a new page
-  const handleChangePage = ( event, newPage) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   // Update local state variable rowsPerPage upon selecting new number of rows to be displayed
@@ -130,13 +143,13 @@ const UserTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
- 
+
   const handleCheckboxClick = (event) => {
     // event persist is required to access target property of event. Without this, a synthetic event object would be used where target is re-assigned to null for performance reasons
     event.persist();
 
     const id = event.target.getAttribute('id');
-    const invertPreviousValue = (!selected[id]);
+    const invertPreviousValue = !selected[id];
 
     // create temporary copy of selected object
     const temp = {
@@ -149,18 +162,16 @@ const UserTable = () => {
     setSelected(temp);
 
     // send request to endpoint http://localhost:3000/admin/switch
-    fetch('http://localhost:3000/admin/switch', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id: id,
-          changeToAdmin: invertPreviousValue,
-          
-        })
-      })
+    fetch('http://localhost:3000/admin/switch', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: id,
+        changeToAdmin: invertPreviousValue,
+      }),
+    })
       .then((response) => {
         return response.json();
       })
@@ -177,17 +188,23 @@ const UserTable = () => {
       });
   };
 
+  // To get an array of user objects
+  const renderRows =
+    rowsPerPage > 0
+      ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      : rows;
+
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Users</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Users</h1>
       </div>
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>List of Users in Docketeer</h3>
       </div>
-      <div className="settings-containers">
+      <div className='settings-containers'>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
+          <Table className={classes.table} aria-label='simple table'>
             <TableHead>
               <TableRow>
                 <TableCell>id</TableCell>
@@ -202,39 +219,35 @@ const UserTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(rowsPerPage > 0
-                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : rows
-              ).map((row, index) => {
-                // const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow 
-                    key={row._id}
-                    hover
-                  >
-                    <TableCell component="th" scope="row">
-                      {row._id}
-                    </TableCell>
-                    <TableCell>{row.username}</TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.role}</TableCell>
-                    <TableCell>{row.contact_pref}</TableCell>
-                    <TableCell>{row.mem_threshold}</TableCell>
-                    <TableCell>{row.cpu_threshold}</TableCell>
-                    <TableCell>
-                      <Checkbox 
-                        id={`${row._id}`}
-                        userid={`${row._id}`}
-                        checked={selected[row._id]}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        onChange={handleCheckboxClick}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );})}
-              
+              {renderRows.length > 0
+                ? renderRows.map((row, index) => {
+                    // const isItemSelected = isSelected(row.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow key={row._id} hover>
+                        <TableCell component='th' scope='row'>
+                          {row._id}
+                        </TableCell>
+                        <TableCell>{row.username}</TableCell>
+                        <TableCell>{row.email}</TableCell>
+                        <TableCell>{row.phone}</TableCell>
+                        <TableCell>{row.role}</TableCell>
+                        <TableCell>{row.contact_pref}</TableCell>
+                        <TableCell>{row.mem_threshold}</TableCell>
+                        <TableCell>{row.cpu_threshold}</TableCell>
+                        <TableCell>
+                          <Checkbox
+                            id={`${row._id}`}
+                            userid={`${row._id}`}
+                            checked={selected[row._id]}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onChange={handleCheckboxClick}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                : ''}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -257,7 +270,7 @@ const UserTable = () => {
           </Table>
         </TableContainer>
       </div>
-      <br/>
+      <br />
       <NewUserDisplay />
     </div>
   );

@@ -74,22 +74,6 @@ const Yml = () => {
       return false;
     };
 
-    // holder.ondrop = (e) => {
-    //   e.preventDefault();
-    //   let fileList = e.dataTransfer.files;
-    //   if (fileList.length > 1) return;
-    //   if (fileList[0].type === "application/x-yaml") {
-    //     let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
-    //     const filteredArr = filePath.split("/");
-    //     filteredArr.pop();
-    //     let filteredPath = filteredArr.join("/");
-    //     setFilepath(filteredPath);
-    //     setfileList(fileList[0].name);
-    //   }
-    //   return false;
-    // };
-
-    // gets yml filename and directory when file is uploaded on docker compose page
     uploadHolder.onchange = (e) => {
       e.preventDefault();
       if (
@@ -147,7 +131,10 @@ const Yml = () => {
                     .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        composeDown({ filePath: container.FilePath, ymlFileName: container.YmlFileName });
+                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);
+                        setYmlFile('');
+                        setFilePath('');
+                        setYmlFileName('');
                       }
                     })
                     .catch((err) => console.log(err));

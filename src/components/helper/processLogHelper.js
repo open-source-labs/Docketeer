@@ -2,24 +2,23 @@ import { getLogs } from './commands';
 import { useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 
+ 
+/**
+ * Helper function to build options object based on the radio button selected in the process logs tab
+ * 
+ * @param {*} containerId
+ */
 
-// nicolaka containerId: '7c42396fd211'
-
-// helper function to build options object based on the radio button selected on the process logs tab
 export const buildOptionsObj = containerId => {
 
   const optionsObj = {
     containerId: containerId
   };
-    
-  // check if current logs options checked
 
-  // check if since option checked
   if (document.getElementById('sinceInput').checked) {
     const sinceValue = document.getElementById('sinceText').value; // 00h00m00s
     optionsObj.since = sinceValue;
   }
-  // check if tail option checked
   else if (document.getElementById('tailInput').checked) {
     const tailValue = document.getElementById('tailText').value;
     optionsObj.tail = tailValue;
@@ -27,7 +26,12 @@ export const buildOptionsObj = containerId => {
   return optionsObj;
 };
 
-// makeArrayOfObjects transforms input string (where string is a batch of logs) to an array of objects: [{logmsg:..., timestamp:...}, {logmsg:..., timestamp:...}, ...]
+/**
+ * Helper function to transform input string (where string is a batch of logs) to an array of log objects
+ * 
+ * @param {*} string
+ */
+
 export const makeArrayOfObjects = string => {
   const arrayOfObjects = string.trim().split('\n').map((element) => {
     const obj = {};

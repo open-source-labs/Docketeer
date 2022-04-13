@@ -12,10 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 /**
- * Displays all docker-compose network; drag and drop or upload functionality
+ * Displays all running docker-compose container networks; drag and drop or upload functionality
  * 
  * @param {*} props
  */
+
 const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
@@ -53,8 +54,9 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
-  // when component mounts, useEffect runs cb passed in as the first argument
+  
   useEffect(() => {
+    // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
 
     const holder = document.getElementById('drag-file');
@@ -87,6 +89,7 @@ const Yml = () => {
     //   return false;
     // };
 
+    // gets yml filename and directory when file is uploaded on docker compose page
     uploadHolder.onchange = (e) => {
       e.preventDefault();
       if (
@@ -102,32 +105,20 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        // new code Austin and christina:
+        // get yml file name from the filepath for composing up a new container network 
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
-        console.log('ymlFileName from YML.js', ymlFileName);
-        console.log('filePath from YML.js', filePath);
         
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
-
-        console.log('directoryPath from YML.js', directoryPath);
-
-        // old code:
-        // const directoryPath = filePath.replace('/docker-compose.yml', '');
-        // setFilePath(directoryPath);
-
-      }
-    }
+      };
+    };
   }, []);
   
-
-
+  // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
-      // console.log('container.FilePath from Yml.js composeStack', container.FilePath);
-      // console.log('container.YmlFileName from Yml.js composeStack', container.YmlFileName);
       return (
         <TableRow key={index}>
           <TableCell>
@@ -146,6 +137,8 @@ const Yml = () => {
             <span className="container-createdAt">{container.CreatedAt}</span>
           </TableCell>
           {container.FilePath && container.YmlFileName && (
+            // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
+            // only the containers composed up from the application will have a compose down button 
             <TableCell className="btn-compose-up">
               <button
                 className="btn"

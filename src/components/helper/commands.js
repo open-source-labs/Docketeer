@@ -255,10 +255,11 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 };
 
 /**
- * Handling System Prune
+ * Handles System Prune
  * 
  * @param {*} e
  */
+
 export const handlePruneClick = (e) => {
   e.preventDefault();
   exec('docker system prune --force', (error, stdout, stderr) => {
@@ -278,6 +279,7 @@ export const handlePruneClick = (e) => {
  * 
  * @param {*} repo
  */
+
 export const pullImage = (repo) => {
   exec(`docker pull ${repo}`, (error, stdout, stderr) => {
     if (error) {
@@ -296,8 +298,8 @@ export const pullImage = (repo) => {
  * 
  * @param {*} getNetworkContainers
  */
+
 export const networkContainers = (getNetworkContainers) => {
-  // exec("docker network ls", (error, stdout, stderr) => {
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
       console.log(`networkContainers error: ${error.message}`);
@@ -307,14 +309,13 @@ export const networkContainers = (getNetworkContainers) => {
       console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
-    console.log('stdout in networkContainer helper fn', stdout);
+    
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
-    console.log('dockerOutput in networkContainer helper fn', dockerOutput );
+
     // remove docker network defaults named: bridge, host, and none
     const networkContainers = JSON.parse(dockerOutput).filter(
       ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
     );
-    console.log('networkContainers in networkContainer helper fn', networkContainers);
 
     getNetworkContainers(networkContainers);
   });
@@ -334,18 +335,21 @@ export const inspectDockerContainer = (containerId) => {
   });
 };
 
+/**
+ * Compose up a docker container network 
+ * 
+ * @param {*} fileLocation
+ * @param {*} ymlFileName
+ */
+
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
   console.log(' ymlFilename from comands.js:', ymlFileName);
 
   return new Promise((resolve, reject) => {
-   
-    // const cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
-    // // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
-
+    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
@@ -367,6 +371,14 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
   });
 };
 
+/**
+ * Get list of running container networks
+ * 
+ * @param {*} getContainerStacks
+ * @param {*} filePath
+ * @param {*} ymlFileName
+ */
+
 export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
   let parseDockerOutput;
 
@@ -381,16 +393,18 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
         console.log(`dockerComposeStacks stderr: ${stderr}`);
         return;
       }
-      // console.log('stdout from dockerComposeStacks', dockerComposeStacks);
+      
+      // create array of running container network objects 
+      // the array is sorted in alphabetical order based on network Name
       const dockerOutput = `[${stdout
         .trim()
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       parseDockerOutput = JSON.parse(dockerOutput);
-      console.log('parseDockerOutput inside exec function', parseDockerOutput);
 
+      // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
       if (filePath && ymlFileName) {
-        const directoryNameArray = filePath.split('/')
+        const directoryNameArray = filePath.split('/');
         const containerNetworkName = directoryNameArray[directoryNameArray.length - 1].concat('_default');
     
         parseDockerOutput.forEach(obj => {
@@ -407,63 +421,19 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
   
 };
 
-// export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
-//   if (getContainerStacks && filePath) {
-//     exec(
-//       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
-//       (error, stdout, stderr) => {
-//         if (error) {
-//           console.log(`dockerComposeStacks error: ${error.message}`);
-//           return;
-//         }
-//         if (stderr) {
-//           console.log(`dockerComposeStacks stderr: ${stderr}`);
-//           return;
-//         }
-//         const dockerOutput = `[${stdout
-//           .trim()
-//           .slice(0, -1)
-//           .replaceAll(' ', '')}]`;
-//         const parseDockerOutput = JSON.parse(dockerOutput);
-//         console.log('parseDockerOutput ', parseDockerOutput);
-//         parseDockerOutput[parseDockerOutput.length - 1].FilePath = filePath;
-//         parseDockerOutput[parseDockerOutput.length - 1].YmlFileName = ymlFileName;
-//         getContainerStacks(parseDockerOutput);
-//       }
-//     );
-//   } else {
-//     exec(
-//       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
-//       (error, stdout, stderr) => {
-//         if (error) {
-//           console.log(`dockerComposeStacks error: ${error.message}`);
-//           return;
-//         }
-//         if (stderr) {
-//           console.log(`dockerComposeStacks stderr: ${stderr}`);
-//           return;
-//         }
-//         const dockerOutput = `[${stdout
-//           .trim()
-//           .slice(0, -1)
-//           .replaceAll(' ', '')}]`;
-
-//         const parseDockerOutput = JSON.parse(dockerOutput);
-//         getContainerStacks(parseDockerOutput);
-//       }
-//     );
-//   }
-// };
+/**
+ * Compose down selected container network
+ * 
+ * @param {*} fileLocation
+ * @param {*} ymlFileName
+ */
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-    // const cmd = `cd ${filePath} && docker-compose -f ${ymlFileName} down`;
-    // // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     let cmd = `cd ${fileLocation} && docker-compose down`;
-
+    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename   
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} down`;
     }
@@ -487,8 +457,9 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 };
 
 /**
- * Writes metrics stats into database
+ * Writes metric stats into database
  */
+
 export const writeToDb = () => {
   const interval = 300000;
   setInterval(() => {
@@ -551,6 +522,7 @@ export const getContainerGitUrl = (container) => {
  * 
  * @param {*} getVolumeList
  */
+
 export const getAllDockerVolumes = (getVolumeList) => {
   exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
@@ -579,6 +551,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
  * @param {string} volumeName
  * @param {callback} getVolumeContainersList
  */
+
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
     (error, stdout, stderr) => {
@@ -610,6 +583,7 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
+  
   // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {

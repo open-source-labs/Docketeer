@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../actions/actions";
-import * as helper from "../helper/commands";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../../actions/actions';
+import * as helper from '../helper/commands';
 
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 /**
- * Displays all docker-compose network; drag and drop or upload functionality
+ * Displays all running docker-compose container networks; drag and drop or upload functionality
  * 
  * @param {*} props
  */
+
 const useStyles = makeStyles(() => ({
   root: {
-    "& .MuiTextField-root": {
+    '& .MuiTextField-root': {
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: "middle",
+      verticalAlign: 'middle',
     },
   },
   button: {
     marginLeft: 5,
     width: 100,
-    verticalAlign: "top",
+    verticalAlign: 'top',
   },
   verifiedIcon: {
-    verticalAlign: "top",
-    color: "green",
+    verticalAlign: 'top',
+    color: 'green',
   },
   description: {
     marginLeft: 5,
@@ -42,8 +43,9 @@ const useStyles = makeStyles(() => ({
 
 const Yml = () => {
   const classes = useStyles();
-  const [filePath, setFilePath] = useState("");
-  const [ymlFile, setYmlFile] = useState("");
+  const [filePath, setFilePath] = useState('');
+  const [ymlFile, setYmlFile] = useState('');
+  const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
   const dispatch = useDispatch();
 
   const composeStack = useSelector((state) => state.networkList.composeStack);
@@ -52,44 +54,31 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
+  
   useEffect(() => {
+    // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
 
-    let holder = document.getElementById("drag-file");
-    let uploadHolder = document.getElementById("uploadFile");
+    const holder = document.getElementById('drag-file');
+    const uploadHolder = document.getElementById('uploadFile');
 
     holder.ondragover = () => {
-      holder.style = "background-color: #EDEDED";
+      holder.style = 'background-color: #EDEDED';
       return false;
     };
     holder.ondragleave = () => {
-      holder.style = "background-color: white";
+      holder.style = 'background-color: white';
       return false;
     };
     holder.ondragend = () => {
       return false;
     };
 
-    // holder.ondrop = (e) => {
-    //   e.preventDefault();
-    //   let fileList = e.dataTransfer.files;
-    //   if (fileList.length > 1) return;
-    //   if (fileList[0].type === "application/x-yaml") {
-    //     let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
-    //     const filteredArr = filePath.split("/");
-    //     filteredArr.pop();
-    //     let filteredPath = filteredArr.join("/");
-    //     setFilepath(filteredPath);
-    //     setfileList(fileList[0].name);
-    //   }
-    //   return false;
-    // };
-
     uploadHolder.onchange = (e) => {
       e.preventDefault();
       if (
         e.target.files.length &&
-        e.target.files[0].type === "application/x-yaml"
+        e.target.files[0].type === 'application/x-yaml'
       ) {
         const ymlFile = e.target.files[0];
         const filePath = e.target.files[0].path;
@@ -100,12 +89,18 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        const directoryPath = filePath.replace("/docker-compose.yml", "");
+        // get yml file name from the filepath for composing up a new container network 
+        const ymlRegex = /\/docker-compose.*.yml/;
+        const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
+        
+        const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
-      }
+        setYmlFileName(ymlFileName);
+      };
     };
   }, []);
-
+  
+  // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
       return (
@@ -123,18 +118,23 @@ const Yml = () => {
             <span className="container-scope">{container.Scope}</span>
           </TableCell>
           <TableCell>
-            <span className="container-scope">{container.CreatedAt}</span>
+            <span className="container-createdAt">{container.CreatedAt}</span>
           </TableCell>
-          {container.FilePath && (
+          {container.FilePath && container.YmlFileName && (
+            // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
+            // only the containers composed up from the application will have a compose down button 
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
                 onClick={() => {
                   helper
-                    .dockerComposeDown(container.FilePath)
+                    .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        composeDown(container.FilePath);
+                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);
+                        setYmlFile('');
+                        setFilePath('');
+                        setYmlFileName('');
                       }
                     })
                     .catch((err) => console.log(err));
@@ -158,7 +158,7 @@ const Yml = () => {
         <div id="drag-file">
           Upload your Docker Compose file here to compose
           {ymlFile && (
-            <pre style={{ margin: "1rem 0rem" }}>
+            <pre style={{ margin: '1rem 0rem' }}>
               <code>{ymlFile}</code>
             </pre>
           )}
@@ -170,12 +170,13 @@ const Yml = () => {
             className="btn"
             onClick={() => {
               helper
-                .dockerComposeUp(filePath)
+                .dockerComposeUp(filePath, ymlFileName) 
                 .then((res) => {
-                  if (res) {
-                    helper.dockerComposeStacks(getContainerStacks, filePath);
-                    setYmlFile("");
-                    setFilePath("");
+                  if (res) { 
+                    helper.dockerComposeStacks(getContainerStacks, filePath, ymlFileName);
+                    setYmlFile('');
+                    setFilePath('');
+                    setYmlFileName('');
                   }
                 })
                 .catch((err) => console.log(err));

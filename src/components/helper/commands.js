@@ -334,7 +334,6 @@ export const inspectDockerContainer = (containerId) => {
     console.log(stdout);
   });
 };
-<<<<<<< HEAD
 
 /**
  * Compose up a docker container network 
@@ -344,23 +343,6 @@ export const inspectDockerContainer = (containerId) => {
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
-=======
-/**
- * Composes container network from passed in yml/yaml file location and name
- * 
- * @param {string} fileLocations
- * @param {string} ymlFileName
- */
-export const dockerComposeUp = (fileLocation, ymlFileName) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  console.log(' ymlFilename from comands.js', ymlFileName);
-=======
->>>>>>> master
-  console.log(' ymlFilename from comands.js:', ymlFileName);
-
-=======
->>>>>>> b6c1acfbd89901a9bae8989975b58d2c0210055a
   return new Promise((resolve, reject) => {
 
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
@@ -369,21 +351,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
-<<<<<<< HEAD
-    
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-    console.log('cmd, ', cmd);
-=======
-    console.log('cmd: ', cmd);
->>>>>>> adf7fc96a42fd44639fce4ac3446784ae7037442
-    // const cmd = `cd ${fileLocation} && docker-compose up -d`;
 
-=======
-    
->>>>>>> b6c1acfbd89901a9bae8989975b58d2c0210055a
->>>>>>> master
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
@@ -444,12 +412,10 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
           }
         });
       }
-<<<<<<< HEAD
 
       getContainerStacks(parseDockerOutput);
     }
   );
-  
 };
 
 /**
@@ -459,13 +425,6 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
  * @param {*} ymlFileName
  */
 
-=======
-      getContainerStacks(parseDockerOutput);
-    }
-  );
-};
-
->>>>>>> master
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
 
@@ -622,11 +581,8 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-<<<<<<< HEAD
   
   // build inputCommandString to get logs from command line
-=======
->>>>>>> master
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     inputCommandString += `--since ${optionsObj.since} `;

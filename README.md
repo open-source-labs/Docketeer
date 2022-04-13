@@ -100,10 +100,10 @@ npm run dev
 ```
 
 To log in as sysadmin, use the following credentials
-'''
+```
 username: sysadmin
 password: belugas
-'''
+```
 
 To change the passord, create a new user with your preferred credentials then change the role by manually in the database. 
 

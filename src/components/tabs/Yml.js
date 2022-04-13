@@ -12,10 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 /**
- * Displays all docker-compose network; drag and drop or upload functionality
+ * Displays all running docker-compose container networks; drag and drop or upload functionality
  * 
  * @param {*} props
  */
+
 const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
@@ -53,7 +54,9 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
+  
   useEffect(() => {
+    // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
 
     const holder = document.getElementById('drag-file');
@@ -86,19 +89,18 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
+        // get yml file name from the filepath for composing up a new container network 
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
-        console.log('ymlFileName from YML.js', ymlFileName);
-        console.log('filePath from YML.js', filePath);
         
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
-
-      }
+      };
     };
   }, []);
-
+  
+  // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
       return (
@@ -116,9 +118,11 @@ const Yml = () => {
             <span className="container-scope">{container.Scope}</span>
           </TableCell>
           <TableCell>
-            <span className="container-scope">{container.CreatedAt}</span>
+            <span className="container-createdAt">{container.CreatedAt}</span>
           </TableCell>
           {container.FilePath && container.YmlFileName && (
+            // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
+            // only the containers composed up from the application will have a compose down button 
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
@@ -127,11 +131,10 @@ const Yml = () => {
                     .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);// may need to delete this line
-                        setYmlFile('');// may need to delete this line
-                        setFilePath('');// may need to delete this line
-                        setYmlFileName('');// may need to delete this line
-                        // composeDown(container.FilePath, container.YmlFileName);
+                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);
+                        setYmlFile('');
+                        setFilePath('');
+                        setYmlFileName('');
                       }
                     })
                     .catch((err) => console.log(err));

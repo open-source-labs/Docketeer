@@ -255,10 +255,11 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 };
 
 /**
- * Handling System Prune
+ * Handles System Prune
  * 
  * @param {*} e
  */
+
 export const handlePruneClick = (e) => {
   e.preventDefault();
   exec('docker system prune --force', (error, stdout, stderr) => {
@@ -278,6 +279,7 @@ export const handlePruneClick = (e) => {
  * 
  * @param {*} repo
  */
+
 export const pullImage = (repo) => {
   exec(`docker pull ${repo}`, (error, stdout, stderr) => {
     if (error) {
@@ -294,10 +296,10 @@ export const pullImage = (repo) => {
 /**
  * Display all containers network based on docker-compose when the application starts
  * 
- * @param {*} getDockerNetworkReducer
+ * @param {*} getNetworkContainers
  */
-export const networkContainers = (getDockerNetworkReducer) => {
-  // exec("docker network ls", (error, stdout, stderr) => {
+
+export const networkContainers = (getNetworkContainers) => {
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
       console.log(`networkContainers error: ${error.message}`);
@@ -307,14 +309,15 @@ export const networkContainers = (getDockerNetworkReducer) => {
       console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
-
+    
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+
     // remove docker network defaults named: bridge, host, and none
     const networkContainers = JSON.parse(dockerOutput).filter(
       ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
     );
-  
-    getDockerNetworkReducer(networkContainers);
+
+    getNetworkContainers(networkContainers);
   });
 };
 
@@ -331,20 +334,24 @@ export const inspectDockerContainer = (containerId) => {
     console.log(stdout);
   });
 };
+
 /**
- * Composes container network from passed in yml/yaml file location and name
+ * Compose up a docker container network 
  * 
- * @param {string} fileLocations
- * @param {string} ymlFileName
+ * @param {*} fileLocation
+ * @param {*} ymlFileName
  */
+
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
+
     const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
+    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
-    
+
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
@@ -361,6 +368,14 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
     });
   });
 };
+
+/**
+ * Get list of running container networks
+ * 
+ * @param {*} getContainerStacks
+ * @param {*} filePath
+ * @param {*} ymlFileName
+ */
 
 export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
   let parseDockerOutput;
@@ -397,10 +412,18 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
           }
         });
       }
+
       getContainerStacks(parseDockerOutput);
     }
   );
 };
+
+/**
+ * Compose down selected container network
+ * 
+ * @param {*} fileLocation
+ * @param {*} ymlFileName
+ */
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
@@ -431,8 +454,9 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 };
 
 /**
- * Writes metrics stats into database
+ * Writes metric stats into database
  */
+
 export const writeToDb = () => {
   const interval = 300000;
   setInterval(() => {
@@ -495,6 +519,7 @@ export const getContainerGitUrl = (container) => {
  * 
  * @param {*} getVolumeList
  */
+
 export const getAllDockerVolumes = (getVolumeList) => {
   exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
@@ -523,6 +548,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
  * @param {string} volumeName
  * @param {callback} getVolumeContainersList
  */
+
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
     (error, stdout, stderr) => {
@@ -555,6 +581,8 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
+  
+  // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     inputCommandString += `--since ${optionsObj.since} `;

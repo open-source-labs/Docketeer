@@ -2,6 +2,12 @@ import { getLogs } from './commands';
 import { useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 
+ 
+/**
+ * Helper function to build options object based on the radio button selected in the process logs tab
+ * 
+ * @param {*} containerId
+ */
 
 /**
  * Use user input to build options object to pass to getLogs()
@@ -27,12 +33,12 @@ export const buildOptionsObj = containerId => {
   return optionsObj;
 };
 
-
 /**
- * Transforms batch of logs, as string, to array of objects [{logmsg:..., timestamp:...}, {logmsg:..., timestamp:...}, ...]. * Called by getLogs()
- * @param {string} string
- * @returns {array} arrayOfObjects
+ * Helper function to transform input string (where string is a batch of logs) to an array of log objects
+ * 
+ * @param {*} string
  */
+
 export const makeArrayOfObjects = string => {
   const arrayOfObjects = string.trim().split('\n').map((element) => {
     const obj = {};

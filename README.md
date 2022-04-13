@@ -143,7 +143,7 @@ Users have real-time access to the total amount of resources (CPU, memory usage)
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
 ### ➮ Process Logs
-**New! Version 6.0**  You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). This feature will help you analyze and debug problems faster by offering insights of what went wrong.  
+You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). This feature will help you analyze and debug problems faster by offering insights of what went wrong.  
 ![alt text](assets/processlogs.gif)
 
 <br> Demo can found on our [site](https://www.docketeer.org/demo).

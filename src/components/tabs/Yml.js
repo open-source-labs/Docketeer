@@ -138,16 +138,20 @@ const Yml = () => {
           <TableCell>
             <span className="container-scope">{container.CreatedAt}</span>
           </TableCell>
-          {container.FilePath && (
+          {container.FilePath && container.YmlFileName && (
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
                 onClick={() => {
                   helper
-                    .dockerComposeDown(container.FilePath)
+                    .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        composeDown(container.FilePath);
+                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);// may need to delete this line
+                        setYmlFile('');// may need to delete this line
+                        setFilePath('');// may need to delete this line
+                        setYmlFileName('');// may need to delete this line
+                        // composeDown(container.FilePath, container.YmlFileName);
                       }
                     })
                     .catch((err) => console.log(err));

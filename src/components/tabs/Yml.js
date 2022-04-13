@@ -71,21 +71,6 @@ const Yml = () => {
       return false;
     };
 
-    // holder.ondrop = (e) => {
-    //   e.preventDefault();
-    //   let fileList = e.dataTransfer.files;
-    //   if (fileList.length > 1) return;
-    //   if (fileList[0].type === "application/x-yaml") {
-    //     let filePath = fileList[0].path.replace(/([\s])+/g, "\\ ");
-    //     const filteredArr = filePath.split("/");
-    //     filteredArr.pop();
-    //     let filteredPath = filteredArr.join("/");
-    //     setFilepath(filteredPath);
-    //     setfileList(fileList[0].name);
-    //   }
-    //   return false;
-    // };
-
     uploadHolder.onchange = (e) => {
       e.preventDefault();
       if (
@@ -101,7 +86,6 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        // new code Austin and christina:
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
         console.log('ymlFileName from YML.js', ymlFileName);
@@ -110,10 +94,6 @@ const Yml = () => {
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
-
-        // old code:
-        // const directoryPath = filePath.replace('/docker-compose.yml', '');
-        // setFilePath(directoryPath);
 
       }
     };
@@ -138,16 +118,20 @@ const Yml = () => {
           <TableCell>
             <span className="container-scope">{container.CreatedAt}</span>
           </TableCell>
-          {container.FilePath && (
+          {container.FilePath && container.YmlFileName && (
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
                 onClick={() => {
                   helper
-                    .dockerComposeDown(container.FilePath)
+                    .dockerComposeDown(container.FilePath, container.YmlFileName)
                     .then((res) => {
                       if (res) {
-                        composeDown(container.FilePath);
+                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);// may need to delete this line
+                        setYmlFile('');// may need to delete this line
+                        setFilePath('');// may need to delete this line
+                        setYmlFileName('');// may need to delete this line
+                        // composeDown(container.FilePath, container.YmlFileName);
                       }
                     })
                     .catch((err) => console.log(err));

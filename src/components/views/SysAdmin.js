@@ -86,7 +86,7 @@ const SysAdmin = (props) => {
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
-  // const [ loggedIn, setLoggedIn ] = useState(true);
+
 
   const handleLogout = (e) => {
     updateSession();
@@ -107,7 +107,6 @@ const SysAdmin = (props) => {
       .catch((err) => {
         console.log(err);
       });
-    // props.setLoggedIn(false);
   };
 
   useEffect(() => {

@@ -188,12 +188,12 @@ const UserTable = () => {
       });
   };
 
+  // To get an array of user objects
   const renderRows =
     rowsPerPage > 0
       ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : rows;
 
-  console.log('this is renderRows: ', renderRows);
   return (
     <div className='renderContainers'>
       <div className='header'>

@@ -17,8 +17,9 @@ import { SettingsCellOutlined } from '@material-ui/icons';
 
 /**
  * Displays process logs as table
- * 
- * @param {*} props
+ * @module ProcessLogsTable
+ * @description Container that displays all running and not running docker containers. Each box is wrapped by 
+ * a Router link. 
  */
 
 const ProcessLogsTable = (props) => {
@@ -26,6 +27,7 @@ const ProcessLogsTable = (props) => {
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) => dispatch(actions.getContainerLogs(data));
   
+  // Grab container ID from URL parameter
   const urlString = window.location.href;
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
@@ -33,6 +35,7 @@ const ProcessLogsTable = (props) => {
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
+  // Get logs button handler function. Grabs logs and updates component state   
   const handleGetLogs = (e) => {
     const containerId = e.target.id;
     const optionsObj = buildOptionsObj(containerId);
@@ -76,58 +79,64 @@ const ProcessLogsTable = (props) => {
       
       <h1>Container ID: {id} </h1> 
 
-      <form>
+      <div className='settings-container'>
+        <form>
+          
+          <input type="radio" id="sinceInput" name="logOption" />
+          <label htmlFor="sinceInput">Since</label>
+          <input type='text' id="sinceText"/>
+          
+          <input type="radio" id="tailInput" name="logOption" />
+          <label htmlFor="tailInput">Tail</label>
+          <input type='text' id="tailText"/>
+  
+          <button id={id} type='button' onClick={handleGetLogs}>Get Logs</button>
+  
+        </form>
+  
+        <div className="process-logs-container">
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>STDOUT:</TableCell>
+                  <TableCell> </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>TimeStamp</TableCell>
+                  <TableCell>Log Message</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <StdoutTableData />
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        <div className="process-logs-container">
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>STDERR:</TableCell>
+                  <TableCell> </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>TimeStamp</TableCell>
+                  <TableCell>Log Message</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <StderrTableData />
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+
         
-        <input type="radio" id="sinceInput" name="logOption" />
-        <label htmlFor="sinceInput">Since</label>
-        <input type='text' id="sinceText"/>
-        
-        <input type="radio" id="tailInput" name="logOption" />
-        <label htmlFor="tailInput">Tail</label>
-        <input type='text' id="tailText"/>
-
-        <button id={id} type='button' onClick={handleGetLogs}>Get Logs</button>
-
-      </form>
-
-      <div className="process-logs-container">
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>STDOUT:</TableCell>
-                <TableCell> </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>TimeStamp</TableCell>
-                <TableCell>Log Message</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <StdoutTableData />
-            </TableBody>
-          </Table>
-        </TableContainer>
       </div>
-      <div className="process-logs-container">
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>STDERR:</TableCell>
-                <TableCell> </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>TimeStamp</TableCell>
-                <TableCell>Log Message</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <StderrTableData />
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+
+
     </div>
 
   );

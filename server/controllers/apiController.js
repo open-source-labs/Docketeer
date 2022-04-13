@@ -8,10 +8,11 @@ const email = require('../../security/email');
 const apiController = {};
 
 // create transporter object
+// make sure these values are filled out in email.js
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: email.host,
+  port: email.port,
+  secure: true,
   auth: {
     user: email.username,
     pass: email.password,

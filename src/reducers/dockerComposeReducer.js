@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
   case types.GET_CONTAINER_STACKS:
     const currentState = state.composeStack.slice();
     const newState = action.payload;
+    
     // docketeer 5.0 used this code (it was broken)
     // const comparer = (otherArray) => {
     //   return (current) =>
@@ -31,7 +32,8 @@ export default function (state = initialState, action) {
 
     // return { ...state, composeStack: currentState };
 
-    // our new 6.0 code is broken as well but less broken than the 5.0 code
+    // our new 6.0 code is broken as well but less broken than the 5.0 code, more specifically on the process compose tab, only the most recently added network will have a compose-down button (all networks added via compose-up in Docketeer should have a compose down button)
+
     const composeStackUpdater = (arr1, arr2, output = []) => {
       arr1.forEach((element) => {
         if(JSON.stringify(arr2).includes(JSON.stringify(element))){

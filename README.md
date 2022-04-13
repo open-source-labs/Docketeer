@@ -52,7 +52,7 @@ root
   └─ src
 ```
 
-4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below.
+4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. 
 ```js
 // .env
 TWILIO_NUMBER=''
@@ -74,7 +74,7 @@ root
   └─ src
 ```
 
-7. In the `email.js` file, input your organization's organization email credentials. This email address will be used to send email notifications from. The file is already in the `.gitignore` file.
+1. In the `email.js` file, input your organization's email credentials within the username and password properties. This email address will be used to send email notifications. The file is already in the `.gitignore` file. Important: Do not change the host and port values. 
 ```js
 // email.js
 module.exports = {
@@ -98,6 +98,14 @@ You are all set! Now just enter the following command to start up Docketeer!
 ```
 npm run dev
 ```
+
+To log in as sysadmin, use the following credentials
+'''
+username: sysadmin
+password: belugas
+'''
+
+To change the passord, create a new user with your preferred credentials then change the role by manually in the database. 
 
 
 ## Twilio setup
@@ -134,8 +142,8 @@ Users have real-time access to the total amount of resources (CPU, memory usage)
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
 ### ➮ Container Logs
-
- 
+**New! Version 6.0**  You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). This feature will help you analyze and debug problems faster by offering insights of what went wrong.  
+![alt text](assets/processlogs.gif)
 
 <br> Demo can found on our [site](https://www.docketeer.org/demo).
 

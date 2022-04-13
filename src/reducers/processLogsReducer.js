@@ -20,7 +20,6 @@ const processLogsReducer = (state = initialState, action) => {
     return state;
     
   }
-    
 };
 
 export default processLogsReducer;

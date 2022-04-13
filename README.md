@@ -74,7 +74,7 @@ root
   └─ src
 ```
 
-1. In the `email.js` file, input your organization's email credentials within the username and password properties. This email address will be used to send email notifications. The file is already in the `.gitignore` file. 
+6. In the `email.js` file, input your organization's email credentials within the username and password properties. This email address will be used to send email notifications. The file is already in the `.gitignore` file. 
 Important: Do not change the host and port values unless you are using a different email provider. 
 ```js
 // email.js
@@ -86,7 +86,7 @@ module.exports = {
 };
 ```
 
-1. In the `sysadmin.js` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
+7. In the `sysadmin.js` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
 ```js
 // sysadmin.js
 module.exports = {

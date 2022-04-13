@@ -188,6 +188,7 @@ const UserTable = () => {
       });
   };
 
+  // To get an array of user objects
   const renderRows =
     rowsPerPage > 0
       ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

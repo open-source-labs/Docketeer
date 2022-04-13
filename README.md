@@ -105,7 +105,7 @@ username: sysadmin
 password: belugas
 ```
 
-To change the passord, create a new user with your preferred credentials then change the role by manually in the database. 
+To change the system admin password, create a new user with your preferred credentials then change the role and role id manually in the database. 
 
 
 ## Twilio setup

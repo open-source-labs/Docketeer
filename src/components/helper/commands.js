@@ -387,7 +387,6 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
 
       // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
       if (filePath && ymlFileName) {
-        console.log('if condition on line 389 of commands.js is being met');
         const directoryNameArray = filePath.split('/');
         const containerNetworkName = directoryNameArray[directoryNameArray.length - 1].concat('_default');
     
@@ -398,8 +397,6 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
           }
         });
       }
-      console.log('value of parseDockerOutput after FilePath and YmLFileName properties supposed to be added in commands.js, line 400:', parseDockerOutput);
-
       getContainerStacks(parseDockerOutput);
     }
   );

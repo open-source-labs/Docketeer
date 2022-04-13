@@ -207,4 +207,4 @@ Docketeer is [MIT Licensed](https://github.com/open-source-labs/Docketeer/blob/m
 
 
 ## Show your support ⭐ 
-Give a ⭐️ if this project helped you!
+Give a ⭐️ if this project helped you! 

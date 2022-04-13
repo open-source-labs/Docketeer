@@ -133,6 +133,10 @@ Users have real-time access to the total amount of resources (CPU, memory usage)
 ### ➮ Uploading
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
+### ➮ Container Logs
+
+ 
+
 <br> Demo can found on our [site](https://www.docketeer.org/demo).
 
 <!-- ## Development 🛠 
@@ -156,16 +160,15 @@ npm run test
 #### **Working with WSL**
 ⤷ Users may need to install a third-party App to run electron. A helpful article can be found [here](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242).
 
-#### **Using Docketeer with M1 Chip**
-⤷ If you are still interested in being a contributor to Docketeer, here are a few articles that may provide some solutions. However, due to how recent the release of the M1 Chip is, there is no guarantee that these solutions will work for your machine. 
-- [Medium article](https://moinism.medium.com/running-electron-on-apple-silicon-m1-mac-8d463342a2b5)
-- [electron](https://www.electronjs.org/blog/electron-11-0/)
-- [Apple](https://www.electronjs.org/blog/apple-silicon/)
 
 ## Contributing
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
+- Christina Son [@cson17](https://github.com/cson17) | [Linkedin](https://www.linkedin.com/in/christinason17/)
+- Fernando Luna [@lunaf-github](https://github.com/lunaf-github) | [Linkedin](https://www.linkedin.com/in/fernando-luna)
+- Austin Andrews [@austinandrews](https://github.com/austinandrews) | [Linkedin](https://www.linkedin.com/in/austin-a-57b944223/)
+- Eric Lay [@ericlay14](https://github.com/ericlay14) | [Linkedin](https://www.linkedin.com/in/ericlay14/)
 - Dan Lin [@DanLin91](https://github.com/DanLin91) | [Linkedin](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) | [Linkedin](https://www.linkedin.com/in/kadirgund/)
 - Minchan Jun [@MinchanJun](https://github.com/MinchanJun) | [Linkedin](https://www.linkedin.com/in/minchan-jun/)

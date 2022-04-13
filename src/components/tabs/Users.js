@@ -194,7 +194,6 @@ const UserTable = () => {
       ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : rows;
 
-  console.log('this is renderRows: ', renderRows);
   return (
     <div className='renderContainers'>
       <div className='header'>

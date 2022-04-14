@@ -19,7 +19,7 @@ awesome when someone starts to use it.
 - [Features](#features)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [Show your support](#show&#32;your&#32;support)
+- [Show your support](#Show-your-support-⭐)
 
 #
 

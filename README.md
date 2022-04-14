@@ -19,7 +19,7 @@ awesome when someone starts to use it.
 - [Features](#features)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [Show your support](#Show-your-support-⭐)
+- [Show your support](#Show-your-support)
 
 #
 
@@ -204,5 +204,5 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 Docketeer is [MIT Licensed](https://github.com/open-source-labs/Docketeer/blob/master/LICENSE)
 
 
-## Show your support ⭐ 
+## Show your support 
 Give a ⭐️ if this project helped you! 

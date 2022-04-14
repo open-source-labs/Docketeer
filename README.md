@@ -30,8 +30,6 @@ awesome when someone starts to use it.
 ## About
 Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
 
-##### **Currently Docketeer does not support M1 chips. Please see our Troubleshoot section for more information.**
-
 
 ## Installation
 1. **Fork** and **clone** this [repository](https://github.com/open-source-labs/Docketeer.git) to your machine.
@@ -143,10 +141,10 @@ Users have real-time access to the total amount of resources (CPU, memory usage)
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
 ### ➮ Process Logs
-You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). This feature will help you analyze and debug problems faster by offering insights of what went wrong.  
+You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong. 
 ![alt text](assets/processlogs.gif)
 
-<br> Demo can found on our [site](https://www.docketeer.org/demo).
+<br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
 
 <!-- ## Development 🛠 
 All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and execute the following commands:

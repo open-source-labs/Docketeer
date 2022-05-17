@@ -96,7 +96,7 @@ const Yml = () => {
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
-      };
+      }
     };
   }, []);
   

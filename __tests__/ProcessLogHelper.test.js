@@ -1,4 +1,8 @@
-import {makeArrayOfObjects, buildOptionsObj} from '../src/components/helper/processLogHelper.js';
+/**
+ * @jest-environment jsdom
+ */
+
+import { makeArrayOfObjects, buildOptionsObj } from '../src/components/helper/processLogHelper.js';
 import React from 'react';
 
 describe('makeArrayOfObjects', () => {
@@ -56,5 +60,55 @@ describe('makeArrayOfObjects', () => {
 
     expect(result[0].timeStamp).toEqual('');
     expect(result[0].logMsg).toEqual('');
+  });
+});
+
+describe('buildOptionsObj', () => {
+
+  let sinceButton;
+  let tailButton;
+  let sinceInput;
+  let tailInput;
+
+  beforeEach(() => {
+    sinceButton = document.createElement('input');
+    sinceButton.setAttribute('type', 'radio');
+    sinceButton.setAttribute('id', 'sinceInput');
+    document.body.appendChild(sinceButton);
+
+    tailButton = document.createElement('input');
+    tailButton.setAttribute('id', 'tailInput');
+    tailButton.setAttribute('type', 'radio');
+    document.body.appendChild(tailButton);
+
+    sinceInput = document.createElement('input');
+    sinceInput.setAttribute('id', 'sinceText');
+    sinceInput.setAttribute('value', '72h10m3s');
+    document.body.appendChild(sinceInput);
+
+    tailInput = document.createElement('input');
+    tailInput.setAttribute('id', 'tailText');
+    tailInput.setAttribute('value', '1');
+    document.body.appendChild(tailInput);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('when tail button is checked, tail value is added to optionsObj', () => {
+    tailButton.checked = true;
+
+    const result = buildOptionsObj('containerID');
+
+    expect(result.tail).toEqual('1');
+  });
+
+  it('when since button is checked, since value is added to since key on optionsObj', () => {
+    sinceButton.checked = true;
+
+    const result = buildOptionsObj('containerID');
+
+    expect(result.since).toEqual('72h10m3s');
   });
 });

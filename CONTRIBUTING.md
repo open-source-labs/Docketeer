@@ -8,12 +8,19 @@ All code changes happen through Github Pull Requests and we actively welcome the
 
 ## Pull Requests
 
-1. Fork the repo and create your featured branch.
-2. If you've added code that should be tested, add tests.
-3. Ensure the test suite passes and on Travis CI as well.
-4. Make sure your code lints.
-5. Issue that pull request!
-6. Specify what you changed in details when you are doing pull request.
+1. Fork the repo (git clone ...)
+2. Create your featured branch. (git checkout -b [my-new-feature])
+3. If you've added code that should be tested, add tests.
+4. Ensure the test suite passes and on Travis CI as well.
+5. Make sure your code lints.
+6. Issue that pull request!
+7. Specify what you changed in details when you are doing pull request.
+
+Fork it
+Create your feature branch (git checkout -b my-new-feature)
+Commit your changes (git commit -m 'Added some feature')
+Push to the branch (git push origin [my-new-feature])
+Create new Pull Request
 
 Note: Any contributions you make will be under the MIT Software License and your submissions are understood to be under the same that covers the project. Please reach out to the team if you have any questions.
 

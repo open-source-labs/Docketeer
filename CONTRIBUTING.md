@@ -13,7 +13,7 @@ All code changes happen through Github Pull Requests and we actively welcome the
 3. If you've added code that should be tested, add tests.
 4. Commit your changes (git commit -m 'Added some feature')
 5. Ensure the test suite passes and on Travis CI as well.
-6. Make sure your code lints.
+6. Make sure your code lints (npm run lint).
 7. Push to the branch (git push origin [my-new-feature])
 8. Issue that pull request! Specify what you changed in details when you are doing pull request & squash all commits.
 

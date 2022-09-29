@@ -50,7 +50,7 @@ root
   └─ src
 ```
 
-4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. 
+4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only required field. Others are optional. 
 ```js
 // .env
 TWILIO_NUMBER=''

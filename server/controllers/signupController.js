@@ -17,10 +17,8 @@ signupController.usernameCheck = (req, res, next) => {
     .then((data) => {
       if (data.rows[0]) {
         res.locals.error = 'Username already exists.';
-        return next();
-      } else {
-        return next();
       }
+      return next();
     })
     .catch((err) => {
       return next({
@@ -36,12 +34,10 @@ signupController.passwordCheck = (req, res, next) => {
 
   const { password } = req.body;
 
-  if (password.length >= 6) {
-    return next();
-  } else {
+  if (password.length < 6) {
     res.locals.error = 'Password must be at least 6 characters.';
-    return next();
   }
+  return next();
 };
 
 // verify user's information is complete

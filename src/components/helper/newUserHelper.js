@@ -30,7 +30,9 @@ export const handleNewUser = (e) => {
     );
     return;
   }
-  return createNewUser(email, username, password, phone);
+  console.log('sending user data to createNewUser');
+  // return createNewUser(email, username, password, phone);
+  createNewUser(email, username, password, phone);
 };
 
 export const confirmPassword = () => {
@@ -88,26 +90,19 @@ export const createNewUser = (email, username, password, phone) => {
       phone: phone,
     }),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-        window.alert(data.error);
-      } else {
-        document.getElementById('signupUsername').value = '';
-        document.getElementById('signupPassword').value = '';
-        document.getElementById('signupPasswordConfirmation').value = '';
-        document.getElementById('signupEmail').value = '';
-        document.getElementById('signupPhone').value = '';
-        document.getElementById('password-length-alert').innerHTML = '';
-        document.getElementById('password-confirmation-alert').innerHTML = '';
+    .then(() => {
+      document.getElementById('signupUsername').value = '';
+      document.getElementById('signupPassword').value = '';
+      document.getElementById('signupPasswordConfirmation').value = '';
+      document.getElementById('signupEmail').value = '';
+      document.getElementById('signupPhone').value = '';
+      document.getElementById('password-length-alert').innerHTML = '';
+      document.getElementById('password-confirmation-alert').innerHTML = '';
 
-        window.alert(`New user has been successfully created. \n\n
+      window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
 
-        getUpdatedUserList();
-      }
+      getUpdatedUserList();
     })
     .catch((err) => {
       console.log(err);
@@ -115,6 +110,7 @@ export const createNewUser = (email, username, password, phone) => {
 };
 
 export const getUpdatedUserList = () => {
+  console.log('store username: ', store.userInfo.username);
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
@@ -129,7 +125,10 @@ export const getUpdatedUserList = () => {
     .then((data) => {
       console.log('this is data from newUserHelper', data);
       updateUserList(data);
-    });
+    })
+    .catch((err) => {
+      console.log('error in getUpdatedUserList: ', err);
+    })
 };
 
 export const updateUserList = (data) => {

@@ -1,22 +1,18 @@
 {
-  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
-  "exclude": [
-    "node_modules",
-    "build"
-  ],
   "compilerOptions": {
-    "target": "esnext",
-    "moduleResolution": "node",
-    "newLine": "LF",
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "skipLibCheck": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2017"
+    ],
     "allowJs": true,
     "jsx": "react",
-    "outDir": "build",
-    // "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
   }
 }

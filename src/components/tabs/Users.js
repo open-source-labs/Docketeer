@@ -4,45 +4,45 @@ import PropTypes from 'prop-types';
 import NewUserDisplay from '../display/NewUserDisplay';
 
 // Material UI imports
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableFooter from '@material-ui/core/TableFooter';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import Checkbox from '@material-ui/core/Checkbox';
+// import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import TablePagination from '@mui/material/TablePagination';
+import TableFooter from '@mui/material/TableFooter';
+import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
 // Table Style Generator
-export const useStyles = makeStyles({
-  table: {
-    minWidth: 1000,
-  },
-});
+// export const useStyles = makeStyles({
+//   table: {
+//     minWidth: 1000,
+//   },
+// });
 
 // Pagination Footer Style Generator
-const useStyles1 = makeStyles((theme) => ({
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
-}));
+// const useStyles1 = makeStyles((theme) => ({
+//   root: {
+//     flexShrink: 0,
+//     marginLeft: theme.spacing(2.5),
+//   },
+// }));
 
 // Function store of all pagination functions, these functions update the count, the current range of pages, etc. Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
 function TablePaginationActions(props) {
-  const classes = useStyles1();
-  const theme = useTheme();
+  // const classes = useStyles1();
+  // const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
 
   const handleFirstPageButtonClick = (event) => {
@@ -62,42 +62,44 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <div
+    // className={classes.root}
+    >
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label='first page'
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {/* {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />} */}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label='previous page'
       >
-        {theme.direction === 'rtl' ? (
+        {/* {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
-        )}
+        )} */}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label='next page'
       >
-        {theme.direction === 'rtl' ? (
+        {/* {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
-        )}
+        )} */}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label='last page'
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {/* {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />} */}
       </IconButton>
     </div>
   );
@@ -108,11 +110,11 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired
 };
 
 const UserTable = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const rows = useSelector((state) => state.userList.userList);
   const dispatch = useDispatch();
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
@@ -153,7 +155,7 @@ const UserTable = () => {
 
     // create temporary copy of selected object
     const temp = {
-      ...selected,
+      ...selected
     };
     // update key of checkbox id to switched/inverted value
     temp[id] = invertPreviousValue;
@@ -165,12 +167,12 @@ const UserTable = () => {
     fetch('http://localhost:3000/admin/switch', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id: id,
-        changeToAdmin: invertPreviousValue,
-      }),
+        changeToAdmin: invertPreviousValue
+      })
     })
       .then((response) => {
         return response.json();
@@ -179,7 +181,7 @@ const UserTable = () => {
         const { _id, role } = data;
         const payload = {
           _id,
-          role,
+          role
         };
         updateUserRole(payload);
       })
@@ -204,7 +206,10 @@ const UserTable = () => {
       </div>
       <div className='settings-containers'>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label='simple table'>
+          <Table
+            // className={classes.table}
+            aria-label='simple table'
+          >
             <TableHead>
               <TableRow>
                 <TableCell>id</TableCell>
@@ -259,7 +264,7 @@ const UserTable = () => {
                   page={page}
                   SelectProps={{
                     inputProps: { 'aria-label': 'rows per page' },
-                    native: true,
+                    native: true
                   }}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}

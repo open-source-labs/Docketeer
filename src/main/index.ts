@@ -1,12 +1,8 @@
 
-
-const Electron = require ('electron');
+const electron = require ('electron');
 const path = require ('path');
 const url = require('url');
-// import installExtension, {
-//   REDUX_DEVTOOLS,
-//   REACT_DEVELOPER_TOOLS
-// } from 'electron-devtools-installer';
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 const verifyCode = require('./twilio/verifyCode');
 const verifyMobileNumber = require ('./twilio/verifyMobile');
@@ -17,11 +13,13 @@ const emailEvent = require ('./email/emailEvent');
 let mainWindow;
 
 function createMainWindow() {
-   mainWindow = new Electron.BrowserWindow({
+   mainWindow = new electron.BrowserWindow({
     width: 1300,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
+      // nodeIntegration: true,
+      // contextIsolation: false,
+      // enableRemoteModule: true,
       // Do we want to be able to run this without background throttling?
       // backgroundThrottling: false
     },
@@ -34,7 +32,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, '/src/renderer/index.html'),
+      pathname: path.join(__dirname, '/src/renderer/index.tsx'),
       protocol: 'file:',
       slashes: true,
     })
@@ -95,21 +93,29 @@ mainWindow.on('closed', () => {
 
 };
 
-Electron.app.on('ready', createMainWindow)
+// Boilerplate for electron devtools
+// electron.app.whenReady().then(() => {
+//   installExtension(REACT_DEVELOPER_TOOLS)
+//       .then((name:string) => console.log(`Added Extension:  ${name}`))
+//       .catch((err:string) => console.log('An error occurred: ', err));
+// });
 
-Electron.ipcMain.handle('verify-number', async (_, args) => {
+electron.app.on('ready', createMainWindow)
+
+
+electron.ipcMain.handle('verify-number', async (_, args) => {
   return await verifyMobileNumber(args);
 });
 
-Electron.ipcMain.handle('verify-code', async (_, args) => {
+electron.ipcMain.handle('verify-code', async (_, args) => {
   return await verifyCode(args);
 });
 
-Electron.ipcMain.handle('post-event', async (_, args) => {
+electron.ipcMain.handle('post-event', async (_, args) => {
   const { mobileNumber, triggeringEvent } = args;
   return await postEvent(mobileNumber, triggeringEvent);
 });
 
-Electron.ipcMain.handle('email-event', async (_, args) => {
+electron.ipcMain.handle('email-event', async (_, args) => {
   return await emailEvent(args);
 });

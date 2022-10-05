@@ -6,26 +6,26 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
-
 // static imports
-import * as actions from '../../actions/actions';
+const actions = require('../../actions/actions');
+// import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import UserList from "../tabs/Users";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import UserList from '../tabs/Users';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -87,18 +87,17 @@ const SysAdmin = (props) => {
   // Local state for routers
   const [selected, setSelected] = useState('/');
 
-
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((data) => data.json())
       .then((response) => {
@@ -143,12 +142,12 @@ const SysAdmin = (props) => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         token: userInfo.token,
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((response) => {
         return response.json();
@@ -165,102 +164,100 @@ const SysAdmin = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
-
-
 
   return (
     <Router>
-      <div className="container">
-        <nav className="tab">
-          <header id="title">
+      <div className='container'>
+        <nav className='tab'>
+          <header id='title'>
             <img src={Docketeer} width={160} />
           </header>
-          <div className="viewsAndButton">
+          <div className='viewsAndButton'>
             <ul>
               <li>
                 <Link
-                  to="/app"
+                  to='/app'
                   style={selected === '/' ? selectedStyling : null}
                   onClick={() => setSelected('/')}
                 >
-                  <i className="fas fa-settings"></i> Settings
+                  <i className='fas fa-settings'></i> Settings
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/users"
+                  to='/users'
                   style={selected === '/users' ? selectedStyling : null}
                   onClick={() => setSelected('/users')}
                 >
-                  <i className="fas fa-users"></i> Users
+                  <i className='fas fa-users'></i> Users
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/running"
+                  to='/running'
                   style={selected === '/running' ? selectedStyling : null}
                   onClick={() => setSelected(() => '/running')}
                 >
-                  <i className="fas fa-box-open"></i> Containers
+                  <i className='fas fa-box-open'></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/images"
+                  to='/images'
                   style={selected === '/images' ? selectedStyling : null}
                   onClick={() => setSelected('/images')}
                 >
-                  <i className="fas fa-database"></i> Images
+                  <i className='fas fa-database'></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/metrics"
+                  to='/metrics'
                   style={selected === '/metrics' ? selectedStyling : null}
                   onClick={() => setSelected('/metrics')}
                 >
-                  <i className="fas fa-chart-pie"></i> Metrics
+                  <i className='fas fa-chart-pie'></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/yml"
+                  to='/yml'
                   style={selected === '/yml' ? selectedStyling : null}
                   onClick={() => setSelected('/yml')}
                 >
-                  <i className="fas fa-file-upload"></i> Docker Compose
+                  <i className='fas fa-file-upload'></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/volume"
+                  to='/volume'
                   style={selected === '/volume' ? selectedStyling : null}
                   onClick={() => setSelected('/volume')}
                 >
-                  <i className="fas fa-volume-history"></i> Volume History
+                  <i className='fas fa-volume-history'></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/logs"
+                  to='/logs'
                   style={selected === '/logs' ? selectedStyling : null}
                   onClick={() => setSelected('/logs')}
                 >
-                  <i className="fas fa-log"></i> Process Logs
+                  <i className='fas fa-log'></i> Process Logs
                 </Link>
               </li>
             </ul>
             <div>
               <button
-                className="btn"
+                className='btn'
                 onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
               </button>
               <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
+              <button className='btn' onClick={(e) => handleLogout(e)}>
                 Logout
               </button>
             </div>
@@ -270,19 +267,19 @@ const SysAdmin = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/volume">
+          <Route path='/volume'>
             <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
           </Route>
-          <Route path="/metrics">
+          <Route path='/metrics'>
             <Metrics runningList={runningList} />
           </Route>
-          <Route path="/users">
+          <Route path='/users'>
             <UserList />
           </Route>
-          <Route path="/logs">
+          <Route path='/logs'>
             <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
@@ -298,14 +295,14 @@ const SysAdmin = (props) => {
             />
           </Route>
 
-          <Route path="/logTable/:containerId" >
+          <Route path='/logTable/:containerId'>
             <ProcessLogsTable />
           </Route>
 
-          <Route path="/yml">
+          <Route path='/yml'>
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
-          <Route path="/images">
+          <Route path='/images'>
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -315,7 +312,7 @@ const SysAdmin = (props) => {
               runningList={runningList}
             />
           </Route>
-          <Route path="/running">
+          <Route path='/running'>
             <Containers
               runIm={helper.runIm}
               stop={helper.stop}
@@ -331,7 +328,7 @@ const SysAdmin = (props) => {
             />
           </Route>
 
-          <Route path="/">
+          <Route path='/'>
             <Settings
               runningList={runningList}
               stop={helper.stop}
@@ -346,7 +343,6 @@ const SysAdmin = (props) => {
               stoppedNotificationList={stoppedNotificationList}
             />
           </Route>
-
         </Switch>
       </div>
     </Router>

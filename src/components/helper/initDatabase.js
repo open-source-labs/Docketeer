@@ -7,10 +7,10 @@ config();
 export default () => {
   const directory =
     process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '..', '..', 'database')
+      ? path.resolve(__dirname, '../../database')
       : path.join(path.dirname(__dirname), 'database');
 
-  exec(`cd ${directory} ; docker-compose up --no-recreate -d`, (error, stdout, stderr) => {
+  exec(`cd ${directory} && docker compose up --no-recreate --wait -d`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message} `);
       return;

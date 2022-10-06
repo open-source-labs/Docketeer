@@ -74,12 +74,12 @@ module.exports = {
     historyApiFallback: true,
     compress: true,
     hot: true,
-    port: 4000
-    // proxy: {
-    //   '/': {
-    //     target: 'http://localhost:3000'
-    //   }
-    // }
+    port: 4000,
+    proxy: {
+      '/': {
+        target: 'http://localhost:3000/'
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

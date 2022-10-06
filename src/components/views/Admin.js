@@ -6,9 +6,8 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
-
 
 // static imports
 import * as actions from '../../actions/actions';
@@ -17,14 +16,14 @@ import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -91,7 +90,7 @@ const AdminView = (props) => {
   };
 
   useEffect(() => {
-    initDatabase();
+    // initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
@@ -124,7 +123,7 @@ const AdminView = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (
@@ -196,19 +195,19 @@ const AdminView = (props) => {
                   style={selected === '/logs' ? selectedStyling : null}
                   onClick={() => setSelected('/logs')}
                 >
-                  <i className="fas fa-log"></i> Process Logs
+                  <i className='fas fa-log'></i> Process Logs
                 </Link>
               </li>
             </ul>
             <div>
               <button
-                className="btn"
+                className='btn'
                 onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
               </button>
               <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
+              <button className='btn' onClick={(e) => handleLogout(e)}>
                 Logout
               </button>
             </div>
@@ -218,17 +217,17 @@ const AdminView = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/volume">
+          <Route path='/volume'>
             <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
           </Route>
-          <Route path="/metrics">
+          <Route path='/metrics'>
             <Metrics runningList={runningList} />
           </Route>
-          <Route path="/logs">
-            <ProcessLogs 
+          <Route path='/logs'>
+            <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
@@ -242,13 +241,13 @@ const AdminView = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path="/logTable/:containerId" >
+          <Route path='/logTable/:containerId'>
             <ProcessLogsTable />
           </Route>
-          <Route path="/yml">
+          <Route path='/yml'>
             <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
           </Route>
-          <Route path="/images">
+          <Route path='/images'>
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -258,7 +257,7 @@ const AdminView = (props) => {
               runningList={runningList}
             />
           </Route>
-          <Route path="/running">
+          <Route path='/running'>
             <Containers
               runIm={helper.runIm}
               stop={helper.stop}
@@ -273,7 +272,7 @@ const AdminView = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path="/">
+          <Route path='/'>
             <Settings
               runningList={runningList}
               stop={helper.stop}

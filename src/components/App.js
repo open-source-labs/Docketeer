@@ -1,30 +1,35 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import AdminView from './views/Admin';
-import UserView from './views/UserView';
-import SysAdminView from './views/SysAdmin';
+// Debug
+import Example from './views/Example';
+
+// import AdminView from './views/Admin';
+// import UserView from './views/UserView';
+// import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
   const role = useSelector((state) => state.session.role);
-  if (role === 'system admin'){
+  if (role === 'system admin') {
     return (
       <div>
-        <SysAdminView />
+        <h1>I'm the SysAdmin</h1>
+        {/* <SysAdminView /> */}
       </div>
     );
-  }
-  else if (role === 'admin') {
+  } else if (role === 'admin') {
     return (
       <div>
-        <AdminView />
+        <h1>I'm the AdminView</h1>
+        {/* <AdminView /> */}
       </div>
     );
-  }
-  else {
+  } else {
     return (
       <div>
-        <UserView />
+        {/* <h1>I'm the UserView</h1> */}
+        <Example />
+        {/* <UserView /> */}
       </div>
     );
   }

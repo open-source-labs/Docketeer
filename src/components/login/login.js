@@ -3,21 +3,16 @@
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
 import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  BrowserHistory
-} from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from 'react-modal';
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
 // React Component Imports
-import App from '../App';
-import DebugRouter from '../debug/debugRouter';
+//TODO App
+// import App from '../App';
+// import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
 // import { makeStyles } from '@@mui/material/styles';
@@ -41,15 +36,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
-
   const session = useSelector((state) => state.session.isLoggedIn);
-
   const [modalIsOpen, setIsOpen] = useState(false);
 
   // Material UI
   // const classes = useStyles();
 
-  // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
+  //// Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
     fetch('http://localhost:3000/db')
       .then((response) => {
@@ -63,7 +56,7 @@ const Login = () => {
       });
   }, []);
 
-  // callback function invoked when 'login' button is clicked
+  //// callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {
     e.preventDefault(); // prevents form submit from reloading page
     const usernameInput = document.getElementById('username');
@@ -110,73 +103,78 @@ const Login = () => {
 
   // Upon successful login, redirect to /app location and render the App component
 
-  // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
+  // // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
   if (session) {
     return (
-      <Router history={BrowserHistory}>
-        <Redirect to='/app' />
-        <Switch>
-          {/* <Route component={App} exact path="/app" /> */}
-          <Route path='/app'>
-            <App />
-          </Route>
-        </Switch>
-      </Router>
+      // Deprecated
+      // <Router
+      // // history={BrowserHistory}
+      // >
+      //   {/* <Redirect to='/app' /> */}
+      //   <Routes>
+      //     {/* <Route component={App} exact path="/app" /> */}
+      //     <Route path='/app'>
+      //       <App />
+      //     </Route>
+      //   </Routes>
+      // </Router>
+
+      <Navigate to='/app' />
     );
   }
 
   // Else render the login page
   return (
-    <Router history={BrowserHistory}>
-      <Route id='route' path='/'>
-        <header>
-          <img src={Docketeer} width={160} />
-        </header>
-        <br />
-        <br />
-        <br />
-        <div className='renderContainers'>
-          <div className='header'>
-            <h1 className='tabTitle'>Login</h1>
-          </div>
-          <div className='settings-container'>
-            <form
-              // className={classes.root}
-              onSubmit={handleLogin}
-            >
-              {/* <input id="username" type="text" placeholder="username"></input> */}
-              <TextField id='username' label='Username' variant='outlined' />
-              <br />
-              <br />
-              {/* <input id="password" type="password" placeholder="password"></input> */}
-              <TextField
-                id='password'
-                label='Password'
-                type='password'
-                variant='outlined'
-              />
-              {/* <input type="submit"></input> */}
-              <br />
-              <Button
-                variant='contained'
-                color='primary'
-                type='submit'
-                size='medium'
-                // className={classes.button}
-              >
-                Login
-              </Button>
-              <hr />
-              <div
-                className='g-signin2'
-                data-onsuccess='onSignIn'
-                style={{ width: '200px', borderRadius: '4px' }}
-              ></div>
-            </form>
-          </div>
+    <div>
+      <header>
+        <img src={Docketeer} width={160} />
+      </header>
+      <br />
+      <br />
+      <br />
+      <div className='renderContainers'>
+        <div className='header'>
+          <h1 className='tabTitle'>Login</h1>
         </div>
-      </Route>
-    </Router>
+        <div className='settings-container'>
+          <form
+            // className={classes.root}
+            onSubmit={handleLogin}
+          >
+            <TextField id='username' label='Username' variant='outlined' />
+            <br />
+            <br />
+
+            <TextField
+              id='password'
+              label='Password'
+              type='password'
+              variant='outlined'
+            />
+
+            <br />
+            {/* * Submit Button * */}
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              size='medium'
+              // className={classes.button}
+            >
+              {/* Login */}
+              {/* FOR DEBUGGING */}
+              <Link to='/app'>Login</Link>
+            </Button>
+            <hr />
+            <div
+              className='g-signin2'
+              data-onsuccess='onSignIn'
+              style={{ width: '200px', borderRadius: '4px' }}
+            ></div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

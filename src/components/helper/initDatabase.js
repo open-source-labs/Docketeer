@@ -13,7 +13,7 @@ export default () => {
     `cd ${directory} && docker compose up --no-recreate --wait -d`,
     (error, stdout, stderr) => {
       if (error) {
-        alert(`${error.message} `);
+        alert(`Make sure Docker Desktop is running. \n\n ${error.message} `);
         return;
       }
       if (stderr) {

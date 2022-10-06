@@ -27,10 +27,11 @@ module.exports = {
     }
   },
   entry: {
-    bundle: path.join(__dirname, './src/renderer/index.tsx')
+    bundle: path.join(__dirname, '/src/renderer/index.tsx')
   },
   output: {
     path: path.join(__dirname, '/dist'),
+    // Taking our group of files and bundle them into Docketeer.js
     filename: 'Docketeer.js'
   },
   target: ['electron-renderer', 'web'],
@@ -42,13 +43,16 @@ module.exports = {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
         }
       },
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader'
-      },
+      // {
+      //   test: /\.tsx?$/,
+      //   loader: 'ts-loader'
+      // },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
@@ -79,7 +83,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '/src/renderer/index.html')
+      template: './src/renderer/index.html'
     }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
   ]

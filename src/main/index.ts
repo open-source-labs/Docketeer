@@ -1,8 +1,9 @@
-
 const electron = require ('electron');
 const path = require ('path');
 const url = require('url');
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+require('@electron/remote/main').initialize()
+// const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+
 
 const verifyCode = require('./twilio/verifyCode');
 const verifyMobileNumber = require ('./twilio/verifyMobile');
@@ -17,31 +18,46 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
+      enableRemoteModule: true,
       // nodeIntegration: true,
       // contextIsolation: false,
-      // enableRemoteModule: true,
       // Do we want to be able to run this without background throttling?
       // backgroundThrottling: false
     },
   });
+  
+  // const isDevelopment = process.env.NODE_ENV !== 'production';
+  if (process.env.NODE_ENV === 'development') {
+    //* TODO This URL can change, maybe needs to change
+    mainWindow.loadURL(`http://localhost:4000`);
+  } else {
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, '/src/renderer/index.tsx'),
+        protocol: 'file:',
+        slashes: true,
+      })
+      );
+    }
 
-// const isDevelopment = process.env.NODE_ENV !== 'production';
-if (process.env.NODE_ENV === 'development') {
-  //* TODO This URL can change, maybe needs to change
-  mainWindow.loadURL(`http://localhost:4000`);
-} else {
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, '/src/renderer/index.tsx'),
-      protocol: 'file:',
-      slashes: true,
+    electron.app.on('ready', createMainWindow)
+
+    // MacOS Specific function
+    electron.app.on('window-all-closed', function () {
+      // Common for application and their menu bar to stay active until use quits explicitly 
+      if (process.platform !== 'darwin') {
+        electron.app.quit()
+      }
     })
-  );
-}
-
-mainWindow.on('closed', () => {
-  mainWindow = null;
-})
+    // MacOS Specific function
+    electron.app.on('activate', function() {
+      // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
+      if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
+    })
+    
+    mainWindow.on('closed', () => {
+      mainWindow = null;
+    })
   
 // //? comment out lines 30-38 if dev tools is slowing app
 //   app.whenReady().then(() => {
@@ -100,7 +116,6 @@ mainWindow.on('closed', () => {
 //       .catch((err:string) => console.log('An error occurred: ', err));
 // });
 
-electron.app.on('ready', createMainWindow)
 
 
 electron.ipcMain.handle('verify-number', async (_, args) => {

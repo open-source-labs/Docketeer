@@ -1,34 +1,36 @@
 {
-  // "compilerOptions": {
-  //   "target": "es5",
-  //   "module": "commonjs",
-  //   "lib": [
-  //     "dom",
-  //     "es2015",
-  //     "es2016",
-  //     "es2017"
-  //   ],
-  //   "allowJs": true,
-  //   "jsx": "react",
-  //   "sourceMap": true,
-  //   "outDir": "./dist",
-  //   "strict": true,
-  //   "esModuleInterop": true,
-  // }
   "compilerOptions": {
-    "incremental": true,
     "target": "es2021",
     "module": "commonjs",
-    "lib": ["dom", "es2021"],
-    "jsx": "react-jsx",
-    "strict": true,
-    "sourceMap": true,
-    "baseUrl": "./src",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom", 
+      "es2021"
+    ],
     "allowJs": true,
-    "outDir": ".erb/dll"
-  },
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+  }
+  // "compilerOptions": {
+  //   "incremental": true,
+  //   "target": "es2021",
+  //   "module": "commonjs",
+  //   "lib": ["dom", "es2021"],
+  //   "jsx": "react-jsx",
+  //   "strict": true,
+  //   "sourceMap": true,
+  //   "baseUrl": "./src",
+  //   "moduleResolution": "node",
+  //   "esModuleInterop": true,
+  //   "allowSyntheticDefaultImports": true,
+  //   "resolveJsonModule": true,
+  //   "allowJs": true,
+  //   "outDir": ".erb/dll"
+  // },
 }

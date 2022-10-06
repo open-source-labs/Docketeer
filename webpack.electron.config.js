@@ -19,7 +19,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, './dist'),
-    filename: '[name].js'
+    path: path.join(__dirname, '/dist'),
+    filename: 'DockteerElectron.js'
   }
 };

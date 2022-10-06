@@ -1,9 +1,8 @@
 const electron = require ('electron');
 const path = require ('path');
 const url = require('url');
-require('@electron/remote/main').initialize()
+// require('@electron/remote/main').initialize()
 // const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
-
 
 const verifyCode = require('./twilio/verifyCode');
 const verifyMobileNumber = require ('./twilio/verifyMobile');
@@ -18,8 +17,8 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      enableRemoteModule: true,
-      // nodeIntegration: true,
+      // enableRemoteModule: true,
+      nodeIntegration: true,
       // contextIsolation: false,
       // Do we want to be able to run this without background throttling?
       // backgroundThrottling: false
@@ -33,31 +32,32 @@ function createMainWindow() {
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, '/src/renderer/index.tsx'),
+        pathname: path.join(__dirname, '/src/renderer/index.js'),
         protocol: 'file:',
         slashes: true,
       })
       );
     }
-
-    electron.app.on('ready', createMainWindow)
-
-    // MacOS Specific function
-    electron.app.on('window-all-closed', function () {
-      // Common for application and their menu bar to stay active until use quits explicitly 
-      if (process.platform !== 'darwin') {
-        electron.app.quit()
-      }
-    })
-    // MacOS Specific function
-    electron.app.on('activate', function() {
-      // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
-      if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
-    })
-    
     mainWindow.on('closed', () => {
       mainWindow = null;
     })
+  }
+
+    electron.app.on('ready', createMainWindow)
+    
+    // // MacOS Specific function
+    // electron.app.on('window-all-closed', function () {
+    //   // Common for application and their menu bar to stay active until use quits explicitly 
+    //   if (process.platform !== 'darwin') {
+    //     electron.app.quit()
+    //   }
+    // })
+    // // MacOS Specific function
+    // electron.app.on('activate', function() {
+    //   // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
+    //   if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
+    // })
+    
   
 // //? comment out lines 30-38 if dev tools is slowing app
 //   app.whenReady().then(() => {
@@ -106,8 +106,6 @@ function createMainWindow() {
 //   if (process.platform !== 'darwin') {
 //     app.quit();
 //   }
-
-};
 
 // Boilerplate for electron devtools
 // electron.app.whenReady().then(() => {

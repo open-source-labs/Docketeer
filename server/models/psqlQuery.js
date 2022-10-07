@@ -1,11 +1,11 @@
 // const { Pool } = require('pg');
 
 // const pool = new Pool({
-//   host: 'localhost',
+//   host: 'localhost', 
 //   user: 'postgres',
 //   password: 'postgres',
 //   database: 'docketeer-db',
-//   port: 5432
+//   port: 5433,
 // });
 
 // export default async (text, params, callback) => {

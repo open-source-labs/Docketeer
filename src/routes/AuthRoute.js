@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 // Debug
-import Example from './views/Example';
+// import Example from './views/Example';
 
 // import AdminView from './views/Admin';
 import UserView from './views/UserView';

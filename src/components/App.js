@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Debug
 // import Example from './views/Example';
@@ -26,11 +27,14 @@ const App = (props) => {
     );
   } else {
     return (
-      <div>
+      <Fragment>
         {/* <h1>I'm the UserView</h1> */}
         {/* <Example /> */}
-        <UserView />
-      </div>
+        <Routes>
+          <Route exact path='/userview/*' element={<UserView />} />
+        </Routes>
+        <Navigate to='/userview' />
+      </Fragment>
     );
   }
 };

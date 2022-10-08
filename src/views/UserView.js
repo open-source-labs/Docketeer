@@ -1,87 +1,87 @@
 // module imports
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-// import * as actions from '../../actions/actions';
+import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
-// import * as history from '../helper/volumeHistoryHelper';
+import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-// import Metrics from '../tabs/Metrics';
-// import ImagesUser from '../tabs/ImagesUser';
-// import Yml from '../tabs/Yml';
-// import ContainersUser from '../tabs/ContainersUser';
-// import Settings from '../tabs/Settings';
-// import VolumeHistory from '../tabs/VolumeHistory';
-// import ProcessLogs from '../tabs/ProcessLogs';
-// import ProcessLogsTable from '../display/ProcessLogsTable';
+import Metrics from '../tabs/Metrics';
+import ImagesUser from '../tabs/ImagesUser';
+import Yml from '../tabs/Yml';
+import ContainersUser from '../tabs/ContainersUser';
+// import Settings from '../tabs/Settings'; //! Issue with loading frontend -> Path.join is not a functions
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-// import startNotificationRequester from '../helper/notificationsRequester';
-// import initDatabase from '../helper/initDatabase';
+// import startNotificationRequester from '../helper/notificationsRequester'; //! Issue with loading frontend -> Path.join is not a functions
+// import initDatabase from '../helper/initDatabase'; //! Issue with loading frontend -> Path.join is not a functions
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {
-  // const dispatch = useDispatch();
-  // const addRunningContainers = (data) =>
-  //   dispatch(actions.addRunningContainers(data));
-  // const refreshRunningContainers = (data) =>
-  //   dispatch(actions.refreshRunningContainers(data));
-  // const refreshStoppedContainers = (data) =>
-  //   dispatch(actions.refreshStoppedContainers(data));
-  // const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-  // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  // const getNetworkContainers = (data) =>
-  //   dispatch(actions.getNetworkContainers(data));
-  // const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  // const runStoppedContainer = (data) =>
-  //   dispatch(actions.runStoppedContainer(data));
-  // const stopRunningContainer = (id) =>
-  //   dispatch(actions.stopRunningContainer(id));
-  // const updateSession = () => dispatch(actions.updateSession());
-  // const logoutUser = () => dispatch(actions.logoutUser());
-  // const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  // const getVolumeContainersList = (data) =>
-  //   dispatch(actions.getVolumeContainersList(data));
+  const dispatch = useDispatch();
+  const addRunningContainers = (data) =>
+    dispatch(actions.addRunningContainers(data));
+  const refreshRunningContainers = (data) =>
+    dispatch(actions.refreshRunningContainers(data));
+  const refreshStoppedContainers = (data) =>
+    dispatch(actions.refreshStoppedContainers(data));
+  const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
+  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
+  const getNetworkContainers = (data) =>
+    dispatch(actions.getNetworkContainers(data));
+  const removeContainer = (id) => dispatch(actions.removeContainer(id));
+  const runStoppedContainer = (data) =>
+    dispatch(actions.runStoppedContainer(data));
+  const stopRunningContainer = (id) =>
+    dispatch(actions.stopRunningContainer(id));
+  const updateSession = () => dispatch(actions.updateSession());
+  const logoutUser = () => dispatch(actions.logoutUser());
+  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
+  const getVolumeContainersList = (data) =>
+    dispatch(actions.getVolumeContainersList(data));
 
-  //// map state to props
-  // const runningList = useSelector((state) => state.containersList.runningList);
-  // const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  // const imagesList = useSelector((state) => state.images.imagesList);
-  // const networkList = useSelector((state) => state.networkList.networkList);
-  // const arrayOfVolumeNames = useSelector(
-  //   (state) => state.volumeList.arrayOfVolumeNames
-  // );
-  // const volumeContainersList = useSelector(
-  //   (state) => state.volumeList.volumeContainersList
-  // );
+  // map state to props
+  const runningList = useSelector((state) => state.containersList.runningList);
+  const stoppedList = useSelector((state) => state.containersList.stoppedList);
+  const imagesList = useSelector((state) => state.images.imagesList);
+  const networkList = useSelector((state) => state.networkList.networkList);
+  const arrayOfVolumeNames = useSelector(
+    (state) => state.volumeList.arrayOfVolumeNames
+  );
+  const volumeContainersList = useSelector(
+    (state) => state.volumeList.volumeContainersList
+  );
 
-  // // map state to props
-  // const phoneNumber = useSelector(
-  //   (state) => state.notificationList.phoneNumber
-  // );
-  // const memoryNotificationList = useSelector(
-  //   (state) => state.notificationList.memoryNotificationList
-  // );
-  // const cpuNotificationList = useSelector(
-  //   (state) => state.notificationList.cpuNotificationList
-  // );
-  // const stoppedNotificationList = useSelector(
-  //   (state) => state.notificationList.stoppedNotificationList
-  // );
+  // map state to props
+  const phoneNumber = useSelector(
+    (state) => state.notificationList.phoneNumber
+  );
+  const memoryNotificationList = useSelector(
+    (state) => state.notificationList.memoryNotificationList
+  );
+  const cpuNotificationList = useSelector(
+    (state) => state.notificationList.cpuNotificationList
+  );
+  const stoppedNotificationList = useSelector(
+    (state) => state.notificationList.stoppedNotificationList
+  );
 
-  // // declare a local state variable called selected, initialize to "/"
-  // const [selected, setSelected] = useState('/');
-  // const [ loggedIn, setLoggedIn ] = useState(true);
+  // declare a local state variable called selected, initialize to "/"
+  const [selected, setSelected] = useState('/');
+  const [loggedIn, setLoggedIn] = useState(true);
 
-  // const handleLogout = (e) => {
-  //   updateSession();
-  //   logoutUser();
-  //   // props.setLoggedIn(false);
-  // };
+  const handleLogout = (e) => {
+    updateSession();
+    logoutUser();
+    // props.setLoggedIn(false);
+  };
 
   // useEffect(() => {
   //   initDatabase();
@@ -113,15 +113,15 @@ const UserView = (props) => {
   //   return () => clearInterval(interval);
   // }, []);
 
-  // const selectedStyling = {
-  //   background: '#e1e4e6',
-  //   color: '#042331',
-  //   borderTopRightRadius: '10px',
-  //   borderBottomRightRadius: '10px'
-  // };
+  const selectedStyling = {
+    background: '#e1e4e6',
+    color: '#042331',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px'
+  };
 
   return (
-    <div>
+    <Fragment>
       <div className='container'>
         <nav className='tab'>
           <header id='title'>
@@ -211,100 +211,109 @@ const UserView = (props) => {
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
         <Routes>
-          {/* <Route
-            path='/volume'
+          <Route
+            path='*/volume'
             element={
-              <VolumeHistory
-                arrayOfVolumeNames={arrayOfVolumeNames}
-                volumeContainersList={volumeContainersList}
-              />
+              // <VolumeHistory
+              //   arrayOfVolumeNames={arrayOfVolumeNames}
+              //   volumeContainersList={volumeContainersList}
+              // />
+              <h2>I'm Volume History!</h2>
             }
-          /> */}
-          {/* <Route
-            path='/metrics'
-            element={<Metrics runningList={runningList} />}
+          />
+          <Route
+            path='*/metrics'
+            element={
+              // <Metrics runningList={runningList}/>
+              <h2>I'm Metrics!</h2>
+            }
           />
 
           <Route
             path='/logs'
             element={
-              <ProcessLogs
-                runIm={helper.runIm}
-                stop={helper.stop}
-                stopRunningContainer={stopRunningContainer}
-                runningList={runningList}
-                addRunningContainers={addRunningContainers}
-                // Stopped Containers
-                runStopped={helper.runStopped}
-                remove={helper.remove}
-                removeContainer={removeContainer}
-                runStoppedContainer={runStoppedContainer}
-                stoppedList={stoppedList}
-              />
+              // <ProcessLogs
+              //   runIm={helper.runIm}
+              //   stop={helper.stop}
+              //   stopRunningContainer={stopRunningContainer}
+              //   runningList={runningList}
+              //   addRunningContainers={addRunningContainers}
+              //   // Stopped Containers
+              //   runStopped={helper.runStopped}
+              //   remove={helper.remove}
+              //   removeContainer={removeContainer}
+              //   runStoppedContainer={runStoppedContainer}
+              //   stoppedList={stoppedList}
+              // />
+              <h2>I'm Logs!</h2>
             }
           />
           <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
           <Route
             path='/yml'
             element={
-              <Yml
-                networkList={networkList}
-                composeymlFiles={composeymlFiles}
-              />
+              // <Yml
+              //   networkList={networkList}
+              //   composeymlFiles={composeymlFiles}
+              // />
+              <h2>I'm YML!</h2>
             }
           />
           <Route
             path='/images'
             element={
-              <ImagesUser
-                runIm={helper.runIm}
-                removeIm={helper.removeIm}
-                addRunningContainers={addRunningContainers}
-                refreshImagesList={refreshImagesList}
-                imagesList={imagesList}
-                runningList={runningList}
-              />
+              // <ImagesUser
+              //   runIm={helper.runIm}
+              //   removeIm={helper.removeIm}
+              //   addRunningContainers={addRunningContainers}
+              //   refreshImagesList={refreshImagesList}
+              //   imagesList={imagesList}
+              //   runningList={runningList}
+              // />
+              <h2>I'm Images!</h2>
             }
           />
           <Route
             path='/running'
             element={
-              <ContainersUser
-                runIm={helper.runIm}
-                stop={helper.stop}
-                stopRunningContainer={stopRunningContainer}
-                runningList={runningList}
-                addRunningContainers={addRunningContainers}
-                // Stopped Containers
-                runStopped={helper.runStopped}
-                remove={helper.remove}
-                removeContainer={removeContainer}
-                runStoppedContainer={runStoppedContainer}
-                stoppedList={stoppedList}
-              />
+              // <ContainersUser
+              //   runIm={helper.runIm}
+              //   stop={helper.stop}
+              //   stopRunningContainer={stopRunningContainer}
+              //   runningList={runningList}
+              //   addRunningContainers={addRunningContainers}
+              //   // Stopped Containers
+              //   runStopped={helper.runStopped}
+              //   remove={helper.remove}
+              //   removeContainer={removeContainer}
+              //   runStoppedContainer={runStoppedContainer}
+              //   stoppedList={stoppedList}
+              // />
+              <h2>I'm Running!</h2>
             }
           />
           <Route
             path='/'
             element={
-              <Settings
-                runningList={runningList}
-                stop={helper.stop}
-                stopRunningContainer={stopRunningContainer}
-                stoppedList={stoppedList}
-                runStopped={helper.runStopped}
-                refreshRunningContainers={refreshRunningContainers}
-                runStoppedContainer={runStoppedContainer}
-                phoneNumber={phoneNumber}
-                memoryNotificationList={memoryNotificationList}
-                cpuNotificationList={cpuNotificationList}
-                stoppedNotificationList={stoppedNotificationList}
-              />
+              // <Settings
+              //   runningList={runningList}
+              //   stop={helper.stop}
+              //   stopRunningContainer={stopRunningContainer}
+              //   stoppedList={stoppedList}
+              //   runStopped={helper.runStopped}
+              //   refreshRunningContainers={refreshRunningContainers}
+              //   runStoppedContainer={runStoppedContainer}
+              //   phoneNumber={phoneNumber}
+              //   memoryNotificationList={memoryNotificationList}
+              //   cpuNotificationList={cpuNotificationList}
+              //   stoppedNotificationList={stoppedNotificationList}
+              // />
+              <h2>I'm Settings!</h2>
             }
-          /> */}
+          />
         </Routes>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

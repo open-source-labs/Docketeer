@@ -1,5 +1,5 @@
 // import { exec } from 'child_process';
-import query from './psqlQuery';
+import query from '../../../server/models/psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,

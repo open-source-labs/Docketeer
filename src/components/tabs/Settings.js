@@ -5,7 +5,7 @@ import * as actions from '../../actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
 import * as categories from '../../constants/notificationCategories';
-import query from '../helper/psqlQuery';
+import query from '../../../server/models/psqlQuery';
 import * as queryType from '../../constants/queryTypes';
 
 // React Component Imports

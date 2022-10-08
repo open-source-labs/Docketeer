@@ -2,12 +2,12 @@
  * @description PSQL Queries
  */
 
-const GET_METRICS = `
-  SELECT * 
+export const GET_METRICS = `
+  SELECT *
   FROM metrics WHERE container_name = $1;
 `;
 
-const WRITE_METRICS = `
+export const WRITE_METRICS = `
   INSERT INTO metrics (container_id, cpu_pct, memory_pct)
   VALUES ($1, $2, $3)
   RETURNING *;

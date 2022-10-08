@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,32 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
  * @param {*} props
  */
 
-const useStyles = makeStyles(() => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle'
-    }
-  },
-  button: {
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top'
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green'
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30
-  }
-}));
-
 const Yml = () => {
-  const classes = useStyles();
   const [filePath, setFilePath] = useState('');
   const [ymlFile, setYmlFile] = useState('');
   const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
@@ -52,7 +26,7 @@ const Yml = () => {
 
   const getContainerStacks = (data) =>
     dispatch(actions.getContainerStacks(data));
-  const composeDown = (data) => dispatch(actions.composeDown(data));
+  // const composeDown = (data) => dispatch(actions.composeDown(data));
 
   useEffect(() => {
     // upon page render, get list of currently running container networks

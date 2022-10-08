@@ -24,8 +24,8 @@ signupController.usernameCheck = (req, res, next) => {
       return next({
         log: `Error in signupController usernameCheck: ${err}`,
         message: {
-          err: 'An error occured while checking if username exists. See signupController.usernameCheck.'
-        }
+          err: 'An error occured while checking if username exists. See signupController.usernameCheck.',
+        },
       });
     });
 };

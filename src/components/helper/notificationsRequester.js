@@ -95,7 +95,7 @@ const sendNotification = async (
         stat,
         triggeringValue,
         containerId
-      )
+      ),
     };
 
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
@@ -122,7 +122,7 @@ const sendNotification = async (
     stopped,
     percent: stat,
     type,
-    threshold: triggeringValue
+    threshold: triggeringValue,
   };
 
   await ipcRenderer.invoke('email-event', body);

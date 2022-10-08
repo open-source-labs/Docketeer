@@ -8,7 +8,7 @@ describe('Dockeeter reducer', () => {
     state = {
       imagesList: [],
       runningList: [],
-      stoppedList: []
+      stoppedList: [],
     };
   });
 
@@ -23,12 +23,12 @@ describe('Dockeeter reducer', () => {
       expect(state.runningList.length).toEqual(0);
       let action = {
         type: 'REFRESH_RUNNING_CONTAINERS',
-        payload: [{ cid: '123' }, { cid: '456' }]
+        payload: [{ cid: '123' }, { cid: '456' }],
       };
       expect(containerListReducer(state, action).runningList.length).toEqual(2);
       action = {
         type: 'REFRESH_RUNNING_CONTAINERS',
-        payload: [{ cid: '789' }]
+        payload: [{ cid: '789' }],
       };
       expect(containerListReducer(state, action).runningList.length).toEqual(1);
       expect(containerListReducer(state, action).runningList[0].cid).toEqual(
@@ -42,12 +42,12 @@ describe('Dockeeter reducer', () => {
       expect(state.stoppedList.length).toEqual(0);
       let action = {
         type: 'REFRESH_STOPPED_CONTAINERS',
-        payload: [{ cid: '123' }, { cid: '456' }]
+        payload: [{ cid: '123' }, { cid: '456' }],
       };
       expect(containerListReducer(state, action).stoppedList.length).toEqual(2);
       action = {
         type: 'REFRESH_STOPPED_CONTAINERS',
-        payload: [{ cid: '789' }]
+        payload: [{ cid: '789' }],
       };
       expect(containerListReducer(state, action).stoppedList.length).toEqual(1);
       expect(containerListReducer(state, action).stoppedList[0].cid).toEqual(
@@ -61,7 +61,7 @@ describe('Dockeeter reducer', () => {
       expect(state.imagesList.length).toEqual(0);
       let action = {
         type: 'REFRESH_IMAGES',
-        payload: [{ imgid: '123' }, { imgid: '456' }]
+        payload: [{ imgid: '123' }, { imgid: '456' }],
       };
       expect(imageListReducer(state, action).imagesList.length).toEqual(2);
       action = { type: 'REFRESH_IMAGES', payload: [{ imgid: '789' }] };
@@ -75,7 +75,7 @@ describe('Dockeeter reducer', () => {
   describe('REMOVE_CONTAINER', () => {
     it('should remove the specified container from the stoppedList array in the state', () => {
       const newState = {
-        stoppedList: [{ cid: '123' }, { cid: '456' }]
+        stoppedList: [{ cid: '123' }, { cid: '456' }],
       };
       const action = { type: 'REMOVE_CONTAINER', payload: '123' };
       expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual(
@@ -88,7 +88,7 @@ describe('Dockeeter reducer', () => {
     it('should remove a specified container from the runningList and add it to the stoppedList', () => {
       let newState = {
         runningList: [{ cid: '123' }, { cid: '456' }],
-        stoppedList: []
+        stoppedList: [],
       };
       const action = { type: 'STOP_RUNNING_CONTAINER', payload: '123' };
       newState = containerListReducer(newState, action);
@@ -100,7 +100,7 @@ describe('Dockeeter reducer', () => {
     it('should remove a specified container from the stoppedList', () => {
       const newState = {
         runningList: [],
-        stoppedList: [{ cid: '123' }, { cid: '456' }]
+        stoppedList: [{ cid: '123' }, { cid: '456' }],
       };
       const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
       expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual(
@@ -112,7 +112,7 @@ describe('Dockeeter reducer', () => {
   describe('REMOVE_IMAGE', () => {
     it('should remove a specified image from the imagesList', () => {
       const newState = {
-        imagesList: [{ id: '123' }, { id: '456' }]
+        imagesList: [{ id: '123' }, { id: '456' }],
       };
       const action = { type: 'REMOVE_IMAGE', payload: '123' };
       expect(imageListReducer(newState, action).imagesList[0].id).toEqual(

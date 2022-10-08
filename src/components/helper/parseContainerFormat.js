@@ -85,5 +85,5 @@ const convertToMetricsArr = (array) => {
 module.exports = {
   convert,
   convertArrToObj,
-  convertToMetricsArr
+  convertToMetricsArr,
 };

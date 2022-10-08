@@ -13,7 +13,7 @@ const postEvent = (mobileNumber, eventMessage) => {
     .create({
       body: eventMessage,
       to: mobileNumber,
-      from: twilioNumber
+      from: twilioNumber,
     })
     .then(() => {
       console.log('User notified');

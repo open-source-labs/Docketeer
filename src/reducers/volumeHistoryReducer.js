@@ -10,7 +10,7 @@ import * as types from '../constants/actionTypes';
  */
 const initialState = {
   arrayOfVolumeNames: [],
-  volumeContainersList: []
+  volumeContainersList: [],
 };
 
 export default function (state = initialState, action) {
@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
       const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
       return {
         ...state,
-        arrayOfVolumeNames: newVolumeList
+        arrayOfVolumeNames: newVolumeList,
       };
 
     case types.GET_VOLUME_CONTAINERS_LIST:
@@ -36,7 +36,7 @@ export default function (state = initialState, action) {
       newVolumeContainersList.push(action.payload);
       return {
         ...state,
-        volumeContainersList: newVolumeContainersList
+        volumeContainersList: newVolumeContainersList,
       };
 
     default:

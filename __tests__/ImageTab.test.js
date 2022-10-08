@@ -12,18 +12,18 @@ function shallowSetup() {
         tag: 'latest',
         imgid: 'fc266a46f885',
         created: 'toady',
-        size: '234mb'
-      }
-    ]
+        size: '234mb',
+      },
+    ],
   };
   const enzymeWrapper = shallow(<Images {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 describe('Shallow all of the properties of the Images', () => {
-  const { enzymeWrapper, props } = shallowSetup();
+  const { enzymeWrapper } = shallowSetup();
   it('Should render <div> tag in Images', () => {
     expect(enzymeWrapper.type()).toEqual('div');
     expect(

@@ -3,8 +3,8 @@ import * as types from '../constants/actionTypes';
 const initialState = {
   containerLogs: {
     stdoutLogs: [],
-    stderrLogs: []
-  }
+    stderrLogs: [],
+  },
 };
 
 const processLogsReducer = (state = initialState, action) => {

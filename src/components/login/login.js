@@ -2,22 +2,20 @@
  * @module Login
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-  BrowserHistory
+  BrowserHistory,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from 'react-modal';
 // Redux Imports (actions)
 import * as actions from '../../actions/actions';
 
 // React Component Imports
 import App from '../App';
-import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch'
-    }
-  }
+      width: '25ch',
+    },
+  },
 }));
 
 const Login = () => {
@@ -43,8 +41,6 @@ const Login = () => {
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
 
   const session = useSelector((state) => state.session.isLoggedIn);
-
-  const [modalIsOpen, setIsOpen] = useState(false);
 
   // Material UI
   const classes = useStyles();
@@ -83,12 +79,12 @@ const Login = () => {
     fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: username,
-        password: password
-      })
+        password: password,
+      }),
     })
       .then((response) => {
         return response.json();

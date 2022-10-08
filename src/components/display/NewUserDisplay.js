@@ -2,8 +2,7 @@
  * @module NewUserDisplay
  * @description Signup component that will be rendered in SysAdmin view, in Users tab, where sysadmin can create an account for new user in organization
  */
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 
 // Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,16 +13,16 @@ import {
   handleNewUser,
   checkPasswordLength,
   confirmPassword,
-  checkPhone
+  checkPhone,
 } from '../helper/newUserHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch'
-    }
-  }
+      width: '25ch',
+    },
+  },
 }));
 
 const NewUserDisplay = () => {

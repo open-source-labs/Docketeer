@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
   runningList: [],
-  stoppedList: []
+  stoppedList: [],
 };
 
 export default function (state = initialState, action) {
@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         runningList: newestRunningList,
-        stoppedList: newStoppedList
+        stoppedList: newStoppedList,
       };
 
     case types.RUN_STOPPED_CONTAINER:
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         runningList: runningListCopy,
-        stoppedList: newerStoppedContainer
+        stoppedList: newerStoppedContainer,
       };
 
     case types.REFRESH_RUNNING_CONTAINERS:

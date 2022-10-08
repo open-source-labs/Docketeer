@@ -17,7 +17,7 @@ function shallowSetup() {
         MemUsage: '5B/6B',
         Name: 'checkpoint_nginx_1',
         NetIO: '3B/4B',
-        PIDs: '0'
+        PIDs: '0',
       },
       {
         BlockIO: '3B/4B',
@@ -27,23 +27,23 @@ function shallowSetup() {
         MemUsage: '5B/6B',
         Name: 'checkpoint_nginx_2',
         NetIO: '5B/6B',
-        PIDs: '0'
-      }
-    ]
+        PIDs: '0',
+      },
+    ],
   };
 
   const enzymeWrapper = shallow(<Metrics {...props} />);
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 
 describe('Shallow rendered Metrics for chart', () => {
   // Setup wrapper and assign props.
 
-  const { enzymeWrapper, props } = shallowSetup();
+  const { enzymeWrapper } = shallowSetup();
 
   it('Should render <div> tag in Metrics', () => {
     expect(enzymeWrapper.type()).toEqual('div');

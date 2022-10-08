@@ -8,14 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProcessLogsTable from '../display/ProcessLogsTable';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+// import ProcessLogsTable from '../display/ProcessLogsTable';
 
 const ProcessLogsCard = (props) => {
   return (
@@ -35,7 +28,7 @@ const ProcessLogsCard = (props) => {
 ProcessLogsCard.propTypes = {
   container: PropTypes.object,
   index: PropTypes.number,
-  status: PropTypes.string
+  status: PropTypes.string,
 };
 
 export default ProcessLogsCard;

@@ -1,12 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-
 import {
   makeArrayOfObjects,
-  buildOptionsObj
+  buildOptionsObj,
 } from '../src/components/helper/processLogHelper.js';
-import React from 'react';
 
 describe('makeArrayOfObjects', () => {
   it('returns an array', () => {

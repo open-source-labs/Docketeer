@@ -10,7 +10,7 @@ const initialState = {
   mem_threshold: '',
   cpu_threshold: '',
   container_stops: false,
-  isSysAdmin: false
+  isSysAdmin: false,
 };
 
 export default function (state = initialState, action) {

@@ -10,9 +10,9 @@ export const handleNewUser = (e) => {
 
   const username = document.getElementById('signupUsername').value;
   const password = document.getElementById('signupPassword').value;
-  const confirmationPassword = document.getElementById(
-    'signupPasswordConfirmation'
-  ).value;
+  // const confirmationPassword = document.getElementById(
+  //   'signupPasswordConfirmation'
+  // ).value;
   const email = document.getElementById('signupEmail').value;
   const phone = document.getElementById('signupPhone').value;
 
@@ -79,14 +79,14 @@ export const createNewUser = (email, username, password, phone) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: username,
       password: password,
       email: email,
-      phone: phone
-    })
+      phone: phone,
+    }),
   })
     .then((response) => {
       return response.json();
@@ -118,12 +118,12 @@ export const getUpdatedUserList = () => {
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: store.userInfo.username,
-      token: store.userInfo.token
-    })
+      token: store.userInfo.token,
+    }),
   })
     .then((response) => response.json())
     .then((data) => {

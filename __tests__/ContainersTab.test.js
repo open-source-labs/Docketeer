@@ -17,8 +17,8 @@ function shallowSetup() {
         MemUsage: '2.195MiB/1.944GiB',
         Name: 'blissful_matsumoto',
         NetIO: '796B/0B',
-        PIDs: '5'
-      }
+        PIDs: '5',
+      },
     ],
     stoppedList: [
       {
@@ -26,15 +26,15 @@ function shallowSetup() {
         ID: 'c902ec744095',
         Img: '84c5f6e03bf0',
         Created: '2 days ago',
-        name: 'zealous_pare'
-      }
-    ]
+        name: 'zealous_pare',
+      },
+    ],
   };
   const enzymeWrapper = shallow(<Containers {...props} />);
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 }
 

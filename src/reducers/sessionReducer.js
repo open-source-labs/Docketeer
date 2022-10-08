@@ -13,7 +13,7 @@ const initialState = {
   container_stops: '',
   token: '',
   isLoggedIn: false,
-  userList: []
+  userList: [],
 };
 
 export default function (state = initialState, action) {
@@ -22,7 +22,7 @@ export default function (state = initialState, action) {
     case types.UPDATE_SESSION: {
       return {
         ...state,
-        isLoggedIn: !state.isLoggedIn
+        isLoggedIn: !state.isLoggedIn,
       };
     }
 
@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token
+        token,
       } = action.payload;
 
       return {
@@ -54,14 +54,14 @@ export default function (state = initialState, action) {
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token
+        token,
       };
     }
 
     // after logging out, remove all user info from session state
     case types.LOGOUT_USER: {
       return {
-        ...initialState
+        ...initialState,
       };
     }
 

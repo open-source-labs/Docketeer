@@ -3,10 +3,10 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 import installExtension, {
   REDUX_DEVTOOLS,
-  REACT_DEVELOPER_TOOLS
+  REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer';
 
-import verifyCode from './twilio/verifyCode';
+import { verifyCode } from './twilio/verifyCode';
 import verifyMobileNumber from './twilio/verifyMobile';
 import postEvent from './twilio/postEvent';
 import emailEvent from './email/emailEvent';
@@ -21,8 +21,8 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
   // comment out lines 30-38 if dev tools is slowing app
@@ -49,7 +49,7 @@ function createMainWindow() {
       formatUrl({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
-        slashes: true
+        slashes: true,
       })
     );
   }

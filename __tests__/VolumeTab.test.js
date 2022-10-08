@@ -11,17 +11,17 @@ describe('Volumes Tab', () => {
       {
         vol_name: 'volumetest1',
         containers: [
-          { Names: 'container1', State: 'Running', Status: '40 minutes ago' }
-        ]
+          { Names: 'container1', State: 'Running', Status: '40 minutes ago' },
+        ],
       },
       {
         vol_name: 'volumetest2',
         containers: [
           { Names: 'container2', State: 'Running', Status: '25 minutes ago' },
-          { Names: 'container3', State: '', Status: '' }
-        ]
-      }
-    ]
+          { Names: 'container3', State: '', Status: '' },
+        ],
+      },
+    ],
   };
 
   const wrapper = shallow(<VolumeTab {...props} />);

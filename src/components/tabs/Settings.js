@@ -23,7 +23,6 @@ import query from '../helper/psqlQuery';
 import * as queryType from '../../constants/queryTypes';
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -48,34 +47,34 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data))
+    dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& .MuiTextField-root': {
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: 'middle'
-    }
+      verticalAlign: 'middle',
+    },
   },
   button: {
     '& > *': {
-      pointerEvents: 'none'
+      pointerEvents: 'none',
     },
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top'
+    verticalAlign: 'top',
   },
   verifiedIcon: {
     verticalAlign: 'top',
-    color: 'green'
+    color: 'green',
   },
   description: {
     marginLeft: 5,
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
 }));
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
@@ -99,7 +98,7 @@ const Settings = (props) => {
     stoppedList: PropTypes.array.isRequired,
     memoryNotificationList: PropTypes.object.isRequired,
     cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired
+    stoppedNotificationList: PropTypes.object.isRequired,
   };
 
   // handle check
@@ -170,7 +169,7 @@ const Settings = (props) => {
         const tempCPU = [];
         const tempStopped = [];
 
-        res.rows.forEach((el, i) => {
+        res.rows.forEach((el) => {
           switch (el.metric_name) {
             case categories.MEMORY.toLowerCase():
               tempMemory.push(el.container_id);
@@ -303,7 +302,7 @@ const Settings = (props) => {
   const handleSubmit = async () => {
     const body = {
       code: formData,
-      mobileNumber: mobileNumber
+      mobileNumber: mobileNumber,
     };
 
     const result = await ipcRenderer.invoke('verify-code', body);
@@ -333,16 +332,12 @@ const Settings = (props) => {
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-  const getData = () => {
-    return query(queryType.GET_CONTAINERS, []);
-  };
-
-  const updateState = async () => {
-    const output = await getData();
-    output.forEach((el) => {
-      stateObject[el.id] = el.github_url;
-    });
-  };
+  // const updateState = async () => {
+  //   const output = await query(queryType.GET_CONTAINERS, []);
+  //   output.forEach((el) => {
+  //     stateObject[el.id] = el.github_url;
+  //   });
+  // };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   const githubLink = (event) => {
@@ -390,12 +385,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
-        contact_pref: value
-      })
+        contact_pref: value,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -408,7 +403,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleCpuChange = (event) => {
+  const handleCpuChange = () => {
     setCpuThreshold(document.getElementById('cpu-threshold-input').value);
   };
 
@@ -416,12 +411,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
-        cpu_threshold: value
-      })
+        cpu_threshold: value,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -438,12 +433,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
-        mem_threshold: value
-      })
+        mem_threshold: value,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -460,12 +455,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
-        container_stops: value
-      })
+        container_stops: value,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -478,11 +473,11 @@ const Settings = (props) => {
       });
   };
 
-  const handleMemChange = (event) => {
+  const handleMemChange = () => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
   };
 
-  const handleStoppedContainersChange = (event) => {
+  const handleStoppedContainersChange = () => {
     setStoppedContainers(
       document.getElementById('stopped-containers-input').checked
     );

@@ -21,7 +21,7 @@ configController.configureThresholds = (req, res, next) => {
     mem_threshold,
     cpu_threshold,
     container_stops,
-    _id
+    _id,
   ];
 
   db.query(inputThresholds, thresholdDetails)
@@ -33,8 +33,8 @@ configController.configureThresholds = (req, res, next) => {
       return next({
         log: `Error in userController newUser: ${err}`,
         message: {
-          err: 'An error occured creating new user in database. See userController.newUser.'
-        }
+          err: 'An error occured creating new user in database. See userController.newUser.',
+        },
       });
     });
 };
@@ -58,8 +58,8 @@ configController.updateContactPref = (req, res, next) => {
       return next({
         log: `Error in configController updateContactPref: ${err}`,
         message: {
-          err: 'An error occured updating contact preferences in database. See configController.updateContactPref.'
-        }
+          err: 'An error occured updating contact preferences in database. See configController.updateContactPref.',
+        },
       });
     });
 };
@@ -83,8 +83,8 @@ configController.updateCPUThreshold = (req, res, next) => {
       return next({
         log: `Error in configController updateCPUThreshold: ${err}`,
         message: {
-          err: 'An error occured updating CPU threshold in database. See configController.updateCPUThreshold.'
-        }
+          err: 'An error occured updating CPU threshold in database. See configController.updateCPUThreshold.',
+        },
       });
     });
 };
@@ -108,8 +108,8 @@ configController.updateMemThreshold = (req, res, next) => {
       return next({
         log: `Error in configController updateMemThreshold: ${err}`,
         message: {
-          err: 'An error occured updating memory threshold in database. See configController.updateMemThreshold.'
-        }
+          err: 'An error occured updating memory threshold in database. See configController.updateMemThreshold.',
+        },
       });
     });
 };
@@ -133,8 +133,8 @@ configController.updateStopPref = (req, res, next) => {
       return next({
         log: `Error in configController updateStopPref: ${err}`,
         message: {
-          err: 'An error occured updating container stop preference in database. See configController.updateStopPref.'
-        }
+          err: 'An error occured updating container stop preference in database. See configController.updateStopPref.',
+        },
       });
     });
 };

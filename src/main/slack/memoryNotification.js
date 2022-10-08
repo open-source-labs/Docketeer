@@ -10,7 +10,7 @@ const memoryNotification = async function () {
       url: SLACK_WEBHOOK,
       method: 'POST',
       body: payload,
-      json: true
+      json: true,
     });
   } catch (err) {
     console.log('memoryNotification ERR: ', err);

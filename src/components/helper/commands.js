@@ -3,7 +3,7 @@ import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
-  listOfVolumeProperties
+  listOfVolumeProperties,
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
@@ -192,8 +192,8 @@ export const stop = (id, callback) => {
  */
 export const runStopped = (
   id,
-  runStoppedContainerDispatcher,
-  refreshRunningContainers
+  runStoppedContainerDispatcher
+  // refreshRunningContainers
 ) => {
   exec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
@@ -346,12 +346,12 @@ export const inspectDockerContainer = (containerId) => {
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml'
+      'compose.yaml',
     ];
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
@@ -438,12 +438,12 @@ export const dockerComposeStacks = (
  */
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml'
+      'compose.yaml',
     ];
     let cmd = `cd ${fileLocation} && docker-compose down`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename

@@ -1,13 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import ToggleDisplay from '../display/ToggleDisplay';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ProcessLogsCard from '../display/ProcessLogsCard';
 
 /**

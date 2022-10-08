@@ -16,7 +16,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
-    "lint": "eslint . --quiet --fix",
+    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src/ server/",
     "prepare": "husky install"
   },
   "husky": {
@@ -26,7 +26,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": ["npm run lint"]
+    "*.{js,ts,tsx}": [
+      "npm run lint"
+    ]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -86,6 +88,7 @@
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^27.1.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.24.0",

@@ -1,7 +1,3 @@
-import { getLogs } from './commands';
-import { useDispatch } from 'react-redux';
-import * as actions from '../../actions/actions';
-
 /**
  * Helper function to build options object based on the radio button selected in the process logs tab
  *
@@ -16,7 +12,7 @@ import * as actions from '../../actions/actions';
  */
 export const buildOptionsObj = (containerId) => {
   const optionsObj = {
-    containerId: containerId
+    containerId: containerId,
   };
 
   if (document.getElementById('sinceInput').checked) {

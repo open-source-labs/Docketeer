@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
   networkList: [],
-  composeStack: []
+  composeStack: [],
 };
 
 export default function (state = initialState, action) {

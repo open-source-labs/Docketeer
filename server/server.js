@@ -1,5 +1,5 @@
 const express = require('express');
-const path = require('path');
+// const path = require('path');
 const cors = require('cors');
 
 // Routers
@@ -36,7 +36,7 @@ app.get('/', (req, res, next, err) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
-    message: { err: 'An error occured' }
+    message: { err: 'An error occured' },
   };
   const errorObj = Object.assign(defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);

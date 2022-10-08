@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as helper from '../helper/commands';
-import { string } from 'prop-types';
-import console from 'console';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../actions/actions';
@@ -13,7 +10,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { SettingsCellOutlined } from '@material-ui/icons';
 
 /**
  * Displays process logs as table
@@ -22,7 +18,7 @@ import { SettingsCellOutlined } from '@material-ui/icons';
  * a Router link.
  */
 
-const ProcessLogsTable = (props) => {
+const ProcessLogsTable = () => {
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));

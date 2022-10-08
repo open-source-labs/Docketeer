@@ -71,7 +71,7 @@ const Containers = (props) => {
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [cpuData, memoryData],
-          barPercentage: 0.4
+          barPercentage: 0.4,
         },
         {
           stack,
@@ -80,9 +80,9 @@ const Containers = (props) => {
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
-          barPercentage: 0.4
-        }
-      ]
+          barPercentage: 0.4,
+        },
+      ],
     };
 
     return (
@@ -112,36 +112,36 @@ const Containers = (props) => {
                 data={chartInfo}
                 options={{
                   tooltips: {
-                    enabled: false
+                    enabled: false,
                   },
                   title: {
-                    display: false
+                    display: false,
                   },
                   legend: {
                     display: false,
-                    position: 'right'
+                    position: 'right',
                   },
 
                   scales: {
                     yAxes: [
                       {
                         gridLines: {
-                          display: false
+                          display: false,
                         },
                         ticks: {
                           display: false,
                           min: 0,
                           max: 100,
-                          stepSize: 20
-                        }
-                      }
+                          stepSize: 20,
+                        },
+                      },
                     ],
                     xAxes: [
                       {
-                        categorySpacing: 0
-                      }
-                    ]
-                  }
+                        categorySpacing: 0,
+                      },
+                    ],
+                  },
                 }}
               />
             </div>

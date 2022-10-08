@@ -21,9 +21,9 @@ const Metrics = (props) => {
       {
         label: 'CPU',
         backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
-        data: [cpuData, result[0]]
-      }
-    ]
+        data: [cpuData, result[0]],
+      },
+    ],
   };
 
   const memory = {
@@ -32,19 +32,19 @@ const Metrics = (props) => {
       {
         label: 'Memory',
         backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
-        data: [memoryData, result[1]]
-      }
-    ]
+        data: [memoryData, result[1]],
+      },
+    ],
   };
 
   const options = {
     tooltips: {
-      enabled: false
+      enabled: false,
     },
     title: {
       display: true,
       text: 'MEMORY',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: false, position: 'bottom' },
     responsive: true,
@@ -60,19 +60,19 @@ const Metrics = (props) => {
           const percentage = ((value * 100) / sum).toFixed(2) + '%';
           return percentage;
         },
-        color: '#fff'
-      }
-    }
+        color: '#fff',
+      },
+    },
   };
 
   const options2 = {
     tooltips: {
-      enabled: false
+      enabled: false,
     },
     title: {
       display: true,
       text: 'CPU',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: false, position: 'bottom' },
     responsive: true,
@@ -88,9 +88,9 @@ const Metrics = (props) => {
           const percentage = ((value * 100) / sum).toFixed(2) + '%';
           return percentage;
         },
-        color: '#fff'
-      }
-    }
+        color: '#fff',
+      },
+    },
   };
 
   return (

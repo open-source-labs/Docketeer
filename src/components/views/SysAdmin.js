@@ -1,13 +1,7 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../actions/actions';
@@ -31,7 +25,7 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-const SysAdmin = (props) => {
+const SysAdmin = () => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -51,7 +45,7 @@ const SysAdmin = (props) => {
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
   const updateUserList = (data) => dispatch(actions.updateUserList(data));
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  // const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -86,17 +80,17 @@ const SysAdmin = (props) => {
   // Local state for routers
   const [selected, setSelected] = useState('/');
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: userInfo.username
-      })
+        username: userInfo.username,
+      }),
     })
       .then((data) => data.json())
       .then((response) => {
@@ -141,12 +135,12 @@ const SysAdmin = (props) => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         token: userInfo.token,
-        username: userInfo.username
-      })
+        username: userInfo.username,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -163,7 +157,7 @@ const SysAdmin = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
+    borderBottomRightRadius: '10px',
   };
 
   return (

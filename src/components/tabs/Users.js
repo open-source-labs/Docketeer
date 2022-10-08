@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import NewUserDisplay from '../display/NewUserDisplay';
@@ -27,16 +27,16 @@ import * as actions from '../../actions/actions';
 // Table Style Generator
 export const useStyles = makeStyles({
   table: {
-    minWidth: 1000
-  }
+    minWidth: 1000,
+  },
 });
 
 // Pagination Footer Style Generator
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5)
-  }
+    marginLeft: theme.spacing(2.5),
+  },
 }));
 
 // Function store of all pagination functions, these functions update the count, the current range of pages, etc. Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
@@ -108,7 +108,7 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
 };
 
 const UserTable = () => {
@@ -131,8 +131,8 @@ const UserTable = () => {
   const [selected, setSelected] = React.useState(tempSelected);
 
   // Determine how many empty rows to display on a certain page, e.g. if rowsPerPage = 5, and there are only 3 rows, should display 2 rows
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows =
+  //   rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   // Update local state variable page upon clicking a new page
   const handleChangePage = (event, newPage) => {
@@ -153,7 +153,7 @@ const UserTable = () => {
 
     // create temporary copy of selected object
     const temp = {
-      ...selected
+      ...selected,
     };
     // update key of checkbox id to switched/inverted value
     temp[id] = invertPreviousValue;
@@ -165,12 +165,12 @@ const UserTable = () => {
     fetch('http://localhost:3000/admin/switch', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id: id,
-        changeToAdmin: invertPreviousValue
-      })
+        changeToAdmin: invertPreviousValue,
+      }),
     })
       .then((response) => {
         return response.json();
@@ -179,7 +179,7 @@ const UserTable = () => {
         const { _id, role } = data;
         const payload = {
           _id,
-          role
+          role,
         };
         updateUserRole(payload);
       })
@@ -259,7 +259,7 @@ const UserTable = () => {
                   page={page}
                   SelectProps={{
                     inputProps: { 'aria-label': 'rows per page' },
-                    native: true
+                    native: true,
                   }}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}

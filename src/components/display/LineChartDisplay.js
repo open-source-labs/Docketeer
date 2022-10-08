@@ -20,7 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
  *
  * @param {*} props
  */
-const Metrics = (props) => {
+const Metrics = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
@@ -43,7 +43,7 @@ const Metrics = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
+    borderBottomRightRadius: '10px',
   };
 
   const getContainerMetrics = async () => {
@@ -70,19 +70,19 @@ const Metrics = (props) => {
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
-    datasets: memory
+    datasets: memory,
   };
   const cpuObj = {
     labels: axis,
-    datasets: cpu
+    datasets: cpu,
   };
   const writtenIOObj = {
     labels: axis,
-    datasets: writtenIO
+    datasets: writtenIO,
   };
   const readIOObj = {
     labels: axis,
-    datasets: readIO
+    datasets: readIO,
   };
 
   /**
@@ -100,7 +100,7 @@ const Metrics = (props) => {
       return;
     }
     // DB QUERY LIKELY GOING HERE
-    const output = await getContainerMetrics();
+    // const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -110,7 +110,7 @@ const Metrics = (props) => {
         'purple',
         'yellow',
         'grey',
-        'orange'
+        'orange',
       ];
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
@@ -125,7 +125,7 @@ const Metrics = (props) => {
         borderColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        )
+        ),
       };
 
       return obj;
@@ -139,7 +139,7 @@ const Metrics = (props) => {
         backgroundColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        )
+        ),
       };
 
       return obj;
@@ -164,7 +164,7 @@ const Metrics = (props) => {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
         writtenIO: buildBarGraphObj(container),
-        readIO: buildBarGraphObj(container)
+        readIO: buildBarGraphObj(container),
       };
       // console.log('This is the auxobj', auxObj);
     });
@@ -228,7 +228,7 @@ const Metrics = (props) => {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          since: `${date}`
+          since: `${date}`,
         });
 
       const data = await fetch(url);
@@ -238,13 +238,13 @@ const Metrics = (props) => {
         ob[containerName].push({
           time: commitData.commit.author.date,
           url: commitData.html_url,
-          author: commitData.commit.author.name
+          author: commitData.commit.author.name,
         });
       });
     } else {
       ob[containerName].push({
         time: '',
-        url: 'Connect github repo in settings'
+        url: 'Connect github repo in settings',
       });
     }
     return ob;
@@ -266,7 +266,7 @@ const Metrics = (props) => {
         <th>Time</th>
         <th>URL</th>
         <th>Author</th>
-      </tr>
+      </tr>,
     ];
     el[name].forEach((ob) => {
       let author = '';
@@ -356,60 +356,60 @@ const Metrics = (props) => {
   const cpuOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index'
+      mode: 'index',
     },
     title: {
       display: true,
       text: 'CPU',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const memoryOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index'
+      mode: 'index',
     },
     title: {
       display: true,
       text: 'MEMORY',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const writtenIOOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index'
+      mode: 'index',
     },
     title: {
       display: true,
       text: 'IO BYTES WRITTEN BY IMAGE',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
   const readIOOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index'
+      mode: 'index',
     },
     title: {
       display: true,
       text: 'IO BYTES READ BY IMAGE',
-      fontSize: 23
+      fontSize: 23,
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   /* Consider if we can combine these two. Wasn't rendering active containers when tested */

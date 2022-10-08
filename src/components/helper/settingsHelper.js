@@ -11,9 +11,9 @@ export const handlePasswordChange = () => {
     'current-password-input'
   ).value;
   const newPassword = document.getElementById('new-password-input').value;
-  const newPasswordConfirmation = document.getElementById(
-    'new-password-confirmation-input'
-  ).value;
+  // const newPasswordConfirmation = document.getElementById(
+  //   'new-password-confirmation-input'
+  // ).value;
 
   if (!checkCurrentPassword()) {
     window.alert('Warning: Please enter your current password');
@@ -38,13 +38,13 @@ export const updatePassword = (password, newPassword) => {
   fetch('http://localhost:3000/account/password', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username,
       password: password,
-      newPassword: newPassword
-    })
+      newPassword: newPassword,
+    }),
   })
     .then((response) => {
       return response.json();
@@ -103,7 +103,7 @@ export const checkPasswordLength = () => {
 
 export const handleEmailUpdate = () => {
   const email = document.getElementById('update-email-input').value;
-  const emailAlert = document.getElementById('update-email-alert');
+  // const emailAlert = document.getElementById('update-email-alert');
 
   const state = store.getState();
   const username = state.session.username;
@@ -120,12 +120,12 @@ export const updateEmail = (username, email) => {
   fetch('http://localhost:3000/account/email', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username,
-      email
-    })
+      email,
+    }),
   })
     .then((response) => {
       return response.json();
@@ -141,7 +141,7 @@ export const updateEmail = (username, email) => {
 
 export const handlePhoneUpdate = () => {
   const newPhoneNumber = document.getElementById('update-phone-input').value;
-  const newPhoneAlert = document.getElementById('update-phone-alert');
+  // const newPhoneAlert = document.getElementById('update-phone-alert');
 
   if (!checkPhone(newPhoneNumber)) {
     window.alert(
@@ -172,12 +172,12 @@ export const updatePhone = (username, phone) => {
   fetch('http://localhost:3000/account/phone', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username,
-      phone
-    })
+      phone,
+    }),
   })
     .then((response) => {
       return response.json();

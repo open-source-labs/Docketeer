@@ -1,13 +1,7 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../actions/actions';
@@ -30,7 +24,7 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-const AdminView = (props) => {
+const AdminView = () => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -83,7 +77,7 @@ const AdminView = (props) => {
   const [selected, setSelected] = useState('/');
   // const [ loggedIn, setLoggedIn ] = useState(true);
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
     // props.setLoggedIn(false);
@@ -123,7 +117,7 @@ const AdminView = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
+    borderBottomRightRadius: '10px',
   };
 
   return (

@@ -22,8 +22,8 @@ bcryptController.hashPassword = (req, res, next) => {
       return next({
         log: `Error in bcryptController hashPassword: ${err}`,
         message: {
-          err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.'
-        }
+          err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
+        },
       });
     });
 };
@@ -48,8 +48,8 @@ bcryptController.hashNewPassword = (req, res, next) => {
       return next({
         log: `Error in bcryptController hashNewPassword: ${err}`,
         message: {
-          err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.'
-        }
+          err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.',
+        },
       });
     });
 };
@@ -77,8 +77,8 @@ bcryptController.comparePassword = (req, res, next) => {
           return next({
             log: `Error in bcryptController comparePassword: ${err}`,
             message: {
-              err: 'An error occured comparing inputted password with saved password. See bcryptController.copmarePassword.'
-            }
+              err: 'An error occured comparing inputted password with saved password. See bcryptController.copmarePassword.',
+            },
           });
         });
     })
@@ -86,8 +86,8 @@ bcryptController.comparePassword = (req, res, next) => {
       return next({
         log: `Error in bcryptController comparePassword: ${err}`,
         message: {
-          err: 'An error occured retrieving hashed password from database. See bcryptController.comparePassword.'
-        }
+          err: 'An error occured retrieving hashed password from database. See bcryptController.comparePassword.',
+        },
       });
     });
 };
@@ -107,7 +107,7 @@ bcryptController.hashCookie = (req, res, next) => {
         );
         db.query('UPDATE users SET token=$1 WHERE username=$2', [
           res.locals.user.token,
-          username
+          username,
         ]);
         return next();
       })
@@ -115,8 +115,8 @@ bcryptController.hashCookie = (req, res, next) => {
         return next({
           log: `Error in bcryptController hashCookeis: ${err}`,
           message: {
-            err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.'
-          }
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
+          },
         });
       });
   } else {

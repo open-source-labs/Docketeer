@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
   mode: process.env.NODE_ENV,
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.json'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
     mainFields: ['main', 'module', 'browser'],
     fallback: {
       fs: false,
@@ -50,7 +50,7 @@ module.exports = {
         }
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         exclude: /node_modules/,
         loader: 'ts-loader'
       },

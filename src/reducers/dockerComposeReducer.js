@@ -8,7 +8,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    
   case types.GET_NETWORK_CONTAINERS:
     const networkListCopy = state.networkList.slice();
     const networkListState = [...networkListCopy, ...action.payload];
@@ -37,12 +36,12 @@ export default function (state = initialState, action) {
 
     const composeStackUpdater = (arr1, arr2, output = []) => {
       arr1.forEach((element) => {
-        if(JSON.stringify(arr2).includes(JSON.stringify(element))){
+        if (JSON.stringify(arr2).includes(JSON.stringify(element))) {
           output.push(element);
         }
       });
       arr2.forEach((element) => {
-        if(!(JSON.stringify(arr1).includes(JSON.stringify(element)))){
+        if (!JSON.stringify(arr1).includes(JSON.stringify(element))) {
           output.push(element);
         }
       });
@@ -50,7 +49,7 @@ export default function (state = initialState, action) {
     };
 
     const updatedState = composeStackUpdater(currentState, newState);
-    return {...state, composeStack: updatedState};
+    return { ...state, composeStack: updatedState };
 
   case types.COMPOSE_YML_FILES:
     const newnetworkList = state.networkList.slice();
@@ -64,9 +63,9 @@ export default function (state = initialState, action) {
     const removedStack = prevState.filter(
       (container) => container.FilePath !== fileLocation
     );
-        
+
     return { ...state, composeStack: removedStack };
-      
+
   default:
     return state;
   }

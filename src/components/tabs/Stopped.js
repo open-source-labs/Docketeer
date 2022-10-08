@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React from 'react';
 
 /**
  * Display all stopped containers with functionality
@@ -24,14 +24,14 @@ const Stopped = (props) => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runStopped(container["ID"], props.runStoppedContainer)
+              props.runStopped(container['ID'], props.runStoppedContainer)
             }
           >
             RUN
           </button>
           <button
             className="stop-btn"
-            onClick={() => props.remove(container["ID"], props.removeContainer)}
+            onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
           </button>

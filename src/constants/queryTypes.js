@@ -40,7 +40,7 @@ export const GET_PHONE_NUMBER = `
 export const GET_CONTAINERS = `
 SELECT *
 FROM containers;
-`
+`;
 
 export const GET_NOTIFICATION_SETTINGS = `
   SELECT cs.container_id, metric_name, triggering_value

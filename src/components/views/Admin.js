@@ -9,7 +9,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-
 // static imports
 import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
@@ -17,14 +16,14 @@ import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -129,70 +128,70 @@ const AdminView = (props) => {
 
   return (
     <Router>
-      <div className='container'>
-        <nav className='tab'>
-          <header id='title'>
+      <div className="container">
+        <nav className="tab">
+          <header id="title">
             <img src={Docketeer} width={160} />
           </header>
-          <div className='viewsAndButton'>
+          <div className="viewsAndButton">
             <ul>
               <li>
                 <Link
-                  to='/app'
+                  to="/app"
                   style={selected === '/' ? selectedStyling : null}
                   onClick={() => setSelected('/')}
                 >
-                  <i className='fas fa-settings'></i> Settings
+                  <i className="fas fa-settings"></i> Settings
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/running'
+                  to="/running"
                   style={selected === '/running' ? selectedStyling : null}
                   onClick={() => setSelected(() => '/running')}
                 >
-                  <i className='fas fa-box-open'></i> Containers
+                  <i className="fas fa-box-open"></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/images'
+                  to="/images"
                   style={selected === '/images' ? selectedStyling : null}
                   onClick={() => setSelected('/images')}
                 >
-                  <i className='fas fa-database'></i> Images
+                  <i className="fas fa-database"></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/metrics'
+                  to="/metrics"
                   style={selected === '/metrics' ? selectedStyling : null}
                   onClick={() => setSelected('/metrics')}
                 >
-                  <i className='fas fa-chart-pie'></i> Metrics
+                  <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/yml'
+                  to="/yml"
                   style={selected === '/yml' ? selectedStyling : null}
                   onClick={() => setSelected('/yml')}
                 >
-                  <i className='fas fa-file-upload'></i> Docker Compose
+                  <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/volume'
+                  to="/volume"
                   style={selected === '/volume' ? selectedStyling : null}
                   onClick={() => setSelected('/volume')}
                 >
-                  <i className='fas fa-volume-history'></i> Volume History
+                  <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/logs'
+                  to="/logs"
                   style={selected === '/logs' ? selectedStyling : null}
                   onClick={() => setSelected('/logs')}
                 >
@@ -228,7 +227,7 @@ const AdminView = (props) => {
             <Metrics runningList={runningList} />
           </Route>
           <Route path="/logs">
-            <ProcessLogs 
+            <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
@@ -242,7 +241,7 @@ const AdminView = (props) => {
               stoppedList={stoppedList}
             />
           </Route>
-          <Route path="/logTable/:containerId" >
+          <Route path="/logTable/:containerId">
             <ProcessLogsTable />
           </Route>
           <Route path="/yml">

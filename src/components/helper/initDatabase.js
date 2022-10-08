@@ -10,19 +10,22 @@ export default () => {
       ? path.resolve(__dirname, '..', '..', 'database')
       : path.join(path.dirname(__dirname), 'database');
 
-  exec(`cd ${directory} ; docker-compose up --no-recreate -d`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message} `);
-      return;
+  exec(
+    `cd ${directory} ; docker-compose up --no-recreate -d`,
+    (error, stdout, stderr) => {
+      if (error) {
+        alert(`${error.message} `);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(stdout);
     }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(stdout);
-  });
+  );
 };
 
-// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database 
+// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database
 // which is the metrics data, notifications preferences data, and etc. being persisted
 // (for further details look into src / databse)

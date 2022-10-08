@@ -33,14 +33,22 @@ import Radio from '@material-ui/core/Radio';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) => dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) => dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) => dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) => dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) => dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) => dispatch(actions.removeStoppedNotificationSetting(data)),
+  addNotificationFrequency: (data) =>
+    dispatch(actions.addNotificationFrequency(data)),
+  addMonitoringFrequency: (data) =>
+    dispatch(actions.addMonitoringFrequency(data)),
+  addMemoryNotificationSetting: (data) =>
+    dispatch(actions.addMemoryNotificationSetting(data)),
+  addCpuNotificationSetting: (data) =>
+    dispatch(actions.addCpuNotificationSetting(data)),
+  addStoppedNotificationSetting: (data) =>
+    dispatch(actions.addStoppedNotificationSetting(data)),
+  removeMemoryNotificationSetting: (data) =>
+    dispatch(actions.removeMemoryNotificationSetting(data)),
+  removeCpuNotificationSetting: (data) =>
+    dispatch(actions.removeCpuNotificationSetting(data)),
+  removeStoppedNotificationSetting: (data) =>
+    dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -186,9 +194,9 @@ const Settings = (props) => {
     });
   };
 
-/**
- * @title COMMUNICATION
- */
+  /**
+   * @title COMMUNICATION
+   */
 
   const verifyMobileNumber = async () => {
     await ipcRenderer.invoke('verify-number', mobileNumber);
@@ -366,9 +374,9 @@ const Settings = (props) => {
   const phone = useSelector((state) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
-  const [ cpuThreshold, setCpuThreshold ] = useState(cpu_threshold);
-  const [ memThreshold, setMemThreshold ] = useState(mem_threshold);
-  const [ stoppedContainers, setStoppedContainers ] = useState(container_stops);
+  const [cpuThreshold, setCpuThreshold] = useState(cpu_threshold);
+  const [memThreshold, setMemThreshold] = useState(mem_threshold);
+  const [stoppedContainers, setStoppedContainers] = useState(container_stops);
   const [value, setValue] = useState(contact_pref);
 
   const dispatch = useDispatch();
@@ -379,17 +387,16 @@ const Settings = (props) => {
   };
 
   const handleRadioSubmit = (value) => {
-    fetch('http://localhost:3000/account/contact', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          contact_pref: value,
-        })
-      })
+    fetch('http://localhost:3000/account/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id,
+        contact_pref: value,
+      }),
+    })
       .then((response) => {
         return response.json();
       })
@@ -406,17 +413,16 @@ const Settings = (props) => {
   };
 
   const handleCpuSubmit = (value) => {
-    fetch('http://localhost:3000/account/cpu', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          cpu_threshold: value,
-        })
-      })
+    fetch('http://localhost:3000/account/cpu', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id,
+        cpu_threshold: value,
+      }),
+    })
       .then((response) => {
         return response.json();
       })
@@ -429,17 +435,16 @@ const Settings = (props) => {
   };
 
   const handleMemSubmit = (value) => {
-    fetch('http://localhost:3000/account/memory', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          mem_threshold: value,
-        })
-      })
+    fetch('http://localhost:3000/account/memory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id,
+        mem_threshold: value,
+      }),
+    })
       .then((response) => {
         return response.json();
       })
@@ -452,17 +457,16 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersSubmit = (value) => {
-    fetch('http://localhost:3000/account/stops', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          container_stops: value,
-        })
-      })
+    fetch('http://localhost:3000/account/stops', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id,
+        container_stops: value,
+      }),
+    })
       .then((response) => {
         return response.json();
       })
@@ -479,7 +483,9 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersChange = (event) => {
-    setStoppedContainers(document.getElementById('stopped-containers-input').checked);
+    setStoppedContainers(
+      document.getElementById('stopped-containers-input').checked
+    );
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
@@ -595,11 +601,12 @@ const Settings = (props) => {
       </div>
       <div className="settings-container">
         <p>
-          Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
+          Allows you to (i) connect a mobile phone to your account, and (ii)
+          choose your preferred method of communication.
         </p>
-        <br/>
+        <br />
         <p>1. Verify your mobile phone number on Twilio</p>
-        <br/>
+        <br />
         <form className={classes.root} autoComplete="off">
           <div>
             <TextField
@@ -659,15 +666,20 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
-        
+
         <p>2. Contact preference:</p>
-        <br/>
+        <br />
         <FormControl component="fieldset">
-          <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
+          <RadioGroup
+            aria-label="Contact Preferences"
+            name="contact_pref"
+            value={value}
+            onChange={handleRadioChange}
+          >
             <FormControlLabel value="email" control={<Radio />} label="Email" />
             <FormControlLabel value="phone" control={<Radio />} label="Phone" />
           </RadioGroup>
-          <br/>
+          <br />
           <Button
             className={classes.button}
             size="medium"
@@ -686,14 +698,15 @@ const Settings = (props) => {
       </div>
       <div className="settings-container">
         <p>
-          Allows you to (i) customize monitoring and notification frequency, and (ii) define container conditions that will trigger notifications. When a container hits a threshold, an alert is sent via your preferred method of communication. Recommended values will be used by default.
+          Allows you to (i) customize monitoring and notification frequency, and
+          (ii) define container conditions that will trigger notifications. When
+          a container hits a threshold, an alert is sent via your preferred
+          method of communication. Recommended values will be used by default.
         </p>
-        
-        <br/>
-        <p>
-          1. Setup / update notification criteria
-        </p>
-        <br/>
+
+        <br />
+        <p>1. Setup / update notification criteria</p>
+        <br />
         <div>
           <form className={classes.root} autoComplete="off">
             <TextField
@@ -743,9 +756,9 @@ const Settings = (props) => {
           </form>
         </div>
 
-        <br/>
+        <br />
         <p>2. Configure notification thresholds</p>
-        <br/>
+        <br />
         <form className={classes.root} autoComplete="off">
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
@@ -768,9 +781,9 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br/>
+            <br />
             Current Memory Threshold: {`>${mem_threshold}%`}
-            <br/>
+            <br />
             <TextField
               required
               id="mem-threshold-input"
@@ -782,7 +795,6 @@ const Settings = (props) => {
               // value="80" set this later
               size="small"
             />
-
             <Button
               className={classes.button}
               size="medium"
@@ -791,19 +803,28 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br/>
+            <br />
             {/* <p>2. Receive notification if container stops</p>
             <FormControlLabel value={true} control={<Checkbox />} label="" />
             <br/> */}
-            <br/>
+            <br />
             <p>3. Stopped containers:</p>
-            <FormControlLabel value={true} control={<Checkbox id="stopped-containers-input" onChange={handleStoppedContainersChange}/>} label="Receive notification when a container stops" />
+            <FormControlLabel
+              value={true}
+              control={
+                <Checkbox
+                  id="stopped-containers-input"
+                  onChange={handleStoppedContainersChange}
+                />
+              }
+              label="Receive notification when a container stops"
+            />
           </div>
           <Button
             className={classes.button}
             size="medium"
             variant="contained"
-            onClick={()=> handleStoppedContainersSubmit(stoppedContainers)}
+            onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
             endIcon={<SendIcon />}
           >
             Submit
@@ -816,13 +837,11 @@ const Settings = (props) => {
       </div>
       <div className="settings-container">
         <p>
-          Allows you to get access to latest GitHub commits in your project 
+          Allows you to get access to latest GitHub commits in your project
           repository on "Metrics" tab for selected containers
         </p>
-        <br/>
-        <p>
-          1. Add GitHub repositories url in Containers settings table below
-        </p>
+        <br />
+        <p>1. Add GitHub repositories url in Containers settings table below</p>
       </div>
 
       <div className="metric-section-title">
@@ -840,7 +859,9 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-                <TableCell align="center">Memory {`>${mem_threshold}%`}</TableCell>
+                <TableCell align="center">
+                  Memory {`>${mem_threshold}%`}
+                </TableCell>
                 <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
                 <TableCell align="center">Container Stops</TableCell>
                 <TableCell align="center">GitHub repository url</TableCell>

@@ -66,14 +66,14 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
-        aria-label='first page'
+        aria-label="first page"
       >
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
-        aria-label='previous page'
+        aria-label="previous page"
       >
         {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
@@ -84,7 +84,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label='next page'
+        aria-label="next page"
       >
         {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
@@ -95,7 +95,7 @@ function TablePaginationActions(props) {
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label='last page'
+        aria-label="last page"
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -195,16 +195,16 @@ const UserTable = () => {
       : rows;
 
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Users</h1>
+    <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Users</h1>
       </div>
-      <div className='metric-section-title'>
+      <div className="metric-section-title">
         <h3>List of Users in Docketeer</h3>
       </div>
-      <div className='settings-containers'>
+      <div className="settings-containers">
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label='simple table'>
+          <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>id</TableCell>
@@ -221,32 +221,32 @@ const UserTable = () => {
             <TableBody>
               {renderRows.length > 0
                 ? renderRows.map((row, index) => {
-                    // const isItemSelected = isSelected(row.name);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow key={row._id} hover>
-                        <TableCell component='th' scope='row'>
-                          {row._id}
-                        </TableCell>
-                        <TableCell>{row.username}</TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>{row.phone}</TableCell>
-                        <TableCell>{row.role}</TableCell>
-                        <TableCell>{row.contact_pref}</TableCell>
-                        <TableCell>{row.mem_threshold}</TableCell>
-                        <TableCell>{row.cpu_threshold}</TableCell>
-                        <TableCell>
-                          <Checkbox
-                            id={`${row._id}`}
-                            userid={`${row._id}`}
-                            checked={selected[row._id]}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            onChange={handleCheckboxClick}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
+                  // const isItemSelected = isSelected(row.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow key={row._id} hover>
+                      <TableCell component="th" scope="row">
+                        {row._id}
+                      </TableCell>
+                      <TableCell>{row.username}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.phone}</TableCell>
+                      <TableCell>{row.role}</TableCell>
+                      <TableCell>{row.contact_pref}</TableCell>
+                      <TableCell>{row.mem_threshold}</TableCell>
+                      <TableCell>{row.cpu_threshold}</TableCell>
+                      <TableCell>
+                        <Checkbox
+                          id={`${row._id}`}
+                          userid={`${row._id}`}
+                          checked={selected[row._id]}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onChange={handleCheckboxClick}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
                 : ''}
             </TableBody>
             <TableFooter>

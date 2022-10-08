@@ -34,47 +34,49 @@ const initialState = {
 
 const graphReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.BUILD_AXIS:
-      if (action.payload === 'clear') return { ...state, graphAxis: [] };
+  case types.BUILD_AXIS:
+    if (action.payload === 'clear') return { ...state, graphAxis: [] };
 
-      // cuts day of week from begingin and the timezone off the end.
-      let formatedDate = action.payload.toString().slice(4, 24);
-      
-      // compare two string dates
-      if (formatedDate > state.graphAxis[state.graphAxis.length - 1]
-        || !state.graphAxis.length) {
-        const newAxis = state.graphAxis;
-        newAxis.push(formatedDate);
-        return { ...state, graphAxis: newAxis };
-      }
-      return { ...state };
+    // cuts day of week from begingin and the timezone off the end.
+    const formatedDate = action.payload.toString().slice(4, 24);
 
-    case types.BUILD_MEMORY:
-      if (action.payload === 'clear') return { ...state, graphMemory: [] };
-      let newMemory = state.graphMemory.slice();
-      newMemory.push(action.payload[0]);
-      return { ...state, graphMemory: newMemory };
+    // compare two string dates
+    if (
+      formatedDate > state.graphAxis[state.graphAxis.length - 1] ||
+        !state.graphAxis.length
+    ) {
+      const newAxis = state.graphAxis;
+      newAxis.push(formatedDate);
+      return { ...state, graphAxis: newAxis };
+    }
+    return { ...state };
 
-    case types.BUILD_CPU:
-      if (action.payload === 'clear') return { ...state, graphCpu: [] };
-      const newCpu = state.graphCpu.slice();
-      newCpu.push(action.payload[0]);
-      return { ...state, graphCpu: newCpu };
+  case types.BUILD_MEMORY:
+    if (action.payload === 'clear') return { ...state, graphMemory: [] };
+    const newMemory = state.graphMemory.slice();
+    newMemory.push(action.payload[0]);
+    return { ...state, graphMemory: newMemory };
 
-    case types.BUILD_WRITTEN_IO:
-      if (action.payload === 'clear') return { ...state, graphWrittenIO: [] };
-      const newWrittenIO = state.graphWrittenIO.slice();
-      newWrittenIO.push(action.payload[0]);
-      return { ...state, graphWrittenIO: newWrittenIO };
+  case types.BUILD_CPU:
+    if (action.payload === 'clear') return { ...state, graphCpu: [] };
+    const newCpu = state.graphCpu.slice();
+    newCpu.push(action.payload[0]);
+    return { ...state, graphCpu: newCpu };
 
-    case types.BUILD_READ_IO:
-      if (action.payload === 'clear') return { ...state, graphReadIO: [] };
-      const newReadIO = state.graphReadIO.slice();
-      newReadIO.push(action.payload[0]);
-      return { ...state, graphReadIO: newReadIO };
+  case types.BUILD_WRITTEN_IO:
+    if (action.payload === 'clear') return { ...state, graphWrittenIO: [] };
+    const newWrittenIO = state.graphWrittenIO.slice();
+    newWrittenIO.push(action.payload[0]);
+    return { ...state, graphWrittenIO: newWrittenIO };
 
-    default:
-      return state;
+  case types.BUILD_READ_IO:
+    if (action.payload === 'clear') return { ...state, graphReadIO: [] };
+    const newReadIO = state.graphReadIO.slice();
+    newReadIO.push(action.payload[0]);
+    return { ...state, graphReadIO: newReadIO };
+
+  default:
+    return state;
   }
 };
 

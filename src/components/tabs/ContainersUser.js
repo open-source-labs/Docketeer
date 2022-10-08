@@ -5,7 +5,7 @@ import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
  * Display all running and stopped containers
- * 
+ *
  * @param {*} props
  */
 const Containers = (props) => {
@@ -23,10 +23,12 @@ const Containers = (props) => {
               <strong>Img: </strong> {container.Image}
             </li>
             <li>
-              <strong>Created: </strong>{container.RunningFor}
+              <strong>Created: </strong>
+              {container.RunningFor}
             </li>
             <li>
-              <strong>Name: </strong>{container.Names}
+              <strong>Name: </strong>
+              {container.Names}
             </li>
           </ul>
         </div>
@@ -128,8 +130,8 @@ const Containers = (props) => {
             </div>
           </div>
           <ToggleDisplay container={container} />
-          <br/>
-          <br/>
+          <br />
+          <br />
         </div>
       </div>
     );

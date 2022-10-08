@@ -8,7 +8,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    
   case types.ADD_RUNNING_CONTAINERS:
     const newRunningList = state.runningList.slice();
     for (const container of action.payload) {

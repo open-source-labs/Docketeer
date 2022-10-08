@@ -9,7 +9,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-
 // static imports
 import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
@@ -17,15 +16,15 @@ import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import UserList from "../tabs/Users";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import UserList from '../tabs/Users';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -86,7 +85,6 @@ const SysAdmin = (props) => {
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
-
 
   const handleLogout = (e) => {
     updateSession();
@@ -167,8 +165,6 @@ const SysAdmin = (props) => {
     borderTopRightRadius: '10px',
     borderBottomRightRadius: '10px',
   };
-
-
 
   return (
     <Router>
@@ -298,7 +294,7 @@ const SysAdmin = (props) => {
             />
           </Route>
 
-          <Route path="/logTable/:containerId" >
+          <Route path="/logTable/:containerId">
             <ProcessLogsTable />
           </Route>
 
@@ -346,7 +342,6 @@ const SysAdmin = (props) => {
               stoppedNotificationList={stoppedNotificationList}
             />
           </Route>
-
         </Switch>
       </div>
     </Router>

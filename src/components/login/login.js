@@ -2,37 +2,37 @@
  * @module Login
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
   BrowserHistory,
-} from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import Modal from "react-modal";
+} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import Modal from 'react-modal';
 // Redux Imports (actions)
-import * as actions from "../../actions/actions";
+import * as actions from '../../actions/actions';
 
 // React Component Imports
-import App from "../App";
-import DebugRouter from "../debug/debugRouter";
+import App from '../App';
+import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
-import Docketeer from "../../../assets/docketeer-title.png";
+import Docketeer from '../../../assets/docketeer-title.png';
 // Helper Functions Import
 // import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
-      width: "25ch",
+      width: '25ch',
     },
   },
 }));
@@ -51,39 +51,39 @@ const Login = () => {
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
-    fetch("http://localhost:3000/db")
+    fetch('http://localhost:3000/db')
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        return console.log("Connected to DB successfully", data);
+        return console.log('Connected to DB successfully', data);
       })
       .catch((err) => {
-        return console.log("Fetch request to /db failed:", err);
+        return console.log('Fetch request to /db failed:', err);
       });
   }, []);
 
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {
     e.preventDefault(); // prevents form submit from reloading page
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
     const username = usernameInput.value;
     const password = passwordInput.value;
 
     // clears input fields after login
-    usernameInput.value = "";
-    passwordInput.value = "";
+    usernameInput.value = '';
+    passwordInput.value = '';
 
     authenticateUser(username, password);
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect either SSID in cookie.
   const authenticateUser = (username, password) => {
-    fetch("http://localhost:3000/login", {
-      method: "POST",
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: username,
@@ -94,7 +94,7 @@ const Login = () => {
         return response.json();
       })
       .then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, "error")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         } else {
           updateSession(); // loggedIn = true
@@ -102,9 +102,9 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.log("Fetch: POST error to /login", err);
+        console.log('Fetch: POST error to /login', err);
         // created a pop window for wrong username/password
-        window.alert("Wrong Password or Username! Please try Again!");
+        window.alert('Wrong Password or Username! Please try Again!');
       });
   };
 
@@ -167,7 +167,7 @@ const Login = () => {
               <div
                 className="g-signin2"
                 data-onsuccess="onSignIn"
-                style={{ width: "200px", borderRadius: "4px" }}
+                style={{ width: '200px', borderRadius: '4px' }}
               ></div>
             </form>
           </div>

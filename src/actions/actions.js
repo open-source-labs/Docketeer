@@ -174,7 +174,7 @@ export const updateUserRole = (data) => ({
   payload: data,
 });
 
-// get volume 
+// get volume
 export const getVolumeList = (data) => ({
   type: types.GET_VOLUME_LIST,
   payload: data,

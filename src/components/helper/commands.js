@@ -1,18 +1,19 @@
 import { exec } from 'child_process';
 import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
-import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
+import {
+  filterOneProperty,
+  listOfVolumeProperties,
+} from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 
-
 /**
  * Grabs all active containers on app-start up
- * 
+ *
  * @param {*} runningList
  * @param {*} callback
  */
-
 
 export const addRunning = (runningList, callback) => {
   exec(
@@ -51,7 +52,7 @@ export const addRunning = (runningList, callback) => {
 
 /**
  * Refreshes running containers
- * 
+ *
  * @param {*} callback
  * @param {*} runningList
  */
@@ -67,7 +68,7 @@ export const refreshRunning = (refreshRunningContainers) => {
         console.log(`refreshRunning stderr: ${stderr}`);
         return;
       }
-      
+
       const dockerOutput = `[${stdout
         .trim()
         .slice(0, -1)
@@ -81,7 +82,7 @@ export const refreshRunning = (refreshRunningContainers) => {
 
 /**
  * Refreshes stopped containers
- * 
+ *
  * @param {*} callback
  */
 export const refreshStopped = (refreshStoppedContainers) => {
@@ -107,7 +108,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
 
 /**
  * Refreshes images
- * 
+ *
  * @param {*} callback
  */
 export const refreshImages = (callback) => {
@@ -123,7 +124,7 @@ export const refreshImages = (callback) => {
     const value = parseContainerFormat.convert(stdout);
     const objArray = ['reps', 'tag', 'imgid', 'size'];
     const resultImages = [];
-    
+
     for (let i = 0; i < value.length; i++) {
       const innerArray = [];
       if (value[i][0] !== '<none>') {
@@ -135,15 +136,17 @@ export const refreshImages = (callback) => {
       }
     }
 
-    const convertedValue = parseContainerFormat
-      .convertArrToObj(resultImages, objArray);
+    const convertedValue = parseContainerFormat.convertArrToObj(
+      resultImages,
+      objArray
+    );
     callback(convertedValue);
   });
 };
 
 /**
  * Removes images
- * 
+ *
  * @param {*} id
  * @param {*} callback
  */
@@ -163,7 +166,7 @@ export const remove = (id, callback) => {
 
 /**
  * Stops a container on what user selects
- * 
+ *
  * @param {*} id
  * @param {*} callback
  */
@@ -183,7 +186,7 @@ export const stop = (id, callback) => {
 
 /**
  * Starts the container
- * 
+ *
  * @param {*} id
  * @param {*} callback
  */
@@ -207,7 +210,7 @@ export const runStopped = (
 
 /**
  * Run image
- * 
+ *
  * @param {*} id
  * @param {*} runningList
  * @param {*} callback_1
@@ -231,7 +234,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
 
 /**
  * Remove Image
- * 
+ *
  * @param {*} id
  * @param {*} imagesList
  * @param {*} callback_1
@@ -256,7 +259,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 
 /**
  * Handles System Prune
- * 
+ *
  * @param {*} e
  */
 
@@ -276,7 +279,7 @@ export const handlePruneClick = (e) => {
 
 /**
  * Pulls image based on the repo you select
- * 
+ *
  * @param {*} repo
  */
 
@@ -295,7 +298,7 @@ export const pullImage = (repo) => {
 
 /**
  * Display all containers network based on docker-compose when the application starts
- * 
+ *
  * @param {*} getNetworkContainers
  */
 
@@ -309,7 +312,7 @@ export const networkContainers = (getNetworkContainers) => {
       console.log(`networkContainers stderr: ${stderr}`);
       return;
     }
-    
+
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
 
     // remove docker network defaults named: bridge, host, and none
@@ -336,16 +339,20 @@ export const inspectDockerContainer = (containerId) => {
 };
 
 /**
- * Compose up a docker container network 
- * 
+ * Compose up a docker container network
+ *
  * @param {*} fileLocation
  * @param {*} ymlFileName
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-
-    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
+    const nativeYmlFilenames = [
+      'docker-compose.yml',
+      'docker-compose.yaml',
+      'compose.yml',
+      'compose.yaml',
+    ];
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
@@ -371,13 +378,17 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
 
 /**
  * Get list of running container networks
- * 
+ *
  * @param {*} getContainerStacks
  * @param {*} filePath
  * @param {*} ymlFileName
  */
 
-export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) => {
+export const dockerComposeStacks = (
+  getContainerStacks,
+  filePath,
+  ymlFileName
+) => {
   let parseDockerOutput;
 
   exec(
@@ -391,8 +402,8 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
         console.log(`dockerComposeStacks stderr: ${stderr}`);
         return;
       }
-      
-      // create array of running container network objects 
+
+      // create array of running container network objects
       // the array is sorted in alphabetical order based on network Name
       const dockerOutput = `[${stdout
         .trim()
@@ -403,9 +414,10 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
       // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
       if (filePath && ymlFileName) {
         const directoryNameArray = filePath.split('/');
-        const containerNetworkName = directoryNameArray[directoryNameArray.length - 1].concat('_default');
-    
-        parseDockerOutput.forEach(obj => {
+        const containerNetworkName =
+          directoryNameArray[directoryNameArray.length - 1].concat('_default');
+
+        parseDockerOutput.forEach((obj) => {
           if (containerNetworkName === obj.Name) {
             obj.FilePath = filePath;
             obj.YmlFileName = ymlFileName;
@@ -420,17 +432,21 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
 
 /**
  * Compose down selected container network
- * 
+ *
  * @param {*} fileLocation
  * @param {*} ymlFileName
  */
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-
-    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
+    const nativeYmlFilenames = [
+      'docker-compose.yml',
+      'docker-compose.yaml',
+      'compose.yml',
+      'compose.yaml',
+    ];
     let cmd = `cd ${fileLocation} && docker-compose down`;
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename   
+    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} down`;
     }
@@ -466,9 +482,10 @@ export const writeToDb = () => {
 
     if (!runningContainers.length) return;
 
-    let dbQuery = 'insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values ';
+    let dbQuery =
+      'insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values ';
     runningContainers.forEach((container, idx) => {
-      // No need to worry about sql injections as it would be self sabotaging! 
+      // No need to worry about sql injections as it would be self sabotaging!
       const string = `('${container.ID}', 
         '${container.Name}', 
         '${container.CPUPerc}', 
@@ -478,11 +495,13 @@ export const writeToDb = () => {
         '${container.BlockIO}', 
         '${container.PIDs}', 
         current_timestamp)`;
-      
-      if (idx === runningContainers.length - 1 && stoppedContainers.length === 0)
+
+      if (
+        idx === runningContainers.length - 1 &&
+        stoppedContainers.length === 0
+      )
         dbQuery += string;
-      else
-        dbQuery += string + ', ';
+      else dbQuery += string + ', ';
     });
     stoppedContainers.forEach((container, idx) => {
       const string = `('${container.ID}', 
@@ -494,11 +513,9 @@ export const writeToDb = () => {
         '00.0MB/00.0MB',
         '0',
         current_timestamp)`;
-      
-      if (idx === stoppedContainers.length - 1)
-        dbQuery += string;
-      else
-        dbQuery += string + ', ';
+
+      if (idx === stoppedContainers.length - 1) dbQuery += string;
+      else dbQuery += string + ', ';
     });
     query(dbQuery);
   }, interval);
@@ -516,7 +533,7 @@ export const getContainerGitUrl = (container) => {
 
 /**
  * Docker command to retrieve the list of running volumes
- * 
+ *
  * @param {*} getVolumeList
  */
 
@@ -531,26 +548,24 @@ export const getAllDockerVolumes = (getVolumeList) => {
       return;
     }
 
-    const dockerOutput = JSON.parse( 
-      `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`
+    const dockerOutput = JSON.parse(
+      `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
 
-    return getVolumeList(filterOneProperty(dockerOutput, 'Name')); 
+    return getVolumeList(filterOneProperty(dockerOutput, 'Name'));
   });
 };
 
 /**
  * Docker command to retrieve the list of containers running in specified volume
- * 
+ *
  * @param {string} volumeName
  * @param {callback} getVolumeContainersList
  */
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
-  exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
+  exec(
+    `docker ps -a --filter volume=${volumeName} --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
         console.log(`getVolumeContainers error: ${error.message}`);
@@ -560,38 +575,37 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         console.log(`getVolumeContainers stderr: ${stderr}`);
         return;
       }
-      
-      const dockerOutput = JSON.parse(
-        `[${stdout
-          .trim()
-          .slice(0, -1)
-        }]`
-      );
 
-      return getVolumeContainersList(listOfVolumeProperties(volumeName, dockerOutput));
-    });
+      const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
+
+      return getVolumeContainersList(
+        listOfVolumeProperties(volumeName, dockerOutput)
+      );
+    }
+  );
 };
 
 /**
  * Builds and executes a docker logs command to generate logs
- * 
+ *
  * @param {callback} getContainerLogs
  * @param {object} optionsObj
  * @returns {object} containerLogs
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  
   // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
     inputCommandString += `--since ${optionsObj.since} `;
   }
-  optionsObj.tail ? inputCommandString += `--tail ${optionsObj.tail} ` : inputCommandString += '--tail 50 ';
+  optionsObj.tail
+    ? (inputCommandString += `--tail ${optionsObj.tail} `)
+    : (inputCommandString += '--tail 50 ');
   inputCommandString += `${optionsObj.containerId}`;
 
   const containerLogs = { stdout: [], stderr: [] };
-  
+
   exec(inputCommandString, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
@@ -602,6 +616,3 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
   });
   return containerLogs;
 };
-
-
-

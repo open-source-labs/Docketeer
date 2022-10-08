@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 /**
  * Render Volume History
  * May need to be refactored to auto refresh
- * 
+ *
  * @param {*} props
  */
 const volumeHistory = (props) => {
@@ -36,26 +36,27 @@ const volumeHistory = (props) => {
   };
 
   // Creates the card components of Name and container details
-  const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
-    const details = [];
+  const renderVolumeHistory = (volumeProps) =>
+    volumeProps.map((ele, i) => {
+      const details = [];
 
-    ele.containers.length
-      ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
-      : details.push(
-        <div className='volume-container-details'>
-          No container found in this volume
+      ele.containers.length
+        ? ele.containers.forEach((el) => details.push(containerDetails(el, i)))
+        : details.push(
+          <div className="volume-container-details">
+              No container found in this volume
+          </div>
+        );
+
+      return (
+        <div className="box" key={`volume${i}`}>
+          <div className="box-label">
+            <h3>{ele.vol_name}</h3>
+          </div>
+          {details}
         </div>
       );
-
-    return (
-      <div className="box" key={`volume${i}`}>
-        <div className="box-label">
-          <h3>{ele.vol_name}</h3>
-        </div>
-        {details}
-      </div>
-    );
-  });
+    });
 
   // Initializes the volume history tab to be the list of volumes
   let renderList = renderVolumeHistory(props.volumeContainersList);
@@ -63,7 +64,7 @@ const volumeHistory = (props) => {
   // Search bar: Finds volume name and renders an individual card
   const handleClick = (e) => {
     e.preventDefault();
-    const result = volumeList.filter(vol => vol.Name.includes(volumeName));
+    const result = volumeList.filter((vol) => vol.Name.includes(volumeName));
 
     setVolumeList(result);
     renderList = renderVolumeHistory(volumeList);
@@ -89,7 +90,7 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderList}</div> 
+      <div className="containers">{renderList}</div>
     </div>
   );
 };

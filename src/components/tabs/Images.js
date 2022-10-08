@@ -4,8 +4,8 @@ import * as helper from '../helper/commands';
 
 /**
  * Render Images of the user has
- * 
- * @param {*} props 
+ *
+ * @param {*} props
  */
 const Images = (props) => {
   const [repo, setRepo] = useState('');
@@ -25,10 +25,12 @@ const Images = (props) => {
         <div className="stopped-info">
           <ul>
             <li>
-              <strong>ID: </strong>{ele['imgid']}
+              <strong>ID: </strong>
+              {ele['imgid']}
             </li>
             <li>
-              <strong>Size: </strong>{ele['size']}
+              <strong>Size: </strong>
+              {ele['size']}
             </li>
           </ul>
         </div>

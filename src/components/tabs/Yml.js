@@ -13,7 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
- * 
+ *
  * @param {*} props
  */
 
@@ -54,7 +54,6 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
-  
   useEffect(() => {
     // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
@@ -89,17 +88,17 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        // get yml file name from the filepath for composing up a new container network 
+        // get yml file name from the filepath for composing up a new container network
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
-        
+
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
       }
     };
   }, []);
-  
+
   // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
@@ -122,16 +121,23 @@ const Yml = () => {
           </TableCell>
           {container.FilePath && container.YmlFileName && (
             // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
-            // only the containers composed up from the application will have a compose down button 
+            // only the containers composed up from the application will have a compose down button
             <TableCell className="btn-compose-up">
               <button
                 className="btn"
                 onClick={() => {
                   helper
-                    .dockerComposeDown(container.FilePath, container.YmlFileName)
+                    .dockerComposeDown(
+                      container.FilePath,
+                      container.YmlFileName
+                    )
                     .then((res) => {
                       if (res) {
-                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);
+                        helper.dockerComposeStacks(
+                          getContainerStacks,
+                          container.FilePath,
+                          container.YmlFileName
+                        );
                         setYmlFile('');
                         setFilePath('');
                         setYmlFileName('');
@@ -170,10 +176,14 @@ const Yml = () => {
             className="btn"
             onClick={() => {
               helper
-                .dockerComposeUp(filePath, ymlFileName) 
+                .dockerComposeUp(filePath, ymlFileName)
                 .then((res) => {
-                  if (res) { 
-                    helper.dockerComposeStacks(getContainerStacks, filePath, ymlFileName);
+                  if (res) {
+                    helper.dockerComposeStacks(
+                      getContainerStacks,
+                      filePath,
+                      ymlFileName
+                    );
                     setYmlFile('');
                     setFilePath('');
                     setYmlFileName('');

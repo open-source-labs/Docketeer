@@ -1,5 +1,10 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -15,7 +20,7 @@ export const App2 = () => {
         <section className='container2'>
           <Routes>
             <Route exact path='/' element={<Login />} />
-            <Route exact path='/app' element={<App />} />
+            <Route exact path='/app/*' element={<App />} />
           </Routes>
         </section>
       </Router>

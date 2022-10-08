@@ -3,7 +3,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Components
 import Login from '../login/login';
-// import App from '../components/App';
+import App from '../components/App';
 
 const Example = () => {
   return (
@@ -24,15 +24,14 @@ const Example = () => {
     //     eius?
     //   </p>
     // </div>
-    <Router>
+
+    <section className='container2'>
       <h1>Matt is the Boss</h1>
-      <section className='container2'>
-        <Routes>
-          <Route exact path='/' element={<Login />} />
-          {/* <Route exact path='/app' element={<App />} /> */}
-        </Routes>
-      </section>
-    </Router>
+      <Routes>
+        <Route exact path='/' element={<App />} />
+        {/* <Route exact path='/app' element={<App />} /> */}
+      </Routes>
+    </section>
   );
 };
 

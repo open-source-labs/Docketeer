@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
+// const cors = require('cors');
+const colors = require('colors');
 
 // Routers
 const signupRouter = require('./routes/signupRouter');
@@ -16,7 +17,7 @@ const PORT = 3000;
 
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-app.use(cors()); // enables ALL cors requests
+// app.use(cors()); // enables ALL cors requests
 
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
@@ -32,19 +33,19 @@ app.use('/', (req, res) => {
 });
 
 // Global Error Handler
-app.get('/', (req, res, next, err)=> {
+app.get('/', (req, res, next, err) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
-    message: { err: 'An error occured' },
+    message: { err: 'An error occured' }
   };
   const errorObj = Object.assign(defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
 // Open up server on PORT
-app.listen(PORT, ()=> {
-  console.log(`server is listening on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`server is listening on port ${PORT}`.green.inverse);
 });
 
 module.exports = app;

@@ -21,19 +21,25 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
-    },
+      nodeIntegration: true
+    }
   });
 
   // comment out lines 30-38 if dev tools is slowing app
   app.whenReady().then(() => {
     const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
     const extensionsPlural = extensions.length > 0 ? 's' : '';
-    Promise.all(extensions.map(extension => installExtension(extension)))
-      .then(names =>
-        console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
-      .catch(err =>
-        console.log('[electron-extensions] An error occurred: ', err));
+    Promise.all(extensions.map((extension) => installExtension(extension)))
+      .then((names) =>
+        console.log(
+          `[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(
+            ', '
+          )}`
+        )
+      )
+      .catch((err) =>
+        console.log('[electron-extensions] An error occurred: ', err)
+      );
   });
 
   if (isDevelopment) {
@@ -43,7 +49,7 @@ function createMainWindow() {
       formatUrl({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
-        slashes: true,
+        slashes: true
       })
     );
   }
@@ -56,9 +62,10 @@ function createMainWindow() {
         setImmediate(() => {
           window.focus();
         });
-    });
-  }});
-  
+      });
+    }
+  });
+
   window.on('closed', () => {
     mainWindow = null;
   });

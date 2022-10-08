@@ -6,7 +6,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
 // static imports
@@ -123,7 +123,7 @@ const AdminView = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (

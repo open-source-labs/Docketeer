@@ -6,7 +6,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
 // static imports
@@ -92,11 +92,11 @@ const SysAdmin = (props) => {
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((data) => data.json())
       .then((response) => {
@@ -141,12 +141,12 @@ const SysAdmin = (props) => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         token: userInfo.token,
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((response) => {
         return response.json();
@@ -163,7 +163,7 @@ const SysAdmin = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (

@@ -27,16 +27,16 @@ import * as actions from '../../actions/actions';
 // Table Style Generator
 export const useStyles = makeStyles({
   table: {
-    minWidth: 1000,
-  },
+    minWidth: 1000
+  }
 });
 
 // Pagination Footer Style Generator
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
+    marginLeft: theme.spacing(2.5)
+  }
 }));
 
 // Function store of all pagination functions, these functions update the count, the current range of pages, etc. Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
@@ -108,7 +108,7 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired
 };
 
 const UserTable = () => {
@@ -153,7 +153,7 @@ const UserTable = () => {
 
     // create temporary copy of selected object
     const temp = {
-      ...selected,
+      ...selected
     };
     // update key of checkbox id to switched/inverted value
     temp[id] = invertPreviousValue;
@@ -165,12 +165,12 @@ const UserTable = () => {
     fetch('http://localhost:3000/admin/switch', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id: id,
-        changeToAdmin: invertPreviousValue,
-      }),
+        changeToAdmin: invertPreviousValue
+      })
     })
       .then((response) => {
         return response.json();
@@ -179,7 +179,7 @@ const UserTable = () => {
         const { _id, role } = data;
         const payload = {
           _id,
-          role,
+          role
         };
         updateUserRole(payload);
       })
@@ -221,32 +221,32 @@ const UserTable = () => {
             <TableBody>
               {renderRows.length > 0
                 ? renderRows.map((row, index) => {
-                  // const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow key={row._id} hover>
-                      <TableCell component="th" scope="row">
-                        {row._id}
-                      </TableCell>
-                      <TableCell>{row.username}</TableCell>
-                      <TableCell>{row.email}</TableCell>
-                      <TableCell>{row.phone}</TableCell>
-                      <TableCell>{row.role}</TableCell>
-                      <TableCell>{row.contact_pref}</TableCell>
-                      <TableCell>{row.mem_threshold}</TableCell>
-                      <TableCell>{row.cpu_threshold}</TableCell>
-                      <TableCell>
-                        <Checkbox
-                          id={`${row._id}`}
-                          userid={`${row._id}`}
-                          checked={selected[row._id]}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          onChange={handleCheckboxClick}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                    // const isItemSelected = isSelected(row.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow key={row._id} hover>
+                        <TableCell component="th" scope="row">
+                          {row._id}
+                        </TableCell>
+                        <TableCell>{row.username}</TableCell>
+                        <TableCell>{row.email}</TableCell>
+                        <TableCell>{row.phone}</TableCell>
+                        <TableCell>{row.role}</TableCell>
+                        <TableCell>{row.contact_pref}</TableCell>
+                        <TableCell>{row.mem_threshold}</TableCell>
+                        <TableCell>{row.cpu_threshold}</TableCell>
+                        <TableCell>
+                          <Checkbox
+                            id={`${row._id}`}
+                            userid={`${row._id}`}
+                            checked={selected[row._id]}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onChange={handleCheckboxClick}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
                 : ''}
             </TableBody>
             <TableFooter>
@@ -259,7 +259,7 @@ const UserTable = () => {
                   page={page}
                   SelectProps={{
                     inputProps: { 'aria-label': 'rows per page' },
-                    native: true,
+                    native: true
                   }}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}

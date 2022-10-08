@@ -61,7 +61,7 @@ export const volumeByName = (
 export const listOfVolumeProperties = (volumeName, dockerOutput) => {
   const volumeList = {
     vol_name: volumeName,
-    containers: [],
+    containers: []
   };
   let containerProperties = {};
 

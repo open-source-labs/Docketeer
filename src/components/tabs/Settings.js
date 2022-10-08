@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-    dispatch(actions.removeStoppedNotificationSetting(data)),
+    dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -57,25 +57,25 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: 'middle',
-    },
+      verticalAlign: 'middle'
+    }
   },
   button: {
     '& > *': {
-      pointerEvents: 'none',
+      pointerEvents: 'none'
     },
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top',
+    verticalAlign: 'top'
   },
   verifiedIcon: {
     verticalAlign: 'top',
-    color: 'green',
+    color: 'green'
   },
   description: {
     marginLeft: 5,
-    marginBottom: 30,
-  },
+    marginBottom: 30
+  }
 }));
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
@@ -99,7 +99,7 @@ const Settings = (props) => {
     stoppedList: PropTypes.array.isRequired,
     memoryNotificationList: PropTypes.object.isRequired,
     cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired,
+    stoppedNotificationList: PropTypes.object.isRequired
   };
 
   // handle check
@@ -172,17 +172,17 @@ const Settings = (props) => {
 
         res.rows.forEach((el, i) => {
           switch (el.metric_name) {
-          case categories.MEMORY.toLowerCase():
-            tempMemory.push(el.container_id);
-            break;
-          case categories.CPU.toLowerCase():
-            tempCPU.push(el.container_id);
-            break;
-          case categories.STOPPED.toLowerCase():
-            tempStopped.push(el.container_id);
-            break;
-          default:
-            break;
+            case categories.MEMORY.toLowerCase():
+              tempMemory.push(el.container_id);
+              break;
+            case categories.CPU.toLowerCase():
+              tempCPU.push(el.container_id);
+              break;
+            case categories.STOPPED.toLowerCase():
+              tempStopped.push(el.container_id);
+              break;
+            default:
+              break;
           }
         });
 
@@ -303,7 +303,7 @@ const Settings = (props) => {
   const handleSubmit = async () => {
     const body = {
       code: formData,
-      mobileNumber: mobileNumber,
+      mobileNumber: mobileNumber
     };
 
     const result = await ipcRenderer.invoke('verify-code', body);
@@ -390,12 +390,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
-        contact_pref: value,
-      }),
+        contact_pref: value
+      })
     })
       .then((response) => {
         return response.json();
@@ -416,12 +416,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
-        cpu_threshold: value,
-      }),
+        cpu_threshold: value
+      })
     })
       .then((response) => {
         return response.json();
@@ -438,12 +438,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
-        mem_threshold: value,
-      }),
+        mem_threshold: value
+      })
     })
       .then((response) => {
         return response.json();
@@ -460,12 +460,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
-        container_stops: value,
-      }),
+        container_stops: value
+      })
     })
       .then((response) => {
         return response.json();
@@ -516,10 +516,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Name,
-                  categories.MEMORY
-                )
+                    container.ID,
+                    container.Name,
+                    categories.MEMORY
+                  )
                 : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role="checkbox"
@@ -532,10 +532,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Name,
-                  categories.CPU
-                )
+                    container.ID,
+                    container.Name,
+                    categories.CPU
+                  )
                 : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role="checkbox"
@@ -548,10 +548,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                  categories.STOPPED
-                )
+                    container.ID,
+                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+                    categories.STOPPED
+                  )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role="checkbox"

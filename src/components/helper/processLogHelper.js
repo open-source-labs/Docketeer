@@ -16,7 +16,7 @@ import * as actions from '../../actions/actions';
  */
 export const buildOptionsObj = (containerId) => {
   const optionsObj = {
-    containerId: containerId,
+    containerId: containerId
   };
 
   if (document.getElementById('sinceInput').checked) {

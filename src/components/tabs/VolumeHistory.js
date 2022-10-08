@@ -43,10 +43,10 @@ const volumeHistory = (props) => {
       ele.containers.length
         ? ele.containers.forEach((el) => details.push(containerDetails(el, i)))
         : details.push(
-          <div className="volume-container-details">
+            <div className="volume-container-details">
               No container found in this volume
-          </div>
-        );
+            </div>
+          );
 
       return (
         <div className="box" key={`volume${i}`}>

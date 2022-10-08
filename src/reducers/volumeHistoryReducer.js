@@ -10,36 +10,36 @@ import * as types from '../constants/actionTypes';
  */
 const initialState = {
   arrayOfVolumeNames: [],
-  volumeContainersList: [],
+  volumeContainersList: []
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-  case types.GET_VOLUME_LIST:
-    // merges arrays using spread operator
-    const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
-    return {
-      ...state,
-      arrayOfVolumeNames: newVolumeList,
-    };
+    case types.GET_VOLUME_LIST:
+      // merges arrays using spread operator
+      const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
+      return {
+        ...state,
+        arrayOfVolumeNames: newVolumeList
+      };
 
-  case types.GET_VOLUME_CONTAINERS_LIST:
-    const newVolumeContainersList = [...state.volumeContainersList];
-    if (newVolumeContainersList.length) {
-      // ensures no duplicate volumes
-      for (let i = 0; i < newVolumeContainersList.length; i += 1) {
-        if (newVolumeContainersList[i].vol_name === action.payload.vol_name) {
-          return state;
+    case types.GET_VOLUME_CONTAINERS_LIST:
+      const newVolumeContainersList = [...state.volumeContainersList];
+      if (newVolumeContainersList.length) {
+        // ensures no duplicate volumes
+        for (let i = 0; i < newVolumeContainersList.length; i += 1) {
+          if (newVolumeContainersList[i].vol_name === action.payload.vol_name) {
+            return state;
+          }
         }
       }
-    }
-    newVolumeContainersList.push(action.payload);
-    return {
-      ...state,
-      volumeContainersList: newVolumeContainersList,
-    };
+      newVolumeContainersList.push(action.payload);
+      return {
+        ...state,
+        volumeContainersList: newVolumeContainersList
+      };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }

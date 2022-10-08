@@ -4,9 +4,9 @@ const emailEvent = (args) => {
   fetch('http://localhost:3000/api', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(args),
+    body: JSON.stringify(args)
   })
     .then((response) => {
       return response.json();

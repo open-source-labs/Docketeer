@@ -6,7 +6,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 import ProcessLogsCard from '../display/ProcessLogsCard';
 

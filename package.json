@@ -16,18 +16,23 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
-    "lint": "eslint --cache src",
-    "lint:fix": "eslint --fix src/"
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
   },
   "lint-staged": {
-    "*": ["npm run lint:fix", "git add"
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
     ]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-router-dom": "^5.3.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -64,6 +69,9 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.10.4",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "babel-loader": "^8.2.1",
     "babel-polyfill": "^6.26.0",
@@ -77,7 +85,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-to-json": "^3.5.0",
-    "eslint": "^7.28.0",
+    "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -88,6 +96,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^13.0.3",
     "nodemon": "^2.0.7",
+    "prettier": "^2.7.1",
     "react-test-renderer": "^16.13.1",
     "sass-loader": "^10.2.0",
     "typescript": "^3.9.10",

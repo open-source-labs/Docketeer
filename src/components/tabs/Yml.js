@@ -23,22 +23,22 @@ const useStyles = makeStyles(() => ({
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: 'middle',
-    },
+      verticalAlign: 'middle'
+    }
   },
   button: {
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top',
+    verticalAlign: 'top'
   },
   verifiedIcon: {
     verticalAlign: 'top',
-    color: 'green',
+    color: 'green'
   },
   description: {
     marginLeft: 5,
-    marginBottom: 30,
-  },
+    marginBottom: 30
+  }
 }));
 
 const Yml = () => {

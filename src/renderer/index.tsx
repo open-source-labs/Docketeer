@@ -16,7 +16,7 @@ fixPath();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router >
+    <Router>
       <Login />
     </Router>
   </Provider>,

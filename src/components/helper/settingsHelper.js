@@ -38,13 +38,13 @@ export const updatePassword = (password, newPassword) => {
   fetch('http://localhost:3000/account/password', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username,
       password: password,
-      newPassword: newPassword,
-    }),
+      newPassword: newPassword
+    })
   })
     .then((response) => {
       return response.json();
@@ -120,12 +120,12 @@ export const updateEmail = (username, email) => {
   fetch('http://localhost:3000/account/email', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username,
-      email,
-    }),
+      email
+    })
   })
     .then((response) => {
       return response.json();
@@ -172,12 +172,12 @@ export const updatePhone = (username, phone) => {
   fetch('http://localhost:3000/account/phone', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username,
-      phone,
-    }),
+      phone
+    })
   })
     .then((response) => {
       return response.json();

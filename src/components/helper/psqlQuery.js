@@ -5,7 +5,7 @@ const pool = new Pool({
   user: 'postgres',
   password: 'postgres',
   database: 'docketeer-db',
-  port: 5432,
+  port: 5432
 });
 
 export default async (text, params, callback) => {

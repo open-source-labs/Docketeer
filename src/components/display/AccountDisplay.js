@@ -18,7 +18,7 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone,
+  checkPhone
 } from '../helper/settingsHelper';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,25 +27,25 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 5,
       marginBottom: 15,
       width: 220,
-      verticalAlign: 'middle',
-    },
+      verticalAlign: 'middle'
+    }
   },
   button: {
     '& > *': {
-      pointerEvents: 'none',
+      pointerEvents: 'none'
     },
     marginLeft: 5,
     width: 100,
-    verticalAlign: 'top',
+    verticalAlign: 'top'
   },
   verifiedIcon: {
     verticalAlign: 'top',
-    color: 'green',
+    color: 'green'
   },
   description: {
     marginLeft: 5,
-    marginBottom: 30,
-  },
+    marginBottom: 30
+  }
 }));
 
 const AccountDisplay = () => {

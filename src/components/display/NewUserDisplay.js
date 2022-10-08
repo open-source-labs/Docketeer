@@ -14,16 +14,16 @@ import {
   handleNewUser,
   checkPasswordLength,
   confirmPassword,
-  checkPhone,
+  checkPhone
 } from '../helper/newUserHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
+      width: '25ch'
+    }
+  }
 }));
 
 const NewUserDisplay = () => {

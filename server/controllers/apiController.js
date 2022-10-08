@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: email.username,
-    pass: email.password,
-  },
+    pass: email.password
+  }
 });
 
 // sends notification email when container issue occurs
@@ -48,7 +48,7 @@ apiController.sendEmailAlert = (req, res, next) => {
     from: 'team.docketeer@gmail.com',
     to: email,
     subject: 'Docketeer: Container Issue',
-    html: `${emailBody}`,
+    html: `${emailBody}`
   };
 
   transporter
@@ -60,8 +60,8 @@ apiController.sendEmailAlert = (req, res, next) => {
       return next({
         log: `Error in apiController sendEmailAlert: ${err}`,
         message: {
-          err: 'An error occured creating new user in database. See apiController.sendEmailAlert.',
-        },
+          err: 'An error occured creating new user in database. See apiController.sendEmailAlert.'
+        }
       });
     });
 };
@@ -82,7 +82,7 @@ apiController.signupEmail = (req, res, next) => {
       <p>For any questions or concerns, please reach out to us at team.docketeer@gmail.com.</p>
       <br/>
       <p>Warmest regards,</p>
-      <p>Team Docketeer</p>`,
+      <p>Team Docketeer</p>`
   };
 
   transporter
@@ -94,8 +94,8 @@ apiController.signupEmail = (req, res, next) => {
       return next({
         log: `Error in apiController signupEmail: ${err}`,
         message: {
-          err: 'An error occured creating new user in database. See apiController.signupEmail.',
-        },
+          err: 'An error occured creating new user in database. See apiController.signupEmail.'
+        }
       });
     });
 };

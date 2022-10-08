@@ -55,19 +55,19 @@ const constructNotificationMessage = (
 ) => {
   let message = '';
   switch (notificationType) {
-  case categories.STOPPED:
-    message = `Container with ID of ${containerId} has stopped`;
-    break;
-  case categories.CPU || categories.MEMORY:
-    message = `${notificationType} alert for container with ID of ${containerId}. 
+    case categories.STOPPED:
+      message = `Container with ID of ${containerId} has stopped`;
+      break;
+    case categories.CPU || categories.MEMORY:
+      message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat};
         Alert Setting: ${triggeringValue}`;
-    break;
-  default:
-    message = `${notificationType} alert for container with ID of ${containerId}. 
+      break;
+    default:
+      message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat}; 
         Alert Setting: ${triggeringValue}`;
-    break;
+      break;
   }
 
   return message;
@@ -95,7 +95,7 @@ const sendNotification = async (
         stat,
         triggeringValue,
         containerId
-      ),
+      )
     };
 
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
@@ -122,7 +122,7 @@ const sendNotification = async (
     stopped,
     percent: stat,
     type,
-    threshold: triggeringValue,
+    threshold: triggeringValue
   };
 
   await ipcRenderer.invoke('email-event', body);

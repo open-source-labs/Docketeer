@@ -14,7 +14,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
 const ProcessLogsCard = (props) => {
@@ -35,7 +35,7 @@ const ProcessLogsCard = (props) => {
 ProcessLogsCard.propTypes = {
   container: PropTypes.object,
   index: PropTypes.number,
-  status: PropTypes.string,
+  status: PropTypes.string
 };
 
 export default ProcessLogsCard;

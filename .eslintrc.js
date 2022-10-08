@@ -3,35 +3,66 @@ module.exports = {
     browser: true,
     commonjs: true,
     es2021: true,
-    node: true,
+    node: true
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
+    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    'plugin:prettier/recommended' // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+  ],
+  plugins: ['react', 'prettier'],
+  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
+    ecmaVersion: 2020,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true // Allows for the parsing of JSX
+    }
   },
-  plugins: ['react'],
+  settings: {
+    react: {
+      version: 'detect' // Tells eslint-plugin-react to automatically detect the version of React to use
+    }
+  },
   rules: {
-  // "off" or 0 - turn the rule off
-  // "warn" or 1 - turn the rule on as a warning(doesn’ t affect exit code)
-  // "error" or 2 - turn the rule on as an error(exit code is 1 when triggered)
-    indent: [2, 2],
+    /**
+     * Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+     * e.g. "@typescript-eslint/explicit-function-return-type": "off",
+     *
+     *  "off" or 0 - turn the rule off
+     * "warn" or 1 - turn the rule on as a warning(doesn’ t affect exit code)
+     * "error" or 2 - turn the rule on as an error(exit code is 1 when triggered)
+     **/
+
+    indent: 0, // set to 0 as eslint and prettier will conflict
     'no-unused-vars': ['off', { vars: 'local' }],
     'prefer-const': 'warn',
-    quotes: [1, 'single'],
+    quotes: [
+      2,
+      'single',
+      {
+        avoidEscape: true,
+        allowTemplateLiterals: true
+      }
+    ],
     semi: 2,
     'space-infix-ops': 'warn',
     'no-console': 'off',
+
+    // ----- TYPESCRIPT ----- //
+    '@typescript-eslint/no-var-requires': 0,
+
+    // ----- PRETTIER ----- //
+    'prettier/prettier': ['error', { singleQuote: true }],
+
+    // ----- MISC ----- //
     'no-restricted-syntax': [
       'error',
       {
         selector:
-          'CallExpression[callee.object.name=\'console\'][callee.property.name!=/^(log|warn|error|info|trace)$/]',
-        message: 'Unexpected property on console object was called',
-      },
+          "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+        message: 'Unexpected property on console object was called'
+      }
     ],
     'spaced-comment': [
       'error',
@@ -39,14 +70,14 @@ module.exports = {
       {
         line: {
           markers: ['/'],
-          exceptions: ['-', '+'],
+          exceptions: ['-', '+']
         },
         block: {
           markers: ['!'],
           exceptions: ['*'],
-          balanced: true,
-        },
-      },
-    ],
-  },
+          balanced: true
+        }
+      }
+    ]
+  }
 };

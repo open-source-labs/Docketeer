@@ -8,7 +8,7 @@ import {
   Switch,
   Route,
   Redirect,
-  BrowserHistory,
+  BrowserHistory
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
+      width: '25ch'
+    }
+  }
 }));
 
 const Login = () => {
@@ -83,12 +83,12 @@ const Login = () => {
     fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: username,
-        password: password,
-      }),
+        password: password
+      })
     })
       .then((response) => {
         return response.json();

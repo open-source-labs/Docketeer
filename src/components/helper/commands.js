@@ -3,7 +3,7 @@ import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
-  listOfVolumeProperties,
+  listOfVolumeProperties
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
@@ -351,7 +351,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml',
+      'compose.yaml'
     ];
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
@@ -443,7 +443,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml',
+      'compose.yaml'
     ];
     let cmd = `cd ${fileLocation} && docker-compose down`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename

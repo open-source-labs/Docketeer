@@ -1,6 +1,6 @@
 /**
  * @module SignupRouter
- * @description Routes all requests to signup endpoint 
+ * @description Routes all requests to signup endpoint
  */
 const express = require('express');
 const signupController = require('../controllers/signupController');
@@ -13,14 +13,12 @@ const router = express.Router();
 
 // may move to login router
 // only call middleware when system admin logs in
-router.get('/', 
-  userController.getAllUsers, 
-  (req, res) => {
-    return res.status(200).json(res.locals.users);
-  }
-);
+router.get('/', userController.getAllUsers, (req, res) => {
+  return res.status(200).json(res.locals.users);
+});
 
-router.post('/', 
+router.post(
+  '/',
   signupController.usernameCheck,
   signupController.passwordCheck,
   bcryptController.hashPassword,

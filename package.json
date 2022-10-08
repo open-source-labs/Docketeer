@@ -9,6 +9,7 @@
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.js\" \"npm run dev:electron\"",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .\" \"nodemon server/server.js\"",
     "buildWeb": "webpack",
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",
@@ -29,10 +30,12 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
+    "react-error-overlay": "^6.0.11",
     "react-modal": "^3.15.1",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.1",
     "react-router-dom": "^6.4.1",
+    "react-scripts": "^5.0.1",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {

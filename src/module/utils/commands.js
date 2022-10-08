@@ -1,6 +1,5 @@
 // import { exec } from 'child_process';
 import query from '../../../server/models/psqlQuery';
-import { exec } from 'node:child_process';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -616,7 +615,7 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 };
 
 /**
- * Builds and executes a docker logs command to generate logs
+ * Builds and child_process.executes a docker logs command to generate logs
  *
  * @param {callback} getContainerLogs
  * @param {object} optionsObj

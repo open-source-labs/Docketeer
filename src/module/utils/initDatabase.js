@@ -6,11 +6,11 @@ import { config } from 'dotenv';
 export default () => {
   const directory =
     process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '..', '..', 'database')
+      ? path.resolve(__dirname, '../../database')
       : path.join(path.dirname(__dirname), 'database');
 
   window.nodeMethod.runExec(
-    `cd ${directory} ; docker-compose up --no-recreate -d`,
+    `cd ${directory} && docker compose up --no-recreate --wait -d`,
     (error, stdout, stderr) => {
       if (error) {
         alert(`${error.message} `);

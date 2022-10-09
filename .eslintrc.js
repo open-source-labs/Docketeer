@@ -52,6 +52,8 @@ module.exports = {
     semi: 2,
     'space-infix-ops': 'warn',
     'no-console': 'off',
+    // ----- REACT ----- //
+    'react/prop-types': 0, // remove with TS usage
 
     // ----- TYPESCRIPT ----- //
     '@typescript-eslint/no-var-requires': 0,

@@ -14,7 +14,7 @@ import {
   checkPasswordLength,
   confirmPassword,
   checkPhone,
-} from '../helper/newUserHelper';
+} from '../../module/utils/helper/newUserHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {

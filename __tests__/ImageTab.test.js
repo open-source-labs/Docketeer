@@ -1,7 +1,7 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Images from '../src/components/tabs/Images';
+import Images from '../src/tabs/Images';
 
 configure({ adapter: new Adapter() });
 function shallowSetup() {

@@ -1,7 +1,7 @@
 import {
   makeArrayOfObjects,
   buildOptionsObj,
-} from '../src/components/helper/processLogHelper.js';
+} from '../src/module/utils/helper/processLogHelper.js';
 
 describe('makeArrayOfObjects', () => {
   it('returns an array', () => {

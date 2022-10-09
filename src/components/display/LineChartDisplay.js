@@ -1,10 +1,9 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../actions/actions';
-import query from '../helper/psqlQuery';
-import * as helper from '../helper/commands';
+import query from '../../module/utils/psqlQuery';
+import * as helper from '../../module/utils/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

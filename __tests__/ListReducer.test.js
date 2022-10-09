@@ -1,5 +1,5 @@
-import containerListReducer from '../src/reducers/containerListReducer'; // import containerList reducer
-import imageListReducer from '../src/reducers/imageListReducer'; // import imageListReducer reducer
+import containerListReducer from '../src/module/reducers/containerListReducer'; // import containerList reducer
+import imageListReducer from '../src/module/reducers/imageListReducer'; // import imageListReducer reducer
 
 describe('Dockeeter reducer', () => {
   let state;

@@ -2,7 +2,7 @@ import React from 'react';
 import { configure, shallow } from 'enzyme'; // enzyme
 import Adapter from 'enzyme-adapter-react-16'; // enzyme
 
-import Containers from '../src/components/tabs/Containers';
+import Containers from '../src/tabs/Containers';
 
 configure({ adapter: new Adapter() }); // enzyme
 

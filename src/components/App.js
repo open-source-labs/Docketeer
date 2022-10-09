@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import AdminView from './views/Admin';
-import UserView from './views/UserView';
-import SysAdminView from './views/SysAdmin';
+import AdminView from '../views/Admin';
+import UserView from '../views/UserView';
+import SysAdminView from '../views/SysAdmin';
 
 const App = () => {
   const role = useSelector((state) => state.session.role);

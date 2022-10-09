@@ -1,7 +1,7 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import VolumeTab from '../src/components/tabs/VolumeHistory';
+import VolumeTab from '../src/tabs/VolumeHistory';
 
 configure({ adapter: new Adapter() });
 

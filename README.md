@@ -25,7 +25,7 @@ awesome when someone starts to use it.
 
 <!-- ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png) -->
 
-![logo](assets/docketeer-title2.png)
+![logo](src/assets/images/docketeer-title2.png)
 
 ## About
 
@@ -58,13 +58,13 @@ root
 
 ```js
 // .env
-TWILIO_NUMBER = "";
-TWILIO_ACCOUNT_SID = "";
-TWILIO_AUTH_TOKEN = "";
-SERVICE_SID = "";
-VERIFICATION_SERVICE_SID = "";
-SLACK_WEBHOOK = "";
-POSTGRES_URI = "";
+TWILIO_NUMBER = '';
+TWILIO_ACCOUNT_SID = '';
+TWILIO_AUTH_TOKEN = '';
+SERVICE_SID = '';
+VERIFICATION_SERVICE_SID = '';
+SLACK_WEBHOOK = '';
+POSTGRES_URI = '';
 ```
 
 5. Create a folder called `security` in the project's top-level directory. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
@@ -84,10 +84,10 @@ root
 ```js
 // email.js
 module.exports = {
-  host: "smtp.gmail.com",
+  host: 'smtp.gmail.com',
   port: 465,
-  username: "example@gmail.com",
-  password: "belugas",
+  username: 'example@gmail.com',
+  password: 'belugas',
 };
 ```
 
@@ -96,8 +96,8 @@ module.exports = {
 ```js
 // sysadmin.js
 module.exports = {
-  phone: "",
-  email: "",
+  phone: '',
+  email: '',
 };
 ```
 
@@ -124,11 +124,11 @@ To change the system admin password, create a new user with your preferred crede
 
 ```js
 // .env.js
-MY_PHONE_NUMBER = "your mobile number";
-TWILIO_ACCOUNT_SID = "code from your console";
-TWILIO_AUTH_TOKEN = "token from your console";
-SERVICE_SID = "code from notify service instance";
-VERIFICATION_SERVICE_SID = "code from verify service instance";
+MY_PHONE_NUMBER = 'your mobile number';
+TWILIO_ACCOUNT_SID = 'code from your console';
+TWILIO_AUTH_TOKEN = 'token from your console';
+SERVICE_SID = 'code from notify service instance';
+VERIFICATION_SERVICE_SID = 'code from verify service instance';
 ```
 
 4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
@@ -149,7 +149,7 @@ You can view a list of running and exited containers, available images, volume h
 ### ➮ Live Metrics
 
 Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
-![alt text](assets/docketeer-metrics.gif)
+![alt text](src/assets/images/docketeer-metrics.gif)
 
 ### ➮ Uploading
 
@@ -158,7 +158,7 @@ Within the Image and Docker Compose tab, you pull images from DockerHub by provi
 ### ➮ Process Logs
 
 You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
-![alt text](assets/processlogs.gif)
+![alt text](src/assets/images/processlogs.gif)
 
 <br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
 
@@ -188,7 +188,7 @@ npm run test
 
 ## Contributing
 
-Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
+Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes, improvements, and new features to Docketeer.
 
 ### Authors
 

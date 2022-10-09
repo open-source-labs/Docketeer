@@ -19,7 +19,7 @@ import {
   handleEmailUpdate,
   handlePhoneUpdate,
   checkPhone,
-} from '../helper/settingsHelper';
+} from '../../module/utils/helper/settingsHelper';
 
 const useStyles = makeStyles(() => ({
   root: {

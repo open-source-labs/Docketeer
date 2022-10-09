@@ -6,10 +6,12 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer';
 
-import { verifyCode } from './twilio/verifyCode';
-import verifyMobileNumber from './twilio/verifyMobile';
-import postEvent from './twilio/postEvent';
-import emailEvent from './email/emailEvent';
+import {
+  verifyCode,
+  verifyMobileNumber,
+  postEvent,
+} from '../module/utils/api/twilio';
+import { emailEvent } from '../module/utils/api/email';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow: BrowserWindow | null;
@@ -37,9 +39,7 @@ function createMainWindow() {
           )}`
         )
       )
-      .catch((err) =>
-        console.log('[electron-extensions] An error occurred: ', err)
-      );
+      .catch((err) => console.log('[electron-extensions]', err));
   });
 
   if (isDevelopment) {

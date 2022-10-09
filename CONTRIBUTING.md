@@ -6,7 +6,7 @@ First of all, thank you for your contribution.
 
 All code changes happen through Github Pull Requests and we actively welcome them. To submit your pull request, follow the steps below:
 
-## Pull Requests
+## Pull Requests - How to
 
 1. Fork the repo (git clone ...)
 2. Create your featured branch. (git checkout -b [my-new-feature])
@@ -15,7 +15,7 @@ All code changes happen through Github Pull Requests and we actively welcome the
 5. Ensure the test suite passes and on Travis CI as well.
 6. Make sure your code lints (npm run lint).
 7. Push to the branch (git push origin [my-new-feature])
-8. Issue that pull request! Specify what you changed in details when you are doing pull request & squash all commits.
+8. Issue that pull request! Specify what you changed in details when you are doing pull request & **squash** all commits.
 
 Note: Any contributions you make will be under the MIT Software License and your submissions are understood to be under the same that covers the project. Please reach out to the team if you have any questions.
 

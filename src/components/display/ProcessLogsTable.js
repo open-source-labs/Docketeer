@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { buildOptionsObj } from '../helper/processLogHelper';
-import { getLogs } from '../helper/commands';
+import { buildOptionsObj } from '../../module/utils/helper/processLogHelper';
+import { getLogs } from '../../module/utils/commands';
 import * as actions from '../../actions/actions';
 
 import Table from '@material-ui/core/Table';

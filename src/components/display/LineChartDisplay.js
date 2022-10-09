@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
-import * as actions from '../../actions/actions';
+import * as actions from '../../module/actions/actions';
 import query from '../../module/utils/psqlQuery';
 import * as helper from '../../module/utils/commands';
 import { Link } from 'react-router-dom';

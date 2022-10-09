@@ -4,7 +4,7 @@
  */
 
 import store from '../../../renderer/store';
-import * as actions from '../../../actions/actions';
+import * as actions from '../../actions/actions';
 
 export const handlePasswordChange = () => {
   const currentPassword = document.getElementById(

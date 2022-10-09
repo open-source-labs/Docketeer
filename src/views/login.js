@@ -12,10 +12,10 @@ import {
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 // Redux Imports (actions)
-import * as actions from '../actions/actions';
+import * as actions from '../module/actions/actions';
 
 // React Component Imports
-import App from '../components/App';
+import AuthRoute from '../routes/AuthRoute';
 
 // Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
@@ -112,9 +112,8 @@ const Login = () => {
       <Router history={BrowserHistory}>
         <Redirect to="/app" />
         <Switch>
-          {/* <Route component={App} exact path="/app" /> */}
           <Route path="/app">
-            <App />
+            <AuthRoute />
           </Route>
         </Switch>
       </Router>

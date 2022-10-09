@@ -5,7 +5,7 @@ import AdminView from '../views/Admin';
 import UserView from '../views/UserView';
 import SysAdminView from '../views/SysAdmin';
 
-const App = () => {
+const AuthRoute = () => {
   const role = useSelector((state) => state.session.role);
   if (role === 'system admin') {
     return (
@@ -28,4 +28,4 @@ const App = () => {
   }
 };
 
-export default App;
+export default AuthRoute;

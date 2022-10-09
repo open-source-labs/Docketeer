@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import * as actions from '../actions/actions';
+import * as actions from '../module/actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
 

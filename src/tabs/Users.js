@@ -22,7 +22,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Checkbox from '@material-ui/core/Checkbox';
 
 // Redux Imports (actions)
-import * as actions from '../actions/actions';
+import * as actions from '../module/actions/actions';
 
 // Table Style Generator
 export const useStyles = makeStyles({

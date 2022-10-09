@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 // static imports
-import * as actions from '../actions/actions';
+import * as actions from '../module/actions/actions';
 import * as helper from '../module/utils/commands';
 import * as history from '../module/utils/helper/volumeHistoryHelper';
 import Docketeer from '../assets/images/docketeer-title.png';

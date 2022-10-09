@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../actions/actions';
+import * as actions from '../module/actions/actions';
 import * as helper from '../module/utils/commands';
 
 import Table from '@material-ui/core/Table';

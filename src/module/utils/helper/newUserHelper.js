@@ -3,7 +3,7 @@
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
 import store from '../../../renderer/store';
-import * as actions from '../../../actions/actions';
+import * as actions from '../../actions/actions';
 
 export const handleNewUser = (e) => {
   e.preventDefault();

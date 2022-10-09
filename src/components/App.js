@@ -28,12 +28,10 @@ const App = (props) => {
   } else {
     return (
       <Fragment>
-        {/* <h1>I'm the UserView</h1> */}
-        {/* <Example /> */}
-        {/* <Routes>
-          <Route exact path='/UserView/*' element={<UserView />} />
-        </Routes> */}
-        <Navigate to='/UserView' />
+        {/* <Navigate to='/app/UserView' /> */}
+        <Routes>
+          <Route path='/UserView/*' element={<UserView />} />
+        </Routes>
       </Fragment>
     );
   }

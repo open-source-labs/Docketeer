@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { createRoot } from 'react-dom/client'
 
 // Redux
@@ -21,7 +21,9 @@ root.render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
-        <App2 />
+        <Routes>
+          <Route path='/*' element={<App2 />} />
+        </Routes>
       </BrowserRouter>
     </React.StrictMode>
   </Provider>

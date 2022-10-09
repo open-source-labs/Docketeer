@@ -12,14 +12,28 @@
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
-    "test": "jest --verbose",
-    "temp": "webpack-dev-server --open --mode development"
+    "temp": "webpack-dev-server --open --mode development",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
+    "lint": "eslint --fix",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "jest --bail --findRelatedTests"
+    ]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-router-dom": "^5.3.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -56,6 +70,10 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.10.4",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
     "babel-loader": "^8.2.1",
     "babel-polyfill": "^6.26.0",
     "concurrently": "^6.2.0",
@@ -68,16 +86,22 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "enzyme-to-json": "^3.5.0",
-    "eslint": "^7.28.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^27.1.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^8.0.0",
     "jest": "^26.6.3",
+    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.7",
+    "prettier": "^2.7.1",
     "react-test-renderer": "^16.13.1",
     "sass-loader": "^10.2.0",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.10",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"

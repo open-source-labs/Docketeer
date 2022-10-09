@@ -1,10 +1,9 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
-import * as actions from '../../actions/actions';
-import query from '../helper/psqlQuery';
-import * as helper from '../helper/commands';
+import * as actions from '../../module/actions/actions';
+import query from '../../module/utils/psqlQuery';
+import * as helper from '../../module/utils/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -17,10 +16,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 /**
  * Displays general metrics
- * 
+ *
  * @param {*} props
  */
-const Metrics = (props) => {
+const Metrics = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
@@ -100,7 +99,7 @@ const Metrics = (props) => {
       return;
     }
     // DB QUERY LIKELY GOING HERE
-    const output = await getContainerMetrics();
+    // const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -156,7 +155,7 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
-    
+
     const auxObj = {};
 
     Object.keys(activeContainers).forEach((container) => {
@@ -258,8 +257,7 @@ const Metrics = (props) => {
     ).then((data) => setGitUrls(data));
   };
 
-  let gitData;
-  gitData = gitUrls.map((el, index) => {
+  const gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
     const li = [
       <tr key={index}>
@@ -274,7 +272,7 @@ const Metrics = (props) => {
       let date = 'n/a';
       let time = 'n/a';
       let url = (
-        <Link Redirect to='/' style={selectedStyling}>
+        <Link Redirect to="/" style={selectedStyling}>
           Connect via settings page
         </Link>
       );
@@ -284,7 +282,7 @@ const Metrics = (props) => {
         author = ob.author;
         text = 'Github Commits';
         url = (
-          <a href={url} target='_blank' rel='noreferrer'>
+          <a href={url} target="_blank" rel="noreferrer">
             {text}
           </a>
         );
@@ -325,7 +323,7 @@ const Metrics = (props) => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color='primary'
+              color="primary"
               inputProps={{ 'aria-label': containerNameKey }}
             />
           }
@@ -422,55 +420,55 @@ const Metrics = (props) => {
 
   return (
     <div>
-      <div className='metric-section-title'>
+      <div className="metric-section-title">
         <h3>Over Time</h3>
       </div>
-      <div className='metrics-options-form'>
+      <div className="metrics-options-form">
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
           <input
-            type='radio'
-            id='4-hours'
-            name='timePeriod'
-            value='4'
+            type="radio"
+            id="4-hours"
+            name="timePeriod"
+            value="4"
             defaultChecked
           ></input>
-          <label htmlFor='4-hours'> 4 hours</label>
+          <label htmlFor="4-hours"> 4 hours</label>
           <input
-            type='radio'
-            id='12-hours'
-            name='timePeriod'
-            value='12'
+            type="radio"
+            id="12-hours"
+            name="timePeriod"
+            value="12"
           ></input>
-          <label htmlFor='12-hours'> 12 hours</label>
-          <input type='radio' id='other' name='timePeriod' value='24'></input>
-          <label htmlFor='24-hours'> 24 hours</label>
-          <br/>
+          <label htmlFor="12-hours"> 12 hours</label>
+          <input type="radio" id="other" name="timePeriod" value="24"></input>
+          <label htmlFor="24-hours"> 24 hours</label>
+          <br />
           {currentList}
         </form>
         <div></div>
       </div>
 
-      <div className='allCharts'>
+      <div className="allCharts">
         <Line data={memoryObj} options={memoryOptions} />
       </div>
 
-      <div className='allCharts'>
+      <div className="allCharts">
         <Line data={cpuObj} options={cpuOptions} />
       </div>
-      <div className='allCharts'>
+      <div className="allCharts">
         <Bar data={writtenIOObj} options={writtenIOOptions} />
       </div>
-      <div className='allCharts'>
+      <div className="allCharts">
         <Bar data={readIOObj} options={readIOOptions} />
       </div>
-      <div className='metric-section-title'>
+      <div className="metric-section-title">
         <h3>GitHub History</h3>
       </div>
-      <div className='gitHub-container'>{gitData}</div>
+      <div className="gitHub-container">{gitData}</div>
     </div>
   );
 };

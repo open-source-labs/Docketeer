@@ -16,7 +16,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
-    "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src/ server/",
+    "lint": "eslint --fix",
     "prepare": "husky install"
   },
   "husky": {
@@ -26,8 +26,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "npm run lint"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add",
+      "jest --bail --findRelatedTests"
     ]
   },
   "dependencies": {

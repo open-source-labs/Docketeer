@@ -1,13 +1,12 @@
-import * as types from "../constants/actionTypes";
+import * as types from '../constants/actionTypes';
 
 const initialState = {
   runningList: [],
-  stoppedList: [],
+  stoppedList: []
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-  
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();
       for (let container of action.payload) {
@@ -26,7 +25,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         runningList: newestRunningList,
-        stoppedList: newStoppedList,
+        stoppedList: newStoppedList
       };
 
     case types.RUN_STOPPED_CONTAINER:
@@ -41,7 +40,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         runningList: runningListCopy,
-        stoppedList: newerStoppedContainer,
+        stoppedList: newerStoppedContainer
       };
 
     case types.REFRESH_RUNNING_CONTAINERS:
@@ -49,8 +48,8 @@ export default function (state = initialState, action) {
       for (let container of action.payload) {
         newRunningList2.push(container);
       }
-        return { ...state, runningList: newRunningList2 };
-      
+      return { ...state, runningList: newRunningList2 };
+
     default:
       return state;
   }

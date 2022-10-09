@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';

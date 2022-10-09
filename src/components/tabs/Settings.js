@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
-import * as categories from '../../constants/notificationCategories';
+import * as categories from '../../redux/constants/notificationCategories';
 import query from '../../../server/models/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
+import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';

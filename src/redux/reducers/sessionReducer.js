@@ -13,20 +13,19 @@ const initialState = {
   container_stops: '',
   token: '',
   isLoggedIn: false,
-  userList: [],
+  userList: []
 };
 
-export default function (state = initialState, action){
-  switch(action.type) {
-
+export default function (state = initialState, action) {
+  switch (action.type) {
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_SESSION: {
-      return { 
-        ...state, 
-        isLoggedIn : (!state.isLoggedIn) 
+      return {
+        ...state,
+        isLoggedIn: !state.isLoggedIn
       };
     }
-    
+
     // Upon successful sign-up or login, update session state with all user info
     case types.UPDATE_USER: {
       const {
@@ -40,10 +39,10 @@ export default function (state = initialState, action){
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token,
+        token
       } = action.payload;
 
-      return { 
+      return {
         ...state,
         _id,
         username,
@@ -61,8 +60,8 @@ export default function (state = initialState, action){
 
     // after logging out, remove all user info from session state
     case types.LOGOUT_USER: {
-      return { 
-        ...initialState 
+      return {
+        ...initialState
       };
     }
 

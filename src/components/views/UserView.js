@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
@@ -212,7 +212,7 @@ const UserView = (props) => {
                 renders the first one that matches the current URL. */}
         <Routes>
           <Route
-            path='*/volume'
+            path='/volume'
             element={
               // <VolumeHistory
               //   arrayOfVolumeNames={arrayOfVolumeNames}
@@ -222,7 +222,7 @@ const UserView = (props) => {
             }
           />
           <Route
-            path='*/metrics'
+            path='/metrics'
             element={
               // <Metrics runningList={runningList}/>
               <h2>I'm Metrics!</h2>

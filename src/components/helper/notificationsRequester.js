@@ -1,7 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
-import * as categories from '../../constants/notificationCategories';
+import * as categories from '../../redux/constants/notificationCategories';
 // object that holds what notifications have been sent
 import memoryNotification from '../../main/slack/memoryNotification.js';
 import cpuNotification from '../../main/slack/cpuNotification.js';

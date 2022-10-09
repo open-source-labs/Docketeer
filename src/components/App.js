@@ -30,10 +30,10 @@ const App = (props) => {
       <Fragment>
         {/* <h1>I'm the UserView</h1> */}
         {/* <Example /> */}
-        <Routes>
-          <Route exact path='/userview/*' element={<UserView />} />
-        </Routes>
-        <Navigate to='/userview' />
+        {/* <Routes>
+          <Route exact path='/UserView/*' element={<UserView />} />
+        </Routes> */}
+        <Navigate to='/UserView' />
       </Fragment>
     );
   }

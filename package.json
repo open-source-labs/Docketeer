@@ -13,7 +13,7 @@
     "dist-win": "npm run compile && electron-builder --win --x64",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
     "temp": "webpack-dev-server --open --mode development",
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
     "lint": "eslint --fix",

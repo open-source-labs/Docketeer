@@ -14,17 +14,16 @@ export const handleLogin = (e) => {
 };
 
 export const authenticateUser = (username, password) => {
-  fetch('http://localhost:3000/login', 
-    { 
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password
-      }),
+  fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password
     })
+  })
     .then((response) => {
       return response.json();
     })
@@ -37,6 +36,6 @@ export const authenticateUser = (username, password) => {
     })
     .catch((err) => {
       console.log('authenticateUser ERR: ', err);
-      return (err);
+      return err;
     });
 };

@@ -19,7 +19,8 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      preload: `${__dirname}/preload.js`,
+      preload: path.join(__dirname, '../src/main/preload.js'),
+      sandbox: false
       // enableRemoteModule: true,
       // nodeIntegration: true,
       // contextIsolation: false,
@@ -35,7 +36,7 @@ function createMainWindow() {
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, '/src/renderer/index.js'),
+        pathname: path.join(__dirname, '/index.js'),
         protocol: 'file:',
         slashes: true,
       })

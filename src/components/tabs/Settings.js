@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
-import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
 import query from '../../../server/models/psqlQuery';
@@ -198,7 +197,7 @@ const Settings = (props) => {
    */
 
   const verifyMobileNumber = async () => {
-    await ipcRenderer.invoke('verify-number', mobileNumber);
+    await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -305,7 +304,7 @@ const Settings = (props) => {
       mobileNumber: mobileNumber
     };
 
-    const result = await ipcRenderer.invoke('verify-code', body);
+    const result = await window.nodeMethod.rendInvoke('verify-code', body);
     console.log('RESULT: ', result);
     if (result === 'approved') {
       showVerificationInput = false;

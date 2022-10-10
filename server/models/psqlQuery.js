@@ -1,6 +1,6 @@
 // const { Pool } = require('pg');
 
-// const pool = window.childProcess.pool({
+// const pool = new Pool({
 //   host: 'localhost',
 //   user: 'postgres',
 //   password: 'postgres',
@@ -9,6 +9,6 @@
 // });
 
 // export default async (text, params, callback) => {
-//   const rows = await pool.window.childProcess.queryPool(text, params, callback);
+//   const rows = await pool.query(text, params, callback);
 //   return rows;
 // };

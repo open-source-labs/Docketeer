@@ -1,7 +1,7 @@
 // import { exec } from 'child_process';
 import path from 'path';
 import { config } from 'dotenv';
-config();
+// config();
 
 export default () => {
   const directory =
@@ -9,7 +9,7 @@ export default () => {
       ? path.resolve(__dirname, '..', '..', 'database')
       : path.join(path.dirname(__dirname), 'database');
 
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     `cd ${directory} ; docker-compose up --no-recreate -d`,
     (error, stdout, stderr) => {
       if (error) {

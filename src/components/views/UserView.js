@@ -17,14 +17,14 @@ import Metrics from '../tabs/Metrics';
 import ImagesUser from '../tabs/ImagesUser';
 import Yml from '../tabs/Yml';
 import ContainersUser from '../tabs/ContainersUser';
-// import Settings from '../tabs/Settings'; //! Issue with loading frontend -> Path.join is not a functions
+import Settings from '../tabs/Settings'; //! Issue with loading frontend -> Path.join is not a functions * Possibly fixed with preload script rendInvoke
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-// import startNotificationRequester from '../helper/notificationsRequester'; //! Issue with loading frontend -> Path.join is not a functions
-// import initDatabase from '../helper/initDatabase'; //! Issue with loading frontend -> Path.join is not a functions
+import startNotificationRequester from '../helper/notificationsRequester'; //! Issue with loading frontend -> Path.join is not a functions
+import initDatabase from '../helper/initDatabase'; //! Issue with loading frontend -> Path.join is not a functions
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {

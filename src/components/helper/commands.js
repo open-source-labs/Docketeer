@@ -16,7 +16,7 @@ import { makeArrayOfObjects } from './processLogHelper';
  */
 
 export const addRunning = (runningList, callback) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -57,7 +57,7 @@ export const addRunning = (runningList, callback) => {
  * @param {*} runningList
  */
 export const refreshRunning = (refreshRunningContainers) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -86,7 +86,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  * @param {*} callback
  */
 export const refreshStopped = (refreshStoppedContainers) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker ps -f "status=exited" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -112,7 +112,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
  * @param {*} callback
  */
 export const refreshImages = (callback) => {
-  window.childProcess.runExec('docker images', (error, stdout, stderr) => {
+  window.nodeMethod.runExec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -151,7 +151,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  window.childProcess.runExec('docker images', (error, stdout, stderr) => {
+  window.nodeMethod.runExec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -171,7 +171,7 @@ export const remove = (id, callback) => {
  * @param {*} callback
  */
 export const stop = (id, callback) => {
-  window.childProcess.runExec(`docker stop ${id}`, (error, stdout, stderr) => {
+  window.nodeMethod.runExec(`docker stop ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -195,7 +195,7 @@ export const runStopped = (
   runStoppedContainerDispatcher,
   refreshRunningContainers
 ) => {
-  window.childProcess.runExec(`docker start ${id}`, (error, stdout, stderr) => {
+  window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -219,7 +219,7 @@ export const runStopped = (
 
 export const runIm = (id, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
-  window.childProcess.runExec(`docker run ${id}`, (error, stdout, stderr) => {
+  window.nodeMethod.runExec(`docker run ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -241,23 +241,20 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
  * @param {*} callback_2
  */
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
-  window.childProcess.runExec(
-    `docker rmi -f ${id}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        alert(
-          `${error.message}` +
-            '\nPlease stop running container first then remove.'
-        );
-        return;
-      }
-      if (stderr) {
-        console.log(`removeIm stderr: ${stderr}`);
-        return;
-      }
-      callback_1(callback_2);
+  window.nodeMethod.runExec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
+    if (error) {
+      alert(
+        `${error.message}` +
+          '\nPlease stop running container first then remove.'
+      );
+      return;
     }
-  );
+    if (stderr) {
+      console.log(`removeIm stderr: ${stderr}`);
+      return;
+    }
+    callback_1(callback_2);
+  });
 };
 
 /**
@@ -268,7 +265,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 
 export const handlePruneClick = (e) => {
   e.preventDefault();
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker system prune --force',
     (error, stdout, stderr) => {
       if (error) {
@@ -290,19 +287,16 @@ export const handlePruneClick = (e) => {
  */
 
 export const pullImage = (repo) => {
-  window.childProcess.runExec(
-    `docker pull ${repo}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        alert(`${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`pullImage stderr: ${stderr}`);
-        return;
-      }
+  window.nodeMethod.runExec(`docker pull ${repo}`, (error, stdout, stderr) => {
+    if (error) {
+      alert(`${error.message}`);
+      return;
     }
-  );
+    if (stderr) {
+      console.log(`pullImage stderr: ${stderr}`);
+      return;
+    }
+  });
 };
 
 /**
@@ -312,7 +306,7 @@ export const pullImage = (repo) => {
  */
 
 export const networkContainers = (getNetworkContainers) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker network ls --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -340,7 +334,7 @@ export const networkContainers = (getNetworkContainers) => {
 };
 
 export const inspectDockerContainer = (containerId) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     `docker inspect ${containerId}`,
     (error, stdout, stderr) => {
       if (error) {
@@ -377,7 +371,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
 
-    window.childProcess.runExec(cmd, (error, stdout, stderr) => {
+    window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
         return;
@@ -409,7 +403,7 @@ export const dockerComposeStacks = (
 ) => {
   let parseDockerOutput;
 
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -469,7 +463,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} down`;
     }
 
-    window.childProcess.runExec(cmd, (error, stdout, stderr) => {
+    window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
         return;
@@ -556,7 +550,7 @@ export const getContainerGitUrl = (container) => {
  */
 
 export const getAllDockerVolumes = (getVolumeList) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     'docker volume ls --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -585,7 +579,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
  */
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
-  window.childProcess.runExec(
+  window.nodeMethod.runExec(
     `docker ps -a --filter volume=${volumeName} --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
@@ -627,7 +621,7 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
 
   const containerLogs = { stdout: [], stderr: [] };
 
-  window.childProcess.runExec(inputCommandString, (error, stdout, stderr) => {
+  window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;

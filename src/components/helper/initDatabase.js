@@ -9,7 +9,7 @@ export default () => {
       ? path.resolve(__dirname, '..', '..', 'database')
       : path.join(path.dirname(__dirname), 'database');
 
-  child_process.exec(
+  window.childProcess.runExec(
     `cd ${directory} ; docker-compose up --no-recreate -d`,
     (error, stdout, stderr) => {
       if (error) {

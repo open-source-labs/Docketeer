@@ -19,8 +19,9 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
+      preload: `${__dirname}/preload.js`,
       // enableRemoteModule: true,
-      nodeIntegration: true,
+      // nodeIntegration: true,
       // contextIsolation: false,
       // Do we want to be able to run this without background throttling?
       // backgroundThrottling: false

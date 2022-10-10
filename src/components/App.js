@@ -1,40 +1,35 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import {  Navigate, Route, Routes } from 'react-router-dom';
 
-// Debug
-// import Example from './views/Example';
-
-// import AdminView from './views/Admin';
+import AdminView from './views/Admin';
 import UserView from './views/UserView';
-// import SysAdminView from './views/SysAdmin';
+import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
-  const role = useSelector((state) => state.session.role);
-  if (role === 'system admin') {
-    return (
-      <div>
-        <h1>I'm the SysAdmin</h1>
-        {/* <SysAdminView /> */}
-      </div>
-    );
-  } else if (role === 'admin') {
-    return (
-      <div>
-        <h1>I'm the AdminView</h1>
-        {/* <AdminView /> */}
-      </div>
-    );
-  } else {
-    return (
-      <Fragment>
-        {/* <Navigate to='/app/UserView' /> */}
-        <Routes>
-          <Route path='/UserView/*' element={<UserView />} />
-        </Routes>
-      </Fragment>
-    );
+  // grab current user's role
+  const role = useSelector((state) => state.session.role); 
+    
+  const paths = {
+    'system admin': '/sysadmin',
+    'admin': '/admin',
+    'user': '/user'
   }
+  // set path for the active role
+  const path = paths[role];  
+    
+  return( 
+    //in return statement:
+    //3 routes that take us to the three different view's paths 
+    <div>
+      <Navigate to={path} />
+      <Routes>
+        <Route path='/sysadmin' element={<SysAdminView />}/>
+        <Route path='/admin' element={<AdminView />}/>
+        <Route path='/user' element={<UserView />}/>
+      </Routes>
+    </div>
+  )
 };
 
 export default App;

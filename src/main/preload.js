@@ -1,5 +1,12 @@
 const { contextBridge } = require('electron');
+const child_process = require('child_process');
 
-contextBridge.exposeInMainWorld('child_process', {
-  child_process: true
+let runExec = (command, callback) => {
+  return child_process.exec(command, callback);
+};
+
+// Access in the renderer/react as window.childProcess.exec
+contextBridge.exposeInMainWorld('childProcess', {
+  runExec: runExec,
+  bool: true
 });

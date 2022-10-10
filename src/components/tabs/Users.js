@@ -22,7 +22,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 // Redux Imports (actions)
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 
 // Table Style Generator
 // export const useStyles = makeStyles({

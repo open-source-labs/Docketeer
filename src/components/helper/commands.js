@@ -1,6 +1,4 @@
-// import { exec } from 'child_process';
 import query from '../../../server/models/psqlQuery';
-import { exec } from 'node:child_process';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,

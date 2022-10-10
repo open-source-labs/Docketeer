@@ -17,15 +17,15 @@ signupController.usernameCheck = (req, res, next) => {
     .then((data) => {
       if (data.rows[0]) {
         res.locals.error = 'Username already exists.';
-        return next();
-      } else {
-        return next();
       }
+      return next();
     })
     .catch((err) => {
       return next({
         log: `Error in signupController usernameCheck: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See signupController.usernameCheck.' },
+        message: {
+          err: 'An error occured while checking if username exists. See signupController.usernameCheck.',
+        },
       });
     });
 };
@@ -36,19 +36,18 @@ signupController.passwordCheck = (req, res, next) => {
 
   const { password } = req.body;
 
-  if (password.length >= 6) {
-    return next();
-  } else {
+  if (password.length < 6) {
     res.locals.error = 'Password must be at least 6 characters.';
-    return next();
   }
+  return next();
 };
 
 // verify user's information is complete
 signupController.completedFormCheck = (req, res, next) => {
   const { username, password } = req.body;
 
-  if (!username || !password) res.locals.error = 'Missing username or password.';
+  if (!username || !password)
+    res.locals.error = 'Missing username or password.';
   return next();
 };
 

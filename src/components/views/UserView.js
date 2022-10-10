@@ -4,23 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-// import * as actions from '../../redux/actions/actions';
-// import * as helper from '../helper/commands';
-// import * as history from '../helper/volumeHistoryHelper';
+import * as actions from '../../redux/actions/actions';
+import * as helper from '../helper/commands';
+import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // Navbar Import
 // import Navbar from './Navbar';
 
 // tab component imports
-// import Metrics from '../tabs/Metrics';
-// import ImagesUser from '../tabs/ImagesUser';
-// import Yml from '../tabs/Yml';
-// import ContainersUser from '../tabs/ContainersUser';
+import Metrics from '../tabs/Metrics';
+import ImagesUser from '../tabs/ImagesUser';
+import Yml from '../tabs/Yml';
+import ContainersUser from '../tabs/ContainersUser';
 // import Settings from '../tabs/Settings'; //! Issue with loading frontend -> Path.join is not a functions
-// import VolumeHistory from '../tabs/VolumeHistory';
-// import ProcessLogs from '../tabs/ProcessLogs';
-// import ProcessLogsTable from '../display/ProcessLogsTable';
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 // import startNotificationRequester from '../helper/notificationsRequester'; //! Issue with loading frontend -> Path.join is not a functions
@@ -50,17 +50,17 @@ const UserView = (props) => {
   //   const getVolumeContainersList = (data) =>
   //     dispatch(actions.getVolumeContainersList(data));
 
-  //   // map state to props
-  //   const runningList = useSelector((state) => state.containersList.runningList);
-  //   const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  //   const imagesList = useSelector((state) => state.images.imagesList);
-  //   const networkList = useSelector((state) => state.networkList.networkList);
-  //   const arrayOfVolumeNames = useSelector(
-  //     (state) => state.volumeList.arrayOfVolumeNames
-  //   );
-  //   const volumeContainersList = useSelector(
-  //     (state) => state.volumeList.volumeContainersList
-  //   );
+  // // map state to props
+  // const runningList = useSelector((state) => state.containersList.runningList);
+  // const stoppedList = useSelector((state) => state.containersList.stoppedList);
+  // const imagesList = useSelector((state) => state.images.imagesList);
+  // const networkList = useSelector((state) => state.networkList.networkList);
+  // const arrayOfVolumeNames = useSelector(
+  //   (state) => state.volumeList.arrayOfVolumeNames
+  // );
+  // const volumeContainersList = useSelector(
+  //   (state) => state.volumeList.volumeContainersList
+  // );
 
   // // map state to props
   // const phoneNumber = useSelector(
@@ -87,7 +87,7 @@ const UserView = (props) => {
   // };
 
   // useEffect(() => {
-  //   initDatabase();
+  //   // initDatabase();
   //   helper.refreshRunning(refreshRunningContainers);
   //   helper.refreshStopped(refreshStoppedContainers);
   //   helper.refreshImages(refreshImagesList);

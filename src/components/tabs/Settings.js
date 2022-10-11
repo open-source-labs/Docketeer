@@ -660,7 +660,6 @@ const Settings = (props) => {
               <Button
                 // className={classes.button}
                 size='medium'
-                color='default'
                 variant='contained'
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}

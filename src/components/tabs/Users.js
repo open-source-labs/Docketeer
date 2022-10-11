@@ -39,7 +39,8 @@ const useStyles1 = makeStyles((theme) => ({
   },
 }));
 
-// Function store of all pagination functions, these functions update the count, the current range of pages, etc. Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
+// Function store of all pagination functions, these functions update the count, the current range of pages, etc. 
+// Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
@@ -117,18 +118,29 @@ const UserTable = () => {
   const dispatch = useDispatch();
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
 
-  const tempSelected = {};
+  // Create an object for each user-role checkbox - assign true/false based on the roles
+  // from the state array
+  // TODO: Add react useEffect once updated
+  const tempAdminSelected = {};
+  const tempSysAdminSelected = {};
+  const tempUserSelected = {};
   for (let i = 0; i < rows.length; i++) {
-    tempSelected[rows[i]._id] =
-      rows[i].role === 'admin' || rows[i].role === 'sysadmin';
+    tempSysAdminSelected[rows[i]._id] = rows[i].role === 'system admin';
+    tempAdminSelected[rows[i]._id] = rows[i].role === 'admin';
+    tempUserSelected[rows[i]._id] = rows[i].role === 'user';
   }
+  console.log(tempAdminSelected);
 
   // Local state variables for table pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // Local state variable to keep track of which admin checkboxes are selected
-  const [selected, setSelected] = React.useState(tempSelected);
+  // Local state variable to keep track of which admin, sysadmin or user checkboxes are selected. 
+  const [selectedUser, setSelectedUser] = React.useState(tempUserSelected);
+  const [selectedAdmin, setSelectedAdmin] = React.useState(tempAdminSelected); // tm
+  const [selectedSysAdmin, setSelectedSysAdmin] = React.useState(tempSysAdminSelected);
+
+
 
   // Determine how many empty rows to display on a certain page, e.g. if rowsPerPage = 5, and there are only 3 rows, should display 2 rows
   const emptyRows =
@@ -144,23 +156,57 @@ const UserTable = () => {
     setPage(0);
   };
 
+  const setSysAdmin = (id) => {
+    const invertPreviousValue = !selectedSysAdmin[`S${id}`];
+    const temp = {
+      ...selectedSysAdmin,
+    };
+    // update key of checkbox id to switched/inverted value
+    temp[id] = invertPreviousValue;
+    // update local state
+    setSelectedSysAdmin(temp);
+    return 1;
+  };
+
+  const setAdmin = (id) => {
+    const invertPreviousValue = !selectedAdmin[id];
+    // Create a temp copy of the selected object
+    const temp = {
+      ...selectedAdmin,
+    };
+    temp[id] = invertPreviousValue;
+    setSelectedAdmin(temp);
+    return 2;
+  };
+
+  const setUser = (id) => {
+    const invertPreviousValue = !selectedUser[`U${id}`];
+    const temp = {
+      ...selectedUser,
+    };
+    temp[id] = invertPreviousValue;
+    setSelectedUser(temp);
+    return 3;
+  };
+
   const handleCheckboxClick = (event) => {
     // event persist is required to access target property of event. Without this, a synthetic event object would be used where target is re-assigned to null for performance reasons
     event.persist();
 
-    const id = event.target.getAttribute('id');
-    const invertPreviousValue = !selected[id];
-
-    // create temporary copy of selected object
-    const temp = {
-      ...selected,
-    };
-    // update key of checkbox id to switched/inverted value
-    temp[id] = invertPreviousValue;
-
-    // update local state variable selected
-    setSelected(temp);
-
+    let id = event.target.getAttribute('id');
+    let role_id;
+ 
+    if(id.charAt(0) === 'S') {
+      id = id.slice(1);
+      role_id = setSysAdmin(id);
+    } else if (id.charAt(0) === 'U'){
+      id = id.slice(1);
+      role_id = setUser(id);
+    }
+    else {
+      role_id = setAdmin(id);
+    }
+        
     // send request to endpoint http://localhost:3000/admin/switch
     fetch('http://localhost:3000/admin/switch', {
       method: 'POST',
@@ -169,7 +215,8 @@ const UserTable = () => {
       },
       body: JSON.stringify({
         _id: id,
-        changeToAdmin: invertPreviousValue,
+        role_id: role_id // TM - Need to add info if role needs to be downgraded
+        // changeToAdmin: invertPreviousValue,
       }),
     })
       .then((response) => {
@@ -215,38 +262,58 @@ const UserTable = () => {
                 <TableCell>Contact Preference</TableCell>
                 <TableCell>Memory Threshold</TableCell>
                 <TableCell>CPU Threshold</TableCell>
+                <TableCell>User</TableCell>
                 <TableCell>Admin</TableCell>
+                <TableCell>SysAdmin</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {renderRows.length > 0
                 ? renderRows.map((row, index) => {
-                    // const isItemSelected = isSelected(row.name);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow key={row._id} hover>
-                        <TableCell component='th' scope='row'>
-                          {row._id}
-                        </TableCell>
-                        <TableCell>{row.username}</TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>{row.phone}</TableCell>
-                        <TableCell>{row.role}</TableCell>
-                        <TableCell>{row.contact_pref}</TableCell>
-                        <TableCell>{row.mem_threshold}</TableCell>
-                        <TableCell>{row.cpu_threshold}</TableCell>
-                        <TableCell>
-                          <Checkbox
-                            id={`${row._id}`}
-                            userid={`${row._id}`}
-                            checked={selected[row._id]}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            onChange={handleCheckboxClick}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
+                  // const isItemSelected = isSelected(row.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow key={row._id} hover>
+                      <TableCell component='th' scope='row'>
+                        {row._id}
+                      </TableCell>
+                      <TableCell>{row.username}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.phone}</TableCell>
+                      <TableCell>{row.role}</TableCell>
+                      <TableCell>{row.contact_pref}</TableCell>
+                      <TableCell>{row.mem_threshold}</TableCell>
+                      <TableCell>{row.cpu_threshold}</TableCell>
+                      <TableCell>
+                        <Checkbox
+                          id={`U${row._id}`}  
+                          userid={`${row._id}`}
+                          checked={selectedUser[`U${row._id}`]}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onChange={handleCheckboxClick}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox
+                          id={`${row._id}`}
+                          userid={`${row._id}`}
+                          checked={selectedAdmin[row._id]}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onChange={handleCheckboxClick}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox
+                          id={`S${row._id}`}  // Edit these details so it links to sysadmin
+                          userid={`${row._id}`}
+                          checked={selectedSysAdmin[`S${row._id}`]}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onChange={handleCheckboxClick}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
                 : ''}
             </TableBody>
             <TableFooter>

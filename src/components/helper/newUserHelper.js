@@ -6,7 +6,6 @@ import store from '../../renderer/store';
 import * as actions from '../../actions/actions';
 import { NetworkCellSharp, NextWeek } from '@material-ui/icons';
 import { username } from '../../../security/email';
-// TM - no react-redux imports?
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -136,13 +135,13 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      updateUserList(data);
+      // updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);
     });
 };
 
-export const updateUserList = (data) => {  // TM: react-redux is not imported but this is still working... redux is stupid
+export const updateUserList = (data) => {  
   store.dispatch(actions.updateUserList(data));
 };

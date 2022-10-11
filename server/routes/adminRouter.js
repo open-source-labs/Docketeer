@@ -22,6 +22,7 @@ router.post('/',
 // Route Handler: Checks if client has sysadmin privilege. Switch user role from 'user' to 'admin' and vice-versa.
 router.post('/switch',
   userController.verifySysadmin,
+  userController.checkSysAdmin,
   userController.switchUserRole, 
   (req, res) => {
     return res.status(200).json(res.locals.user);

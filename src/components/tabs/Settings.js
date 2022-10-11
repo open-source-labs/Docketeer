@@ -4,7 +4,7 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
-import query from '../../../server/models/psqlQuery';
+// import query from '../../../server/models/psqlQuery';
 import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
@@ -12,6 +12,7 @@ import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
 // import { makeStyles } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -103,94 +104,94 @@ const Settings = (props) => {
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
-  const handleCheckSetting = (containerId, containerName, metricName) => {
-    // add to DB
-    query(
-      queryType.INSERT_CONTAINER,
-      [containerId, containerName],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in INSERT_CONTAINER. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER returned: **', res);
-        }
-      }
-    );
+  // const handleCheckSetting = (containerId, containerName, metricName) => {
+  //   // add to DB
+  //   query(
+  //     queryType.INSERT_CONTAINER,
+  //     [containerId, containerName],
+  //     (err, res) => {
+  //       if (err) {
+  //         console.log(`Error in INSERT_CONTAINER. Error: ${err}`);
+  //       } else {
+  //         // if all good, call fetchNotificationSettings
+  //         fetchNotificationSettings();
+  //         console.log('** INSERT_CONTAINER returned: **', res);
+  //       }
+  //     }
+  //   );
 
-    query(
-      queryType.INSERT_CONTAINER_SETTING,
-      [containerId, metricName.toLowerCase()],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in INSERT_CONTAINER_SETTING. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER_SETTING returned: **', res);
-        }
-      }
-    );
-  };
+  //   query(
+  //     queryType.INSERT_CONTAINER_SETTING,
+  //     [containerId, metricName.toLowerCase()],
+  //     (err, res) => {
+  //       if (err) {
+  //         console.log(`Error in INSERT_CONTAINER_SETTING. Error: ${err}`);
+  //       } else {
+  //         // if all good, call fetchNotificationSettings
+  //         fetchNotificationSettings();
+  //         console.log('** INSERT_CONTAINER_SETTING returned: **', res);
+  //       }
+  //     }
+  //   );
+  // };
 
   // handle uncheck
   // remove from DB
-  const handleUnCheckSetting = (containerId, metricName) => {
-    // add to DB
-    query(
-      queryType.DELETE_CONTAINER_SETTING,
-      [containerId, metricName.toLowerCase()],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in DELETE_CONTAINER_SETTING. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** DELETE_CONTAINER_SETTING returned: **', res);
-        }
-      }
-    );
-  };
+  // const handleUnCheckSetting = (containerId, metricName) => {
+  //   // add to DB
+  //   query(
+  //     queryType.DELETE_CONTAINER_SETTING,
+  //     [containerId, metricName.toLowerCase()],
+  //     (err, res) => {
+  //       if (err) {
+  //         console.log(`Error in DELETE_CONTAINER_SETTING. Error: ${err}`);
+  //       } else {
+  //         // if all good, call fetchNotificationSettings
+  //         fetchNotificationSettings();
+  //         console.log('** DELETE_CONTAINER_SETTING returned: **', res);
+  //       }
+  //     }
+  //   );
+  // };
 
   /**
    * @title NOTIFICATION PREFERENCES
    */
-  const fetchNotificationSettings = () => {
-    return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
-      if (err) {
-        console.log(`Error getting settings. Error: ${err}`);
-      } else {
-        // find a way to set the three lists here
-        // iterate through res.row
-        // if the metric_name = "memory"
-        const tempMemory = [];
-        const tempCPU = [];
-        const tempStopped = [];
+  // const fetchNotificationSettings = () => {
+  //   return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
+  //     if (err) {
+  //       console.log(`Error getting settings. Error: ${err}`);
+  //     } else {
+  //       // find a way to set the three lists here
+  //       // iterate through res.row
+  //       // if the metric_name = "memory"
+  //       const tempMemory = [];
+  //       const tempCPU = [];
+  //       const tempStopped = [];
 
-        res.rows.forEach((el, i) => {
-          switch (el.metric_name) {
-            case categories.MEMORY.toLowerCase():
-              tempMemory.push(el.container_id);
-              break;
-            case categories.CPU.toLowerCase():
-              tempCPU.push(el.container_id);
-              break;
-            case categories.STOPPED.toLowerCase():
-              tempStopped.push(el.container_id);
-              break;
-            default:
-              break;
-          }
-        });
+  //       res.rows.forEach((el, i) => {
+  //         switch (el.metric_name) {
+  //           case categories.MEMORY.toLowerCase():
+  //             tempMemory.push(el.container_id);
+  //             break;
+  //           case categories.CPU.toLowerCase():
+  //             tempCPU.push(el.container_id);
+  //             break;
+  //           case categories.STOPPED.toLowerCase():
+  //             tempStopped.push(el.container_id);
+  //             break;
+  //           default:
+  //             break;
+  //         }
+  //       });
 
-        // replace state with new data from database
-        props.addMemoryNotificationSetting(tempMemory);
-        props.addCpuNotificationSetting(tempCPU);
-        props.addStoppedNotificationSetting(tempStopped);
-      }
-    });
-  };
+  //       // replace state with new data from database
+  //       props.addMemoryNotificationSetting(tempMemory);
+  //       props.addCpuNotificationSetting(tempCPU);
+  //       props.addStoppedNotificationSetting(tempStopped);
+  //     }
+  //   });
+  // };
 
   /**
    * @title COMMUNICATION
@@ -201,40 +202,40 @@ const Settings = (props) => {
   };
 
   // fetch on component mount only because of empty dependency array
-  useEffect(() => {
-    fetchNotificationSettings();
-  }, []);
+  // useEffect(() => {
+  //   fetchNotificationSettings();
+  // }, []);
 
   /**
    * alerts if phone not entered on Test click
    */
-  const handlePhoneNumberSubmit = () => {
-    if (!mobileNumber) alert('Please enter phone number');
-    else {
-      // alert if input is not a number
-      if (isNaN(Number(mobileNumber)))
-        alert('Please enter phone number in numerical format. ex: 123456789');
-      else {
-        alert(`Phone: ${mobileNumber} is valid`);
-        // ask SMS service for a verification code
-        query(
-          queryType.INSERT_USER,
-          ['admin', mobileNumber, 5, 2],
-          (err, res) => {
-            if (err) {
-              console.log(`Error in insert user. Error: ${err}`);
-            } else {
-              console.log(`*** Inserted ${res} into users table. ***`);
-              props.addPhoneNumber(mobileNumber);
-              showVerificationInput = true;
-              // ask SMS service for a verification code
-              verifyMobileNumber();
-            }
-          }
-        );
-      }
-    }
-  };
+  // const handlePhoneNumberSubmit = () => {
+  //   if (!mobileNumber) alert('Please enter phone number');
+  //   else {
+  //     // alert if input is not a number
+  //     if (isNaN(Number(mobileNumber)))
+  //       alert('Please enter phone number in numerical format. ex: 123456789');
+  //     else {
+  //       alert(`Phone: ${mobileNumber} is valid`);
+  //       // ask SMS service for a verification code
+  //       query(
+  //         queryType.INSERT_USER,
+  //         ['admin', mobileNumber, 5, 2],
+  //         (err, res) => {
+  //           if (err) {
+  //             console.log(`Error in insert user. Error: ${err}`);
+  //           } else {
+  //             console.log(`*** Inserted ${res} into users table. ***`);
+  //             props.addPhoneNumber(mobileNumber);
+  //             showVerificationInput = true;
+  //             // ask SMS service for a verification code
+  //             verifyMobileNumber();
+  //           }
+  //         }
+  //       );
+  //     }
+  //   }
+  // };
 
   // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM
@@ -242,54 +243,54 @@ const Settings = (props) => {
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
   const [tempNotifFreq, setTempNotifFreq] = useState('');
-  const notificationFrequency = () => {
-    // default value for Notification Frequency
-    let frequency = 5;
-    // alert if input is not a number
-    if (isNaN(Number(tempNotifFreq)))
-      alert('Please enter notification frequency in numerical format. ex: 15');
-    else {
-      if (tempNotifFreq) frequency = tempNotifFreq;
-      query(
-        queryType.INSERT_NOTIFICATION_FREQUENCY,
-        // ['admin', , frequency, ,],
-        ['admin', undefined, frequency, undefined, undefined],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-            props.addNotificationFrequency(frequency);
-          }
-        }
-      );
-    }
-  };
+  // const notificationFrequency = () => {
+  //   // default value for Notification Frequency
+  //   let frequency = 5;
+  //   // alert if input is not a number
+  //   if (isNaN(Number(tempNotifFreq)))
+  //     alert('Please enter notification frequency in numerical format. ex: 15');
+  //   else {
+  //     if (tempNotifFreq) frequency = tempNotifFreq;
+  //     query(
+  //       queryType.INSERT_NOTIFICATION_FREQUENCY,
+  //       // ['admin', , frequency, ,],
+  //       ['admin', undefined, frequency, undefined, undefined],
+  //       (err, res) => {
+  //         if (err) {
+  //           console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
+  //         } else {
+  //           console.log(`*** Inserted ${res} into users table. ***`);
+  //           props.addNotificationFrequency(frequency);
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
-  const monitoringFrequency = () => {
-    // default value for Monitoring Frequency
-    let frequency = 2;
-    // alert if input is not a number
-    if (isNaN(Number(tempMonitoringFrequency)))
-      alert('Please enter monitoring frequency in numerical format. ex: 15');
-    else {
-      if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
-      query(
-        queryType.INSERT_MONITORING_FREQUENCY,
-        // ['admin', , , frequency],
-        ['admin', undefined, undefined, frequency],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-            props.addMonitoringFrequency(frequency);
-          }
-        }
-      );
-    }
-  };
+  // const monitoringFrequency = () => {
+  //   // default value for Monitoring Frequency
+  //   let frequency = 2;
+  //   // alert if input is not a number
+  //   if (isNaN(Number(tempMonitoringFrequency)))
+  //     alert('Please enter monitoring frequency in numerical format. ex: 15');
+  //   else {
+  //     if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
+  //     query(
+  //       queryType.INSERT_MONITORING_FREQUENCY,
+  //       // ['admin', , , frequency],
+  //       ['admin', undefined, undefined, frequency],
+  //       (err, res) => {
+  //         if (err) {
+  //           console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
+  //         } else {
+  //           console.log(`*** Inserted ${res} into users table. ***`);
+  //           props.addMonitoringFrequency(frequency);
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
@@ -331,9 +332,9 @@ const Settings = (props) => {
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-  const getData = () => {
-    return query(queryType.GET_CONTAINERS, []);
-  };
+  // const getData = () => {
+  //   return query(queryType.GET_CONTAINERS, []);
+  // };
 
   const updateState = async () => {
     const output = await getData();
@@ -343,25 +344,25 @@ const Settings = (props) => {
   };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-  const githubLink = (event) => {
-    if (!tempGithubLink)
-      alert('Please provide a link in accordance with provided example');
-    if (!event.target.id) alert('Please provide a container ID');
-    else {
-      const github_url = tempGithubLink[event.target.id];
-      query(
-        queryType.INSERT_GITHUB,
-        [event.target.id, event.target.name, github_url],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_GITHUB. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into containers table. ***`);
-          }
-        }
-      );
-    }
-  };
+  // const githubLink = (event) => {
+  //   if (!tempGithubLink)
+  //     alert('Please provide a link in accordance with provided example');
+  //   if (!event.target.id) alert('Please provide a container ID');
+  //   else {
+  //     const github_url = tempGithubLink[event.target.id];
+  //     query(
+  //       queryType.INSERT_GITHUB,
+  //       [event.target.id, event.target.name, github_url],
+  //       (err, res) => {
+  //         if (err) {
+  //           console.log(`INSERT_GITHUB. Error: ${err}`);
+  //         } else {
+  //           console.log(`*** Inserted ${res} into containers table. ***`);
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   // Redux: Map state to props
   const _id = useSelector((state) => state.session._id);
@@ -498,93 +499,94 @@ const Settings = (props) => {
     );
 
     return (
-      <TableRow key={i} id='settings-row'>
-        <TableCell>
-          <span className='container-name'>
-            {container.Names ? container.Names : container.Name}
-            {/* Stopped containers have a .Names key. Running containers have a .Name key */}
-          </span>
-        </TableCell>
-        <TableCell>
-          <span className='container-id'>{container.ID}</span>
-        </TableCell>
-        <TableCell>{container.Image}</TableCell>
-        <TableCell align='center'>
-          <Checkbox
-            onClick={(event) =>
-              event.target.checked
-                ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.MEMORY
-                  )
-                : handleUnCheckSetting(container.ID, categories.MEMORY)
-            }
-            role='checkbox'
-            key={container.ID}
-            checked={isMemorySelected}
-          />
-        </TableCell>
-        <TableCell align='center'>
-          <Checkbox
-            onClick={(event) =>
-              event.target.checked
-                ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.CPU
-                  )
-                : handleUnCheckSetting(container.ID, categories.CPU)
-            }
-            role='checkbox'
-            key={container.ID}
-            checked={isCpuSelected}
-          />
-        </TableCell>
-        <TableCell align='center'>
-          <Checkbox
-            onClick={(event) =>
-              event.target.checked
-                ? handleCheckSetting(
-                    container.ID,
-                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                    categories.STOPPED
-                  )
-                : handleUnCheckSetting(container.ID, categories.STOPPED)
-            }
-            role='checkbox'
-            key={container.ID}
-            checked={isStoppedSelected}
-          />
-        </TableCell>
-        <TableCell align='center'>
-          <TextField
-            // className={classes.textfield}
-            id='textfield'
-            label='Main repository url'
-            helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
-            variant='outlined'
-            value={tempGithubLink[container.ID]}
-            onChange={(e) => {
-              stateObject[container.ID] = e.target.value;
-              setTempGithubLink(stateObject);
-            }}
-            size='small'
-          />
-        </TableCell>
-        <TableCell>
-          <Button
-            // className={classes.button}
-            size='medium'
-            variant='contained'
-            name={container.Names ? container.Names : container.Name}
-            id={container.ID}
-            onClick={(e) => githubLink(e)}
-          >
-            Confirm
-          </Button>
-        </TableCell>
-      </TableRow>
+      <h1>Settings Row</h1>
+      // <TableRow key={i} id='settings-row'>
+      //   <TableCell>
+      //     <span className='container-name'>
+      //       {container.Names ? container.Names : container.Name}
+      //       {/* Stopped containers have a .Names key. Running containers have a .Name key */}
+      //     </span>
+      //   </TableCell>
+      //   <TableCell>
+      //     <span className='container-id'>{container.ID}</span>
+      //   </TableCell>
+      //   <TableCell>{container.Image}</TableCell>
+      //   <TableCell align='center'>
+      //     <Checkbox
+      //       onClick={(event) =>
+      //         event.target.checked
+      //           ? handleCheckSetting(
+      //               container.ID,
+      //               container.Name,
+      //               categories.MEMORY
+      //             )
+      //           : handleUnCheckSetting(container.ID, categories.MEMORY)
+      //       }
+      //       role='checkbox'
+      //       key={container.ID}
+      //       checked={isMemorySelected}
+      //     />
+      //   </TableCell>
+      //   <TableCell align='center'>
+      //     <Checkbox
+      //       onClick={(event) =>
+      //         event.target.checked
+      //           ? handleCheckSetting(
+      //               container.ID,
+      //               container.Name,
+      //               categories.CPU
+      //             )
+      //           : handleUnCheckSetting(container.ID, categories.CPU)
+      //       }
+      //       role='checkbox'
+      //       key={container.ID}
+      //       checked={isCpuSelected}
+      //     />
+      //   </TableCell>
+      //   <TableCell align='center'>
+      //     <Checkbox
+      //       onClick={(event) =>
+      //         event.target.checked
+      //           ? handleCheckSetting(
+      //               container.ID,
+      //               container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+      //               categories.STOPPED
+      //             )
+      //           : handleUnCheckSetting(container.ID, categories.STOPPED)
+      //       }
+      //       role='checkbox'
+      //       key={container.ID}
+      //       checked={isStoppedSelected}
+      //     />
+      //   </TableCell>
+      //   <TableCell align='center'>
+      //     <TextField
+      //       // className={classes.textfield}
+      //       id='textfield'
+      //       label='Main repository url'
+      //       helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
+      //       variant='outlined'
+      //       value={tempGithubLink[container.ID]}
+      //       onChange={(e) => {
+      //         stateObject[container.ID] = e.target.value;
+      //         setTempGithubLink(stateObject);
+      //       }}
+      //       size='small'
+      //     />
+      //   </TableCell>
+      //   <TableCell>
+      //     <Button
+      //       // className={classes.button}
+      //       size='medium'
+      //       variant='contained'
+      //       name={container.Names ? container.Names : container.Name}
+      //       id={container.ID}
+      //       onClick={(e) => githubLink(e)}
+      //     >
+      //       Confirm
+      //     </Button>
+      //   </TableCell>
+      // </TableRow>
     );
   });
 
@@ -605,7 +607,8 @@ const Settings = (props) => {
         <br />
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
-        <form
+        {/* First Form */}
+        {/* <form
           // className={classes.root}
           autoComplete='off'
         >
@@ -639,9 +642,10 @@ const Settings = (props) => {
               />
             )}
           </div>
-        </form>
+        </form> */}
 
-        {showVerificationInput ? (
+        {/* Verification Input */}
+        {/* {showVerificationInput ? (
           <form
             // className={classes.root}
             autoComplete='off'
@@ -660,7 +664,7 @@ const Settings = (props) => {
               <Button
                 // className={classes.button}
                 size='medium'
-                color='default'
+                // color='secondary'
                 variant='contained'
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}
@@ -669,11 +673,11 @@ const Settings = (props) => {
               </Button>
             </div>
           </form>
-        ) : null}
+        ) : null} */}
 
         <p>2. Contact preference:</p>
         <br />
-        <FormControl component='fieldset'>
+        {/* <FormControl component='fieldset'>
           <RadioGroup
             aria-label='Contact Preferences'
             name='contact_pref'
@@ -694,7 +698,7 @@ const Settings = (props) => {
           >
             Submit
           </Button>
-        </FormControl>
+        </FormControl> */}
       </div>
 
       <div className='metric-section-title'>
@@ -711,7 +715,7 @@ const Settings = (props) => {
         <br />
         <p>1. Setup / update notification criteria</p>
         <br />
-        <div>
+        {/* <div>
           <form
             // className={classes.root}
             autoComplete='off'
@@ -736,9 +740,9 @@ const Settings = (props) => {
               Confirm
             </Button>
           </form>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <form
             // className={classes.root}
             autoComplete='off'
@@ -764,12 +768,12 @@ const Settings = (props) => {
               Confirm
             </Button>
           </form>
-        </div>
+        </div> */}
 
         <br />
         <p>2. Configure notification thresholds</p>
         <br />
-        <form
+        {/* <form
           // className={classes.root}
           autoComplete='off'
         >
@@ -817,9 +821,9 @@ const Settings = (props) => {
               Confirm
             </Button>
             <br />
-            {/* <p>2. Receive notification if container stops</p>
-            <FormControlLabel value={true} control={<Checkbox />} label="" />
-            <br/> */}
+            <p>2. Receive notification if container stops</p>
+            <FormControlLabel value={true} control={<Checkbox />} label='' />
+            <br />
             <br />
             <p>3. Stopped containers:</p>
             <FormControlLabel
@@ -842,7 +846,7 @@ const Settings = (props) => {
           >
             Submit
           </Button>
-        </form>
+        </form> */}
       </div>
 
       <div className='metric-section-title'>
@@ -868,7 +872,7 @@ const Settings = (props) => {
           // className={classes.description}
         ></div>
 
-        <TableContainer>
+        {/* <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -886,7 +890,7 @@ const Settings = (props) => {
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>
           </Table>
-        </TableContainer>
+        </TableContainer> */}
       </div>
     </div>
   );

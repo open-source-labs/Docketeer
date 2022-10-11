@@ -1,47 +1,61 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import {  Navigate, Route, Routes } from 'react-router-dom';
 
-// Debug
-// import Example from './views/Example';
 
 import AdminView from './views/Admin';
 import UserView from './views/UserView';
 import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
-  const role = useSelector((state) => state.session.role);
-  // * THIS NEEDS TO BE CHANGED/DELETED
-  // const role = 'system admin';
-  // * THIS NEEDS TO BE CHANGED/DELETED
+  // grab current user's role
+  const role = useSelector((state) => state.session.role); 
+    
+  const paths = {
+    'system admin': '/app/sysadmin',
+    'admin': '/app/admin',
+    'user': '/app/user'
+  }
+  // set path for the active role
+  const path = paths[role];  
 
-  if (role === 'system admin') {
-    return (
-      <Fragment>
-        {/* <Navigate to='/app/SysAdminView' /> */}
-        <Routes>
-          <Route path='/SysAdminView/*' element={<SysAdminView />} />
-        </Routes>
-      </Fragment>
-    );
-  } else if (role === 'admin') {
-    return (
-      <Fragment>
-        {/* <Navigate to='/app/AdminView' /> */}
-        <Routes>
-          <Route path='/AdminView/*' element={<AdminView />} />
-        </Routes>
-      </Fragment>
-    );
-  } else {
-    return (
-      <Fragment>
-        {/* <Navigate to='/app/UserView' /> */}
-        <Routes>
-          <Route path='/UserView/*' element={<UserView />} />
-        </Routes>
-      </Fragment>
-    );
+  console.log("App Running")
+  console.log(path)
+  console.log(role)
+
+  // return (
+  //   <div>
+  //     Am I in App?
+  //     <Navigate to={path} />
+  //     <Routes>
+  //       <Route path='/sysadmin/*' element={<SysAdminView />}/>
+  //       <Route path='/admin/*' element={<AdminView />}/>
+  //       <Route path='/user/*' element={<UserView />}/>
+  //     </Routes>
+  //   </div>
+  // )
+
+
+  if (role === 'system admin') { return (  
+    <div>
+      Am I in App?
+      <SysAdminView />
+    </div>
+    )
+  }
+  else if (role === 'admin') { return (
+    <div>
+      Am I in App?
+      <AdminView />
+    </div>
+    )
+  }
+  else if (role === 'user') { return (
+    <div>
+      Am I in App?
+      <UserView />
+    </div>
+    )
   }
 };
 

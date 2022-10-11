@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-// const cors = require('cors');
+const cors = require('cors');
 const colors = require('colors');
 
 // Routers
@@ -17,7 +17,7 @@ const PORT = 3000;
 
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-// app.use(cors()); // enables ALL cors requests
+app.use(cors()); // enables ALL cors requests
 
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);

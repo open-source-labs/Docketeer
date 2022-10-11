@@ -11,26 +11,51 @@ const App = (props) => {
   const role = useSelector((state) => state.session.role); 
     
   const paths = {
-    'system admin': '/app/sysadmin/*',
-    'admin': '/app/admin/*',
-    'user': '/app/user/*'
+    'system admin': '/app/sysadmin',
+    'admin': '/app/admin',
+    'user': '/app/user'
   }
   // set path for the active role
   const path = paths[role];  
-    
-  return( 
-    //in return statement:
-    //3 routes that take us to the three different view's paths 
+
+  console.log("App Running")
+  console.log(path)
+  console.log(role)
+
+  // return (
+  //   <div>
+  //     Am I in App?
+  //     <Navigate to={path} />
+  //     <Routes>
+  //       <Route path='/sysadmin/*' element={<SysAdminView />}/>
+  //       <Route path='/admin/*' element={<AdminView />}/>
+  //       <Route path='/user/*' element={<UserView />}/>
+  //     </Routes>
+  //   </div>
+  // )
+
+
+  if (role === 'system admin') { return (  
     <div>
       Am I in App?
-      <Navigate to={path} />
-      <Routes>
-        <Route path='/sysadmin/*' element={<SysAdminView />}/>
-        <Route path='/admin/*' element={<AdminView />}/>
-        <Route path='/user/*' element={<UserView />}/>
-      </Routes>
+      <SysAdminView />
     </div>
-  )
+    )
+  }
+  else if (role === 'admin') { return (
+    <div>
+      Am I in App?
+      <AdminView />
+    </div>
+    )
+  }
+  else if (role === 'user') { return (
+    <div>
+      Am I in App?
+      <UserView />
+    </div>
+    )
+  }
 };
 
 export default App;

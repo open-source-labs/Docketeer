@@ -97,6 +97,9 @@ const Metrics = (props) => {
     <div className='renderContainers'>
       <div className='header'>
         <h1 className='tabTitle'>Metrics</h1>
+        <h2> 
+          <a target="_blank" rel="noreferrer" href= "https://docs.docker.com/engine/reference/commandline/stats/#examples">Click here</a> for more information on these metrics
+        </h2>
       </div>
       <div className='metric-section-title'>
         <h3>Aggregate</h3>
@@ -107,11 +110,11 @@ const Metrics = (props) => {
           <div className='legend-container'>
             <div className='legend-section'>
               <div className='avaliable-box'></div>
-              <p className='legend-text'>Available {cpuData}%</p>
+              <p className='legend-text'>Available {Math.round(cpuData)}%</p>
             </div>
             <div className='legend-section'>
               <div className='usage-box'></div>
-              <p className='legend-text'>Usage {result[0].toFixed(2)}%</p>
+              <p className='legend-text'>Usage {Math.round(result[0].toFixed(2))}%</p>
             </div>
           </div>
         </div>
@@ -121,11 +124,11 @@ const Metrics = (props) => {
           <div className='legend-container'>
             <div className='legend-section'>
               <div className='avaliable-box'></div>
-              <p className='legend-text'>Available {memoryData}%</p>
+              <p className='legend-text'>Available {Math.round(memoryData)}%</p>
             </div>
             <div className='legend-section'>
               <div className='usage-box'></div>
-              <p className='legend-text'>Usage {result[1].toFixed(2)}%</p>
+              <p className='legend-text'>Usage {Math.round(result[1].toFixed(2))}%</p>
             </div>
           </div>
         </div>
@@ -134,13 +137,13 @@ const Metrics = (props) => {
           <div className='chart-container'>
             <h1 className='chart-title'>NET IO:</h1>
             <p className='chart-number'>
-              {result[2][0]}kB / {result[2][1]}kB
+              {Math.floor(result[2][0])}kB / {Math.floor(result[2][1])}kB
             </p>
           </div>
           <div className='chart-container'>
             <h1 className='chart-title'>BLOCK IO:</h1>
             <p className='chart-number'>
-              {result[3][0]}B / {result[3][1]}B
+              {Math.floor(result[3][0])}B / {Math.floor(result[3][1])}B
             </p>
           </div>
         </div>

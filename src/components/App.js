@@ -5,25 +5,33 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Debug
 // import Example from './views/Example';
 
-// import AdminView from './views/Admin';
+import AdminView from './views/Admin';
 import UserView from './views/UserView';
-// import SysAdminView from './views/SysAdmin';
+import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
   const role = useSelector((state) => state.session.role);
+  // * THIS NEEDS TO BE CHANGED/DELETED
+  // const role = 'system admin';
+  // * THIS NEEDS TO BE CHANGED/DELETED
+
   if (role === 'system admin') {
     return (
-      <div>
-        <h1>I'm the SysAdmin</h1>
-        {/* <SysAdminView /> */}
-      </div>
+      <Fragment>
+        {/* <Navigate to='/app/SysAdminView' /> */}
+        <Routes>
+          <Route path='/SysAdminView/*' element={<SysAdminView />} />
+        </Routes>
+      </Fragment>
     );
   } else if (role === 'admin') {
     return (
-      <div>
-        <h1>I'm the AdminView</h1>
-        {/* <AdminView /> */}
-      </div>
+      <Fragment>
+        {/* <Navigate to='/app/AdminView' /> */}
+        <Routes>
+          <Route path='/AdminView/*' element={<AdminView />} />
+        </Routes>
+      </Fragment>
     );
   } else {
     return (

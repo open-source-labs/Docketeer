@@ -12,7 +12,7 @@ import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
 // import { makeStyles } from '@mui/material/styles';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -50,32 +50,32 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
-// const useStyles = makeStyles((theme) => ({
+// const theme = createTheme({
 //   root: {
 //     '& .MuiTextField-root': {
 //       marginLeft: 5,
 //       marginBottom: 15,
 //       width: 220,
-//       verticalAlign: 'middle',
-//     },
+//       verticalAlign: 'middle'
+//     }
 //   },
 //   button: {
 //     '& > *': {
-//       pointerEvents: 'none',
+//       pointerEvents: 'none'
 //     },
 //     marginLeft: 5,
 //     width: 100,
-//     verticalAlign: 'top',
+//     verticalAlign: 'top'
 //   },
 //   verifiedIcon: {
 //     verticalAlign: 'top',
-//     color: 'green',
+//     color: 'green'
 //   },
 //   description: {
 //     marginLeft: 5,
-//     marginBottom: 30,
-//   },
-// }));
+//     marginBottom: 30
+//   }
+// });
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -83,7 +83,6 @@ let isVerified = false;
 
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState('');
-  // const classes = useStyles();
 
   // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
   // https://reactjs.org/docs/typechecking-with-proptypes.html
@@ -499,94 +498,95 @@ const Settings = (props) => {
     );
 
     return (
-      <h1>Settings Row</h1>
-      // <TableRow key={i} id='settings-row'>
-      //   <TableCell>
-      //     <span className='container-name'>
-      //       {container.Names ? container.Names : container.Name}
-      //       {/* Stopped containers have a .Names key. Running containers have a .Name key */}
-      //     </span>
-      //   </TableCell>
-      //   <TableCell>
-      //     <span className='container-id'>{container.ID}</span>
-      //   </TableCell>
-      //   <TableCell>{container.Image}</TableCell>
-      //   <TableCell align='center'>
-      //     <Checkbox
-      //       onClick={(event) =>
-      //         event.target.checked
-      //           ? handleCheckSetting(
-      //               container.ID,
-      //               container.Name,
-      //               categories.MEMORY
-      //             )
-      //           : handleUnCheckSetting(container.ID, categories.MEMORY)
-      //       }
-      //       role='checkbox'
-      //       key={container.ID}
-      //       checked={isMemorySelected}
-      //     />
-      //   </TableCell>
-      //   <TableCell align='center'>
-      //     <Checkbox
-      //       onClick={(event) =>
-      //         event.target.checked
-      //           ? handleCheckSetting(
-      //               container.ID,
-      //               container.Name,
-      //               categories.CPU
-      //             )
-      //           : handleUnCheckSetting(container.ID, categories.CPU)
-      //       }
-      //       role='checkbox'
-      //       key={container.ID}
-      //       checked={isCpuSelected}
-      //     />
-      //   </TableCell>
-      //   <TableCell align='center'>
-      //     <Checkbox
-      //       onClick={(event) =>
-      //         event.target.checked
-      //           ? handleCheckSetting(
-      //               container.ID,
-      //               container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-      //               categories.STOPPED
-      //             )
-      //           : handleUnCheckSetting(container.ID, categories.STOPPED)
-      //       }
-      //       role='checkbox'
-      //       key={container.ID}
-      //       checked={isStoppedSelected}
-      //     />
-      //   </TableCell>
-      //   <TableCell align='center'>
-      //     <TextField
-      //       // className={classes.textfield}
-      //       id='textfield'
-      //       label='Main repository url'
-      //       helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
-      //       variant='outlined'
-      //       value={tempGithubLink[container.ID]}
-      //       onChange={(e) => {
-      //         stateObject[container.ID] = e.target.value;
-      //         setTempGithubLink(stateObject);
-      //       }}
-      //       size='small'
-      //     />
-      //   </TableCell>
-      //   <TableCell>
-      //     <Button
-      //       // className={classes.button}
-      //       size='medium'
-      //       variant='contained'
-      //       name={container.Names ? container.Names : container.Name}
-      //       id={container.ID}
-      //       onClick={(e) => githubLink(e)}
-      //     >
-      //       Confirm
-      //     </Button>
-      //   </TableCell>
-      // </TableRow>
+      // <h1>Settings Row</h1>
+      <TableRow key={i} id='settings-row'>
+        <TableCell>
+          <span className='container-name'>
+            {container.Names ? container.Names : container.Name}
+            {/* Stopped containers have a .Names key. Running containers have a .Name key */}
+          </span>
+        </TableCell>
+        <TableCell>
+          <span className='container-id'>{container.ID}</span>
+        </TableCell>
+        <TableCell>{container.Image}</TableCell>
+        <TableCell align='center'>
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Name,
+                    categories.MEMORY
+                  )
+                : handleUnCheckSetting(container.ID, categories.MEMORY)
+            }
+            role='checkbox'
+            key={container.ID}
+            checked={isMemorySelected}
+          />
+        </TableCell>
+        <TableCell align='center'>
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Name,
+                    categories.CPU
+                  )
+                : handleUnCheckSetting(container.ID, categories.CPU)
+            }
+            role='checkbox'
+            key={container.ID}
+            checked={isCpuSelected}
+          />
+        </TableCell>
+        <TableCell align='center'>
+          <Checkbox
+            onClick={(event) =>
+              event.target.checked
+                ? handleCheckSetting(
+                    container.ID,
+                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+                    categories.STOPPED
+                  )
+                : handleUnCheckSetting(container.ID, categories.STOPPED)
+            }
+            role='checkbox'
+            key={container.ID}
+            checked={isStoppedSelected}
+          />
+        </TableCell>
+        <TableCell align='center'>
+          <TextField
+            // className={classes.textfield}
+            // theme={root}
+            id='textfield'
+            label='Main repository url'
+            helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
+            variant='outlined'
+            value={tempGithubLink[container.ID]}
+            onChange={(e) => {
+              stateObject[container.ID] = e.target.value;
+              setTempGithubLink(stateObject);
+            }}
+            size='small'
+          />
+        </TableCell>
+        <TableCell>
+          <Button
+            // className={classes.button}
+            size='medium'
+            variant='contained'
+            name={container.Names ? container.Names : container.Name}
+            id={container.ID}
+            onClick={(e) => githubLink(e)}
+          >
+            Confirm
+          </Button>
+        </TableCell>
+      </TableRow>
     );
   });
 
@@ -595,7 +595,10 @@ const Settings = (props) => {
       <div className='header'>
         <h1 className='tabTitle'>Settings</h1>
       </div>
+
+      {/* Account Display */}
       <AccountDisplay />
+
       <div className='metric-section-title'>
         <h3>Communication</h3>
       </div>
@@ -608,8 +611,9 @@ const Settings = (props) => {
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
         {/* First Form */}
-        {/* <form
+        <form
           // className={classes.root}
+          theme={root}
           autoComplete='off'
         >
           <div>
@@ -642,10 +646,10 @@ const Settings = (props) => {
               />
             )}
           </div>
-        </form> */}
+        </form>
 
         {/* Verification Input */}
-        {/* {showVerificationInput ? (
+        {showVerificationInput ? (
           <form
             // className={classes.root}
             autoComplete='off'
@@ -673,11 +677,11 @@ const Settings = (props) => {
               </Button>
             </div>
           </form>
-        ) : null} */}
+        ) : null}
 
         <p>2. Contact preference:</p>
         <br />
-        {/* <FormControl component='fieldset'>
+        <FormControl component='fieldset'>
           <RadioGroup
             aria-label='Contact Preferences'
             name='contact_pref'
@@ -698,7 +702,7 @@ const Settings = (props) => {
           >
             Submit
           </Button>
-        </FormControl> */}
+        </FormControl>
       </div>
 
       <div className='metric-section-title'>
@@ -715,7 +719,7 @@ const Settings = (props) => {
         <br />
         <p>1. Setup / update notification criteria</p>
         <br />
-        {/* <div>
+        <div>
           <form
             // className={classes.root}
             autoComplete='off'
@@ -740,9 +744,9 @@ const Settings = (props) => {
               Confirm
             </Button>
           </form>
-        </div> */}
+        </div>
 
-        {/* <div>
+        <div>
           <form
             // className={classes.root}
             autoComplete='off'
@@ -768,12 +772,12 @@ const Settings = (props) => {
               Confirm
             </Button>
           </form>
-        </div> */}
+        </div>
 
         <br />
         <p>2. Configure notification thresholds</p>
         <br />
-        {/* <form
+        <form
           // className={classes.root}
           autoComplete='off'
         >
@@ -846,7 +850,7 @@ const Settings = (props) => {
           >
             Submit
           </Button>
-        </form> */}
+        </form>
       </div>
 
       <div className='metric-section-title'>
@@ -872,7 +876,7 @@ const Settings = (props) => {
           // className={classes.description}
         ></div>
 
-        {/* <TableContainer>
+        <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -890,7 +894,7 @@ const Settings = (props) => {
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>
           </Table>
-        </TableContainer> */}
+        </TableContainer>
       </div>
     </div>
   );

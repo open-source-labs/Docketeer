@@ -21,6 +21,17 @@ export const App2 = () => {
         <Link style={{ color: 'white', fontSize: '2em' }} to='/app/UserView'>
           UserView
         </Link>
+        <br />
+        <Link style={{ color: 'white', fontSize: '2em' }} to='/app/AdminView'>
+          AdminView
+        </Link>
+        <br />
+        <Link
+          style={{ color: 'white', fontSize: '2em' }}
+          to='/app/SysAdminView'
+        >
+          SysAdminView
+        </Link>
       </ul>
       <Routes>
         <Route path='/login' element={<Login />} />

@@ -29,9 +29,8 @@ export const App2 = () => {
       </ul> */}
       <Routes>
         <Route path='/login' element={<Login />} />
-        <Route path='/' element={<Authentication />}>
-          <Route path='/app/*' element={<App />} />
-        </Route>
+        <Route path='/' element={<Authentication />} />
+        <Route path='/app/*' element={<App />} />
       </Routes>
     </>
   );

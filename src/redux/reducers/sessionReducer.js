@@ -28,6 +28,7 @@ export default function (state = initialState, action) {
 
     // Upon successful sign-up or login, update session state with all user info
     case types.UPDATE_USER: {
+
       const {
         _id,
         username,

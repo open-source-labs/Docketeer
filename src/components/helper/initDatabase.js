@@ -7,12 +7,12 @@ config();
 export default () => {
   const directory =
     process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '..', '..', 'database')
+      ? path.resolve(__dirname, '../../database')
       : path.join(path.dirname(__dirname), 'database');
 
-  exec(`cd src/database ; docker compose up --no-recreate --wait`, (error, stdout, stderr) => {
+  exec(`cd ${directory} && docker compose up --no-recreate --wait -d`, (error, stdout, stderr) => {
     if (error) {
-      alert(`${error.message} `);
+      alert(`Make sure Docker Desktop is running. \n\n ${error.message} `);
       return;
     }
     if (stderr) {

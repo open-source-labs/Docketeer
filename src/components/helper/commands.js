@@ -55,12 +55,26 @@ export const addRunning = (runningList, callback) => {
  * @param {*} callback
  * @param {*} runningList
  */
+
+const errorsCalled = {};
+
+const errorCheck = (key, error) => {
+  if(!errorsCalled[key]) {
+    errorsCalled[key] = error.message;
+    alert(`Make sure Docker Desktop is running. \n\n ${error.message}`);
+  }
+  else{
+    console.log(error.message);
+  }
+  return
+}
+
 export const refreshRunning = (refreshRunningContainers) => {
   exec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
-        alert(`${error.message}`);
+        errorCheck("refreshRunning", error);
         return;
       }
       if (stderr) {
@@ -89,7 +103,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
     'docker ps -f "status=exited" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
-        alert(`${error.message}`);
+        errorCheck("refreshStopped", error);
         return;
       }
       if (stderr) {
@@ -113,7 +127,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
 export const refreshImages = (callback) => {
   exec('docker images', (error, stdout, stderr) => {
     if (error) {
-      alert(`${error.message}`);
+      errorCheck("refreshImages", error);
       return;
     }
     if (stderr) {

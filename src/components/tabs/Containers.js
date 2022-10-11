@@ -9,6 +9,8 @@ import ToggleDisplay from '../display/ToggleDisplay';
  * @param {*} props
  */
 const Containers = (props) => {
+  const image = props;
+  console.log(image);
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
       <div className="box" key={`stoppedBox-${i}`}>
@@ -50,7 +52,7 @@ const Containers = (props) => {
     );
   });
 
-  const renderRunningList = props.runningList.map((container, i) => {
+  const renderRunningList = props.runningList.map((container, i, props) => {
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -86,6 +88,7 @@ const Containers = (props) => {
       <div className="box box-running" key={`runningBox-${i}`}>
         <div className="box-label">
           <h3>{container.Name}</h3>
+          
           <p>ID: {container.ID}</p>
         </div>
         <div className="box-info">

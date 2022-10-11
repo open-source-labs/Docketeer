@@ -7,6 +7,7 @@ import SysAdminView from './views/SysAdmin';
 
 const App = (props) => {
   const role = useSelector((state) => state.session.role);
+  console.log(role)
   if (role === 'system admin'){
     return (
       <div>
@@ -22,6 +23,7 @@ const App = (props) => {
     );
   }
   else {
+    console.log('else triggered, and now so am I')
     return (
       <div>
         <UserView />

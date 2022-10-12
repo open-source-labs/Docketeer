@@ -4,7 +4,7 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
-// import query from '../../../server/models/psqlQuery';
+import query from '../../../server/models/psqlQuery';
 import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
@@ -99,6 +99,7 @@ const Settings = (props) => {
     cpuNotificationList: PropTypes.object.isRequired,
     stoppedNotificationList: PropTypes.object.isRequired
   };
+//! All of these query searches are for the notifacation settings./...Have to move to the backend
 
   // handle check
   // I couldve made this a single function where queryType gets passed in

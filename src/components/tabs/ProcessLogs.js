@@ -15,7 +15,7 @@ const ProcessLogs = (props) => {
   const renderRunningList = [];
   props.runningList.map((container, index) => {
     renderRunningList.push(
-      <Link to={`/logTable/${container.ID}`}>
+      <Link to={`/app/logTable/${container.ID}`}>
         <ProcessLogsCard
           index={index}
           container={container}
@@ -30,7 +30,7 @@ const ProcessLogs = (props) => {
   const renderStoppedList = [];
   props.stoppedList.map((container, index) => {
     renderStoppedList.push(
-      <Link to={`/logTable/${container.ID}`}>
+      <Link to={`/app/logTable/${container.ID}`}>
         <ProcessLogsCard index={index} container={container} status='Stopped' />
       </Link>
     );

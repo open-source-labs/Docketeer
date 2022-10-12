@@ -542,6 +542,7 @@ export const writeToDb = () => {
       if (idx === stoppedContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
     });
+    //! This is the first instance of running a query
     // query(dbQuery);
   }, interval);
 };
@@ -549,10 +550,12 @@ export const writeToDb = () => {
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
+  //! This is the another instance of running a query
   // query(`set time zone ${offsetTimeZoneInHours}`);
 };
 
 export const getContainerGitUrl = (container) => {
+  //! This is the another instance of running a query
   // return query(`Select github_url from containers where name = '${container}'`);
 };
 

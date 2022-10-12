@@ -105,16 +105,16 @@ const SysAdmin = (props) => {
       });
   };
 
-  // useEffect(() => {
-    // initDatabase();
-    // helper.refreshRunning(refreshRunningContainers);
-    // helper.refreshStopped(refreshStoppedContainers);
-    // helper.refreshImages(refreshImagesList);
-    // helper.writeToDb();
-    // helper.networkContainers(getNetworkContainers);
-    // helper.setDbSessionTimeZone();
-    // helper.getAllDockerVolumes(getVolumeList);
-  // }, []);
+  useEffect(() => {
+    initDatabase();
+    helper.refreshRunning(refreshRunningContainers);
+    helper.refreshStopped(refreshStoppedContainers);
+    helper.refreshImages(refreshImagesList);
+    helper.writeToDb();
+    helper.networkContainers(getNetworkContainers);
+    helper.setDbSessionTimeZone();
+    helper.getAllDockerVolumes(getVolumeList);
+  }, []);
 
   useEffect(() => {
     history.volumeByName(
@@ -125,15 +125,15 @@ const SysAdmin = (props) => {
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     helper.refreshRunning(refreshRunningContainers);
-  //     helper.refreshStopped(refreshStoppedContainers);
-  //     helper.refreshImages(refreshImagesList);
-  //   }, 5000);
-  //   startNotificationRequester();
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      helper.refreshRunning(refreshRunningContainers);
+      helper.refreshStopped(refreshStoppedContainers);
+      helper.refreshImages(refreshImagesList);
+    }, 5000);
+    startNotificationRequester();
+    return () => clearInterval(interval);
+  }, []);
 
   // * SysAdmin Unique useEffect
   useEffect(() => {

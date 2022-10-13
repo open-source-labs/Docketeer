@@ -6,6 +6,7 @@ import {
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
+import { userInfo } from 'os';
 
 /**
  * Grabs all active containers on app-start up
@@ -378,10 +379,10 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       'compose.yml',
       'compose.yaml'
     ];
-    let cmd = `cd ${fileLocation} && docker-compose up -d`;
+    let cmd = `cd ${fileLocation} && docker compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
-      cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
+      cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
     }
 
     window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
@@ -550,6 +551,26 @@ export const writeToDb = () => {
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
+  console.log('TimeZone: ', offsetTimeZoneInHours);
+  console.log('setDbSessionTimeZone')
+
+  fetch('http://localhost:3000/init/timezone', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      timezone: offsetTimeZoneInHours
+    })
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    console.log(response);
+    return;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
   //! This is the another instance of running a query
   // query(`set time zone ${offsetTimeZoneInHours}`);
 };

@@ -8,7 +8,14 @@ const pool = new Pool({
   port: 5433,
 });
 
-export default async (text, params, callback) => {
-  const rows = await pool.query(text, params, callback);
-  return rows;
+module.exports = {
+  query2: (text, params, callback) => {
+    console.log('Executed Docketeer query...', text);
+    return pool.query(text, params, callback);
+  }
 };
+
+// export default async (text, params, callback) => {
+//   const rows = await pool.query(text, params, callback);
+//   return rows;
+// };

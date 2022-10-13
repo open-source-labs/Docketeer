@@ -1,5 +1,5 @@
 // module imports
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
 
@@ -26,8 +26,6 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const SysAdmin = (props) => {
-  console.log("SysAdmin Running")
-
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -167,7 +165,7 @@ const SysAdmin = (props) => {
 
   return (
     <div className='container'>
-      SysAdmin View
+      {/* Navbar */}
       <nav className='tab'>
         <header id='title'>
           <img src={Docketeer} width={160} />
@@ -177,8 +175,8 @@ const SysAdmin = (props) => {
             <li>
               <Link
                 to='/app/'
-                style={selected === '/' ? selectedStyling : null}
-                onClick={() => setSelected('/')}
+                style={selected === '/app/' ? selectedStyling : null}
+                onClick={() => setSelected('/app/')}
               >
                 <i className='fas fa-settings'></i> Settings
               </Link>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
-import query from '../../../server/models/psqlQuery';
+// import query from '../../../server/models/psqlQuery';
 import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
@@ -46,26 +46,26 @@ const Metrics = (props) => {
     borderBottomRightRadius: '10px'
   };
 
-  const getContainerMetrics = async () => {
-    let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-    const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
+  // const getContainerMetrics = async () => {
+  //   let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
+  //   const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
 
-    const containerNamesArr = Object.keys(activeContainers);
-    if (containerNamesArr.length === 1) {
-      queryString += ')' + queryStringEnd;
-      const result = await query(queryString, containerNamesArr);
-      return result;
-    }
+  //   const containerNamesArr = Object.keys(activeContainers);
+  //   if (containerNamesArr.length === 1) {
+  //     queryString += ')' + queryStringEnd;
+  //     const result = await query(queryString, containerNamesArr);
+  //     return result;
+  //   }
 
-    containerNamesArr.slice(1).forEach((containerName, idx) => {
-      let additionalParameter = `OR container_name = $${idx + 2} `;
-      if (idx === containerNamesArr.length - 2) additionalParameter += ')';
-      queryString += additionalParameter;
-    });
+  //   containerNamesArr.slice(1).forEach((containerName, idx) => {
+  //     let additionalParameter = `OR container_name = $${idx + 2} `;
+  //     if (idx === containerNamesArr.length - 2) additionalParameter += ')';
+  //     queryString += additionalParameter;
+  //   });
 
-    queryString += queryStringEnd;
-    return query(queryString, containerNamesArr);
-  };
+  //   queryString += queryStringEnd;
+  //   return query(queryString, containerNamesArr);
+  // };
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {

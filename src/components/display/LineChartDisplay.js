@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
-// import query from '../../../server/models/psqlQuery';
 import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { json } from 'stream/consumers';
 
 /** TODO
  * 1. Remove prop drilling from parent components
@@ -46,26 +46,21 @@ const Metrics = (props) => {
     borderBottomRightRadius: '10px'
   };
 
-  // const getContainerMetrics = async () => {
-  //   let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-  //   const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-
-  //   const containerNamesArr = Object.keys(activeContainers);
-  //   if (containerNamesArr.length === 1) {
-  //     queryString += ')' + queryStringEnd;
-  //     const result = await query(queryString, containerNamesArr);
-  //     return result;
-  //   }
-
-  //   containerNamesArr.slice(1).forEach((containerName, idx) => {
-  //     let additionalParameter = `OR container_name = $${idx + 2} `;
-  //     if (idx === containerNamesArr.length - 2) additionalParameter += ')';
-  //     queryString += additionalParameter;
-  //   });
-
-  //   queryString += queryStringEnd;
-  //   return query(queryString, containerNamesArr);
-  // };
+  //Grabbing the metrics data to be displayed on the charts
+  async function getContainerMetrics() {
+    const containerNamesArr = Object.keys(activeContainers);
+    const response = await fetch('http://localhost:3000/init/getMetrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        containers: containerNamesArr
+      })
+    })
+    //! Create a try catch to properly handle errors
+    return await response.json(); 
+  }
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
@@ -100,7 +95,7 @@ const Metrics = (props) => {
       return;
     }
     // DB QUERY LIKELY GOING HERE
-    const output = await getContainerMetrics();
+    // const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -127,7 +122,6 @@ const Metrics = (props) => {
           Object.keys(activeContainers)
         )
       };
-
       return obj;
     };
     // Datastructure for Bargraph
@@ -141,7 +135,6 @@ const Metrics = (props) => {
           Object.keys(activeContainers)
         )
       };
-
       return obj;
     };
 
@@ -156,6 +149,7 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
+    console.log('This is CONTAINERMETRICS: ', containerMetrics)
 
     const auxObj = {};
 
@@ -419,9 +413,6 @@ const Metrics = (props) => {
     formatData();
     renderGitInfo();
   }, [activeContainers, timePeriod]);
-
-  console.log('active Containers: ', activeContainers)
-  fetchGitData(activeContainers)
 
   return (
     <div>

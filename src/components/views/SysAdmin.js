@@ -163,7 +163,6 @@ const SysAdmin = (props) => {
     borderBottomRightRadius: '10px'
   };
 
-  console.log('SysAdmin Running');
   return (
     <div className='container'>
       {/* Navbar */}

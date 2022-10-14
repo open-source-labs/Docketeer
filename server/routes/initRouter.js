@@ -29,10 +29,17 @@ router.post('/github',
   }
 );
 
-router.post('/metricData',
+router.post('/addMetrics',
   initController.addMetrics,
   (req, res) => {
     return res.status(200).json({});
+  }
+);
+
+router.post('/getMetrics',
+initController.getMetrics,
+(req, res) => {
+  return res.status(200).json(res.locals.metrics)
   }
 );
 

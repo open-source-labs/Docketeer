@@ -99,7 +99,9 @@ const Settings = (props) => {
     cpuNotificationList: PropTypes.object.isRequired,
     stoppedNotificationList: PropTypes.object.isRequired
   };
-//! All of these query searches are for the notifacation settings./...Have to move to the backend
+//! All of these query searches are for the notifacation settings. 9 Queries total
+//!Probably make new routes/controllers for these.
+  //!...Have to move to the backend
 
   // handle check
   // I couldve made this a single function where queryType gets passed in

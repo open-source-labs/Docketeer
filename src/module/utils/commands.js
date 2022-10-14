@@ -390,11 +390,9 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
         console.warn(error.message);
         return;
       }
-
       if (stderr) {
         resolve(stderr);
       }
-
       if (stdout) {
         console.log(stdout);
       }
@@ -506,10 +504,11 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
     const stoppedContainers = state.containersList.stoppedList;
+    console.log('Running Containers: ', runningContainers)
 
     if (!runningContainers.length) return;
     const containerParameters = {}
-      runningContainers.forEach((container, idx) => {
+      runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
         ID: container.ID,
         names: container.Name,
@@ -522,7 +521,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
         timestamp: 'current_timestamp'
       }
     });
-    stoppedContainers.forEach((container, idx) => { 
+    stoppedContainers.forEach((container) => { 
         containerParameters[container.Names] = {
           ID: container.ID,
           names: container.Names,
@@ -535,7 +534,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
           timestamp: 'current_timestamp'
         }
     });
-    fetch('http://localhost:3000/init/metricData', {
+    fetch('http://localhost:3000/init/addMetrics', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

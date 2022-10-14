@@ -24,6 +24,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
+    "chart.js": "^3.9.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "pg": "^8.8.0",
@@ -36,6 +37,7 @@
     "react-router": "^6.4.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {

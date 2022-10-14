@@ -8,6 +8,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { json } from 'stream/consumers';
 
+  //! Create a try catch to properly handle errors on line 64
+
 /** TODO
  * 1. Remove prop drilling from parent components
  * 2. Move get files from DB to its own helpers
@@ -93,8 +95,6 @@ const Metrics = () => {
     if (!Object.keys(activeContainers).length) {
       return;
     }
-    // DB QUERY LIKELY GOING HERE
-    // const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -162,7 +162,7 @@ const Metrics = () => {
       // console.log('This is the auxobj', auxObj);
     });
 
-    // iterate through each row from query and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
+    // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');

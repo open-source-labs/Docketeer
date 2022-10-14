@@ -1,4 +1,3 @@
-// import query from '../../../server/models/psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -8,6 +7,7 @@ import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import { userInfo } from 'os';
 
+//! Potentially add async await to the fetches on lines: 537, 558, 581
 /**
  * Grabs all active containers on app-start up
  *
@@ -574,7 +574,7 @@ export const setDbSessionTimeZone = () => {
   })
 };
 
-//added a call to this in the LineChartDisplay line 423
+//I'm not sure if this is actually set up and running. May need to link Github URLs first on Settings page
 export const getContainerGitUrl = (container) => {
   console.log('front-end container: ', container)
   console.log('Running getContainerGitUrl');
@@ -596,8 +596,6 @@ export const getContainerGitUrl = (container) => {
   .catch((err) => {
     console.log(err);
   })
-  //! Moved this to the backend
-  // return query(`Select github_url from containers where name = '${container}'`);
 };
 
 /**

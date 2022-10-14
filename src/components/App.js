@@ -11,17 +11,17 @@ const App = (props) => {
   // grab current user's role
   const role = useSelector((state) => state.session.role); 
     
-  const paths = {
-    'system admin': '/app/sysadmin',
-    'admin': '/app/admin',
-    'user': '/app/user'
-  }
+  // const paths = {
+  //   'system admin': '/app/sysadmin',
+  //   'admin': '/app/admin',
+  //   'user': '/app/user'
+  // }
   // set path for the active role
-  const path = paths[role];  
+  // const path = paths[role];  
 
   console.log("App Running")
-  console.log(path)
-  console.log(role)
+  // console.log(path)
+  // console.log(role)
 
   // return (
   //   <div>

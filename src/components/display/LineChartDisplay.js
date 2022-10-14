@@ -420,6 +420,9 @@ const Metrics = (props) => {
     renderGitInfo();
   }, [activeContainers, timePeriod]);
 
+  console.log('active Containers: ', activeContainers)
+  fetchGitData(activeContainers)
+
   return (
     <div>
       <div className='metric-section-title'>

@@ -12,9 +12,6 @@ export const App2 = () => {
   //check 
   return (
     <>
-      <div>
-        Am I in App2?
-      </div>
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Authentication />} />

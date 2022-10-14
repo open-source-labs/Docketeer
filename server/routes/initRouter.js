@@ -22,4 +22,18 @@ router.post('/timezone',
   }
 );
 
+router.post('/github',
+  initController.gitURL,
+  (req, res) => {
+    return res.status(200).json(res.locals.data);
+  }
+);
+
+router.post('/metricData',
+  initController.addMetrics,
+  (req, res) => {
+    return res.status(200).json({});
+  }
+);
+
 module.exports = router;

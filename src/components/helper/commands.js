@@ -499,52 +499,54 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  * Writes metric stats into database
  */
 
-export const writeToDb = () => {
-  const interval = 300000;
+ export const writeToDb = () => {
+  //2.5 minute intervals for data (used to be 5 minutes)
+  const interval = 15000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
     const stoppedContainers = state.containersList.stoppedList;
 
     if (!runningContainers.length) return;
-
-    let dbQuery =
-      'insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values ';
-    runningContainers.forEach((container, idx) => {
-      // No need to worry about sql injections as it would be self sabotaging!
-      const string = `('${container.ID}', 
-        '${container.Name}', 
-        '${container.CPUPerc}', 
-        '${container.MemPerc}', 
-        '${container.MemUsage}', 
-        '${container.NetIO}', 
-        '${container.BlockIO}', 
-        '${container.PIDs}', 
-        current_timestamp)`;
-
-      if (
-        idx === runningContainers.length - 1 &&
-        stoppedContainers.length === 0
-      )
-        dbQuery += string;
-      else dbQuery += string + ', ';
+    const containerParameters = {}
+      runningContainers.forEach((container, idx) => {
+      containerParameters[container.Name] = {
+        ID: container.ID,
+        names: container.Name,
+        cpu: container.CPUPerc,
+        mem: container.MemPerc,
+        memuse: container.MemUsage,
+        net: container.NetIO  ,
+        block: container.BlockIO,
+        pid: container.PIDs,
+        timestamp: 'current_timestamp'
+      }
     });
-    stoppedContainers.forEach((container, idx) => {
-      const string = `('${container.ID}', 
-        '${container.Names}', 
-        '0.00%',
-        '0.00%',
-        '00.0MiB/0.00GiB',
-        '0.00kB/0.00kB',
-        '00.0MB/00.0MB',
-        '0',
-        current_timestamp)`;
-
-      if (idx === stoppedContainers.length - 1) dbQuery += string;
-      else dbQuery += string + ', ';
+    stoppedContainers.forEach((container, idx) => { 
+        containerParameters[container.Names] = {
+          ID: container.ID,
+          names: container.Names,
+          cpu: '0.00%',
+          mem: '0.00%',
+          memuse: '00.0MiB/0.00GiB',
+          net: '0.00kB/0.00kB',
+          block: '00.0MB/00.0MB',
+          pid: '0',
+          timestamp: 'current_timestamp'
+        }
     });
-    //! This is the first instance of running a query
-    // query(dbQuery);
+    fetch('http://localhost:3000/init/metricData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      containers: containerParameters
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  })
   }, interval);
 };
 
@@ -571,12 +573,31 @@ export const setDbSessionTimeZone = () => {
   .catch((err) => {
     console.log(err);
   })
-  //! This is the another instance of running a query
-  // query(`set time zone ${offsetTimeZoneInHours}`);
 };
 
+//added a call to this in the LineChartDisplay line 423
 export const getContainerGitUrl = (container) => {
-  //! This is the another instance of running a query
+  console.log('front-end container: ', container)
+  console.log('Running getContainerGitUrl');
+  fetch('http://localhost:3000/init/github', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      githubUrl: container
+    })
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    console.log(response);
+    //need to figure out what I actually want to return
+    return response;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  //! Moved this to the backend
   // return query(`Select github_url from containers where name = '${container}'`);
 };
 

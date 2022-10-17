@@ -13,7 +13,7 @@ const initController = {};
 initController.initDatabase = (req, res, next) => {
   const directory =
     process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '../../src/database')
+      ? path.resolve(__dirname, '../database')
       : path.join(path.dirname(__dirname), 'database');
 
   exec(

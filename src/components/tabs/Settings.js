@@ -122,7 +122,6 @@ const Settings = (props) => {
     })
     .then((data) => data.json())
     .then((response) => {
-      //!not sure if I need to actually return anything here
       fetchNotificationSettings();
       console.log('Insert container and settings completed: ', response)
     })
@@ -130,7 +129,7 @@ const Settings = (props) => {
       console.log(err);
     })
   };
-//!----------------------------------------------------------------------------------------------//
+//!----------------------------------------------------------------------------------------------------------------//
   // const handleCheckSetting = (containerId, containerName, metricName) => {
   //   // add to DB
   //   query(
@@ -161,13 +160,13 @@ const Settings = (props) => {
   //     }
   //   );
   // };
-//!----------------------------------------------------------------------------------------------//
+//!----------------------------------------------------------------------------------------------------------------//
 
   // handle uncheck
-  // remove from DB
+  // remove container/metric from DB
   const handleUnCheckSetting = (containerId, metricName) => {
     fetch('http://localhost:3000/settings/delete', {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -178,7 +177,6 @@ const Settings = (props) => {
     })
     .then((data) => data.json())
     .then((response) => {
-      //!not sure if I need to actually return anything here
       fetchNotificationSettings();
       console.log('Delete container settings completed: ', response)
     })
@@ -186,7 +184,7 @@ const Settings = (props) => {
       console.log(err);
     })
   }
-  //!----------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
   // const handleUnCheckSetting = (containerId, metricName) => {
   //   // add to DB
   //   query(
@@ -203,12 +201,13 @@ const Settings = (props) => {
   //     }
   //   );
   // };
-//!----------------------------------------------------------------------------------------------//
+//!----------------------------------------------------------------------------------------------------------------//
 
   /**
    * @title NOTIFICATION PREFERENCES
    */
 
+  //updates state as to which boxes are checked
   const fetchNotificationSettings = async () => {
     fetch('http://localhost:3000/settings/', {
       method: 'GET',
@@ -218,13 +217,12 @@ const Settings = (props) => {
     })
     .then((data) => data.json())
     .then((response) => {
-      // const tempMemory = [];
-      // const tempCPU = [];
-      // const tempStopped = [];
-      // response.rows.forEach((el, i) =>)
+      props.addMemoryNotificationSetting(response.memory);
+      props.addCpuNotificationSetting(response.cpu);
+      props.addStoppedNotificationSetting(response.stopped);
     })
   }
-  //!----------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   // const fetchNotificationSettings = () => {
   //   return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
@@ -261,6 +259,7 @@ const Settings = (props) => {
   //     }
   //   });
   // };
+  //!----------------------------------------------------------------------------------------------------------------//
 
   /**
    * @title COMMUNICATION
@@ -271,13 +270,27 @@ const Settings = (props) => {
   };
 
   // fetch on component mount only because of empty dependency array
-  // useEffect(() => {
-  //   fetchNotificationSettings();
-  // }, []);
+  useEffect(() => {
+    fetchNotificationSettings();
+  }, []);
 
   /**
    * alerts if phone not entered on Test click
    */
+
+  const handlePhoneNumberSubmit = () => {
+    if(!mobileNumber) alert('Please enter phone number');
+    else {
+      if (isNaN(Number(mobileNumber)))
+        alert('Please enter phone number in numerical format. ex: 123456789');
+      else {
+        alert(`Phone: ${mobileNumber} is valid`);
+        
+        fetch()
+    }
+  }
+
+  //!----------------------------------------------------------------------------------------------------------------//
   // const handlePhoneNumberSubmit = () => {
   //   if (!mobileNumber) alert('Please enter phone number');
   //   else {
@@ -305,6 +318,7 @@ const Settings = (props) => {
   //     }
   //   }
   // };
+//!----------------------------------------------------------------------------------------------------------------//
 
   // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM

@@ -22,10 +22,10 @@ router.post('/insert',
   }
 );
 
-router.delete('/delete',
+router.post('/delete',
   settingsController.deleteContainerSettings,
   (req, res) => {
-    return res.sendStatus(200)
+    return res.status(200).json({});
   }
 );
 

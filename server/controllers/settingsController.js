@@ -62,7 +62,24 @@ settingsController.notificationSettings = async (req, res, next) => {
     INNER JOIN notification_settings ns ON cs.notification_settings_id = ns.id`;
   await db.query2(queryString)
     .then((data) => {
+      const tempMemory = [];
+      const tempCPU = [];
+      const tempStopped = [];
       console.log(data)
+      data.rows.forEach((container, i) => {
+        if (container.metric_name === 'memory') {
+          tempMemory.push(container.container_id);
+        }
+        else if (container.metric_name === 'cpu') {
+          tempCPU.push(container.container_id);
+        }
+        else if (container.metric_name === 'stopped') {
+          tempStopped.push(container.container_id);
+        }
+      });
+      res.locals.memory = tempMemory;
+      res.locals.cpu = tempCPU;
+      res.locals.stopped = tempStopped;
       return next();
   })
     .catch((err) => {

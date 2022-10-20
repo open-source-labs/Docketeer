@@ -139,4 +139,21 @@ settingsController.monitoringFrequency = async (req, res, next) => {
   })
 };
 
+settingsController.addGitLinks = async (req, res, next) => {
+  const queryString = `INSERT INTO containers (id, name, github_url)
+    VALUES ($1, $2, $3)
+    ON CONFLICT ON CONSTRAINT unique_id
+    DO UPDATE SET github_url = $3`
+  const parameters = [req.body.id, req.body.name, req.body.url];
+  await db.query2(queryString, parameters)
+    .then((data) => {
+      console.log('addGitLinks: ', data)
+      return next();
+  })
+    .catch((err) => {
+      console.log('addGitLinks: ', err);
+      return next(err);
+  })
+};
+
 module.exports = settingsController;

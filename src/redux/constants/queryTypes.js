@@ -83,10 +83,10 @@ FROM containers;
 //     UPDATE SET monitoring_frequency = $4;  
 // `;
 
-export const INSERT_GITHUB = `  
-  INSERT INTO containers (id, name, github_url)
-  VALUES ($1, $2, $3)
-  ON CONFLICT ON CONSTRAINT unique_id
-  DO
-    UPDATE SET github_url = $3;
-`;
+// export const INSERT_GITHUB = `  
+//   INSERT INTO containers (id, name, github_url)
+//   VALUES ($1, $2, $3)
+//   ON CONFLICT ON CONSTRAINT unique_id
+//   DO
+//     UPDATE SET github_url = $3;
+// `;

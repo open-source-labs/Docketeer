@@ -10,7 +10,9 @@ const adminRouter = require('./routes/adminRouter');
 const accountRouter = require('./routes/accountRouter');
 const apiRouter = require('./routes/apiRouter');
 const dbRouter = require('./routes/dbRouter');
+const initRouter = require('./routes/initRouter')
 const logoutRouter = require('./routes/logoutRouter');
+const settingsRouter = require('./routes/settingsRouter');
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +21,8 @@ app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
 
+app.use('/settings', settingsRouter);
+app.use('/init', initRouter)
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);

@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
-import query from '../../../server/models/psqlQuery';
 import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { json } from 'stream/consumers';
+
+  //! Create a try catch to properly handle errors on line 64
 
 /** TODO
  * 1. Remove prop drilling from parent components
@@ -46,26 +48,21 @@ const Metrics = (props) => {
     borderBottomRightRadius: '10px'
   };
 
-  const getContainerMetrics = async () => {
-    let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-    const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-
+  //Grabbing the metrics data to be displayed on the charts
+  async function getContainerMetrics() {
     const containerNamesArr = Object.keys(activeContainers);
-    if (containerNamesArr.length === 1) {
-      queryString += ')' + queryStringEnd;
-      const result = await query(queryString, containerNamesArr);
-      return result;
-    }
-
-    containerNamesArr.slice(1).forEach((containerName, idx) => {
-      let additionalParameter = `OR container_name = $${idx + 2} `;
-      if (idx === containerNamesArr.length - 2) additionalParameter += ')';
-      queryString += additionalParameter;
-    });
-
-    queryString += queryStringEnd;
-    return query(queryString, containerNamesArr);
-  };
+    const response = await fetch('http://localhost:3000/init/getMetrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        containers: containerNamesArr
+      })
+    })
+    //! Create a try catch to properly handle errors
+    return await response.json(); 
+  }
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
@@ -99,7 +96,7 @@ const Metrics = (props) => {
     if (!Object.keys(activeContainers).length) {
       return;
     }
-    // DB QUERY LIKELY GOING HERE
+
     const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
@@ -127,7 +124,6 @@ const Metrics = (props) => {
           Object.keys(activeContainers)
         )
       };
-
       return obj;
     };
     // Datastructure for Bargraph
@@ -141,7 +137,6 @@ const Metrics = (props) => {
           Object.keys(activeContainers)
         )
       };
-
       return obj;
     };
 
@@ -156,6 +151,7 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
+    console.log('This is CONTAINERMETRICS: ', containerMetrics)
 
     const auxObj = {};
 
@@ -169,7 +165,7 @@ const Metrics = (props) => {
       // console.log('This is the auxobj', auxObj);
     });
 
-    // iterate through each row from query and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
+    // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
@@ -417,7 +413,7 @@ const Metrics = (props) => {
   selectList();
   useEffect(() => {
     formatData();
-    // renderGitInfo();
+    renderGitInfo();
   }, [activeContainers, timePeriod]);
 
   return (

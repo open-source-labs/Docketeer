@@ -5,7 +5,7 @@ import * as actions from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
 // import query from '../../../server/models/psqlQuery';
-import * as queryType from '../../redux/constants/queryTypes';
+// import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
@@ -101,96 +101,71 @@ const Settings = (props) => {
   };
 
   // handle check
-  // I couldve made this a single function where queryType gets passed in
-  // but the query's parameters are not the same
-  // const handleCheckSetting = (containerId, containerName, metricName) => {
-  //   // add to DB
-  //   query(
-  //     queryType.INSERT_CONTAINER,
-  //     [containerId, containerName],
-  //     (err, res) => {
-  //       if (err) {
-  //         console.log(`Error in INSERT_CONTAINER. Error: ${err}`);
-  //       } else {
-  //         // if all good, call fetchNotificationSettings
-  //         fetchNotificationSettings();
-  //         console.log('** INSERT_CONTAINER returned: **', res);
-  //       }
-  //     }
-  //   );
-
-  //   query(
-  //     queryType.INSERT_CONTAINER_SETTING,
-  //     [containerId, metricName.toLowerCase()],
-  //     (err, res) => {
-  //       if (err) {
-  //         console.log(`Error in INSERT_CONTAINER_SETTING. Error: ${err}`);
-  //       } else {
-  //         // if all good, call fetchNotificationSettings
-  //         fetchNotificationSettings();
-  //         console.log('** INSERT_CONTAINER_SETTING returned: **', res);
-  //       }
-  //     }
-  //   );
-  // };
+  // insert all container information performs two database calls on the backend
+  const handleCheckSetting = (containerId, containerName, metricName) => {
+    fetch('http://localhost:3000/settings/insert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        name: containerName,
+        metric: metricName.toLowerCase()
+      })
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      fetchNotificationSettings();
+      console.log('Insert container and settings completed: ', response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  };
 
   // handle uncheck
-  // remove from DB
-  // const handleUnCheckSetting = (containerId, metricName) => {
-  //   // add to DB
-  //   query(
-  //     queryType.DELETE_CONTAINER_SETTING,
-  //     [containerId, metricName.toLowerCase()],
-  //     (err, res) => {
-  //       if (err) {
-  //         console.log(`Error in DELETE_CONTAINER_SETTING. Error: ${err}`);
-  //       } else {
-  //         // if all good, call fetchNotificationSettings
-  //         fetchNotificationSettings();
-  //         console.log('** DELETE_CONTAINER_SETTING returned: **', res);
-  //       }
-  //     }
-  //   );
-  // };
+  // remove container/metric from DB
+  const handleUnCheckSetting = (containerId, metricName) => {
+    fetch('http://localhost:3000/settings/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        metric: metricName.toLowerCase()
+      })
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      fetchNotificationSettings();
+      console.log('Delete container settings completed: ', response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 
   /**
    * @title NOTIFICATION PREFERENCES
    */
-  // const fetchNotificationSettings = () => {
-  //   return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
-  //     if (err) {
-  //       console.log(`Error getting settings. Error: ${err}`);
-  //     } else {
-  //       // find a way to set the three lists here
-  //       // iterate through res.row
-  //       // if the metric_name = "memory"
-  //       const tempMemory = [];
-  //       const tempCPU = [];
-  //       const tempStopped = [];
 
-  //       res.rows.forEach((el, i) => {
-  //         switch (el.metric_name) {
-  //           case categories.MEMORY.toLowerCase():
-  //             tempMemory.push(el.container_id);
-  //             break;
-  //           case categories.CPU.toLowerCase():
-  //             tempCPU.push(el.container_id);
-  //             break;
-  //           case categories.STOPPED.toLowerCase():
-  //             tempStopped.push(el.container_id);
-  //             break;
-  //           default:
-  //             break;
-  //         }
-  //       });
-
-  //       // replace state with new data from database
-  //       props.addMemoryNotificationSetting(tempMemory);
-  //       props.addCpuNotificationSetting(tempCPU);
-  //       props.addStoppedNotificationSetting(tempStopped);
-  //     }
-  //   });
-  // };
+  //updates state as to which boxes are checked
+  const fetchNotificationSettings = async () => {
+    fetch('http://localhost:3000/settings/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      props.addMemoryNotificationSetting(response.memory);
+      props.addCpuNotificationSetting(response.cpu);
+      props.addStoppedNotificationSetting(response.stopped);
+    })
+  }
 
   /**
    * @title COMMUNICATION
@@ -201,40 +176,45 @@ const Settings = (props) => {
   };
 
   // fetch on component mount only because of empty dependency array
-  // useEffect(() => {
-  //   fetchNotificationSettings();
-  // }, []);
+  useEffect(() => {
+    fetchNotificationSettings();
+  }, []);
 
   /**
    * alerts if phone not entered on Test click
    */
-  // const handlePhoneNumberSubmit = () => {
-  //   if (!mobileNumber) alert('Please enter phone number');
-  //   else {
-  //     // alert if input is not a number
-  //     if (isNaN(Number(mobileNumber)))
-  //       alert('Please enter phone number in numerical format. ex: 123456789');
-  //     else {
-  //       alert(`Phone: ${mobileNumber} is valid`);
-  //       // ask SMS service for a verification code
-  //       query(
-  //         queryType.INSERT_USER,
-  //         ['admin', mobileNumber, 5, 2],
-  //         (err, res) => {
-  //           if (err) {
-  //             console.log(`Error in insert user. Error: ${err}`);
-  //           } else {
-  //             console.log(`*** Inserted ${res} into users table. ***`);
-  //             props.addPhoneNumber(mobileNumber);
-  //             showVerificationInput = true;
-  //             // ask SMS service for a verification code
-  //             verifyMobileNumber();
-  //           }
-  //         }
-  //       );
-  //     }
-  //   }
-  // };
+
+  const handlePhoneNumberSubmit = () => {
+    if(!mobileNumber) alert('Please enter phone number');
+    else {
+      if (isNaN(Number(mobileNumber)))
+        alert('Please enter phone number in numerical format. ex: 123456789');
+      else {
+        alert(`Phone: ${mobileNumber} is valid`);
+        fetch('http://localhost:3000/settings/phone', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            admin: 'admin',
+            number: mobileNumber,
+            digits: [5, 2]
+          })
+        })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log(`Inserted ${response} into users table.`)
+          props.addPhoneNumber(mobileNumber)
+          showVerificationInput = true;
+          verifyMobileNumber();
+        })
+        .catch((err) => {
+          console.log('handlePhoneNumberSubmit: ', err);
+        })
+      }
+    }
+  }
 
   // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM
@@ -242,54 +222,66 @@ const Settings = (props) => {
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
   const [tempNotifFreq, setTempNotifFreq] = useState('');
-  // const notificationFrequency = () => {
-  //   // default value for Notification Frequency
-  //   let frequency = 5;
-  //   // alert if input is not a number
-  //   if (isNaN(Number(tempNotifFreq)))
-  //     alert('Please enter notification frequency in numerical format. ex: 15');
-  //   else {
-  //     if (tempNotifFreq) frequency = tempNotifFreq;
-  //     query(
-  //       queryType.INSERT_NOTIFICATION_FREQUENCY,
-  //       // ['admin', , frequency, ,],
-  //       ['admin', undefined, frequency, undefined, undefined],
-  //       (err, res) => {
-  //         if (err) {
-  //           console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
-  //         } else {
-  //           console.log(`*** Inserted ${res} into users table. ***`);
-  //           props.addNotificationFrequency(frequency);
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
+
+  const notificationFrequency = () => {
+    let frequency = 5;
+    if (isNaN(Number(tempNotifFreq)))
+      alert('Please enter notification frequency in numerical format. ex: 15');
+    else {
+      if (tempNotifFreq) frequency = tempNotifFreq;
+      fetch('http://localhost:3000/settings/notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: frequency, 
+          monitoring: undefined
+        })
+      })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(`Inserted ${frequency} minutes into users table.`);
+        props.addNotificationFrequency(frequency);
+      })
+      .catch((err) => {
+        console.log('NoficationFrequency: ', err);
+      })
+    }
+  }
 
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
-  // const monitoringFrequency = () => {
-  //   // default value for Monitoring Frequency
-  //   let frequency = 2;
-  //   // alert if input is not a number
-  //   if (isNaN(Number(tempMonitoringFrequency)))
-  //     alert('Please enter monitoring frequency in numerical format. ex: 15');
-  //   else {
-  //     if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
-  //     query(
-  //       queryType.INSERT_MONITORING_FREQUENCY,
-  //       // ['admin', , , frequency],
-  //       ['admin', undefined, undefined, frequency],
-  //       (err, res) => {
-  //         if (err) {
-  //           console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
-  //         } else {
-  //           console.log(`*** Inserted ${res} into users table. ***`);
-  //           props.addMonitoringFrequency(frequency);
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
+
+  const monitoringFrequency = () => {
+    let frequency = 2;
+    if (isNaN(Number(tempMonitoringFrequency)))
+      alert('Please enter monitoring frequency in numerical format. ex: 15');
+    else {
+      if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
+      fetch('http://localhost:3000/settings/monitoring', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: undefined, 
+          monitoring: frequency
+        })
+      })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(`Inserted ${frequency} minutes into users table.`)
+        props.addMonitoringFrequency(frequency)
+      })
+      .catch((err) => {
+        console.log('MonitoringFrequency: ', err);
+      })
+    }
+  }
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
@@ -330,38 +322,59 @@ const Settings = (props) => {
     if (!stateObject[el.ID]) stateObject[el.ID] = '';
   });
 
+  //!Not sure if this area is even needed. Looks like they abandoned it for the function below(githubLink);
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-  // const getData = () => {
-  //   return query(queryType.GET_CONTAINERS, []);
-  // };
-
+  const getData = () => {
+    fetch('http://localhost:3000/settings/gitcontainers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    // return query(queryType.GET_CONTAINERS, []);
+  };
+  //! updateState is not being called anywhere...so not really sure if this is actually happening.
   const updateState = async () => {
     const output = await getData();
     output.forEach((el) => {
       stateObject[el.id] = el.github_url;
     });
   };
-
+  
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-  // const githubLink = (event) => {
-  //   if (!tempGithubLink)
-  //     alert('Please provide a link in accordance with provided example');
-  //   if (!event.target.id) alert('Please provide a container ID');
-  //   else {
-  //     const github_url = tempGithubLink[event.target.id];
-  //     query(
-  //       queryType.INSERT_GITHUB,
-  //       [event.target.id, event.target.name, github_url],
-  //       (err, res) => {
-  //         if (err) {
-  //           console.log(`INSERT_GITHUB. Error: ${err}`);
-  //         } else {
-  //           console.log(`*** Inserted ${res} into containers table. ***`);
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
+
+  const githubLink = (event) => {
+    if (!tempGithubLink)
+      alert('Please provide a link in accordance with provided example');
+    if (!event.target.id) alert('Please provide a container ID');
+    else {
+      const github_url = tempGithubLink[event.target.id];
+      fetch('http://localhost:3000/settings/gitLinks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: event.target.id,
+          name: event.target.name,
+          url: github_url
+        })
+      })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log('githubLink: ', response);
+        return response;
+      })
+      .catch((err) => {
+        console.log('githubLink: ', err);
+      })
+    }
+  }
 
   // Redux: Map state to props
   const _id = useSelector((state) => state.session._id);
@@ -498,7 +511,6 @@ const Settings = (props) => {
     );
 
     return (
-      // <h1>Settings Row</h1>
       <TableRow key={i} id='settings-row'>
         <TableCell>
           <span className='container-name'>
@@ -581,6 +593,7 @@ const Settings = (props) => {
             variant='contained'
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
+            //!need to reset the field when button is clicked
             onClick={(e) => githubLink(e)}
           >
             Confirm

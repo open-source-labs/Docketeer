@@ -1,4 +1,3 @@
-import query from '../../../server/models/psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -6,7 +5,9 @@ import {
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
+import { userInfo } from 'os';
 
+//! Potentially add async await to the fetches on lines: 537, 558, 581
 /**
  * Grabs all active containers on app-start up
  *
@@ -378,10 +379,10 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       'compose.yml',
       'compose.yaml'
     ];
-    let cmd = `cd ${fileLocation} && docker-compose up -d`;
+    let cmd = `cd ${fileLocation} && docker compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
-      cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
+      cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
     }
 
     window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
@@ -389,11 +390,9 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
         console.warn(error.message);
         return;
       }
-
       if (stderr) {
         resolve(stderr);
       }
-
       if (stdout) {
         console.log(stdout);
       }
@@ -498,62 +497,107 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  * Writes metric stats into database
  */
 
-export const writeToDb = () => {
-  const interval = 300000;
+ export const writeToDb = () => {
+  //2.5 minute intervals for data (used to be 5 minutes)
+  const interval = 30000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
     const stoppedContainers = state.containersList.stoppedList;
 
     if (!runningContainers.length) return;
+    const containerParameters = {}
 
-    let dbQuery =
-      'insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values ';
-    runningContainers.forEach((container, idx) => {
-      // No need to worry about sql injections as it would be self sabotaging!
-      const string = `('${container.ID}', 
-        '${container.Name}', 
-        '${container.CPUPerc}', 
-        '${container.MemPerc}', 
-        '${container.MemUsage}', 
-        '${container.NetIO}', 
-        '${container.BlockIO}', 
-        '${container.PIDs}', 
-        current_timestamp)`;
-
-      if (
-        idx === runningContainers.length - 1 &&
-        stoppedContainers.length === 0
-      )
-        dbQuery += string;
-      else dbQuery += string + ', ';
+    runningContainers.forEach((container) => {
+      containerParameters[container.Name] = {
+        ID: container.ID,
+        names: container.Name,
+        cpu: container.CPUPerc,
+        mem: container.MemPerc,
+        memuse: container.MemUsage,
+        net: container.NetIO  ,
+        block: container.BlockIO,
+        pid: container.PIDs,
+        timestamp: 'current_timestamp'
+      }
     });
-    stoppedContainers.forEach((container, idx) => {
-      const string = `('${container.ID}', 
-        '${container.Names}', 
-        '0.00%',
-        '0.00%',
-        '00.0MiB/0.00GiB',
-        '0.00kB/0.00kB',
-        '00.0MB/00.0MB',
-        '0',
-        current_timestamp)`;
-
-      if (idx === stoppedContainers.length - 1) dbQuery += string;
-      else dbQuery += string + ', ';
-    });
-    // query(dbQuery);
+    if (stoppedContainers.length >= 1) {
+      stoppedContainers.forEach((container) => { 
+        containerParameters[container.Names] = {
+          ID: container.ID,
+          names: container.Names,
+          cpu: '0.00%',
+          mem: '0.00%',
+          memuse: '00.0MiB/0.00GiB',
+          net: '0.00kB/0.00kB',
+          block: '00.0MB/00.0MB',
+          pid: '0',
+          timestamp: 'current_timestamp'
+        }
+      });
+    }
+    fetch('http://localhost:3000/init/addMetrics', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      containers: containerParameters
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  })
   }, interval);
 };
 
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  // query(`set time zone ${offsetTimeZoneInHours}`);
+  console.log('TimeZone: ', offsetTimeZoneInHours);
+  console.log('setDbSessionTimeZone')
+
+  fetch('http://localhost:3000/init/timezone', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      timezone: offsetTimeZoneInHours
+    })
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    console.log(response);
+    return;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 };
 
+//I'm not sure if this is actually set up and running. May need to link Github URLs first on Settings page
 export const getContainerGitUrl = (container) => {
-  // return query(`Select github_url from containers where name = '${container}'`);
+  console.log('front-end container: ', container)
+  console.log('Running getContainerGitUrl');
+  fetch('http://localhost:3000/init/github', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      githubUrl: container
+    })
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    console.log(response);
+    //I believe this should return the github_url that is linked to the container
+    return response;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 };
 
 /**

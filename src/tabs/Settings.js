@@ -207,6 +207,7 @@ const Settings = (props) => {
           props.addPhoneNumber(mobileNumber)
           showVerificationInput = true;
           verifyMobileNumber();
+          document.getElementById('textfield').value = '';
         })
         .catch((err) => {
           console.log('handlePhoneNumberSubmit: ', err);
@@ -244,6 +245,7 @@ const Settings = (props) => {
       .then((response) => {
         console.log(`Inserted ${frequency} minutes into users table.`);
         props.addNotificationFrequency(frequency);
+        setTempNotifFreq('');
       })
       .catch((err) => {
         console.log('NoficationFrequency: ', err);
@@ -275,6 +277,7 @@ const Settings = (props) => {
       .then((response) => {
         console.log(`Inserted ${frequency} minutes into users table.`)
         props.addMonitoringFrequency(frequency)
+        setTempMonitoringFrequency('');
       })
       .catch((err) => {
         console.log('MonitoringFrequency: ', err);
@@ -736,7 +739,7 @@ const Settings = (props) => {
             autoComplete='off'
           >
             <TextField
-              id='textfield'
+              id='freqtext'
               label='Notification frequency, min'
               helperText='* 5 min is recommended'
               variant='outlined'
@@ -764,7 +767,7 @@ const Settings = (props) => {
           >
             <TextField
               // className={classes.textfield}
-              id='textfield'
+              id='monitortext'
               label='Monitoring frequency, min'
               helperText='* 2 min is recommended'
               variant='outlined'

@@ -208,6 +208,7 @@ const Settings = (props) => {
           props.addPhoneNumber(mobileNumber)
           showVerificationInput = true;
           verifyMobileNumber();
+          document.getElementById('textfield').value = '';
         })
         .catch((err) => {
           console.log('handlePhoneNumberSubmit: ', err);
@@ -245,6 +246,7 @@ const Settings = (props) => {
       .then((response) => {
         console.log(`Inserted ${frequency} minutes into users table.`);
         props.addNotificationFrequency(frequency);
+        setTempNotifFreq('');
       })
       .catch((err) => {
         console.log('NoficationFrequency: ', err);
@@ -276,6 +278,7 @@ const Settings = (props) => {
       .then((response) => {
         console.log(`Inserted ${frequency} minutes into users table.`)
         props.addMonitoringFrequency(frequency)
+        setTempMonitoringFrequency('');
       })
       .catch((err) => {
         console.log('MonitoringFrequency: ', err);
@@ -368,6 +371,7 @@ const Settings = (props) => {
       .then((data) => data.json())
       .then((response) => {
         console.log('githubLink: ', response);
+        setTempGithubLink(stateObject);
         return response;
       })
       .catch((err) => {
@@ -385,8 +389,8 @@ const Settings = (props) => {
   const phone = useSelector((state) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
-  const [cpuThreshold, setCpuThreshold] = useState(cpu_threshold);
-  const [memThreshold, setMemThreshold] = useState(mem_threshold);
+  const [cpuThreshold, setCpuThreshold] = useState('');
+  const [memThreshold, setMemThreshold] = useState('');
   const [stoppedContainers, setStoppedContainers] = useState(container_stops);
   const [value, setValue] = useState(contact_pref);
 
@@ -439,6 +443,7 @@ const Settings = (props) => {
       })
       .then((data) => {
         updateUser(data);
+        setCpuThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -461,6 +466,7 @@ const Settings = (props) => {
       })
       .then((data) => {
         updateUser(data);
+        setMemThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -574,7 +580,7 @@ const Settings = (props) => {
           <TextField
             // className={classes.textfield}
             // theme={root}
-            id='textfield'
+            id='gittext'
             label='Main repository url'
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
             variant='outlined'
@@ -738,7 +744,7 @@ const Settings = (props) => {
             autoComplete='off'
           >
             <TextField
-              id='textfield'
+              id='freqtext'
               label='Notification frequency, min'
               helperText='* 5 min is recommended'
               variant='outlined'
@@ -766,7 +772,7 @@ const Settings = (props) => {
           >
             <TextField
               // className={classes.textfield}
-              id='textfield'
+              id='monitortext'
               label='Monitoring frequency, min'
               helperText='* 2 min is recommended'
               variant='outlined'
@@ -802,9 +808,9 @@ const Settings = (props) => {
               label='CPU Threshold'
               helperText='* 80% CPU usage recommended'
               variant='outlined'
-              // value="80" set this later
+              value={cpuThreshold}
               onChange={handleCpuChange}
-              placeholder={`${cpu_threshold}`}
+              // placeholder={`${cpu_threshold}`}
               size='small'
             />
             <Button
@@ -824,9 +830,9 @@ const Settings = (props) => {
               label='Memory Threshold'
               helperText='* 80% memory recommended'
               variant='outlined'
+              value={memThreshold}
               onChange={handleMemChange}
-              placeholder={`${mem_threshold}`}
-              // value="80" set this later
+              // placeholder={`${mem_threshold}`}
               size='small'
             />
             <Button

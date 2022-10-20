@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography } from '@mui/material';
 import { DataGrid} from '@mui/x-data-grid';
+import NewUserDisplay from '../display/NewUserDisplay';
 import * as actions from '../../redux/actions/actions';
 
 
@@ -12,6 +13,7 @@ const UserTable = () => {
   const [pageSize, setPageSize] = useState(5);
   const [userRole, setUserRole] = useState(userList);
 
+  // Create columns for table
   const columns = useMemo(() => [
     {field: '_id', 
       headerName: 'ID', 
@@ -19,15 +21,14 @@ const UserTable = () => {
 
     {field: 'username', 
       headerName: 'User', 
-      width: '170'},
+      width: '150'},
 
     {field: 'role', 
       headerName: 'Role', 
       width: '100', 
       type: 'singleSelect', 
       valueOptions:['user', 'admin', 'system admin'], 
-      editable: true, preProcessEditCellProps: (params => handleRoleChange(params))
-    },
+      editable: true, preProcessEditCellProps: (params => handleRoleChange(params))},
 
     {field: 'email', 
       headerName: 'Email', 
@@ -35,36 +36,28 @@ const UserTable = () => {
 
     {field: 'phone', 
       headerName: 'Phone', 
-      width: '150'},
+      width: '100'},
 
     {field: 'contact_pref', 
-      headerName: 'Contact Preference', 
+      headerName: 'Contact Pref.', 
       width: '100'},
 
     {field: 'mem_threshold', 
-      headerName: 'Memory Threshold', 
+      headerName: 'Memory', 
       width: '100'},
 
     {field: 'cpu_threshold', 
-      headerName: 'CPU Threshold', 
+      headerName: 'CPU', 
       width: '100'},
   ]);
 
-
-  // //TODO: in use effect, pass in the new array as the second argument and call the function handling the fetch call
-  // useEffect(()=>{
-  //   handleRoleChange(event);
-  // }, userList);
-
   const handleRoleChange = (event)=>{
-    // required to access target property of event
-    // event.persist();
-    const target = event;
+    // const target = event; //I don't think this is used
     const id = event.id;
     const role = event.props.value;
     console.log('id and role: ', id, role);
       
-    return new Promise( resolve => {
+    return new Promise( resolve => { // preProcessEditCellProps requires you to use a Promise/Resolve
       fetch('http://localhost:3000/admin/switch', {
         method: 'POST', 
         headers: {
@@ -76,29 +69,25 @@ const UserTable = () => {
         }),
       })
         .then((response) => {
-          console.log('fetch response: ', response);
           response = response.json();
-          return response;
+          return response; // This needs to be changed to one line since console.logs have been removed
         })
         .then((data) => {
-          const hasError = data;
+          // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
+          const hasError = data;  
           if(data) {
             console.log('no change');
             window.alert('Uh-oh! You\'re the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin.');
           } else {
-            console.log('from front end after fetch call: ', data);
             const payload = {
               _id: id,
               role
             };
-            console.log('payload: ', payload);
-            updateUserRole(payload); 
+            updateUserRole(payload); // Updates local state
           }
-          console.log('event props: ', event.props);
-          event.props.value = role;
-          console.log(event.props);
-          resolve({ ...event.props,
-            error: hasError
+          event.props.value = role; // Set's the cell's props to the role that was passed in
+          resolve({ ...event.props,  // Send the resolve with the selected props.
+            error: hasError // If this is false, the value of the cell will not be updated. If it is true, it will be udpated
           });
         })    
         .catch((err) => {
@@ -108,36 +97,38 @@ const UserTable = () => {
   };
     
  
-
   return (
-    <Box
-      sx={{
-        width: '100%',
-        height: 550,
-        background: 'white'
-      }}>
-      <Typography
-        variant='h6'
-        // component='h3'
-        sx={{textAlign: 'center', mt:2, mb: 2}}
-      >
+    <div>
+      <Box
+        sx={{
+          width: 900,
+          // width: '100%',
+          height: 420,
+          background: 'white'
+        }}>
+        <Typography
+          variant='h6'
+          // component='h3'
+          sx={{textAlign: 'center', mt:2, mb: 2}}
+        >
         Manage Users
-      </Typography>
-      <DataGrid
-        columns={columns}
-        rows={userList}
-        experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
-        getRowId={row=>row._id}
-        rowsPerPageOptions={[5, 10, 20]}
-        footer
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
-        getRowSpacing={params=>({   // Sets spacing between rows
-          top: params.isFirstVisible ? 0 : 5,  // Sets spacing for top row to zero and 5 for everything else
-          bottom: params.isLastVisible ? 0 : 5
-        })}
-      />
-    </Box>
+        </Typography>
+        <DataGrid
+          columns={columns}
+          rows={userList}
+          experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
+          getRowId={row=>row._id}
+          rowsPerPageOptions={[5, 10, 20]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
+          getRowSpacing={params=>({   // Sets spacing between rows
+            top: params.isFirstVisible ? 0 : 5,  // Sets spacing for top row to zero and 5 for everything else
+            bottom: params.isLastVisible ? 0 : 5
+          })}
+        />
+      </Box>
+      < NewUserDisplay />
+    </div>
   );
 };
 

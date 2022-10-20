@@ -19,13 +19,13 @@ const rootNode = document.getElementById('root')!;
 const root = createRoot(rootNode)
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <BrowserRouter>
         <Routes>
           <Route path='/*' element={<App2 />} />
         </Routes>
       </BrowserRouter>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </Provider>
 );
 

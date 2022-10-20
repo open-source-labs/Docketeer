@@ -4,9 +4,6 @@
  */
 
 const db = require('../models/psqlQuery');
-// const path = require('path')
-// const { exec } = require('child_process')
-
 
 const settingsController = {};
 
@@ -15,11 +12,9 @@ settingsController.addContainer = async (req, res, next) => {
   const parameters = [req.body.container, req.body.name];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('addContainer: ', data);
       return next();
     })
     .catch((err) => {
-      console.log('addContainer: ', err);
       return next(err);
     });
 };
@@ -32,11 +27,9 @@ settingsController.addContainerSettings = async (req, res, next) => {
   const parameters = [req.body.container, req.body.metric];
   await db.query2(queryString, parameters)
     .then((data) => {
-    console.log('addContainerSettings: ', data);
     return next();
   })
   .catch((err) => {
-    console.log('addContainerSettings: ', err);
     return next(err);
   })
 };
@@ -47,11 +40,9 @@ settingsController.deleteContainerSettings = async (req, res, next) => {
   const parameters = [req.body.container, req.body.metric];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('deleteContainersettings: ', data);
       return next();
   })
     .catch((err) => {
-      console.log('deleteContainerSettings: ', err)
       return next(err);
   })
 };
@@ -65,7 +56,6 @@ settingsController.notificationSettings = async (req, res, next) => {
       const tempMemory = [];
       const tempCPU = [];
       const tempStopped = [];
-      console.log(data)
       data.rows.forEach((container, i) => {
         if (container.metric_name === 'memory') {
           tempMemory.push(container.container_id);
@@ -96,7 +86,6 @@ settingsController.addPhoneNumber = async (req, res, next) => {
   const parameters = [req.body.admin, req.body.number, req.body.digits[0], req.body.digits[1]];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('addPhoneNumber: ', data);
       return next();
   })
     .catch((err) => {
@@ -113,7 +102,6 @@ settingsController.notificationFrequency = async (req, res, next) => {
   const parameters = [req.body.user, req.body.phoneNumber, req.body.notification, req.body.monitoring];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('notificationFrequency: ', data);
       return next();
   })
     .catch((err) => {
@@ -130,7 +118,6 @@ settingsController.monitoringFrequency = async (req, res, next) => {
   const parameters = [req.body.user, req.body.phoneNumber, req.body.notification, req.body.monitoring];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('monitoringFrequency: ', data);
       return next();
   })
     .catch((err) => {
@@ -147,7 +134,6 @@ settingsController.addGitLinks = async (req, res, next) => {
   const parameters = [req.body.id, req.body.name, req.body.url];
   await db.query2(queryString, parameters)
     .then((data) => {
-      console.log('addGitLinks: ', data)
       return next();
   })
     .catch((err) => {

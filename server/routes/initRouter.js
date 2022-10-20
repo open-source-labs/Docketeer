@@ -25,7 +25,7 @@ router.post('/timezone',
 router.post('/github',
   initController.gitURL,
   (req, res) => {
-    return res.status(200).json(res.locals.data);
+    return res.status(200).json(res.locals.url);
   }
 );
 

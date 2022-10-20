@@ -29,4 +29,25 @@ router.post('/delete',
   }
 );
 
+router.post('/phone',
+  settingsController.addPhoneNumber,
+  (req, res) => {
+    return res.status(200).json({});
+  }
+);
+
+router.post('/notification',
+  settingsController.notificationFrequency,
+  (req, res) => {
+    return res.status(200).json({});
+  }
+);
+
+router.post('/monitoring',
+  settingsController.monitoringFrequency,
+  (req, res) => {
+    return res.status(200).json({});
+  }
+);
+
 module.exports = router;

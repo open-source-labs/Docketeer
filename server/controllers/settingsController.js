@@ -85,104 +85,58 @@ settingsController.notificationSettings = async (req, res, next) => {
     .catch((err) => {
       console.log('getNotificationSettings: ', err);
       return next(err);
+  })
+};
+
+settingsController.addPhoneNumber = async (req, res, next) => {
+  const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT ON CONSTRAINT unique_username
+    DO UPDATE SET phone_number = $2`;
+  const parameters = [req.body.admin, req.body.number, req.body.digits[0], req.body.digits[1]];
+  await db.query2(queryString, parameters)
+    .then((data) => {
+      console.log('addPhoneNumber: ', data);
+      return next();
+  })
+    .catch((err) => {
+      console.log('addPhoneNumber: ', err);
+      return next(err);
+  }) 
+};
+
+settingsController.notificationFrequency = async (req, res, next) => {
+  const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT ON CONSTRAINT unique_username
+    DO UPDATE SET notification_frequency = $3`
+  const parameters = [req.body.user, req.body.phoneNumber, req.body.notification, req.body.monitoring];
+  await db.query2(queryString, parameters)
+    .then((data) => {
+      console.log('notificationFrequency: ', data);
+      return next();
+  })
+    .catch((err) => {
+      console.log('notificationFrequency: ', err);
+      return next(err);
     })
-}
+};
 
-
-// initController.timeZone = (req, res, next) => {
-//   const parameter = [req.body.timezone.toString()]
-//   console.log(parameter)
-//   //!Abigail... why can't I do the $1 thing? Does it only work if you have more than one?
-//   db.query2(`set time zone 7`)
-//     .then((data) => {
-//       return next();
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//       if (err) return next(err);
-//     });
-// };
-
-
-// //This query gets invoked on line 420 of LineChartDisplay but unsure of when it runs.
-//   //Can't get it to console log and need to figure out what it needs to return. At first glance, looks like just the query response
-// initController.gitURL = (req, res, next) => {
-//   console.log('req.body: ', req.body)
-//   const parameter = [(req.body.githubUrl)]
-//   console.log('parameter: ', parameter)
-//   //there is currently nothing in the table....so need to populate it first to see if queries work
-//   db.query2(`SELECT * FROM containers`)
-//   .then((data) => {
-//     console.log(`container table data: `, data)
-//     res.locals.data = data;
-//     return next();
-//   })
-//   //pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
-//   // db.query2(`SELECT github_url FROM containers where name = '${parameter}'`)
-//   //   .then((data) => {
-//   //     console.log(data)
-//   //     return next();
-//   //   })
-//   //   .catch((err) => {
-//   //     console.log(err)
-//   //     if (err) return next(err);
-//   //   });
-// }
-
-
-// //inserting the metrics pulled from the running containers and stopped containers from Docker into the Database
-// initController.addMetrics = (req, res, next) => {
-//   //body comes back with container names as the keys, each key is an object filled with the container data
-//   const containers = Object.keys(req.body.containers);
-//   //query string to insert the metric data into the table.
-//   const queryString = `INSERT INTO metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-//   //need to run 1 query per objects on the req.body
-//     //doens't need to be async because we don't return anyhting?
-//   containers.forEach((container) => {
-//     //object deconstructing for each of the containers to pass them in as parameters for the query
-//     const { ID, names, cpu, mem, memuse, net, block, pid } = req.body.containers[container]
-//     const parameters = [ ID, names, cpu, mem, memuse, net, block, pid ]
-//     //querying the database with the string and parameters. Don't need to return anything
-//     db.query2(queryString, parameters)
-//     .then(() => {
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//       if (err) return next(err);
-//     });
-//   })
-//   return next();
-// }
-
-// initController.getMetrics = async (req, res, next) => {
-//   let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-//   const queryStringEnd = `AND created_at >= now() - interval '4 hour' ORDER BY "created_at" ASC`
-//   const containerList = req.body.containers
-//   let count = 1;
-//   //if only one checkbox is clicked, this will run
-//   if (containerList.length === 1) {
-//     queryString += ')' + queryStringEnd;
-//     await db.query2(queryString, containerList)
-//     .then((data) => {
-//       res.locals.metrics = data;
-//       return next();
-//     })
-//   }
-//   //if there are more than one containers selected, this will activate
-//   else { 
-//     containerList.slice(1).forEach((container) => {
-//       let additionalParameter = `OR container_name = $${count + 1} `;
-//       count++;
-//       if (count >= containerList.length) additionalParameter += ')';
-//       queryString += additionalParameter;
-//     });
-//     queryString += queryStringEnd;
-//     await db.query2(queryString, containerList)
-//     .then((data) => {
-//       res.locals.metrics = data;
-//       return next();
-//     })
-//   }
-// }
+settingsController.monitoringFrequency = async (req, res, next) => {
+  const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT ON CONSTRAINT unique_username
+    DO UPDATE SET monitoring_frequency = $4`
+  const parameters = [req.body.user, req.body.phoneNumber, req.body.notification, req.body.monitoring];
+  await db.query2(queryString, parameters)
+    .then((data) => {
+      console.log('monitoringFrequency: ', data);
+      return next();
+  })
+    .catch((err) => {
+      console.log('monitoringFrequency: ', err);
+      return next(err);
+  })
+};
 
 module.exports = settingsController;

@@ -285,8 +285,28 @@ const Settings = (props) => {
         alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         alert(`Phone: ${mobileNumber} is valid`);
-        
-        fetch()
+        fetch('http://localhost:3000/settings/phone', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            admin: 'admin',
+            number: mobileNumber,
+            digits: [5, 2]
+          })
+        })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log(`Inserted ${response} into users table.`)
+          props.addPhoneNumber(mobileNumber)
+          showVerificationInput = true;
+          verifyMobileNumber();
+        })
+        .catch((err) => {
+          console.log('handlePhoneNumberSubmit: ', err);
+        })
+      }
     }
   }
 
@@ -326,6 +346,36 @@ const Settings = (props) => {
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
   const [tempNotifFreq, setTempNotifFreq] = useState('');
+
+  //!----------------------------------------------------------------------------------------------------------------//
+  const notificationFrequency = () => {
+    let frequency = 5;
+    if (isNaN(Number(tempNotifFreq)))
+      alert('Please enter notification frequency in numerical format. ex: 15');
+    else {
+      if (tempNotifFreq) frequency = tempNotifFreq;
+      fetch('http://localhost:3000/settings/notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: frequency, 
+          monitoring: undefined
+        })
+      })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(`Inserted ${frequency} minutes into users table.`);
+        props.addNotificationFrequency(frequency);
+      })
+      .catch((err) => {
+        console.log('NoficationFrequency: ', err);
+      })
+    }
+  }
   // const notificationFrequency = () => {
   //   // default value for Notification Frequency
   //   let frequency = 5;
@@ -349,8 +399,40 @@ const Settings = (props) => {
   //     );
   //   }
   // };
+  //!----------------------------------------------------------------------------------------------------------------//
 
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
+
+  const monitoringFrequency = () => {
+    let frequency = 2;
+    if (isNaN(Number(tempMonitoringFrequency)))
+      alert('Please enter monitoring frequency in numerical format. ex: 15');
+    else {
+      if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
+      fetch('http://localhost:3000/settings/monitoring', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: undefined, 
+          monitoring: frequency
+        })
+      })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(`Inserted ${frequency} minutes into users table.`)
+        props.addMonitoringFrequency(frequency)
+      })
+      .catch((err) => {
+        console.log('MonitoringFrequency: ', err);
+      })
+    }
+  }
+
+  //!----------------------------------------------------------------------------------------------------------------//
   // const monitoringFrequency = () => {
   //   // default value for Monitoring Frequency
   //   let frequency = 2;
@@ -374,6 +456,7 @@ const Settings = (props) => {
   //     );
   //   }
   // };
+//!----------------------------------------------------------------------------------------------------------------//
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');

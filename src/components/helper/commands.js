@@ -507,7 +507,8 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 
     if (!runningContainers.length) return;
     const containerParameters = {}
-      runningContainers.forEach((container) => {
+
+    runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
         ID: container.ID,
         names: container.Name,
@@ -520,7 +521,8 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
         timestamp: 'current_timestamp'
       }
     });
-    stoppedContainers.forEach((container) => { 
+    if (stoppedContainers.length >= 1) {
+      stoppedContainers.forEach((container) => { 
         containerParameters[container.Names] = {
           ID: container.ID,
           names: container.Names,
@@ -532,7 +534,8 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
           pid: '0',
           timestamp: 'current_timestamp'
         }
-    });
+      });
+    }
     fetch('http://localhost:3000/init/addMetrics', {
     method: 'POST',
     headers: {
@@ -589,7 +592,7 @@ export const getContainerGitUrl = (container) => {
   .then((data) => data.json())
   .then((response) => {
     console.log(response);
-    //need to figure out what I actually want to return
+    //I believe this should return the github_url that is linked to the container
     return response;
   })
   .catch((err) => {

@@ -18,14 +18,14 @@ router.get('/',
 router.post('/timezone',
   initController.timeZone,
   (req, res) => {
-    return res.status(200);
+    return res.sendStatus(200);
   }
 );
 
 router.post('/github',
   initController.gitURL,
   (req, res) => {
-    return res.status(200).json(res.locals.data);
+    return res.status(200).json(res.locals.url);
   }
 );
 

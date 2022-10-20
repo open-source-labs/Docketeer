@@ -38,21 +38,18 @@ const App = (props) => {
 
   if (role === 'system admin') { return (  
     <div>
-      Am I in App?
       <SysAdminView />
     </div>
     )
   }
   else if (role === 'admin') { return (
     <div>
-      Am I in App?
       <AdminView />
     </div>
     )
   }
   else if (role === 'user') { return (
     <div>
-      Am I in App?
       <UserView />
     </div>
     )

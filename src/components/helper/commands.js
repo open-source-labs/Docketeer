@@ -499,16 +499,16 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 
  export const writeToDb = () => {
   //2.5 minute intervals for data (used to be 5 minutes)
-  const interval = 15000;
+  const interval = 30000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
     const stoppedContainers = state.containersList.stoppedList;
-    console.log('Running Containers: ', runningContainers)
 
     if (!runningContainers.length) return;
     const containerParameters = {}
-      runningContainers.forEach((container) => {
+
+    runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
         ID: container.ID,
         names: container.Name,
@@ -521,7 +521,8 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
         timestamp: 'current_timestamp'
       }
     });
-    stoppedContainers.forEach((container) => { 
+    if (stoppedContainers.length >= 1) {
+      stoppedContainers.forEach((container) => { 
         containerParameters[container.Names] = {
           ID: container.ID,
           names: container.Names,
@@ -533,7 +534,8 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
           pid: '0',
           timestamp: 'current_timestamp'
         }
-    });
+      });
+    }
     fetch('http://localhost:3000/init/addMetrics', {
     method: 'POST',
     headers: {
@@ -590,7 +592,7 @@ export const getContainerGitUrl = (container) => {
   .then((data) => data.json())
   .then((response) => {
     console.log(response);
-    //need to figure out what I actually want to return
+    //I believe this should return the github_url that is linked to the container
     return response;
   })
   .catch((err) => {

@@ -52,32 +52,32 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 //! Need to delete createTheme
-const theme = createTheme({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle'
-    }
-  },
-  button: {
-    '& > *': {
-      pointerEvents: 'none'
-    },
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top'
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green'
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30
-  }
-});
+// const theme = createTheme({
+//   root: {
+//     '& .MuiTextField-root': {
+//       marginLeft: 5,
+//       marginBottom: 15,
+//       width: 220,
+//       verticalAlign: 'middle'
+//     }
+//   },
+//   button: {
+//     '& > *': {
+//       pointerEvents: 'none'
+//     },
+//     marginLeft: 5,
+//     width: 100,
+//     verticalAlign: 'top'
+//   },
+//   verifiedIcon: {
+//     verticalAlign: 'top',
+//     color: 'green'
+//   },
+//   description: {
+//     marginLeft: 5,
+//     marginBottom: 30
+//   }
+// });
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -581,7 +581,12 @@ const Settings = (props) => {
         <TableCell align='center'>
           <TextField
             // Theme: ml: 5, mb: 15, width: 220, verticalAlign
-            theme={theme.root}
+            // theme={theme.root}
+            sx={{
+              ml: 5,
+              mb: 15,
+              width: 220
+            }}
             id='gittext'
             label='Main repository url'
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
@@ -597,9 +602,10 @@ const Settings = (props) => {
         <TableCell>
           <Button
             // className={classes.button}
-            theme={theme.button}
+            // // theme={theme.button}
             sx={{
-              ml: 1
+              ml: 1,
+              width: 100
             }}
             size='medium'
             variant='contained'
@@ -636,11 +642,7 @@ const Settings = (props) => {
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
         {/* First Form */}
-        <form
-          // className={classes.root}
-          theme={theme.root}
-          autoComplete='off'
-        >
+        <form className='settingsForm' autoComplete='off'>
           <div>
             <TextField
               required
@@ -656,8 +658,11 @@ const Settings = (props) => {
             />
             {!isVerified ? (
               <Button
-                // className={classes.button}
-                theme={theme.button}
+                sx={{
+                  ml: 1,
+                  width: 100
+                  // Missing verticalAlign: 'top'
+                }}
                 size='medium'
                 variant='contained'
                 onClick={(e) => handlePhoneNumberSubmit(e)}
@@ -669,7 +674,7 @@ const Settings = (props) => {
               <CheckCircleIcon
                 fontSize='large'
                 // className={classes.verifiedIcon}
-                theme={theme.verifiedIcon}
+                // // theme={theme.verifiedIcon}
               />
             )}
           </div>
@@ -677,11 +682,7 @@ const Settings = (props) => {
 
         {/* Verification Input */}
         {showVerificationInput ? (
-          <form
-            // className={classes.root}
-            theme={theme.root}
-            autoComplete='off'
-          >
+          <form className='settingsForm' autoComplete='off'>
             <div className='verification-code'>
               <TextField
                 required
@@ -694,8 +695,11 @@ const Settings = (props) => {
                 size='small'
               />
               <Button
-                // className={classes.button}
-                theme={theme.button}
+                sx={{
+                  ml: 1,
+                  width: 100
+                  // Missing verticalAlign: 'top'
+                }}
                 size='medium'
                 // color='secondary'
                 variant='contained'
@@ -722,8 +726,12 @@ const Settings = (props) => {
           </RadioGroup>
           <br />
           <Button
-            // className={classes.button}
-            theme={theme.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
+            // // theme={theme.button}
             size='medium'
             variant='contained'
             name='submit-contact-pref'
@@ -750,11 +758,7 @@ const Settings = (props) => {
         <p>1. Setup / update notification criteria</p>
         <br />
         <div>
-          <form
-            // className={classes.root}
-            theme={theme.root}
-            autoComplete='off'
-          >
+          <form className='settingsForm' autoComplete='off'>
             <TextField
               id='freqtext'
               label='Notification frequency, min'
@@ -767,8 +771,11 @@ const Settings = (props) => {
               size='small'
             />
             <Button
-              // className={classes.button}
-              theme={theme.button}
+              sx={{
+                ml: 1,
+                width: 100
+                // Missing verticalAlign: 'top'
+              }}
               size='medium'
               variant='contained'
               onClick={(e) => notificationFrequency(e)}
@@ -779,14 +786,10 @@ const Settings = (props) => {
         </div>
 
         <div>
-          <form
-            // className={classes.root}
-            theme={theme.root}
-            autoComplete='off'
-          >
+          <form className='settingsForm' autoComplete='off'>
             <TextField
               // className={classes.textfield}
-              theme={theme.root}
+              // // theme={theme.root}
               id='monitortext'
               label='Monitoring frequency, min'
               helperText='* 2 min is recommended'
@@ -798,8 +801,11 @@ const Settings = (props) => {
               size='small'
             />
             <Button
-              // className={classes.button}
-              theme={theme.button}
+              sx={{
+                ml: 1,
+                width: 100
+                // Missing verticalAlign: 'top'
+              }}
               size='medium'
               variant='contained'
               onClick={(e) => monitoringFrequency(e)}
@@ -814,7 +820,7 @@ const Settings = (props) => {
         <br />
         <form
           // className={classes.root}
-          theme={theme.root}
+          // // theme={theme.root}
           autoComplete='off'
         >
           Current CPU Threshold: {`>${cpu_threshold}%`}
@@ -831,8 +837,11 @@ const Settings = (props) => {
               size='small'
             />
             <Button
-              // className={classes.button}
-              theme={theme.button}
+              sx={{
+                ml: 1,
+                width: 100
+                // Missing verticalAlign: 'top'
+              }}
               size='medium'
               variant='contained'
               onClick={() => handleCpuSubmit(cpuThreshold)}
@@ -854,8 +863,11 @@ const Settings = (props) => {
               size='small'
             />
             <Button
-              // className={classes.button}
-              theme={theme.button}
+              sx={{
+                ml: 1,
+                width: 100
+                // Missing verticalAlign: 'top'
+              }}
               size='medium'
               variant='contained'
               onClick={() => handleMemSubmit(memThreshold)}
@@ -880,8 +892,11 @@ const Settings = (props) => {
             />
           </div>
           <Button
-            // className={classes.button}
-            theme={theme.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             variant='contained'
             onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
@@ -910,11 +925,7 @@ const Settings = (props) => {
       </div>
 
       <div className='settings-container'>
-        <div
-          id='description'
-          // className={classes.description}
-          theme={theme.description}
-        ></div>
+        <div id='description' className='settingsDescription'></div>
 
         <TableContainer>
           <Table>

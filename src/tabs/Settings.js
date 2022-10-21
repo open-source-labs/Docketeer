@@ -10,8 +10,9 @@ import * as categories from '../../redux/constants/notificationCategories';
 import AccountDisplay from '../components/display/AccountDisplay';
 
 // Material UI Imports
-// import { makeStyles } from '@mui/material/styles';
+// import { makeStyles } from '@mui/material/styles'; //! Need to delete
 import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { spacing } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -49,32 +50,33 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
-// const theme = createTheme({
-//   root: {
-//     '& .MuiTextField-root': {
-//       marginLeft: 5,
-//       marginBottom: 15,
-//       width: 220,
-//       verticalAlign: 'middle'
-//     }
-//   },
-//   button: {
-//     '& > *': {
-//       pointerEvents: 'none'
-//     },
-//     marginLeft: 5,
-//     width: 100,
-//     verticalAlign: 'top'
-//   },
-//   verifiedIcon: {
-//     verticalAlign: 'top',
-//     color: 'green'
-//   },
-//   description: {
-//     marginLeft: 5,
-//     marginBottom: 30
-//   }
-// });
+//! Need to delete createTheme
+const theme = createTheme({
+  root: {
+    '& .MuiTextField-root': {
+      marginLeft: 5,
+      marginBottom: 15,
+      width: 220,
+      verticalAlign: 'middle'
+    }
+  },
+  button: {
+    '& > *': {
+      pointerEvents: 'none'
+    },
+    marginLeft: 5,
+    width: 100,
+    verticalAlign: 'top'
+  },
+  verifiedIcon: {
+    verticalAlign: 'top',
+    color: 'green'
+  },
+  description: {
+    marginLeft: 5,
+    marginBottom: 30
+  }
+});
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -113,14 +115,14 @@ const Settings = (props) => {
         metric: metricName.toLowerCase()
       })
     })
-    .then((data) => data.json())
-    .then((response) => {
-      fetchNotificationSettings();
-      console.log('Insert container and settings completed: ', response)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .then((data) => data.json())
+      .then((response) => {
+        fetchNotificationSettings();
+        console.log('Insert container and settings completed: ', response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // handle uncheck
@@ -136,15 +138,15 @@ const Settings = (props) => {
         metric: metricName.toLowerCase()
       })
     })
-    .then((data) => data.json())
-    .then((response) => {
-      fetchNotificationSettings();
-      console.log('Delete container settings completed: ', response)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
+      .then((data) => data.json())
+      .then((response) => {
+        fetchNotificationSettings();
+        console.log('Delete container settings completed: ', response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   /**
    * @title NOTIFICATION PREFERENCES
@@ -158,13 +160,13 @@ const Settings = (props) => {
         'Content-Type': 'application/json'
       }
     })
-    .then((data) => data.json())
-    .then((response) => {
-      props.addMemoryNotificationSetting(response.memory);
-      props.addCpuNotificationSetting(response.cpu);
-      props.addStoppedNotificationSetting(response.stopped);
-    })
-  }
+      .then((data) => data.json())
+      .then((response) => {
+        props.addMemoryNotificationSetting(response.memory);
+        props.addCpuNotificationSetting(response.cpu);
+        props.addStoppedNotificationSetting(response.stopped);
+      });
+  };
 
   /**
    * @title COMMUNICATION
@@ -184,7 +186,7 @@ const Settings = (props) => {
    */
 
   const handlePhoneNumberSubmit = () => {
-    if(!mobileNumber) alert('Please enter phone number');
+    if (!mobileNumber) alert('Please enter phone number');
     else {
       if (isNaN(Number(mobileNumber)))
         alert('Please enter phone number in numerical format. ex: 123456789');
@@ -201,20 +203,20 @@ const Settings = (props) => {
             digits: [5, 2]
           })
         })
-        .then((data) => data.json())
-        .then((response) => {
-          console.log(`Inserted ${response} into users table.`)
-          props.addPhoneNumber(mobileNumber)
-          showVerificationInput = true;
-          verifyMobileNumber();
-          document.getElementById('textfield').value = '';
-        })
-        .catch((err) => {
-          console.log('handlePhoneNumberSubmit: ', err);
-        })
+          .then((data) => data.json())
+          .then((response) => {
+            console.log(`Inserted ${response} into users table.`);
+            props.addPhoneNumber(mobileNumber);
+            showVerificationInput = true;
+            verifyMobileNumber();
+            document.getElementById('textfield').value = '';
+          })
+          .catch((err) => {
+            console.log('handlePhoneNumberSubmit: ', err);
+          });
       }
     }
-  }
+  };
 
   // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM
@@ -237,21 +239,21 @@ const Settings = (props) => {
         body: JSON.stringify({
           user: 'admin',
           phoneNumber: undefined,
-          notification: frequency, 
+          notification: frequency,
           monitoring: undefined
         })
       })
-      .then((data) => data.json())
-      .then((response) => {
-        console.log(`Inserted ${frequency} minutes into users table.`);
-        props.addNotificationFrequency(frequency);
-        setTempNotifFreq('');
-      })
-      .catch((err) => {
-        console.log('NoficationFrequency: ', err);
-      })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log(`Inserted ${frequency} minutes into users table.`);
+          props.addNotificationFrequency(frequency);
+          setTempNotifFreq('');
+        })
+        .catch((err) => {
+          console.log('NoficationFrequency: ', err);
+        });
     }
-  }
+  };
 
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
 
@@ -269,21 +271,21 @@ const Settings = (props) => {
         body: JSON.stringify({
           user: 'admin',
           phoneNumber: undefined,
-          notification: undefined, 
+          notification: undefined,
           monitoring: frequency
         })
       })
-      .then((data) => data.json())
-      .then((response) => {
-        console.log(`Inserted ${frequency} minutes into users table.`)
-        props.addMonitoringFrequency(frequency)
-        setTempMonitoringFrequency('');
-      })
-      .catch((err) => {
-        console.log('MonitoringFrequency: ', err);
-      })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log(`Inserted ${frequency} minutes into users table.`);
+          props.addMonitoringFrequency(frequency);
+          setTempMonitoringFrequency('');
+        })
+        .catch((err) => {
+          console.log('MonitoringFrequency: ', err);
+        });
     }
-  }
+  };
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
@@ -333,11 +335,11 @@ const Settings = (props) => {
         'Content-Type': 'application/json'
       }
     })
-    .then((data) => data.json())
-    .then((response) => {
-      console.log(response);
-      return response;
-    })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(response);
+        return response;
+      });
     // return query(queryType.GET_CONTAINERS, []);
   };
   //! updateState is not being called anywhere...so not really sure if this is actually happening.
@@ -347,7 +349,7 @@ const Settings = (props) => {
       stateObject[el.id] = el.github_url;
     });
   };
-  
+
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
 
   const githubLink = (event) => {
@@ -367,17 +369,17 @@ const Settings = (props) => {
           url: github_url
         })
       })
-      .then((data) => data.json())
-      .then((response) => {
-        console.log('githubLink: ', response);
-        setTempGithubLink(stateObject);
-        return response;
-      })
-      .catch((err) => {
-        console.log('githubLink: ', err);
-      })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log('githubLink: ', response);
+          setTempGithubLink(stateObject);
+          return response;
+        })
+        .catch((err) => {
+          console.log('githubLink: ', err);
+        });
     }
-  }
+  };
 
   // Redux: Map state to props
   const _id = useSelector((state) => state.session._id);
@@ -577,8 +579,8 @@ const Settings = (props) => {
         </TableCell>
         <TableCell align='center'>
           <TextField
-            // className={classes.textfield}
-            // theme={root}
+            // Theme: ml: 5, mb: 15, width: 220, verticalAlign
+            theme={theme.root}
             id='gittext'
             label='Main repository url'
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
@@ -594,6 +596,10 @@ const Settings = (props) => {
         <TableCell>
           <Button
             // className={classes.button}
+            theme={theme.button}
+            sx={{
+              ml: 1
+            }}
             size='medium'
             variant='contained'
             name={container.Names ? container.Names : container.Name}
@@ -631,7 +637,7 @@ const Settings = (props) => {
         {/* First Form */}
         <form
           // className={classes.root}
-          theme={root}
+          theme={theme.root}
           autoComplete='off'
         >
           <div>
@@ -650,6 +656,7 @@ const Settings = (props) => {
             {!isVerified ? (
               <Button
                 // className={classes.button}
+                theme={theme.button}
                 size='medium'
                 variant='contained'
                 onClick={(e) => handlePhoneNumberSubmit(e)}
@@ -661,6 +668,7 @@ const Settings = (props) => {
               <CheckCircleIcon
                 fontSize='large'
                 // className={classes.verifiedIcon}
+                theme={theme.verifiedIcon}
               />
             )}
           </div>
@@ -670,6 +678,7 @@ const Settings = (props) => {
         {showVerificationInput ? (
           <form
             // className={classes.root}
+            theme={theme.root}
             autoComplete='off'
           >
             <div className='verification-code'>
@@ -685,6 +694,7 @@ const Settings = (props) => {
               />
               <Button
                 // className={classes.button}
+                theme={theme.button}
                 size='medium'
                 variant='contained'
                 onClick={handleSubmit}
@@ -711,6 +721,7 @@ const Settings = (props) => {
           <br />
           <Button
             // className={classes.button}
+            theme={theme.button}
             size='medium'
             variant='contained'
             name='submit-contact-pref'
@@ -739,6 +750,7 @@ const Settings = (props) => {
         <div>
           <form
             // className={classes.root}
+            theme={theme.root}
             autoComplete='off'
           >
             <TextField
@@ -754,6 +766,7 @@ const Settings = (props) => {
             />
             <Button
               // className={classes.button}
+              theme={theme.button}
               size='medium'
               variant='contained'
               onClick={(e) => notificationFrequency(e)}
@@ -766,10 +779,12 @@ const Settings = (props) => {
         <div>
           <form
             // className={classes.root}
+            theme={theme.root}
             autoComplete='off'
           >
             <TextField
               // className={classes.textfield}
+              theme={theme.root}
               id='monitortext'
               label='Monitoring frequency, min'
               helperText='* 2 min is recommended'
@@ -782,6 +797,7 @@ const Settings = (props) => {
             />
             <Button
               // className={classes.button}
+              theme={theme.button}
               size='medium'
               variant='contained'
               onClick={(e) => monitoringFrequency(e)}
@@ -796,6 +812,7 @@ const Settings = (props) => {
         <br />
         <form
           // className={classes.root}
+          theme={theme.root}
           autoComplete='off'
         >
           Current CPU Threshold: {`>${cpu_threshold}%`}
@@ -813,6 +830,7 @@ const Settings = (props) => {
             />
             <Button
               // className={classes.button}
+              theme={theme.button}
               size='medium'
               variant='contained'
               onClick={() => handleCpuSubmit(cpuThreshold)}
@@ -835,6 +853,7 @@ const Settings = (props) => {
             />
             <Button
               // className={classes.button}
+              theme={theme.button}
               size='medium'
               variant='contained'
               onClick={() => handleMemSubmit(memThreshold)}
@@ -860,6 +879,7 @@ const Settings = (props) => {
           </div>
           <Button
             // className={classes.button}
+            theme={theme.button}
             size='medium'
             variant='contained'
             onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
@@ -891,6 +911,7 @@ const Settings = (props) => {
         <div
           id='description'
           // className={classes.description}
+          theme={theme.description}
         ></div>
 
         <TableContainer>

@@ -499,7 +499,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 
  export const writeToDb = () => {
   //2.5 minute intervals for data (used to be 5 minutes)
-  const interval = 30000;
+  const interval = 150000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;

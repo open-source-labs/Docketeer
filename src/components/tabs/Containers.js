@@ -100,7 +100,7 @@ const Containers = (props) => {
           backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [cpuData, memoryData, 0, 100]
+          data: [cpuData, memoryData]
           // barPercentage: 0.4
         },
         {
@@ -109,12 +109,7 @@ const Containers = (props) => {
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [
-            ((100 - cpuData) * 100).toFixed(2),
-            ((100 - memoryData) * 100).toFixed(2),
-            0,
-            100
-          ]
+          data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)]
           // barPercentage: 0.4
         }
       ]
@@ -157,7 +152,14 @@ const Containers = (props) => {
                       text: 'Docker Container Chart'
                     }
                   },
-                  maintainAspectRatio: false
+                  height: '200px',
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      suggestedMin: 0,
+                      suggestedMax: 100
+                    }
+                  }
                 }}
               />
             </div>

@@ -180,8 +180,31 @@ const Metrics = () => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
-
-      buildAxis(dataPoint.created_at);
+      let date = "";
+      console.log(typeof dataPoint.created_at);
+      console.log(dataPoint.created_at.length);
+      console.log((dataPoint.created_at).length);
+      console.log(dataPoint.created_at[0])
+      let time = "";
+      for (let i = 1; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === 'T') {
+          break
+        }
+        else (date += dataPoint.created_at[i]);
+      }
+      for (let i = 11; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === '.') {
+          break
+        }
+        else (time += dataPoint.created_at[i]);
+      }
+      // date.join("");
+      // date.replace(/([,])+/g, '');
+      // date.toString().split("").slice(1,10).join("");
+      // time.toString().split("").slice(12,19).join("");
+      let timeStamp = `${date} @ ${time}`
+      buildAxis(timeStamp);
+      // buildAxis(dataPoint.created_at);
     });
 
     let longest = 0; // 32

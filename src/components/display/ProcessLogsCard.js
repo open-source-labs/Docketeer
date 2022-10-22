@@ -8,6 +8,7 @@
 
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import ProcessLogsTable from '../display/ProcessLogsTable';
 import {
@@ -18,24 +19,25 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-const ProcessLogsCard = props =>{    
-  
+const ProcessLogsCard = (props) =>{    
+  const navigate = useNavigate();
 
   return (
 
+    <button className="btn-process" onClick={() => navigate(`/app/logTable/${props.container.ID}`)}>
+      <div className="box" key={`${props.status}Box-${props.index}`}>
 
-    <div className="box" key={`${props.status}Box-${props.index}`}>
+        <div className="box-label">
+          <h3>{props.container.Name || props.container.Names}</h3>
+          <p>ID: {props.container.ID}</p>
+        </div>
+    
+        <div className="stopped-info">
+          <strong>Status: </strong> {props.status}
+        </div>
 
-      <div className="box-label">
-        <h3>{props.container.Name || props.container.Names}</h3>
-        <p>ID: {props.container.ID}</p>
       </div>
-  
-      <div className="stopped-info">
-        <strong>Status: </strong> {props.status}
-      </div>
-
-    </div>
+    </button>
 
   );
 };

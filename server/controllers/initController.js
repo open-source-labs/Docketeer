@@ -31,7 +31,6 @@ initController.initDatabase = (req, res, next) => {
 initController.timeZone = (req, res, next) => {
   const parameter = [req.body.timezone.toString()]
   console.log(parameter)
-  //!Abigail... why can't I do the $1 thing? Does it only work if you have more than one?
   db.query2(`set time zone $1`, parameter)
     .then((data) => {
       return next();

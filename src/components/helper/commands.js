@@ -499,7 +499,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 
  export const writeToDb = () => {
   //2.5 minute intervals for data (used to be 5 minutes)
-  const interval = 30000;
+  const interval = 150000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
@@ -554,8 +554,6 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  console.log('TimeZone: ', offsetTimeZoneInHours);
-  console.log('setDbSessionTimeZone')
 
   fetch('http://localhost:3000/init/timezone', {
     method: 'POST',
@@ -578,8 +576,6 @@ export const setDbSessionTimeZone = () => {
 
 //I'm not sure if this is actually set up and running. May need to link Github URLs first on Settings page
 export const getContainerGitUrl = (container) => {
-  console.log('front-end container: ', container)
-  console.log('Running getContainerGitUrl');
   fetch('http://localhost:3000/init/github', {
     method: 'POST',
     headers: {

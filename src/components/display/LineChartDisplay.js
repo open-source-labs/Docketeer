@@ -151,7 +151,6 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
-    console.log('This is CONTAINERMETRICS: ', containerMetrics)
 
     const auxObj = {};
 
@@ -162,7 +161,6 @@ const Metrics = (props) => {
         writtenIO: buildBarGraphObj(container),
         readIO: buildBarGraphObj(container)
       };
-      // console.log('This is the auxobj', auxObj);
     });
 
     // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
@@ -181,8 +179,22 @@ const Metrics = (props) => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
-
-      buildAxis(dataPoint.created_at);
+      let date = "";
+      let time = "";
+      for (let i = 1; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === 'T') {
+          break
+        }
+        else (date += dataPoint.created_at[i]);
+      }
+      for (let i = 11; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === '.') {
+          break
+        }
+        else (time += dataPoint.created_at[i]);
+      }
+      let timeStamp = `${date} @ ${time}`
+      buildAxis(timeStamp);
     });
 
     let longest = 0; // 32

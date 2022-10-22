@@ -39,7 +39,9 @@ const ProcessLogsTable = (props) => {
     const containerId = e.target.id;
     const optionsObj = buildOptionsObj(containerId);
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
+    console.log('handleGetLogs ContainerLogs: ', containerLogs);
     setLogs(containerLogs);
+    console.log('Current logs in State', logs);
   };
 
   const StdoutTableData = () => {

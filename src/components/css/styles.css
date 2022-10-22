@@ -531,6 +531,11 @@ ul {
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
+.btn-process {
+  border: 0px solid #e1e4e6;
+  cursor: pointer;
+  background-color: #e1e4e6;
+}
 
 .btn {
   /* background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%); */

@@ -29,11 +29,11 @@ import {
 const NewUserDisplay = () => {
   // const classes = useStyles();
   return (
-    <div>
-      <div className='metric-section-title'>
-        <h3>Create a New User</h3>
-      </div>
-      <div className='settings-container'>
+    <div style={{ background: '#E1E4E6' }}>
+      <div className='settings-container' style={{ marginTop: '60px' }}>
+        <div className='metric-section-title'>
+          <h3>Create a New User</h3>
+        </div>
         <p>
           Create a new Docketeer account for an employee. Please confirm with
           the employee that their information is accurate before submitting.
@@ -46,12 +46,24 @@ const NewUserDisplay = () => {
           logging in.
         </p>
         <br />
-        <form
-        // className={classes.root}
-        >
-          <TextField id='signupEmail' label='Email' variant='outlined' />
+        <form className='settingsForm'>
+          <TextField
+            id='signupEmail'
+            label='Email'
+            variant='outlined'
+            sx={{
+              m: 1
+            }}
+          />
           <br />
-          <TextField id='signupUsername' label='Username' variant='outlined' />
+          <TextField
+            id='signupUsername'
+            label='Username'
+            variant='outlined'
+            sx={{
+              m: 1
+            }}
+          />
           <br />
           <TextField
             id='signupPassword'
@@ -59,6 +71,9 @@ const NewUserDisplay = () => {
             variant='outlined'
             type='password'
             onChange={() => checkPasswordLength()}
+            sx={{
+              m: 1
+            }}
           />
           <span id='password-length-alert'></span>
           <br />
@@ -68,6 +83,9 @@ const NewUserDisplay = () => {
             variant='outlined'
             type='password'
             onChange={() => confirmPassword()}
+            sx={{
+              m: 1
+            }}
           />
           <span id='password-confirmation-alert'></span>
           <br />
@@ -77,6 +95,9 @@ const NewUserDisplay = () => {
             variant='outlined'
             onChange={() => {
               checkPhone(document.getElementById('signupPhone').value);
+            }}
+            sx={{
+              m: 1
             }}
           />
           <br />
@@ -88,6 +109,9 @@ const NewUserDisplay = () => {
             // className={classes.button}
             type='submit'
             onClick={(e) => handleNewUser(e)}
+            sx={{
+              m: 1
+            }}
           >
             Submit
           </Button>

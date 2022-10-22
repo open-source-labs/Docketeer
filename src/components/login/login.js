@@ -152,7 +152,9 @@ const Login = () => {
             >
               {/* Login */}
               {/* FOR DEBUGGING */}
-              <Link to='/'>Login</Link>
+              <Link style={{ textDecoration: 'none', color: '#fff' }} to='/'>
+                Login
+              </Link>
             </Button>
             <hr />
             <div

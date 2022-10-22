@@ -1,7 +1,7 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../redux/actions/actions';
@@ -26,6 +26,7 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const SysAdmin = (props) => {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -101,6 +102,7 @@ const SysAdmin = (props) => {
       .catch((err) => {
         console.log(err);
       });
+      navigate('/login');
   };
 
   useEffect(() => {

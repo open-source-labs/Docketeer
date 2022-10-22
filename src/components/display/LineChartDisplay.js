@@ -181,8 +181,22 @@ const Metrics = (props) => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
-
-      buildAxis(dataPoint.created_at);
+      let date = "";
+      let time = "";
+      for (let i = 1; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === 'T') {
+          break
+        }
+        else (date += dataPoint.created_at[i]);
+      }
+      for (let i = 11; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === '.') {
+          break
+        }
+        else (time += dataPoint.created_at[i]);
+      }
+      let timeStamp = `${date} @ ${time}`
+      buildAxis(timeStamp);
     });
 
     let longest = 0; // 32

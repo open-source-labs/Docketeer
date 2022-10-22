@@ -3,7 +3,6 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Authentication = () => {
-  console.log("Authentication Running")
   // grab session information from state
   const session = useSelector((state) => state.session.isLoggedIn);
   // if session is false navigate to login, if session is true navigate to outlet

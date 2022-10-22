@@ -151,7 +151,6 @@ const Metrics = (props) => {
     }
 
     const containerMetrics = await getContainerMetrics();
-    console.log('This is CONTAINERMETRICS: ', containerMetrics)
 
     const auxObj = {};
 
@@ -162,7 +161,6 @@ const Metrics = (props) => {
         writtenIO: buildBarGraphObj(container),
         readIO: buildBarGraphObj(container)
       };
-      // console.log('This is the auxobj', auxObj);
     });
 
     // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]

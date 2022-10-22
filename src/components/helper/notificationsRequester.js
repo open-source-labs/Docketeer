@@ -153,10 +153,8 @@ const checkForNotifications = (
     const containerObject = getContainerObject(containerList, containerId);
 
     if (containerObject) {
-      console.log(triggeringValue);
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
-      console.log(stat);
       // if the stat should trigger rule
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object

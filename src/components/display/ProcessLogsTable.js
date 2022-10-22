@@ -67,7 +67,7 @@ const ProcessLogsTable = (props) => {
       });
     });
 
-    return <DataGrid rows={rows} columns={columns} />;
+    return <DataGrid rows={rows} columns={columns} rowHeight={200} />;
 
     // return stdout.map((log, index) => {
     //   // * Debugging

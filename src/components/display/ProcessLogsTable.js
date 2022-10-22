@@ -58,6 +58,11 @@ const ProcessLogsTable = (props) => {
     const containerId = e.target.id;
     const optionsObj = buildOptionsObj(containerId);
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
+
+    // * Debugging
+    console.log('containerId: ', containerId);
+    console.log('Container Logs: ', containerLogs);
+
     setLogs(containerLogs);
   };
 

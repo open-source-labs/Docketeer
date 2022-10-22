@@ -361,60 +361,40 @@ const Metrics = () => {
   };
 
   const cpuOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index'
+    plugins:{
+      title: { display: true, text: 'CPU', fontSize: 23, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'CPU',
-      fontSize: 23
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false
   };
 
   const memoryOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index'
+    plugins:{
+      title: { display: true, text: 'MEMORY', fontSize: 23, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'MEMORY',
-      fontSize: 23
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false
   };
 
   const writtenIOOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index'
+    plugins:{
+      title: { display: true, text: 'IO BYTES WRITTEN BY IMAGE', fontSize: 23, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'IO BYTES WRITTEN BY IMAGE',
-      fontSize: 23
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false
   };
   const readIOOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index'
+    plugins:{
+      title: { display: true, text: 'IO BYTES READ BY IMAGE', fontSize: 23, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'IO BYTES READ BY IMAGE',
-      fontSize: 23
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: false
   };

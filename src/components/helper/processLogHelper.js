@@ -57,8 +57,6 @@ export const makeArrayOfObjects = (string, containerName) => {
         }
       }
       obj.containerName = containerName;
-      console.log('Object from processLogHelper', obj);
-      // Prints out logMessage and timeStamp
       return obj;
     });
   return arrayOfObjects;

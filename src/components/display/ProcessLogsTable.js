@@ -5,7 +5,7 @@ import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 
-import { store } from '../../renderer/store.js';
+import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
 

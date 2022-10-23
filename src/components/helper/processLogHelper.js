@@ -14,9 +14,9 @@ import * as actions from '../../redux/actions/actions';
  * @param {string} containerId
  * @returns {object} optionsObj
  */
-export const buildOptionsObj = (containerId) => {
+export const buildOptionsObj = (containerIds) => {
   const optionsObj = {
-    containerId: containerId
+    containerIds: containerIds
   };
 
   if (document.getElementById('sinceInput').checked) {
@@ -35,7 +35,7 @@ export const buildOptionsObj = (containerId) => {
  * @param {*} string
  */
 
-export const makeArrayOfObjects = (string) => {
+export const makeArrayOfObjects = (string, containerName) => {
   const arrayOfObjects = string
     .trim()
     .split('\n')
@@ -56,7 +56,7 @@ export const makeArrayOfObjects = (string) => {
           obj.timeStamp = '----';
         }
       }
-
+      obj.containerName = containerName;
       console.log('Object from processLogHelper', obj);
       // Prints out logMessage and timeStamp
       return obj;

@@ -30,7 +30,7 @@ const ProcessLogsTable = (props) => {
   // Get logs button handler function. Grabs logs and updates component state
   const handleGetLogs = (e) => {
     const containerId = e.target.id;
-    const optionsObj = buildOptionsObj(containerId);
+    const optionsObj = buildOptionsObj([containerId]);
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
 
     setLogs(containerLogs);

@@ -27,18 +27,12 @@ const ProcessLogsTable = (props) => {
 
   //   const [rows, setRows] = useState(new Set({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500}));
 
-  // Grab container ID from URL parameter
-  const urlString = window.location.href; // discontinue
-  const containerID = urlString.split('/'); // discontinue
-  const id = containerID[containerID.length - 1]; // discontinue
-
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (e) => {
-    const containerId = e.target.id; // change to array passed in
-    const optionsObj = buildOptionsObj([containerId]); // change to array passed in
+  const handleGetLogs = (idList) => {
+    const optionsObj = buildOptionsObj(idList); 
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
 
     setLogs(containerLogs);
@@ -130,7 +124,6 @@ const ProcessLogsTable = (props) => {
 
   return (
     <div className='renderContainers'>
-      <h1>Container ID: {id} </h1>
 
       <div className='settings-container'>
         <form>
@@ -146,7 +139,7 @@ const ProcessLogsTable = (props) => {
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
 
-          <button id={id} type='button' onClick={handleGetLogs}>
+          <button type='button' onClick={() => handleGetLogs(btnIdList)}>
             Get Logs
           </button>
         </form>

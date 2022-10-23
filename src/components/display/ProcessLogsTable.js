@@ -8,6 +8,7 @@ import * as actions from '../../redux/actions/actions';
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { renderCellExpand } from '../helper/logsHoverEffect.js';
 
 /**
  * Displays process logs as table
@@ -25,7 +26,7 @@ const ProcessLogsTable = (props) => {
   const [btnIdList, setBtnIdList] = useState([]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([]);
 
-  //   const [rows, setRows] = useState(new Set({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500}));
+  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
@@ -39,10 +40,10 @@ const ProcessLogsTable = (props) => {
   };
 
   const columns = [
-    { field: 'container', headerName: 'Container', width: 150 },
-    { field: 'type', headerName: 'Log Type', width: 150 },
-    { field: 'time', headerName: 'Timestamp', width: 150 },
-    { field: 'message', headerName: 'Message', width: 400 }
+    { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
+    { field: 'type', headerName: 'Log Type', width: 120, renderCell: renderCellExpand },
+    { field: 'time', headerName: 'Timestamp', width: 200, renderCell: renderCellExpand },
+    { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
   ];
 
   const createContainerCheckboxes = () => {
@@ -89,11 +90,11 @@ const ProcessLogsTable = (props) => {
   };
 
   // Populating the StdOut Table Data Using stdout.map
-  const StdoutTableData = () => {
-    const rows = [];
+  const tableData = () => {
+    const newRows = [];
 
     stdout.forEach((log, index) => {
-      rows.push({
+      newRows.push({
         container: log.containerName,
         type: 'stdout',
         time: log.timeStamp,
@@ -102,15 +103,8 @@ const ProcessLogsTable = (props) => {
       });
     });
 
-    return <DataGrid rows={rows} columns={columns} rowHeight={200} />;
-  };
-
-  // Populating the StdErr Table Data Using stderr.map
-  const StderrTableData = () => {
-    const rows = [];
-
     stderr.forEach((log, index) => {
-      rows.push({
+      newRows.push({
         container: log.containerName,
         type: 'stderr',
         time: log.timeStamp,
@@ -119,7 +113,7 @@ const ProcessLogsTable = (props) => {
       });
     });
 
-    return <DataGrid rows={rows} columns={columns} />;
+    setRows(newRows);
   };
 
   return (
@@ -139,7 +133,10 @@ const ProcessLogsTable = (props) => {
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
 
-          <button type='button' onClick={() => handleGetLogs(btnIdList)}>
+          <button type='button' onClick={async () => {
+            await handleGetLogs(btnIdList);
+            tableData();
+          }}>
             Get Logs
           </button>
         </form>
@@ -148,13 +145,15 @@ const ProcessLogsTable = (props) => {
           className='process-logs-container'
           style={{ height: 500, width: '100%' }}
         >
-          <StdoutTableData />
-        </div>
-        <div
-          className='process-logs-container'
-          style={{ height: 500, width: '100%' }}
-        >
-          <StderrTableData />
+          <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
+              },
+            }}
+          />;
         </div>
       </div>
     </div>

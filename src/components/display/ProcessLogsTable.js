@@ -28,8 +28,13 @@ const ProcessLogsTable = (props) => {
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
 
+  // access runningList from state
+  const runningList = store.getState().containersList.runningList;
+  // get inital container name for state
+  const initCont = runningList.find(el => el.ID === id);
+
   const [btnIdList, setBtnIdList] = useState([id]);
-  const [selectedContainerNames, setSelectedContainerNames] = useState([]);
+  const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
 
   const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
 
@@ -52,8 +57,6 @@ const ProcessLogsTable = (props) => {
   ];
 
   const createContainerCheckboxes = (currId) => {
-    // access runningList from state
-    const runningList = store.getState().containersList.runningList;
     // iterate through runningList -> create label and checkbox for each one
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
@@ -92,8 +95,9 @@ const ProcessLogsTable = (props) => {
     const newRows = [];
 
     stdout.forEach((log, index) => {
+      const currCont = runningList.find(el => el.ID === log.containerName);
       newRows.push({
-        container: log.containerName,
+        container: currCont.Name,
         type: 'stdout',
         time: log.timeStamp,
         message: log.logMsg,
@@ -102,8 +106,9 @@ const ProcessLogsTable = (props) => {
     });
 
     stderr.forEach((log, index) => {
+      const currCont = runningList.find(el => el.ID === log.containerName);
       newRows.push({
-        container: log.containerName,
+        container: currCont.Name,
         type: 'stderr',
         time: log.timeStamp,
         message: log.logMsg,
@@ -137,6 +142,7 @@ const ProcessLogsTable = (props) => {
           }}>
             Get Logs
           </button>
+          <h4>SelectedContainers: {selectedContainerNames}</h4>
         </form>
 
         <div
@@ -159,61 +165,3 @@ const ProcessLogsTable = (props) => {
 };
 
 export default ProcessLogsTable;
-
-//   // create function to create rows
-//   const makeRows = () => {
-//     const out = stdout.map((log, index) => {
-//       return {name: log.containerName, type: 'stdout', time: log.timeStamp, message: log.logMsg, id: `out${index}`};
-//     });
-//     // push sterr logs to rows
-//     const err = stderr.map((log, index) => {
-//       return {name: log.containerName, type: 'sterr', time: log.timeStamp, message: log.logMsg, id: `err${index}`};
-//     });
-//     // create array to hold new rows
-//     const newRows = [...out, ...err];
-//     console.log('out', out);
-//     console.log('err', err);
-//     setRows(newRows);
-//   };
-
-//   // const rows = [
-//   //   /** EXAMPLE ROW: 
-//   //    * {name: 'funny container name', type: 'stout', time: '3:00PM', message: 'example message from Docker'}
-//   //    */
-//   //   {container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500}
-//   // ];
-
-//   makeRows();
-
-//   return (
-//     <div className='renderContainers'>
-//       <div className='settings-container'>
-//         <form>
-//           <input type='radio' id='sinceInput' name='logOption' />
-//           <label htmlFor='sinceInput'>Since</label>
-//           <input type='text' id='sinceText' />
-
-//           <input type='radio' id='tailInput' name='logOption' />
-//           <label htmlFor='tailInput'>Tail</label>
-//           <input type='text' id='tailText' />
-//           <FormGroup>
-//             {containerSelectors}  {/** Checkboxes for running containers */}
-//           </FormGroup>
-//           <button type='button' onClick={() => {
-//             handleGetLogs(btnIdList);
-//           }}>Get Logs</button>
-//         </form>
-//         <div className='process-logs-container' style={{height: 500, width: '100%'}}>
-//           <DataGrid 
-//             initialState={{
-//               sorting: {
-//                 sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
-//               },
-//             }}
-//             rows={rows} 
-//             columns={columns} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

@@ -14,9 +14,9 @@ import * as actions from '../../redux/actions/actions';
  * @param {string} containerId
  * @returns {object} optionsObj
  */
-export const buildOptionsObj = (containerIds) => {
+export const buildOptionsObj = (containerIDs) => {
   const optionsObj = {
-    containerIds: containerIds
+    containerIds: containerIDs
   };
 
   if (document.getElementById('sinceInput').checked) {

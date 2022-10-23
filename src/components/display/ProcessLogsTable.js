@@ -23,7 +23,12 @@ const ProcessLogsTable = (props) => {
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
 
-  const [btnIdList, setBtnIdList] = useState([]);
+  // grab clicked container
+  const urlString = window.location.href;
+  const containerID = urlString.split('/');
+  const id = containerID[containerID.length - 1];
+
+  const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([]);
 
   const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
@@ -46,21 +51,14 @@ const ProcessLogsTable = (props) => {
     { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
   ];
 
-  const createContainerCheckboxes = () => {
-    // grab clicked container
-    const urlString = window.location.href;
-    const containerID = urlString.split('/');
-    const id = containerID[containerID.length - 1];
+  const createContainerCheckboxes = (currId) => {
     // access runningList from state
     const runningList = store.getState().containersList.runningList;
     // iterate through runningList -> create label and checkbox for each one
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
-      // ---- currently also unchecked NEEDS FIXED ----
-      if (runningList[i].ID === id){
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
-        // btnIdList.push(runningList[i].ID);
-        // selectedContainerNames.push(runningList[i].Name);
+      if (runningList[i].ID === currId){
+        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
       } else {
         // by default all others should be unchecked
         containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
@@ -70,7 +68,7 @@ const ProcessLogsTable = (props) => {
 
   // create array to hold labels & boxes to render
   const containerSelectors = [];
-  createContainerCheckboxes();
+  createContainerCheckboxes(id);
 
   const handleCheck = (e) => {
     const box = e.target;

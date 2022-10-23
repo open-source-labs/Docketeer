@@ -94,7 +94,7 @@ const ProcessLogsTable = (props) => {
 
     stdout.forEach((log, index) => {
       rows.push({
-        container: 'Container Name',
+        container: log.containerName,
         type: 'stdout',
         time: log.timeStamp,
         message: log.logMsg,
@@ -111,7 +111,7 @@ const ProcessLogsTable = (props) => {
 
     stderr.forEach((log, index) => {
       rows.push({
-        container: 'Container Name',
+        container: log.containerName,
         type: 'stderr',
         time: log.timeStamp,
         message: log.logMsg,

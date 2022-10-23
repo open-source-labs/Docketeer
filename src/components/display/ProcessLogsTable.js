@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as helper from '../helper/commands';
-import { string } from 'prop-types';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { SettingsCellOutlined } from '@mui/icons-material';
 
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -50,7 +41,6 @@ const ProcessLogsTable = (props) => {
     { field: 'type', headerName: 'Log Type', width: 150 },
     { field: 'time', headerName: 'TimeStamp', width: 150 },
     { field: 'message', headerName: 'Message', width: 400 }
-    // { field: 'id', headerName: 'ID', width: 150 }
   ];
 
   // Populating the StdOut Table Data Using stdout.map
@@ -68,21 +58,6 @@ const ProcessLogsTable = (props) => {
     });
 
     return <DataGrid rows={rows} columns={columns} rowHeight={200} />;
-
-    // return stdout.map((log, index) => {
-    //   // * Debugging
-    //   // console.log('stdOut: ', log);
-    //   return (
-    //     <TableRow key={index}>
-    //       <TableCell>
-    //         <span className='log-timestamp'>{log.timeStamp}</span>
-    //       </TableCell>
-    //       <TableCell>
-    //         <span className='log-message'>{log.logMsg}</span>
-    //       </TableCell>
-    //     </TableRow>
-    //   );
-    // });
   };
 
   // Populating the StdErr Table Data Using stderr.map
@@ -100,20 +75,6 @@ const ProcessLogsTable = (props) => {
     });
 
     return <DataGrid rows={rows} columns={columns} />;
-    // return stderr.map((log, index) => {
-    //   // * Debugging
-    //   console.log('stdErr: ', log);
-    //   return (
-    //     <TableRow key={index}>
-    //       <TableCell>
-    //         <span className='log-timestamp'>{log.timeStamp}</span>
-    //       </TableCell>
-    //       <TableCell>
-    //         <span className='log-message'>{log.logMsg}</span>
-    //       </TableCell>
-    //     </TableRow>
-    //   );
-    // });
   };
 
   return (
@@ -140,46 +101,12 @@ const ProcessLogsTable = (props) => {
           style={{ height: 500, width: '100%' }}
         >
           <StdoutTableData />
-          {/* <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>STDOUT:</TableCell>
-                  <TableCell> </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>TimeStamp</TableCell>
-                  <TableCell>Log Message</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <StdoutTableData />
-              </TableBody>
-            </Table>
-          </TableContainer> */}
         </div>
         <div
           className='process-logs-container'
           style={{ height: 500, width: '100%' }}
         >
           <StderrTableData />
-          {/* <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>STDERR:</TableCell>
-                  <TableCell> </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>TimeStamp</TableCell>
-                  <TableCell>Log Message</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <StderrTableData />
-              </TableBody>
-            </Table>
-          </TableContainer> */}
         </div>
       </div>
     </div>

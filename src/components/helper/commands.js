@@ -662,6 +662,7 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
+  const containerLogs = { stdout: [], stderr: [] };
   // build inputCommandString to get logs from command line
   let inputCommandString = 'docker logs --timestamps ';
   if (optionsObj.since) {
@@ -670,17 +671,19 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
   optionsObj.tail
     ? (inputCommandString += `--tail ${optionsObj.tail} `)
     : (inputCommandString += '--tail 50 ');
-  inputCommandString += `${optionsObj.containerId}`;
 
-  const containerLogs = { stdout: [], stderr: [] };
-
-  window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    containerLogs.stdout = makeArrayOfObjects(stdout);
-    containerLogs.stderr = makeArrayOfObjects(stderr);
-  });
+  // iterate through containerIds array in optionsObj
+  for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    inputCommandString += `${optionsObj.containerIds[i]}`;
+  
+    window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
+      containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
+    });
+  }
   return containerLogs;
 };

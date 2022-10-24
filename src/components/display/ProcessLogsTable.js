@@ -8,6 +8,7 @@ import * as actions from '../../redux/actions/actions';
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
 
 /**
  * Displays process logs as table
@@ -36,6 +37,10 @@ const ProcessLogsTable = (props) => {
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
 
   const [rows, setRows] = useState([]);
+
+  const [csvData, setCsvData] = useState([
+    [ 'container', 'type', 'time', 'message']
+  ]);
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
@@ -91,6 +96,7 @@ const ProcessLogsTable = (props) => {
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
     const newRows = [];
+    const newCSV = [];
 
     stdout.forEach((log, index) => {
       const currCont = runningList.find(el => el.ID === log.containerName);
@@ -101,6 +107,7 @@ const ProcessLogsTable = (props) => {
         message: log.logMsg,
         id: `stdout ${index}`
       });
+      newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
     });
 
     stderr.forEach((log, index) => {
@@ -112,9 +119,12 @@ const ProcessLogsTable = (props) => {
         message: log.logMsg,
         id: `stderr ${index}`
       });
+      newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
     });
 
     setRows(newRows);
+    setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
+    console.log('CSV data', csvData);
   };
 
   return (
@@ -141,6 +151,7 @@ const ProcessLogsTable = (props) => {
             Get Logs
           </button>
           <h4>SelectedContainers: {selectedContainerNames}</h4>
+          <CSVLink data={csvData}>Download to CSV</CSVLink>
         </form>
 
         <div

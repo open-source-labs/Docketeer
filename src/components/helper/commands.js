@@ -574,9 +574,8 @@ export const setDbSessionTimeZone = () => {
   })
 };
 
-//I'm not sure if this is actually set up and running. May need to link Github URLs first on Settings page
-export const getContainerGitUrl = (container) => {
-  fetch('http://localhost:3000/init/github', {
+export const getContainerGitUrl = async (container) => {
+  const response = await fetch('http://localhost:3000/init/github', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -585,15 +584,7 @@ export const getContainerGitUrl = (container) => {
       githubUrl: container
     })
   })
-  .then((data) => data.json())
-  .then((response) => {
-    console.log(response);
-    //I believe this should return the github_url that is linked to the container
-    return response;
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+  return await response.json();
 };
 
 /**

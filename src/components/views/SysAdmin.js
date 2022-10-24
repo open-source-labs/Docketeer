@@ -269,7 +269,7 @@ const SysAdmin = (props) => {
           />}
         />
         <Route path='/metrics' element={
-          <Metrics runningList={runningList} 
+          <Metrics key={1} runningList={runningList} 
           />}
         />
         <Route path='/users' element={<UserList />} />

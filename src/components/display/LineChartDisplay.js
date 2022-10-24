@@ -228,17 +228,20 @@ const Metrics = (props) => {
     ob[containerName] = [];
     const time = Number(timePeriod);
     let date = new Date();
+    console.log(`date check:` ,date);
     date.setHours(date.getHours() - time);
     date = date.toISOString();
+    console.log(`final date check:` ,date);
     const urlObj = await helper.getContainerGitUrl(containerName);
 
     if (urlObj.rows.length) {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          since: `${date}`
+          // since: `${date}`
+          since: '2021-10-24T14:12:25.285Z'
         });
-
+        //need an actual url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
 
@@ -288,11 +291,12 @@ const Metrics = (props) => {
       );
       let text = '';
       if (ob.time.length) {
+        console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
         text = 'Github Commits';
         url = (
-          <a href={url} target='_blank' rel='noreferrer'>
+          <a href={ob.url} target='_blank' rel='noreferrer'>
             {text}
           </a>
         );
@@ -323,14 +327,16 @@ const Metrics = (props) => {
   const selectList = () => {
     const result = [];
     const completeContainerList = [...runningList, ...stoppedList];
-    completeContainerList.forEach((container) => {
+    completeContainerList.forEach((container, index) => {
       const containerNameKey = container.Name
         ? container.Name
         : container.Names;
       result.push(
         <FormControlLabel
+          key={`formControl-${index}`}
           control={
             <Checkbox
+              key={`Checkbox-${index}`}
               name={containerNameKey}
               value={containerNameKey}
               color='primary'
@@ -340,8 +346,8 @@ const Metrics = (props) => {
           label={containerNameKey}
         />
       );
+      index++;
     });
-
     result.push(<div></div>);
     currentList = result;
   };
@@ -364,7 +370,7 @@ const Metrics = (props) => {
 
   const cpuOptions = {
     plugins:{
-      title: { display: true, text: 'CPU', fontSize: 23, position: 'top' },
+      title: { display: true, text: 'CPU', font: {size: 18}, position: 'top' },
       tooltips: {enabled: true, mode: 'index'},
       legend: { display: true, position: 'bottom' }
     },
@@ -374,7 +380,7 @@ const Metrics = (props) => {
 
   const memoryOptions = {
     plugins:{
-      title: { display: true, text: 'MEMORY', fontSize: 23, position: 'top' },
+      title: { display: true, text: 'MEMORY', font: {size: 18}, position: 'top' },
       tooltips: {enabled: true, mode: 'index'},
       legend: { display: true, position: 'bottom' }
     },
@@ -384,7 +390,7 @@ const Metrics = (props) => {
 
   const writtenIOOptions = {
     plugins:{
-      title: { display: true, text: 'IO BYTES WRITTEN BY IMAGE', fontSize: 23, position: 'top' },
+      title: { display: true, text: 'IO BYTES WRITTEN BY IMAGE', font: {size: 18}, position: 'top' },
       tooltips: {enabled: true, mode: 'index'},
       legend: { display: true, position: 'bottom' }
     },
@@ -393,7 +399,7 @@ const Metrics = (props) => {
   };
   const readIOOptions = {
     plugins:{
-      title: { display: true, text: 'IO BYTES READ BY IMAGE', fontSize: 23, position: 'top' },
+      title: { display: true, text: 'IO BYTES READ BY IMAGE', font: {size: 18}, position: 'top' },
       tooltips: {enabled: true, mode: 'index'},
       legend: { display: true, position: 'bottom' }
     },
@@ -415,11 +421,13 @@ const Metrics = (props) => {
       </div>
       <div className='metrics-options-form'>
         <form
+          key={`checkbox-containers`}
           onChange={(e) => {
             handleChange(e);
           }}
         >
           <input
+            key='checkbox-4'
             type='radio'
             id='4-hours'
             name='timePeriod'
@@ -428,13 +436,20 @@ const Metrics = (props) => {
           ></input>
           <label htmlFor='4-hours'> 4 hours</label>
           <input
+            key='checkbox-12'
             type='radio'
             id='12-hours'
             name='timePeriod'
             value='12'
           ></input>
           <label htmlFor='12-hours'> 12 hours</label>
-          <input type='radio' id='other' name='timePeriod' value='24'></input>
+          <input 
+            key='checkbox-24' 
+            type='radio' 
+            id='other' 
+            name='timePeriod' 
+            value='24'
+          ></input>
           <label htmlFor='24-hours'> 24 hours</label>
           <br />
           {currentList}
@@ -443,17 +458,17 @@ const Metrics = (props) => {
       </div>
 
       <div className='allCharts'>
-        <Line data={memoryObj} options={memoryOptions} />
+        <Line key={'Line-Memory'} data={memoryObj} options={memoryOptions} />
       </div>
 
       <div className='allCharts'>
-        <Line data={cpuObj} options={cpuOptions} />
+        <Line key={'Line-CPU'} data={cpuObj} options={cpuOptions} />
       </div>
       <div className='allCharts'>
-        <Bar data={writtenIOObj} options={writtenIOOptions} />
+        <Bar key={'Bar-Written'} data={writtenIOObj} options={writtenIOOptions} />
       </div>
       <div className='allCharts'>
-        <Bar data={readIOObj} options={readIOOptions} />
+        <Bar key={'Bar-Read'} data={readIOObj} options={readIOOptions} />
       </div>
       <div className='metric-section-title'>
         <h3>GitHub History</h3>

@@ -45,7 +45,7 @@ export const makeArrayOfObjects = (string, containerName) => {
       if (timeStampLogArray[0].endsWith('Z')) {
         const timeStamp = timeStampLogArray.shift();
         const logMsg = timeStampLogArray.join(' ');
-        obj.timeStamp = timeStamp;
+        obj.timeStamp = new Date(Date.parse(timeStamp)).toLocaleString();
         obj.logMsg = logMsg.trim();
       } else {
         if (timeStampLogArray.join(' ').trim() === '') {

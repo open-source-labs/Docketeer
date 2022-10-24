@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, getState } from 'react-redux';
 import * as helper from '../helper/commands';
-import { string } from 'prop-types';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { SettingsCellOutlined } from '@mui/icons-material';
+import  store  from '../../renderer/store.js';
+import { DataGrid } from '@mui/x-data-grid';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { renderCellExpand } from '../helper/logsHoverEffect.js';
 
 /**
  * Displays process logs as table
@@ -21,62 +17,109 @@ import { SettingsCellOutlined } from '@mui/icons-material';
  * a Router link.
  */
 
+
 const ProcessLogsTable = (props) => {
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
 
-  // Grab container ID from URL parameter
+  // grab clicked container
   const urlString = window.location.href;
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
+
+  // access runningList from state
+  const runningList = store.getState().containersList.runningList;
+  // get inital container name for state
+  const initCont = runningList.find(el => el.ID === id);
+
+  const [btnIdList, setBtnIdList] = useState([id]);
+  const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
+
+  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (e) => {
-    const containerId = e.target.id;
-    const optionsObj = buildOptionsObj(containerId);
+  const handleGetLogs = (idList) => {
+    const optionsObj = buildOptionsObj(idList); 
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
-    console.log('handleGetLogs ContainerLogs: ', containerLogs);
     setLogs(containerLogs);
-    console.log('Current logs in State', logs);
   };
 
-  const StdoutTableData = () => {
-    return stdout.map((log, index) => {
-      return (
-        <TableRow key={index}>
-          <TableCell>
-            <span className='log-timestamp'>{log.timeStamp}</span>
-          </TableCell>
-          <TableCell>
-            <span className='log-message'>{log.logMsg}</span>
-          </TableCell>
-        </TableRow>
-      );
-    });
+  const columns = [
+    { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
+    { field: 'type', headerName: 'Log Type', width: 120, renderCell: renderCellExpand },
+    { field: 'time', headerName: 'Timestamp', width: 200, renderCell: renderCellExpand },
+    { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
+  ];
+
+  const createContainerCheckboxes = (currId) => {
+    // iterate through runningList -> create label and checkbox for each one
+    for (let i = 0; i < runningList.length; i++) {
+      // by default, clicked container should be checked
+      if (runningList[i].ID === currId){
+        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
+      } else {
+        // by default all others should be unchecked
+        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
+      }
+    }
   };
 
-  const StderrTableData = () => {
-    return stderr.map((log, index) => {
-      return (
-        <TableRow key={index}>
-          <TableCell>
-            <span className='log-timestamp'>{log.timeStamp}</span>
-          </TableCell>
-          <TableCell>
-            <span className='log-message'>{log.logMsg}</span>
-          </TableCell>
-        </TableRow>
-      );
+  // create array to hold labels & boxes to render
+  const containerSelectors = [];
+  createContainerCheckboxes(id);
+
+  const handleCheck = (e) => {
+    const box = e.target;
+    // if checkbox is changed to true add to button idList
+    if (box.checked === true) {
+      btnIdList.push(box.id);
+      selectedContainerNames.push(box.name);
+      setBtnIdList(btnIdList);
+      setSelectedContainerNames(selectedContainerNames);
+    } else {
+      // else remove from button idList
+      const newIdList = btnIdList.filter(container => container !== box.id);
+      const newNameList = selectedContainerNames.filter(name => name !== box.name);
+      setBtnIdList(newIdList);
+      setSelectedContainerNames(newNameList);
+    }
+  };
+
+  // Populating the StdOut Table Data Using stdout.map
+  const tableData = () => {
+    const newRows = [];
+
+    stdout.forEach((log, index) => {
+      const currCont = runningList.find(el => el.ID === log.containerName);
+      newRows.push({
+        container: currCont.Name,
+        type: 'stdout',
+        time: log.timeStamp,
+        message: log.logMsg,
+        id: Math.random() * 100
+      });
     });
+
+    stderr.forEach((log, index) => {
+      const currCont = runningList.find(el => el.ID === log.containerName);
+      newRows.push({
+        container: currCont.Name,
+        type: 'stderr',
+        time: log.timeStamp,
+        message: log.logMsg,
+        id: Math.random() * 100
+      });
+    });
+
+    setRows(newRows);
   };
 
   return (
     <div className='renderContainers'>
-      <h1>Container ID: {id} </h1>
 
       <div className='settings-container'>
         <form>
@@ -88,48 +131,32 @@ const ProcessLogsTable = (props) => {
           <label htmlFor='tailInput'>Tail</label>
           <input type='text' id='tailText' />
 
-          <button id={id} type='button' onClick={handleGetLogs}>
+          <FormGroup>
+            {containerSelectors}  {/** Checkboxes for running containers */}
+          </FormGroup>
+
+          <button type='button' onClick={async () => {
+            await handleGetLogs(btnIdList);
+            tableData();
+          }}>
             Get Logs
           </button>
+          <h4>SelectedContainers: {selectedContainerNames}</h4>
         </form>
 
-        <div className='process-logs-container'>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>STDOUT:</TableCell>
-                  <TableCell> </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>TimeStamp</TableCell>
-                  <TableCell>Log Message</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <StdoutTableData />
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <div className='process-logs-container'>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>STDERR:</TableCell>
-                  <TableCell> </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>TimeStamp</TableCell>
-                  <TableCell>Log Message</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <StderrTableData />
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div
+          className='process-logs-container'
+          style={{ height: 500, width: '100%' }}
+        >
+          <DataGrid 
+            rows={rows} 
+            columns={columns} 
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
+              },
+            }}
+          />;
         </div>
       </div>
     </div>

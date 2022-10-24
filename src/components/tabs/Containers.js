@@ -3,36 +3,67 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
+export const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top'
+    },
+    title: {
+      display: true,
+      text: 'Docker Container Chart'
+    }
+  },
+  maintainAspectRatio: false
+  // scales: {
+  //   y: {
+  //     beginAtZero: true,
+  //     ticks: {
+  //       min: 0,
+  //       max: 100,
+  //       stepSize: 20
+  //     }
+  //   }
+  // }
+};
+
+// export const data = {
+//   labels:
+// }
+
 /**
  * Display all running and stopped containers
- * 
+ *
  * @param {*} props
  */
 const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
-      <div className="box" key={`stoppedBox-${i}`}>
-        <div className="box-label">
+      <div className='box' key={`stoppedBox-${i}`}>
+        <div className='box-label'>
           <h3>{container.Names}</h3>
           <p>ID: {container.ID}</p>
         </div>
 
-        <div className="stopped-info">
+        <div className='stopped-info'>
           <ul>
             <li>
-              <strong>Img: </strong>{container.Image}
+              <strong>Img: </strong>
+              {container.Image}
             </li>
             <li>
-              <strong>Created: </strong>{container.RunningFor}
+              <strong>Created: </strong>
+              {container.RunningFor}
             </li>
             <li>
-              <strong>Name: </strong>{container.Names}
+              <strong>Name: </strong>
+              {container.Names}
             </li>
           </ul>
         </div>
-        <div className="stopped-button">
+        <div className='stopped-button'>
           <button
-            className="run-btn"
+            className='run-btn'
             onClick={() =>
               props.runStopped(container['ID'], props.runStoppedContainer)
             }
@@ -40,7 +71,7 @@ const Containers = (props) => {
             RUN
           </button>
           <button
-            className="stop-btn"
+            className='stop-btn'
             onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
@@ -83,25 +114,25 @@ const Containers = (props) => {
     };
 
     return (
-      <div className="box box-running" key={`runningBox-${i}`}>
-        <div className="box-label">
+      <div className='box box-running' key={`runningBox-${i}`}>
+        <div className='box-label'>
           <h3>{container.Name}</h3>
-          
+
           <p>ID: {container.ID}</p>
         </div>
-        <div className="box-info">
-          <div className="chart">
-            <div className="chart-label">
-              <div className="chart-label-container">
-                <div className="cpuBox"></div>
+        <div className='box-info'>
+          <div className='chart'>
+            <div className='chart-label'>
+              <div className='chart-label-container'>
+                <div className='cpuBox'></div>
                 <div>
-                  <span className="chart-label-text">{cpuData}%</span>
+                  <span className='chart-label-text'>{cpuData}%</span>
                 </div>
               </div>
-              <div className="chart-label-container">
-                <div className="memoryBox"></div>
+              <div className='chart-label-container'>
+                <div className='memoryBox'></div>
                 <div>
-                  <span className="chart-label-text">{memoryData}%</span>
+                  <span className='chart-label-text'>{memoryData}%</span>
                 </div>
               </div>
             </div>
@@ -137,9 +168,9 @@ const Containers = (props) => {
           </div>
           <ToggleDisplay container={container} />
         </div>
-        <div className="box-button box-button-running">
+        <div className='box-button box-button-running'>
           <button
-            className="stop-btn"
+            className='stop-btn'
             onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
             STOP
@@ -150,20 +181,20 @@ const Containers = (props) => {
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>
           Running Containers: {props.runningList.length}
         </h1>
       </div>
-      <div className="containers">{renderRunningList}</div>
+      <div className='containers'>{renderRunningList}</div>
 
-      <div className="header">
-        <h1 className="tabTitle">
+      <div className='header'>
+        <h1 className='tabTitle'>
           Exited Containers: {props.stoppedList.length}
         </h1>
       </div>
-      <div className="stopped-containers">{renderStoppedList}</div>
+      <div className='stopped-containers'>{renderStoppedList}</div>
     </div>
   );
 };

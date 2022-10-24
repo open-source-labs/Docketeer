@@ -12,7 +12,8 @@ import * as actions from '../../redux/actions/actions';
 import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
-// import { makeStyles } from '@@mui/material/styles';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { spacing } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -20,15 +21,6 @@ import Docketeer from '../../../assets/docketeer-title.png';
 // Helper Functions Import
 import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
-// const useStyles = makeStyles((theme) => ({
-  //   root: {
-    //     '& > *': {
-      //       margin: theme.spacing(1),
-      //       width: '25ch'
-      //     }
-      //   }
-      // }));
-      
   const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,9 +28,6 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
   const session = useSelector((state) => state.session.isLoggedIn);
   const [modalIsOpen, setIsOpen] = useState(false);
-
-  // Material UI
-  // const classes = useStyles();
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
@@ -114,10 +103,7 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
           <h1 className='tabTitle'>Login</h1>
         </div>
         <div className='settings-container'>
-          <form
-            // className={classes.root}
-            onSubmit={handleLogin}
-          >
+          <form className='loginForm' onSubmit={handleLogin}>
             <TextField id='username' label='Username' variant='outlined' />
             <br />
             <br />
@@ -138,8 +124,12 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
               size='medium'
               onClick={() => handleLogin}
               // className={classes.button}
+              sx={{
+                m: 1
+              }}
             >
               Login
+
             </Button>
             <hr />
             <div

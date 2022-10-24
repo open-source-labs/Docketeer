@@ -676,3 +676,21 @@ ul {
 .volume-container-details ul {
   margin-left: 1rem;
 }
+
+/* Login Screen Form Added 10/21/22 */
+.loginForm {
+  margin: 8px;
+  width: 25ch;
+}
+
+.settingsForm {
+  margin-left: 5;
+  margin-bottom: 15;
+  width: 220;
+  vertical-align: middle;
+}
+
+.settingsDescription {
+  margin-left: 5;
+  margin-bottom: 30;
+}

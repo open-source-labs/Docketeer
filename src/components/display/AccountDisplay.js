@@ -76,10 +76,7 @@ const AccountDisplay = () => {
       <div className='settings-container'>
         <p>1. Update your email address</p>
         <br />
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
+        <form className='settingsForm' autoComplete='off'>
           <TextField
             // className={classes.textfield}
             id='update-email-input'
@@ -89,7 +86,11 @@ const AccountDisplay = () => {
             size='small'
           />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             variant='contained'
             onClick={() => handleEmailUpdate()}
@@ -101,10 +102,7 @@ const AccountDisplay = () => {
         </form>
         <p>2. Update your phone number</p>
         <br />
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
+        <form className='settings' autoComplete='off'>
           <TextField
             // className={classes.textfield}
             id='update-phone-input'
@@ -117,7 +115,11 @@ const AccountDisplay = () => {
             size='small'
           />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             variant='contained'
             onClick={() => handlePhoneUpdate()}
@@ -129,10 +131,7 @@ const AccountDisplay = () => {
         </form>
         <p>3. Use the form below to update your password:</p>
         <br />
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
+        <form className='settingsForm' autoComplete='off'>
           <p>Current Password</p>
           <br />
           <TextField
@@ -175,7 +174,11 @@ const AccountDisplay = () => {
           <br />
           <br />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             color='primary'
             variant='contained'

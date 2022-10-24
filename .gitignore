@@ -15,3 +15,4 @@ src/database/docketeerdb
 server/database/docketeerdb
 .env
 yarn.lock
+coverage

@@ -95,6 +95,7 @@ const Metrics = (props) => {
       <div className='aggregate-conatiner'>
         <div className='pieChart'>
           <Chart 
+            key='pie-cpu'
             type='pie'
             data={cpu} 
             options={options2} 
@@ -113,7 +114,14 @@ const Metrics = (props) => {
         </div>
 
         <div className='pieChart'>
-          <Pie key={'pie-memory'} data={memory} options={options} width={2000} height={1300} />
+          <Chart 
+            key='pie-memory'
+            type='pie'
+            data={memory} 
+            options={options} 
+            width={2000} 
+            height={1300} 
+          />
           <div className='legend-container'>
             <div className='legend-section'>
               <div className='avaliable-box'></div>
@@ -142,7 +150,7 @@ const Metrics = (props) => {
         </div>
       </div>
       <LineChartDisplay 
-        key = {'Line-Chart'}
+        key='Line-Chart'
       />
     </div>
   );

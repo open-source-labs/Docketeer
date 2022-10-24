@@ -66,6 +66,7 @@
     "nodemon": "^2.0.20",
     "react-devtools": "^4.26.0",
     "style-loader": "^3.3.1",
+    "supertest": "^6.3.0",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "twilio": "^3.82.1",

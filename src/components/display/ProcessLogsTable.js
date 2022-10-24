@@ -18,7 +18,8 @@ import { renderCellExpand } from '../helper/logsHoverEffect.js';
  */
 
 
-const ProcessLogsTable = (props) => {
+const ProcessLogsTable = () => {
+
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
@@ -30,23 +31,32 @@ const ProcessLogsTable = (props) => {
 
   // access runningList from state
   const runningList = store.getState().containersList.runningList;
-  // get inital container name for state
+  // get initial container name for state
   const initCont = runningList.find(el => el.ID === id);
 
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
-
-  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
-
+  const[rows, setRows] = useState([])
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
+ // This will update the logs table after all logs have been pulled - there will be a lag before they render
+ useEffect(() => {
+     tableData();
+   }, [logs.stderr.length])
+
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (idList) => {
-    const optionsObj = buildOptionsObj(idList); 
-    const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
-    setLogs(containerLogs);
-  };
+  const handleGetLogs =  (idList) => {
+    const optionsObj = buildOptionsObj(idList);
+
+    // Using a promise as the process to pull the container logs takes a fair bit of time
+    const containerLogsPromise = Promise.resolve(getLogs(optionsObj, getContainerLogsDispatcher))
+    containerLogsPromise.then((data) => {
+      const newLogs = data
+      setLogs(newLogs)
+      return newLogs
+    })
+ };
 
   const columns = [
     { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
@@ -72,7 +82,9 @@ const ProcessLogsTable = (props) => {
   const containerSelectors = [];
   createContainerCheckboxes(id);
 
+  // handle checkboxes
   const handleCheck = (e) => {
+
     const box = e.target;
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
@@ -91,32 +103,34 @@ const ProcessLogsTable = (props) => {
 
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
-    const newRows = [];
+   const newRows = [];
 
-    stdout.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stdout',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: Math.random() * 100
+    if(stdout) {
+      stdout.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+          newRows.push({
+            container: currCont.Name,
+            type: 'stdout',
+            time: log.timeStamp,
+            message: log.logMsg,
+            id: Math.random() * 100
+          });
       });
-    });
-
-    stderr.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stderr',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: Math.random() * 100
+    }
+    if(stderr) {
+      stderr.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+        newRows.push({
+          container: currCont.Name,
+          type: 'stderr',
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: Math.random() * 100
+        });
       });
-    });
-
-    setRows(newRows);
-  };
+    }
+   setRows(newRows)
+  }
 
   return (
     <div className='renderContainers'>
@@ -135,11 +149,10 @@ const ProcessLogsTable = (props) => {
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
 
-          <button type='button' onClick={async () => {
-            await handleGetLogs(btnIdList);
-            tableData();
+          <button type='button' onClick={ () => {
+             handleGetLogs(btnIdList)
           }}>
-            Get Logs
+          Get Logs
           </button>
           <h4>SelectedContainers: {selectedContainerNames}</h4>
         </form>

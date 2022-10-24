@@ -99,7 +99,7 @@ const ProcessLogsTable = (props) => {
         type: 'stdout',
         time: log.timeStamp,
         message: log.logMsg,
-        id: Math.random() * 100
+        id: `stdout ${index}`
       });
     });
 
@@ -110,7 +110,7 @@ const ProcessLogsTable = (props) => {
         type: 'stderr',
         time: log.timeStamp,
         message: log.logMsg,
-        id: Math.random() * 100
+        id: `stderr ${index}`
       });
     });
 

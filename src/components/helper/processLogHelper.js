@@ -57,12 +57,15 @@ export const makeArrayOfObjects = (string, containerName) => {
       }
       // after removing [num/notice], some logs also have 'LOG:' before the actual msg
       if (logMsg.slice(0, 4) === 'LOG:') {
-        console.log('made it in if');
         logMsg = logMsg.slice(4);
       }
       obj.logMsg = logMsg.trim();
       obj.containerName = containerName;
       return obj;
     });
-  return arrayOfObjects;
+
+  // filter out empty messages
+  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
+
+  return arrayOfLogs;
 };

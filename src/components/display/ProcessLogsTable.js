@@ -7,7 +7,7 @@ import * as actions from '../../redux/actions/actions';
 
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
 import { CSVLink } from 'react-csv';
 
 /**
@@ -133,32 +133,50 @@ const ProcessLogsTable = (props) => {
 
       <div className="settings-container">
         <form>
-          <input type='radio' id='sinceInput' name='logOption' />
-          <label htmlFor='sinceInput'>Since</label>
-          <input type='text' id='sinceText' />
+          <h1 style={{margin: 10}}>Container Process Logs</h1>
 
-          <input type='radio' id='tailInput' name='logOption' />
-          <label htmlFor='tailInput'>Tail</label>
-          <input type='text' id='tailText' />
+          <input style={{margin: 5}} type='radio' id='sinceInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='sinceInput'>Since</label>
+          <input type='text' id='sinceText' />
+          <br></br>
+          <input style={{margin: 5}} type='radio' id='tailInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='tailInput'>Tail</label>
+          <input style={{marginLeft: 14}} type='text' id='tailText' />
 
           <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
 
-          <button type='button' onClick={async () => {
-            await handleGetLogs(btnIdList);
-            tableData();
-          }}>
+          <Button 
+            sx={{
+              ml: 1,
+              width: 120
+            }}
+            size='medium'
+            variant='contained'
+            type='button' onClick={async () => {
+              await handleGetLogs(btnIdList);
+              tableData();
+            }}>
             Get Logs
-          </button>
-          <h4>SelectedContainers: {selectedContainerNames}</h4>
-          <CSVLink data={csvData}>Download to CSV</CSVLink>
+          </Button>
+          <Button
+            sx={{
+              ml: 1,
+              width: 180
+            }}
+            size='medium'
+            variant='contained'
+          >
+            <CSVLink data={csvData}>Download To CSV</CSVLink>
+          </Button>
         </form>
 
         <div
           className='process-logs-container'
           style={{ height: 660, width: '100%' }}
         >
+          <h4 style={{margin: 10}}>SelectedContainers: {selectedContainerNames}</h4>
           <DataGrid 
             key='DataGrid'
             rows={rows} 

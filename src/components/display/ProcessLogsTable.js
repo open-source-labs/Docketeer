@@ -8,7 +8,6 @@ import * as actions from '../../redux/actions/actions';
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
-import { renderCellExpand } from '../helper/logsHoverEffect.js';
 
 /**
  * Displays process logs as table
@@ -36,7 +35,7 @@ const ProcessLogsTable = (props) => {
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
 
-  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
+  const [rows, setRows] = useState([]);
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
@@ -49,10 +48,10 @@ const ProcessLogsTable = (props) => {
   };
 
   const columns = [
-    { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
-    { field: 'type', headerName: 'Log Type', width: 120, renderCell: renderCellExpand },
-    { field: 'time', headerName: 'Timestamp', width: 200, renderCell: renderCellExpand },
-    { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
+    { field: 'container', headerName: 'Container', width: 150 },
+    { field: 'type', headerName: 'Log Type', width: 120 },
+    { field: 'time', headerName: 'Timestamp', width: 200 },
+    { field: 'message', headerName: 'Message', width: 400 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -60,10 +59,10 @@ const ProcessLogsTable = (props) => {
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
       if (runningList[i].ID === currId){
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       } else {
         // by default all others should be unchecked
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       }
     }
   };
@@ -100,7 +99,7 @@ const ProcessLogsTable = (props) => {
         type: 'stdout',
         time: log.timeStamp,
         message: log.logMsg,
-        id: Math.random() * 100
+        id: `stdout ${index}`
       });
     });
 
@@ -111,7 +110,7 @@ const ProcessLogsTable = (props) => {
         type: 'stderr',
         time: log.timeStamp,
         message: log.logMsg,
-        id: Math.random() * 100
+        id: `stderr ${index}`
       });
     });
 
@@ -149,14 +148,16 @@ const ProcessLogsTable = (props) => {
           style={{ height: 500, width: '100%' }}
         >
           <DataGrid 
+            key='DataGrid'
             rows={rows} 
             columns={columns} 
+            getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
                 sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
               },
             }}
-          />;
+          />
         </div>
       </div>
     </div>

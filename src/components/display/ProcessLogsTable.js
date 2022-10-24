@@ -59,10 +59,10 @@ const ProcessLogsTable = (props) => {
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
       if (runningList[i].ID === currId){
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       } else {
         // by default all others should be unchecked
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       }
     }
   };
@@ -148,6 +148,7 @@ const ProcessLogsTable = (props) => {
           style={{ height: 500, width: '100%' }}
         >
           <DataGrid 
+            key='DataGrid'
             rows={rows} 
             columns={columns} 
             getRowHeight={() => 'auto'}

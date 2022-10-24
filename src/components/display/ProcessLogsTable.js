@@ -102,8 +102,7 @@ const ProcessLogsTable = () => {
 
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
-   const newRows = [];
-
+    const newRows = [];
 
     if(stdout) {
       stdout.forEach((log, index) => {

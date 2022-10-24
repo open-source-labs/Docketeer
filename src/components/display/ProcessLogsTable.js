@@ -8,7 +8,6 @@ import * as actions from '../../redux/actions/actions';
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
-import { renderCellExpand } from '../helper/logsHoverEffect.js';
 
 /**
  * Displays process logs as table
@@ -36,7 +35,7 @@ const ProcessLogsTable = (props) => {
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
 
-  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
+  const [rows, setRows] = useState([]);
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
@@ -51,10 +50,10 @@ const ProcessLogsTable = (props) => {
   };
 
   const columns = [
-    { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
-    { field: 'type', headerName: 'Log Type', width: 120, renderCell: renderCellExpand },
-    { field: 'time', headerName: 'Timestamp', width: 200, renderCell: renderCellExpand },
-    { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
+    { field: 'container', headerName: 'Container', width: 150 },
+    { field: 'type', headerName: 'Log Type', width: 120 },
+    { field: 'time', headerName: 'Timestamp', width: 200 },
+    { field: 'message', headerName: 'Message', width: 400 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -153,12 +152,13 @@ const ProcessLogsTable = (props) => {
           <DataGrid 
             rows={rows} 
             columns={columns} 
+            getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
                 sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
               },
             }}
-          />;
+          />
         </div>
       </div>
     </div>

@@ -15,13 +15,13 @@ const logoutRouter = require('./routes/logoutRouter');
 const settingsRouter = require('./routes/settingsRouter');
 
 const app = express();
-const PORT = 3000;
 
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
 
 app.use('/test', (req, res) => {
+  // res.sendStatus(200);
   res.status(200).json({
     success: true
   });
@@ -51,11 +51,6 @@ app.get('/', (req, res, next, err) => {
   };
   const errorObj = Object.assign(defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
-});
-
-// Open up server on PORT
-app.listen(PORT, () => {
-  console.log(`server is listening on port ${PORT}`.green.inverse);
 });
 
 module.exports = app;

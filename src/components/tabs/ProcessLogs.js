@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import ToggleDisplay from '../display/ToggleDisplay';
-import { Link } from 'react-router-dom';
 import ProcessLogsCard from '../display/ProcessLogsCard';
 
 /**
@@ -15,14 +13,12 @@ const ProcessLogs = (props) => {
   const renderRunningList = [];
   props.runningList.map((container, index) => {
     renderRunningList.push(
-      <Link to={`/app/logTable/${container.ID}`}>
         <ProcessLogsCard
+          key={index}
           index={index}
           container={container}
-          key={container.ID}
           status='Running'
         />
-      </Link>
     );
   });
 
@@ -30,9 +26,7 @@ const ProcessLogs = (props) => {
   const renderStoppedList = [];
   props.stoppedList.map((container, index) => {
     renderStoppedList.push(
-      <Link to={`/app/logTable/${container.ID}`}>
-        <ProcessLogsCard index={index} container={container} status='Stopped' />
-      </Link>
+        <ProcessLogsCard key={index} index={index} container={container} status='Stopped' />
     );
   });
 

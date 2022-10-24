@@ -275,6 +275,7 @@ const SysAdmin = (props) => {
         <Route path='/users' element={<UserList />} />
         <Route path='/logs' element={
           <ProcessLogs
+            key={1}
             runIm={helper.runIm}
             stop={helper.stop}
             stopRunningContainer={stopRunningContainer}

@@ -34,6 +34,7 @@ const volumeHistory = (props) => {
 
   // Creates the card components of Name and container details
   const renderVolumeHistory = (volumeProps) => volumeProps.map((ele, i) => {
+    console.log('volume details: ', ele);
     const details = [];
 
     ele.containers.length

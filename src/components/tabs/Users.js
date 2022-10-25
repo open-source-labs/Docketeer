@@ -89,7 +89,7 @@ const UserTable = () => {
   };
 
   return (
-    <div style={{ background: '#E1E4E6', height: '200vh' }}>
+    <div style={{ background: '#E1E4E6', height: '100vh' }}>
       <Box
         sx={{
           // width: 900,

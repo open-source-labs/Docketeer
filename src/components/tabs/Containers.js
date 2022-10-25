@@ -3,34 +3,6 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
-export const barOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top'
-    },
-    title: {
-      display: true,
-      text: 'Docker Container Chart'
-    }
-  },
-  maintainAspectRatio: false
-  // scales: {
-  //   y: {
-  //     beginAtZero: true,
-  //     ticks: {
-  //       min: 0,
-  //       max: 100,
-  //       stepSize: 20
-  //     }
-  //   }
-  // }
-};
-
-// export const data = {
-//   labels:
-// }
-
 /**
  * Display all running and stopped containers
  *
@@ -143,11 +115,7 @@ const Containers = (props) => {
                 data={chartInfo}
                 options={{
                   responsive: true,
-                  plugins: {
-                    legend: {
-                      display: false
-                    }
-                  },
+                  plugins: { legend: { display: false } },
                   scales: {
                     y: {
                       ticks: {
@@ -157,9 +125,7 @@ const Containers = (props) => {
                       },
                       stacked: true
                     },
-                    x: {
-                      categorySpacing: 0
-                    }
+                    x: { categorySpacing: 0 }
                   }
                 }}
               />

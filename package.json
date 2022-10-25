@@ -31,6 +31,7 @@
     "pg": "^8.8.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-error-overlay": "^6.0.11",
     "react-modal": "^3.15.1",

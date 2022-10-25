@@ -7,8 +7,8 @@ import * as actions from '../../redux/actions/actions';
 
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
-import { renderCellExpand } from '../helper/logsHoverEffect.js';
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
 
 /**
  * Displays process logs as table
@@ -18,7 +18,8 @@ import { renderCellExpand } from '../helper/logsHoverEffect.js';
  */
 
 
-const ProcessLogsTable = (props) => {
+const ProcessLogsTable = () => {
+
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
@@ -30,29 +31,43 @@ const ProcessLogsTable = (props) => {
 
   // access runningList from state
   const runningList = store.getState().containersList.runningList;
-  // get inital container name for state
+  // get initial container name for state
   const initCont = runningList.find(el => el.ID === id);
 
   const [btnIdList, setBtnIdList] = useState([id]);
-  const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
+  // const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
+  const [rows, setRows] = useState([]);
 
-  const [rows, setRows] = useState({container: 'containerName', type: 'test', time: '3pm', message: 'Please work', id: 500});
+  const [csvData, setCsvData] = useState([
+    [ 'container', 'type', 'time', 'message']
+  ]);
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
+  // This will update the logs table after all logs have been pulled - there will be a lag before they render
+  useEffect(() => {
+    tableData();
+  }, [logs.stderr.length, csvData.length]);
+
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (idList) => {
-    const optionsObj = buildOptionsObj(idList); 
-    const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
-    setLogs(containerLogs);
+  const handleGetLogs =  (idList) => {
+    const optionsObj = buildOptionsObj(idList);
+
+    // Using a promise as the process to pull the container logs takes a fair bit of time
+    const containerLogsPromise = Promise.resolve(getLogs(optionsObj, getContainerLogsDispatcher));
+    containerLogsPromise.then((data) => {
+      const newLogs = data;
+      setLogs(newLogs);
+      return newLogs;
+    });
   };
 
   const columns = [
-    { field: 'container', headerName: 'Container', width: 150, renderCell: renderCellExpand },
-    { field: 'type', headerName: 'Log Type', width: 120, renderCell: renderCellExpand },
-    { field: 'time', headerName: 'Timestamp', width: 200, renderCell: renderCellExpand },
-    { field: 'message', headerName: 'Message', width: 400, renderCell: renderCellExpand }
+    { field: 'container', headerName: 'Container', width: 150 },
+    { field: 'type', headerName: 'Log Type', width: 120 },
+    { field: 'time', headerName: 'Timestamp', width: 200 },
+    { field: 'message', headerName: 'Message', width: 400 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -60,10 +75,10 @@ const ProcessLogsTable = (props) => {
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
       if (runningList[i].ID === currId){
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`}  />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={true} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       } else {
         // by default all others should be unchecked
-        containerSelectors.push(<FormControlLabel control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
+        containerSelectors.push(<FormControlLabel key={`FCL ${i}`} control={<Checkbox id={runningList[i].ID} name={runningList[i].Name} defaultChecked={false} onChange={(e) => handleCheck(e)} />} label={`${runningList[i].Name}`} />);
       }
     }
   };
@@ -72,50 +87,59 @@ const ProcessLogsTable = (props) => {
   const containerSelectors = [];
   createContainerCheckboxes(id);
 
+  // handle checkboxes
   const handleCheck = (e) => {
+
     const box = e.target;
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
       btnIdList.push(box.id);
-      selectedContainerNames.push(box.name);
+      // selectedContainerNames.push(box.name);
       setBtnIdList(btnIdList);
-      setSelectedContainerNames(selectedContainerNames);
+      // setSelectedContainerNames(selectedContainerNames);
     } else {
       // else remove from button idList
       const newIdList = btnIdList.filter(container => container !== box.id);
-      const newNameList = selectedContainerNames.filter(name => name !== box.name);
+      // const newNameList = selectedContainerNames.filter(name => name !== box.name);
       setBtnIdList(newIdList);
-      setSelectedContainerNames(newNameList);
+      // setSelectedContainerNames(newNameList);
     }
   };
 
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
     const newRows = [];
+    const newCSV = [];
 
-    stdout.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stdout',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: Math.random() * 100
+    if(stdout) {
+      stdout.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+        newRows.push({
+          container: currCont.Name,
+          type: 'stdout',
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: Math.random() * 100
+        });
+        newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
-    });
 
-    stderr.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stderr',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: Math.random() * 100
+      stderr.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+        newRows.push({
+          container: currCont.Name,
+          type: 'stderr',
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: `stderr ${index}`
+        });
+        newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
       });
-    });
 
-    setRows(newRows);
+      setRows(newRows);
+      setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
+      console.log('CSV data', csvData);
+    }
   };
 
   return (
@@ -123,25 +147,43 @@ const ProcessLogsTable = (props) => {
 
       <div className='settings-container'>
         <form>
-          <input type='radio' id='sinceInput' name='logOption' />
-          <label htmlFor='sinceInput'>Since</label>
-          <input type='text' id='sinceText' />
+          <h1 style={{margin: 10}}>Container Process Logs</h1>
 
-          <input type='radio' id='tailInput' name='logOption' />
-          <label htmlFor='tailInput'>Tail</label>
-          <input type='text' id='tailText' />
+          <input style={{margin: 5}} type='radio' id='sinceInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='sinceInput'>Since</label>
+          <input type='text' id='sinceText' />
+          <br></br>
+          <input style={{margin: 5}} type='radio' id='tailInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='tailInput'>Tail</label>
+          <input style={{marginLeft: 14}} type='text' id='tailText' />
 
           <FormGroup>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
-
-          <button type='button' onClick={async () => {
-            await handleGetLogs(btnIdList);
-            tableData();
-          }}>
+          <Button 
+            sx={{
+              ml: 1,
+              width: 120
+            }}
+            size='medium'
+            variant='contained'
+            style={{marginBottom: 10}}
+            type='button' onClick={() => {
+              handleGetLogs(btnIdList);
+            }}>
             Get Logs
-          </button>
-          <h4>SelectedContainers: {selectedContainerNames}</h4>
+          </Button>
+          <Button
+            sx={{
+              ml: 1,
+              width: 180
+            }}
+            size='medium'
+            variant='contained'
+            style={{marginBottom: 10}}
+          >
+            <CSVLink style={{textDecoration: 'none', color: 'white', fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} data={csvData}>Download To CSV</CSVLink>
+          </Button>
         </form>
 
         <div
@@ -149,14 +191,16 @@ const ProcessLogsTable = (props) => {
           style={{ height: 500, width: '100%' }}
         >
           <DataGrid 
+            key='DataGrid'
             rows={rows} 
             columns={columns} 
+            getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
                 sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
               },
             }}
-          />;
+          />
         </div>
       </div>
     </div>

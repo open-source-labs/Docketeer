@@ -249,13 +249,14 @@ const SysAdmin = (props) => {
           </ul>
           <div>
             <button
+              style={{borderRadius: 5, marginBottom: 10}}
               className='btn'
               onClick={(e) => helper.handlePruneClick(e)}
             >
               System Prune
             </button>
             <span> </span>
-            <button className='btn' onClick={(e) => handleLogout(e)}>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
               Logout
             </button>
           </div>
@@ -269,7 +270,7 @@ const SysAdmin = (props) => {
           />}
         />
         <Route path='/metrics' element={
-          <Metrics runningList={runningList} 
+          <Metrics key={1} runningList={runningList} 
           />}
         />
         <Route path='/users' element={<UserList />} />

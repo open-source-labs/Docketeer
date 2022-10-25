@@ -1,7 +1,7 @@
 // Need to fill in tests for Routes
 
 const supertest = require('supertest');
-const server = require('../../server/app');
+const server = require('../server/app');
 
 const request = supertest(server);
 

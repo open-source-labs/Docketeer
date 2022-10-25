@@ -53,7 +53,6 @@ const SysAdmin = (props) => {
 
   // map state to props
   const runningList = useSelector((state) => state.containersList.runningList);
-  console.log('runningList on Load: ', runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);

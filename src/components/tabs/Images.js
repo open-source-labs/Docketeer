@@ -38,7 +38,6 @@ const Images = (props) => {
             onClick={() =>
               props.runIm(
                 ele['imgid'],
-                ele['reps'],
                 props.runningList,
                 helper.addRunning,
                 props.addRunningContainers

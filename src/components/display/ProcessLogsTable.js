@@ -167,6 +167,7 @@ const ProcessLogsTable = () => {
             }}
             size='medium'
             variant='contained'
+            style={{marginBottom: 10}}
             type='button' onClick={() => {
               handleGetLogs(btnIdList);
             }}>
@@ -179,8 +180,9 @@ const ProcessLogsTable = () => {
             }}
             size='medium'
             variant='contained'
+            style={{marginBottom: 10}}
           >
-            <CSVLink data={csvData}>Download To CSV</CSVLink>
+            <CSVLink style={{textDecoration: 'none', color: 'white', fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} data={csvData}>Download To CSV</CSVLink>
           </Button>
         </form>
 

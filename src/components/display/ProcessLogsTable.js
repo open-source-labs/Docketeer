@@ -7,7 +7,8 @@ import * as actions from '../../redux/actions/actions';
 
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
 
 /**
  * Displays process logs as table
@@ -36,6 +37,11 @@ const ProcessLogsTable = () => {
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
   const [rows, setRows] = useState([]);
+
+  const [csvData, setCsvData] = useState([
+    [ 'container', 'type', 'time', 'message']
+  ]);
+
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
@@ -103,6 +109,7 @@ const ProcessLogsTable = () => {
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
     const newRows = [];
+    const newCSV = [];
 
     if(stdout) {
       stdout.forEach((log, index) => {
@@ -114,9 +121,9 @@ const ProcessLogsTable = () => {
             message: log.logMsg,
             id: Math.random() * 100
           });
+        newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
-    }
-    if(stderr) {
+
       stderr.forEach((log, index) => {
         const currCont = runningList.find(el => el.ID === log.containerName);
         newRows.push({
@@ -124,42 +131,64 @@ const ProcessLogsTable = () => {
           type: 'stderr',
           time: log.timeStamp,
           message: log.logMsg,
-          id: Math.random() * 100
+          id: `stderr ${index}`
         });
+        newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
       });
+
+      setRows(newRows);
+      setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
+      console.log('CSV data', csvData);
     }
-   setRows(newRows)
-  }
+  };
 
   return (
     <div className='renderContainers'>
 
       <div className='settings-container'>
         <form>
-          <input type='radio' id='sinceInput' name='logOption' />
-          <label htmlFor='sinceInput'>Since</label>
-          <input type='text' id='sinceText' />
+          <h1 style={{margin: 10}}>Container Process Logs</h1>
 
-          <input type='radio' id='tailInput' name='logOption' />
-          <label htmlFor='tailInput'>Tail</label>
-          <input type='text' id='tailText' />
+          <input style={{margin: 5}} type='radio' id='sinceInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='sinceInput'>Since</label>
+          <input type='text' id='sinceText' />
+          <br></br>
+          <input style={{margin: 5}} type='radio' id='tailInput' name='logOption' />
+          <label style={{margin: 5}} htmlFor='tailInput'>Tail</label>
+          <input style={{marginLeft: 14}} type='text' id='tailText' />
 
           <FormGroup>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
-
-          <button type='button' onClick={ () => {
-             handleGetLogs(btnIdList)
-          }}>
-          Get Logs
-          </button>
-          <h4>SelectedContainers: {selectedContainerNames}</h4>
+          <Button 
+            sx={{
+              ml: 1,
+              width: 120
+            }}
+            size='medium'
+            variant='contained'
+            type='button' onClick={() => {
+              handleGetLogs(btnIdList);
+            }}>
+            Get Logs
+          </Button>
+          <Button
+            sx={{
+              ml: 1,
+              width: 180
+            }}
+            size='medium'
+            variant='contained'
+          >
+            <CSVLink data={csvData}>Download To CSV</CSVLink>
+          </Button>
         </form>
 
         <div
           className='process-logs-container'
           style={{ height: 500, width: '100%' }}
         >
+          <h4 style={{margin: 10}}>SelectedContainers: {selectedContainerNames}</h4>
           <DataGrid 
             key='DataGrid'
             rows={rows} 

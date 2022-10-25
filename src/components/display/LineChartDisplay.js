@@ -4,24 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
-import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import { FormControlLabel, Checkbox } from '@mui/material';
 
   //! Create a try catch to properly handle errors on line 64
-
-/** TODO
- * 1. Remove prop drilling from parent components
- * 2. Move get files from DB to its own helpers
- *
- */
-
 /**
- * Displays general metrics
+ * Displays linegraph and github metrics
  *
- * @param {*} props
  */
-const Metrics = (props) => {
+const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
@@ -39,13 +30,6 @@ const Metrics = (props) => {
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
   const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
   const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
-
-  const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
-  };
 
   //Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
@@ -222,12 +206,12 @@ const Metrics = (props) => {
     });
   };
 
+  //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName) => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    //pulling the current time, and then setting it back to one month ago to check for github commit logs
-    //2629746000
+    //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
     let date = new Date(Date.parse(new Date()) - 22629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();
@@ -242,7 +226,6 @@ const Metrics = (props) => {
         //need an actual url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
-      console.log(jsonData);
 
       jsonData.forEach((commitData) => {
         ob[containerName].push({
@@ -268,7 +251,9 @@ const Metrics = (props) => {
       })
     ).then((data) => setGitUrls(data));
   };
-
+  //populating the github commits into a MUI DataGrid
+    //This should allow multiple tables be stacked if multiple containers are selected
+      //!Do we want them to be integrated on the same table??
   let gitData;
 
   const columns = [
@@ -276,7 +261,7 @@ const Metrics = (props) => {
     {field: 'time', headerName: 'Time', width: 100 },
     {field: 'url', headerName: 'URL', width: 175, renderCell: (params) => <a target='_blank' rel='noreferrer' href={params.row.url}>{params.row.id}</a> },
     {field: 'author', headerName: 'Author', width: 175 },
-    {field: 'message', headerName: 'Message', width: 750 },
+    {field: 'message', headerName: 'Message', width: 525, align: 'left' },
   ]
   gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
@@ -470,22 +455,9 @@ const Metrics = (props) => {
       <div className='metric-section-title'>
         <h3>GitHub History</h3>
       </div>
-      {/* <div className='gitHub-container'> */}
-        {/* <DataGrid
-        key='DataGrid'
-        rows={rows}
-        columns={columns}
-        getRowHeight={() => 'auto'}
-        initialState={{
-          sorting: {
-            sortModel: [{field: 'time', sort: 'asc'}]
-          }
-        }} */}
         {gitData}
-        {/* /> */}
-      {/* </div> */}
     </div>
   );
 };
 
-export default Metrics;
+export default LineChartDisplay;

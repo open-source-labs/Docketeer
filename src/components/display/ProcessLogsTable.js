@@ -8,6 +8,7 @@ import * as actions from '../../redux/actions/actions';
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { flexbox } from '@mui/system';
 
 /**
  * Displays process logs as table
@@ -15,7 +16,6 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use fo
  * @description Container that displays all running and not running docker containers. Each box is wrapped by
  * a Router link.
  */
-
 
 const ProcessLogsTable = (props) => {
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const ProcessLogsTable = (props) => {
     { field: 'container', headerName: 'Container', width: 150 },
     { field: 'type', headerName: 'Log Type', width: 120 },
     { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 400 }
+    { field: 'message', headerName: 'Message', width: 550 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -130,7 +130,7 @@ const ProcessLogsTable = (props) => {
           <label htmlFor='tailInput'>Tail</label>
           <input type='text' id='tailText' />
 
-          <FormGroup>
+          <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
 
@@ -145,7 +145,7 @@ const ProcessLogsTable = (props) => {
 
         <div
           className='process-logs-container'
-          style={{ height: 500, width: '100%' }}
+          style={{ height: 660, width: '100%' }}
         >
           <DataGrid 
             key='DataGrid'

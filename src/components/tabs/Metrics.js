@@ -150,7 +150,6 @@ const Metrics = (props) => {
         </div>
       </div>
       <LineChartDisplay 
-        key='Line-Chart'
       />
     </div>
   );

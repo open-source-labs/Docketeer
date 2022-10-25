@@ -317,6 +317,7 @@ ul {
 }
 
 .gitHub-container {
+  text-align: left;
   background-color: white;
   margin: 20px 0px 20px 0px;
   height: 100%;

@@ -4,16 +4,11 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
-// import query from '../../../server/models/psqlQuery';
-// import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
-// import { makeStyles } from '@mui/material/styles'; //! Need to delete
-import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
-import { spacing } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -28,7 +23,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,34 +44,6 @@ const mapDispatchToProps = (dispatch) => ({
   removeStoppedNotificationSetting: (data) =>
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
-
-//! Need to delete createTheme
-// const theme = createTheme({
-//   root: {
-//     '& .MuiTextField-root': {
-//       marginLeft: 5,
-//       marginBottom: 15,
-//       width: 220,
-//       verticalAlign: 'middle'
-//     }
-//   },
-//   button: {
-//     '& > *': {
-//       pointerEvents: 'none'
-//     },
-//     marginLeft: 5,
-//     width: 100,
-//     verticalAlign: 'top'
-//   },
-//   verifiedIcon: {
-//     verticalAlign: 'top',
-//     color: 'green'
-//   },
-//   description: {
-//     marginLeft: 5,
-//     marginBottom: 30
-//   }
-// });
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -183,7 +149,6 @@ const Settings = (props) => {
   /**
    * alerts if phone not entered on Test click
    */
-
   const handlePhoneNumberSubmit = () => {
     if (!mobileNumber) alert('Please enter phone number');
     else {
@@ -337,20 +302,10 @@ const Settings = (props) => {
         return response;
       });
   };
-  //! updateState is not being called anywhere...so not really sure if this is actually happening.
-  const updateState = async () => {
-    const output = await getData();
-    output.forEach((el) => {
-      stateObject[el.id] = el.github_url;
-    });
-  };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-
+  //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
-    //console logs to demonstrate
-    console.log('githubLink tempGithubLink check: ', tempGithubLink)
-    console.log('test slice',tempGithubLink[event.target.id].slice(0,22))
     const example = "https://api.github.com"
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');

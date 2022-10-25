@@ -35,7 +35,7 @@ const ProcessLogsTable = () => {
   const initCont = runningList.find(el => el.ID === id);
 
   const [btnIdList, setBtnIdList] = useState([id]);
-  const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
+  // const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
   const [rows, setRows] = useState([]);
 
   const [csvData, setCsvData] = useState([
@@ -45,23 +45,23 @@ const ProcessLogsTable = () => {
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
- // This will update the logs table after all logs have been pulled - there will be a lag before they render
- useEffect(() => {
-     tableData();
-   }, [logs.stderr.length])
+  // This will update the logs table after all logs have been pulled - there will be a lag before they render
+  useEffect(() => {
+    tableData();
+  }, [logs.stderr.length, csvData.length]);
 
   // Get logs button handler function. Grabs logs and updates component state
   const handleGetLogs =  (idList) => {
     const optionsObj = buildOptionsObj(idList);
 
     // Using a promise as the process to pull the container logs takes a fair bit of time
-    const containerLogsPromise = Promise.resolve(getLogs(optionsObj, getContainerLogsDispatcher))
+    const containerLogsPromise = Promise.resolve(getLogs(optionsObj, getContainerLogsDispatcher));
     containerLogsPromise.then((data) => {
-      const newLogs = data
-      setLogs(newLogs)
-      return newLogs
-    })
- };
+      const newLogs = data;
+      setLogs(newLogs);
+      return newLogs;
+    });
+  };
 
   const columns = [
     { field: 'container', headerName: 'Container', width: 150 },
@@ -94,15 +94,15 @@ const ProcessLogsTable = () => {
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
       btnIdList.push(box.id);
-      selectedContainerNames.push(box.name);
+      // selectedContainerNames.push(box.name);
       setBtnIdList(btnIdList);
-      setSelectedContainerNames(selectedContainerNames);
+      // setSelectedContainerNames(selectedContainerNames);
     } else {
       // else remove from button idList
       const newIdList = btnIdList.filter(container => container !== box.id);
-      const newNameList = selectedContainerNames.filter(name => name !== box.name);
+      // const newNameList = selectedContainerNames.filter(name => name !== box.name);
       setBtnIdList(newIdList);
-      setSelectedContainerNames(newNameList);
+      // setSelectedContainerNames(newNameList);
     }
   };
 
@@ -114,13 +114,13 @@ const ProcessLogsTable = () => {
     if(stdout) {
       stdout.forEach((log, index) => {
         const currCont = runningList.find(el => el.ID === log.containerName);
-          newRows.push({
-            container: currCont.Name,
-            type: 'stdout',
-            time: log.timeStamp,
-            message: log.logMsg,
-            id: Math.random() * 100
-          });
+        newRows.push({
+          container: currCont.Name,
+          type: 'stdout',
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: Math.random() * 100
+        });
         newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
 
@@ -167,6 +167,7 @@ const ProcessLogsTable = () => {
             }}
             size='medium'
             variant='contained'
+            style={{marginBottom: 10}}
             type='button' onClick={() => {
               handleGetLogs(btnIdList);
             }}>
@@ -179,8 +180,9 @@ const ProcessLogsTable = () => {
             }}
             size='medium'
             variant='contained'
+            style={{marginBottom: 10}}
           >
-            <CSVLink data={csvData}>Download To CSV</CSVLink>
+            <CSVLink style={{textDecoration: 'none', color: 'white', fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} data={csvData}>Download To CSV</CSVLink>
           </Button>
         </form>
 
@@ -188,7 +190,6 @@ const ProcessLogsTable = () => {
           className='process-logs-container'
           style={{ height: 500, width: '100%' }}
         >
-          <h4 style={{margin: 10}}>SelectedContainers: {selectedContainerNames}</h4>
           <DataGrid 
             key='DataGrid'
             rows={rows} 

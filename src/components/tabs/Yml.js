@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Button } from '@mui/material';
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
@@ -171,9 +172,26 @@ const Yml = () => {
           <br />
         </div>
         <div className='btn-compose-up'>
-          <input id='uploadFile' type='file' accept='.yml'></input>
-          <button
-            className='btn'
+          <Button
+            sx={{
+              ml: 1,
+              width: 150
+            }}
+            style={{marginTop: 10}}
+            component='label'
+            size='medium'
+            variant='contained'>
+            <input hidden id='uploadFile' type='file' accept='.yml'></input>
+            Upload File
+          </Button>
+          <Button
+            sx={{
+              ml: 1,
+              width: 200
+            }}
+            size='medium'
+            variant='contained'
+            // className='btn'
             onClick={() => {
               helper
                 .dockerComposeUp(filePath, ymlFileName)
@@ -193,7 +211,7 @@ const Yml = () => {
             }}
           >
             Docker Compose Up
-          </button>
+          </Button>
         </div>
       </div>
       <div className='settings-container'>

@@ -11,7 +11,6 @@ export default function (state = initialState, action) {
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();
       for (const container of action.payload) {
-        console.log('inside Reducer, container in array: ', container)
         newRunningList.push(container);
       }
       return { ...state, runningList: newRunningList };

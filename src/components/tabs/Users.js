@@ -21,7 +21,7 @@ const UserTable = () => {
     {
       field: 'role',
       headerName: 'Role',
-      width: '100',
+      width: '150',
       type: 'singleSelect',
       valueOptions: ['user', 'admin', 'system admin'],
       editable: true,
@@ -30,7 +30,7 @@ const UserTable = () => {
 
     { field: 'email', headerName: 'Email', width: '200' },
 
-    { field: 'phone', headerName: 'Phone', width: '100' },
+    { field: 'phone', headerName: 'Phone', width: '150' },
 
     { field: 'contact_pref', headerName: 'Contact Pref.', width: '100' },
 
@@ -92,9 +92,9 @@ const UserTable = () => {
     <div style={{ background: '#E1E4E6', height: '200vh' }}>
       <Box
         sx={{
-          width: 900,
+          // width: 900,
           ml: 5,
-          // width: '100%',
+          width: '90%',
           height: 400,
           background: 'white'
         }}

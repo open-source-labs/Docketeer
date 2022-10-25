@@ -38,7 +38,7 @@ export const addRunning = (runningList, callback) => {
       for (let i = 0; i < convertedValue.length; i++) {
         let isInTheList = false;
         for (const container of runningList) {
-          if (container.cid === convertedValue[i].cid) {
+          if (container.ID === convertedValue[i].ID) {
             isInTheList = true;
             break;
           }
@@ -88,7 +88,6 @@ export const refreshRunning = (refreshRunningContainers) => {
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
-
       refreshRunningContainers(convertedValue);
     }
   );
@@ -207,7 +206,6 @@ export const stop = (id, callback) => {
 export const runStopped = (
   id,
   runStoppedContainerDispatcher,
-  refreshRunningContainers
 ) => {
   window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
@@ -566,7 +564,6 @@ export const setDbSessionTimeZone = () => {
   })
   .then((data) => data.json())
   .then((response) => {
-    console.log(response);
     return;
   })
   .catch((err) => {

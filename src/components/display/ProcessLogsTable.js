@@ -17,7 +17,6 @@ import { CSVLink } from 'react-csv';
  * a Router link.
  */
 
-
 const ProcessLogsTable = () => {
 
   const dispatch = useDispatch();
@@ -67,7 +66,7 @@ const ProcessLogsTable = () => {
     { field: 'container', headerName: 'Container', width: 150 },
     { field: 'type', headerName: 'Log Type', width: 120 },
     { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 400 }
+    { field: 'message', headerName: 'Message', width: 550 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -157,7 +156,7 @@ const ProcessLogsTable = () => {
           <label style={{margin: 5}} htmlFor='tailInput'>Tail</label>
           <input style={{marginLeft: 14}} type='text' id='tailText' />
 
-          <FormGroup>
+          <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
           <Button 
@@ -188,7 +187,7 @@ const ProcessLogsTable = () => {
 
         <div
           className='process-logs-container'
-          style={{ height: 500, width: '100%' }}
+          style={{ height: 660, width: '100%' }}
         >
           <DataGrid 
             key='DataGrid'

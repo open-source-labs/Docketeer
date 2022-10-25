@@ -55,6 +55,7 @@ const Containers = (props) => {
   });
 
   const renderRunningList = props.runningList.map((container, i) => {
+    console.log('Props Inside RenderRunningList: ', props)
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -90,7 +91,6 @@ const Containers = (props) => {
       <div className='box box-running' key={`runningBox-${i}`}>
         <div className='box-label'>
           <h3>{container.Name}</h3>
-
           <p>ID: {container.ID}</p>
         </div>
         <div className='box-info'>

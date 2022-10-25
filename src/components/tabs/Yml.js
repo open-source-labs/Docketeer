@@ -172,7 +172,18 @@ const Yml = () => {
           <br />
         </div>
         <div className='btn-compose-up'>
-          <input id='uploadFile' type='file' accept='.yml'></input>
+          <Button
+            sx={{
+              ml: 1,
+              width: 150
+            }}
+            style={{marginTop: 10}}
+            component='label'
+            size='medium'
+            variant='contained'>
+            <input hidden id='uploadFile' type='file' accept='.yml'></input>
+            Upload File
+          </Button>
           <Button
             sx={{
               ml: 1,

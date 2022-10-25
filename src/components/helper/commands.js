@@ -574,9 +574,8 @@ export const setDbSessionTimeZone = () => {
   })
 };
 
-//I'm not sure if this is actually set up and running. May need to link Github URLs first on Settings page
-export const getContainerGitUrl = (container) => {
-  fetch('http://localhost:3000/init/github', {
+export const getContainerGitUrl = async (container) => {
+  const response = await fetch('http://localhost:3000/init/github', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -585,15 +584,7 @@ export const getContainerGitUrl = (container) => {
       githubUrl: container
     })
   })
-  .then((data) => data.json())
-  .then((response) => {
-    console.log(response);
-    //I believe this should return the github_url that is linked to the container
-    return response;
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+  return await response.json();
 };
 
 /**
@@ -661,29 +652,30 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  * @returns {object} containerLogs
  */
 
-export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  const containerLogs = { stdout: [], stderr: [] };
-  
-  // iterate through containerIds array in optionsObj
-  for (let i = 0; i < optionsObj.containerIds.length; i++) {
-    // build inputCommandString to get logs from command line
-    let inputCommandString = 'docker logs --timestamps ';
-    if (optionsObj.since) {
-      inputCommandString += `--since ${optionsObj.since} `;
-    }
-    optionsObj.tail
-      ? (inputCommandString += `--tail ${optionsObj.tail} `)
-      : (inputCommandString += '--tail 50 ');
-    inputCommandString += `${optionsObj.containerIds[i]}`;
-  
-    window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
+export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
+  let containerLogs = { stdout: [], stderr: [] };
+
+  // const logsToArr = await Promise.resolve(() => {
+    // iterate through containerIds array in optionsObj
+    for (let i = 0; i < optionsObj.containerIds.length; i++) {
+      // build inputCommandString to get logs from command line
+      let inputCommandString = 'docker logs --timestamps ';
+      if (optionsObj.since) {
+        inputCommandString += `--since ${optionsObj.since} `;
       }
-      containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
-      containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
-    });
-  }
-  return containerLogs;
+      optionsObj.tail
+        ? (inputCommandString += `--tail ${optionsObj.tail} `)
+        : (inputCommandString += '--tail 50 ');
+      inputCommandString += `${optionsObj.containerIds[i]}`;
+
+      window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
+        containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
+      });
+    }
+    return containerLogs;
 };

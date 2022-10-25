@@ -18,7 +18,8 @@ import { CSVLink } from 'react-csv';
  */
 
 
-const ProcessLogsTable = (props) => {
+const ProcessLogsTable = () => {
+
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
@@ -30,12 +31,11 @@ const ProcessLogsTable = (props) => {
 
   // access runningList from state
   const runningList = store.getState().containersList.runningList;
-  // get inital container name for state
+  // get initial container name for state
   const initCont = runningList.find(el => el.ID === id);
 
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
-
   const [rows, setRows] = useState([]);
 
   const [csvData, setCsvData] = useState([
@@ -45,12 +45,23 @@ const ProcessLogsTable = (props) => {
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
+ // This will update the logs table after all logs have been pulled - there will be a lag before they render
+ useEffect(() => {
+     tableData();
+   }, [logs.stderr.length])
+
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (idList) => {
-    const optionsObj = buildOptionsObj(idList); 
-    const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
-    setLogs(containerLogs);
-  };
+  const handleGetLogs =  (idList) => {
+    const optionsObj = buildOptionsObj(idList);
+
+    // Using a promise as the process to pull the container logs takes a fair bit of time
+    const containerLogsPromise = Promise.resolve(getLogs(optionsObj, getContainerLogsDispatcher))
+    containerLogsPromise.then((data) => {
+      const newLogs = data
+      setLogs(newLogs)
+      return newLogs
+    })
+ };
 
   const columns = [
     { field: 'container', headerName: 'Container', width: 150 },
@@ -76,7 +87,9 @@ const ProcessLogsTable = (props) => {
   const containerSelectors = [];
   createContainerCheckboxes(id);
 
+  // handle checkboxes
   const handleCheck = (e) => {
+
     const box = e.target;
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
@@ -98,33 +111,35 @@ const ProcessLogsTable = (props) => {
     const newRows = [];
     const newCSV = [];
 
-    stdout.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stdout',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: `stdout ${index}`
+    if(stdout) {
+      stdout.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+          newRows.push({
+            container: currCont.Name,
+            type: 'stdout',
+            time: log.timeStamp,
+            message: log.logMsg,
+            id: Math.random() * 100
+          });
+        newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
-      newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
-    });
 
-    stderr.forEach((log, index) => {
-      const currCont = runningList.find(el => el.ID === log.containerName);
-      newRows.push({
-        container: currCont.Name,
-        type: 'stderr',
-        time: log.timeStamp,
-        message: log.logMsg,
-        id: `stderr ${index}`
+      stderr.forEach((log, index) => {
+        const currCont = runningList.find(el => el.ID === log.containerName);
+        newRows.push({
+          container: currCont.Name,
+          type: 'stderr',
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: `stderr ${index}`
+        });
+        newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
       });
-      newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
-    });
 
-    setRows(newRows);
-    setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
-    console.log('CSV data', csvData);
+      setRows(newRows);
+      setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
+      console.log('CSV data', csvData);
+    }
   };
 
   return (
@@ -145,7 +160,6 @@ const ProcessLogsTable = (props) => {
           <FormGroup>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
-
           <Button 
             sx={{
               ml: 1,
@@ -153,9 +167,8 @@ const ProcessLogsTable = (props) => {
             }}
             size='medium'
             variant='contained'
-            type='button' onClick={async () => {
-              await handleGetLogs(btnIdList);
-              tableData();
+            type='button' onClick={() => {
+              handleGetLogs(btnIdList);
             }}>
             Get Logs
           </Button>

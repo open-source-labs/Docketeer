@@ -1,343 +1,125 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Box, Typography } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import NewUserDisplay from '../display/NewUserDisplay';
-
-// Material UI imports
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableFooter from '@material-ui/core/TableFooter';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import Checkbox from '@material-ui/core/Checkbox';
-
-// Redux Imports (actions)
-import * as actions from '../../actions/actions';
-
-// Table Style Generator
-export const useStyles = makeStyles({
-  table: {
-    minWidth: 1000,
-  },
-});
-
-// Pagination Footer Style Generator
-const useStyles1 = makeStyles((theme) => ({
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
-}));
-
-// Function store of all pagination functions, these functions update the count, the current range of pages, etc. 
-// Essentially, any action on the pagination bar will be handled by this function store which is passed into the TablePagination component
-function TablePaginationActions(props) {
-  const classes = useStyles1();
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <div className={classes.root}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label='first page'
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label='previous page'
-      >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label='next page'
-      >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label='last page'
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </div>
-  );
-}
-// Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
-// https://reactjs.org/docs/typechecking-with-proptypes.html
-TablePaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-};
+import * as actions from '../../redux/actions/actions';
 
 const UserTable = () => {
-  const classes = useStyles();
-  const rows = useSelector((state) => state.userList.userList);
+  const userList = useSelector((state) => state.userList.userList);
   const dispatch = useDispatch();
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  const [pageSize, setPageSize] = useState(5);
 
-  // Create an object for each user-role checkbox - assign true/false based on the roles
-  // from the state array
-  // TODO: Add react useEffect once updated
-  const tempAdminSelected = {};
-  const tempSysAdminSelected = {};
-  const tempUserSelected = {};
-  for (let i = 0; i < rows.length; i++) {
-    tempSysAdminSelected[rows[i]._id] = rows[i].role === 'system admin';
-    tempAdminSelected[rows[i]._id] = rows[i].role === 'admin';
-    tempUserSelected[rows[i]._id] = rows[i].role === 'user';
-  }
-  console.log(tempAdminSelected);
+  // Create columns for table
+  const columns = useMemo(() => [
+    { field: '_id', headerName: 'ID', width: '60' },
 
-  // Local state variables for table pagination
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+    { field: 'username', headerName: 'User', width: '150' },
 
-  // Local state variable to keep track of which admin, sysadmin or user checkboxes are selected. 
-  const [selectedUser, setSelectedUser] = React.useState(tempUserSelected);
-  const [selectedAdmin, setSelectedAdmin] = React.useState(tempAdminSelected); // tm
-  const [selectedSysAdmin, setSelectedSysAdmin] = React.useState(tempSysAdminSelected);
+    {
+      field: 'role',
+      headerName: 'Role',
+      width: '150',
+      type: 'singleSelect',
+      valueOptions: ['user', 'admin', 'system admin'],
+      editable: true,
+      preProcessEditCellProps: (params) => handleRoleChange(params)
+    },
 
+    { field: 'email', headerName: 'Email', width: '200' },
 
+    { field: 'phone', headerName: 'Phone', width: '150' },
 
-  // Determine how many empty rows to display on a certain page, e.g. if rowsPerPage = 5, and there are only 3 rows, should display 2 rows
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    { field: 'contact_pref', headerName: 'Contact Pref.', width: '100' },
 
-  // Update local state variable page upon clicking a new page
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  // Update local state variable rowsPerPage upon selecting new number of rows to be displayed
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    { field: 'mem_threshold', headerName: 'Memory', width: '100' },
 
-  const setSysAdmin = (id) => {
-    const invertPreviousValue = !selectedSysAdmin[`S${id}`];
-    const temp = {
-      ...selectedSysAdmin,
-    };
-    // update key of checkbox id to switched/inverted value
-    temp[id] = invertPreviousValue;
-    // update local state
-    setSelectedSysAdmin(temp);
-    return 1;
-  };
+    { field: 'cpu_threshold', headerName: 'CPU', width: '100' }
+  ]);
 
-  const setAdmin = (id) => {
-    const invertPreviousValue = !selectedAdmin[id];
-    // Create a temp copy of the selected object
-    const temp = {
-      ...selectedAdmin,
-    };
-    temp[id] = invertPreviousValue;
-    setSelectedAdmin(temp);
-    return 2;
-  };
+  const handleRoleChange = (event) => {
+    const id = event.id;
+    const role = event.props.value;
 
-  const setUser = (id) => {
-    const invertPreviousValue = !selectedUser[`U${id}`];
-    const temp = {
-      ...selectedUser,
-    };
-    temp[id] = invertPreviousValue;
-    setSelectedUser(temp);
-    return 3;
-  };
-
-  const handleCheckboxClick = (event) => {
-    // event persist is required to access target property of event. Without this, a synthetic event object would be used where target is re-assigned to null for performance reasons
-    event.persist();
-
-    let id = event.target.getAttribute('id');
-    let role_id;
- 
-    if(id.charAt(0) === 'S') {
-      id = id.slice(1);
-      role_id = setSysAdmin(id);
-    } else if (id.charAt(0) === 'U'){
-      id = id.slice(1);
-      role_id = setUser(id);
-    }
-    else {
-      role_id = setAdmin(id);
-    }
-        
-    // send request to endpoint http://localhost:3000/admin/switch
-    fetch('http://localhost:3000/admin/switch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id: id,
-        role_id: role_id // TM - Need to add info if role needs to be downgraded
-        // changeToAdmin: invertPreviousValue,
-      }),
-    })
-      .then((response) => {
-        return response.json();
+    return new Promise((resolve) => {
+      // preProcessEditCellProps requires you to use a Promise/Resolve
+      fetch('http://localhost:3000/admin/switch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          _id: id,
+          role: role
+        })
       })
-      .then((data) => {
-        const { _id, role } = data;
-        const payload = {
-          _id,
-          role,
-        };
-        updateUserRole(payload);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => response.json())
+          // return response.json(); // This needs to be changed to one line since console.logs have been removed
+        .then((data) => {
+          // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
+          const hasError = data;
+          if (data) {
+            console.log('no change');
+            window.alert(
+              "Uh-oh! You're the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin."
+            );
+          } else {
+            const payload = {
+              _id: id,
+              role
+            };
+            updateUserRole(payload); // Updates local state
+          }
+          event.props.value = role; // Set's the cell's props to the role that was passed in
+          resolve({
+            ...event.props, // Send the resolve with the selected props.
+            error: hasError // If this is false, the value of the cell will not be updated. If it is true, it will be udpated
+          });
+        })
+        .catch((err) => {
+          console.log('Error in front end switching roles: ', err);
+        });
+    });
   };
-
-  // To get an array of user objects
-  const renderRows =
-    rowsPerPage > 0
-      ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      : rows;
 
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Users</h1>
-      </div>
-      <div className='metric-section-title'>
-        <h3>List of Users in Docketeer</h3>
-      </div>
-      <div className='settings-containers'>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                <TableCell>id</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Contact Preference</TableCell>
-                <TableCell>Memory Threshold</TableCell>
-                <TableCell>CPU Threshold</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>Admin</TableCell>
-                <TableCell>SysAdmin</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {renderRows.length > 0
-                ? renderRows.map((row, index) => {
-                  // const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow key={row._id} hover>
-                      <TableCell component='th' scope='row'>
-                        {row._id}
-                      </TableCell>
-                      <TableCell>{row.username}</TableCell>
-                      <TableCell>{row.email}</TableCell>
-                      <TableCell>{row.phone}</TableCell>
-                      <TableCell>{row.role}</TableCell>
-                      <TableCell>{row.contact_pref}</TableCell>
-                      <TableCell>{row.mem_threshold}</TableCell>
-                      <TableCell>{row.cpu_threshold}</TableCell>
-                      <TableCell>
-                        <Checkbox
-                          id={`U${row._id}`}  
-                          userid={`${row._id}`}
-                          checked={selectedUser[`U${row._id}`]}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          onChange={handleCheckboxClick}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Checkbox
-                          id={`${row._id}`}
-                          userid={`${row._id}`}
-                          checked={selectedAdmin[row._id]}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          onChange={handleCheckboxClick}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Checkbox
-                          id={`S${row._id}`}  // Edit these details so it links to sysadmin
-                          userid={`${row._id}`}
-                          checked={selectedSysAdmin[`S${row._id}`]}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          onChange={handleCheckboxClick}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-                : ''}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
-                  colSpan={10}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: { 'aria-label': 'rows per page' },
-                    native: true,
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      </div>
-      <br />
+    <div style={{ background: '#E1E4E6', height: 600 }}>
+      <Box
+        sx={{
+          ml: 5,
+          width: '90%',
+          height: 425,
+          background: 'white'
+        }}
+      >
+        <Typography
+          variant='h6'
+          sx={{ textAlign: 'center', mt: 4, mb: 1 }}
+        >
+          Manage Users
+        </Typography>
+        <Typography
+          sx={{ textAlign: 'center', mt: 0, mb: 1, color: 'gray', fontStyle: 'italic', fontWeight: 'lighter' }}
+        >
+          * Double click on the role to access the drop down menu
+        </Typography>
+        <DataGrid
+          sx={{}}
+          columns={columns}
+          rows={userList}
+          experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
+          getRowId={(row) => row._id}
+          rowsPerPageOptions={[5, 10, 20]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          getRowSpacing={(params) => ({
+            // Sets spacing between rows
+            top: params.isFirstVisible ? 0 : 5, // Sets spacing for top row to zero and 5 for everything else
+            bottom: params.isLastVisible ? 0 : 5
+          })}
+        />
+      </Box>
       <NewUserDisplay />
     </div>
   );

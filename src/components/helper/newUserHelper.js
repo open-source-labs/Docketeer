@@ -3,9 +3,7 @@
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
 import store from '../../renderer/store';
-import * as actions from '../../actions/actions';
-import { NetworkCellSharp, NextWeek } from '@material-ui/icons';
-import { username } from '../../../security/email';
+import * as actions from '../../redux/actions/actions';
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -82,14 +80,14 @@ export const createNewUser = (email, username, password, phone) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username: username,
       password: password,
       email: email,
-      phone: phone,
-    }),
+      phone: phone
+    })
   })
     .then(() => {
       document.getElementById('signupUsername').value = '';
@@ -114,19 +112,10 @@ export const createNewUser = (email, username, password, phone) => {
 
 export const getUpdatedUserList = () => {
 
-  // TM: Added this - do we need to use mapStateToProps to access the signed-in user's info?
-// const mapStateToProps = state => {
-//   console.log(state);
-//   return{
-//   username: state.session.userName,
-//   token: state.session.token
-// }};
-
-
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
@@ -135,7 +124,7 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      // updateUserList(data);
+      updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);

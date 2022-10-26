@@ -3,8 +3,6 @@
  * @description Contains middleware that stores the user id in a HTTP-only cookie and sets HTTP-only cookie specifically for admins
  */
 
-
-
 const cookieController = {};
 
 // store the user id in a cookie
@@ -29,7 +27,6 @@ cookieController.setAdminCookie = (req, res, next) => {
     res.cookie('adminType', 'admin', { httpOnly: true });
     res.locals.cookie = 'admin';
   }
-
   return next();
 };
 

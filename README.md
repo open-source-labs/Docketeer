@@ -141,8 +141,10 @@ Users have real-time access to the total amount of resources (CPU, memory usage)
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
 
 ### ➮ Process Logs
-You are now able to view logs for both running and stopped containers. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong. 
-![alt text](assets/processlogs.gif)
+View process logs from any number of running or stopped containers. The table is both exportable and sortable by any parameter. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
+<!-- replace this gif
+-->
+![alt text](assets/docketeer-process-logs.gif)
 
 <br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
 
@@ -172,6 +174,11 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
+- Abigail Gerig [@4estgirl] (https://github.com/4estgirl) | [Linkedin] (https://www.linkedin.com/in/abigail-gerig/)
+- Trine Medina [@TrineMedina] (https://github.com/TrineMedina) | [Linkedin] (https://www.linkedin.com/in/trinemedina/)
+- Christian Looff [@cmlooff] (https://github.com/cmlooff) | [LinkedIn] (https://www.linkedin.com/in/christian-looff/)
+- Reuel Warner-Rosen [@Ruliwr] (https://github.com/Ruliwr) | [Linkedin] (https://www.linkedin.com/in/Ruliwr/)
+- Matt Dias [@Schmang13] (https://github.com/Schmang13) | [Linkedin] (https://www.linkedin.com/in/matthew-j-dias/)
 - Christina Son [@cson17](https://github.com/cson17) | [Linkedin](https://www.linkedin.com/in/christinason17/)
 - Fernando Luna [@lunaf-github](https://github.com/lunaf-github) | [Linkedin](https://www.linkedin.com/in/fernando-luna)
 - Austin Andrews [@austinandrews](https://github.com/austinandrews) | [Linkedin](https://www.linkedin.com/in/austinandrews17/)

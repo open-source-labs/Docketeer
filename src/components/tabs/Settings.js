@@ -1,74 +1,49 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import * as actions from '../../actions/actions';
-import { ipcRenderer } from 'electron';
+import * as actions from '../../redux/actions/actions';
 import PropTypes from 'prop-types';
+import * as categories from '../../redux/constants/notificationCategories';
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
-import query from '../helper/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Radio from '@mui/material/Radio';
+import SendIcon from '@mui/icons-material/Send';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) => dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) => dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) => dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) => dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) => dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) => dispatch(actions.removeStoppedNotificationSetting(data)),
+  addNotificationFrequency: (data) =>
+    dispatch(actions.addNotificationFrequency(data)),
+  addMonitoringFrequency: (data) =>
+    dispatch(actions.addMonitoringFrequency(data)),
+  addMemoryNotificationSetting: (data) =>
+    dispatch(actions.addMemoryNotificationSetting(data)),
+  addCpuNotificationSetting: (data) =>
+    dispatch(actions.addCpuNotificationSetting(data)),
+  addStoppedNotificationSetting: (data) =>
+    dispatch(actions.addStoppedNotificationSetting(data)),
+  removeMemoryNotificationSetting: (data) =>
+    dispatch(actions.removeMemoryNotificationSetting(data)),
+  removeCpuNotificationSetting: (data) =>
+    dispatch(actions.removeCpuNotificationSetting(data)),
+  removeStoppedNotificationSetting: (data) =>
+    dispatch(actions.removeStoppedNotificationSetting(data))
 });
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle',
-    },
-  },
-  button: {
-    '& > *': {
-      pointerEvents: 'none',
-    },
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top',
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30,
-  },
-}));
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -76,7 +51,6 @@ let isVerified = false;
 
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState('');
-  const classes = useStyles();
 
   // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
   // https://reactjs.org/docs/typechecking-with-proptypes.html
@@ -91,107 +65,80 @@ const Settings = (props) => {
     stoppedList: PropTypes.array.isRequired,
     memoryNotificationList: PropTypes.object.isRequired,
     cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired,
+    stoppedNotificationList: PropTypes.object.isRequired
   };
 
   // handle check
-  // I couldve made this a single function where queryType gets passed in
-  // but the query's parameters are not the same
+  // insert all container information performs two database calls on the backend
   const handleCheckSetting = (containerId, containerName, metricName) => {
-    // add to DB
-    query(
-      queryType.INSERT_CONTAINER,
-      [containerId, containerName],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in INSERT_CONTAINER. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER returned: **', res);
-        }
-      }
-    );
-
-    query(
-      queryType.INSERT_CONTAINER_SETTING,
-      [containerId, metricName.toLowerCase()],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in INSERT_CONTAINER_SETTING. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** INSERT_CONTAINER_SETTING returned: **', res);
-        }
-      }
-    );
+    fetch('http://localhost:3000/settings/insert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        name: containerName,
+        metric: metricName.toLowerCase()
+      })
+    })
+      .then((data) => data.json())
+      .then((response) => {
+        fetchNotificationSettings();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // handle uncheck
-  // remove from DB
+  // remove container/metric from DB
   const handleUnCheckSetting = (containerId, metricName) => {
-    // add to DB
-    query(
-      queryType.DELETE_CONTAINER_SETTING,
-      [containerId, metricName.toLowerCase()],
-      (err, res) => {
-        if (err) {
-          console.log(`Error in DELETE_CONTAINER_SETTING. Error: ${err}`);
-        } else {
-          // if all good, call fetchNotificationSettings
-          fetchNotificationSettings();
-          console.log('** DELETE_CONTAINER_SETTING returned: **', res);
-        }
-      }
-    );
+    fetch('http://localhost:3000/settings/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        metric: metricName.toLowerCase()
+      })
+    })
+      .then((data) => data.json())
+      .then((response) => {
+        fetchNotificationSettings();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   /**
    * @title NOTIFICATION PREFERENCES
    */
-  const fetchNotificationSettings = () => {
-    return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
-      if (err) {
-        console.log(`Error getting settings. Error: ${err}`);
-      } else {
-        // find a way to set the three lists here
-        // iterate through res.row
-        // if the metric_name = "memory"
-        const tempMemory = [];
-        const tempCPU = [];
-        const tempStopped = [];
 
-        res.rows.forEach((el, i) => {
-          switch (el.metric_name) {
-          case categories.MEMORY.toLowerCase():
-            tempMemory.push(el.container_id);
-            break;
-          case categories.CPU.toLowerCase():
-            tempCPU.push(el.container_id);
-            break;
-          case categories.STOPPED.toLowerCase():
-            tempStopped.push(el.container_id);
-            break;
-          default:
-            break;
-          }
-        });
-
-        // replace state with new data from database
-        props.addMemoryNotificationSetting(tempMemory);
-        props.addCpuNotificationSetting(tempCPU);
-        props.addStoppedNotificationSetting(tempStopped);
+  //updates state as to which boxes are checked
+  const fetchNotificationSettings = async () => {
+    fetch('http://localhost:3000/settings/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
       }
-    });
+    })
+      .then((data) => data.json())
+      .then((response) => {
+        props.addMemoryNotificationSetting(response.memory);
+        props.addCpuNotificationSetting(response.cpu);
+        props.addStoppedNotificationSetting(response.stopped);
+      });
   };
 
-/**
- * @title COMMUNICATION
- */
+  /**
+   * @title COMMUNICATION
+   */
 
   const verifyMobileNumber = async () => {
-    await ipcRenderer.invoke('verify-number', mobileNumber);
+    await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -205,27 +152,31 @@ const Settings = (props) => {
   const handlePhoneNumberSubmit = () => {
     if (!mobileNumber) alert('Please enter phone number');
     else {
-      // alert if input is not a number
       if (isNaN(Number(mobileNumber)))
         alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         alert(`Phone: ${mobileNumber} is valid`);
-        // ask SMS service for a verification code
-        query(
-          queryType.INSERT_USER,
-          ['admin', mobileNumber, 5, 2],
-          (err, res) => {
-            if (err) {
-              console.log(`Error in insert user. Error: ${err}`);
-            } else {
-              console.log(`*** Inserted ${res} into users table. ***`);
-              props.addPhoneNumber(mobileNumber);
-              showVerificationInput = true;
-              // ask SMS service for a verification code
-              verifyMobileNumber();
-            }
-          }
-        );
+        fetch('http://localhost:3000/settings/phone', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            admin: 'admin',
+            number: mobileNumber,
+            digits: [5, 2]
+          })
+        })
+          .then((data) => data.json())
+          .then((response) => {
+            props.addPhoneNumber(mobileNumber);
+            showVerificationInput = true;
+            verifyMobileNumber();
+            document.getElementById('textfield').value = '';
+          })
+          .catch((err) => {
+            console.log('handlePhoneNumberSubmit: ', err);
+          });
       }
     }
   };
@@ -236,52 +187,64 @@ const Settings = (props) => {
   // 3. SEND IT TO DATABASE
   // 4. THEN UPDATE THE STATE
   const [tempNotifFreq, setTempNotifFreq] = useState('');
+
   const notificationFrequency = () => {
-    // default value for Notification Frequency
     let frequency = 5;
-    // alert if input is not a number
     if (isNaN(Number(tempNotifFreq)))
       alert('Please enter notification frequency in numerical format. ex: 15');
     else {
       if (tempNotifFreq) frequency = tempNotifFreq;
-      query(
-        queryType.INSERT_NOTIFICATION_FREQUENCY,
-        // ['admin', , frequency, ,],
-        ['admin', undefined, frequency, undefined, undefined],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_NOTIFICATION_FREQUENCY. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-            props.addNotificationFrequency(frequency);
-          }
-        }
-      );
+      fetch('http://localhost:3000/settings/notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: frequency,
+          monitoring: undefined
+        })
+      })
+        .then((data) => data.json())
+        .then((response) => {
+          props.addNotificationFrequency(frequency);
+          setTempNotifFreq('');
+        })
+        .catch((err) => {
+          console.log('NoficationFrequency: ', err);
+        });
     }
   };
 
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
+
   const monitoringFrequency = () => {
-    // default value for Monitoring Frequency
     let frequency = 2;
-    // alert if input is not a number
     if (isNaN(Number(tempMonitoringFrequency)))
       alert('Please enter monitoring frequency in numerical format. ex: 15');
     else {
       if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
-      query(
-        queryType.INSERT_MONITORING_FREQUENCY,
-        // ['admin', , , frequency],
-        ['admin', undefined, undefined, frequency],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_MONITORING_FREQUENCY. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into users table. ***`);
-            props.addMonitoringFrequency(frequency);
-          }
-        }
-      );
+      fetch('http://localhost:3000/settings/monitoring', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: 'admin',
+          phoneNumber: undefined,
+          notification: undefined,
+          monitoring: frequency
+        })
+      })
+        .then((data) => data.json())
+        .then((response) => {
+          props.addMonitoringFrequency(frequency);
+          setTempMonitoringFrequency('');
+        })
+        .catch((err) => {
+          console.log('MonitoringFrequency: ', err);
+        });
     }
   };
 
@@ -295,10 +258,10 @@ const Settings = (props) => {
   const handleSubmit = async () => {
     const body = {
       code: formData,
-      mobileNumber: mobileNumber,
+      mobileNumber: mobileNumber
     };
 
-    const result = await ipcRenderer.invoke('verify-code', body);
+    const result = await window.nodeMethod.rendInvoke('verify-code', body);
     console.log('RESULT: ', result);
     if (result === 'approved') {
       showVerificationInput = false;
@@ -312,10 +275,17 @@ const Settings = (props) => {
    * @param {string} containerId the container's ID
    * @returns {number} -1 or the index of the container ID within the array
    */
+
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
 
   const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+
+
+  /*       Docketeer 7.0
+  ** This was leftover from the previous teams, getData does not get called anywhere in the program. This could be removed or further investigated.
+  */
+
 
   // GITHUB URL FORM
   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
@@ -326,34 +296,48 @@ const Settings = (props) => {
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
   const getData = () => {
-    return query(queryType.GET_CONTAINERS, []);
+    fetch('http://localhost:3000/settings/gitcontainers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log(response);
+        return response;
+      });
   };
 
-  const updateState = async () => {
-    const output = await getData();
-    output.forEach((el) => {
-      stateObject[el.id] = el.github_url;
-    });
-  };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
+  //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
-    if (!tempGithubLink)
-      alert('Please provide a link in accordance with provided example');
-    if (!event.target.id) alert('Please provide a container ID');
+    const example = "https://api.github.com"
+    if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
+      return alert('Please provide a link in accordance with provided example');
+    if (!event.target.id) return alert('Please provide a container ID');
     else {
       const github_url = tempGithubLink[event.target.id];
-      query(
-        queryType.INSERT_GITHUB,
-        [event.target.id, event.target.name, github_url],
-        (err, res) => {
-          if (err) {
-            console.log(`INSERT_GITHUB. Error: ${err}`);
-          } else {
-            console.log(`*** Inserted ${res} into containers table. ***`);
-          }
-        }
-      );
+      fetch('http://localhost:3000/settings/gitLinks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: event.target.id,
+          name: event.target.name,
+          url: github_url
+        })
+      })
+        .then((data) => data.json())
+        .then((response) => {
+          document.getElementById('gittext').value = ''
+          return response;
+        })
+        .catch((err) => {
+          console.log('githubLink: ', err);
+        });
     }
   };
 
@@ -366,9 +350,9 @@ const Settings = (props) => {
   const phone = useSelector((state) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
-  const [ cpuThreshold, setCpuThreshold ] = useState(cpu_threshold);
-  const [ memThreshold, setMemThreshold ] = useState(mem_threshold);
-  const [ stoppedContainers, setStoppedContainers ] = useState(container_stops);
+  const [cpuThreshold, setCpuThreshold] = useState('');
+  const [memThreshold, setMemThreshold] = useState('');
+  const [stoppedContainers, setStoppedContainers] = useState(container_stops);
   const [value, setValue] = useState(contact_pref);
 
   const dispatch = useDispatch();
@@ -379,17 +363,16 @@ const Settings = (props) => {
   };
 
   const handleRadioSubmit = (value) => {
-    fetch('http://localhost:3000/account/contact', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          contact_pref: value,
-        })
+    fetch('http://localhost:3000/account/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        contact_pref: value
       })
+    })
       .then((response) => {
         return response.json();
       })
@@ -406,22 +389,22 @@ const Settings = (props) => {
   };
 
   const handleCpuSubmit = (value) => {
-    fetch('http://localhost:3000/account/cpu', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          cpu_threshold: value,
-        })
+    fetch('http://localhost:3000/account/cpu', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        cpu_threshold: value
       })
+    })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         updateUser(data);
+        setCpuThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -429,22 +412,22 @@ const Settings = (props) => {
   };
 
   const handleMemSubmit = (value) => {
-    fetch('http://localhost:3000/account/memory', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          mem_threshold: value,
-        })
+    fetch('http://localhost:3000/account/memory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        mem_threshold: value
       })
+    })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         updateUser(data);
+        setMemThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -452,17 +435,16 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersSubmit = (value) => {
-    fetch('http://localhost:3000/account/stops', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          container_stops: value,
-        })
+    fetch('http://localhost:3000/account/stops', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        container_stops: value
       })
+    })
       .then((response) => {
         return response.json();
       })
@@ -479,7 +461,9 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersChange = (event) => {
-    setStoppedContainers(document.getElementById('stopped-containers-input').checked);
+    setStoppedContainers(
+      document.getElementById('stopped-containers-input').checked
+    );
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
@@ -494,85 +478,90 @@ const Settings = (props) => {
     );
 
     return (
-      <TableRow key={i} id="settings-row">
+      <TableRow key={i} id='settings-row'>
         <TableCell>
-          <span className="container-name">
+          <span className='container-name'>
             {container.Names ? container.Names : container.Name}
             {/* Stopped containers have a .Names key. Running containers have a .Name key */}
           </span>
         </TableCell>
         <TableCell>
-          <span className="container-id">{container.ID}</span>
+          <span className='container-id'>{container.ID}</span>
         </TableCell>
-        <TableCell>{container.Image}</TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Name,
-                  categories.MEMORY
-                )
+                    container.ID,
+                    container.Name,
+                    categories.MEMORY
+                  )
                 : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isMemorySelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Name,
-                  categories.CPU
-                )
+                    container.ID,
+                    container.Name,
+                    categories.CPU
+                  )
                 : handleUnCheckSetting(container.ID, categories.CPU)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isCpuSelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                  container.ID,
-                  container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                  categories.STOPPED
-                )
+                    container.ID,
+                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+                    categories.STOPPED
+                  )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isStoppedSelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <TextField
-            className={classes.textfield}
-            id="textfield"
-            label="Main repository url"
-            helperText="* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
-            variant="outlined"
-            value={tempGithubLink[container.ID]}
+            sx={{
+              ml: 5,
+              mb: 15,
+              width: 220
+            }}
+            id='gittext'
+            label='Main repository url'
+            helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
+            variant='outlined'
             onChange={(e) => {
               stateObject[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
             }}
-            size="small"
+            size='small'
           />
         </TableCell>
         <TableCell>
           <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
+            sx={{
+              ml: 1,
+              width: 100
+            }}
+            size='medium'
+            variant='contained'
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
             onClick={(e) => githubLink(e)}
@@ -585,40 +574,48 @@ const Settings = (props) => {
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Settings</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Settings</h1>
       </div>
+
+      {/* Account Display */}
       <AccountDisplay />
-      <div className="metric-section-title">
+
+      <div className='metric-section-title'>
         <h3>Communication</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
-          Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
+          Allows you to (i) connect a mobile phone to your account, and (ii)
+          choose your preferred method of communication.
         </p>
-        <br/>
+        <br />
         <p>1. Verify your mobile phone number on Twilio</p>
-        <br/>
-        <form className={classes.root} autoComplete="off">
+        <br />
+        {/* First Form */}
+        <form className='settingsForm' autoComplete='off'>
           <div>
             <TextField
               required
-              id="textfield"
+              id='textfield'
               label={phone}
-              helperText="* use country code (+1)"
-              variant="outlined"
+              helperText='* use country code (+1)'
+              variant='outlined'
               onChange={(e) => {
                 setMobileNumber(e.target.value);
                 isVerified = false;
               }}
-              size="small"
+              size='small'
             />
             {!isVerified ? (
               <Button
-                className={classes.button}
-                size="medium"
-                variant="contained"
+                sx={{
+                  ml: 1,
+                  width: 100
+                }}
+                size='medium'
+                variant='contained'
                 onClick={(e) => handlePhoneNumberSubmit(e)}
                 endIcon={<SendIcon />}
               >
@@ -626,31 +623,33 @@ const Settings = (props) => {
               </Button>
             ) : (
               <CheckCircleIcon
-                fontSize="large"
-                className={classes.verifiedIcon}
+                fontSize='large'
               />
             )}
           </div>
         </form>
 
+        {/* Verification Input */}
         {showVerificationInput ? (
-          <form className={classes.root} autoComplete="off">
-            <div className="verification-code">
+          <form className='settingsForm' autoComplete='off'>
+            <div className='verification-code'>
               <TextField
                 required
-                id="verification-code"
-                label="Verification code"
-                variant="outlined"
+                id='verification-code'
+                label='Verification code'
+                variant='outlined'
                 onChange={(e) => {
                   handleChange(e.target.value);
                 }}
-                size="small"
+                size='small'
               />
               <Button
-                className={classes.button}
-                size="medium"
-                color="default"
-                variant="contained"
+                sx={{
+                  ml: 1,
+                  width: 100
+                }}
+                size='medium'
+                variant='contained'
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}
               >
@@ -659,21 +658,29 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
-        
+
         <p>2. Contact preference:</p>
-        <br/>
-        <FormControl component="fieldset">
-          <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
-            <FormControlLabel value="email" control={<Radio />} label="Email" />
-            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
+        <br />
+        <FormControl component='fieldset'>
+          <RadioGroup
+            aria-label='Contact Preferences'
+            name='contact_pref'
+            value={value}
+            onChange={handleRadioChange}
+          >
+            <FormControlLabel value='email' control={<Radio />} label='Email' />
+            <FormControlLabel value='phone' control={<Radio />} label='Phone' />
           </RadioGroup>
-          <br/>
+          <br />
           <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
-            name="submit-contact-pref"
-            id="submit-contact-pref"
+            sx={{
+              ml: 1,
+              width: 100
+            }}
+            size='medium'
+            variant='contained'
+            name='submit-contact-pref'
+            id='submit-contact-pref'
             onClick={() => handleRadioSubmit(value)}
           >
             Submit
@@ -681,36 +688,40 @@ const Settings = (props) => {
         </FormControl>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Notification preferences</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
-          Allows you to (i) customize monitoring and notification frequency, and (ii) define container conditions that will trigger notifications. When a container hits a threshold, an alert is sent via your preferred method of communication. Recommended values will be used by default.
+          Allows you to (i) customize monitoring and notification frequency, and
+          (ii) define container conditions that will trigger notifications. When
+          a container hits a threshold, an alert is sent via your preferred
+          method of communication. Recommended values will be used by default.
         </p>
-        
-        <br/>
-        <p>
-          1. Setup / update notification criteria
-        </p>
-        <br/>
+
+        <br />
+        <p>1. Setup / update notification criteria</p>
+        <br />
         <div>
-          <form className={classes.root} autoComplete="off">
+          <form className='settingsForm' autoComplete='off'>
             <TextField
-              id="textfield"
-              label="Notification frequency, min"
-              helperText="* 5 min is recommended"
-              variant="outlined"
+              id='freqtext'
+              label='Notification frequency, min'
+              helperText='* 5 min is recommended'
+              variant='outlined'
               value={tempNotifFreq}
               onChange={(e) => {
                 setTempNotifFreq(e.target.value);
               }}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              sx={{
+                ml: 1,
+                width: 100
+              }}
+              size='medium'
+              variant='contained'
               onClick={(e) => notificationFrequency(e)}
             >
               Confirm
@@ -719,23 +730,25 @@ const Settings = (props) => {
         </div>
 
         <div>
-          <form className={classes.root} autoComplete="off">
+          <form className='settingsForm' autoComplete='off'>
             <TextField
-              className={classes.textfield}
-              id="textfield"
-              label="Monitoring frequency, min"
-              helperText="* 2 min is recommended"
-              variant="outlined"
+              id='monitortext'
+              label='Monitoring frequency, min'
+              helperText='* 2 min is recommended'
+              variant='outlined'
               value={tempMonitoringFrequency}
               onChange={(e) => {
                 setTempMonitoringFrequency(e.target.value);
               }}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              sx={{
+                ml: 1,
+                width: 100
+              }}
+              size='medium'
+              variant='contained'
               onClick={(e) => monitoringFrequency(e)}
             >
               Confirm
@@ -743,67 +756,81 @@ const Settings = (props) => {
           </form>
         </div>
 
-        <br/>
+        <br />
         <p>2. Configure notification thresholds</p>
-        <br/>
-        <form className={classes.root} autoComplete="off">
+        <br />
+        <form
+          autoComplete='off'
+        >
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
             <TextField
               required
-              id="cpu-threshold-input"
-              label="CPU Threshold"
-              helperText="* 80% CPU usage recommended"
-              variant="outlined"
-              // value="80" set this later
+              id='cpu-threshold-input'
+              label='CPU Threshold'
+              helperText='* 80% CPU usage recommended'
+              variant='outlined'
+              value={cpuThreshold}
               onChange={handleCpuChange}
-              placeholder={`${cpu_threshold}`}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              sx={{
+                ml: 1,
+                width: 100
+              }}
+              size='medium'
+              variant='contained'
               onClick={() => handleCpuSubmit(cpuThreshold)}
             >
               Confirm
             </Button>
-            <br/>
+            <br />
             Current Memory Threshold: {`>${mem_threshold}%`}
-            <br/>
+            <br />
             <TextField
               required
-              id="mem-threshold-input"
-              label="Memory Threshold"
-              helperText="* 80% memory recommended"
-              variant="outlined"
+              id='mem-threshold-input'
+              label='Memory Threshold'
+              helperText='* 80% memory recommended'
+              variant='outlined'
+              value={memThreshold}
               onChange={handleMemChange}
-              placeholder={`${mem_threshold}`}
-              // value="80" set this later
-              size="small"
+              size='small'
             />
-
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              sx={{
+                ml: 1,
+                width: 100
+              }}
+              size='medium'
+              variant='contained'
               onClick={() => handleMemSubmit(memThreshold)}
             >
               Confirm
             </Button>
-            <br/>
-            {/* <p>2. Receive notification if container stops</p>
-            <FormControlLabel value={true} control={<Checkbox />} label="" />
-            <br/> */}
-            <br/>
+            <br />
+            <br />
             <p>3. Stopped containers:</p>
-            <FormControlLabel value={true} control={<Checkbox id="stopped-containers-input" onChange={handleStoppedContainersChange}/>} label="Receive notification when a container stops" />
+            <FormControlLabel
+              value={true}
+              control={
+                <Checkbox
+                  id='stopped-containers-input'
+                  onChange={handleStoppedContainersChange}
+                />
+              }
+              label='Receive notification when a container stops'
+            />
           </div>
           <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
-            onClick={()=> handleStoppedContainersSubmit(stoppedContainers)}
+            sx={{
+              ml: 1,
+              width: 100
+            }}
+            size='medium'
+            variant='contained'
+            onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
             endIcon={<SendIcon />}
           >
             Submit
@@ -811,27 +838,25 @@ const Settings = (props) => {
         </form>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>GitHub commits</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
-          Allows you to get access to latest GitHub commits in your project 
+          Allows you to get access to latest GitHub commits in your project
           repository on "Metrics" tab for selected containers
         </p>
-        <br/>
-        <p>
-          1. Add GitHub repositories url in Containers settings table below
-        </p>
+        <br />
+        <p>1. Add GitHub repositories url in Containers settings table below</p>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3> Containers setting table</h3>
         <p></p>
       </div>
 
-      <div className="settings-container">
-        <div id="description" className={classes.description}></div>
+      <div className='settings-container'>
+        <div id='description' className='settingsDescription'></div>
 
         <TableContainer>
           <Table>
@@ -839,12 +864,13 @@ const Settings = (props) => {
               <TableRow>
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell align="center">Memory {`>${mem_threshold}%`}</TableCell>
-                <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
-                <TableCell align="center">Container Stops</TableCell>
-                <TableCell align="center">GitHub repository url</TableCell>
-                <TableCell align="center">Apply settings</TableCell>
+                <TableCell align='center'>
+                  Memory {`>${mem_threshold}%`}
+                </TableCell>
+                <TableCell align='center'>CPU {`>${cpu_threshold}%`}</TableCell>
+                <TableCell align='center'>Container Stops</TableCell>
+                <TableCell align='center'>GitHub repository url</TableCell>
+                <TableCell align='center'>Apply settings</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>

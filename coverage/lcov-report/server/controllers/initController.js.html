@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">16.39% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/60</span>
+                <span class='fraction'>10/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -169,18 +169,7 @@
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,38 +212,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,16 +318,12 @@ initController.timeZone = <span class="fstat-no" title="function not covered" >(
     });
 };
 &nbsp;
-&nbsp;
-//This query gets invoked on line 420 of LineChartDisplay but unsure of when it runs.
-  //Can't get it to console log and need to figure out what it needs to return. At first glance, looks like just the query response
 initController.gitURL = <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
   const parameter = <span class="cstat-no" title="statement not covered" >[req.body.githubUrl]</span>
-  // pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
 <span class="cstat-no" title="statement not covered" >  db.query2(`SELECT github_url FROM containers where name = $1`, parameter)</span>
     .then(<span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
-<span class="cstat-no" title="statement not covered" >      console.log('GitHubURL: ', data)</span>
-<span class="cstat-no" title="statement not covered" >      res.locals.url = data.row[0].github_url;</span>
+<span class="cstat-no" title="statement not covered" >      if (!data.rows[0]) <span class="cstat-no" title="statement not covered" >return next();</span></span>
+<span class="cstat-no" title="statement not covered" >      res.locals.url = data;</span>
 <span class="cstat-no" title="statement not covered" >      return next();</span>
     })
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
@@ -358,20 +332,13 @@ initController.gitURL = <span class="fstat-no" title="function not covered" >(r<
     });
 }
 &nbsp;
-&nbsp;
 //inserting the metrics pulled from the running containers and stopped containers from Docker into the Database
 initController.addMetrics = <span class="fstat-no" title="function not covered" >(r</span>eq, res, next) =&gt; {
-  //body comes back with container names as the keys, each key is an object filled with the container data
   const containers = <span class="cstat-no" title="statement not covered" >Object.keys(req.body.containers);</span>
-  //query string to insert the metric data into the table.
   const queryString = <span class="cstat-no" title="statement not covered" >`INSERT INTO metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`</span>
-  //need to run 1 query per objects on the req.body
-    //doens't need to be async because we don't return anyhting?
 <span class="cstat-no" title="statement not covered" >  containers.forEach(<span class="fstat-no" title="function not covered" >(c</span>ontainer) =&gt; {</span>
-    //object deconstructing for each of the containers to pass them in as parameters for the query
     const { ID, names, cpu, mem, memuse, net, block, pid } = <span class="cstat-no" title="statement not covered" >req.body.containers[container]</span>
     const parameters = <span class="cstat-no" title="statement not covered" >[ ID, names, cpu, mem, memuse, net, block, pid ]</span>
-    //querying the database with the string and parameters. Don't need to return anything
 <span class="cstat-no" title="statement not covered" >    db.query2(queryString, parameters)</span>
     .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
     })
@@ -421,7 +388,7 @@ module.exports = initController;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-24T19:11:56.763Z
+                at 2022-10-26T16:59:04.384Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

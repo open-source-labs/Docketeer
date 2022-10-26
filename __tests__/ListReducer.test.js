@@ -1,5 +1,9 @@
-import containerListReducer from '../src/reducers/containerListReducer'; // import containerList reducer
-import imageListReducer from '../src/reducers/imageListReducer'; // import imageListReducer reducer
+/**        Docketeer 7.0
+ * These tests do not, might be an issue with the word export.
+ */
+
+import containerListReducer from '../src/redux/reducers/containerListReducer'; // import containerList reducer
+import imageListReducer from '../src/redux/reducers/imageListReducer'; // import imageListReducer reducer
 
 
 describe("Dockeeter reducer", () => {

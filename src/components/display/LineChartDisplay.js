@@ -45,10 +45,12 @@ const LineChartDisplay = () => {
     return await response.json(); 
   }
 
+  console.log('memory object: ', memory)
+  
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
-    datasets: memory
+    datasets: memory,
   };
   const cpuObj = {
     labels: axis,
@@ -99,6 +101,7 @@ const LineChartDisplay = () => {
       const obj = {
         label: containerName,
         data: [],
+        lineTension: .5,
         fill: false,
         borderColor: generateLineColor(
           containerName,

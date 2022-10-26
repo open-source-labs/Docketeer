@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import Containers from '../src/components/tabs/Containers';
 
-// import { configure, shallow } from 'enzyme'; // enzyme
-// import Adapter from 'enzyme-adapter-react-16'; // enzyme
-// configure({ adapter: new Adapter() }); // enzyme
-
-// Migrating to React-Testing-Library
+// Started to migrate to React-Testing-Library...
 import { create } from 'react-test-renderer';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as actions from '@testing-library/jest-dom';
@@ -33,6 +29,9 @@ const props = {
     }
   ]
 };
+/**     Docketeer 7.0
+ * This was the previous groups code, we left commented just incase it became useful down the road.
+ */
 
 // Debug test
 // describe('Containers', () => {
@@ -76,34 +75,19 @@ const props = {
 // }
 
 describe('Running containers are being rendered', () => {
-  // ! NEED TO REVISIT THIS TEST TO CORRECT IT
   test('Should render <div> tag that has title renderContainers in Running', () => {
     // Testing for if there is a container with the title of renderContainer
     render(<Containers {...props} />);
-    // expect(screen.getByTitle('renderContainers'));
 
     const renderContainer = screen.getByTitle('renderContainers');
     expect(renderContainer).toHaveClass('renderContainers');
-    // Old Code
-    // On line 184 of Containers.js. Testing if the main container is rederContainers
-    // expect(reactWrapper.hasClass('renderContainers')).toEqual(true);
   });
 
   test('Should render the correct number of containers', () => {
-    // Debugging
-    // console.log(container.getElementsByClassName('containers').length);
     const { container } = render(<Containers {...props} />);
     const containers = container.getElementsByClassName('containers');
     expect(containers.length).toBe(1);
   });
-
-  // Old code
-  // test('Should render the correct number of containers', () => {
-  //   expect(reactWrapper.find('.containers').children().length).toEqual(1);
-  //   expect(reactWrapper.find('.stopped-containers').children().length).toEqual(
-  //     1
-  //   );
-  // });
 });
 
 describe('It should render the exited containers', () => {
@@ -114,6 +98,10 @@ describe('It should render the exited containers', () => {
 
     expect(runBtnRender).toHaveClass('run-btn');
   });
+
+  /**      Docketeer 7.0
+   * These are all preliminary tests that were not veted out. Could be useful as a starting point.
+   */
 
   //! NEED TO FIGURE OUT HOW TO ADD ONCLICK TEST
   // test('ClassName run-btn in stopped component have onClick function', () => {

@@ -6,18 +6,9 @@
  * naming of states for both running and not running container lists. 
  */
 
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import ProcessLogsTable from '../display/ProcessLogsTable';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
 
 const ProcessLogsCard = (props) =>{    
   const navigate = useNavigate();

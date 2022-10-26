@@ -1,5 +1,5 @@
 // module imports
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 
-const AdminView = (props) => {
+const AdminView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
@@ -78,7 +78,6 @@ const AdminView = (props) => {
 
   // declare a local state variable called selected, initialize to '/'
   const [selected, setSelected] = useState('/');
-  const [loggedIn, setLoggedIn] = useState(true);
 
   const handleLogout = (e) => {
     updateSession();

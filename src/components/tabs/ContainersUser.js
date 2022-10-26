@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
@@ -52,7 +52,7 @@ const Containers = (props) => {
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [cpuData, memoryData],
-          barPercentage: 0.4,
+          barPercentage: 0.45,
         },
         {
           stack,
@@ -61,7 +61,7 @@ const Containers = (props) => {
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
           data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
-          barPercentage: 0.4,
+          barPercentage: 0.45,
         },
       ],
     };
@@ -90,40 +90,23 @@ const Containers = (props) => {
               </div>
             </div>
             <div className="chart-info">
-              <Bar
+            <Chart
+                type='bar'
                 data={chartInfo}
                 options={{
-                  tooltips: {
-                    enabled: false,
-                  },
-                  title: {
-                    display: false,
-                  },
-                  legend: {
-                    display: false,
-                    position: 'right',
-                  },
-
+                  responsive: true,
+                  plugins: { legend: { display: false } },
                   scales: {
-                    yAxes: [
-                      {
-                        gridLines: {
-                          display: false,
-                        },
-                        ticks: {
-                          display: false,
-                          min: 0,
-                          max: 100,
-                          stepSize: 20,
-                        },
+                    y: {
+                      ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 50
                       },
-                    ],
-                    xAxes: [
-                      {
-                        categorySpacing: 0,
-                      },
-                    ],
-                  },
+                      stacked: true
+                    },
+                    x: { categorySpacing: 0 }
+                  }
                 }}
               />
             </div>

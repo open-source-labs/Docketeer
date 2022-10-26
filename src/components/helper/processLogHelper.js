@@ -1,15 +1,6 @@
-import { getLogs } from './commands';
-import { useDispatch } from 'react-redux';
-import * as actions from '../../redux/actions/actions';
-
-/**
- * Helper function to build options object based on the radio button selected in the process logs tab
- *
- * @param {*} containerId
- */
-
 /**
  * Use user input to build options object to pass to getLogs()
+ * Helper function to build options object based on the radio button selected in the process logs tab
  *
  * @param {string} containerId
  * @returns {object} optionsObj

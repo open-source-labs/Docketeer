@@ -8,6 +8,7 @@ import ToggleDisplay from '../display/ToggleDisplay';
  *
  * @param {*} props
  */
+
 const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (

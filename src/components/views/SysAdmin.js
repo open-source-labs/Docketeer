@@ -15,7 +15,7 @@ import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
 import Containers from '../tabs/Containers';
 import Settings from '../tabs/Settings';
-import UserList from '../tabs/Users'; //* Feature only for SysAdmin
+import UserList from '../tabs/Users';  //* Feature only for SysAdmin
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
@@ -25,7 +25,7 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-const SysAdmin = (props) => {
+const SysAdmin = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
@@ -46,7 +46,6 @@ const SysAdmin = (props) => {
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
   const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data)); //* Feature only for SysAdmin
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -80,12 +79,10 @@ const SysAdmin = (props) => {
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
-  //* No props.setLoggedIn(false). Different from AdminView
 
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
-    //* No logged in state. Different from AdminView
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {

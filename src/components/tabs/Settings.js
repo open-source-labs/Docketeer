@@ -275,10 +275,17 @@ const Settings = (props) => {
    * @param {string} containerId the container's ID
    * @returns {number} -1 or the index of the container ID within the array
    */
+
   // general function to check if a container is in a notification setting list
   const isSelected = (set, containerId) => set.has(containerId);
 
   const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
+
+
+  /*       Docketeer 7.0
+  ** This was leftover from the previous teams, getData does not get called anywhere in the program. This could be removed or further investigated.
+  */
+
 
   // GITHUB URL FORM
   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
@@ -287,7 +294,6 @@ const Settings = (props) => {
     if (!stateObject[el.ID]) stateObject[el.ID] = '';
   });
 
-  //!Not sure if this area is even needed. Looks like they abandoned it for the function below(githubLink);
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
   const getData = () => {
     fetch('http://localhost:3000/settings/gitcontainers', {
@@ -303,6 +309,7 @@ const Settings = (props) => {
       });
   };
 
+  
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {

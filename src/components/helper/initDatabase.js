@@ -26,4 +26,4 @@ export default () => {
 
 // initDatabase is invoked upon login and composes the network consisting of a containerized SQL database
 // which is the metrics data, notifications preferences data, and etc. being persisted
-// (for further details look into src / databse)
+// (for further details look into server / databse)

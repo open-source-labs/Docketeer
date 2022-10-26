@@ -1,5 +1,5 @@
 // module imports
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
@@ -8,9 +8,6 @@ import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
-
-// Navbar Import
-// import Navbar from './Navbar';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
@@ -79,7 +76,6 @@ const UserView = (props) => {
 
   // declare a local state variable called selected, initialize to "/"
   const [selected, setSelected] = useState('/');
-  const [loggedIn, setLoggedIn] = useState(true);
 
   const handleLogout = (e) => {
     updateSession();

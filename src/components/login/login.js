@@ -3,17 +3,11 @@
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 
-// React Component Imports
-import DebugRouter from '../debug/debugRouter';
-
-// Material UI Imports
-import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
-import { spacing } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -24,8 +18,6 @@ import Docketeer from '../../../assets/docketeer-title.png';
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
-  const session = useSelector((state) => state.session.isLoggedIn);
-  const [modalIsOpen, setIsOpen] = useState(false);
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
@@ -121,13 +113,11 @@ import Docketeer from '../../../assets/docketeer-title.png';
               type='submit'
               size='medium'
               onClick={() => handleLogin}
-              // className={classes.button}
               sx={{
                 m: 1
               }}
             >
               Login
-
             </Button>
             <hr />
             <div

@@ -1,11 +1,8 @@
 /* eslint-disable implicit-arrow-linebreak */
 import store from '../../renderer/store';
 import * as categories from '../../redux/constants/notificationCategories';
-// object that holds what notifications have been sent
 // import memoryNotification from '../../main/slack/memoryNotification.js';
 // import cpuNotification from '../../main/slack/cpuNotification.js';
-const dotenv = require('dotenv');
-// dotenv.config(); //! Getting error of process is not defined
 const sentNotifications = {};
 let state;
 
@@ -13,9 +10,6 @@ let state;
 const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
-  // note: this was previously returning an error because each conditional was trying to access a property on the containerObject that did not exist
-  // e.g., containerObject.mp, containerObject.cpu, etc.
-  // fix was to change it to actual properties, like containerObject.MemPerc, containerObject.CPUPerc, etc.
   if (notificationSettingType === categories.MEMORY)
     return parseFloat(containerObject.MemPerc.replace('%', ''));
   if (notificationSettingType === categories.CPU)
@@ -26,8 +20,6 @@ const getTargetStat = (containerObject, notificationSettingType) => {
 const getContainerObject = (containerList, containerId) => {
   for (let i = 0; i < containerList.length; i += 1) {
     const containerObject = containerList[i];
-    // note: this conditional was previously checking for containerObject.cid === containerId, but cid is not a property on containerObject, resulting in undefined being returned every time.
-    // changed from containerObject.cid to containerObject.ID
     if (containerObject.ID === containerId) return containerObject;
   }
   // container not present in container list (ex: running or stopped notificationList)

@@ -162,7 +162,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  window.nodeMethod.runExec('docker images', (error, stdout, stderr) => {
+  window.nodeMethod.runExec(`docker rm ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;

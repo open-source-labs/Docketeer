@@ -36,7 +36,7 @@ describe("Dockeeter reducer", () => {
         payload: [{ cid: "789" }],
       };
       expect(containerListReducer(state, action).runningList.length).toEqual(1);
-      expect(containerListReducer(state, action).runningList[0].cid).toEqual("789");
+      expect(containerListReducer(state, action).runningList[0].ID).toEqual("789");
     });
   });
 
@@ -53,7 +53,7 @@ describe("Dockeeter reducer", () => {
         payload: [{ cid: "789" }],
       };
       expect(containerListReducer(state, action).stoppedList.length).toEqual(1);
-      expect(containerListReducer(state, action).stoppedList[0].cid).toEqual("789");
+      expect(containerListReducer(state, action).stoppedList[0].ID).toEqual("789");
     });
   });
 
@@ -77,7 +77,7 @@ describe("Dockeeter reducer", () => {
         stoppedList: [{ cid: "123" }, { cid: "456" }],
       };
       const action = { type: "REMOVE_CONTAINER", payload: "123" };
-      expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual("456");
+      expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual("456");
     });
   });
 
@@ -89,7 +89,7 @@ describe("Dockeeter reducer", () => {
       };
       const action = { type: "STOP_RUNNING_CONTAINER", payload: "123" };
       newState = containerListReducer(newState, action);
-      expect(newState.runningList[0].cid).toEqual("456");
+      expect(newState.runningList[0].ID).toEqual("456");
     });
   });
 
@@ -100,7 +100,7 @@ describe("Dockeeter reducer", () => {
         stoppedList: [{ cid: "123" }, { cid: "456" }],
       };
       const action = { type: "RUN_STOPPED_CONTAINER", payload: "123" };
-      expect(containerListReducer(newState, action).stoppedList[0].cid).toEqual("456");
+      expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual("456");
     });
   });
 

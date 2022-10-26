@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
       const newStoppedList = state.stoppedList.slice();
       const newestRunningList = [];
       for (let container of state.runningList) {
-        if (container.cid !== action.payload) {
+        if (container.ID !== action.payload) {
           newestRunningList.push(container);
         }
       }
@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
       const runningListCopy = state.runningList.slice();
       const newerStoppedContainer = [];
       for (let container of state.stoppedList) {
-        if (container.cid === action.payload) {
+        if (container.ID === action.payload) {
         } else {
           newerStoppedContainer.push(container);
         }

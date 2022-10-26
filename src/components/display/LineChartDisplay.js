@@ -45,8 +45,6 @@ const LineChartDisplay = () => {
     return await response.json(); 
   }
 
-  console.log('memory object: ', memory)
-  
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,

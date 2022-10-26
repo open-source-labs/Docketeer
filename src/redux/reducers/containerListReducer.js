@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
       const newStoppedList = state.stoppedList.slice();
       const newestRunningList = [];
       for (const container of state.runningList) {
-        if (container.cid !== action.payload) {
+        if (container.ID !== action.payload) {
           newestRunningList.push(container);
         }
       }
@@ -34,7 +34,7 @@ export default function (state = initialState, action) {
       const newerStoppedContainer = [];
       for (const container of state.stoppedList) {
         // eslint-disable-next-line no-empty
-        if (container.cid === action.payload) {
+        if (container.ID === action.payload) {
         } else {
           newerStoppedContainer.push(container);
         }
@@ -55,7 +55,7 @@ export default function (state = initialState, action) {
     case types.REMOVE_CONTAINER:
       const removeContainerList = [];
       for (const container of state.stoppedList) {
-        if (container.cid !== action.payload) {
+        if (container.ID !== action.payload) {
           removeContainerList.push(container);
         }
       }

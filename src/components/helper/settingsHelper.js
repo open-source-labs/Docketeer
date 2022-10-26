@@ -131,7 +131,6 @@ export const updateEmail = (username, email) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       updateUser(data);
     })
     .catch((err) => {
@@ -183,7 +182,6 @@ export const updatePhone = (username, phone) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       document.getElementById('update-phone-input').value = '';
       updateUser(data);
     })

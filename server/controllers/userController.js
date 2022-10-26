@@ -2,8 +2,6 @@
  * @module UserController
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
-const { readdirSync } = require('fs');
-const { register } = require('ts-node');
 const db = require('../models/cloudModel');
 
 const userController = {};
@@ -115,43 +113,26 @@ userController.checkSysAdmin = (req, res, next) => {
 // switches role of user upon designation by system admin
 userController.switchUserRole = (req, res, next) => {
 
-  // const roleMap = { // TM
-  //   1: 'system admin', 
-  //   2: 'admin',
-  //   3: 'user'
-  // };
-
   const roleMap = {
     'system admin': 1,
     admin: 2,
     user: 3
   }
 
-  // const { _id, role_id} = req.body;
   const { _id, role } = req.body
 
-  console.log('passed props from sysadmin check: ', res.locals.sysAdmins, res.locals.id)
-
-  //  skip the process of updating the sysadmin user if there is only one in the system
-  // note that _id is of type String!
   if(res.locals.sysAdmins === 1 && _id == res.locals.id){
-    // res.locals.noChange = true;
     res.locals.hasError = true;
-    console.log('rejecting change');
     next();
   }  else {
 
     const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
  
-    // const parameters = [roleMap[role_id], role_id, _id]; // TM
     const parameters = [role, roleMap[role], _id]
-    console.log('In query: ',  parameters);
  
     db.query(query, parameters)
       .then((data) => {
-        // res.locals.user = data.rows[0];
         res.locals.role = data.rows[0].role;
-        console.log('in controller: ', res.locals.role)
         res.locals.hasError = false;
         return next();
       })
@@ -230,25 +211,4 @@ userController.updateEmail = (req, res, next) => {
     });
 };
 
-/**
- * @description verifies clients hash token that matches databases token 
- */
-userController.verifySysadmin = (req, res, next) =>{
-  const {username, token} = req.body;
-
-  const query = `SELECT * FROM users WHERE username='${username}' AND token='${token}';`;
-  db.query(query)
-    .then((data) => {
-      
-      if (!data.rows[0]) res.locals.error = 'Access Denied';
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController verifySysadmin: ${err}`,
-        message: { err: 'An error occurred while checking if token exists. See userController.verifySysadmin.' },
-      });
-    });
-
-};
 module.exports = userController;

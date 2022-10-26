@@ -129,7 +129,6 @@ const ProcessLogsTable = () => {
 
       setRows(newRows);
       setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
-      console.log('CSV data', csvData);
     }
   };
 

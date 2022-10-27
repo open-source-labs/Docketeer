@@ -26,7 +26,9 @@ import startNotificationRequester from '../module/utils/notificationsRequester';
 import initDatabase from '../module/utils/initDatabase';
 
 // Container component that has all redux logic along with react router
-const SysAdmin = () => {
+const SysAdmin = (props) => {
+  console.log("SysAdmin Running")
+
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -104,16 +106,16 @@ const SysAdmin = () => {
       });
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     // initDatabase();
-    helper.refreshRunning(refreshRunningContainers);
-    helper.refreshStopped(refreshStoppedContainers);
-    helper.refreshImages(refreshImagesList);
-    helper.writeToDb();
-    helper.networkContainers(getNetworkContainers);
-    helper.setDbSessionTimeZone();
-    helper.getAllDockerVolumes(getVolumeList);
-  }, []);
+    // helper.refreshRunning(refreshRunningContainers);
+    // helper.refreshStopped(refreshStoppedContainers);
+    // helper.refreshImages(refreshImagesList);
+    // helper.writeToDb();
+    // helper.networkContainers(getNetworkContainers);
+    // helper.setDbSessionTimeZone();
+    // helper.getAllDockerVolumes(getVolumeList);
+  // }, []);
 
   useEffect(() => {
     history.volumeByName(
@@ -124,15 +126,15 @@ const SysAdmin = () => {
   }, [arrayOfVolumeNames]);
 
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
-  useEffect(() => {
-    const interval = setInterval(() => {
-      helper.refreshRunning(refreshRunningContainers);
-      helper.refreshStopped(refreshStoppedContainers);
-      helper.refreshImages(refreshImagesList);
-    }, 5000);
-    startNotificationRequester();
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     helper.refreshRunning(refreshRunningContainers);
+  //     helper.refreshStopped(refreshStoppedContainers);
+  //     helper.refreshImages(refreshImagesList);
+  //   }, 5000);
+  //   startNotificationRequester();
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // * SysAdmin Unique useEffect
   useEffect(() => {
@@ -166,24 +168,25 @@ const SysAdmin = () => {
 
   return (
     <div className='container'>
+      SysAdmin View
       <nav className='tab'>
         <header id='title'>
           <img src={Docketeer} width={160} />
         </header>
         <div className='viewsAndButton'>
           <ul>
-            {/* <li>
+            <li>
               <Link
-                to='/'
+                to='/app/'
                 style={selected === '/' ? selectedStyling : null}
                 onClick={() => setSelected('/')}
               >
                 <i className='fas fa-settings'></i> Settings
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link
-                to='/app/sysadmin/users'
+                to='/app/users'
                 style={selected === '/users' ? selectedStyling : null}
                 onClick={() => setSelected('/users')}
               >
@@ -192,7 +195,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/running'
+                to='/app/running'
                 style={selected === '/running' ? selectedStyling : null}
                 onClick={() => setSelected(() => '/running')}
               >
@@ -201,7 +204,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/images'
+                to='/app/images'
                 style={selected === '/images' ? selectedStyling : null}
                 onClick={() => setSelected('/images')}
               >
@@ -210,7 +213,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/metrics'
+                to='/app/metrics'
                 style={selected === '/metrics' ? selectedStyling : null}
                 onClick={() => setSelected('/metrics')}
               >
@@ -219,7 +222,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/yml'
+                to='/app/yml'
                 style={selected === '/yml' ? selectedStyling : null}
                 onClick={() => setSelected('/yml')}
               >
@@ -228,7 +231,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/volume'
+                to='/app/volume'
                 style={selected === '/volume' ? selectedStyling : null}
                 onClick={() => setSelected('/volume')}
               >
@@ -237,7 +240,7 @@ const SysAdmin = () => {
             </li>
             <li>
               <Link
-                to='/app/sysadmin/logs'
+                to='/app/logs'
                 style={selected === '/logs' ? selectedStyling : null}
                 onClick={() => setSelected('/logs')}
               >
@@ -260,18 +263,18 @@ const SysAdmin = () => {
         </div>
       </nav>
       <Routes>
-        <Route path='/volume/*' element={
+        <Route path='/volume' element={
           <VolumeHistory
             arrayOfVolumeNames={arrayOfVolumeNames}
             volumeContainersList={volumeContainersList}
           />}
         />
-        <Route path='/metrics/*' element={
+        <Route path='/metrics' element={
           <Metrics runningList={runningList} 
           />}
         />
-        <Route path='/users/*' element={<UserList />} />
-        <Route path='/logs/*' element={
+        <Route path='/users' element={<UserList />} />
+        <Route path='/logs' element={
           <ProcessLogs
             runIm={helper.runIm}
             stop={helper.stop}
@@ -287,13 +290,13 @@ const SysAdmin = () => {
           />}
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
-        <Route path='/yml/*' element={
+        <Route path='/yml' element={
           <Yml 
             networkList={networkList} 
             composeymlFiles={composeymlFiles} 
           />}
         />
-        <Route path='/images/*' element={
+        <Route path='/images' element={
           <Images
             runIm={helper.runIm}
             removeIm={helper.removeIm}
@@ -303,7 +306,7 @@ const SysAdmin = () => {
             runningList={runningList}
           />}
         />
-        <Route path='/running/*' element={
+        <Route path='/running' element={
           <Containers
             runIm={helper.runIm}
             stop={helper.stop}
@@ -318,7 +321,7 @@ const SysAdmin = () => {
             stoppedList={stoppedList}
           />}
         />
-        {/* <Route path='/*' element={
+        {/* <Route path='/' element={
           <Settings
             runningList={runningList}
             stop={helper.stop}

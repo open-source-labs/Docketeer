@@ -3,19 +3,52 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
+export const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top'
+    },
+    title: {
+      display: true,
+      text: 'Docker Container Chart'
+    }
+  },
+  maintainAspectRatio: false
+  // scales: {
+  //   y: {
+  //     beginAtZero: true,
+  //     ticks: {
+  //       min: 0,
+  //       max: 100,
+  //       stepSize: 20
+  //     }
+  //   }
+  // }
+};
+
+// export const data = {
+//   labels:
+// }
+
 /**
  * Display all running and stopped containers
+<<<<<<< HEAD:src/tabs/Containers.js
+=======
+ *
+ * @param {*} props
+>>>>>>> 21bc932 (Added styling for newUserSetting, Setting, and style.css):src/components/tabs/Containers.js
  */
 const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
-      <div className="box" key={`stoppedBox-${i}`}>
-        <div className="box-label">
+      <div className='box' key={`stoppedBox-${i}`}>
+        <div className='box-label'>
           <h3>{container.Names}</h3>
           <p>ID: {container.ID}</p>
         </div>
 
-        <div className="stopped-info">
+        <div className='stopped-info'>
           <ul>
             <li>
               <strong>Img: </strong>
@@ -31,9 +64,9 @@ const Containers = (props) => {
             </li>
           </ul>
         </div>
-        <div className="stopped-button">
+        <div className='stopped-button'>
           <button
-            className="run-btn"
+            className='run-btn'
             onClick={() =>
               props.runStopped(container['ID'], props.runStoppedContainer)
             }
@@ -41,7 +74,7 @@ const Containers = (props) => {
             RUN
           </button>
           <button
-            className="stop-btn"
+            className='stop-btn'
             onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
@@ -69,7 +102,8 @@ const Containers = (props) => {
           backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          barPercentage: 0.45,
+          data: [cpuData, memoryData, 0, 100]
+          // barPercentage: 0.4
         },
         {
           stack,
@@ -78,69 +112,64 @@ const Containers = (props) => {
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          barPercentage: 0.45,
-        },
-      ],
+          data: [
+            ((100 - cpuData) * 100).toFixed(2),
+            ((100 - memoryData) * 100).toFixed(2),
+            0,
+            100
+          ]
+          // barPercentage: 0.4
+        }
+      ]
     };
 
     return (
-      <div className="box box-running" key={`runningBox-${i}`}>
-        <div className="box-label">
+      <div className='box box-running' key={`runningBox-${i}`}>
+        <div className='box-label'>
           <h3>{container.Name}</h3>
-          
+
           <p>ID: {container.ID}</p>
         </div>
-        <div className="box-info">
-          <div className="chart">
-            <div className="chart-label">
-              <div className="chart-label-container">
-                <div className="cpuBox"></div>
+        <div className='box-info'>
+          <div className='chart'>
+            <div className='chart-label'>
+              <div className='chart-label-container'>
+                <div className='cpuBox'></div>
                 <div>
-                  <span className="chart-label-text">{cpuData}%</span>
+                  <span className='chart-label-text'>{cpuData}%</span>
                 </div>
               </div>
-              <div className="chart-label-container">
-                <div className="memoryBox"></div>
+              <div className='chart-label-container'>
+                <div className='memoryBox'></div>
                 <div>
-                  <span className="chart-label-text">{memoryData}%</span>
+                  <span className='chart-label-text'>{memoryData}%</span>
                 </div>
               </div>
             </div>
-            <div className="chart-info">
-              <Chart
-                type='bar'
+            <div className='chart-info'>
+              <Bar
                 data={chartInfo}
                 options={{
                   responsive: true,
                   plugins: {
                     legend: {
-                      display: false
+                      position: 'top'
                     },
+                    title: {
+                      display: true,
+                      text: 'Docker Container Chart'
+                    }
                   },
-                  scales: {
-                    y: 
-                      {
-                        ticks: {
-                          min: 0,
-                          max: 100,
-                          stepSize: 50,
-                        },
-                        stacked: true
-                      },
-                    x:
-                      {
-                        categorySpacing: 0,
-                      },
-                  },
+                  maintainAspectRatio: false
                 }}
               />
             </div>
           </div>
           <ToggleDisplay container={container} />
         </div>
-        <div className="box-button box-button-running">
+        <div className='box-button box-button-running'>
           <button
-            className="stop-btn"
+            className='stop-btn'
             onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
             STOP
@@ -151,20 +180,20 @@ const Containers = (props) => {
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>
           Running Containers: {props.runningList.length}
         </h1>
       </div>
-      <div className="containers">{renderRunningList}</div>
+      <div className='containers'>{renderRunningList}</div>
 
-      <div className="header">
-        <h1 className="tabTitle">
+      <div className='header'>
+        <h1 className='tabTitle'>
           Exited Containers: {props.stoppedList.length}
         </h1>
       </div>
-      <div className="stopped-containers">{renderStoppedList}</div>
+      <div className='stopped-containers'>{renderStoppedList}</div>
     </div>
   );
 };

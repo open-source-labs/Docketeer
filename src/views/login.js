@@ -12,7 +12,8 @@ import * as actions from '../../redux/actions/actions';
 import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
-// import { makeStyles } from '@@mui/material/styles';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { spacing } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -20,25 +21,12 @@ import Docketeer from '../../../assets/docketeer-title.png';
 // Helper Functions Import
 import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
-// const useStyles = makeStyles((theme) => ({
-  //   root: {
-    //     '& > *': {
-      //       margin: theme.spacing(1),
-      //       width: '25ch'
-      //     }
-      //   }
-      // }));
-      
-  const Login = () => {
-  const navigate = useNavigate();
+const Login = () => {
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
   const session = useSelector((state) => state.session.isLoggedIn);
   const [modalIsOpen, setIsOpen] = useState(false);
-
-  // Material UI
-  // const classes = useStyles();
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
@@ -101,6 +89,29 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
       });
   };
 
+  // Upon successful login, redirect to /app location and render the App component
+
+  // // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
+  // if (session) {
+  //   return (
+  // Deprecated
+  // <Router
+  // // history={BrowserHistory}
+  // >
+  //   {/* <Redirect to='/app' /> */}
+  //   <Routes>
+  //     {/* <Route component={App} exact path="/app" /> */}
+  //     <Route path='/app'>
+  //       <App />
+  //     </Route>
+  //   </Routes>
+  // </Router>
+
+  //     <Navigate to='/app' />
+  //   );
+  // }
+
+  // Else render the login page
   return (
     <div>
       <header>
@@ -114,10 +125,7 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
           <h1 className='tabTitle'>Login</h1>
         </div>
         <div className='settings-container'>
-          <form
-            // className={classes.root}
-            onSubmit={handleLogin}
-          >
+          <form className='loginForm' onSubmit={handleLogin}>
             <TextField id='username' label='Username' variant='outlined' />
             <br />
             <br />
@@ -138,6 +146,9 @@ import { handleLogin, authenticateUser } from '../helper/loginHelper';
               size='medium'
               onClick={() => handleLogin}
               // className={classes.button}
+              sx={{
+                m: 1
+              }}
             >
               Login
             </Button>

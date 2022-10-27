@@ -21,34 +21,6 @@ import {
   checkPhone,
 } from '../../module/utils/helper/settingsHelper';
 
-<<<<<<< HEAD
-const useStyles = makeStyles(() => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle',
-    },
-  },
-  button: {
-    '& > *': {
-      pointerEvents: 'none',
-    },
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top',
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30,
-  },
-}));
-=======
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     '& .MuiTextField-root': {
@@ -75,7 +47,6 @@ const useStyles = makeStyles(() => ({
 //     marginBottom: 30
 //   }
 // }));
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
 
 const AccountDisplay = () => {
   const session = useSelector((state) => state.session);
@@ -86,11 +57,7 @@ const AccountDisplay = () => {
       <div className='metric-section-title'>
         <h3>Account Information</h3>
       </div>
-<<<<<<< HEAD
-      <div className="settings-container">
-=======
       <div className='settings-container'>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
         <p>View your account information.</p>
         <br />
         <strong>Email</strong>
@@ -109,14 +76,7 @@ const AccountDisplay = () => {
       <div className='settings-container'>
         <p>1. Update your email address</p>
         <br />
-<<<<<<< HEAD
-        <form className={classes.root} autoComplete="off">
-=======
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
+        <form className='settingsForm' autoComplete='off'>
           <TextField
             // className={classes.textfield}
             id='update-email-input'
@@ -126,7 +86,11 @@ const AccountDisplay = () => {
             size='small'
           />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             variant='contained'
             onClick={() => handleEmailUpdate()}
@@ -134,22 +98,8 @@ const AccountDisplay = () => {
             Update
           </Button>
           <br />
-<<<<<<< HEAD
-          <span id="update-email-alert"></span>
         </form>
-        <p>2. Update your phone number</p>
-        <br />
-        <form className={classes.root} autoComplete="off">
-=======
-          <span id='update-email-alert'></span>
-        </form>
-        <p>2. Update your phone number</p>
-        <br />
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
+        <form className='settings' autoComplete='off'>
           <TextField
             // className={classes.textfield}
             id='update-phone-input'
@@ -158,16 +108,15 @@ const AccountDisplay = () => {
             onChange={() =>
               checkPhone(document.getElementById('update-phone-input').value)
             }
-<<<<<<< HEAD
-            variant="outlined"
-            size="small"
-=======
             variant='outlined'
             size='small'
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             variant='contained'
             onClick={() => handlePhoneUpdate()}
@@ -175,22 +124,11 @@ const AccountDisplay = () => {
             Update
           </Button>
           <br />
-<<<<<<< HEAD
-          <span id="update-phone-alert"></span>
-        </form>
-        <p>3. Use the form below to update your password:</p>
-        <br />
-        <form className={classes.root} autoComplete="off">
-=======
           <span id='update-phone-alert'></span>
         </form>
         <p>3. Use the form below to update your password:</p>
         <br />
-        <form
-          // className={classes.root}
-          autoComplete='off'
-        >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
+        <form className='settingsForm' autoComplete='off'>
           <p>Current Password</p>
           <br />
           <TextField
@@ -202,11 +140,7 @@ const AccountDisplay = () => {
             onChange={() => checkCurrentPassword()}
             size='small'
           />
-<<<<<<< HEAD
-          <span id="current-password-alert"></span>
-=======
           <span id='current-password-alert'></span>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <br />
           <p>New Password</p>
           <br />
@@ -219,11 +153,7 @@ const AccountDisplay = () => {
             onChange={() => checkPasswordLength()}
             size='small'
           />
-<<<<<<< HEAD
-          <span id="new-password-alert"></span>
-=======
           <span id='new-password-alert'></span>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <br />
           <p>Confirm New Password</p>
           <br />
@@ -237,15 +167,15 @@ const AccountDisplay = () => {
             // value="80" set this later
             size='small'
           />
-<<<<<<< HEAD
-          <span id="confirm-new-password-alert"></span>
-=======
           <span id='confirm-new-password-alert'></span>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <br />
           <br />
           <Button
-            // className={classes.button}
+            sx={{
+              ml: 1,
+              width: 100
+              // Missing verticalAlign: 'top'
+            }}
             size='medium'
             color='primary'
             variant='contained'

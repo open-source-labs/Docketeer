@@ -10,5 +10,4 @@ contextBridge.exposeInMainWorld('nodeMethod', {
   runExec: runExec,
   bool: true,
   rendInvoke: (input1, input2) => ipcRenderer.invoke(input1, input2)
-  // windowURL:
 });

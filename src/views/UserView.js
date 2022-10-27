@@ -112,7 +112,7 @@ const UserView = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-    // startNotificationRequester(); //! Issue with loading frontend -> Path.join is not a functions
+    startNotificationRequester(); //! Issue with loading frontend -> Path.join is not a functions
     return () => clearInterval(interval);
   }, []);
 
@@ -137,8 +137,8 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/'
-                  // style={selected === '/' ? selectedStyling : null}
-                  // onClick={() => setSelected('/')}
+                  style={selected === '/app/UserView/' ? selectedStyling : null}
+                  onClick={() => setSelected('/app/UserView/')}
                 >
                   <i className='fas fa-settings'></i> Settings
                 </Link>
@@ -146,8 +146,12 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/running'
-                  // style={selected === '/running' ? selectedStyling : null}
-                  // onClick={() => setSelected(() => '/running')}
+                  style={
+                    selected === '/app/UserView/running'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected(() => '/app/UserView/running')}
                 >
                   <i className="fas fa-box-open"></i> Containers
                 </Link>
@@ -155,8 +159,10 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/images'
-                  // style={selected === '/images' ? selectedStyling : null}
-                  // onClick={() => setSelected('/images')}
+                  style={
+                    selected === '/app/UserView/images' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/UserView/images')}
                 >
                   <i className="fas fa-database"></i> Images
                 </Link>
@@ -164,8 +170,12 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/metrics'
-                  // style={selected === '/metrics' ? selectedStyling : null}
-                  // onClick={() => setSelected('/metrics')}
+                  style={
+                    selected === '/app/UserView/metrics'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/UserView/metrics')}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
@@ -173,8 +183,10 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/yml'
-                  // style={selected === '/yml' ? selectedStyling : null}
-                  // onClick={() => setSelected('/yml')}
+                  style={
+                    selected === '/app/UserView/yml' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/UserView/yml')}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
@@ -182,8 +194,10 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/volume'
-                  // style={selected === '/volume' ? selectedStyling : null}
-                  // onClick={() => setSelected('/volume')}
+                  style={
+                    selected === '/app/UserView/volume' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/UserView/volume')}
                 >
                   <i className='fas fa-volume-history'></i> Volume History
                 </Link>
@@ -191,8 +205,10 @@ const UserView = (props) => {
               <li>
                 <Link
                   to='/app/UserView/logs'
-                  // style={selected === '/logs' ? selectedStyling : null}
-                  // onClick={() => setSelected('/logs')}
+                  style={
+                    selected === '/app/UserView/logs' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/UserView/logs')}
                 >
                   <i className='fas fa-log'></i> Process Logs
                 </Link>
@@ -201,15 +217,12 @@ const UserView = (props) => {
             <div>
               <button
                 className='btn'
-                // onClick={(e) => helper.handlePruneClick(e)}
+                onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
               </button>
               <span> </span>
-              <button
-                className='btn'
-                // onClick={(e) => handleLogout(e)}
-              >
+              <button className='btn' onClick={(e) => handleLogout(e)}>
                 Logout
               </button>
             </div>

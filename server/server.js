@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 =======
 const path = require('path');
-// const cors = require('cors');
+const cors = require('cors');
 const colors = require('colors');
 >>>>>>> ceb41ea (@types/pg dependency)
 
@@ -22,7 +22,7 @@ const PORT = 3000;
 
 app.use(express.json()); // parses the request body
 app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-// app.use(cors()); // enables ALL cors requests
+app.use(cors()); // enables ALL cors requests
 
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);

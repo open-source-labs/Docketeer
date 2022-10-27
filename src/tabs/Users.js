@@ -22,11 +22,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 // Redux Imports (actions)
-<<<<<<< HEAD:src/tabs/Users.js
-import * as actions from '../module/actions/actions';
-=======
 import * as actions from '../../redux/actions/actions';
->>>>>>> 551bed2 (Fix Adminview and SysAdminView so that it shows):src/components/tabs/Users.js
 
 // Table Style Generator
 // export const useStyles = makeStyles({
@@ -210,14 +206,10 @@ const UserTable = () => {
       </div>
       <div className="settings-containers">
         <TableContainer component={Paper}>
-<<<<<<< HEAD:src/tabs/Users.js
-          <Table className={classes.table} aria-label="simple table">
-=======
           <Table
             // className={classes.table}
             aria-label='simple table'
           >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Users.js
             <TableHead>
               <TableRow>
                 <TableCell>id</TableCell>

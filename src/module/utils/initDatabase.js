@@ -1,4 +1,3 @@
-import { exec } from 'node:child_process';
 import path from 'path';
 import { config } from 'dotenv';
 // config();

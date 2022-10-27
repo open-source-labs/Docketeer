@@ -43,19 +43,55 @@ initController.timeZone = (req, res, next) => {
 };
 
 //This query gets invoked on line 420 of LineChartDisplay but unsure of when it runs.
-  //Can't get it to console log 
+  //Can't get it to console log and need to figure out what it needs to return. At first glance, looks like just the query response
 initController.gitURL = (req, res, next) => {
-  const parameter = req.body.gitURL
-  console.log(parameter)
-  db.query2(`Select github_url from containers where name = '${parameter}'`)
-    .then((data) => {
-      console.log(data)
-      return next();
+  console.log('req.body: ', req.body)
+  const parameter = Object.keys(req.body.githubUrl)[0]
+  console.log('parameter: ', parameter)
+  //there is currently nothing in the table....so need to populate it first to see if queries work
+  db.query2(`SELECT * FROM containers`)
+  .then((data) => {
+    console.log(`container table data: `, data)
+    res.locals.data = data;
+    return next();
+  })
+
+
+  //pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
+  // db.query2(`SELECT github_url FROM containers where name = '${parameter}'`)
+  //   .then((data) => {
+  //     console.log(data)
+  //     return next();
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //     if (err) return next(err);
+  //   });
+}
+
+initController.addMetrics = (req, res, next) => {
+  //body comes back with container names as the keys, each key is an object filled with the container data
+  const containers = Object.keys(req.body);
+  //query string to insert the metric data into the table.
+  const queryString = `INSERT INTO metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+  //need to run 1 query per objects on the req.body
+    //doens't need to be async because we don't return anyhting?
+  containers.forEach((container) => {
+    //object deconstructing for each of the containers to pass them in as parameters for the query
+    const { ID, names, cpu, mem, memuse, net, block, pid, timestamp } = req.body[container]
+    const parameters = [ ID, names, cpu, mem, memuse, net, block, pid, timestamp]
+    //querying the database with the string and parameters. Don't need to return anything
+    db.query2(queryString, parameters)
+    .then(() => {
+      console.log('Insertion successful')
     })
     .catch((err) => {
       console.log(err)
       if (err) return next(err);
     });
+    //!maybe more to be done, need to test this
+  })
+  return next();
 }
 
 module.exports = initController;

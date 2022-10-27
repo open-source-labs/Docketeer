@@ -169,8 +169,7 @@ const SysAdmin = (props) => {
     borderBottomRightRadius: '10px',
   };
 
-
-
+  console.log('SysAdmin Running');
   return (
     <Router>
       <div className="container">

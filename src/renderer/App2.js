@@ -12,22 +12,6 @@ export const App2 = () => {
   //check 
   return (
     <>
-    <div>
-      Am I in App2?
-    </div>
-      {/* <ul>
-        <Link style={{ color: 'white', fontSize: '2em' }} to='/login'>
-          Login
-        </Link>
-        <br />
-        <Link style={{ color: 'white', fontSize: '2em' }} to='/app'>
-          App
-        </Link>
-        <br />
-        <Link style={{ color: 'white', fontSize: '2em' }} to='/app/UserView'>
-          UserView
-        </Link>
-      </ul> */}
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Authentication />} />

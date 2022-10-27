@@ -11,18 +11,10 @@ const configController = {};
 configController.configureThresholds = (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } =
-    req.body;
-
-  const inputThresholds =
-    'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
-  const thresholdDetails = [
-    contact_pref,
-    mem_threshold,
-    cpu_threshold,
-    container_stops,
-    _id,
-  ];
+  const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
+  
+  const inputThresholds = 'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
+  const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
 
   db.query(inputThresholds, thresholdDetails)
     .then((data) => {
@@ -32,11 +24,10 @@ configController.configureThresholds = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController newUser: ${err}`,
-        message: {
-          err: 'An error occured creating new user in database. See userController.newUser.',
-        },
+        message: { err: 'An error occured creating new user in database. See userController.newUser.' },
       });
     });
+
 };
 
 // configure contact preference
@@ -44,9 +35,8 @@ configController.updateContactPref = (req, res, next) => {
   if (res.locals.error) return next();
 
   const { contact_pref, _id } = req.body;
-
-  const inputPref =
-    'UPDATE users SET contact_pref = $1 WHERE _id = $2 RETURNING *;';
+  
+  const inputPref = 'UPDATE users SET contact_pref = $1 WHERE _id = $2 RETURNING *;';
   const prefDetails = [contact_pref, _id];
 
   db.query(inputPref, prefDetails)
@@ -57,9 +47,7 @@ configController.updateContactPref = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in configController updateContactPref: ${err}`,
-        message: {
-          err: 'An error occured updating contact preferences in database. See configController.updateContactPref.',
-        },
+        message: { err: 'An error occured updating contact preferences in database. See configController.updateContactPref.' },
       });
     });
 };
@@ -69,9 +57,8 @@ configController.updateCPUThreshold = (req, res, next) => {
   if (res.locals.error) return next();
 
   const { cpu_threshold, _id } = req.body;
-
-  const inputCPU =
-    'UPDATE users SET cpu_threshold = $1 WHERE _id = $2 RETURNING *;';
+  
+  const inputCPU = 'UPDATE users SET cpu_threshold = $1 WHERE _id = $2 RETURNING *;';
   const CPUDetails = [cpu_threshold, _id];
 
   db.query(inputCPU, CPUDetails)
@@ -82,9 +69,7 @@ configController.updateCPUThreshold = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in configController updateCPUThreshold: ${err}`,
-        message: {
-          err: 'An error occured updating CPU threshold in database. See configController.updateCPUThreshold.',
-        },
+        message: { err: 'An error occured updating CPU threshold in database. See configController.updateCPUThreshold.' },
       });
     });
 };
@@ -94,9 +79,8 @@ configController.updateMemThreshold = (req, res, next) => {
   if (res.locals.error) return next();
 
   const { mem_threshold, _id } = req.body;
-
-  const inputMem =
-    'UPDATE users SET mem_threshold = $1 WHERE _id = $2 RETURNING *;';
+  
+  const inputMem = 'UPDATE users SET mem_threshold = $1 WHERE _id = $2 RETURNING *;';
   const memDetails = [mem_threshold, _id];
 
   db.query(inputMem, memDetails)
@@ -107,9 +91,7 @@ configController.updateMemThreshold = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in configController updateMemThreshold: ${err}`,
-        message: {
-          err: 'An error occured updating memory threshold in database. See configController.updateMemThreshold.',
-        },
+        message: { err: 'An error occured updating memory threshold in database. See configController.updateMemThreshold.' },
       });
     });
 };
@@ -119,9 +101,8 @@ configController.updateStopPref = (req, res, next) => {
   if (res.locals.error) return next();
 
   const { container_stops, _id } = req.body;
-
-  const inputStopPref =
-    'UPDATE users SET container_stops = $1 WHERE _id = $2 RETURNING *;';
+  
+  const inputStopPref = 'UPDATE users SET container_stops = $1 WHERE _id = $2 RETURNING *;';
   const stopPrefDetails = [container_stops, _id];
 
   db.query(inputStopPref, stopPrefDetails)
@@ -132,9 +113,7 @@ configController.updateStopPref = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in configController updateStopPref: ${err}`,
-        message: {
-          err: 'An error occured updating container stop preference in database. See configController.updateStopPref.',
-        },
+        message: { err: 'An error occured updating container stop preference in database. See configController.updateStopPref.' },
       });
     });
 };

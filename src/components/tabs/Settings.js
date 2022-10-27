@@ -133,9 +133,9 @@ const Settings = (props) => {
       });
   };
 
-  /**
-   * @title COMMUNICATION
-   */
+/**
+ * @title COMMUNICATION
+ */
 
   const verifyMobileNumber = async () => {
     await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
@@ -493,10 +493,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.MEMORY
-                  )
+                  container.ID,
+                  container.Name,
+                  categories.MEMORY
+                )
                 : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
             role='checkbox'
@@ -509,10 +509,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Name,
-                    categories.CPU
-                  )
+                  container.ID,
+                  container.Name,
+                  categories.CPU
+                )
                 : handleUnCheckSetting(container.ID, categories.CPU)
             }
             role='checkbox'
@@ -525,10 +525,10 @@ const Settings = (props) => {
             onClick={(event) =>
               event.target.checked
                 ? handleCheckSetting(
-                    container.ID,
-                    container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                    categories.STOPPED
-                  )
+                  container.ID,
+                  container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
+                  categories.STOPPED
+                )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
             role='checkbox'
@@ -587,10 +587,9 @@ const Settings = (props) => {
       </div>
       <div className='settings-container'>
         <p>
-          Allows you to (i) connect a mobile phone to your account, and (ii)
-          choose your preferred method of communication.
+          Allows you to (i) connect a mobile phone to your account, and (ii) choose your preferred method of communication.
         </p>
-        <br />
+        <br/>
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
         {/* First Form */}
@@ -658,7 +657,7 @@ const Settings = (props) => {
             </div>
           </form>
         ) : null}
-
+        
         <p>2. Contact preference:</p>
         <br />
         <FormControl component='fieldset'>
@@ -671,7 +670,7 @@ const Settings = (props) => {
             <FormControlLabel value='email' control={<Radio />} label='Email' />
             <FormControlLabel value='phone' control={<Radio />} label='Phone' />
           </RadioGroup>
-          <br />
+          <br/>
           <Button
             sx={{
               ml: 1,
@@ -693,15 +692,14 @@ const Settings = (props) => {
       </div>
       <div className='settings-container'>
         <p>
-          Allows you to (i) customize monitoring and notification frequency, and
-          (ii) define container conditions that will trigger notifications. When
-          a container hits a threshold, an alert is sent via your preferred
-          method of communication. Recommended values will be used by default.
+          Allows you to (i) customize monitoring and notification frequency, and (ii) define container conditions that will trigger notifications. When a container hits a threshold, an alert is sent via your preferred method of communication. Recommended values will be used by default.
         </p>
-
-        <br />
-        <p>1. Setup / update notification criteria</p>
-        <br />
+        
+        <br/>
+        <p>
+          1. Setup / update notification criteria
+        </p>
+        <br/>
         <div>
           <form className='settingsForm' autoComplete='off'>
             <TextField
@@ -756,7 +754,7 @@ const Settings = (props) => {
           </form>
         </div>
 
-        <br />
+        <br/>
         <p>2. Configure notification thresholds</p>
         <br />
         <form
@@ -785,9 +783,9 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br />
+            <br/>
             Current Memory Threshold: {`>${mem_threshold}%`}
-            <br />
+            <br/>
             <TextField
               required
               id='mem-threshold-input'
@@ -798,6 +796,7 @@ const Settings = (props) => {
               onChange={handleMemChange}
               size='small'
             />
+
             <Button
               sx={{
                 ml: 1,
@@ -846,8 +845,6 @@ const Settings = (props) => {
           Allows you to get access to latest GitHub commits in your project
           repository on "Metrics" tab for selected containers
         </p>
-        <br />
-        <p>1. Add GitHub repositories url in Containers settings table below</p>
       </div>
 
       <div className='metric-section-title'>

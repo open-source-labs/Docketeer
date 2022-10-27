@@ -53,7 +53,7 @@ apiController.sendEmailAlert = (req, res, next) => {
 
   transporter
     .sendMail(mailDetails)
-    .then(() => {
+    .then((info) => {
       return next();
     })
     .catch((err) => {
@@ -87,7 +87,7 @@ apiController.signupEmail = (req, res, next) => {
 
   transporter
     .sendMail(mailDetails)
-    .then(() => {
+    .then((info) => {
       return next();
     })
     .catch((err) => {

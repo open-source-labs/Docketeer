@@ -2,6 +2,7 @@
  * These tests do not work as enzyme is highly depricated and does not communicate with React 18
  */
 
+
 // import React from 'react';
 // import { configure, shallow } from 'enzyme';
 // import Adapter from 'enzyme-adapter-react-16';
@@ -12,11 +13,13 @@
 
 // function shallowSetup() {
 
+
 //   const props = {
 //     runningList: [{ BlockIO: "1B/2B", ID: "6f49565a501c", CPUPerc: "20.00%", MemPerc: "0.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_1", NetIO: "3B/4B", PIDs: "0" }, { BlockIO: "3B/4B", ID: "6f49565a501c", CPUPerc: "30.00%", MemPerc: "20.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_2", NetIO: "5B/6B", PIDs: "0" }]
 //   }
 
 //   const enzymeWrapper = shallow(<Metrics {...props} />);
+
 
 //   return {
 //     props,
@@ -84,4 +87,6 @@ describe('dummy test', () => {
   test('dummy test', () => {
     expect(2 + 2).toBe(4);
   });
+
 });
+

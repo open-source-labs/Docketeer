@@ -46,19 +46,20 @@ const constructNotificationMessage = (
 ) => {
   let message = '';
   switch (notificationType) {
-    case categories.STOPPED:
-      message = `Container with ID of ${containerId} has stopped`;
-      break;
-    case categories.CPU || categories.MEMORY:
+
+  case categories.STOPPED:
+    message = `Container with ID of ${containerId} has stopped`;
+    break;
+  case categories.CPU || categories.MEMORY:
       message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat};
         Alert Setting: ${triggeringValue}`;
-      break;
-    default:
+    break;
+  default:
       message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat}; 
         Alert Setting: ${triggeringValue}`;
-      break;
+    break;
   }
 
   return message;
@@ -70,14 +71,15 @@ const sendNotification = async (
   containerId,
   stat,
   triggeringValue,
-  containerObject
+  containerObject,
 ) => {
+
   // Pull the current state, note we do this within this function as opposed to accessing the global state variable in the file because contact preferences may have been updated since the initialization of state variable in the file.
   const currentState = store.getState();
   const contactPreference = currentState.session.contact_pref;
   const email = currentState.session.email;
   // If the user's contact preferences are set to phone
-  if (contactPreference === 'phone') {
+  if (contactPreference === 'phone'){
     // Construct the message body which will be used to send a text
     const body = {
       mobileNumber: state.session.phone,
@@ -88,7 +90,7 @@ const sendNotification = async (
         containerId
       )
     };
-
+  
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
     return await window.nodeMethod.rendInvoke('post-event', body);
   }
@@ -98,16 +100,12 @@ const sendNotification = async (
   const date = new Date();
   const dateString = date.toLocaleDateString();
   const timeString = date.toLocaleTimeString();
-  const type =
-    notificationType === 'CPU'
-      ? notificationType
-      : notificationType.toLowerCase();
+  const type = notificationType === 'CPU' ? notificationType : notificationType.toLowerCase();
   const stopped = type === 'stopped' ? 'true' : 'false';
-
+  
   const body = {
     email,
-    containerName:
-      stopped === 'true' ? containerObject.Names : containerObject.Name,
+    containerName: (stopped === 'true' ? containerObject.Names : containerObject.Name),
     time: timeString,
     date: dateString,
     stopped,
@@ -143,7 +141,7 @@ const checkForNotifications = (
   notificationSettingsSet.forEach((containerId) => {
     // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
-
+    
     if (containerObject) {
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
@@ -169,7 +167,7 @@ const checkForNotifications = (
               containerId,
               stat,
               triggeringValue,
-              containerObject
+              containerObject,
             );
             console.log(
               `** Notification SENT. ${notificationType} 

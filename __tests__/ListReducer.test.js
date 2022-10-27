@@ -5,7 +5,8 @@
 import containerListReducer from '../src/redux/reducers/containerListReducer'; // import containerList reducer
 import imageListReducer from '../src/redux/reducers/imageListReducer'; // import imageListReducer reducer
 
-describe('Dockeeter reducer', () => {
+
+describe("Dockeeter reducer", () => {
   let state;
 
   beforeEach(() => {
@@ -16,9 +17,9 @@ describe('Dockeeter reducer', () => {
     };
   });
 
-  describe('unrecognized action types', () => {
-    it('should return the original without any duplication', () => {
-      expect(containerListReducer(state, { type: 'qqqq' })).toBe(state);
+  describe("unrecognized action types", () => {
+    it("should return the original without any duplication", () => {
+      expect(containerListReducer(state, { type: "qqqq" })).toBe(state);
     });
   });
 
@@ -60,19 +61,17 @@ describe('Dockeeter reducer', () => {
   //   });
   // });
 
-  describe('REFRESH_IMAGES', () => {
-    it('should overwrite the imagesList array in the state to update it', () => {
+  describe("REFRESH_IMAGES", () => {
+    it("should overwrite the imagesList array in the state to update it", () => {
       expect(state.imagesList.length).toEqual(0);
       let action = {
         type: 'REFRESH_IMAGES',
         payload: [{ imgid: '123' }, { imgid: '456' }]
       };
       expect(imageListReducer(state, action).imagesList.length).toEqual(2);
-      action = { type: 'REFRESH_IMAGES', payload: [{ imgid: '789' }] };
+      action = { type: "REFRESH_IMAGES", payload: [{ imgid: "789" }] };
       expect(imageListReducer(state, action).imagesList.length).toEqual(1);
-      expect(imageListReducer(state, action).imagesList[0].imgid).toEqual(
-        '789'
-      );
+      expect(imageListReducer(state, action).imagesList[0].imgid).toEqual("789");
     });
   });
 
@@ -113,15 +112,13 @@ describe('Dockeeter reducer', () => {
   //   });
   // });
 
-  describe('REMOVE_IMAGE', () => {
-    it('should remove a specified image from the imagesList', () => {
+  describe("REMOVE_IMAGE", () => {
+    it("should remove a specified image from the imagesList", () => {
       const newState = {
         imagesList: [{ id: '123' }, { id: '456' }]
       };
-      const action = { type: 'REMOVE_IMAGE', payload: '123' };
-      expect(imageListReducer(newState, action).imagesList[0].id).toEqual(
-        '456'
-      );
+      const action = { type: "REMOVE_IMAGE", payload: "123" };
+      expect(imageListReducer(newState, action).imagesList[0].id).toEqual("456");
     });
   });
 });

@@ -9,13 +9,15 @@ const bcryptController = require('../controllers/bcryptController');
 
 const router = express.Router();
 
-// Route handler: updates user's contact preference
-router.post('/contact', configController.updateContactPref, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+// Route handler: updates user's contact preference 
+router.post('/contact', 
+  configController.updateContactPref,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
-router.post(
-  '/password',
+router.post('/password', 
   bcryptController.comparePassword,
   bcryptController.hashNewPassword,
   userController.updatePassword,
@@ -25,26 +27,41 @@ router.post(
   }
 );
 
-router.post('/phone', userController.updatePhone, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+router.post('/phone', 
+  userController.updatePhone,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
-router.post('/email', userController.updateEmail, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+router.post('/email',
+  userController.updateEmail,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
-router.post('/cpu', configController.updateCPUThreshold, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+router.post('/cpu', 
+  configController.updateCPUThreshold,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
 // Route handler: updates user's memory threshold
-router.post('/memory', configController.updateMemThreshold, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+router.post('/memory', 
+  configController.updateMemThreshold,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
 // Route handler: updates user's preference to receive notifications for container stops
-router.post('/stops', configController.updateStopPref, (req, res) => {
-  return res.status(200).json(res.locals.user);
-});
+router.post('/stops',
+  configController.updateStopPref,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 
 module.exports = router;

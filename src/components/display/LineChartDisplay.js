@@ -6,7 +6,6 @@ import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
 import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
 
-  //! Create a try catch to properly handle errors on line 64
 /**
  * Displays linegraph and github metrics
  *
@@ -42,7 +41,6 @@ const LineChartDisplay = () => {
         containers: containerNamesArr
       })
     })
-    //! Create a try catch to properly handle errors
     return await response.json(); 
   }
 
@@ -252,7 +250,6 @@ const LineChartDisplay = () => {
   };
   //populating the github commits into a MUI DataGrid
     //This should allow multiple tables be stacked if multiple containers are selected
-      //!Do we want them to be integrated on the same table??
   let gitData;
 
   const columns = [
@@ -322,7 +319,6 @@ const LineChartDisplay = () => {
     );
   });
 
-  // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
   const selectList = () => {
     const result = [];
@@ -355,7 +351,7 @@ const LineChartDisplay = () => {
       return;
     }
     const containerName = e.target.name;
-    // deep copy the state object - shallow copy didn't work
+    // deep copy the state object
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
       delete copyObj[containerName];
@@ -404,7 +400,6 @@ const LineChartDisplay = () => {
     maintainAspectRatio: false
   };
 
-  /* Consider if we can combine these two. Wasn't rendering active containers when tested */
   selectList();
   useEffect(() => {
     formatData();

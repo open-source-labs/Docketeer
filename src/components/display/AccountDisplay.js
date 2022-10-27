@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-// import { makeStyles } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 
 import {
@@ -21,36 +20,8 @@ import {
   checkPhone,
 } from '../../module/utils/helper/settingsHelper';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     '& .MuiTextField-root': {
-//       marginLeft: 5,
-//       marginBottom: 15,
-//       width: 220,
-//       verticalAlign: 'middle'
-//     }
-//   },
-//   button: {
-//     '& > *': {
-//       pointerEvents: 'none'
-//     },
-//     marginLeft: 5,
-//     width: 100,
-//     verticalAlign: 'top'
-//   },
-//   verifiedIcon: {
-//     verticalAlign: 'top',
-//     color: 'green'
-//   },
-//   description: {
-//     marginLeft: 5,
-//     marginBottom: 30
-//   }
-// }));
-
 const AccountDisplay = () => {
   const session = useSelector((state) => state.session);
-  // const classes = useStyles();
 
   return (
     <div>
@@ -78,7 +49,6 @@ const AccountDisplay = () => {
         <br />
         <form className='settingsForm' autoComplete='off'>
           <TextField
-            // className={classes.textfield}
             id='update-email-input'
             label='Email'
             helperText={session.email}
@@ -89,7 +59,6 @@ const AccountDisplay = () => {
             sx={{
               ml: 1,
               width: 100
-              // Missing verticalAlign: 'top'
             }}
             size='medium'
             variant='contained'
@@ -101,7 +70,6 @@ const AccountDisplay = () => {
         </form>
         <form className='settings' autoComplete='off'>
           <TextField
-            // className={classes.textfield}
             id='update-phone-input'
             label='Phone Number'
             helperText={session.phone}
@@ -115,7 +83,6 @@ const AccountDisplay = () => {
             sx={{
               ml: 1,
               width: 100
-              // Missing verticalAlign: 'top'
             }}
             size='medium'
             variant='contained'
@@ -164,7 +131,6 @@ const AccountDisplay = () => {
             variant='outlined'
             type='password'
             onChange={() => confirmPassword()}
-            // value="80" set this later
             size='small'
           />
           <span id='confirm-new-password-alert'></span>
@@ -174,7 +140,6 @@ const AccountDisplay = () => {
             sx={{
               ml: 1,
               width: 100
-              // Missing verticalAlign: 'top'
             }}
             size='medium'
             color='primary'

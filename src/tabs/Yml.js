@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 
-// import { makeStyles } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,32 +17,7 @@ import { Button } from '@mui/material';
  * @param {*} props
  */
 
-// const useStyles = makeStyles(() => ({
-//   root: {
-//     '& .MuiTextField-root': {
-//       marginLeft: 5,
-//       marginBottom: 15,
-//       width: 220,
-//       verticalAlign: 'middle'
-//     }
-//   },
-//   button: {
-//     marginLeft: 5,
-//     width: 100,
-//     verticalAlign: 'top'
-//   },
-//   verifiedIcon: {
-//     verticalAlign: 'top',
-//     color: 'green'
-//   },
-//   description: {
-//     marginLeft: 5,
-//     marginBottom: 30
-//   }
-// }));
-
 const Yml = () => {
-  // const classes = useStyles();
   const [filePath, setFilePath] = useState('');
   const [ymlFile, setYmlFile] = useState('');
   const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
@@ -191,7 +165,6 @@ const Yml = () => {
             }}
             size='medium'
             variant='contained'
-            // className='btn'
             onClick={() => {
               helper
                 .dockerComposeUp(filePath, ymlFileName)

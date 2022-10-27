@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch, getState } from 'react-redux';
-import * as helper from '../helper/commands';
+import { useDispatch } from 'react-redux';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
@@ -30,11 +29,8 @@ const ProcessLogsTable = () => {
 
   // access runningList from state
   const runningList = store.getState().containersList.runningList;
-  // get initial container name for state
-  const initCont = runningList.find(el => el.ID === id);
 
   const [btnIdList, setBtnIdList] = useState([id]);
-  // const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
   const [rows, setRows] = useState([]);
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
@@ -88,15 +84,11 @@ const ProcessLogsTable = () => {
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
       btnIdList.push(box.id);
-      // selectedContainerNames.push(box.name);
       setBtnIdList(btnIdList);
-      // setSelectedContainerNames(selectedContainerNames);
     } else {
       // else remove from button idList
       const newIdList = btnIdList.filter(container => container !== box.id);
-      // const newNameList = selectedContainerNames.filter(name => name !== box.name);
       setBtnIdList(newIdList);
-      // setSelectedContainerNames(newNameList);
     }
   };
 

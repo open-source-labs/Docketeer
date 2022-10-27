@@ -5,9 +5,7 @@ import {
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
-import { userInfo } from 'os';
 
-//! Potentially add async await to the fetches on lines: 537, 558, 581
 /**
  * Grabs all active containers on app-start up
  *
@@ -496,8 +494,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  */
 
  export const writeToDb = () => {
-  //2.5 minute intervals for data (used to be 5 minutes)
-  const interval = 150000;
+  const interval = 300000;
   setInterval(() => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
@@ -631,7 +628,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         console.log(`getVolumeContainers stderr: ${stderr}`);
         return;
       }
-
       const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
 
       return getVolumeContainersList(
@@ -652,7 +648,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
   let containerLogs = { stdout: [], stderr: [] };
 
-  // const logsToArr = await Promise.resolve(() => {
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line

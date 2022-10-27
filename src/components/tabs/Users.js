@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -10,7 +10,6 @@ const UserTable = () => {
   const dispatch = useDispatch();
   const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
   const [pageSize, setPageSize] = useState(5);
-  const [userRole, setUserRole] = useState(userList);
 
   // Create columns for table
   const columns = useMemo(() => [
@@ -40,10 +39,8 @@ const UserTable = () => {
   ]);
 
   const handleRoleChange = (event) => {
-    // const target = event; //I don't think this is used
     const id = event.id;
     const role = event.props.value;
-    console.log('id and role: ', id, role);
 
     return new Promise((resolve) => {
       // preProcessEditCellProps requires you to use a Promise/Resolve
@@ -57,10 +54,8 @@ const UserTable = () => {
           role: role
         })
       })
-        .then((response) => {
-          response = response.json();
-          return response; // This needs to be changed to one line since console.logs have been removed
-        })
+        .then((response) => response.json())
+          // return response.json(); // This needs to be changed to one line since console.logs have been removed
         .then((data) => {
           // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
           const hasError = data;
@@ -92,7 +87,6 @@ const UserTable = () => {
     <div style={{ background: '#E1E4E6', height: '100vh' }}>
       <Box
         sx={{
-          // width: 900,
           ml: 5,
           width: '90%',
           height: 400,
@@ -101,7 +95,6 @@ const UserTable = () => {
       >
         <Typography
           variant='h6'
-          // component='h3'
           sx={{ textAlign: 'center', mt: 2, mb: 2 }}
         >
           Manage Users

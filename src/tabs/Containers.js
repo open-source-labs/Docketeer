@@ -11,6 +11,7 @@ import ToggleDisplay from '../display/ToggleDisplay';
  * @param {*} props
 >>>>>>> 21bc932 (Added styling for newUserSetting, Setting, and style.css):src/components/tabs/Containers.js
  */
+
 const Containers = (props) => {
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (

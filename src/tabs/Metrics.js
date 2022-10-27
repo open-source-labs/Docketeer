@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { convertToMetricsArr } from '../helper/parseContainerFormat';
-import { Pie, Chart } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**

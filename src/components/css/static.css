@@ -1,7 +1,7 @@
 .fa-box-open {
   content: url(../../../assets/running.svg);
   width: 22px;
-  color:black;
+  color: black;
 }
 
 .fa-archive {
@@ -45,6 +45,6 @@
 }
 
 .fa-log {
-  content: url(../../../assets/docketeer_logs.svg);
+  content: url(../../../assets/docketeer-logs.svg);
   width: 22px;
 }

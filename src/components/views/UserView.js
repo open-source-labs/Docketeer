@@ -1,29 +1,23 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import ImagesUser from "../tabs/ImagesUser";
-import Yml from "../tabs/Yml";
-import ContainersUser from "../tabs/ContainersUser";
-import Settings from "../tabs/Settings";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import ImagesUser from '../tabs/ImagesUser';
+import Yml from '../tabs/Yml';
+import ContainersUser from '../tabs/ContainersUser';
+import Settings from '../tabs/Settings'; 
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -31,6 +25,7 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -81,12 +76,11 @@ const UserView = (props) => {
 
   // declare a local state variable called selected, initialize to "/"
   const [selected, setSelected] = useState('/');
-  // const [ loggedIn, setLoggedIn ] = useState(true);
 
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
-    // props.setLoggedIn(false);
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -123,111 +117,134 @@ const UserView = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (
-    <Router>
-      <div className='container'>
-        <nav className='tab'>
-          <header id='title'>
-            <img src={Docketeer} width={160} />
-          </header>
-          <div className='viewsAndButton'>
-            <ul>
-              <li>
-                <Link
-                  to='/app'
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
-                >
-                  <i className="fas fa-settings"></i> Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
-                >
-                  <i className='fas fa-box-open'></i> Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/images'
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
-                >
-                  <i className='fas fa-database'></i> Images
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
-                >
-                  <i className='fas fa-chart-pie'></i> Metrics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/yml'
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
-                >
-                  <i className='fas fa-file-upload'></i> Docker Compose
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/volume'
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
-                >
-                  <i className="fas fa-volume-history"></i> Volume History
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/logs'
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
-                >
-                  <i className="fas fa-log"></i> Process Logs
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <button
-                className='btn'
-                onClick={(e) => helper.handlePruneClick(e)}
+    <div className='container'>
+      {/* <Navbar /> */}
+      <nav className='tab'>
+        <header id='title'>
+          <img src={Docketeer} width={160} />
+        </header>
+        <div className='viewsAndButton'>
+          <ul>
+            <li>
+              <Link
+                to='/app/'
+                style={selected === '/app/' ? selectedStyling : null}
+                onClick={() => setSelected('/app/')}
               >
-                System Prune
-              </button>
-              <span> </span>
-              <button className='btn' onClick={(e) => handleLogout(e)}>
-                Logout
-              </button>
-            </div>
+                <i className='fas fa-settings'></i> Settings
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/running'
+                style={
+                  selected === '/app/running'
+                    ? selectedStyling
+                    : null
+                }
+                onClick={() => setSelected(() => '/app/running')}
+              >
+                <i className='fas fa-box-open'></i> Containers
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/images'
+                style={
+                  selected === '/app/images' ? selectedStyling : null
+                }
+                onClick={() => setSelected('/app/images')}
+              >
+                <i className='fas fa-database'></i> Images
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/metrics'
+                style={
+                  selected === '/app/metrics'
+                    ? selectedStyling
+                    : null
+                }
+                onClick={() => setSelected('/app/metrics')}
+              >
+                <i className='fas fa-chart-pie'></i> Metrics
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/yml'
+                style={
+                  selected === '/app/yml' ? selectedStyling : null
+                }
+                onClick={() => setSelected('/app/yml')}
+              >
+                <i className='fas fa-file-upload'></i> Docker Compose
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/volume'
+                style={
+                  selected === '/app/volume' ? selectedStyling : null
+                }
+                onClick={() => setSelected('/app/volume')}
+              >
+                <i className='fas fa-volume-history'></i> Volume History
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/logs'
+                style={
+                  selected === '/app/logs' ? selectedStyling : null
+                }
+                onClick={() => setSelected('/app/logs')}
+              >
+                <i className='fas fa-log'></i> Process Logs
+              </Link>
+            </li>
+          </ul>
+          <div>
+            <button
+              style={{borderRadius: 5, marginBottom: 10}}
+              className='btn'
+              onClick={(e) => helper.handlePruneClick(e)}
+            >
+              System Prune
+            </button>
+            <span> </span>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
+              Logout
+            </button>
           </div>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path='/volume'>
+        </div>
+      </nav>
+      <Routes>
+        <Route
+          path='/volume'
+          element={
             <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
-          </Route>
-          <Route path='/metrics'>
+          }
+        />
+        <Route
+          path='/metrics'
+          element={
             <Metrics runningList={runningList} />
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs 
+          }
+        />
+
+        <Route
+          path='/logs'
+          element={
+            <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
@@ -240,14 +257,26 @@ const UserView = (props) => {
               runStoppedContainer={runStoppedContainer}
               stoppedList={stoppedList}
             />
-          </Route>
-          <Route path="/logTable/:containerId" >
+          }
+        />
+        <Route
+          path='/logTable/:containerId'
+          element={
             <ProcessLogsTable />
-          </Route>
-          <Route path='/yml'>
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path='/images'>
+          }
+        />
+        <Route
+          path='/yml'
+          element={
+            <Yml
+              networkList={networkList}
+              composeymlFiles={composeymlFiles}
+            />
+          }
+        />
+        <Route
+          path='/images'
+          element={
             <ImagesUser
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -256,8 +285,11 @@ const UserView = (props) => {
               imagesList={imagesList}
               runningList={runningList}
             />
-          </Route>
-          <Route path='/running'>
+          }
+        />
+        <Route
+          path='/running'
+          element={
             <ContainersUser
               runIm={helper.runIm}
               stop={helper.stop}
@@ -271,8 +303,11 @@ const UserView = (props) => {
               runStoppedContainer={runStoppedContainer}
               stoppedList={stoppedList}
             />
-          </Route>
-          <Route path='/'>
+          }
+        />
+        <Route
+          path='/'
+          element={
             <Settings
               runningList={runningList}
               stop={helper.stop}
@@ -286,10 +321,10 @@ const UserView = (props) => {
               cpuNotificationList={cpuNotificationList}
               stoppedNotificationList={stoppedNotificationList}
             />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          }
+        />
+      </Routes>
+    </div>
   );
 };
 

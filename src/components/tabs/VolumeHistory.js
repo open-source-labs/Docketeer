@@ -1,23 +1,21 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 /**
  * Render Volume History
- * May need to be refactored to auto refresh
  * 
  * @param {*} props
  */
+
 const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState('');
-
   // Container details
   const containerDetails = (container, i) => {
-    // unique key error here, fix required
     return (
       <div
         className="volume-container-details"
-        key={`vol.${container.Names}-${i}`}
+        key={`vol-${i}`}
       >
         <strong>Container Name: </strong>
         {container['Names']}
@@ -42,13 +40,13 @@ const volumeHistory = (props) => {
     ele.containers.length
       ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
       : details.push(
-        <div className='volume-container-details'>
+        <div className='volume-container-details' key={`ummmmm-${i}`}>
           No container found in this volume
         </div>
       );
 
     return (
-      <div className="box" key={`volume${i}`}>
+      <div className="box" key={`vol_${i}`}>
         <div className="box-label">
           <h3>{ele.vol_name}</h3>
         </div>
@@ -63,7 +61,7 @@ const volumeHistory = (props) => {
   // Search bar: Finds volume name and renders an individual card
   const handleClick = (e) => {
     e.preventDefault();
-    const result = volumeList.filter(vol => vol.Name.includes(volumeName));
+    const result = volumeList.filter((vol) => vol.Name.includes(volumeName));
 
     setVolumeList(result);
     renderList = renderVolumeHistory(volumeList);
@@ -89,7 +87,7 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderList}</div> 
+      <div className="containers">{renderList}</div>
     </div>
   );
 };

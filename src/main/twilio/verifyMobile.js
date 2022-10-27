@@ -1,7 +1,6 @@
-import twilio from 'twilio';
-import { config } from 'dotenv';
-
-config();
+const twilio = require('twilio');
+// import { config } from 'dotenv';
+// config();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -19,4 +18,4 @@ const verifyMobileNumber = async (mobileNumber) => {
     .catch((err) => console.error(err));
 };
 
-export default verifyMobileNumber;
+// export default verifyMobileNumber;

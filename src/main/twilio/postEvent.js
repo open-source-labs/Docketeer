@@ -1,7 +1,6 @@
-import twilio from 'twilio';
-import { config } from 'dotenv';
-
-config();
+const twilio = require('twilio');
+// import { config } from 'dotenv';
+// config();
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -13,7 +12,7 @@ const postEvent = (mobileNumber, eventMessage) => {
     .create({
       body: eventMessage,
       to: mobileNumber,
-      from: twilioNumber,
+      from: twilioNumber
     })
     .then(() => {
       console.log('User notified');
@@ -24,4 +23,4 @@ const postEvent = (mobileNumber, eventMessage) => {
     });
 };
 
-export default postEvent;
+// export default postEvent;

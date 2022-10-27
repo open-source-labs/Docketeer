@@ -40,7 +40,7 @@
 }
 .pieChart {
   background-color: white;
-  height: 320px;
+  height: 400px;
   width: 280px;
   display: flex;
   justify-content: center;
@@ -65,13 +65,12 @@
 
 .ltTable {
   width: 600px;
-  text-align: center;
+  text-align: left;
 }
 
 .metric-section-title {
   height: 30px;
   margin-bottom: 15px;
-
 }
 
 .metrics-options-form {
@@ -79,9 +78,9 @@
   padding: 20px 10px 15px 15px;
 
   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 

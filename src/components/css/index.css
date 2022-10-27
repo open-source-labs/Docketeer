@@ -1,0 +1,5 @@
+/* Import all css files here */
+@import url("metric.css");
+@import url("running.css");
+@import url("static.css");
+@import url("styles.css");

@@ -15,7 +15,7 @@ import { userInfo } from 'os';
  * @param {*} callback
  */
 
-export const addRunning = (runningList, callback) => {
+export const addRunning = (runningList, name, callback) => {
   window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
@@ -36,14 +36,24 @@ export const addRunning = (runningList, callback) => {
       const newList = [];
 
       for (let i = 0; i < convertedValue.length; i++) {
+        console.log('Checking converted value: ', convertedValue[i])
         let isInTheList = false;
         for (const container of runningList) {
-          if (container.cid === convertedValue[i].cid) {
+          if (container.ID === convertedValue[i].ID) {
             isInTheList = true;
             break;
           }
         }
-        isInTheList ? '' : newList.push(convertedValue[i]);
+        //!old if statement
+        // isInTheList ? '' : newList.push(convertedValue[i]);
+        //!Somehow there are two containers getting added, 1 with the Image key and one without
+        //!Then somewhere else, the code deletes the one with the Image tag (probably because it is last in the array) and keeps the one without
+        console.log(isInTheList)
+        if (!isInTheList) {
+          convertedValue[i].Image = name;
+          newList.push(convertedValue[i]);
+          console.log('Checking converted value: ', convertedValue[i])
+        }
       }
       newList.length ? callback(newList) : '';
     }
@@ -88,7 +98,7 @@ export const refreshRunning = (refreshRunningContainers) => {
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
-
+        console.log('inside refreshRunning: ', convertedValue)
       refreshRunningContainers(convertedValue);
     }
   );
@@ -231,8 +241,8 @@ export const runStopped = (
  * @param {*} callback_2
  */
 
-export const runIm = (id, runningList, callback_1, callback_2) => {
-  // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
+export const runIm = (id, name, runningList, callback_1, callback_2) => {
+  // props.runIm(ele['imgid'], ele['reps'], props.runningList, helper.addRunning, props.addRunningContainers)
   window.nodeMethod.runExec(`docker run ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
@@ -243,7 +253,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
       return;
     }
   });
-  callback_1(runningList, callback_2);
+  callback_1(runningList, name, callback_2);
 };
 
 /**

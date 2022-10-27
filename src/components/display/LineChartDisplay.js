@@ -443,15 +443,9 @@ const Metrics = () => {
             name="timePeriod"
             value="12"
           ></input>
-<<<<<<< HEAD
-          <label htmlFor="12-hours"> 12 hours</label>
-          <input type="radio" id="other" name="timePeriod" value="24"></input>
-          <label htmlFor="24-hours"> 24 hours</label>
-=======
           <label htmlFor='12-hours'> 12 hours</label>
           <input type='radio' id='other' name='timePeriod' value='24'></input>
           <label htmlFor='24-hours'> 24 hours</label>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <br />
           {currentList}
         </form>

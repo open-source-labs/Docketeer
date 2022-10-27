@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const request = require('request');
-=======
 const axios = require('axios');
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
 
 const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
 

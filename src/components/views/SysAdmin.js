@@ -110,6 +110,7 @@ const SysAdmin = (props) => {
   };
 
   useEffect(() => {
+
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);

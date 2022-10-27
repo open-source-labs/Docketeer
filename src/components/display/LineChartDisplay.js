@@ -415,7 +415,7 @@ const Metrics = () => {
   selectList();
   useEffect(() => {
     formatData();
-    // renderGitInfo();
+    renderGitInfo();
   }, [activeContainers, timePeriod]);
 
   return (

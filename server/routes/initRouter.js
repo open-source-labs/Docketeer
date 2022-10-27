@@ -15,4 +15,11 @@ router.get('/',
   }
 );
 
+router.post('/timezone',
+  initController.timeZone,
+  (req, res) => {
+    return res.status(200);
+  }
+);
+
 module.exports = router;

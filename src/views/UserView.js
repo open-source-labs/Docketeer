@@ -1,87 +1,90 @@
 // module imports
 import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../redux/actions/actions';
-import * as helper from '../helper/commands';
-import * as history from '../helper/volumeHistoryHelper';
+// import * as actions from '../../redux/actions/actions';
+// import * as helper from '../helper/commands';
+// import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
+// Navbar Import
+// import Navbar from './Navbar';
+
 // tab component imports
-import Metrics from '../tabs/Metrics';
-import ImagesUser from '../tabs/ImagesUser';
-import Yml from '../tabs/Yml';
-import ContainersUser from '../tabs/ContainersUser';
+// import Metrics from '../tabs/Metrics';
+// import ImagesUser from '../tabs/ImagesUser';
+// import Yml from '../tabs/Yml';
+// import ContainersUser from '../tabs/ContainersUser';
 // import Settings from '../tabs/Settings'; //! Issue with loading frontend -> Path.join is not a functions
-import VolumeHistory from '../tabs/VolumeHistory';
-import ProcessLogs from '../tabs/ProcessLogs';
-import ProcessLogsTable from '../display/ProcessLogsTable';
+// import VolumeHistory from '../tabs/VolumeHistory';
+// import ProcessLogs from '../tabs/ProcessLogs';
+// import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 // import startNotificationRequester from '../helper/notificationsRequester'; //! Issue with loading frontend -> Path.join is not a functions
 // import initDatabase from '../helper/initDatabase'; //! Issue with loading frontend -> Path.join is not a functions
 
-// Container component that has all redux logic along with react router
+// // Container component that has all redux logic along with react router
 const UserView = (props) => {
-  const dispatch = useDispatch();
-  const addRunningContainers = (data) =>
-    dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data) =>
-    dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data) =>
-    dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data) =>
-    dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (data) =>
-    dispatch(actions.runStoppedContainer(data));
-  const stopRunningContainer = (id) =>
-    dispatch(actions.stopRunningContainer(id));
-  const updateSession = () => dispatch(actions.updateSession());
-  const logoutUser = () => dispatch(actions.logoutUser());
-  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data) =>
-    dispatch(actions.getVolumeContainersList(data));
+  //   const dispatch = useDispatch();
+  //   const addRunningContainers = (data) =>
+  //     dispatch(actions.addRunningContainers(data));
+  //   const refreshRunningContainers = (data) =>
+  //     dispatch(actions.refreshRunningContainers(data));
+  //   const refreshStoppedContainers = (data) =>
+  //     dispatch(actions.refreshStoppedContainers(data));
+  //   const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
+  //   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
+  //   const getNetworkContainers = (data) =>
+  //     dispatch(actions.getNetworkContainers(data));
+  //   const removeContainer = (id) => dispatch(actions.removeContainer(id));
+  //   const runStoppedContainer = (data) =>
+  //     dispatch(actions.runStoppedContainer(data));
+  //   const stopRunningContainer = (id) =>
+  //     dispatch(actions.stopRunningContainer(id));
+  //   const updateSession = () => dispatch(actions.updateSession());
+  //   const logoutUser = () => dispatch(actions.logoutUser());
+  //   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
+  //   const getVolumeContainersList = (data) =>
+  //     dispatch(actions.getVolumeContainersList(data));
 
-  // map state to props
-  const runningList = useSelector((state) => state.containersList.runningList);
-  const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  const imagesList = useSelector((state) => state.images.imagesList);
-  const networkList = useSelector((state) => state.networkList.networkList);
-  const arrayOfVolumeNames = useSelector(
-    (state) => state.volumeList.arrayOfVolumeNames
-  );
-  const volumeContainersList = useSelector(
-    (state) => state.volumeList.volumeContainersList
-  );
+  //   // map state to props
+  //   const runningList = useSelector((state) => state.containersList.runningList);
+  //   const stoppedList = useSelector((state) => state.containersList.stoppedList);
+  //   const imagesList = useSelector((state) => state.images.imagesList);
+  //   const networkList = useSelector((state) => state.networkList.networkList);
+  //   const arrayOfVolumeNames = useSelector(
+  //     (state) => state.volumeList.arrayOfVolumeNames
+  //   );
+  //   const volumeContainersList = useSelector(
+  //     (state) => state.volumeList.volumeContainersList
+  //   );
 
-  // map state to props
-  const phoneNumber = useSelector(
-    (state) => state.notificationList.phoneNumber
-  );
-  const memoryNotificationList = useSelector(
-    (state) => state.notificationList.memoryNotificationList
-  );
-  const cpuNotificationList = useSelector(
-    (state) => state.notificationList.cpuNotificationList
-  );
-  const stoppedNotificationList = useSelector(
-    (state) => state.notificationList.stoppedNotificationList
-  );
+  // // map state to props
+  // const phoneNumber = useSelector(
+  //   (state) => state.notificationList.phoneNumber
+  // );
+  // const memoryNotificationList = useSelector(
+  //   (state) => state.notificationList.memoryNotificationList
+  // );
+  // const cpuNotificationList = useSelector(
+  //   (state) => state.notificationList.cpuNotificationList
+  // );
+  // const stoppedNotificationList = useSelector(
+  //   (state) => state.notificationList.stoppedNotificationList
+  // );
 
-  // declare a local state variable called selected, initialize to "/"
-  const [selected, setSelected] = useState('/');
-  const [loggedIn, setLoggedIn] = useState(true);
+  // // declare a local state variable called selected, initialize to "/"
+  // const [selected, setSelected] = useState('/');
+  // const [loggedIn, setLoggedIn] = useState(true);
 
-  const handleLogout = (e) => {
-    updateSession();
-    logoutUser();
-    // props.setLoggedIn(false);
-  };
+  // const handleLogout = (e) => {
+  //   updateSession();
+  //   logoutUser();
+  //   // props.setLoggedIn(false);
+  // };
 
   // useEffect(() => {
   //   initDatabase();
@@ -113,16 +116,18 @@ const UserView = (props) => {
   //   return () => clearInterval(interval);
   // }, []);
 
-  const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
-  };
+  // const selectedStyling = {
+  //   background: '#e1e4e6',
+  //   color: '#042331',
+  //   borderTopRightRadius: '10px',
+  //   borderBottomRightRadius: '10px'
+  // };
 
   return (
     <Fragment>
       <div className='container'>
+        {/* <Navbar /> */}
+
         <nav className='tab'>
           <header id='title'>
             <img src={Docketeer} width={160} />
@@ -131,7 +136,7 @@ const UserView = (props) => {
             <ul>
               <li>
                 <Link
-                  to='/app'
+                  to='/app/UserView/'
                   // style={selected === '/' ? selectedStyling : null}
                   // onClick={() => setSelected('/')}
                 >
@@ -140,54 +145,54 @@ const UserView = (props) => {
               </li>
               <li>
                 <Link
-                  to='/running'
+                  to='/app/UserView/running'
                   // style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
+                  // onClick={() => setSelected(() => '/running')}
                 >
                   <i className="fas fa-box-open"></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/images'
+                  to='/app/UserView/images'
                   // style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
+                  // onClick={() => setSelected('/images')}
                 >
                   <i className="fas fa-database"></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/metrics'
+                  to='/app/UserView/metrics'
                   // style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
+                  // onClick={() => setSelected('/metrics')}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/yml'
+                  to='/app/UserView/yml'
                   // style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
+                  // onClick={() => setSelected('/yml')}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/volume'
+                  to='/app/UserView/volume'
                   // style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
+                  // onClick={() => setSelected('/volume')}
                 >
                   <i className='fas fa-volume-history'></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/logs'
+                  to='/app/UserView/logs'
                   // style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
+                  // onClick={() => setSelected('/logs')}
                 >
                   <i className='fas fa-log'></i> Process Logs
                 </Link>
@@ -195,13 +200,16 @@ const UserView = (props) => {
             </ul>
             <div>
               <button
-                className="btn"
-                onClick={(e) => helper.handlePruneClick(e)}
+                className='btn'
+                // onClick={(e) => helper.handlePruneClick(e)}
               >
                 System Prune
               </button>
               <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
+              <button
+                className='btn'
+                // onClick={(e) => handleLogout(e)}
+              >
                 Logout
               </button>
             </div>
@@ -212,7 +220,7 @@ const UserView = (props) => {
                 renders the first one that matches the current URL. */}
         <Routes>
           <Route
-            path='/volume'
+            path='volume'
             element={
               // <VolumeHistory
               //   arrayOfVolumeNames={arrayOfVolumeNames}
@@ -222,7 +230,7 @@ const UserView = (props) => {
             }
           />
           <Route
-            path='/metrics'
+            path='metrics'
             element={
               // <Metrics runningList={runningList}/>
               <h2>I'm Metrics!</h2>
@@ -230,7 +238,7 @@ const UserView = (props) => {
           />
 
           <Route
-            path='/logs'
+            path='logs'
             element={
               // <ProcessLogs
               //   runIm={helper.runIm}
@@ -248,9 +256,15 @@ const UserView = (props) => {
               <h2>I'm Logs!</h2>
             }
           />
-          <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
           <Route
-            path='/yml'
+            path='logTable/:containerId'
+            element={
+              // <ProcessLogsTable />
+              <h2>I'm Process Logs</h2>
+            }
+          />
+          <Route
+            path='yml'
             element={
               // <Yml
               //   networkList={networkList}
@@ -260,7 +274,7 @@ const UserView = (props) => {
             }
           />
           <Route
-            path='/images'
+            path='images'
             element={
               // <ImagesUser
               //   runIm={helper.runIm}
@@ -274,7 +288,7 @@ const UserView = (props) => {
             }
           />
           <Route
-            path='/running'
+            path='running'
             element={
               // <ContainersUser
               //   runIm={helper.runIm}

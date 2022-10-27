@@ -20,8 +20,8 @@ import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-import startNotificationRequester from '../helper/notificationsRequester';
-import initDatabase from '../helper/initDatabase';
+import startNotificationRequester from '../module/utils/notificationsRequester';
+import initDatabase from '../module/utils/initDatabase';
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {
@@ -77,7 +77,7 @@ const UserView = (props) => {
   // declare a local state variable called selected, initialize to "/"
   const [selected, setSelected] = useState('/');
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
     navigate('/login');

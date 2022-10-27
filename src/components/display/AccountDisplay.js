@@ -17,8 +17,8 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone
-} from '../helper/settingsHelper';
+  checkPhone,
+} from '../../module/utils/helper/settingsHelper';
 
 const AccountDisplay = () => {
   const session = useSelector((state) => state.session);

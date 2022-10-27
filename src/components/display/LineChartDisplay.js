@@ -418,18 +418,18 @@ const LineChartDisplay = () => {
           }}
         >
           <input
-            type='radio'
-            id='4-hours'
-            name='timePeriod'
-            value='4'
+            type="radio"
+            id="4-hours"
+            name="timePeriod"
+            value="4"
             defaultChecked
           ></input>
           <label htmlFor="4-hours"> 4 hours</label>
           <input
-            type='radio'
-            id='12-hours'
-            name='timePeriod'
-            value='12'
+            type="radio"
+            id="12-hours"
+            name="timePeriod"
+            value="12"
           ></input>
           <label htmlFor='12-hours'> 12 hours</label>
           <input 

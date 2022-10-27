@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
@@ -6,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
 
 // React Component Imports
-import AccountDisplay from '../display/AccountDisplay';
+import AccountDisplay from '../components/display/AccountDisplay';
 
 // Material UI Imports
 import Table from '@mui/material/Table';
@@ -384,7 +383,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleCpuChange = (event) => {
+  const handleCpuChange = () => {
     setCpuThreshold(document.getElementById('cpu-threshold-input').value);
   };
 
@@ -456,7 +455,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleMemChange = (event) => {
+  const handleMemChange = () => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
   };
 

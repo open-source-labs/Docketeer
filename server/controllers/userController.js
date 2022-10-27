@@ -114,7 +114,6 @@ userController.checkSysAdmin = (req, res, next) => {
 
 // switches role of user upon designation by system admin
 userController.switchUserRole = (req, res, next) => {
-
   const roleMap = {
     'system admin': 1,
     admin: 2,

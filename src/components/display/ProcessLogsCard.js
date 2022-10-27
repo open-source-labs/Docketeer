@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 const ProcessLogsCard = (props) => {
   const navigate = useNavigate();
 
+const ProcessLogsCard = (props) => {
   return (
 
     <button className="btn-process" onClick={() => navigate(`/app/logTable/${props.container.ID}`)}>

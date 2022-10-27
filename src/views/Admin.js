@@ -13,20 +13,20 @@ import Docketeer from '../../../assets/docketeer-title.png';
 import Metrics from '../tabs/Metrics';
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
-import Containers from '../tabs/Containers';
+import Containers from '../tabs/Containers'; //* Different from UserView
 import Settings from '../tabs/Settings';
-import UserList from '../tabs/Users';  //* Feature only for SysAdmin
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-import startNotificationRequester from '../helper/notificationsRequester';
-import initDatabase from '../helper/initDatabase';
+import startNotificationRequester from '../module/utils/notificationsRequester';
+import initDatabase from '../module/utils/initDatabase';
 
 // Container component that has all redux logic along with react router
-const SysAdmin = () => {
-  let navigate = useNavigate();
+
+const AdminView = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -45,7 +45,6 @@ const SysAdmin = () => {
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-  const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -55,7 +54,7 @@ const SysAdmin = () => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const userInfo = useSelector((state) => state.session); //* Feature only for SysAdmin
+
   const arrayOfVolumeNames = useSelector(
     (state) => state.volumeList.arrayOfVolumeNames
   );
@@ -77,33 +76,16 @@ const SysAdmin = () => {
     (state) => state.notificationList.stoppedNotificationList
   );
 
-  // Local state for routers
+  // declare a local state variable called selected, initialize to '/'
   const [selected, setSelected] = useState('/');
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
-    fetch('http://localhost:3000/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: userInfo.username
-      })
-    })
-      .then((data) => data.json())
-      .then((response) => {
-        return console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      navigate('/login');
+    navigate('/login');  
   };
 
   useEffect(() => {
-
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
@@ -133,29 +115,6 @@ const SysAdmin = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // * SysAdmin Unique useEffect
-  useEffect(() => {
-    fetch('http://localhost:3000/admin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token: userInfo.token,
-        username: userInfo.username
-      })
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        updateUserList(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const selectedStyling = {
     background: '#e1e4e6',
     color: '#042331',
@@ -174,26 +133,23 @@ const SysAdmin = () => {
           <ul>
             <li>
               <Link
-                to='/app/'
-                style={selected === '/app/' ? selectedStyling : null}
-                onClick={() => setSelected('/app/')}
+                to='/app/users/'
+                style={
+                  selected === '/app/users/' ? selectedStyling : null
+                }
+                onClick={() => setSelected('/app/users/')}
               >
                 <i className='fas fa-settings'></i> Settings
               </Link>
             </li>
             <li>
               <Link
-                to='/app/users'
-                style={selected === '/app/users' ? selectedStyling : null}
-                onClick={() => setSelected('/app/users')}
-              >
-                <i className='fas fa-users'></i> Users
-              </Link>
-            </li>
-            <li>
-              <Link
                 to='/app/running'
-                style={selected === '/app/running' ? selectedStyling : null}
+                style={
+                  selected === '/app/running'
+                    ? selectedStyling
+                    : null
+                }
                 onClick={() => setSelected(() => '/app/running')}
               >
                 <i className='fas fa-box-open'></i> Containers
@@ -202,7 +158,11 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/images'
-                style={selected === '/app/images' ? selectedStyling : null}
+                style={
+                  selected === '/app/images'
+                    ? selectedStyling
+                    : null
+                }
                 onClick={() => setSelected('/app/images')}
               >
                 <i className='fas fa-database'></i> Images
@@ -211,7 +171,11 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/metrics'
-                style={selected === '/app/metrics' ? selectedStyling : null}
+                style={
+                  selected === '/app/metrics'
+                    ? selectedStyling
+                    : null
+                }
                 onClick={() => setSelected('/app/metrics')}
               >
                 <i className='fas fa-chart-pie'></i> Metrics
@@ -220,7 +184,9 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/yml'
-                style={selected === '/app/yml' ? selectedStyling : null}
+                style={
+                  selected === '/app/yml' ? selectedStyling : null
+                }
                 onClick={() => setSelected('/app/yml')}
               >
                 <i className='fas fa-file-upload'></i> Docker Compose
@@ -229,7 +195,11 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/volume'
-                style={selected === '/app/volume' ? selectedStyling : null}
+                style={
+                  selected === '/app/volume'
+                    ? selectedStyling
+                    : null
+                }
                 onClick={() => setSelected('/app/volume')}
               >
                 <i className='fas fa-volume-history'></i> Volume History
@@ -238,7 +208,9 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/logs'
-                style={selected === '/app/logs' ? selectedStyling : null}
+                style={
+                  selected === '/app/logs' ? selectedStyling : null
+                }
                 onClick={() => setSelected('/app/logs')}
               >
                 <i className='fas fa-log'></i> Process Logs
@@ -261,84 +233,101 @@ const SysAdmin = () => {
         </div>
       </nav>
       <Routes>
-        <Route path='/volume' element={
-          <VolumeHistory
-            arrayOfVolumeNames={arrayOfVolumeNames}
-            volumeContainersList={volumeContainersList}
-          />}
+        <Route
+          path='/volume'
+          element={
+            <VolumeHistory
+              arrayOfVolumeNames={arrayOfVolumeNames}
+              volumeContainersList={volumeContainersList}
+            />
+          }
         />
-        <Route path='/metrics' element={
-          <Metrics key={1} runningList={runningList} 
-          />}
+        <Route
+          path='/metrics'
+          element={
+            <Metrics runningList={runningList} />
+          }
         />
-        <Route path='/users' element={<UserList />} />
-        <Route path='/logs' element={
-          <ProcessLogs
-            key={1}
-            runIm={helper.runIm}
-            stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
-            runningList={runningList}
-            addRunningContainers={addRunningContainers}
-            // Stopped Containers
-            runStopped={helper.runStopped}
-            remove={helper.remove}
-            removeContainer={removeContainer}
-            runStoppedContainer={runStoppedContainer}
-            stoppedList={stoppedList}
-          />}
+        <Route
+          path='/logs'
+          element={
+            <ProcessLogs
+              runIm={helper.runIm}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              runningList={runningList}
+              addRunningContainers={addRunningContainers}
+              // Stopped Containers
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
+            />
+          }
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
-        <Route path='/yml' element={
-          <Yml 
-            networkList={networkList} 
-            composeymlFiles={composeymlFiles} 
-          />}
+        <Route
+          path='/yml'
+          element={
+            <Yml
+              networkList={networkList}
+              composeymlFiles={composeymlFiles}
+            />
+          }
         />
-        <Route path='/images' element={
-          <Images
-            runIm={helper.runIm}
-            removeIm={helper.removeIm}
-            addRunningContainers={addRunningContainers}
-            refreshImagesList={refreshImagesList}
-            imagesList={imagesList}
-            runningList={runningList}
-          />}
+        <Route
+          path='/images'
+          element={
+            <Images
+              runIm={helper.runIm}
+              removeIm={helper.removeIm}
+              addRunningContainers={addRunningContainers}
+              refreshImagesList={refreshImagesList}
+              imagesList={imagesList}
+              runningList={runningList}
+            />
+          }
         />
-        <Route path='/running' element={
-          <Containers
-            runIm={helper.runIm}
-            stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
-            runningList={runningList}
-            addRunningContainers={addRunningContainers}
-            imagesList={imagesList}
-            // Stopped Containers
-            runStopped={helper.runStopped}
-            remove={helper.remove}
-            removeContainer={removeContainer}
-            runStoppedContainer={runStoppedContainer}
-            stoppedList={stoppedList}
-          />}
+        <Route
+          path='/running'
+          element={
+            <Containers
+              runIm={helper.runIm}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              runningList={runningList}
+              addRunningContainers={addRunningContainers}
+              // Stopped Containers
+              runStopped={helper.runStopped}
+              remove={helper.remove}
+              removeContainer={removeContainer}
+              runStoppedContainer={runStoppedContainer}
+              stoppedList={stoppedList}
+            />
+          }
         />
-        <Route path='/' element={
-          <Settings
-            runningList={runningList}
-            stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
-            stoppedList={stoppedList}
-            runStopped={helper.runStopped}
-            refreshRunningContainers={refreshRunningContainers}
-            runStoppedContainer={runStoppedContainer}
-            phoneNumber={phoneNumber}
-            memoryNotificationList={memoryNotificationList}
-            cpuNotificationList={cpuNotificationList}
-            stoppedNotificationList={stoppedNotificationList}
-          />}
+        <Route
+          path='/'
+          element={
+            <Settings
+              runningList={runningList}
+              stop={helper.stop}
+              stopRunningContainer={stopRunningContainer}
+              stoppedList={stoppedList}
+              runStopped={helper.runStopped}
+              refreshRunningContainers={refreshRunningContainers}
+              runStoppedContainer={runStoppedContainer}
+              phoneNumber={phoneNumber}
+              memoryNotificationList={memoryNotificationList}
+              cpuNotificationList={cpuNotificationList}
+              stoppedNotificationList={stoppedNotificationList}
+            />
+          }
         />
       </Routes>
     </div>
   );
 };
 
-export default SysAdmin;
+export default AdminView;

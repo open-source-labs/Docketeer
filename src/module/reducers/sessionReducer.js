@@ -57,6 +57,7 @@ export default function (state = initialState, action) {
         token,
       };
 
+
     // after logging out, remove all user info from session state
     case types.LOGOUT_USER: 
       return {

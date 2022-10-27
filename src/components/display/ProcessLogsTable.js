@@ -17,7 +17,6 @@ import { CSVLink } from 'react-csv';
  */
 
 const ProcessLogsTable = () => {
-
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));

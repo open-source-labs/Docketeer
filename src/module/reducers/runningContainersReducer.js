@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
       }
       return { ...state, runningList: newRunningList };
 
-    case types.STOP_RUNNING_CONTAINER:
+    case types.STOP_RUNNING_CONTAINER: 
       const newStoppedList = state.stoppedList.slice();
       const newestRunningList = [];
       for (let container of state.runningList) {

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import * as helper from '../helper/commands';
+import * as helper from '../module/utils/commands';
 
 /**
  * Render Images of the user has
@@ -45,7 +45,7 @@ const Images = ({
             onClick={() =>
               runIm(
                 ele['imgid'],
-                props.runningList,
+                runningList,
                 helper.addRunning,
                 addRunningContainers
               )

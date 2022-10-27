@@ -5,11 +5,8 @@ import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
  * Display all running and stopped containers
-<<<<<<< HEAD:src/tabs/Containers.js
-=======
  *
  * @param {*} props
->>>>>>> 21bc932 (Added styling for newUserSetting, Setting, and style.css):src/components/tabs/Containers.js
  */
 
 const Containers = (props) => {

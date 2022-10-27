@@ -22,11 +22,7 @@ export default function (state = initialState, action) {
     case types.UPDATE_SESSION: {
       return {
         ...state,
-<<<<<<<< HEAD:src/module/reducers/sessionReducer.js
-        isLoggedIn: !state.isLoggedIn,
-========
         isLoggedIn: !state.isLoggedIn
->>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/sessionReducer.js
       };
     }
 
@@ -65,11 +61,7 @@ export default function (state = initialState, action) {
     // after logging out, remove all user info from session state
     case types.LOGOUT_USER: {
       return {
-<<<<<<<< HEAD:src/module/reducers/sessionReducer.js
-        ...initialState,
-========
         ...initialState
->>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/sessionReducer.js
       };
     }
 

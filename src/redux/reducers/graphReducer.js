@@ -38,11 +38,7 @@ const graphReducer = (state = initialState, action) => {
       if (action.payload === 'clear') return { ...state, graphAxis: [] };
 
       // cuts day of week from begingin and the timezone off the end.
-<<<<<<<< HEAD:src/module/reducers/graphReducer.js
-      const formatedDate = action.payload.toString().slice(4, 24);
-========
       let formatedDate = action.payload.toString().slice(4, 24);
->>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/graphReducer.js
 
       // compare two string dates
       if (

@@ -10,9 +10,7 @@ const sysadmin = require('../../security/sysadmin');
 const dbController = {};
 
 dbController.createRoles = (req, res, next) => {
-  db.query(
-    'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
-  )
+  db.query('CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);')
     .then(() => {
       return next();
     })

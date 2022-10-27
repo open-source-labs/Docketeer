@@ -4,125 +4,88 @@
   "license": "MIT",
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
-  "proxy": "http://localhost:3000",
-  "main": "src/main/index.js",
+  "main": "dist/DockteerElectron.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development concurrently 'electron-webpack dev' 'nodemon server/server.js'",
-    "compile": "electron-webpack && tsc",
+    "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
+    "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.js\" \"npm run dev:electron\"",
+    "buildWeb": "webpack",
     "dist": "npm run compile && electron-builder",
     "dist-win": "npm run compile && electron-builder --win --x64",
     "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
-    "temp": "webpack-dev-server --open --mode development",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
-    "lint": "eslint --fix",
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "jest --bail --findRelatedTests"
-    ]
+    "test": "jest --verbose"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "axios": "^0.21.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.2",
-    "chart.js": "^2.9.3",
-    "clsx": "^1.1.1",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.8",
+    "@mui/x-data-grid": "^5.17.7",
+    "@types/node": "^18.8.3",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
+    "chart.js": "^3.9.1",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
-    "electron-fetch": "^1.7.3",
-    "express": "^4.17.1",
-    "fix-path": "^3.0.0",
-    "node-fetch": "^2.6.1",
-    "nodemailer": "^6.6.2",
-    "parse": "^3.3.0",
-    "pg": "^8.7.1",
-    "qs": "^6.7.0",
-    "react": "^16.13.1",
-    "react-chartjs-2": "^2.10.0",
-    "react-dom": "^16.13.1",
-    "react-modal": "^3.14.2",
-    "react-redux": "^7.2.1",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "redux-thunk": "^2.3.0",
-    "request": "^2.88.2",
-    "source-map-support": "^0.5.19",
-    "style-loader": "^1.2.1",
-    "twilio": "^3.50.0"
+    "pg": "^8.8.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^4.3.1",
+    "react-csv": "^2.2.2",
+    "react-dom": "^18.2.0",
+    "react-error-overlay": "^6.0.11",
+    "react-modal": "^3.15.1",
+    "react-redux": "^8.0.4",
+    "react-router": "^6.4.1",
+    "react-router-dom": "^6.4.1",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.15.0",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.10.4",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-router-dom": "^5.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
-    "babel-loader": "^8.2.1",
-    "babel-polyfill": "^6.26.0",
-    "concurrently": "^6.2.0",
-    "css-loader": "^4.3.0",
-    "electron": "^11.0.0",
-    "electron-builder": "^22.4.1",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@mui/system": "^5.10.10",
+    "@redux-devtools/core": "^3.13.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/pg": "^8.6.5",
+    "axios": "^1.0.0",
+    "babel-loader": "^8.2.5",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "dotenv": "^16.0.3",
+    "electron": "^21.0.1",
     "electron-devtools-installer": "^3.2.0",
-    "electron-webpack": "^2.8.2",
-    "electron-webpack-ts": "^4.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.4",
-    "enzyme-to-json": "^3.5.0",
-    "eslint": "^8.25.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jest": "^27.1.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^8.0.0",
-    "jest": "^26.6.3",
-    "lint-staged": "^13.0.3",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.7.1",
-    "react-test-renderer": "^16.13.1",
-    "sass-loader": "^10.2.0",
-    "typescript": "^3.9.10",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.2"
-  },
-  "electronWebpack": {
-    "whiteListedModules": [
-      "react-redux"
-    ],
-    "main": {
-      "sourceDirectory": "src/main"
-    },
-    "renderer": {
-      "sourceDirectory": "src/renderer",
-      "template": "src/renderer/index.html"
-    }
+    "express": "^4.18.1",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^29.1.2",
+    "jest-environment-jsdom": "^29.2.1",
+    "node-fetch": "^3.2.10",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "react-devtools": "^4.26.0",
+    "react-test-renderer": "^18.2.0",
+    "style-loader": "^3.3.1",
+    "supertest": "^6.3.0",
+    "ts-loader": "^9.4.1",
+    "ts-node": "^10.9.1",
+    "twilio": "^3.82.1",
+    "typescript": "^4.8.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oslabs-beta/docketeer.git"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "verbose": true,
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
@@ -130,16 +93,5 @@
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
-  },
-  "build": {
-    "extraResources": [
-      {
-        "from": "./src/database/",
-        "to": "database",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ]
   }
 }

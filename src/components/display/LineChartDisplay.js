@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
-import * as actions from '../../module/actions/actions';
-import query from '../../module/utils/psqlQuery';
-import * as helper from '../../module/utils/commands';
-import { Link } from 'react-router-dom';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-/** TODO
- * 1. Remove prop drilling from parent components
- * 2. Move get files from DB to its own helpers
- *
- */
+import * as actions from '../../redux/actions/actions';
+import * as helper from '../helper/commands';
+import { DataGrid } from '@mui/x-data-grid';
+import { FormControlLabel, Checkbox } from '@mui/material';
 
 /**
- * Displays general metrics
+ * Displays linegraph and github metrics
  *
- * @param {*} props
  */
-const Metrics = () => {
+const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
@@ -38,33 +29,20 @@ const Metrics = () => {
   const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
   const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
 
-  const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
-  };
-
-  const getContainerMetrics = async () => {
-    let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-    const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
-
+  //Grabbing the metrics data to be displayed on the charts
+  async function getContainerMetrics() {
     const containerNamesArr = Object.keys(activeContainers);
-    if (containerNamesArr.length === 1) {
-      queryString += ')' + queryStringEnd;
-      const result = await query(queryString, containerNamesArr);
-      return result;
-    }
-
-    containerNamesArr.slice(1).forEach((containerName, idx) => {
-      let additionalParameter = `OR container_name = $${idx + 2} `;
-      if (idx === containerNamesArr.length - 2) additionalParameter += ')';
-      queryString += additionalParameter;
-    });
-
-    queryString += queryStringEnd;
-    return query(queryString, containerNamesArr);
-  };
+    const response = await fetch('http://localhost:3000/init/getMetrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        containers: containerNamesArr
+      })
+    })
+    return await response.json(); 
+  }
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
@@ -73,15 +51,15 @@ const Metrics = () => {
   };
   const cpuObj = {
     labels: axis,
-    datasets: cpu,
+    datasets: cpu
   };
   const writtenIOObj = {
     labels: axis,
-    datasets: writtenIO,
+    datasets: writtenIO
   };
   const readIOObj = {
     labels: axis,
-    datasets: readIO,
+    datasets: readIO
   };
 
   /**
@@ -98,8 +76,8 @@ const Metrics = () => {
     if (!Object.keys(activeContainers).length) {
       return;
     }
-    // DB QUERY LIKELY GOING HERE
-    // const output = await getContainerMetrics();
+
+    const output = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -109,7 +87,7 @@ const Metrics = () => {
         'purple',
         'yellow',
         'grey',
-        'orange',
+        'orange'
       ];
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
@@ -120,13 +98,13 @@ const Metrics = () => {
       const obj = {
         label: containerName,
         data: [],
+        lineTension: .5,
         fill: false,
         borderColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        ),
+        )
       };
-
       return obj;
     };
     // Datastructure for Bargraph
@@ -138,9 +116,8 @@ const Metrics = () => {
         backgroundColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        ),
+        )
       };
-
       return obj;
     };
 
@@ -163,12 +140,11 @@ const Metrics = () => {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
         writtenIO: buildBarGraphObj(container),
-        readIO: buildBarGraphObj(container),
+        readIO: buildBarGraphObj(container)
       };
-      // console.log('This is the auxobj', auxObj);
     });
 
-    // iterate through each row from query and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
+    // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
@@ -184,8 +160,22 @@ const Metrics = () => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
-
-      buildAxis(dataPoint.created_at);
+      let date = "";
+      let time = "";
+      for (let i = 1; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === 'T') {
+          break
+        }
+        else (date += dataPoint.created_at[i]);
+      }
+      for (let i = 11; i < dataPoint.created_at.length; i++){
+        if (dataPoint.created_at[i] === '.') {
+          break
+        }
+        else (time += dataPoint.created_at[i]);
+      }
+      let timeStamp = `${date} @ ${time}`
+      buildAxis(timeStamp);
     });
 
     let longest = 0; // 32
@@ -214,11 +204,13 @@ const Metrics = () => {
     });
   };
 
+  //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName) => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    let date = new Date();
+    //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
+    let date = new Date(Date.parse(new Date()) - 2629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
@@ -227,9 +219,9 @@ const Metrics = () => {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          since: `${date}`,
+          since: `${date}`
         });
-
+        //need an actual url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
 
@@ -238,12 +230,13 @@ const Metrics = () => {
           time: commitData.commit.author.date,
           url: commitData.html_url,
           author: commitData.commit.author.name,
+          message: commitData.commit.message
         });
       });
     } else {
       ob[containerName].push({
         time: '',
-        url: 'Connect github repo in settings',
+        url: 'Connect github repo in settings'
       });
     }
     return ob;
@@ -256,69 +249,87 @@ const Metrics = () => {
       })
     ).then((data) => setGitUrls(data));
   };
+  //populating the github commits into a MUI DataGrid
+    //This should allow multiple tables be stacked if multiple containers are selected
+  let gitData;
 
-  const gitData = gitUrls.map((el, index) => {
+  const columns = [
+    {field: 'date', headerName: 'Date', width: 125 },
+    {field: 'time', headerName: 'Time', width: 100 },
+    {field: 'url', headerName: 'URL', width: 175, renderCell: (params) => <a target='_blank' rel='noreferrer' href={params.row.url}>{params.row.id}</a> },
+    {field: 'author', headerName: 'Author', width: 175 },
+    {field: 'message', headerName: 'Message', width: 525, align: 'left' },
+  ]
+  gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
-    const li = [
-      <tr key={index}>
-        <th>Date</th>
-        <th>Time</th>
-        <th>URL</th>
-        <th>Author</th>
-      </tr>,
-    ];
-    el[name].forEach((ob) => {
+    const rows = [];
+    el[name].forEach((ob, index) => {
       let author = '';
       let date = 'n/a';
       let time = 'n/a';
-      let url = (
-        <Link Redirect to="/" style={selectedStyling}>
-          Connect via settings page
-        </Link>
-      );
-      let text = '';
+      let url = 'n/a';
+      let message = 'n/a';
       if (ob.time.length) {
         time = ob.time;
         author = ob.author;
-        text = 'Github Commits';
-        url = (
-          <a href={url} target="_blank" rel="noreferrer">
-            {text}
-          </a>
-        );
+        url = ob.url;
+        message = '';
+        if (ob.message){
+          if (ob.message.includes('<')){
+            for (let i = 0; i < ob.message.length; i++) {
+              if (ob.message[i] === '<') break
+              message += ob.message[i];
+            }
+          } else {
+            message = ob.message
+          }
+        }
+
         time = time.split('T');
         date = time[0];
         time = time[1];
-        time = time.split('').slice(0, time.length - 1);
+        time = time.split('').slice(0, time.length - 1).join('');
       }
-      li.push(
-        <tr>
-          <td>{date}</td>
-          <td>{time}</td>
-          <td>{url}</td>
-          <td>{author}</td>
-        </tr>
-      );
+      rows.push({
+        date: date,
+        time: time,
+        url: url,
+        author: author,
+        message: message,
+        id: `Github Commit #${index}`
+      });
     });
     return (
-      <div key={index}>
+      <div key={index} className='gitHub-container'>
         <h2>{name}</h2>
-        <table className={'ltTable'}>{li}</table>
+        <div className='ltTable' style={{height: 600, width: '100%',}}>
+          <DataGrid
+          key='DataGrid'
+          rows={rows}
+          columns={columns}
+          getRowHeight={() => 'auto'}
+          initialState={{
+            sorting: {
+              sortModel: [{field: 'date', sort: 'asc'}]
+            }
+          }}
+          />
+        </div>
       </div>
     );
   });
 
-  // Internal Note: maybe want to fix currentList and make a state variable??
   let currentList;
   const selectList = () => {
     const result = [];
     const completeContainerList = [...runningList, ...stoppedList];
-    completeContainerList.forEach((container) => {
+    completeContainerList.forEach((container, index) => {
       const containerNameKey = container.Name
         ? container.Name
         : container.Names;
       result.push(
         <FormControlLabel
+          key={`formControl-${index}`}
           control={
             <Checkbox
               name={containerNameKey}
@@ -331,8 +342,6 @@ const Metrics = () => {
         />
       );
     });
-
-    result.push(<div></div>);
     currentList = result;
   };
 
@@ -342,7 +351,7 @@ const Metrics = () => {
       return;
     }
     const containerName = e.target.name;
-    // deep copy the state object - shallow copy didn't work
+    // deep copy the state object
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
       delete copyObj[containerName];
@@ -353,69 +362,48 @@ const Metrics = () => {
   };
 
   const cpuOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index',
+    plugins:{
+      title: { display: true, text: 'CPU', font: {size: 18}, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'CPU',
-      fontSize: 23,
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   const memoryOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index',
+    plugins:{
+      title: { display: true, text: 'MEMORY', font: {size: 18}, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'MEMORY',
-      fontSize: 23,
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   const writtenIOOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index',
+    plugins:{
+      title: { display: true, text: 'IO BYTES WRITTEN BY IMAGE', font: {size: 18}, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'IO BYTES WRITTEN BY IMAGE',
-      fontSize: 23,
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
   const readIOOptions = {
-    tooltips: {
-      enabled: true,
-      mode: 'index',
+    plugins:{
+      title: { display: true, text: 'IO BYTES READ BY IMAGE', font: {size: 18}, position: 'top' },
+      tooltips: {enabled: true, mode: 'index'},
+      legend: { display: true, position: 'bottom' }
     },
-    title: {
-      display: true,
-      text: 'IO BYTES READ BY IMAGE',
-      fontSize: 23,
-    },
-    legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
-  /* Consider if we can combine these two. Wasn't rendering active containers when tested */
   selectList();
   useEffect(() => {
     formatData();
-    // renderGitInfo();
+    renderGitInfo();
   }, [activeContainers, timePeriod]);
 
   return (
@@ -430,47 +418,51 @@ const Metrics = () => {
           }}
         >
           <input
-            type="radio"
-            id="4-hours"
-            name="timePeriod"
-            value="4"
+            type='radio'
+            id='4-hours'
+            name='timePeriod'
+            value='4'
             defaultChecked
           ></input>
           <label htmlFor="4-hours"> 4 hours</label>
           <input
-            type="radio"
-            id="12-hours"
-            name="timePeriod"
-            value="12"
+            type='radio'
+            id='12-hours'
+            name='timePeriod'
+            value='12'
           ></input>
-          <label htmlFor="12-hours"> 12 hours</label>
-          <input type="radio" id="other" name="timePeriod" value="24"></input>
-          <label htmlFor="24-hours"> 24 hours</label>
+          <label htmlFor='12-hours'> 12 hours</label>
+          <input 
+            type='radio' 
+            id='other' 
+            name='timePeriod' 
+            value='24'
+          ></input>
+          <label htmlFor='24-hours'> 24 hours</label>
           <br />
-          {currentList}
+            {currentList}
         </form>
-        <div></div>
       </div>
 
-      <div className="allCharts">
-        <Line data={memoryObj} options={memoryOptions} />
+      <div className='allCharts'>
+        <Line key='Line-Memory' data={memoryObj} options={memoryOptions} />
       </div>
 
-      <div className="allCharts">
-        <Line data={cpuObj} options={cpuOptions} />
+      <div className='allCharts'>
+        <Line key='Line-CPU' data={cpuObj} options={cpuOptions} />
       </div>
-      <div className="allCharts">
-        <Bar data={writtenIOObj} options={writtenIOOptions} />
+      <div className='allCharts'>
+        <Bar key='Bar-Written' data={writtenIOObj} options={writtenIOOptions} />
       </div>
-      <div className="allCharts">
-        <Bar data={readIOObj} options={readIOOptions} />
+      <div className='allCharts'>
+        <Bar key='Bar-Read' data={readIOObj} options={readIOOptions} />
       </div>
       <div className="metric-section-title">
         <h3>GitHub History</h3>
       </div>
-      <div className="gitHub-container">{gitData}</div>
+        {gitData}
     </div>
   );
 };
 
-export default Metrics;
+export default LineChartDisplay;

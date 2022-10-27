@@ -1,19 +1,22 @@
 {
-  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
-  "exclude": ["node_modules", "build"],
   "compilerOptions": {
-    "target": "esnext",
-    "moduleResolution": "node",
-    "newLine": "LF",
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "allowJs": true,
+    "target": "ES6",
+    "module": "commonjs",
     "jsx": "react",
-    "outDir": "build"
-    // "module": "commonjs",
-  }
+    "esModuleInterop": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2017", 
+      "es2021"
+    ],
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "moduleResolution": "node",
+    "removeComments": true
+  },
+  "include": ["src/**/*", "server/models/psqlQuery.js"]
 }

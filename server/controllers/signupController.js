@@ -51,6 +51,4 @@ signupController.completedFormCheck = (req, res, next) => {
   return next();
 };
 
-// verify admin role
-
 module.exports = signupController;

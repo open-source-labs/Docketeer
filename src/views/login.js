@@ -18,8 +18,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import Docketeer from '../../../assets/docketeer-title.png';
-// Helper Functions Import
-import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
 const Login = () => {
   const dispatch = useDispatch();

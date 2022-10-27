@@ -4,9 +4,7 @@ import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { json } from 'stream/consumers';
+import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
 
   //! Create a try catch to properly handle errors on line 64
 
@@ -226,19 +224,17 @@ const Metrics = () => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    let date = new Date();
-    console.log(`date check:` ,date);
+    //pulling the current time, and then setting it back to one month ago to check for github commit logs
+    let date = new Date(Date.parse(new Date()) - 2629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();
-    console.log(`final date check:` ,date);
     const urlObj = await helper.getContainerGitUrl(containerName);
 
     if (urlObj.rows.length) {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          // since: `${date}`
-          since: '2021-10-24T14:12:25.285Z'
+          since: `${date}`
         });
         //need an actual url to test this, right now it can't connect
       const data = await fetch(url);
@@ -271,7 +267,7 @@ const Metrics = () => {
   const gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
     const li = [
-      <tr key={index}>
+      <tr key={`tr ${index}`}>
         <th>Date</th>
         <th>Time</th>
         <th>URL</th>
@@ -334,7 +330,6 @@ const Metrics = () => {
           key={`formControl-${index}`}
           control={
             <Checkbox
-              key={`Checkbox-${index}`}
               name={containerNameKey}
               value={containerNameKey}
               color="primary"
@@ -344,9 +339,7 @@ const Metrics = () => {
           label={containerNameKey}
         />
       );
-      index++;
     });
-    result.push(<div></div>);
     currentList = result;
   };
 
@@ -419,13 +412,11 @@ const Metrics = () => {
       </div>
       <div className="metrics-options-form">
         <form
-          key={`checkbox-containers`}
           onChange={(e) => {
             handleChange(e);
           }}
         >
           <input
-            key='checkbox-4'
             type='radio'
             id='4-hours'
             name='timePeriod'
@@ -434,7 +425,6 @@ const Metrics = () => {
           ></input>
           <label htmlFor="4-hours"> 4 hours</label>
           <input
-            key='checkbox-12'
             type='radio'
             id='12-hours'
             name='timePeriod'
@@ -442,7 +432,6 @@ const Metrics = () => {
           ></input>
           <label htmlFor='12-hours'> 12 hours</label>
           <input 
-            key='checkbox-24' 
             type='radio' 
             id='other' 
             name='timePeriod' 
@@ -450,23 +439,22 @@ const Metrics = () => {
           ></input>
           <label htmlFor='24-hours'> 24 hours</label>
           <br />
-          {currentList}
+            {currentList}
         </form>
-        <div></div>
       </div>
 
       <div className='allCharts'>
-        <Line key={'Line-Memory'} data={memoryObj} options={memoryOptions} />
+        <Line key='Line-Memory' data={memoryObj} options={memoryOptions} />
       </div>
 
       <div className='allCharts'>
-        <Line key={'Line-CPU'} data={cpuObj} options={cpuOptions} />
+        <Line key='Line-CPU' data={cpuObj} options={cpuOptions} />
       </div>
       <div className='allCharts'>
-        <Bar key={'Bar-Written'} data={writtenIOObj} options={writtenIOOptions} />
+        <Bar key='Bar-Written' data={writtenIOObj} options={writtenIOOptions} />
       </div>
       <div className='allCharts'>
-        <Bar key={'Bar-Read'} data={readIOObj} options={readIOOptions} />
+        <Bar key='Bar-Read' data={readIOObj} options={readIOOptions} />
       </div>
       <div className="metric-section-title">
         <h3>GitHub History</h3>

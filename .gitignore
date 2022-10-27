@@ -18,3 +18,4 @@ security/
 src/database/docketeerdb
 package-lock.json
 yarn.lock
+coverage

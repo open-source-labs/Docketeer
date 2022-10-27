@@ -4,7 +4,8 @@ import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
-import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { FormControlLabel, Checkbox } from '@mui/material';
 
   //! Create a try catch to properly handle errors on line 64
 
@@ -225,7 +226,8 @@ const Metrics = () => {
     ob[containerName] = [];
     const time = Number(timePeriod);
     //pulling the current time, and then setting it back to one month ago to check for github commit logs
-    let date = new Date(Date.parse(new Date()) - 2629746000)
+    //2629746000
+    let date = new Date(Date.parse(new Date()) - 22629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
@@ -239,12 +241,14 @@ const Metrics = () => {
         //need an actual url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
+      console.log(jsonData);
 
       jsonData.forEach((commitData) => {
         ob[containerName].push({
           time: commitData.commit.author.date,
           url: commitData.html_url,
-          author: commitData.commit.author.name
+          author: commitData.commit.author.name,
+          message: commitData.commit.message
         });
       });
     } else {
@@ -264,54 +268,60 @@ const Metrics = () => {
     ).then((data) => setGitUrls(data));
   };
 
-  const gitData = gitUrls.map((el, index) => {
+  let gitData;
+
+  const columns = [
+    {field: 'date', headerName: 'Date', width: 125 },
+    {field: 'time', headerName: 'Time', width: 100 },
+    {field: 'url', headerName: 'URL', width: 175, renderCell: (params) => <a target='_blank' rel='noreferrer' href={params.row.url}>{params.row.id}</a> },
+    {field: 'author', headerName: 'Author', width: 175 },
+    {field: 'message', headerName: 'Message', width: 750 },
+  ]
+  gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
-    const li = [
-      <tr key={`tr ${index}`}>
-        <th>Date</th>
-        <th>Time</th>
-        <th>URL</th>
-        <th>Author</th>
-      </tr>
-    ];
-    el[name].forEach((ob) => {
+    const rows = [];
+    el[name].forEach((ob, index) => {
       let author = '';
       let date = 'n/a';
       let time = 'n/a';
-      let url = (
-        <Link Redirect to="/" style={selectedStyling}>
-          Connect via settings page
-        </Link>
-      );
-      let text = '';
+      let url = 'n/a';
+      let message = 'n/a';
       if (ob.time.length) {
-        console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
-        text = 'Github Commits';
-        url = (
-          <a href={ob.url} target='_blank' rel='noreferrer'>
-            {text}
-          </a>
-        );
+        url = ob.url;
+        message = ob.message;
+
         time = time.split('T');
         date = time[0];
         time = time[1];
-        time = time.split('').slice(0, time.length - 1);
+        time = time.split('').slice(0, time.length - 1).join('');
       }
-      li.push(
-        <tr>
-          <td>{date}</td>
-          <td>{time}</td>
-          <td>{url}</td>
-          <td>{author}</td>
-        </tr>
-      );
+      rows.push({
+        date: date,
+        time: time,
+        url: url,
+        author: author,
+        message: message,
+        id: `Github Commit #${index}`
+      });
     });
     return (
-      <div key={index}>
+      <div key={index} className='gitHub-container'>
         <h2>{name}</h2>
-        <table className={'ltTable'}>{li}</table>
+        <div className='ltTable' style={{height: 600, width: '100%',}}>
+          <DataGrid
+          key='DataGrid'
+          rows={rows}
+          columns={columns}
+          getRowHeight={() => 'auto'}
+          initialState={{
+            sorting: {
+              sortModel: [{field: 'date', sort: 'asc'}]
+            }
+          }}
+          />
+        </div>
       </div>
     );
   });
@@ -459,7 +469,20 @@ const Metrics = () => {
       <div className="metric-section-title">
         <h3>GitHub History</h3>
       </div>
-      <div className="gitHub-container">{gitData}</div>
+      {/* <div className='gitHub-container'> */}
+        {/* <DataGrid
+        key='DataGrid'
+        rows={rows}
+        columns={columns}
+        getRowHeight={() => 'auto'}
+        initialState={{
+          sorting: {
+            sortModel: [{field: 'time', sort: 'asc'}]
+          }
+        }} */}
+        {gitData}
+        {/* /> */}
+      {/* </div> */}
     </div>
   );
 };

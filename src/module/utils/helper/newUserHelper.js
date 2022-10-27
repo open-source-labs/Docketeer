@@ -114,15 +114,6 @@ export const createNewUser = (email, username, password, phone) => {
 
 export const getUpdatedUserList = () => {
 
-  // TM: Added this - do we need to use mapStateToProps to access the signed-in user's info?
-// const mapStateToProps = state => {
-//   console.log(state);
-//   return{
-//   username: state.session.userName,
-//   token: state.session.token
-// }};
-
-
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
@@ -135,7 +126,7 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      // updateUserList(data);
+      updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);

@@ -16,7 +16,11 @@ import { CSVLink } from 'react-csv';
  * a Router link. 
  */
 
-const ProcessLogsTable = (props) => {
+ const ProcessLogsTable = () => {
+
+  const dispatch = useDispatch();
+  const getContainerLogsDispatcher = (data) =>
+    dispatch(actions.getContainerLogs(data));
 
   // grab clicked container
   const urlString = window.location.href;
@@ -131,7 +135,7 @@ const ProcessLogsTable = (props) => {
   return (
     <div className='renderContainers'>
 
-      <div className='settings-container'>
+      <div className="settings-container">
         <form>
           <h1 style={{margin: 10}}>Container Process Logs</h1>
 
@@ -188,13 +192,8 @@ const ProcessLogsTable = (props) => {
             }}
           />
         </div>
-
-        
       </div>
-
-
     </div>
-
   );
 };
 

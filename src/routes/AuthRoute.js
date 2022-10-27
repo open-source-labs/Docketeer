@@ -11,9 +11,9 @@ const App = (props) => {
   const role = useSelector((state) => state.session.role); 
     
   const paths = {
-    'system admin': '/app/sysadmin',
-    'admin': '/app/admin',
-    'user': '/app/user'
+    'system admin': '/app/sysadmin/*',
+    'admin': '/app/admin/*',
+    'user': '/app/user/*'
   }
   // set path for the active role
   const path = paths[role];  
@@ -25,9 +25,9 @@ const App = (props) => {
       Am I in App?
       <Navigate to={path} />
       <Routes>
-        <Route path='/sysadmin' element={<SysAdminView />}/>
-        <Route path='/admin' element={<AdminView />}/>
-        <Route path='/user' element={<UserView />}/>
+        <Route path='/sysadmin/*' element={<SysAdminView />}/>
+        <Route path='/admin/*' element={<AdminView />}/>
+        <Route path='/user/*' element={<UserView />}/>
       </Routes>
     </div>
   )

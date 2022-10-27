@@ -3,13 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
-=======
 import { DataGrid } from '@mui/x-data-grid';
 import { FormControlLabel, Checkbox } from '@mui/material';
->>>>>>> dev
 
 /**
  * Displays linegraph and github metrics
@@ -279,7 +274,17 @@ const LineChartDisplay = () => {
         time = ob.time;
         author = ob.author;
         url = ob.url;
-        message = ob.message;
+        message = '';
+        if (ob.message){
+          if (ob.message.includes('<')){
+            for (let i = 0; i < ob.message.length; i++) {
+              if (ob.message[i] === '<') break
+              message += ob.message[i];
+            }
+          } else {
+            message = ob.message
+          }
+        }
 
         time = time.split('T');
         date = time[0];

@@ -53,13 +53,13 @@ root
 4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. 
 ```js
 // .env
-TWILIO_NUMBER=''
-TWILIO_ACCOUNT_SID=''
-TWILIO_AUTH_TOKEN=''
-SERVICE_SID=''
-VERIFICATION_SERVICE_SID=''
-SLACK_WEBHOOK=''
-POSTGRES_URI=''
+TWILIO_NUMBER = ''
+TWILIO_ACCOUNT_SID = ''
+TWILIO_AUTH_TOKEN = ''
+SERVICE_SID = ''
+VERIFICATION_SERVICE_SID = ''
+SLACK_WEBHOOK = ''
+POSTGRES_URI = ''
 ```
 
 5. Create a folder called `security` in the project's top-level directory. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
@@ -112,13 +112,14 @@ To change the system admin password, create a new user with your preferred crede
 2. In order to manage Twilio SMS notifications follow the [step plan](https://www.twilio.com/docs/notify/quickstart/sms#messagingservice).
 3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID in a newly created .env file in the Docketeer folder in the following format:
 ```js
-  // .env.js
-  MY_PHONE_NUMBER='your mobile number'
-  TWILIO_ACCOUNT_SID='code from your console'
-  TWILIO_AUTH_TOKEN='token from your console'
-  SERVICE_SID='code from notify service instance'
-  VERIFICATION_SERVICE_SID='code from verify service instance'
-  ```
+// .env.js
+MY_PHONE_NUMBER = 'your mobile number'
+TWILIO_ACCOUNT_SID = 'code from your console'
+TWILIO_AUTH_TOKEN = 'token from your console'
+SERVICE_SID = 'code from notify service instance'
+VERIFICATION_SERVICE_SID = 'code from verify service instance'
+```
+
 4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
 5. All historical messages from the Twilio account can be found [here](https://www.twilio.com/console/sms/logs).
 
@@ -172,11 +173,11 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
-- Abigail Gerig [@4estgirl] (https://github.com/4estgirl) | [Linkedin] (https://www.linkedin.com/in/abigail-gerig/)
-- Trine Medina [@TrineMedina] (https://github.com/TrineMedina) | [Linkedin] (https://www.linkedin.com/in/trinemedina/)
-- Christian Looff [@cmlooff] (https://github.com/cmlooff) | [LinkedIn] (https://www.linkedin.com/in/christian-looff/)
-- Reuel Warner-Rosen [@Ruliwr] (https://github.com/Ruliwr) | [Linkedin] (https://www.linkedin.com/in/Ruliwr/)
-- Matt Dias [@Schmang13] (https://github.com/Schmang13) | [Linkedin] (https://www.linkedin.com/in/matthew-j-dias/)
+- Abigail Gerig [@4estgirl](https://github.com/4estgirl) | [Linkedin](https://www.linkedin.com/in/abigail-gerig/)
+- Trine Medina [@TrineMedina](https://github.com/TrineMedina) | [Linkedin](https://www.linkedin.com/in/trinemedina/)
+- Christian Looff [@cmlooff](https://github.com/cmlooff) | [LinkedIn](https://www.linkedin.com/in/christian-looff/)
+- Reuel Warner-Rosen [@Ruliwr](https://github.com/Ruliwr) | [Linkedin](https://www.linkedin.com/in/Ruliwr/)
+- Matt Dias [@Schmang13](https://github.com/Schmang13) | [Linkedin](https://www.linkedin.com/in/matthew-j-dias/)
 - Christina Son [@cson17](https://github.com/cson17) | [Linkedin](https://www.linkedin.com/in/christinason17/)
 - Fernando Luna [@lunaf-github](https://github.com/lunaf-github) | [Linkedin](https://www.linkedin.com/in/fernando-luna)
 - Austin Andrews [@austinandrews](https://github.com/austinandrews) | [Linkedin](https://www.linkedin.com/in/austinandrews17/)

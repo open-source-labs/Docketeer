@@ -1,6 +1,6 @@
 {
   "name": "docketeer",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "license": "MIT",
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
@@ -10,9 +10,6 @@
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.js\" \"npm run dev:electron\"",
     "buildWeb": "webpack",
-    "dist": "npm run compile && electron-builder",
-    "dist-win": "npm run compile && electron-builder --win --x64",
-    "dist:dir": "yarn dist  --dir -c.compression=store -c.mac.identity=null",
     "test": "jest --verbose"
   },
   "dependencies": {

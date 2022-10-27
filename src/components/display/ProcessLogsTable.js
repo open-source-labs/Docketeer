@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { buildOptionsObj } from '../../module/utils/helper/processLogHelper';
-import { getLogs } from '../../module/utils/commands';
-import * as actions from '../../module/actions/actions';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-=======
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as helper from '../helper/commands';
@@ -27,7 +13,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { SettingsCellOutlined } from '@mui/icons-material';
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
+
+import { DataGrid } from '@mui/x-data-grid';
 
 /**
  * Displays process logs as table
@@ -36,11 +23,7 @@ import { SettingsCellOutlined } from '@mui/icons-material';
  * a Router link.
  */
 
-<<<<<<< HEAD
-const ProcessLogsTable = () => {
-=======
 const ProcessLogsTable = (props) => {
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
@@ -59,64 +42,86 @@ const ProcessLogsTable = (props) => {
     const optionsObj = buildOptionsObj(containerId);
     const containerLogs = getLogs(optionsObj, getContainerLogsDispatcher);
 
-    // * Debugging
-    console.log('containerId: ', containerId);
-    console.log('Container Logs: ', containerLogs);
-
     setLogs(containerLogs);
   };
 
+  const columns = [
+    { field: 'container', headerName: 'Container', width: 150 },
+    { field: 'type', headerName: 'Log Type', width: 150 },
+    { field: 'time', headerName: 'TimeStamp', width: 150 },
+    { field: 'message', headerName: 'Message', width: 400 }
+    // { field: 'id', headerName: 'ID', width: 150 }
+  ];
+
+  // Populating the StdOut Table Data Using stdout.map
   const StdoutTableData = () => {
-    return stdout.map((log, index) => {
-      return (
-        <TableRow key={index}>
-          <TableCell>
-            <span className='log-timestamp'>{log.timeStamp}</span>
-          </TableCell>
-          <TableCell>
-            <span className='log-message'>{log.logMsg}</span>
-          </TableCell>
-        </TableRow>
-      );
+    const rows = [];
+
+    stdout.forEach((log, index) => {
+      rows.push({
+        container: 'Container Name',
+        type: 'stdout',
+        time: log.timeStamp,
+        message: log.logMsg,
+        id: Math.random() * 100
+      });
     });
+
+    return <DataGrid rows={rows} columns={columns} />;
+
+    // return stdout.map((log, index) => {
+    //   // * Debugging
+    //   // console.log('stdOut: ', log);
+    //   return (
+    //     <TableRow key={index}>
+    //       <TableCell>
+    //         <span className='log-timestamp'>{log.timeStamp}</span>
+    //       </TableCell>
+    //       <TableCell>
+    //         <span className='log-message'>{log.logMsg}</span>
+    //       </TableCell>
+    //     </TableRow>
+    //   );
+    // });
   };
 
+  // Populating the StdErr Table Data Using stderr.map
   const StderrTableData = () => {
-    return stderr.map((log, index) => {
-      return (
-        <TableRow key={index}>
-          <TableCell>
-            <span className='log-timestamp'>{log.timeStamp}</span>
-          </TableCell>
-          <TableCell>
-            <span className='log-message'>{log.logMsg}</span>
-          </TableCell>
-        </TableRow>
-      );
+    const rows = [];
+
+    stderr.forEach((log, index) => {
+      rows.push({
+        container: 'Container Name',
+        type: 'stderr',
+        time: log.timeStamp,
+        message: log.logMsg,
+        id: Math.random() * 100
+      });
     });
+
+    return <DataGrid rows={rows} columns={columns} />;
+    // return stderr.map((log, index) => {
+    //   // * Debugging
+    //   console.log('stdErr: ', log);
+    //   return (
+    //     <TableRow key={index}>
+    //       <TableCell>
+    //         <span className='log-timestamp'>{log.timeStamp}</span>
+    //       </TableCell>
+    //       <TableCell>
+    //         <span className='log-message'>{log.logMsg}</span>
+    //       </TableCell>
+    //     </TableRow>
+    //   );
+    // });
   };
 
   return (
-<<<<<<< HEAD
-    <div className="renderContainers">
-=======
     <div className='renderContainers'>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
       <h1>Container ID: {id} </h1>
 
       <div className="settings-container">
         <form>
-<<<<<<< HEAD
-          <input type="radio" id="sinceInput" name="logOption" />
-          <label htmlFor="sinceInput">Since</label>
-          <input type="text" id="sinceText" />
-
-          <input type="radio" id="tailInput" name="logOption" />
-          <label htmlFor="tailInput">Tail</label>
-          <input type="text" id="tailText" />
-
-          <button id={id} type="button" onClick={handleGetLogs}>
-=======
           <input type='radio' id='sinceInput' name='logOption' />
           <label htmlFor='sinceInput'>Since</label>
           <input type='text' id='sinceText' />
@@ -126,17 +131,16 @@ const ProcessLogsTable = (props) => {
           <input type='text' id='tailText' />
 
           <button id={id} type='button' onClick={handleGetLogs}>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
             Get Logs
           </button>
         </form>
 
-<<<<<<< HEAD
-        <div className="process-logs-container">
-=======
-        <div className='process-logs-container'>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
-          <TableContainer>
+        <div
+          className='process-logs-container'
+          style={{ height: 500, width: '100%' }}
+        >
+          <StdoutTableData />
+          {/* <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
@@ -152,10 +156,14 @@ const ProcessLogsTable = (props) => {
                 <StdoutTableData />
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
         </div>
-        <div className='process-logs-container'>
-          <TableContainer>
+        <div
+          className='process-logs-container'
+          style={{ height: 500, width: '100%' }}
+        >
+          <StderrTableData />
+          {/* <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
@@ -171,7 +179,7 @@ const ProcessLogsTable = (props) => {
                 <StderrTableData />
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
         </div>
       </div>
     </div>

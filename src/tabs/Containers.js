@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import ToggleDisplay from '../components/display/ToggleDisplay';
+import { Chart } from 'react-chartjs-2';
+import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
  * Display all running and stopped containers
  */
 const Containers = (props) => {
-  const image = props;
-  console.log(image);
   const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
       <div className="box" key={`stoppedBox-${i}`}>
@@ -53,7 +51,7 @@ const Containers = (props) => {
     );
   });
 
-  const renderRunningList = props.runningList.map((container, i, props) => {
+  const renderRunningList = props.runningList.map((container, i) => {
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -67,20 +65,20 @@ const Containers = (props) => {
         {
           stack,
           label: Math.random(),
+          data: [cpuData, memoryData],
           backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [cpuData, memoryData],
-          barPercentage: 0.4,
+          barPercentage: 0.45,
         },
         {
           stack,
           label: Math.random(),
+          data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
-          barPercentage: 0.4,
+          barPercentage: 0.45,
         },
       ],
     };
@@ -109,39 +107,30 @@ const Containers = (props) => {
               </div>
             </div>
             <div className="chart-info">
-              <Bar
+              <Chart
+                type='bar'
                 data={chartInfo}
                 options={{
-                  tooltips: {
-                    enabled: false,
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      display: false
+                    },
                   },
-                  title: {
-                    display: false,
-                  },
-                  legend: {
-                    display: false,
-                    position: 'right',
-                  },
-
                   scales: {
-                    yAxes: [
+                    y: 
                       {
-                        gridLines: {
-                          display: false,
-                        },
                         ticks: {
-                          display: false,
                           min: 0,
                           max: 100,
-                          stepSize: 20,
+                          stepSize: 50,
                         },
+                        stacked: true
                       },
-                    ],
-                    xAxes: [
+                    x:
                       {
                         categorySpacing: 0,
                       },
-                    ],
                   },
                 }}
               />

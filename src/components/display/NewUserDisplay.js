@@ -19,7 +19,7 @@ import {
 const NewUserDisplay = () => {
   return (
     <div style={{ background: '#E1E4E6' }}>
-      <div className='settings-container' style={{ marginTop: '60px' }}>
+      <div className='settings-container' style={{ marginTop: '80px' }}>
         <div className='metric-section-title'>
           <h3>Create a New User</h3>
         </div>

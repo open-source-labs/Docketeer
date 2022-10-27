@@ -22,8 +22,13 @@ export default function (state = initialState, action) {
     case types.STOP_RUNNING_CONTAINER: {
       const newStoppedList = state.stoppedList.slice();
       const newestRunningList = [];
+<<<<<<< HEAD
       for (const container of state.runningList) {
         if (container.cid !== action.payload) {
+=======
+      for (let container of state.runningList) {
+        if (container.ID !== action.payload) {
+>>>>>>> f4ae77d (Final updates to Docketeer 7.0.)
           newestRunningList.push(container);
         }
       }
@@ -37,8 +42,14 @@ export default function (state = initialState, action) {
     case types.RUN_STOPPED_CONTAINER: {
       const runningListCopy = state.runningList.slice();
       const newerStoppedContainer = [];
+<<<<<<< HEAD
       for (const container of state.stoppedList) {
         if (container.cid !== action.payload) {
+=======
+      for (let container of state.stoppedList) {
+        if (container.ID === action.payload) {
+        } else {
+>>>>>>> f4ae77d (Final updates to Docketeer 7.0.)
           newerStoppedContainer.push(container);
         }
       }

@@ -13,7 +13,7 @@ const UserTable = () => {
 
   // Create columns for table
   const columns = useMemo(() => [
-    { field: '_id', headerName: 'ID', width: '30' },
+    { field: '_id', headerName: 'ID', width: '60' },
 
     { field: 'username', headerName: 'User', width: '150' },
 
@@ -84,20 +84,25 @@ const UserTable = () => {
   };
 
   return (
-    <div style={{ background: '#E1E4E6', height: '100vh' }}>
+    <div style={{ background: '#E1E4E6', height: 600 }}>
       <Box
         sx={{
           ml: 5,
           width: '90%',
-          height: 400,
+          height: 425,
           background: 'white'
         }}
       >
         <Typography
           variant='h6'
-          sx={{ textAlign: 'center', mt: 2, mb: 2 }}
+          sx={{ textAlign: 'center', mt: 4, mb: 1 }}
         >
           Manage Users
+        </Typography>
+        <Typography
+          sx={{ textAlign: 'center', mt: 0, mb: 1, color: 'gray', fontStyle: 'italic', fontWeight: 'lighter' }}
+        >
+          * Double click on the role to access the drop down menu
         </Typography>
         <DataGrid
           sx={{}}

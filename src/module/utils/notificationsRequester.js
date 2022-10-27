@@ -1,11 +1,11 @@
-import { ipcRenderer } from 'electron';
+/* eslint-disable implicit-arrow-linebreak */
 import store from '../../renderer/store';
 import * as categories from '../../redux/constants/notificationCategories';
 // object that holds what notifications have been sent
-import memoryNotification from '../../main/slack/memoryNotification.js';
-import cpuNotification from '../../main/slack/cpuNotification.js';
+// import memoryNotification from '../../main/slack/memoryNotification.js';
+// import cpuNotification from '../../main/slack/cpuNotification.js';
 const dotenv = require('dotenv');
-dotenv.config();
+// dotenv.config(); //! Getting error of process is not defined
 const sentNotifications = {};
 let state;
 
@@ -98,7 +98,7 @@ const sendNotification = async (
     };
 
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
-    return await ipcRenderer.invoke('post-event', body);
+    return await window.nodeMethod.rendInvoke('post-event', body);
   }
 
   // Else if the user's contact preferences are set to email, or null (default to email)
@@ -124,7 +124,7 @@ const sendNotification = async (
     threshold: triggeringValue
   };
 
-  await ipcRenderer.invoke('email-event', body);
+  await window.nodeMethod.rendInvoke('email-event', body);
 };
 
 /**
@@ -206,8 +206,8 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
-          memoryNotification();
-          cpuNotification();
+          // memoryNotification();
+          // cpuNotification();
           console.log(
             `** Notification SENT. ${notificationType} 
             containerId: ${containerId} 

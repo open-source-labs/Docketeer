@@ -4,12 +4,11 @@
  */
 const express = require('express');
 const dbController = require('../controllers/dbController');
-
+  
 const router = express.Router();
 
-// Route handler: instantiates user and roles tables of database, adds role types
-router.get(
-  '/',
+// Route handler: instantiates user and roles tables of database, adds role types 
+router.get('/',
   dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,

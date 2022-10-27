@@ -87,5 +87,8 @@ module.exports = {
       template: './src/renderer/index.html'
     }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
+    // new webpack.DefinePlugin({
+    //   process: { env: {} }
+    // })
   ]
 };

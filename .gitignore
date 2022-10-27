@@ -1,6 +1,3 @@
-.DS_Store
-build/
-dist/
 node_modules/
 security/
 thumbs.db
@@ -14,5 +11,11 @@ src/components/display/.StoppedContainers.js.icloud
 src/database/docketeerdb
 server/database/docketeerdb
 .env
+.idea/
+thumbs.db
+dist/
+security/
+src/database/docketeerdb
+package-lock.json
 yarn.lock
 coverage

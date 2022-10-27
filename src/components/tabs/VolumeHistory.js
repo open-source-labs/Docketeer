@@ -61,7 +61,7 @@ const volumeHistory = (props) => {
   // Search bar: Finds volume name and renders an individual card
   const handleClick = (e) => {
     e.preventDefault();
-    const result = volumeList.filter(vol => vol.Name.includes(volumeName));
+    const result = volumeList.filter((vol) => vol.Name.includes(volumeName));
 
     setVolumeList(result);
     renderList = renderVolumeHistory(volumeList);
@@ -87,7 +87,7 @@ const volumeHistory = (props) => {
           </button>
         </div>
       </div>
-      <div className="containers">{renderList}</div> 
+      <div className="containers">{renderList}</div>
     </div>
   );
 };

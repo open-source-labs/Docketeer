@@ -4,10 +4,15 @@ import * as helper from '../helper/commands';
 
 /**
  * Render Images of the user has
- * 
- * @param {*} props 
  */
-const Images = (props) => {
+const Images = ({
+  imagesList,
+  runIm,
+  removeIm,
+  runningList,
+  addRunningContainers,
+  refreshImagesList,
+}) => {
   const [repo, setRepo] = useState('');
 
   const handleClick = (e) => {
@@ -15,7 +20,7 @@ const Images = (props) => {
     helper.pullImage(repo);
   };
 
-  const renderImagesList = props.imagesList.map((ele, i) => {
+  const renderImagesList = imagesList.map((ele, i) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
@@ -25,10 +30,12 @@ const Images = (props) => {
         <div className="stopped-info">
           <ul>
             <li>
-              <strong>ID: </strong>{ele['imgid']}
+              <strong>ID: </strong>
+              {ele['imgid']}
             </li>
             <li>
-              <strong>Size: </strong>{ele['size']}
+              <strong>Size: </strong>
+              {ele['size']}
             </li>
           </ul>
         </div>
@@ -36,11 +43,11 @@ const Images = (props) => {
           <button
             className="run-btn"
             onClick={() =>
-              props.runIm(
+              runIm(
                 ele['imgid'],
                 props.runningList,
                 helper.addRunning,
-                props.addRunningContainers
+                addRunningContainers
               )
             }
           >
@@ -49,11 +56,11 @@ const Images = (props) => {
           <button
             className="stop-btn"
             onClick={() =>
-              props.removeIm(
+              removeIm(
                 ele['imgid'],
-                props.imagesList,
+                imagesList,
                 helper.refreshImages,
-                props.refreshImagesList
+                refreshImagesList
               )
             }
           >

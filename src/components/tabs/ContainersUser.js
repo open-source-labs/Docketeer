@@ -1,15 +1,14 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 
 /**
  * Display all running and stopped containers
- * 
+ *
  * @param {*} props
  */
-const Containers = (props) => {
-  const renderStoppedList = props.stoppedList.map((container, i) => {
+const Containers = ({ stoppedList, runningList }) => {
+  const renderStoppedList = stoppedList.map((container, i) => {
     return (
       <div className="box" key={`stoppedBox-${i}`}>
         <div className="box-label">
@@ -23,10 +22,12 @@ const Containers = (props) => {
               <strong>Img: </strong> {container.Image}
             </li>
             <li>
-              <strong>Created: </strong>{container.RunningFor}
+              <strong>Created: </strong>
+              {container.RunningFor}
             </li>
             <li>
-              <strong>Name: </strong>{container.Names}
+              <strong>Name: </strong>
+              {container.Names}
             </li>
           </ul>
         </div>
@@ -34,7 +35,7 @@ const Containers = (props) => {
     );
   });
 
-  const renderRunningList = props.runningList.map((container, i) => {
+  const renderRunningList = runningList.map((container, i) => {
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -112,8 +113,8 @@ const Containers = (props) => {
             </div>
           </div>
           <ToggleDisplay container={container} />
-          <br/>
-          <br/>
+          <br />
+          <br />
         </div>
       </div>
     );
@@ -122,16 +123,12 @@ const Containers = (props) => {
   return (
     <div className="renderContainers">
       <div className="header">
-        <h1 className="tabTitle">
-          Running Containers: {props.runningList.length}
-        </h1>
+        <h1 className="tabTitle">Running Containers: {runningList.length}</h1>
       </div>
       <div className="containers">{renderRunningList}</div>
 
       <div className="header">
-        <h1 className="tabTitle">
-          Exited Containers: {props.stoppedList.length}
-        </h1>
+        <h1 className="tabTitle">Exited Containers: {stoppedList.length}</h1>
       </div>
       <div className="stopped-containers">{renderStoppedList}</div>
     </div>

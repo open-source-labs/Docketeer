@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import * as types from '../constants/actionTypes';
 
 /**
@@ -23,7 +22,7 @@ export default function (state = initialState, action) {
         arrayOfVolumeNames: newVolumeList
       };
 
-    case types.GET_VOLUME_CONTAINERS_LIST:
+    case types.GET_VOLUME_CONTAINERS_LIST: 
       const newVolumeContainersList = [...state.volumeContainersList];
       if (newVolumeContainersList.length) {
         // ensures no duplicate volumes

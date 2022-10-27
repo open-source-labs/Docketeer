@@ -55,7 +55,7 @@ export default function (state = initialState, action) {
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token
+        token,
       };
     }
 

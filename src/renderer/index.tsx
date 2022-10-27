@@ -18,11 +18,11 @@ const root = createRoot(rootNode)
 root.render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<App />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/*' element={<App />} />
+      </Routes>
+    </BrowserRouter>
     {/* </React.StrictMode> */}
   </Provider>
 );

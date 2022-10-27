@@ -2,7 +2,8 @@
  * @module NewUserDisplay
  * @description Signup component that will be rendered in SysAdmin view, in Users tab, where sysadmin can create an account for new user in organization
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Material UI Imports
 import TextField from '@mui/material/TextField';
@@ -24,10 +25,9 @@ const NewUserDisplay = () => {
           <h3>Create a New User</h3>
         </div>
         <p>
-          Create a new Docketeer account for an employee. Please confirm with
-          the employee that their information is accurate before submitting.
+          Create a new Docketeer account for an employee. Please confirm with the employee that their information is accurate before submitting.
         </p>
-        <br />
+        <br/>
         <p>
           Note: For the password, please choose a random string of 6 characters,
           numbers, and symbols. Upon account creation, the user will receive an
@@ -110,3 +110,4 @@ const NewUserDisplay = () => {
 };
 
 export default NewUserDisplay;
+

@@ -1,17 +1,13 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React from "react";
 
 /**
  * Display all stopped containers with functionality
+ *
+ * @param {*} props
  */
-const Stopped = ({
-  stoppedList,
-  runStopped,
-  runStoppedContainer,
-  remove,
-  removeContainer,
-}) => {
-  const renderStoppedList = stoppedList.map((container, i) => {
+const Stopped = (props) => {
+  const renderStoppedList = props.stoppedList.map((container, i) => {
     return (
       <div className="box" key={`stoppedBox${i}`}>
         <div className="box-label">
@@ -27,13 +23,15 @@ const Stopped = ({
         <div className="stopped-button">
           <button
             className="run-btn"
-            onClick={() => runStopped(container['ID'], runStoppedContainer)}
+            onClick={() =>
+              props.runStopped(container["ID"], props.runStoppedContainer)
+            }
           >
             RUN
           </button>
           <button
             className="stop-btn"
-            onClick={() => remove(container['ID'], removeContainer)}
+            onClick={() => props.remove(container["ID"], props.removeContainer)}
           >
             REMOVE
           </button>

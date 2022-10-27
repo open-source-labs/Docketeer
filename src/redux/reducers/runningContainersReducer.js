@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
         stoppedList: newStoppedList
       };
 
-    case types.RUN_STOPPED_CONTAINER:
+    case types.RUN_STOPPED_CONTAINER: 
       const runningListCopy = state.runningList.slice();
       const newerStoppedContainer = [];
       for (let container of state.stoppedList) {
@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
         stoppedList: newerStoppedContainer
       };
 
-    case types.REFRESH_RUNNING_CONTAINERS:
+    case types.REFRESH_RUNNING_CONTAINERS: 
       const newRunningList2 = [];
       for (const container of action.payload) {
         newRunningList2.push(container);

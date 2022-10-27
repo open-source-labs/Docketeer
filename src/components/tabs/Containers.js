@@ -21,16 +21,13 @@ const Containers = (props) => {
         <div className='stopped-info'>
           <ul>
             <li>
-              <strong>Img: </strong>
-              {container.Image}
+              <strong>Img: </strong>{container.Image}
             </li>
             <li>
-              <strong>Created: </strong>
-              {container.RunningFor}
+              <strong>Created: </strong>{container.RunningFor}
             </li>
             <li>
-              <strong>Name: </strong>
-              {container.Names}
+              <strong>Name: </strong>{container.Names}
             </li>
           </ul>
         </div>

@@ -7,9 +7,11 @@ import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**
  * Display general metrics
+ * 
+ * @param {*} props
  */
-const Metrics = ({ runningList }) => {
-  const result = convertToMetricsArr(runningList);
+const Metrics = (props) => {
+  const result = convertToMetricsArr(props.runningList);
   const cpuData = (100 - result[0]).toFixed(2);
   const memoryData = (100 - result[1]).toFixed(2);
 
@@ -87,7 +89,7 @@ const Metrics = ({ runningList }) => {
           <a target="_blank" rel="noreferrer" href= "https://docs.docker.com/engine/reference/commandline/stats/#examples">Click here</a> for more information on these metrics
         </h2>
       </div>
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Aggregate</h3>
       </div>
       <div className='aggregate-conatiner'>

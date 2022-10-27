@@ -31,7 +31,8 @@ export const handleNewUser = (e) => {
       'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900');
     return;
   }
-
+  console.log('sending user data to createNewUser');
+  // return createNewUser(email, username, password, phone);
   createNewUser(email, username, password, phone);
 };
 
@@ -88,8 +89,8 @@ export const createNewUser = (email, username, password, phone) => {
       username: username,
       password: password,
       email: email,
-      phone: phone
-    })
+      phone: phone,
+    }),
   })
     .then(() => {
       document.getElementById('signupUsername').value = '';
@@ -102,8 +103,7 @@ export const createNewUser = (email, username, password, phone) => {
 
       window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
-  
-    }). then (() =>{
+
       getUpdatedUserList();
     })
     .catch((err) => {
@@ -113,16 +113,7 @@ export const createNewUser = (email, username, password, phone) => {
 
 
 export const getUpdatedUserList = () => {
-
-  // TM: Added this - do we need to use mapStateToProps to access the signed-in user's info?
-// const mapStateToProps = state => {
-//   console.log(state);
-//   return{
-//   username: state.session.userName,
-//   token: state.session.token
-// }};
-
-
+  console.log('store username: ', store.userInfo.username);
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
@@ -135,11 +126,12 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      // updateUserList(data);
+      console.log('this is data from newUserHelper', data);
+      updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);
-    });
+    })
 };
 
 export const updateUserList = (data) => {  

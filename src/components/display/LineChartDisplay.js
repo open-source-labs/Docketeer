@@ -96,6 +96,8 @@ const Metrics = () => {
       return;
     }
 
+    const output = await getContainerMetrics();
+
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
         'red',

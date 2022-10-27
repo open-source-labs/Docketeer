@@ -36,25 +36,21 @@ const App = (props) => {
 
   if (role === 'system admin') { return (  
     <div>
-      Am I in App?
       <SysAdminView />
     </div>
     )
   }
-  else if (role === 'admin') {
-    return (
-      <div>
-        <AdminView />
-      </div>
-    );
+  else if (role === 'admin') { return (
+    <div>
+      <AdminView />
+    </div>
+    )
   }
-  else {
-    console.log('else triggered, and now so am I')
-    return (
-      <div>
-        <UserView />
-      </div>
-    );
+  else if (role === 'user') { return (
+    <div>
+      <UserView />
+    </div>
+    )
   }
 };
 

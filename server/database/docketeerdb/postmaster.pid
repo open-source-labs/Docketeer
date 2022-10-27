@@ -1,8 +1,16 @@
 1
 /var/lib/postgresql/data
+<<<<<<< HEAD
 1666024095
 5432
 /var/run/postgresql
 *
   3908642         5
+=======
+1666033441
+5432
+/var/run/postgresql
+*
+ 12343971         5
+>>>>>>> b891915 (Fixed query for metrics when more than one container is selected)
 ready   

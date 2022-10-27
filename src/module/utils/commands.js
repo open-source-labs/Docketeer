@@ -504,7 +504,6 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
     const state = store.getState();
     const runningContainers = state.containersList.runningList;
     const stoppedContainers = state.containersList.stoppedList;
-    console.log('Running Containers: ', runningContainers)
 
     if (!runningContainers.length) return;
     const containerParameters = {}

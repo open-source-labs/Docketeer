@@ -45,12 +45,7 @@ const Images = ({
             onClick={() =>
               runIm(
                 ele['imgid'],
-<<<<<<< HEAD:src/tabs/Images.js
-                runningList,
-=======
-                ele['reps'],
                 props.runningList,
->>>>>>> 1bedf1b (Updates to the redux system to try and get the image names to the runningContainers.):src/components/tabs/Images.js
                 helper.addRunning,
                 addRunningContainers
               )

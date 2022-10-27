@@ -210,7 +210,7 @@ const LineChartDisplay = () => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    //pulling the current time, and then setting it back to one month ago to check for github commit logs
+    //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
     let date = new Date(Date.parse(new Date()) - 2629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();

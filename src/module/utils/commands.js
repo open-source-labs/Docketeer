@@ -535,18 +535,18 @@ export const writeToDb = () => {
       if (idx === stoppedContainers.length - 1) dbQuery += string;
       else dbQuery += string + ', ';
     });
-    query(dbQuery);
+    // query(dbQuery);
   }, interval);
 };
 
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-  query(`set time zone ${offsetTimeZoneInHours}`);
+  // query(`set time zone ${offsetTimeZoneInHours}`);
 };
 
 export const getContainerGitUrl = (container) => {
-  return query(`Select github_url from containers where name = '${container}'`);
+  // return query(`Select github_url from containers where name = '${container}'`);
 };
 
 /**

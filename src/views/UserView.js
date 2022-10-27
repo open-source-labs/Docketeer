@@ -112,7 +112,7 @@ const UserView = (props) => {
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
     }, 5000);
-    startNotificationRequester();
+    // startNotificationRequester(); //! Issue with loading frontend -> Path.join is not a functions
     return () => clearInterval(interval);
   }, []);
 

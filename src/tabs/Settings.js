@@ -1,38 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
-import * as actions from '../module/actions/actions';
+import * as actions from '../../redux/actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
-import * as categories from '../../constants/notificationCategories';
+import * as categories from '../../redux/constants/notificationCategories';
 import query from '../../../server/models/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
+import * as queryType from '../../redux/constants/queryTypes';
 
 // React Component Imports
 import AccountDisplay from '../components/display/AccountDisplay';
 
 // Material UI Imports
-<<<<<<< HEAD:src/tabs/Settings.js
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../module/constants/notificationCategories';
-import query from '../module/utils/psqlQuery';
-import * as queryType from '../module/constants/queryTypes';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-=======
 // import { makeStyles } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -50,7 +28,6 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -69,37 +46,6 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
-<<<<<<< HEAD:src/tabs/Settings.js
-    dispatch(actions.removeStoppedNotificationSetting(data)),
-});
-
-const useStyles = makeStyles(() => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle',
-    },
-  },
-  button: {
-    '& > *': {
-      pointerEvents: 'none',
-    },
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top',
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30,
-  },
-}));
-=======
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
@@ -129,7 +75,6 @@ const useStyles = makeStyles(() => ({
 //     marginBottom: 30,
 //   },
 // }));
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -439,21 +384,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
-<<<<<<< HEAD:src/tabs/Settings.js
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id,
-        contact_pref: value,
-      }),
-=======
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
         contact_pref: value
       })
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -474,21 +410,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
-<<<<<<< HEAD:src/tabs/Settings.js
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id,
-        cpu_threshold: value,
-      }),
-=======
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
         cpu_threshold: value
       })
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -505,21 +432,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
-<<<<<<< HEAD:src/tabs/Settings.js
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id,
-        mem_threshold: value,
-      }),
-=======
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
         mem_threshold: value
       })
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -536,21 +454,12 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
-<<<<<<< HEAD:src/tabs/Settings.js
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id,
-        container_stops: value,
-      }),
-=======
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         _id,
         container_stops: value
       })
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -567,11 +476,7 @@ const Settings = (props) => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
   };
 
-<<<<<<< HEAD:src/tabs/Settings.js
-  const handleStoppedContainersChange = () => {
-=======
   const handleStoppedContainersChange = (event) => {
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     setStoppedContainers(
       document.getElementById('stopped-containers-input').checked
     );
@@ -696,14 +601,10 @@ const Settings = (props) => {
         <br />
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
-<<<<<<< HEAD:src/tabs/Settings.js
-        <form className={classes.root} autoComplete="off">
-=======
         <form
           // className={classes.root}
           autoComplete='off'
         >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           <div>
             <TextField
               required
@@ -768,17 +669,6 @@ const Settings = (props) => {
 
         <p>2. Contact preference:</p>
         <br />
-<<<<<<< HEAD:src/tabs/Settings.js
-        <FormControl component="fieldset">
-          <RadioGroup
-            aria-label="Contact Preferences"
-            name="contact_pref"
-            value={value}
-            onChange={handleRadioChange}
-          >
-            <FormControlLabel value="email" control={<Radio />} label="Email" />
-            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
-=======
         <FormControl component='fieldset'>
           <RadioGroup
             aria-label='Contact Preferences'
@@ -788,7 +678,6 @@ const Settings = (props) => {
           >
             <FormControlLabel value='email' control={<Radio />} label='Email' />
             <FormControlLabel value='phone' control={<Radio />} label='Phone' />
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           </RadioGroup>
           <br />
           <Button
@@ -876,14 +765,10 @@ const Settings = (props) => {
         <br />
         <p>2. Configure notification thresholds</p>
         <br />
-<<<<<<< HEAD:src/tabs/Settings.js
-        <form className={classes.root} autoComplete="off">
-=======
         <form
           // className={classes.root}
           autoComplete='off'
         >
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
             <TextField
@@ -937,19 +822,6 @@ const Settings = (props) => {
               value={true}
               control={
                 <Checkbox
-<<<<<<< HEAD:src/tabs/Settings.js
-                  id="stopped-containers-input"
-                  onChange={handleStoppedContainersChange}
-                />
-              }
-              label="Receive notification when a container stops"
-            />
-          </div>
-          <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
-=======
                   id='stopped-containers-input'
                   onChange={handleStoppedContainersChange}
                 />
@@ -961,7 +833,6 @@ const Settings = (props) => {
             // className={classes.button}
             size='medium'
             variant='contained'
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
             onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
             endIcon={<SendIcon />}
           >
@@ -976,11 +847,7 @@ const Settings = (props) => {
       <div className='settings-container'>
         <p>
           Allows you to get access to latest GitHub commits in your project
-<<<<<<< HEAD:src/tabs/Settings.js
-          repository on &quot;Metrics&quot; tab for selected containers
-=======
           repository on "Metrics" tab for selected containers
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
         </p>
         <br />
         <p>1. Add GitHub repositories url in Containers settings table below</p>
@@ -1004,15 +871,6 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
-<<<<<<< HEAD:src/tabs/Settings.js
-                <TableCell align="center">
-                  Memory {`>${mem_threshold}%`}
-                </TableCell>
-                <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
-                <TableCell align="center">Container Stops</TableCell>
-                <TableCell align="center">GitHub repository url</TableCell>
-                <TableCell align="center">Apply settings</TableCell>
-=======
                 <TableCell align='center'>
                   Memory {`>${mem_threshold}%`}
                 </TableCell>
@@ -1020,7 +878,6 @@ const Settings = (props) => {
                 <TableCell align='center'>Container Stops</TableCell>
                 <TableCell align='center'>GitHub repository url</TableCell>
                 <TableCell align='center'>Apply settings</TableCell>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
               </TableRow>
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>

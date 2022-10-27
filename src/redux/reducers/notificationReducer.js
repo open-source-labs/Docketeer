@@ -9,7 +9,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+<<<<<<<< HEAD:src/module/reducers/notificationReducer.js
     case types.ADD_PHONE_NUMBER: {
+========
+    case types.ADD_PHONE_NUMBER:
+>>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/notificationReducer.js
       return {
         ...state,
         phoneNumber: action.payload

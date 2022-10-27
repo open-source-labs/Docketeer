@@ -18,7 +18,7 @@ import * as helper from '../helper/commands';
 import { string } from 'prop-types';
 import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

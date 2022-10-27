@@ -13,7 +13,7 @@ import {
 import { Navigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 // Redux Imports (actions)
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 
 // React Component Imports
 //TODO App

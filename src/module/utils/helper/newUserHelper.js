@@ -2,8 +2,8 @@
  * @module newUserHelper
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
-import store from '../../../renderer/store';
-import * as actions from '../../actions/actions';
+import store from '../../renderer/store';
+import * as actions from '../../redux/actions/actions';
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -79,14 +79,14 @@ export const createNewUser = (email, username, password, phone) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username: username,
       password: password,
       email: email,
-      phone: phone,
-    }),
+      phone: phone
+    })
   })
     .then((response) => {
       return response.json();
@@ -118,12 +118,12 @@ export const getUpdatedUserList = () => {
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username: store.userInfo.username,
-      token: store.userInfo.token,
-    }),
+      token: store.userInfo.token
+    })
   })
     .then((response) => response.json())
     .then((data) => {

@@ -7,7 +7,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+<<<<<<<< HEAD:src/module/reducers/runningContainersReducer.js
     case types.ADD_RUNNING_CONTAINERS: {
+========
+    case types.ADD_RUNNING_CONTAINERS:
+>>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/runningContainersReducer.js
       const newRunningList = state.runningList.slice();
       for (const container of action.payload) {
         newRunningList.push(container);
@@ -51,7 +55,11 @@ export default function (state = initialState, action) {
         newRunningList2.push(container);
       }
       return { ...state, runningList: newRunningList2 };
+<<<<<<<< HEAD:src/module/reducers/runningContainersReducer.js
     }
+========
+>>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/runningContainersReducer.js
+
     default:
       return state;
   }

@@ -10,10 +10,10 @@ import {
 } from 'react-router-dom';
 
 // static imports
-import * as actions from '../module/actions/actions';
-import * as helper from '../module/utils/commands';
-import * as history from '../module/utils/helper/volumeHistoryHelper';
-import Docketeer from '../assets/images/docketeer-title.png';
+import * as actions from '../../redux/actions/actions';
+import * as helper from '../helper/commands';
+import * as history from '../helper/volumeHistoryHelper';
+import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';

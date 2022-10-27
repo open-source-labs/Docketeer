@@ -1,21 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../module/actions/actions';
-import * as helper from '../module/utils/commands';
+import * as actions from '../../redux/actions/actions';
+import * as helper from '../helper/commands';
 
-<<<<<<< HEAD:src/tabs/Yml.js
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
-/**
- * Displays all running docker-compose container networks; drag and drop or upload functionality
- */
-const Yml = () => {
-=======
 // import { makeStyles } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -56,7 +43,6 @@ import TableRow from '@mui/material/TableRow';
 
 const Yml = () => {
   // const classes = useStyles();
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Yml.js
   const [filePath, setFilePath] = useState('');
   const [ymlFile, setYmlFile] = useState('');
   const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
@@ -136,11 +122,7 @@ const Yml = () => {
           {container.FilePath && container.YmlFileName && (
             // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
             // only the containers composed up from the application will have a compose down button
-<<<<<<< HEAD:src/tabs/Yml.js
-            <TableCell className="btn-compose-up">
-=======
             <TableCell className='btn-compose-up'>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Yml.js
               <button
                 className='btn'
                 onClick={() => {

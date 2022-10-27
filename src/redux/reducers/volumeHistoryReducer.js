@@ -14,8 +14,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+<<<<<<<< HEAD:src/module/reducers/volumeHistoryReducer.js
     case types.GET_VOLUME_LIST: {
+========
+    case types.GET_VOLUME_LIST:
       // merges arrays using spread operator
+>>>>>>>> 95fc71d (Create a redux folder):src/redux/reducers/volumeHistoryReducer.js
       const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
       return {
         ...state,

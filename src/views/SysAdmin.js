@@ -19,7 +19,7 @@ import {
 } from 'react-router-dom';
 
 // static imports
-const actions = require('../../actions/actions');
+const actions = require('../../redux/actions/actions');
 // import * as actions from '../../actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';

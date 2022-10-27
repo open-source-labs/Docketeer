@@ -71,6 +71,7 @@ const Containers = ({ stoppedList, runningList }) => {
       <div className="box box-running" key={`runningBox-${i}`}>
         <div className="box-label">
           <h3>{container.Name}</h3>
+          <p>Img: {container.Image}</p>
           <p>ID: {container.ID}</p>
         </div>
         <div className="box-info">

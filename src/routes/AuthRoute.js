@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Example from './views/Example';
 
 // import AdminView from './views/Admin';
-// import UserView from './views/UserView';
+import UserView from './views/UserView';
 // import SysAdminView from './views/SysAdmin';
 
 const AuthRoute = () => {
@@ -28,8 +28,8 @@ const AuthRoute = () => {
     return (
       <div>
         {/* <h1>I'm the UserView</h1> */}
-        <Example />
-        {/* <UserView /> */}
+        {/* <Example /> */}
+        <UserView />
       </div>
     );
   }

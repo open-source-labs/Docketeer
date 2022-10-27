@@ -3,11 +3,15 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../module/actions/actions';
 import { ipcRenderer } from 'electron';
 import PropTypes from 'prop-types';
+import * as categories from '../../constants/notificationCategories';
+import query from '../helper/psqlQuery';
+import * as queryType from '../../constants/queryTypes';
 
 // React Component Imports
 import AccountDisplay from '../components/display/AccountDisplay';
 
 // Material UI Imports
+<<<<<<< HEAD:src/tabs/Settings.js
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,6 +32,25 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
+=======
+// import { makeStyles } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Radio from '@mui/material/Radio';
+import SendIcon from '@mui/icons-material/Send';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
 
 const mapDispatchToProps = (dispatch) => ({
   addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
@@ -46,6 +69,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeCpuNotificationSetting: (data) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
   removeStoppedNotificationSetting: (data) =>
+<<<<<<< HEAD:src/tabs/Settings.js
     dispatch(actions.removeStoppedNotificationSetting(data)),
 });
 
@@ -75,6 +99,37 @@ const useStyles = makeStyles(() => ({
     marginBottom: 30,
   },
 }));
+=======
+    dispatch(actions.removeStoppedNotificationSetting(data))
+});
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     '& .MuiTextField-root': {
+//       marginLeft: 5,
+//       marginBottom: 15,
+//       width: 220,
+//       verticalAlign: 'middle',
+//     },
+//   },
+//   button: {
+//     '& > *': {
+//       pointerEvents: 'none',
+//     },
+//     marginLeft: 5,
+//     width: 100,
+//     verticalAlign: 'top',
+//   },
+//   verifiedIcon: {
+//     verticalAlign: 'top',
+//     color: 'green',
+//   },
+//   description: {
+//     marginLeft: 5,
+//     marginBottom: 30,
+//   },
+// }));
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
 
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
@@ -82,7 +137,7 @@ let isVerified = false;
 
 const Settings = (props) => {
   const [mobileNumber, setMobileNumber] = useState('');
-  const classes = useStyles();
+  // const classes = useStyles();
 
   // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
   // https://reactjs.org/docs/typechecking-with-proptypes.html
@@ -97,7 +152,7 @@ const Settings = (props) => {
     stoppedList: PropTypes.array.isRequired,
     memoryNotificationList: PropTypes.object.isRequired,
     cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired,
+    stoppedNotificationList: PropTypes.object.isRequired
   };
 
   // handle check
@@ -301,7 +356,7 @@ const Settings = (props) => {
   const handleSubmit = async () => {
     const body = {
       code: formData,
-      mobileNumber: mobileNumber,
+      mobileNumber: mobileNumber
     };
 
     const result = await ipcRenderer.invoke('verify-code', body);
@@ -384,12 +439,21 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
+<<<<<<< HEAD:src/tabs/Settings.js
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
         contact_pref: value,
       }),
+=======
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        contact_pref: value
+      })
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -410,12 +474,21 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
+<<<<<<< HEAD:src/tabs/Settings.js
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
         cpu_threshold: value,
       }),
+=======
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        cpu_threshold: value
+      })
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -432,12 +505,21 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
+<<<<<<< HEAD:src/tabs/Settings.js
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
         mem_threshold: value,
       }),
+=======
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        mem_threshold: value
+      })
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -454,12 +536,21 @@ const Settings = (props) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
+<<<<<<< HEAD:src/tabs/Settings.js
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
         container_stops: value,
       }),
+=======
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _id,
+        container_stops: value
+      })
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     })
       .then((response) => {
         return response.json();
@@ -476,7 +567,11 @@ const Settings = (props) => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
   };
 
+<<<<<<< HEAD:src/tabs/Settings.js
   const handleStoppedContainersChange = () => {
+=======
+  const handleStoppedContainersChange = (event) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
     setStoppedContainers(
       document.getElementById('stopped-containers-input').checked
     );
@@ -494,18 +589,18 @@ const Settings = (props) => {
     );
 
     return (
-      <TableRow key={i} id="settings-row">
+      <TableRow key={i} id='settings-row'>
         <TableCell>
-          <span className="container-name">
+          <span className='container-name'>
             {container.Names ? container.Names : container.Name}
             {/* Stopped containers have a .Names key. Running containers have a .Name key */}
           </span>
         </TableCell>
         <TableCell>
-          <span className="container-id">{container.ID}</span>
+          <span className='container-id'>{container.ID}</span>
         </TableCell>
         <TableCell>{container.Image}</TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
@@ -516,12 +611,12 @@ const Settings = (props) => {
                   )
                 : handleUnCheckSetting(container.ID, categories.MEMORY)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isMemorySelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
@@ -532,12 +627,12 @@ const Settings = (props) => {
                   )
                 : handleUnCheckSetting(container.ID, categories.CPU)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isCpuSelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
               event.target.checked
@@ -548,31 +643,31 @@ const Settings = (props) => {
                   )
                 : handleUnCheckSetting(container.ID, categories.STOPPED)
             }
-            role="checkbox"
+            role='checkbox'
             key={container.ID}
             checked={isStoppedSelected}
           />
         </TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <TextField
-            className={classes.textfield}
-            id="textfield"
-            label="Main repository url"
-            helperText="* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
-            variant="outlined"
+            // className={classes.textfield}
+            id='textfield'
+            label='Main repository url'
+            helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
+            variant='outlined'
             value={tempGithubLink[container.ID]}
             onChange={(e) => {
               stateObject[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
             }}
-            size="small"
+            size='small'
           />
         </TableCell>
         <TableCell>
           <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
+            // className={classes.button}
+            size='medium'
+            variant='contained'
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
             onClick={(e) => githubLink(e)}
@@ -585,15 +680,15 @@ const Settings = (props) => {
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Settings</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Settings</h1>
       </div>
       <AccountDisplay />
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Communication</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
           Allows you to (i) connect a mobile phone to your account, and (ii)
           choose your preferred method of communication.
@@ -601,25 +696,32 @@ const Settings = (props) => {
         <br />
         <p>1. Verify your mobile phone number on Twilio</p>
         <br />
+<<<<<<< HEAD:src/tabs/Settings.js
         <form className={classes.root} autoComplete="off">
+=======
+        <form
+          // className={classes.root}
+          autoComplete='off'
+        >
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           <div>
             <TextField
               required
-              id="textfield"
+              id='textfield'
               label={phone}
-              helperText="* use country code (+1)"
-              variant="outlined"
+              helperText='* use country code (+1)'
+              variant='outlined'
               onChange={(e) => {
                 setMobileNumber(e.target.value);
                 isVerified = false;
               }}
-              size="small"
+              size='small'
             />
             {!isVerified ? (
               <Button
-                className={classes.button}
-                size="medium"
-                variant="contained"
+                // className={classes.button}
+                size='medium'
+                variant='contained'
                 onClick={(e) => handlePhoneNumberSubmit(e)}
                 endIcon={<SendIcon />}
               >
@@ -627,31 +729,34 @@ const Settings = (props) => {
               </Button>
             ) : (
               <CheckCircleIcon
-                fontSize="large"
-                className={classes.verifiedIcon}
+                fontSize='large'
+                // className={classes.verifiedIcon}
               />
             )}
           </div>
         </form>
 
         {showVerificationInput ? (
-          <form className={classes.root} autoComplete="off">
-            <div className="verification-code">
+          <form
+            // className={classes.root}
+            autoComplete='off'
+          >
+            <div className='verification-code'>
               <TextField
                 required
-                id="verification-code"
-                label="Verification code"
-                variant="outlined"
+                id='verification-code'
+                label='Verification code'
+                variant='outlined'
                 onChange={(e) => {
                   handleChange(e.target.value);
                 }}
-                size="small"
+                size='small'
               />
               <Button
-                className={classes.button}
-                size="medium"
-                color="default"
-                variant="contained"
+                // className={classes.button}
+                size='medium'
+                color='default'
+                variant='contained'
                 onClick={handleSubmit}
                 endIcon={<SendIcon />}
               >
@@ -663,6 +768,7 @@ const Settings = (props) => {
 
         <p>2. Contact preference:</p>
         <br />
+<<<<<<< HEAD:src/tabs/Settings.js
         <FormControl component="fieldset">
           <RadioGroup
             aria-label="Contact Preferences"
@@ -672,14 +778,25 @@ const Settings = (props) => {
           >
             <FormControlLabel value="email" control={<Radio />} label="Email" />
             <FormControlLabel value="phone" control={<Radio />} label="Phone" />
+=======
+        <FormControl component='fieldset'>
+          <RadioGroup
+            aria-label='Contact Preferences'
+            name='contact_pref'
+            value={value}
+            onChange={handleRadioChange}
+          >
+            <FormControlLabel value='email' control={<Radio />} label='Email' />
+            <FormControlLabel value='phone' control={<Radio />} label='Phone' />
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           </RadioGroup>
           <br />
           <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
-            name="submit-contact-pref"
-            id="submit-contact-pref"
+            // className={classes.button}
+            size='medium'
+            variant='contained'
+            name='submit-contact-pref'
+            id='submit-contact-pref'
             onClick={() => handleRadioSubmit(value)}
           >
             Submit
@@ -687,10 +804,10 @@ const Settings = (props) => {
         </FormControl>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>Notification preferences</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
           Allows you to (i) customize monitoring and notification frequency, and
           (ii) define container conditions that will trigger notifications. When
@@ -702,22 +819,25 @@ const Settings = (props) => {
         <p>1. Setup / update notification criteria</p>
         <br />
         <div>
-          <form className={classes.root} autoComplete="off">
+          <form
+            // className={classes.root}
+            autoComplete='off'
+          >
             <TextField
-              id="textfield"
-              label="Notification frequency, min"
-              helperText="* 5 min is recommended"
-              variant="outlined"
+              id='textfield'
+              label='Notification frequency, min'
+              helperText='* 5 min is recommended'
+              variant='outlined'
               value={tempNotifFreq}
               onChange={(e) => {
                 setTempNotifFreq(e.target.value);
               }}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              // className={classes.button}
+              size='medium'
+              variant='contained'
               onClick={(e) => notificationFrequency(e)}
             >
               Confirm
@@ -726,23 +846,26 @@ const Settings = (props) => {
         </div>
 
         <div>
-          <form className={classes.root} autoComplete="off">
+          <form
+            // className={classes.root}
+            autoComplete='off'
+          >
             <TextField
-              className={classes.textfield}
-              id="textfield"
-              label="Monitoring frequency, min"
-              helperText="* 2 min is recommended"
-              variant="outlined"
+              // className={classes.textfield}
+              id='textfield'
+              label='Monitoring frequency, min'
+              helperText='* 2 min is recommended'
+              variant='outlined'
               value={tempMonitoringFrequency}
               onChange={(e) => {
                 setTempMonitoringFrequency(e.target.value);
               }}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              // className={classes.button}
+              size='medium'
+              variant='contained'
               onClick={(e) => monitoringFrequency(e)}
             >
               Confirm
@@ -753,24 +876,31 @@ const Settings = (props) => {
         <br />
         <p>2. Configure notification thresholds</p>
         <br />
+<<<<<<< HEAD:src/tabs/Settings.js
         <form className={classes.root} autoComplete="off">
+=======
+        <form
+          // className={classes.root}
+          autoComplete='off'
+        >
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
             <TextField
               required
-              id="cpu-threshold-input"
-              label="CPU Threshold"
-              helperText="* 80% CPU usage recommended"
-              variant="outlined"
+              id='cpu-threshold-input'
+              label='CPU Threshold'
+              helperText='* 80% CPU usage recommended'
+              variant='outlined'
               // value="80" set this later
               onChange={handleCpuChange}
               placeholder={`${cpu_threshold}`}
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              // className={classes.button}
+              size='medium'
+              variant='contained'
               onClick={() => handleCpuSubmit(cpuThreshold)}
             >
               Confirm
@@ -780,19 +910,19 @@ const Settings = (props) => {
             <br />
             <TextField
               required
-              id="mem-threshold-input"
-              label="Memory Threshold"
-              helperText="* 80% memory recommended"
-              variant="outlined"
+              id='mem-threshold-input'
+              label='Memory Threshold'
+              helperText='* 80% memory recommended'
+              variant='outlined'
               onChange={handleMemChange}
               placeholder={`${mem_threshold}`}
               // value="80" set this later
-              size="small"
+              size='small'
             />
             <Button
-              className={classes.button}
-              size="medium"
-              variant="contained"
+              // className={classes.button}
+              size='medium'
+              variant='contained'
               onClick={() => handleMemSubmit(memThreshold)}
             >
               Confirm
@@ -807,6 +937,7 @@ const Settings = (props) => {
               value={true}
               control={
                 <Checkbox
+<<<<<<< HEAD:src/tabs/Settings.js
                   id="stopped-containers-input"
                   onChange={handleStoppedContainersChange}
                 />
@@ -818,6 +949,19 @@ const Settings = (props) => {
             className={classes.button}
             size="medium"
             variant="contained"
+=======
+                  id='stopped-containers-input'
+                  onChange={handleStoppedContainersChange}
+                />
+              }
+              label='Receive notification when a container stops'
+            />
+          </div>
+          <Button
+            // className={classes.button}
+            size='medium'
+            variant='contained'
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
             onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
             endIcon={<SendIcon />}
           >
@@ -826,25 +970,32 @@ const Settings = (props) => {
         </form>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3>GitHub commits</h3>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <p>
           Allows you to get access to latest GitHub commits in your project
+<<<<<<< HEAD:src/tabs/Settings.js
           repository on &quot;Metrics&quot; tab for selected containers
+=======
+          repository on "Metrics" tab for selected containers
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
         </p>
         <br />
         <p>1. Add GitHub repositories url in Containers settings table below</p>
       </div>
 
-      <div className="metric-section-title">
+      <div className='metric-section-title'>
         <h3> Containers setting table</h3>
         <p></p>
       </div>
 
-      <div className="settings-container">
-        <div id="description" className={classes.description}></div>
+      <div className='settings-container'>
+        <div
+          id='description'
+          // className={classes.description}
+        ></div>
 
         <TableContainer>
           <Table>
@@ -853,6 +1004,7 @@ const Settings = (props) => {
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
                 <TableCell>Image</TableCell>
+<<<<<<< HEAD:src/tabs/Settings.js
                 <TableCell align="center">
                   Memory {`>${mem_threshold}%`}
                 </TableCell>
@@ -860,6 +1012,15 @@ const Settings = (props) => {
                 <TableCell align="center">Container Stops</TableCell>
                 <TableCell align="center">GitHub repository url</TableCell>
                 <TableCell align="center">Apply settings</TableCell>
+=======
+                <TableCell align='center'>
+                  Memory {`>${mem_threshold}%`}
+                </TableCell>
+                <TableCell align='center'>CPU {`>${cpu_threshold}%`}</TableCell>
+                <TableCell align='center'>Container Stops</TableCell>
+                <TableCell align='center'>GitHub repository url</TableCell>
+                <TableCell align='center'>Apply settings</TableCell>
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/tabs/Settings.js
               </TableRow>
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>

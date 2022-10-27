@@ -4,7 +4,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: './src/main/index.ts',
   target: 'electron-main',
   module: {
@@ -19,7 +19,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'Docketeer.js'
+    path: path.join(__dirname, './dist'),
+    filename: '[name].js'
   }
 };

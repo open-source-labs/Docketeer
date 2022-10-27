@@ -5,8 +5,8 @@ import * as actions from '../../module/actions/actions';
 import query from '../../module/utils/psqlQuery';
 import * as helper from '../../module/utils/commands';
 import { Link } from 'react-router-dom';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 /** TODO
  * 1. Remove prop drilling from parent components
@@ -42,7 +42,7 @@ const Metrics = () => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   const getContainerMetrics = async () => {
@@ -69,19 +69,19 @@ const Metrics = () => {
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
-    datasets: memory,
+    datasets: memory
   };
   const cpuObj = {
     labels: axis,
-    datasets: cpu,
+    datasets: cpu
   };
   const writtenIOObj = {
     labels: axis,
-    datasets: writtenIO,
+    datasets: writtenIO
   };
   const readIOObj = {
     labels: axis,
-    datasets: readIO,
+    datasets: readIO
   };
 
   /**
@@ -109,7 +109,7 @@ const Metrics = () => {
         'purple',
         'yellow',
         'grey',
-        'orange',
+        'orange'
       ];
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
@@ -124,7 +124,7 @@ const Metrics = () => {
         borderColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        ),
+        )
       };
 
       return obj;
@@ -138,7 +138,7 @@ const Metrics = () => {
         backgroundColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
-        ),
+        )
       };
 
       return obj;
@@ -163,7 +163,7 @@ const Metrics = () => {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
         writtenIO: buildBarGraphObj(container),
-        readIO: buildBarGraphObj(container),
+        readIO: buildBarGraphObj(container)
       };
       // console.log('This is the auxobj', auxObj);
     });
@@ -227,7 +227,7 @@ const Metrics = () => {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          since: `${date}`,
+          since: `${date}`
         });
 
       const data = await fetch(url);
@@ -237,13 +237,13 @@ const Metrics = () => {
         ob[containerName].push({
           time: commitData.commit.author.date,
           url: commitData.html_url,
-          author: commitData.commit.author.name,
+          author: commitData.commit.author.name
         });
       });
     } else {
       ob[containerName].push({
         time: '',
-        url: 'Connect github repo in settings',
+        url: 'Connect github repo in settings'
       });
     }
     return ob;
@@ -265,7 +265,7 @@ const Metrics = () => {
         <th>Time</th>
         <th>URL</th>
         <th>Author</th>
-      </tr>,
+      </tr>
     ];
     el[name].forEach((ob) => {
       let author = '';
@@ -355,60 +355,60 @@ const Metrics = () => {
   const cpuOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index',
+      mode: 'index'
     },
     title: {
       display: true,
       text: 'CPU',
-      fontSize: 23,
+      fontSize: 23
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   const memoryOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index',
+      mode: 'index'
     },
     title: {
       display: true,
       text: 'MEMORY',
-      fontSize: 23,
+      fontSize: 23
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   const writtenIOOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index',
+      mode: 'index'
     },
     title: {
       display: true,
       text: 'IO BYTES WRITTEN BY IMAGE',
-      fontSize: 23,
+      fontSize: 23
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
   const readIOOptions = {
     tooltips: {
       enabled: true,
-      mode: 'index',
+      mode: 'index'
     },
     title: {
       display: true,
       text: 'IO BYTES READ BY IMAGE',
-      fontSize: 23,
+      fontSize: 23
     },
     legend: { display: true, position: 'bottom' },
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   /* Consider if we can combine these two. Wasn't rendering active containers when tested */
@@ -443,9 +443,15 @@ const Metrics = () => {
             name="timePeriod"
             value="12"
           ></input>
+<<<<<<< HEAD
           <label htmlFor="12-hours"> 12 hours</label>
           <input type="radio" id="other" name="timePeriod" value="24"></input>
           <label htmlFor="24-hours"> 24 hours</label>
+=======
+          <label htmlFor='12-hours'> 12 hours</label>
+          <input type='radio' id='other' name='timePeriod' value='24'></input>
+          <label htmlFor='24-hours'> 24 hours</label>
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <br />
           {currentList}
         </form>

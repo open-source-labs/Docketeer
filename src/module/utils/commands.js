@@ -1,12 +1,19 @@
-import { exec } from 'child_process';
+// import { exec } from 'child_process';
 import query from './psqlQuery';
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
+<<<<<<< HEAD:src/module/utils/commands.js
   listOfVolumeProperties,
 } from './helper/volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './helper/processLogHelper';
+=======
+  listOfVolumeProperties
+} from './volumeHistoryHelper';
+import store from '../../renderer/store';
+import { makeArrayOfObjects } from './processLogHelper';
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
 
 /**
  * Grabs all active containers on app-start up
@@ -16,7 +23,7 @@ import { makeArrayOfObjects } from './helper/processLogHelper';
  */
 
 export const addRunning = (runningList, callback) => {
-  exec(
+  child_process.exec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -57,7 +64,7 @@ export const addRunning = (runningList, callback) => {
  * @param {*} runningList
  */
 export const refreshRunning = (refreshRunningContainers) => {
-  exec(
+  child_process.exec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -86,7 +93,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  * @param {*} callback
  */
 export const refreshStopped = (refreshStoppedContainers) => {
-  exec(
+  child_process.exec(
     'docker ps -f "status=exited" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -112,7 +119,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
  * @param {*} callback
  */
 export const refreshImages = (callback) => {
-  exec('docker images', (error, stdout, stderr) => {
+  child_process.exec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -151,7 +158,7 @@ export const refreshImages = (callback) => {
  * @param {*} callback
  */
 export const remove = (id, callback) => {
-  exec('docker images', (error, stdout, stderr) => {
+  child_process.exec('docker images', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -171,7 +178,7 @@ export const remove = (id, callback) => {
  * @param {*} callback
  */
 export const stop = (id, callback) => {
-  exec(`docker stop ${id}`, (error, stdout, stderr) => {
+  child_process.exec(`docker stop ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -195,7 +202,7 @@ export const runStopped = (
   runStoppedContainerDispatcher
   // refreshRunningContainers
 ) => {
-  exec(`docker start ${id}`, (error, stdout, stderr) => {
+  child_process.exec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -219,7 +226,7 @@ export const runStopped = (
 
 export const runIm = (id, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
-  exec(`docker run ${id}`, (error, stdout, stderr) => {
+  child_process.exec(`docker run ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -241,7 +248,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
  * @param {*} callback_2
  */
 export const removeIm = (id, imagesList, callback_1, callback_2) => {
-  exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
+  child_process.exec(`docker rmi -f ${id}`, (error, stdout, stderr) => {
     if (error) {
       alert(
         `${error.message}` +
@@ -265,7 +272,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 
 export const handlePruneClick = (e) => {
   e.preventDefault();
-  exec('docker system prune --force', (error, stdout, stderr) => {
+  child_process.exec('docker system prune --force', (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -284,7 +291,7 @@ export const handlePruneClick = (e) => {
  */
 
 export const pullImage = (repo) => {
-  exec(`docker pull ${repo}`, (error, stdout, stderr) => {
+  child_process.exec(`docker pull ${repo}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -303,6 +310,7 @@ export const pullImage = (repo) => {
  */
 
 export const networkContainers = (getNetworkContainers) => {
+<<<<<<< HEAD:src/module/utils/commands.js
   exec('docker network ls --format "{{json .}},"', (error, stdout, stderr) => {
     if (error) {
       console.log(`networkContainers error: ${error.message}`);
@@ -314,28 +322,50 @@ export const networkContainers = (getNetworkContainers) => {
     }
 
     const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
+=======
+  child_process.exec(
+    'docker network ls --format "{{json .}},"',
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`networkContainers error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`networkContainers stderr: ${stderr}`);
+        return;
+      }
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
 
-    // remove docker network defaults named: bridge, host, and none
-    const networkContainers = JSON.parse(dockerOutput).filter(
-      ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
-    );
+      const dockerOutput = `[${stdout
+        .trim()
+        .slice(0, -1)
+        .replaceAll(' ', '')}]`;
 
-    getNetworkContainers(networkContainers);
-  });
+      // remove docker network defaults named: bridge, host, and none
+      const networkContainers = JSON.parse(dockerOutput).filter(
+        ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
+      );
+
+      getNetworkContainers(networkContainers);
+    }
+  );
 };
 
 export const inspectDockerContainer = (containerId) => {
-  exec(`docker inspect ${containerId}`, (error, stdout, stderr) => {
-    if (error) {
-      console.log(`inspectDockerContainer error: ${error.message}`);
-      return;
+  child_process.exec(
+    `docker inspect ${containerId}`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`inspectDockerContainer error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`inspectDockerContainer stderr: ${stderr}`);
+        return;
+      }
+      console.log(stdout);
     }
-    if (stderr) {
-      console.log(`inspectDockerContainer stderr: ${stderr}`);
-      return;
-    }
-    console.log(stdout);
-  });
+  );
 };
 
 /**
@@ -346,12 +376,20 @@ export const inspectDockerContainer = (containerId) => {
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
+<<<<<<< HEAD:src/module/utils/commands.js
   return new Promise((resolve) => {
+=======
+  return new Promise((resolve, reject) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
+<<<<<<< HEAD:src/module/utils/commands.js
       'compose.yaml',
+=======
+      'compose.yaml'
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     ];
     let cmd = `cd ${fileLocation} && docker-compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
@@ -359,7 +397,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} up -d`;
     }
 
-    exec(cmd, (error, stdout, stderr) => {
+    child_process.exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
         return;
@@ -391,7 +429,7 @@ export const dockerComposeStacks = (
 ) => {
   let parseDockerOutput;
 
-  exec(
+  child_process.exec(
     'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
@@ -438,12 +476,20 @@ export const dockerComposeStacks = (
  */
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
+<<<<<<< HEAD:src/module/utils/commands.js
   return new Promise((resolve) => {
+=======
+  return new Promise((resolve, reject) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
+<<<<<<< HEAD:src/module/utils/commands.js
       'compose.yaml',
+=======
+      'compose.yaml'
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     ];
     let cmd = `cd ${fileLocation} && docker-compose down`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
@@ -451,7 +497,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
       cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} down`;
     }
 
-    exec(cmd, (error, stdout, stderr) => {
+    child_process.exec(cmd, (error, stdout, stderr) => {
       if (error) {
         console.warn(error.message);
         return;
@@ -538,22 +584,34 @@ export const getContainerGitUrl = (container) => {
  */
 
 export const getAllDockerVolumes = (getVolumeList) => {
-  exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
-    if (error) {
-      console.log(`getAllDockerVolumes error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`getAllDockerVolumes stderr: ${stderr}`);
-      return;
-    }
+  child_process.exec(
+    'docker volume ls --format "{{json .}},"',
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`getAllDockerVolumes error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`getAllDockerVolumes stderr: ${stderr}`);
+        return;
+      }
 
+<<<<<<< HEAD:src/module/utils/commands.js
     const dockerOutput = JSON.parse(
       `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
 
     return getVolumeList(filterOneProperty(dockerOutput, 'Name'));
   });
+=======
+      const dockerOutput = JSON.parse(
+        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
+      );
+
+      return getVolumeList(filterOneProperty(dockerOutput, 'Name'));
+    }
+  );
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
 };
 
 /**
@@ -564,7 +622,11 @@ export const getAllDockerVolumes = (getVolumeList) => {
  */
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
+<<<<<<< HEAD:src/module/utils/commands.js
   exec(
+=======
+  child_process.exec(
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     `docker ps -a --filter volume=${volumeName} --format "{{json .}},"`,
     (error, stdout, stderr) => {
       if (error) {
@@ -606,7 +668,11 @@ export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
 
   const containerLogs = { stdout: [], stderr: [] };
 
+<<<<<<< HEAD:src/module/utils/commands.js
   exec(inputCommandString, (error, stdout, stderr) => {
+=======
+  child_process.exec(inputCommandString, (error, stdout, stderr) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/helper/commands.js
     if (error) {
       console.error(`exec error: ${error}`);
       return;

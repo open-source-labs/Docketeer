@@ -1,10 +1,13 @@
+<<<<<<< HEAD
 const electron = require('electron');
 const path = require('path');
+=======
+
+const electron = require ('electron');
+const path = require ('path');
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
 const url = require('url');
-// import installExtension, {
-//   REDUX_DEVTOOLS,
-//   REACT_DEVELOPER_TOOLS
-// } from 'electron-devtools-installer';
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 const verifyCode = require('./twilio/verifyCode');
 const verifyMobileNumber = require('./twilio/verifyMobile');
@@ -15,16 +18,23 @@ const emailEvent = require('./email/emailEvent');
 let mainWindow;
 
 function createMainWindow() {
+<<<<<<< HEAD
   mainWindow = new Electron.BrowserWindow({
+=======
+   mainWindow = new electron.BrowserWindow({
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
     width: 1300,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
+      // nodeIntegration: true,
+      // contextIsolation: false,
+      // enableRemoteModule: true,
       // Do we want to be able to run this without background throttling?
       // backgroundThrottling: false
     },
   });
 
+<<<<<<< HEAD
   // const isDevelopment = process.env.NODE_ENV !== 'production';
   if (process.env.NODE_ENV === 'development') {
     //* TODO This URL can change, maybe needs to change
@@ -53,6 +63,21 @@ function createMainWindow() {
   //       .catch(err =>
   //         console.log('[electron-extensions] An error occurred: ', err));
   //   });
+=======
+// const isDevelopment = process.env.NODE_ENV !== 'production';
+if (process.env.NODE_ENV === 'development') {
+  //* TODO This URL can change, maybe needs to change
+  mainWindow.loadURL(`http://localhost:4000`);
+} else {
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, '/src/renderer/index.tsx'),
+      protocol: 'file:',
+      slashes: true,
+    })
+  );
+}
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
 
   // mainWindow.webContents.on('did-frame-finish-load', () => {
   //   if (isDevelopment) {
@@ -93,6 +118,7 @@ function createMainWindow() {
 
 };
 
+<<<<<<< HEAD
 electron.app.on('ready', createMainWindow)
 
 electron.ipcMain.handle('verify-number', async (_: any, args: any) => {
@@ -104,10 +130,35 @@ electron.ipcMain.handle('verify-code', async (_: any, args: any) => {
 });
 
 electron.ipcMain.handle('post-event', async (_: any, args: any) => {
+=======
+// Boilerplate for electron devtools
+// electron.app.whenReady().then(() => {
+//   installExtension(REACT_DEVELOPER_TOOLS)
+//       .then((name:string) => console.log(`Added Extension:  ${name}`))
+//       .catch((err:string) => console.log('An error occurred: ', err));
+// });
+
+electron.app.on('ready', createMainWindow)
+
+
+electron.ipcMain.handle('verify-number', async (_, args) => {
+  return await verifyMobileNumber(args);
+});
+
+electron.ipcMain.handle('verify-code', async (_, args) => {
+  return await verifyCode(args);
+});
+
+electron.ipcMain.handle('post-event', async (_, args) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
   const { mobileNumber, triggeringEvent } = args;
   return await postEvent(mobileNumber, triggeringEvent);
 });
 
+<<<<<<< HEAD
 electron.ipcMain.handle('email-event', async (_: any, args: any) => {
+=======
+electron.ipcMain.handle('email-event', async (_, args) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
   return await emailEvent(args);
 });

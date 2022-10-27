@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { buildOptionsObj } from '../../module/utils/helper/processLogHelper';
@@ -10,6 +11,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+=======
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as helper from '../helper/commands';
+import { string } from 'prop-types';
+import { buildOptionsObj } from '../helper/processLogHelper';
+import { getLogs } from '../helper/commands';
+import * as actions from '../../actions/actions';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { SettingsCellOutlined } from '@mui/icons-material';
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
 
 /**
  * Displays process logs as table
@@ -18,7 +36,11 @@ import TableRow from '@material-ui/core/TableRow';
  * a Router link.
  */
 
+<<<<<<< HEAD
 const ProcessLogsTable = () => {
+=======
+const ProcessLogsTable = (props) => {
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
   const dispatch = useDispatch();
   const getContainerLogsDispatcher = (data) =>
     dispatch(actions.getContainerLogs(data));
@@ -44,10 +66,10 @@ const ProcessLogsTable = () => {
       return (
         <TableRow key={index}>
           <TableCell>
-            <span className="log-timestamp">{log.timeStamp}</span>
+            <span className='log-timestamp'>{log.timeStamp}</span>
           </TableCell>
           <TableCell>
-            <span className="log-message">{log.logMsg}</span>
+            <span className='log-message'>{log.logMsg}</span>
           </TableCell>
         </TableRow>
       );
@@ -59,10 +81,10 @@ const ProcessLogsTable = () => {
       return (
         <TableRow key={index}>
           <TableCell>
-            <span className="log-timestamp">{log.timeStamp}</span>
+            <span className='log-timestamp'>{log.timeStamp}</span>
           </TableCell>
           <TableCell>
-            <span className="log-message">{log.logMsg}</span>
+            <span className='log-message'>{log.logMsg}</span>
           </TableCell>
         </TableRow>
       );
@@ -70,11 +92,16 @@ const ProcessLogsTable = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="renderContainers">
+=======
+    <div className='renderContainers'>
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
       <h1>Container ID: {id} </h1>
 
       <div className="settings-container">
         <form>
+<<<<<<< HEAD
           <input type="radio" id="sinceInput" name="logOption" />
           <label htmlFor="sinceInput">Since</label>
           <input type="text" id="sinceText" />
@@ -84,11 +111,26 @@ const ProcessLogsTable = () => {
           <input type="text" id="tailText" />
 
           <button id={id} type="button" onClick={handleGetLogs}>
+=======
+          <input type='radio' id='sinceInput' name='logOption' />
+          <label htmlFor='sinceInput'>Since</label>
+          <input type='text' id='sinceText' />
+
+          <input type='radio' id='tailInput' name='logOption' />
+          <label htmlFor='tailInput'>Tail</label>
+          <input type='text' id='tailText' />
+
+          <button id={id} type='button' onClick={handleGetLogs}>
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
             Get Logs
           </button>
         </form>
 
+<<<<<<< HEAD
         <div className="process-logs-container">
+=======
+        <div className='process-logs-container'>
+>>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id)
           <TableContainer>
             <Table>
               <TableHead>
@@ -107,7 +149,7 @@ const ProcessLogsTable = () => {
             </Table>
           </TableContainer>
         </div>
-        <div className="process-logs-container">
+        <div className='process-logs-container'>
           <TableContainer>
             <Table>
               <TableHead>

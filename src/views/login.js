@@ -3,21 +3,12 @@
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
 import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  BrowserHistory
-} from 'react-router-dom';
-import { Navigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
-// Redux Imports (actions)
 import * as actions from '../../redux/actions/actions';
 
 // React Component Imports
-//TODO App
-// import App from '../App';
 import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
@@ -30,15 +21,16 @@ import Docketeer from '../../../assets/docketeer-title.png';
 import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
 // const useStyles = makeStyles((theme) => ({
-//   root: {
-//     '& > *': {
-//       margin: theme.spacing(1),
-//       width: '25ch'
-//     }
-//   }
-// }));
-
-const Login = () => {
+  //   root: {
+    //     '& > *': {
+      //       margin: theme.spacing(1),
+      //       width: '25ch'
+      //     }
+      //   }
+      // }));
+      
+  const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
@@ -77,7 +69,8 @@ const Login = () => {
     authenticateUser(username, password);
   };
 
-  // callback function which will send request to endpoint http://localhost:3000/login and expect either SSID in cookie.
+  // callback function which will send request to endpoint http://localhost:3000/login and expect
+  // either SSID in cookie.
   const authenticateUser = (username, password) => {
     fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -98,38 +91,16 @@ const Login = () => {
         } else {
           updateSession(); // loggedIn = true
           updateUser(data); // update user info in sessions reducer
+          navigate('/');
         }
       })
       .catch((err) => {
         console.log('Fetch: POST error to /login', err);
         // created a pop window for wrong username/password
-        window.alert('Wrong Password or Username! Please try Again!');
+        window.alert('Wrong Password or Username. Please try Again!');
       });
   };
 
-  // Upon successful login, redirect to /app location and render the App component
-
-  // // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
-  // if (session) {
-  //   return (
-      // Deprecated
-      // <Router
-      // // history={BrowserHistory}
-      // >
-      //   {/* <Redirect to='/app' /> */}
-      //   <Routes>
-      //     {/* <Route component={App} exact path="/app" /> */}
-      //     <Route path='/app'>
-      //       <App />
-      //     </Route>
-      //   </Routes>
-      // </Router>
-
-  //     <Navigate to='/app' />
-  //   );
-  // }
-
-  // Else render the login page
   return (
     <div>
       <header>
@@ -165,11 +136,10 @@ const Login = () => {
               color='primary'
               type='submit'
               size='medium'
+              onClick={() => handleLogin}
               // className={classes.button}
             >
-              {/* Login */}
-              {/* FOR DEBUGGING */}
-              <Link to='/'>Login</Link>
+              Login
             </Button>
             <hr />
             <div

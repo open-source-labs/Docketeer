@@ -10,10 +10,9 @@ const router = express.Router();
 // note: should we move these middleware functions to a separate controller, i.e. AdminController?
 
 // Route Handler: Checks if client has sysadmin privilege. Get all users from users table and send back to client (system admin)
-router.post(
-  '/',
-  userController.verifySysadmin,
-  userController.getAllUsers,
+router.post('/', 
+  // userController.verifySysadmin,
+  userController.getAllUsers, 
   (req, res) => {
     if (res.locals.error) return res.status(200).json(res.locals.error);
     return res.status(200).json(res.locals.users);

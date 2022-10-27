@@ -1,30 +1,13 @@
 // module imports
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/views/SysAdmin.js
-import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-import * as actions from '../module/actions/actions';
-import * as helper from '../module/utils/commands';
-import * as history from '../module/utils/helper/volumeHistoryHelper';
-import Docketeer from '../assets/images/docketeer-title.png';
-=======
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
-
-// static imports
-const actions = require('../../redux/actions/actions');
-// import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/views/SysAdmin.js
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
@@ -32,14 +15,10 @@ import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
 import Containers from '../tabs/Containers';
 import Settings from '../tabs/Settings';
-import UserList from '../tabs/Users';
+import UserList from '../tabs/Users'; //* Feature only for SysAdmin
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
-<<<<<<< HEAD:src/views/SysAdmin.js
-import ProcessLogsTable from '../components/display/ProcessLogsTable';
-=======
 import ProcessLogsTable from '../display/ProcessLogsTable';
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/views/SysAdmin.js
 
 // helper function imports
 import startNotificationRequester from '../module/utils/notificationsRequester';
@@ -65,8 +44,8 @@ const SysAdmin = () => {
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-  const updateUserList = (data) => dispatch(actions.updateUserList(data));
-  // const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
+  const updateUserRole = (data) => dispatch(actions.updateUserRole(data)); //* Feature only for SysAdmin
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -76,7 +55,7 @@ const SysAdmin = () => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const userInfo = useSelector((state) => state.session);
+  const userInfo = useSelector((state) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
     (state) => state.volumeList.arrayOfVolumeNames
   );
@@ -100,14 +79,12 @@ const SysAdmin = () => {
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
+  //* No props.setLoggedIn(false). Different from AdminView
 
-<<<<<<< HEAD:src/views/SysAdmin.js
-  const handleLogout = () => {
-=======
   const handleLogout = (e) => {
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/views/SysAdmin.js
     updateSession();
     logoutUser();
+    //* No logged in state. Different from AdminView
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
@@ -156,6 +133,7 @@ const SysAdmin = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // * SysAdmin Unique useEffect
   useEffect(() => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
@@ -186,8 +164,9 @@ const SysAdmin = () => {
   };
 
   return (
-    <Router>
+    <Fragment>
       <div className='container'>
+        {/* Navbar */}
         <nav className='tab'>
           <header id='title'>
             <img src={Docketeer} width={160} />
@@ -196,72 +175,103 @@ const SysAdmin = () => {
             <ul>
               <li>
                 <Link
-                  to='/app'
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
+                  to='/app/SysAdminView/'
+                  style={
+                    selected === '/app/SysAdminView/' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/')}
                 >
                   <i className='fas fa-settings'></i> Settings
                 </Link>
               </li>
               <li>
+                {/* Users Link */}
                 <Link
-                  to='/users'
-                  style={selected === '/users' ? selectedStyling : null}
-                  onClick={() => setSelected('/users')}
+                  to='/app/SysAdminView/users'
+                  style={
+                    selected === '/app/SysAdminView/users'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/users')}
                 >
                   <i className='fas fa-users'></i> Users
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/running'
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
+                  to='/app/SysAdminView/running'
+                  style={
+                    selected === '/app/SysAdminView/running'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected(() => '/app/SysAdminView/running')}
                 >
                   <i className='fas fa-box-open'></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/images'
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
+                  to='/app/SysAdminView/images'
+                  style={
+                    selected === '/app/SysAdminView/images'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/images')}
                 >
                   <i className='fas fa-database'></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/metrics'
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
+                  to='/app/SysAdminView/metrics'
+                  style={
+                    selected === '/app/SysAdminView/metrics'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/metrics')}
                 >
                   <i className='fas fa-chart-pie'></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/yml'
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
+                  to='/app/SysAdminView/yml'
+                  style={
+                    selected === '/app/SysAdminView/yml'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/yml')}
                 >
                   <i className='fas fa-file-upload'></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/volume'
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
+                  to='/app/SysAdminView/volume'
+                  style={
+                    selected === '/app/SysAdminView/volume'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/volume')}
                 >
                   <i className='fas fa-volume-history'></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to='/logs'
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
+                  to='/app/SysAdminView/logs'
+                  style={
+                    selected === '/app/SysAdminView/logs'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/SysAdminView/logs')}
                 >
                   <i className='fas fa-log'></i> Process Logs
                 </Link>
@@ -284,90 +294,111 @@ const SysAdmin = () => {
 
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path='/volume'>
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          </Route>
-          <Route path='/metrics'>
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path='/users'>
-            <UserList />
-          </Route>
-          <Route path='/logs'>
-            <ProcessLogs
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
+        <Routes>
+          <Route
+            path='volume'
+            element={
+              <VolumeHistory
+                arrayOfVolumeNames={arrayOfVolumeNames}
+                volumeContainersList={volumeContainersList}
+              />
+            }
+          />
+          <Route
+            path='metrics'
+            element={
+              <Metrics runningList={runningList} />
+              // <h2>I'm Metrics!</h2>
+            }
+          />
 
-<<<<<<< HEAD:src/views/SysAdmin.js
-          <Route path="/logTable/:containerId">
-=======
-          <Route path='/logTable/:containerId'>
->>>>>>> 68822a4 (Get the html to show up on the electron app. Still need to get the react to mount the html id):src/components/views/SysAdmin.js
-            <ProcessLogsTable />
-          </Route>
+          <Route path='users' element={<UserList />} />
 
-          <Route path='/yml'>
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path='/images'>
-            <Images
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          </Route>
-          <Route path='/running'>
-            <Containers
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
+          <Route
+            path='logs'
+            element={
+              <ProcessLogs
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+            }
+          />
 
-          <Route path='/'>
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          </Route>
-        </Switch>
+          <Route path='logTable/:containerId' element={<ProcessLogsTable />} />
+
+          <Route
+            path='yml'
+            element={
+              <Yml
+                networkList={networkList}
+                composeymlFiles={composeymlFiles}
+              />
+            }
+          />
+
+          <Route
+            path='images'
+            element={
+              <Images
+                runIm={helper.runIm}
+                removeIm={helper.removeIm}
+                addRunningContainers={addRunningContainers}
+                refreshImagesList={refreshImagesList}
+                imagesList={imagesList}
+                runningList={runningList}
+              />
+            }
+          />
+
+          <Route
+            path='running'
+            element={
+              <Containers
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+            }
+          />
+
+          <Route
+            path='/'
+            element={
+              <Settings
+                runningList={runningList}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                stoppedList={stoppedList}
+                runStopped={helper.runStopped}
+                refreshRunningContainers={refreshRunningContainers}
+                runStoppedContainer={runStoppedContainer}
+                phoneNumber={phoneNumber}
+                memoryNotificationList={memoryNotificationList}
+                cpuNotificationList={cpuNotificationList}
+                stoppedNotificationList={stoppedNotificationList}
+              />
+            }
+          />
+        </Routes>
       </div>
-    </Router>
+    </Fragment>
   );
 };
 

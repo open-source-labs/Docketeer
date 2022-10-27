@@ -1,13 +1,7 @@
 // module imports
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../redux/actions/actions';
@@ -19,7 +13,7 @@ import Docketeer from '../../../assets/docketeer-title.png';
 import Metrics from '../tabs/Metrics';
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
-import Containers from '../tabs/Containers';
+import Containers from '../tabs/Containers'; //* Different from UserView
 import Settings from '../tabs/Settings';
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
@@ -30,7 +24,8 @@ import startNotificationRequester from '../module/utils/notificationsRequester';
 import initDatabase from '../module/utils/initDatabase';
 
 // Container component that has all redux logic along with react router
-const AdminView = () => {
+
+const AdminView = (props) => {
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -58,6 +53,7 @@ const AdminView = () => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
+
   const arrayOfVolumeNames = useSelector(
     (state) => state.volumeList.arrayOfVolumeNames
   );
@@ -81,7 +77,7 @@ const AdminView = () => {
 
   // declare a local state variable called selected, initialize to '/'
   const [selected, setSelected] = useState('/');
-  // const [ loggedIn, setLoggedIn ] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const handleLogout = () => {
     updateSession();
@@ -127,73 +123,96 @@ const AdminView = () => {
   };
 
   return (
-    <Router>
-      <div className="container">
-        <nav className="tab">
-          <header id="title">
+    <Fragment>
+      <div className='container'>
+        {/* Navbar */}
+        <nav className='tab'>
+          <header id='title'>
             <img src={Docketeer} width={160} />
           </header>
           <div className="viewsAndButton">
             <ul>
               <li>
                 <Link
-                  to="/app"
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
+                  to='/app/AdminView/'
+                  style={
+                    selected === '/app/AdminView/' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/')}
                 >
                   <i className="fas fa-settings"></i> Settings
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
+                  to='/app/AdminView/running'
+                  style={
+                    selected === '/app/AdminView/running'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected(() => '/app/AdminView/running')}
                 >
                   <i className="fas fa-box-open"></i> Containers
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/images"
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
+                  to='/app/AdminView/images'
+                  style={
+                    selected === '/app/AdminView/images'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/images')}
                 >
                   <i className="fas fa-database"></i> Images
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
+                  to='/app/AdminView/metrics'
+                  style={
+                    selected === '/app/AdminView/metrics'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/metrics')}
                 >
                   <i className="fas fa-chart-pie"></i> Metrics
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/yml"
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
+                  to='/app/AdminView/yml'
+                  style={
+                    selected === '/app/AdminView/yml' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/yml')}
                 >
                   <i className="fas fa-file-upload"></i> Docker Compose
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/volume"
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
+                  to='/app/AdminView/volume'
+                  style={
+                    selected === '/app/AdminView/volume'
+                      ? selectedStyling
+                      : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/volume')}
                 >
                   <i className="fas fa-volume-history"></i> Volume History
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/logs"
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
+                  to='/app/AdminView/logs'
+                  style={
+                    selected === '/app/AdminView/logs' ? selectedStyling : null
+                  }
+                  onClick={() => setSelected('/app/AdminView/logs')}
                 >
                   <i className='fas fa-log'></i> Process Logs
                 </Link>
@@ -216,80 +235,106 @@ const AdminView = () => {
 
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path='/volume'>
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          </Route>
-          <Route path='/metrics'>
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path='/logs'>
-            <ProcessLogs
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-          <Route path='/logTable/:containerId'>
-            <ProcessLogsTable />
-          </Route>
-          <Route path='/yml'>
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path='/images'>
-            <Images
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          </Route>
-          <Route path='/running'>
-            <Containers
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-          <Route path='/'>
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route
+            path='volume'
+            element={
+              <VolumeHistory
+                arrayOfVolumeNames={arrayOfVolumeNames}
+                volumeContainersList={volumeContainersList}
+              />
+              // <h2>I'm Volume History!</h2>
+            }
+          />
+          <Route
+            path='metrics'
+            element={
+              <Metrics runningList={runningList} />
+              // <h2>I'm Metrics!</h2>
+            }
+          />
+
+          <Route
+            path='logs'
+            element={
+              <ProcessLogs
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+              // <h2>I'm Logs!</h2>
+            }
+          />
+          <Route path='logTable/:containerId' element={<ProcessLogsTable />} />
+          <Route
+            path='yml'
+            element={
+              <Yml
+                networkList={networkList}
+                composeymlFiles={composeymlFiles}
+              />
+            }
+          />
+          <Route
+            path='images'
+            element={
+              <Images
+                runIm={helper.runIm}
+                removeIm={helper.removeIm}
+                addRunningContainers={addRunningContainers}
+                refreshImagesList={refreshImagesList}
+                imagesList={imagesList}
+                runningList={runningList}
+              />
+            }
+          />
+          <Route
+            path='running'
+            element={
+              <Containers
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <Settings
+                runningList={runningList}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                stoppedList={stoppedList}
+                runStopped={helper.runStopped}
+                refreshRunningContainers={refreshRunningContainers}
+                runStoppedContainer={runStoppedContainer}
+                phoneNumber={phoneNumber}
+                memoryNotificationList={memoryNotificationList}
+                cpuNotificationList={cpuNotificationList}
+                stoppedNotificationList={stoppedNotificationList}
+              />
+            }
+          />
+        </Routes>
       </div>
-    </Router>
+    </Fragment>
   );
 };
 

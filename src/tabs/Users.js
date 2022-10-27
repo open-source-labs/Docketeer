@@ -22,7 +22,11 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 // Redux Imports (actions)
+<<<<<<< HEAD:src/tabs/Users.js
 import * as actions from '../module/actions/actions';
+=======
+import * as actions from '../../redux/actions/actions';
+>>>>>>> 551bed2 (Fix Adminview and SysAdminView so that it shows):src/components/tabs/Users.js
 
 // Table Style Generator
 // export const useStyles = makeStyles({

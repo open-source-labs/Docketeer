@@ -127,7 +127,6 @@ const UserView = (props) => {
     <Fragment>
       <div className='container'>
         {/* <Navbar /> */}
-
         <nav className='tab'>
           <header id='title'>
             <img src={Docketeer} width={160} />

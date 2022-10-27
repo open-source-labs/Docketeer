@@ -1,14 +1,7 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../actions/actions';
@@ -32,6 +25,7 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const AdminView = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -87,7 +81,7 @@ const AdminView = (props) => {
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
-    // props.setLoggedIn(false);
+    navigate('/login');  
   };
 
   useEffect(() => {

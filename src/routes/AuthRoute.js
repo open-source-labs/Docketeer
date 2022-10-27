@@ -1,31 +1,38 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import AdminView from '../views/Admin';
-import UserView from '../views/UserView';
-import SysAdminView from '../views/SysAdmin';
+// Debug
+import Example from './views/Example';
+
+// import AdminView from './views/Admin';
+// import UserView from './views/UserView';
+// import SysAdminView from './views/SysAdmin';
 
 const AuthRoute = () => {
   const role = useSelector((state) => state.session.role);
   if (role === 'system admin') {
     return (
       <div>
-        <SysAdminView />
+        <h1>I'm the SysAdmin</h1>
+        {/* <SysAdminView /> */}
       </div>
     );
   } else if (role === 'admin') {
     return (
       <div>
-        <AdminView />
+        <h1>I'm the AdminView</h1>
+        {/* <AdminView /> */}
       </div>
     );
   } else {
     return (
       <div>
-        <UserView />
+        {/* <h1>I'm the UserView</h1> */}
+        <Example />
+        {/* <UserView /> */}
       </div>
     );
   }
 };
 
-export default AuthRoute;
+export default App;

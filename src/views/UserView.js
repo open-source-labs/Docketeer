@@ -1,13 +1,13 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 // static imports
-import * as actions from '../module/actions/actions';
-import * as helper from '../module/utils/commands';
-import * as history from '../module/utils/helper/volumeHistoryHelper';
-import Docketeer from '../assets/images/docketeer-title.png';
+// import * as actions from '../../actions/actions';
+import * as helper from '../helper/commands';
+// import * as history from '../helper/volumeHistoryHelper';
+import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
 import Metrics from '../tabs/Metrics';
@@ -17,11 +17,11 @@ import ContainersUser from '../tabs/ContainersUser';
 import Settings from '../tabs/Settings';
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
-import ProcessLogsTable from '../components/display/ProcessLogsTable';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
-import startNotificationRequester from '../module/utils/notificationsRequester';
-import initDatabase from '../module/utils/initDatabase';
+// import startNotificationRequester from '../helper/notificationsRequester';
+// import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const UserView = () => {
@@ -117,7 +117,7 @@ const UserView = () => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (
@@ -135,12 +135,12 @@ const UserView = () => {
                   style={selected === '/' ? selectedStyling : null}
                   onClick={() => setSelected('/')}
                 >
-                  <i className="fas fa-settings"></i> Settings
+                  <i className='fas fa-settings'></i> Settings
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/running"
+                  to='/running'
                   style={selected === '/running' ? selectedStyling : null}
                   onClick={() => setSelected(() => '/running')}
                 >
@@ -158,7 +158,7 @@ const UserView = () => {
               </li>
               <li>
                 <Link
-                  to="/metrics"
+                  to='/metrics'
                   style={selected === '/metrics' ? selectedStyling : null}
                   onClick={() => setSelected('/metrics')}
                 >
@@ -180,7 +180,7 @@ const UserView = () => {
                   style={selected === '/volume' ? selectedStyling : null}
                   onClick={() => setSelected('/volume')}
                 >
-                  <i className="fas fa-volume-history"></i> Volume History
+                  <i className='fas fa-volume-history'></i> Volume History
                 </Link>
               </li>
               <li>
@@ -189,7 +189,7 @@ const UserView = () => {
                   style={selected === '/logs' ? selectedStyling : null}
                   onClick={() => setSelected('/logs')}
                 >
-                  <i className="fas fa-log"></i> Process Logs
+                  <i className='fas fa-log'></i> Process Logs
                 </Link>
               </li>
             </ul>
@@ -210,78 +210,99 @@ const UserView = () => {
 
         {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/volume">
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          </Route>
-          <Route path="/metrics">
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-          <Route path="/logTable/:containerId">
-            <ProcessLogsTable />
-          </Route>
-          <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path="/images">
-            <ImagesUser
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          </Route>
-          <Route path="/running">
-            <ContainersUser
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-          <Route path="/">
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route
+            path='/volume'
+            element={
+              <VolumeHistory
+                arrayOfVolumeNames={arrayOfVolumeNames}
+                volumeContainersList={volumeContainersList}
+              />
+            }
+          />
+          <Route
+            path='/metrics'
+            element={<Metrics runningList={runningList} />}
+          />
+
+          <Route
+            path='/logs'
+            element={
+              <ProcessLogs
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+            }
+          />
+          <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
+          <Route
+            path='/yml'
+            element={
+              <Yml
+                networkList={networkList}
+                composeymlFiles={composeymlFiles}
+              />
+            }
+          />
+          <Route
+            path='/images'
+            element={
+              <ImagesUser
+                runIm={helper.runIm}
+                removeIm={helper.removeIm}
+                addRunningContainers={addRunningContainers}
+                refreshImagesList={refreshImagesList}
+                imagesList={imagesList}
+                runningList={runningList}
+              />
+            }
+          />
+          <Route
+            path='/running'
+            element={
+              <ContainersUser
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <Settings
+                runningList={runningList}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                stoppedList={stoppedList}
+                runStopped={helper.runStopped}
+                refreshRunningContainers={refreshRunningContainers}
+                runStoppedContainer={runStoppedContainer}
+                phoneNumber={phoneNumber}
+                memoryNotificationList={memoryNotificationList}
+                cpuNotificationList={cpuNotificationList}
+                stoppedNotificationList={stoppedNotificationList}
+              />
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );

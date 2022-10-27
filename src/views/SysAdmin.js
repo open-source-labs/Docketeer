@@ -127,7 +127,7 @@ const SysAdmin = () => {
   };
 
   useEffect(() => {
-    initDatabase();
+    // initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);

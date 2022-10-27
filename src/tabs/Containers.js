@@ -91,21 +91,10 @@ const Containers = (props) => {
       ]
     };
 
-    let imageName =''
-    for (let i = 0; i < props.imagesList.length; i++) {
-      console.log('inside for loop Container ID: ', container.ID)
-      console.log('inside for loop image match: ', props.imagesList[i].imgid)
-      if (props.imagesList[i].imgid === container.ID) {
-        imageName = props.imagesList[i].reps
-        break
-      }
-    }
-
     return (
       <div className='box box-running' key={`runningBox-${i}`}>
         <div className='box-label'>
           <h3>{container.Name}</h3>
-          <p>Image: {imageName}</p>
           <p>ID: {container.ID}</p>
         </div>
         <div className='box-info'>

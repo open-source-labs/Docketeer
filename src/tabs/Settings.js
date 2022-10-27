@@ -301,10 +301,20 @@ const Settings = (props) => {
         return response;
       });
   };
+  //! updateState is not being called anywhere...so not really sure if this is actually happening.
+  const updateState = async () => {
+    const output = await getData();
+    output.forEach((el) => {
+      stateObject[el.id] = el.github_url;
+    });
+  };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
+    //console logs to demonstrate
+    console.log('githubLink tempGithubLink check: ', tempGithubLink)
+    console.log('test slice',tempGithubLink[event.target.id].slice(0,22))
     const example = "https://api.github.com"
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');

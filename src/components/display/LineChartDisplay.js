@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
-import { DataGrid } from '@mui/x-data-grid';
-import { FormControlLabel, Checkbox } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
 
   //! Create a try catch to properly handle errors on line 64
 /**
@@ -210,8 +210,8 @@ const LineChartDisplay = () => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date = new Date(Date.parse(new Date()) - 22629746000)
+    //pulling the current time, and then setting it back to one month ago to check for github commit logs
+    let date = new Date(Date.parse(new Date()) - 2629746000)
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
@@ -264,19 +264,30 @@ const LineChartDisplay = () => {
   ]
   gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
-    const rows = [];
-    el[name].forEach((ob, index) => {
+    const li = [
+      <tr key={`tr ${index}`}>
+        <th>Date</th>
+        <th>Time</th>
+        <th>URL</th>
+        <th>Author</th>
+      </tr>
+    ];
+    el[name].forEach((ob) => {
       let author = '';
       let date = 'n/a';
       let time = 'n/a';
       let url = 'n/a';
       let message = 'n/a';
       if (ob.time.length) {
+        console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
-        url = ob.url;
-        message = ob.message;
-
+        text = 'Github Commits';
+        url = (
+          <a href={ob.url} target='_blank' rel='noreferrer'>
+            {text}
+          </a>
+        );
         time = time.split('T');
         date = time[0];
         time = time[1];

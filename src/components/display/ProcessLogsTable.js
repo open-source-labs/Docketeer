@@ -7,8 +7,7 @@ import * as actions from '../../redux/actions/actions';
 
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
-import { CSVLink } from 'react-csv';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
 
 /**
  * Displays process logs as table
@@ -36,7 +35,7 @@ const ProcessLogsTable = () => {
 
   const [btnIdList, setBtnIdList] = useState([id]);
   const [selectedContainerNames, setSelectedContainerNames] = useState([initCont.Name]);
-  const[rows, setRows] = useState([])
+  const [rows, setRows] = useState([]);
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
@@ -62,7 +61,7 @@ const ProcessLogsTable = () => {
     { field: 'container', headerName: 'Container', width: 150 },
     { field: 'type', headerName: 'Log Type', width: 120 },
     { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 550 }
+    { field: 'message', headerName: 'Message', width: 400 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -104,6 +103,7 @@ const ProcessLogsTable = () => {
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
    const newRows = [];
+
 
     if(stdout) {
       stdout.forEach((log, index) => {

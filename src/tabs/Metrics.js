@@ -1,9 +1,9 @@
 /* eslint-disable no-tabs */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { convertToMetricsArr } from '../module/utils/parseContainerFormat';
-import { Pie } from 'react-chartjs-2';
-import LineChartDisplay from '../components/display/LineChartDisplay.js';
+import { convertToMetricsArr } from '../helper/parseContainerFormat';
+import { Pie, Chart } from 'react-chartjs-2';
+import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**
  * Display general metrics
@@ -36,18 +36,12 @@ const Metrics = ({ runningList }) => {
   };
 
   const options = {
-    tooltips: {
-      enabled: false,
-    },
-    title: {
-      display: true,
-      text: 'MEMORY',
-      fontSize: 23,
-    },
-    legend: { display: false, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
+      title: { display: true, text: 'MEMORY', font: {size: 20}},
+      tooltips: { enabled: true, mode: 'index' },
+      legend: {display: false},
       datalabels: {
         formatter: (value, ctx) => {
           let sum = 0;
@@ -64,18 +58,12 @@ const Metrics = ({ runningList }) => {
   };
 
   const options2 = {
-    tooltips: {
-      enabled: false,
-    },
-    title: {
-      display: true,
-      text: 'CPU',
-      fontSize: 23,
-    },
-    legend: { display: false, position: 'bottom' },
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
+      title: { display: true, text: 'CPU', font: {size: 20}},
+      tooltips: { enabled: false },
+      legend: {display: false},
       datalabels: {
         formatter: (value, ctx) => {
           let sum = 0;
@@ -102,9 +90,14 @@ const Metrics = ({ runningList }) => {
       <div className="metric-section-title">
         <h3>Aggregate</h3>
       </div>
-      <div className="aggregate-conatiner">
-        <div className="pieChart">
-          <Pie data={cpu} options={options2} width={2000} height={1300} />
+      <div className='aggregate-conatiner'>
+        <div className='pieChart'>
+          <Chart 
+            type='pie'
+            data={cpu} 
+            options={options2} 
+            width={2000} 
+            height={1300} />
           <div className='legend-container'>
             <div className='legend-section'>
               <div className='avaliable-box'></div>
@@ -117,8 +110,8 @@ const Metrics = ({ runningList }) => {
           </div>
         </div>
 
-        <div className="pieChart">
-          <Pie data={memory} options={options} width={2000} height={1300} />
+        <div className='pieChart'>
+          <Pie key={'pie-memory'} data={memory} options={options} width={2000} height={1300} />
           <div className='legend-container'>
             <div className='legend-section'>
               <div className='avaliable-box'></div>
@@ -146,7 +139,9 @@ const Metrics = ({ runningList }) => {
           </div>
         </div>
       </div>
-      <LineChartDisplay />
+      <LineChartDisplay 
+        key = {'Line-Chart'}
+      />
     </div>
   );
 };

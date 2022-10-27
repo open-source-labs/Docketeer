@@ -49,8 +49,9 @@ initController.gitURL = (req, res, next) => {
   // pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
   db.query2(`SELECT github_url FROM containers where name = $1`, parameter)
     .then((data) => {
+      if (!data.rows[0]) return next();
       console.log('GitHubURL: ', data)
-      res.locals.url = data.row[0].github_url;
+      res.locals.url = data;
       return next();
     })
     .catch((err) => {

@@ -118,7 +118,6 @@ const Settings = (props) => {
       .then((data) => data.json())
       .then((response) => {
         fetchNotificationSettings();
-        console.log('Insert container and settings completed: ', response);
       })
       .catch((err) => {
         console.log(err);
@@ -141,7 +140,6 @@ const Settings = (props) => {
       .then((data) => data.json())
       .then((response) => {
         fetchNotificationSettings();
-        console.log('Delete container settings completed: ', response);
       })
       .catch((err) => {
         console.log(err);
@@ -205,7 +203,6 @@ const Settings = (props) => {
         })
           .then((data) => data.json())
           .then((response) => {
-            console.log(`Inserted ${response} into users table.`);
             props.addPhoneNumber(mobileNumber);
             showVerificationInput = true;
             verifyMobileNumber();
@@ -245,7 +242,6 @@ const Settings = (props) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          console.log(`Inserted ${frequency} minutes into users table.`);
           props.addNotificationFrequency(frequency);
           setTempNotifFreq('');
         })
@@ -277,7 +273,6 @@ const Settings = (props) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          console.log(`Inserted ${frequency} minutes into users table.`);
           props.addMonitoringFrequency(frequency);
           setTempMonitoringFrequency('');
         })
@@ -340,7 +335,6 @@ const Settings = (props) => {
         console.log(response);
         return response;
       });
-    // return query(queryType.GET_CONTAINERS, []);
   };
   //! updateState is not being called anywhere...so not really sure if this is actually happening.
   const updateState = async () => {
@@ -353,9 +347,13 @@ const Settings = (props) => {
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
 
   const githubLink = (event) => {
-    if (!tempGithubLink)
-      alert('Please provide a link in accordance with provided example');
-    if (!event.target.id) alert('Please provide a container ID');
+    //console logs to demonstrate
+    console.log('githubLink tempGithubLink check: ', tempGithubLink)
+    console.log('test slice',tempGithubLink[event.target.id].slice(0,22))
+    const example = "https://api.github.com"
+    if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
+      return alert('Please provide a link in accordance with provided example');
+    if (!event.target.id) return alert('Please provide a container ID');
     else {
       const github_url = tempGithubLink[event.target.id];
       fetch('http://localhost:3000/settings/gitLinks', {
@@ -371,8 +369,7 @@ const Settings = (props) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          console.log('githubLink: ', response);
-          setTempGithubLink(stateObject);
+          document.getElementById('gittext').value = ''
           return response;
         })
         .catch((err) => {
@@ -579,8 +576,6 @@ const Settings = (props) => {
         </TableCell>
         <TableCell align='center'>
           <TextField
-            // Theme: ml: 5, mb: 15, width: 220, verticalAlign
-            // theme={theme.root}
             sx={{
               ml: 5,
               mb: 15,
@@ -590,7 +585,6 @@ const Settings = (props) => {
             label='Main repository url'
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
             variant='outlined'
-            value={tempGithubLink[container.ID]}
             onChange={(e) => {
               stateObject[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
@@ -600,8 +594,6 @@ const Settings = (props) => {
         </TableCell>
         <TableCell>
           <Button
-            // className={classes.button}
-            // // theme={theme.button}
             sx={{
               ml: 1,
               width: 100
@@ -610,7 +602,6 @@ const Settings = (props) => {
             variant='contained'
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
-            //!need to reset the field when button is clicked
             onClick={(e) => githubLink(e)}
           >
             Confirm
@@ -660,7 +651,6 @@ const Settings = (props) => {
                 sx={{
                   ml: 1,
                   width: 100
-                  // Missing verticalAlign: 'top'
                 }}
                 size='medium'
                 variant='contained'
@@ -672,8 +662,6 @@ const Settings = (props) => {
             ) : (
               <CheckCircleIcon
                 fontSize='large'
-                // className={classes.verifiedIcon}
-                // // theme={theme.verifiedIcon}
               />
             )}
           </div>
@@ -697,7 +685,6 @@ const Settings = (props) => {
                 sx={{
                   ml: 1,
                   width: 100
-                  // Missing verticalAlign: 'top'
                 }}
                 size='medium'
                 variant='contained'
@@ -727,9 +714,7 @@ const Settings = (props) => {
             sx={{
               ml: 1,
               width: 100
-              // Missing verticalAlign: 'top'
             }}
-            // // theme={theme.button}
             size='medium'
             variant='contained'
             name='submit-contact-pref'
@@ -772,7 +757,6 @@ const Settings = (props) => {
               sx={{
                 ml: 1,
                 width: 100
-                // Missing verticalAlign: 'top'
               }}
               size='medium'
               variant='contained'
@@ -786,8 +770,6 @@ const Settings = (props) => {
         <div>
           <form className='settingsForm' autoComplete='off'>
             <TextField
-              // className={classes.textfield}
-              // // theme={theme.root}
               id='monitortext'
               label='Monitoring frequency, min'
               helperText='* 2 min is recommended'
@@ -802,7 +784,6 @@ const Settings = (props) => {
               sx={{
                 ml: 1,
                 width: 100
-                // Missing verticalAlign: 'top'
               }}
               size='medium'
               variant='contained'
@@ -817,8 +798,6 @@ const Settings = (props) => {
         <p>2. Configure notification thresholds</p>
         <br />
         <form
-          // className={classes.root}
-          // // theme={theme.root}
           autoComplete='off'
         >
           Current CPU Threshold: {`>${cpu_threshold}%`}
@@ -831,14 +810,12 @@ const Settings = (props) => {
               variant='outlined'
               value={cpuThreshold}
               onChange={handleCpuChange}
-              // placeholder={`${cpu_threshold}`}
               size='small'
             />
             <Button
               sx={{
                 ml: 1,
                 width: 100
-                // Missing verticalAlign: 'top'
               }}
               size='medium'
               variant='contained'
@@ -857,14 +834,12 @@ const Settings = (props) => {
               variant='outlined'
               value={memThreshold}
               onChange={handleMemChange}
-              // placeholder={`${mem_threshold}`}
               size='small'
             />
             <Button
               sx={{
                 ml: 1,
                 width: 100
-                // Missing verticalAlign: 'top'
               }}
               size='medium'
               variant='contained'
@@ -893,7 +868,6 @@ const Settings = (props) => {
             sx={{
               ml: 1,
               width: 100
-              // Missing verticalAlign: 'top'
             }}
             size='medium'
             variant='contained'

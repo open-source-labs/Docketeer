@@ -6,6 +6,7 @@ import store from '../../renderer/store';
 import * as actions from '../../actions/actions';
 import { NetworkCellSharp, NextWeek } from '@material-ui/icons';
 import { username } from '../../../security/email';
+// TM - no react-redux imports?
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -31,8 +32,7 @@ export const handleNewUser = (e) => {
       'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900');
     return;
   }
-  console.log('sending user data to createNewUser');
-  // return createNewUser(email, username, password, phone);
+
   createNewUser(email, username, password, phone);
 };
 
@@ -103,7 +103,8 @@ export const createNewUser = (email, username, password, phone) => {
 
       window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
-
+  
+    }). then (() =>{
       getUpdatedUserList();
     })
     .catch((err) => {
@@ -113,7 +114,16 @@ export const createNewUser = (email, username, password, phone) => {
 
 
 export const getUpdatedUserList = () => {
-  console.log('store username: ', store.userInfo.username);
+
+  // TM: Added this - do we need to use mapStateToProps to access the signed-in user's info?
+// const mapStateToProps = state => {
+//   console.log(state);
+//   return{
+//   username: state.session.userName,
+//   token: state.session.token
+// }};
+
+
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
@@ -126,14 +136,13 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('this is data from newUserHelper', data);
       updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);
-    })
+    });
 };
 
-export const updateUserList = (data) => {  
+export const updateUserList = (data) => {  // TM: react-redux is not imported but this is still working... redux is stupid
   store.dispatch(actions.updateUserList(data));
 };

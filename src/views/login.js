@@ -150,7 +150,11 @@ const Login = () => {
                 m: 1
               }}
             >
-              Login
+              {/* Login */}
+              {/* FOR DEBUGGING */}
+              <Link style={{ textDecoration: 'none', color: '#fff' }} to='/'>
+                Login
+              </Link>
             </Button>
             <hr />
             <div

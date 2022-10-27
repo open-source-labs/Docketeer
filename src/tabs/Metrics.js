@@ -148,7 +148,6 @@ const Metrics = ({ runningList }) => {
         </div>
       </div>
       <LineChartDisplay 
-        key='Line-Chart'
       />
     </div>
   );

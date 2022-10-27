@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
+/**
+ * Render Volume History
+ * 
+ * @param {*} props
+ */
 const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState('');
-  console.log(props)
   // Container details
   const containerDetails = (container, i) => {
-    // unique key error here, fix required
     return (
       <div
         className="volume-container-details"

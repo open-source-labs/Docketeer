@@ -10,9 +10,9 @@ export const handleNewUser = (e) => {
 
   const username = document.getElementById('signupUsername').value;
   const password = document.getElementById('signupPassword').value;
-  const confirmationPassword = document.getElementById(
-    'signupPasswordConfirmation'
-  ).value;
+  // const confirmationPassword = document.getElementById(
+  //   'signupPasswordConfirmation'
+  // ).value;
   const email = document.getElementById('signupEmail').value;
   const phone = document.getElementById('signupPhone').value;
 

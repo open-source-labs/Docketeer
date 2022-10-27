@@ -7,7 +7,7 @@ const Authentication = () => {
   const session = useSelector((state) => state.session.isLoggedIn);
   // if session is false navigate to login, if session is true navigate to outlet
   return (
-    session ? <Navigate to='/app' /> : <Navigate to='/login'/>
+    session ? <Navigate to='/app' /> : <Navigate to='/login' />
   )
 }
 

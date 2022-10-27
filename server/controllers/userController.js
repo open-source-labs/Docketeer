@@ -12,8 +12,9 @@ userController.createUser = (req, res, next) => {
 
   const { username, email, phone } = req.body;
   const { hash } = res.locals;
-  
-  const createUser = 'INSERT INTO users (username, email, password, phone, role) VALUES ($1, $2, $3, $4, \'user\') RETURNING *;';
+
+  const createUser =
+    "INSERT INTO users (username, email, password, phone, role) VALUES ($1, $2, $3, $4, 'user') RETURNING *;";
   const userDetails = [username, email, hash, phone];
 
   if (username && hash) {
@@ -33,9 +34,9 @@ userController.createUser = (req, res, next) => {
 
 // get all users (system admin)
 userController.getAllUsers = (req, res, next) => {
-  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
     return next();
-  }else{
+  } else {
     const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
     db.query(allUsers)
       .then((response) => {
@@ -54,7 +55,7 @@ userController.getAllUsers = (req, res, next) => {
 // get information for one user
 userController.getOneUser = (req, res, next) => {
   const { _id } = req.body;
-  
+
   const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
   db.query(oneUser)
@@ -80,7 +81,8 @@ userController.verifyUser = (req, res, next) => {
 
   db.query(getUser)
     .then((data) => {
-      if (data.rows[0]) res.locals.user = data.rows[0]; else res.locals.error = 'Incorrect username or password.';
+      if (data.rows[0]) res.locals.user = data.rows[0];
+      else res.locals.error = 'Incorrect username or password.';
       return next();
     })
     .catch((err) => {
@@ -147,8 +149,9 @@ userController.switchUserRole = (req, res, next) => {
 
 userController.updatePassword = (req, res, next) => {
   // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
-    res.locals.error = 'Incorrect password. Please enter the correct password to update it.';
+  if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
+    res.locals.error =
+      'Incorrect password. Please enter the correct password to update it.';
     return next();
   }
   const { hash } = res.locals;
@@ -156,8 +159,9 @@ userController.updatePassword = (req, res, next) => {
 
   // Note: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
 
-  const query = 'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
-  const parameters = [ hash, username ];
+  const query =
+    'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
+  const parameters = [hash, username];
 
   db.query(query, parameters)
     .then((data) => {
@@ -173,11 +177,10 @@ userController.updatePassword = (req, res, next) => {
 };
 
 userController.updatePhone = (req, res, next) => {
-
   const { username, phone } = req.body;
 
   const query = 'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
-  const parameters = [ phone, username ];
+  const parameters = [phone, username];
 
   db.query(query, parameters)
     .then((data) => {
@@ -196,7 +199,7 @@ userController.updateEmail = (req, res, next) => {
   const { username, email } = req.body;
 
   const query = 'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
-  const parameters = [ email, username ];
+  const parameters = [email, username];
 
   db.query(query, parameters)
     .then((data) => {

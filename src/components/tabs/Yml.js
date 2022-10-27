@@ -27,7 +27,7 @@ const Yml = () => {
 
   const getContainerStacks = (data) =>
     dispatch(actions.getContainerStacks(data));
-  const composeDown = (data) => dispatch(actions.composeDown(data));
+  // const composeDown = (data) => dispatch(actions.composeDown(data));
 
   useEffect(() => {
     // upon page render, get list of currently running container networks

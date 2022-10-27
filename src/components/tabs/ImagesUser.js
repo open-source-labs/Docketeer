@@ -4,10 +4,8 @@ import * as helper from '../helper/commands';
 
 /**
  * Render Images of the user has
- * 
- * @param {*} props
  */
-const Images = (props) => {
+const Images = ({ imagesList }) => {
   const [repo, setRepo] = useState('');
 
   const handleClick = (e) => {
@@ -15,7 +13,7 @@ const Images = (props) => {
     helper.pullImage(repo);
   };
 
-  const renderImagesList = props.imagesList.map((ele, i) => {
+  const renderImagesList = imagesList.map((ele, i) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
@@ -25,14 +23,17 @@ const Images = (props) => {
         <div className="stopped-info">
           <ul>
             <li>
-              <strong>ID: </strong>{ele['imgid']}
+              <strong>ID: </strong>
+              {ele['imgid']}
             </li>
             <li>
-              <strong>Size: </strong>{ele['size']}
+              <strong>Size: </strong>
+              {ele['size']}
             </li>
           </ul>
         </div>
-        <br/><br/>
+        <br />
+        <br />
       </div>
     );
   });

@@ -103,6 +103,7 @@ const SysAdmin = () => {
   };
 
   useEffect(() => {
+
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);

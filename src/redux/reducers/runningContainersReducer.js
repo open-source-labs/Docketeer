@@ -9,7 +9,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();
-      for (let container of action.payload) {
+      for (const container of action.payload) {
         newRunningList.push(container);
       }
       return { ...state, runningList: newRunningList };
@@ -45,7 +45,7 @@ export default function (state = initialState, action) {
 
     case types.REFRESH_RUNNING_CONTAINERS:
       const newRunningList2 = [];
-      for (let container of action.payload) {
+      for (const container of action.payload) {
         newRunningList2.push(container);
       }
       return { ...state, runningList: newRunningList2 };

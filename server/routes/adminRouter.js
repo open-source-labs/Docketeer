@@ -1,6 +1,6 @@
 /**
  * @module AdminRouter
- * @description Routes all requests to admin endpoint 
+ * @description Routes all requests to admin endpoint
  */
 const express = require('express');
 const userController = require('../controllers/userController');
@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/', 
   userController.getAllUsers, 
   (req, res) => {
-    if(res.locals.error) return res.status(200).json(res.locals.error);
+    if (res.locals.error) return res.status(200).json(res.locals.error);
     return res.status(200).json(res.locals.users);
   }
 );

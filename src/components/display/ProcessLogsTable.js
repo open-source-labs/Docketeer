@@ -135,7 +135,7 @@ const ProcessLogsTable = () => {
   return (
     <div className='renderContainers'>
 
-      <div className='settings-container'>
+      <div className="settings-container">
         <form>
           <h1 style={{margin: 10}}>Container Process Logs</h1>
 

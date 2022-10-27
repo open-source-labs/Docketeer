@@ -15,28 +15,28 @@ export default function (state = initialState, action) {
         phoneNumber: action.payload
       };
 
-    case types.ADD_MEMORY_NOTIFICATION_SETTING:
+    case types.ADD_MEMORY_NOTIFICATION_SETTING: 
       const memoryNotificationList = new Set(action.payload);
       return {
         ...state,
         memoryNotificationList
       };
 
-    case types.ADD_CPU_NOTIFICATION_SETTING:
+    case types.ADD_CPU_NOTIFICATION_SETTING: 
       const cpuNotificationList = new Set(action.payload);
       return {
         ...state,
         cpuNotificationList
       };
 
-    case types.ADD_STOPPED_NOTIFICATION_SETTING:
+    case types.ADD_STOPPED_NOTIFICATION_SETTING: 
       const stoppedNotificationList = new Set(action.payload);
       return {
         ...state,
         stoppedNotificationList
       };
 
-    case types.REMOVE_MEMORY_NOTIFICATION_SETTING:
+    case types.REMOVE_MEMORY_NOTIFICATION_SETTING: 
       const newMemoryNotificationList = [];
       state.memoryNotificationList.forEach((containerId) => {
         if (containerId !== action.payload)
@@ -47,7 +47,7 @@ export default function (state = initialState, action) {
         memoryNotificationList: newMemoryNotificationList
       };
 
-    case types.REMOVE_CPU_NOTIFICATION_SETTING:
+    case types.REMOVE_CPU_NOTIFICATION_SETTING: 
       const newCpuNotificationList = [];
       state.cpuNotificationList.forEach((containerId) => {
         if (containerId !== action.payload)
@@ -58,11 +58,11 @@ export default function (state = initialState, action) {
         cpuNotificationList: newCpuNotificationList
       };
 
-    case types.REMOVE_STOPPED_NOTIFICATION_SETTING:
+    case types.REMOVE_STOPPED_NOTIFICATION_SETTING: 
       const newStoppedNotificationList = [];
       state.stoppedNotificationList.forEach((containerId) => {
         if (containerId !== action.payload)
-          stoppedNotificationList.push(containerId);
+          newStoppedNotificationList.push(containerId);
       });
       return {
         ...state,

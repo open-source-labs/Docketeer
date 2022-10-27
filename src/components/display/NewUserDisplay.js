@@ -12,7 +12,7 @@ import {
   handleNewUser,
   checkPasswordLength,
   confirmPassword,
-  checkPhone
+  checkPhone,
 } from '../helper/newUserHelper';
 
 

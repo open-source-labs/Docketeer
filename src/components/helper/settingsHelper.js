@@ -103,7 +103,7 @@ export const checkPasswordLength = () => {
 
 export const handleEmailUpdate = () => {
   const email = document.getElementById('update-email-input').value;
-  const emailAlert = document.getElementById('update-email-alert');
+  // const emailAlert = document.getElementById('update-email-alert');
 
   const state = store.getState();
   const username = state.session.username;
@@ -140,7 +140,7 @@ export const updateEmail = (username, email) => {
 
 export const handlePhoneUpdate = () => {
   const newPhoneNumber = document.getElementById('update-phone-input').value;
-  const newPhoneAlert = document.getElementById('update-phone-alert');
+  // const newPhoneAlert = document.getElementById('update-phone-alert');
 
   if (!checkPhone(newPhoneNumber)) {
     window.alert(

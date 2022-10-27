@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
@@ -271,10 +270,21 @@ const LineChartDisplay = () => {
       let url = 'n/a';
       let message = 'n/a';
       if (ob.time.length) {
+        console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
         url = ob.url;
-        message = ob.message;
+        message = '';
+        if (ob.message){
+          if (ob.message.includes('<')){
+            for (let i = 0; i < ob.message.length; i++) {
+              if (ob.message[i] === '<') break
+              message += ob.message[i];
+            }
+          } else {
+            message = ob.message
+          }
+        }
 
         time = time.split('T');
         date = time[0];
@@ -325,7 +335,7 @@ const LineChartDisplay = () => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color='primary'
+              color="primary"
               inputProps={{ 'aria-label': containerNameKey }}
             />
           }
@@ -399,10 +409,10 @@ const LineChartDisplay = () => {
 
   return (
     <div>
-      <div className='metric-section-title'>
+      <div className="metric-section-title">
         <h3>Over Time</h3>
       </div>
-      <div className='metrics-options-form'>
+      <div className="metrics-options-form">
         <form
           onChange={(e) => {
             handleChange(e);
@@ -415,7 +425,7 @@ const LineChartDisplay = () => {
             value='4'
             defaultChecked
           ></input>
-          <label htmlFor='4-hours'> 4 hours</label>
+          <label htmlFor="4-hours"> 4 hours</label>
           <input
             type='radio'
             id='12-hours'
@@ -448,7 +458,7 @@ const LineChartDisplay = () => {
       <div className='allCharts'>
         <Bar key='Bar-Read' data={readIOObj} options={readIOOptions} />
       </div>
-      <div className='metric-section-title'>
+      <div className="metric-section-title">
         <h3>GitHub History</h3>
       </div>
         {gitData}

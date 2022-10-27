@@ -1,7 +1,11 @@
-import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import Images from '../src/tabs/Images';
+/**        Docketeer 7.0
+ * These tests do not work as enzyme is highly depricated and does not communicate with React 18
+ */
+
+import React from "react";
+import { configure, shallow } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import Images from "../src/components/tabs/Images";
 
 configure({ adapter: new Adapter() });
 function shallowSetup() {

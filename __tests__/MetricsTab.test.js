@@ -1,3 +1,7 @@
+/**        Docketeer 7.0
+ * These tests do not work as enzyme is highly depricated and does not communicate with React 18
+ */
+
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';

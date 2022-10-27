@@ -48,7 +48,7 @@ const Login = () => {
   // Material UI
   // const classes = useStyles();
 
-  //// Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
+  // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
   useEffect(() => {
     fetch('http://localhost:3000/db')
       .then((response) => {
@@ -62,7 +62,7 @@ const Login = () => {
       });
   }, []);
 
-  //// callback function invoked when 'login' button is clicked
+  // callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {
     e.preventDefault(); // prevents form submit from reloading page
     const usernameInput = document.getElementById('username');
@@ -110,8 +110,8 @@ const Login = () => {
   // Upon successful login, redirect to /app location and render the App component
 
   // // Note: this could be re-worked, just thinking about it this looks like poor security design since loggedIn is a local state variable on client end which can be hardcoded to true. Rather, the server should verify credentials and then send client either SSID to access next endpoint or another means.
-  if (session) {
-    return (
+  // if (session) {
+  //   return (
       // Deprecated
       // <Router
       // // history={BrowserHistory}
@@ -125,9 +125,9 @@ const Login = () => {
       //   </Routes>
       // </Router>
 
-      <Navigate to='/app' />
-    );
-  }
+  //     <Navigate to='/app' />
+  //   );
+  // }
 
   // Else render the login page
   return (
@@ -169,7 +169,7 @@ const Login = () => {
             >
               {/* Login */}
               {/* FOR DEBUGGING */}
-              <Link to='/app'>Login</Link>
+              <Link to='/'>Login</Link>
             </Button>
             <hr />
             <div

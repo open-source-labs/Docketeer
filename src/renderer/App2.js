@@ -4,12 +4,14 @@ import { Routes, Route, Navigate, Link } from 'react-router-dom';
 // Components
 import Login from '../components/login/login.js';
 import App from '../components/App';
+import Authentication from '../components/Authentication'
 // import UserView from '../components/views/UserView';
 
 export const App2 = () => {
+  //check 
   return (
     <>
-      <ul>
+      {/* <ul>
         <Link style={{ color: 'white', fontSize: '2em' }} to='/login'>
           Login
         </Link>
@@ -21,22 +23,12 @@ export const App2 = () => {
         <Link style={{ color: 'white', fontSize: '2em' }} to='/app/UserView'>
           UserView
         </Link>
-        <br />
-        <Link style={{ color: 'white', fontSize: '2em' }} to='/app/AdminView'>
-          AdminView
-        </Link>
-        <br />
-        <Link
-          style={{ color: 'white', fontSize: '2em' }}
-          to='/app/SysAdminView'
-        >
-          SysAdminView
-        </Link>
-      </ul>
+      </ul> */}
       <Routes>
         <Route path='/login' element={<Login />} />
-        <Route path='/app/*' element={<App />} />
-        {/* <Route path='/UserView/*' element={<UserView />} /> */}
+        <Route path='/' element={<Authentication />}>
+          <Route path='/*' element={<App />} />
+        </Route>
       </Routes>
     </>
   );

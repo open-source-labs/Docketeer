@@ -8,7 +8,6 @@ export default () => {
   })
   .then((data) => data.json())
   .then((response) => {
-    console.log(response);
     if (response.error !== null){
       alert(`Make sure Docker Desktop is running. \n\n ${response.error}`);
       return

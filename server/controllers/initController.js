@@ -41,16 +41,11 @@ initController.timeZone = (req, res, next) => {
     });
 };
 
-
-//This query gets invoked on line 420 of LineChartDisplay but unsure of when it runs.
-  //Can't get it to console log and need to figure out what it needs to return. At first glance, looks like just the query response
 initController.gitURL = (req, res, next) => {
   const parameter = [req.body.githubUrl]
-  // pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
   db.query2(`SELECT github_url FROM containers where name = $1`, parameter)
     .then((data) => {
       if (!data.rows[0]) return next();
-      console.log('GitHubURL: ', data)
       res.locals.url = data;
       return next();
     })
@@ -60,20 +55,13 @@ initController.gitURL = (req, res, next) => {
     });
 }
 
-
 //inserting the metrics pulled from the running containers and stopped containers from Docker into the Database
 initController.addMetrics = (req, res, next) => {
-  //body comes back with container names as the keys, each key is an object filled with the container data
   const containers = Object.keys(req.body.containers);
-  //query string to insert the metric data into the table.
   const queryString = `INSERT INTO metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-  //need to run 1 query per objects on the req.body
-    //doens't need to be async because we don't return anyhting?
   containers.forEach((container) => {
-    //object deconstructing for each of the containers to pass them in as parameters for the query
     const { ID, names, cpu, mem, memuse, net, block, pid } = req.body.containers[container]
     const parameters = [ ID, names, cpu, mem, memuse, net, block, pid ]
-    //querying the database with the string and parameters. Don't need to return anything
     db.query2(queryString, parameters)
     .then(() => {
     })

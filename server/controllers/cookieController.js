@@ -27,7 +27,6 @@ cookieController.setAdminCookie = (req, res, next) => {
     res.cookie('adminType', 'admin', { httpOnly: true });
     res.locals.cookie = 'admin';
   }
-
   return next();
 };
 

@@ -21,7 +21,6 @@ app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
 app.use(cors()); // enables ALL cors requests
 
 app.use('/test', (req, res) => {
-  // res.sendStatus(200);
   res.status(200).json({
     success: true
   });

@@ -121,6 +121,9 @@ const ProcessLogsTable = () => {
           id: Math.random() * 100
         });
       });
+
+      setRows(newRows);
+      setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
     }
    setRows(newRows)
   }

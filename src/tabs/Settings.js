@@ -315,7 +315,7 @@ const Settings = (props) => {
     });
   };
 
-  
+
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
@@ -818,9 +818,6 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-            <br />
-            <p>2. Receive notification if container stops</p>
-            <FormControlLabel value={true} control={<Checkbox />} label='' />
             <br />
             <br />
             <p>3. Stopped containers:</p>

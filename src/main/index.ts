@@ -39,6 +39,7 @@ function createMainWindow() {
       })
     );
   }
+}
 
     electron.app.on('ready', createMainWindow)
     
@@ -55,6 +56,7 @@ function createMainWindow() {
       if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
     })
     
+
 
   /*               Docketeer 7.0    
   ** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.

@@ -11,7 +11,6 @@ const apiController = require('../controllers/apiController');
 
 const router = express.Router();
 
-// may move to login router
 // only call middleware when system admin logs in
 router.get('/', userController.getAllUsers, (req, res) => {
   return res.status(200).json(res.locals.users);

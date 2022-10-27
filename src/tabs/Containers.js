@@ -59,7 +59,6 @@ const Containers = (props) => {
   });
 
   const renderRunningList = props.runningList.map((container, i) => {
-    console.log('Props Inside RenderRunningList: ', props)
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);

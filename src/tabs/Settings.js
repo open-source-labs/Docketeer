@@ -98,8 +98,8 @@ const Settings = (props) => {
     cpuNotificationList: PropTypes.object.isRequired,
     stoppedNotificationList: PropTypes.object.isRequired
   };
-//! All of these query searches are for the notifacation settings. 9 Queries total
-//!Probably make new routes/controllers for these.
+  //! All of these query searches are for the notifacation settings. 9 Queries total
+  //!Probably make new routes/controllers for these.
   //!...Have to move to the backend
 
   // handle check
@@ -128,7 +128,7 @@ const Settings = (props) => {
       console.log(err);
     })
   };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
   // const handleCheckSetting = (containerId, containerName, metricName) => {
   //   // add to DB
   //   query(
@@ -159,7 +159,7 @@ const Settings = (props) => {
   //     }
   //   );
   // };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   // handle uncheck
   // remove container/metric from DB
@@ -346,7 +346,6 @@ const Settings = (props) => {
   // 4. THEN UPDATE THE STATE
   const [tempNotifFreq, setTempNotifFreq] = useState('');
 
-  //!----------------------------------------------------------------------------------------------------------------//
   const notificationFrequency = () => {
     let frequency = 5;
     if (isNaN(Number(tempNotifFreq)))
@@ -375,6 +374,8 @@ const Settings = (props) => {
       })
     }
   }
+
+  //!----------------------------------------------------------------------------------------------------------------//
   // const notificationFrequency = () => {
   //   // default value for Notification Frequency
   //   let frequency = 5;
@@ -455,7 +456,7 @@ const Settings = (props) => {
   //     );
   //   }
   // };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
@@ -496,19 +497,61 @@ const Settings = (props) => {
     if (!stateObject[el.ID]) stateObject[el.ID] = '';
   });
 
+  //!Not sure if this area is even needed. Looks like they abandoned it for the function below(githubLink);
+  //!----------------------------------------------------------------------------------------------------------------//
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-  // const getData = () => {
-  //   return query(queryType.GET_CONTAINERS, []);
-  // };
-
+  const getData = () => {
+    fetch('http://localhost:3000/settings/gitcontainers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    // return query(queryType.GET_CONTAINERS, []);
+  };
+//! updateState is not being called anywhere...so not really sure if this is actually happening.
   const updateState = async () => {
     const output = await getData();
     output.forEach((el) => {
       stateObject[el.id] = el.github_url;
     });
   };
-
+//!----------------------------------------------------------------------------------------------------------------//
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
+
+  const githubLink = (event) => {
+    if (!tempGithubLink)
+      alert('Please provide a link in accordance with provided example');
+    if (!event.target.id) alert('Please provide a container ID');
+    else {
+      const github_url = tempGithubLink[event.target.id];
+      fetch('http://localhost:3000/settings/gitLinks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: event.target.id,
+          name: event.target.name,
+          url: github_url
+        })
+      })
+        .then((data) => data.json())
+        .then((response) => {
+          console.log('githubLink: ', response);
+          return response;
+        })
+        .catch((err) => {
+          console.log('githubLink: ', err);
+        })
+    }
+  }
+//!----------------------------------------------------------------------------------------------------------------//
   // const githubLink = (event) => {
   //   if (!tempGithubLink)
   //     alert('Please provide a link in accordance with provided example');
@@ -528,6 +571,7 @@ const Settings = (props) => {
   //     );
   //   }
   // };
+//!----------------------------------------------------------------------------------------------------------------//
 
   // Redux: Map state to props
   const _id = useSelector((state) => state.session._id);

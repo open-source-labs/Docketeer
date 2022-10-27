@@ -1,30 +1,15 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/views/SysAdmin.js
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../redux/actions/actions';
-=======
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-
-
-// static imports
-import * as actions from '../../actions/actions';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-<<<<<<< HEAD:src/views/SysAdmin.js
 import Metrics from '../tabs/Metrics';
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
@@ -34,29 +19,14 @@ import UserList from '../tabs/Users';  //* Feature only for SysAdmin
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
-=======
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import UserList from "../tabs/Users";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-<<<<<<< HEAD:src/views/SysAdmin.js
 const SysAdmin = () => {
   let navigate = useNavigate();
-=======
-const SysAdmin = (props) => {
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -75,12 +45,7 @@ const SysAdmin = (props) => {
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-<<<<<<< HEAD:src/views/SysAdmin.js
   const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
-=======
-  const updateUserList = (data) => dispatch(actions.updateUserList(data));
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -115,10 +80,6 @@ const SysAdmin = (props) => {
   // Local state for routers
   const [selected, setSelected] = useState('/');
 
-<<<<<<< HEAD:src/views/SysAdmin.js
-=======
-
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
@@ -299,7 +260,6 @@ const SysAdmin = (props) => {
               Logout
             </button>
           </div>
-<<<<<<< HEAD:src/views/SysAdmin.js
         </div>
       </nav>
       <Routes>
@@ -380,93 +340,6 @@ const SysAdmin = (props) => {
         />
       </Routes>
     </div>
-=======
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/volume">
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          </Route>
-          <Route path="/metrics">
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-
-          <Route path="/logTable/:containerId" >
-            <ProcessLogsTable />
-          </Route>
-
-          <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path="/images">
-            <Images
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          </Route>
-          <Route path="/running">
-            <Containers
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-
-          <Route path="/">
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          </Route>
-
-        </Switch>
-      </div>
-    </Router>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/SysAdmin.js
   );
 };
 

@@ -1,19 +1,8 @@
 /* eslint-disable implicit-arrow-linebreak */
-<<<<<<< HEAD:src/module/utils/notificationsRequester.js
 import store from '../../renderer/store';
 import * as categories from '../../redux/constants/notificationCategories';
 // import memoryNotification from '../../main/slack/memoryNotification.js';
 // import cpuNotification from '../../main/slack/cpuNotification.js';
-=======
-import { ipcRenderer } from 'electron';
-import store from '../../renderer/store';
-import * as categories from '../../constants/notificationCategories'; 
-// object that holds what notifications have been sent
-import memoryNotification from '../../main/slack/memoryNotification.js'
-import cpuNotification  from '../../main/slack/cpuNotification.js'
-const dotenv = require('dotenv');
-dotenv.config();
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/notificationsRequester.js
 const sentNotifications = {};
 let state;
 
@@ -205,13 +194,8 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
-<<<<<<< HEAD:src/module/utils/notificationsRequester.js
           // memoryNotification();
           // cpuNotification();
-=======
-          memoryNotification();
-          cpuNotification(); 
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/notificationsRequester.js
           console.log(
             `** Notification SENT. ${notificationType} 
             containerId: ${containerId} 

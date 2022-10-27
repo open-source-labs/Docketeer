@@ -4,22 +4,14 @@
  */
 
 import store from '../../renderer/store';
-<<<<<<< HEAD:src/module/utils/helper/settingsHelper.js
 import * as actions from '../../redux/actions/actions';
-=======
-import * as actions from '../../actions/actions';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/settingsHelper.js
 
 export const handlePasswordChange = () => {
   const currentPassword = document.getElementById('current-password-input').value;
   const newPassword = document.getElementById('new-password-input').value;
-<<<<<<< HEAD:src/module/utils/helper/settingsHelper.js
   const newPasswordConfirmation = document.getElementById(
     'new-password-confirmation-input'
   ).value;
-=======
-  const newPasswordConfirmation = document.getElementById('new-password-confirmation-input').value;
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/settingsHelper.js
 
   if (!checkCurrentPassword()) {
     window.alert('Warning: Please enter your current password');
@@ -41,7 +33,6 @@ export const handlePasswordChange = () => {
 export const updatePassword = (password, newPassword) => {
   const state = store.getState();
   const username = state.session.username;
-<<<<<<< HEAD:src/module/utils/helper/settingsHelper.js
   fetch('http://localhost:3000/account/password', {
     method: 'POST',
     headers: {
@@ -53,20 +44,6 @@ export const updatePassword = (password, newPassword) => {
       newPassword: newPassword
     })
   })
-=======
-  fetch('http://localhost:3000/account/password', 
-    { 
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password: password,
-        newPassword: newPassword,
-      })
-    })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/settingsHelper.js
     .then((response) => {
       return response.json();
     })
@@ -136,7 +113,6 @@ export const handleEmailUpdate = () => {
 };
 
 export const updateEmail = (username, email) => {
-<<<<<<< HEAD:src/module/utils/helper/settingsHelper.js
   fetch('http://localhost:3000/account/email', {
     method: 'POST',
     headers: {
@@ -147,19 +123,6 @@ export const updateEmail = (username, email) => {
       email
     })
   })
-=======
-  fetch('http://localhost:3000/account/email', 
-    { 
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-      })
-    })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/settingsHelper.js
     .then((response) => {
       return response.json();
     })
@@ -199,7 +162,6 @@ export const checkPhone = (phone) => {
 };
 
 export const updatePhone = (username, phone) => {
-<<<<<<< HEAD:src/module/utils/helper/settingsHelper.js
   fetch('http://localhost:3000/account/phone', {
     method: 'POST',
     headers: {
@@ -210,19 +172,6 @@ export const updatePhone = (username, phone) => {
       phone
     })
   })
-=======
-  fetch('http://localhost:3000/account/phone', 
-    { 
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        phone,
-      })
-    })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/settingsHelper.js
     .then((response) => {
       return response.json();
     })

@@ -1,12 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/tabs/Settings.js
 import * as actions from '../../redux/actions/actions';
-=======
-import * as actions from '../../actions/actions';
-import { ipcRenderer } from 'electron';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
 import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
 
@@ -14,7 +9,6 @@ import * as categories from '../../redux/constants/notificationCategories';
 import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
-<<<<<<< HEAD:src/tabs/Settings.js
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -51,69 +45,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
-=======
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import * as categories from '../../constants/notificationCategories';
-import query from '../helper/psqlQuery';
-import * as queryType from '../../constants/queryTypes';
-import { makeStyles } from '@material-ui/core/styles';
-import SendIcon from '@material-ui/icons/Send';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-
-const mapDispatchToProps = (dispatch) => ({
-  addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) => dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) => dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) => dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) => dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) => dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) => dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) => dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) => dispatch(actions.removeStoppedNotificationSetting(data)),
-});
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle',
-    },
-  },
-  button: {
-    '& > *': {
-      pointerEvents: 'none',
-    },
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top',
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30,
-  },
-}));
-
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
 // showVerificationInput IS USED FOR RENDERING THE VERIFICATION CODE COMPONENT
 let showVerificationInput = false;
 let isVerified = false;
@@ -186,35 +117,12 @@ const Settings = (props) => {
    * @title NOTIFICATION PREFERENCES
    */
 
-<<<<<<< HEAD:src/tabs/Settings.js
   //updates state as to which boxes are checked
   const fetchNotificationSettings = async () => {
     fetch('http://localhost:3000/settings/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-=======
-        res.rows.forEach((el, i) => {
-          switch (el.metric_name) {
-          case categories.MEMORY.toLowerCase():
-            tempMemory.push(el.container_id);
-            break;
-          case categories.CPU.toLowerCase():
-            tempCPU.push(el.container_id);
-            break;
-          case categories.STOPPED.toLowerCase():
-            tempStopped.push(el.container_id);
-            break;
-          default:
-            break;
-          }
-        });
-
-        // replace state with new data from database
-        props.addMemoryNotificationSetting(tempMemory);
-        props.addCpuNotificationSetting(tempCPU);
-        props.addStoppedNotificationSetting(tempStopped);
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
       }
     })
       .then((data) => data.json())
@@ -388,7 +296,6 @@ const Settings = (props) => {
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
   const getData = () => {
-<<<<<<< HEAD:src/tabs/Settings.js
     fetch('http://localhost:3000/settings/gitcontainers', {
       method: 'GET',
       headers: {
@@ -402,17 +309,6 @@ const Settings = (props) => {
       });
   };
 
-=======
-    return query(queryType.GET_CONTAINERS, []);
-  };
-
-  const updateState = async () => {
-    const output = await getData();
-    output.forEach((el) => {
-      stateObject[el.id] = el.github_url;
-    });
-  };
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   //check if githubLinks are in the correct format, then save them to the database
@@ -454,15 +350,9 @@ const Settings = (props) => {
   const phone = useSelector((state) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
-<<<<<<< HEAD:src/tabs/Settings.js
   const [cpuThreshold, setCpuThreshold] = useState('');
   const [memThreshold, setMemThreshold] = useState('');
   const [stoppedContainers, setStoppedContainers] = useState(container_stops);
-=======
-  const [ cpuThreshold, setCpuThreshold ] = useState(cpu_threshold);
-  const [ memThreshold, setMemThreshold ] = useState(mem_threshold);
-  const [ stoppedContainers, setStoppedContainers ] = useState(container_stops);
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
   const [value, setValue] = useState(contact_pref);
 
   const dispatch = useDispatch();
@@ -473,7 +363,6 @@ const Settings = (props) => {
   };
 
   const handleRadioSubmit = (value) => {
-<<<<<<< HEAD:src/tabs/Settings.js
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
@@ -484,19 +373,6 @@ const Settings = (props) => {
         contact_pref: value
       })
     })
-=======
-    fetch('http://localhost:3000/account/contact', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          contact_pref: value,
-        })
-      })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
       .then((response) => {
         return response.json();
       })
@@ -513,7 +389,6 @@ const Settings = (props) => {
   };
 
   const handleCpuSubmit = (value) => {
-<<<<<<< HEAD:src/tabs/Settings.js
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
@@ -524,19 +399,6 @@ const Settings = (props) => {
         cpu_threshold: value
       })
     })
-=======
-    fetch('http://localhost:3000/account/cpu', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          cpu_threshold: value,
-        })
-      })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
       .then((response) => {
         return response.json();
       })
@@ -550,7 +412,6 @@ const Settings = (props) => {
   };
 
   const handleMemSubmit = (value) => {
-<<<<<<< HEAD:src/tabs/Settings.js
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
@@ -561,19 +422,6 @@ const Settings = (props) => {
         mem_threshold: value
       })
     })
-=======
-    fetch('http://localhost:3000/account/memory', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          mem_threshold: value,
-        })
-      })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
       .then((response) => {
         return response.json();
       })
@@ -587,7 +435,6 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersSubmit = (value) => {
-<<<<<<< HEAD:src/tabs/Settings.js
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
@@ -598,19 +445,6 @@ const Settings = (props) => {
         container_stops: value
       })
     })
-=======
-    fetch('http://localhost:3000/account/stops', 
-      { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          _id,
-          container_stops: value,
-        })
-      })
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
       .then((response) => {
         return response.json();
       })
@@ -627,13 +461,9 @@ const Settings = (props) => {
   };
 
   const handleStoppedContainersChange = (event) => {
-<<<<<<< HEAD:src/tabs/Settings.js
     setStoppedContainers(
       document.getElementById('stopped-containers-input').checked
     );
-=======
-    setStoppedContainers(document.getElementById('stopped-containers-input').checked);
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
   };
 
   const renderAllContainersList = allContainersList.map((container, i) => {
@@ -761,14 +591,9 @@ const Settings = (props) => {
         </p>
         <br/>
         <p>1. Verify your mobile phone number on Twilio</p>
-<<<<<<< HEAD:src/tabs/Settings.js
         <br />
         {/* First Form */}
         <form className='settingsForm' autoComplete='off'>
-=======
-        <br/>
-        <form className={classes.root} autoComplete="off">
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
           <div>
             <TextField
               required
@@ -834,7 +659,6 @@ const Settings = (props) => {
         ) : null}
         
         <p>2. Contact preference:</p>
-<<<<<<< HEAD:src/tabs/Settings.js
         <br />
         <FormControl component='fieldset'>
           <RadioGroup
@@ -845,13 +669,6 @@ const Settings = (props) => {
           >
             <FormControlLabel value='email' control={<Radio />} label='Email' />
             <FormControlLabel value='phone' control={<Radio />} label='Phone' />
-=======
-        <br/>
-        <FormControl component="fieldset">
-          <RadioGroup aria-label="Contact Preferences" name="contact_pref" value={value} onChange={handleRadioChange}>
-            <FormControlLabel value="email" control={<Radio />} label="Email" />
-            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
           </RadioGroup>
           <br/>
           <Button
@@ -939,15 +756,10 @@ const Settings = (props) => {
 
         <br/>
         <p>2. Configure notification thresholds</p>
-<<<<<<< HEAD:src/tabs/Settings.js
         <br />
         <form
           autoComplete='off'
         >
-=======
-        <br/>
-        <form className={classes.root} autoComplete="off">
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
           Current CPU Threshold: {`>${cpu_threshold}%`}
           <div>
             <TextField
@@ -996,7 +808,6 @@ const Settings = (props) => {
             >
               Confirm
             </Button>
-<<<<<<< HEAD:src/tabs/Settings.js
             <br />
             <br />
             <p>3. Stopped containers:</p>
@@ -1019,21 +830,6 @@ const Settings = (props) => {
             size='medium'
             variant='contained'
             onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
-=======
-            <br/>
-            {/* <p>2. Receive notification if container stops</p>
-            <FormControlLabel value={true} control={<Checkbox />} label="" />
-            <br/> */}
-            <br/>
-            <p>3. Stopped containers:</p>
-            <FormControlLabel value={true} control={<Checkbox id="stopped-containers-input" onChange={handleStoppedContainersChange}/>} label="Receive notification when a container stops" />
-          </div>
-          <Button
-            className={classes.button}
-            size="medium"
-            variant="contained"
-            onClick={()=> handleStoppedContainersSubmit(stoppedContainers)}
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
             endIcon={<SendIcon />}
           >
             Submit
@@ -1046,17 +842,8 @@ const Settings = (props) => {
       </div>
       <div className='settings-container'>
         <p>
-<<<<<<< HEAD:src/tabs/Settings.js
           Allows you to get access to latest GitHub commits in your project
           repository on "Metrics" tab for selected containers
-=======
-          Allows you to get access to latest GitHub commits in your project 
-          repository on "Metrics" tab for selected containers
-        </p>
-        <br/>
-        <p>
-          1. Add GitHub repositories url in Containers settings table below
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
         </p>
       </div>
 
@@ -1074,7 +861,6 @@ const Settings = (props) => {
               <TableRow>
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
-<<<<<<< HEAD:src/tabs/Settings.js
                 <TableCell align='center'>
                   Memory {`>${mem_threshold}%`}
                 </TableCell>
@@ -1082,14 +868,6 @@ const Settings = (props) => {
                 <TableCell align='center'>Container Stops</TableCell>
                 <TableCell align='center'>GitHub repository url</TableCell>
                 <TableCell align='center'>Apply settings</TableCell>
-=======
-                <TableCell>Image</TableCell>
-                <TableCell align="center">Memory {`>${mem_threshold}%`}</TableCell>
-                <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
-                <TableCell align="center">Container Stops</TableCell>
-                <TableCell align="center">GitHub repository url</TableCell>
-                <TableCell align="center">Apply settings</TableCell>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Settings.js
               </TableRow>
             </TableHead>
             <TableBody>{renderAllContainersList}</TableBody>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/tabs/Yml.js
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 
@@ -18,49 +17,6 @@ import { Button } from '@mui/material';
  * @param {*} props
  */
 
-=======
-import * as actions from '../../actions/actions';
-import * as helper from '../helper/commands';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
-/**
- * Displays all running docker-compose container networks; drag and drop or upload functionality
- * 
- * @param {*} props
- */
-
-const useStyles = makeStyles(() => ({
-  root: {
-    '& .MuiTextField-root': {
-      marginLeft: 5,
-      marginBottom: 15,
-      width: 220,
-      verticalAlign: 'middle',
-    },
-  },
-  button: {
-    marginLeft: 5,
-    width: 100,
-    verticalAlign: 'top',
-  },
-  verifiedIcon: {
-    verticalAlign: 'top',
-    color: 'green',
-  },
-  description: {
-    marginLeft: 5,
-    marginBottom: 30,
-  },
-}));
-
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Yml.js
 const Yml = () => {
   const classes = useStyles();
   const [filePath, setFilePath] = useState('');
@@ -142,13 +98,8 @@ const Yml = () => {
           </TableCell>
           {container.FilePath && container.YmlFileName && (
             // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
-<<<<<<< HEAD:src/tabs/Yml.js
             // only the containers composed up from the application will have a compose down button
             <TableCell className='btn-compose-up'>
-=======
-            // only the containers composed up from the application will have a compose down button 
-            <TableCell className="btn-compose-up">
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Yml.js
               <button
                 className='btn'
                 onClick={() => {

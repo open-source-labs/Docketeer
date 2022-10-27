@@ -2,11 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { convertToMetricsArr } from '../helper/parseContainerFormat';
-<<<<<<< HEAD:src/tabs/Metrics.js
 import { Chart } from 'react-chartjs-2';
-=======
-import { Pie } from 'react-chartjs-2';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
 import LineChartDisplay from '../display/LineChartDisplay.js';
 
 /**
@@ -89,19 +85,15 @@ const Metrics = (props) => {
     <div className='renderContainers'>
       <div className='header'>
         <h1 className='tabTitle'>Metrics</h1>
-<<<<<<< HEAD:src/tabs/Metrics.js
         <h2> 
           <a target="_blank" rel="noreferrer" href= "https://docs.docker.com/engine/reference/commandline/stats/#examples">Click here</a> for more information on these metrics
         </h2>
-=======
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
       </div>
       <div className='metric-section-title'>
         <h3>Aggregate</h3>
       </div>
       <div className='aggregate-conatiner'>
         <div className='pieChart'>
-<<<<<<< HEAD:src/tabs/Metrics.js
           <Chart 
             key='pie-cpu'
             type='pie'
@@ -117,23 +109,11 @@ const Metrics = (props) => {
             <div className='legend-section'>
               <div className='usage-box'></div>
               <p className='legend-text'>Usage {Math.round(result[0].toFixed(2))}%</p>
-=======
-          <Pie data={cpu} options={options2} width={2000} height={1300} />
-          <div className='legend-container'>
-            <div className='legend-section'>
-              <div className='avaliable-box'></div>
-              <p className='legend-text'>Available {cpuData}%</p>
-            </div>
-            <div className='legend-section'>
-              <div className='usage-box'></div>
-              <p className='legend-text'>Usage {result[0].toFixed(2)}%</p>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
             </div>
           </div>
         </div>
 
         <div className='pieChart'>
-<<<<<<< HEAD:src/tabs/Metrics.js
           <Chart 
             key='pie-memory'
             type='pie'
@@ -150,17 +130,6 @@ const Metrics = (props) => {
             <div className='legend-section'>
               <div className='usage-box'></div>
               <p className='legend-text'>Usage {Math.round(result[1].toFixed(2))}%</p>
-=======
-          <Pie data={memory} options={options} width={2000} height={1300} />
-          <div className='legend-container'>
-            <div className='legend-section'>
-              <div className='avaliable-box'></div>
-              <p className='legend-text'>Available {memoryData}%</p>
-            </div>
-            <div className='legend-section'>
-              <div className='usage-box'></div>
-              <p className='legend-text'>Usage {result[1].toFixed(2)}%</p>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
             </div>
           </div>
         </div>
@@ -169,21 +138,13 @@ const Metrics = (props) => {
           <div className='chart-container'>
             <h1 className='chart-title'>NET IO:</h1>
             <p className='chart-number'>
-<<<<<<< HEAD:src/tabs/Metrics.js
               {Math.floor(result[2][0])}kB / {Math.floor(result[2][1])}kB
-=======
-              {result[2][0]}kB / {result[2][1]}kB
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
             </p>
           </div>
           <div className='chart-container'>
             <h1 className='chart-title'>BLOCK IO:</h1>
             <p className='chart-number'>
-<<<<<<< HEAD:src/tabs/Metrics.js
               {Math.floor(result[3][0])}B / {Math.floor(result[3][1])}B
-=======
-              {result[3][0]}B / {result[3][1]}B
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/Metrics.js
             </p>
           </div>
         </div>

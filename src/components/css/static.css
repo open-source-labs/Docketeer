@@ -1,11 +1,7 @@
 .fa-box-open {
   content: url(../../../assets/running.svg);
   width: 22px;
-<<<<<<< HEAD
   color: black;
-=======
-  color:black;
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")
 }
 
 .fa-archive {
@@ -49,12 +45,6 @@
 }
 
 .fa-log {
-<<<<<<< HEAD
   content: url(../../../assets/docketeer-logs.svg);
   width: 22px;
 }
-=======
-  content: url(../../../assets/docketeer_logs.svg);
-  width: 22px;
-}
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")

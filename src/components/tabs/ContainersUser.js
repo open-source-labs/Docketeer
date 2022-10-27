@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-<<<<<<< HEAD:src/tabs/ContainersUser.js
 import { Chart } from 'react-chartjs-2';
-=======
-import { Bar } from 'react-chartjs-2';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/ContainersUser.js
 import ToggleDisplay from '../display/ToggleDisplay';
 
 /**

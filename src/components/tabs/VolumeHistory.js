@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-<<<<<<< HEAD:src/tabs/VolumeHistory.js
 import React, { useState } from 'react';
 
 /**
@@ -8,16 +7,6 @@ import React, { useState } from 'react';
  * @param {*} props
  */
 
-=======
-import React, { useEffect, useState } from 'react';
-
-/**
- * Render Volume History
- * May need to be refactored to auto refresh
- * 
- * @param {*} props
- */
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/VolumeHistory.js
 const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState('');
@@ -51,21 +40,13 @@ const volumeHistory = (props) => {
     ele.containers.length
       ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
       : details.push(
-<<<<<<< HEAD:src/tabs/VolumeHistory.js
         <div className='volume-container-details' key={`ummmmm-${i}`}>
-=======
-        <div className='volume-container-details'>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/VolumeHistory.js
           No container found in this volume
         </div>
       );
 
     return (
-<<<<<<< HEAD:src/tabs/VolumeHistory.js
       <div className="box" key={`vol_${i}`}>
-=======
-      <div className="box" key={`volume${i}`}>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/tabs/VolumeHistory.js
         <div className="box-label">
           <h3>{ele.vol_name}</h3>
         </div>

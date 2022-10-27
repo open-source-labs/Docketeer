@@ -1,30 +1,15 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/views/Admin.js
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../redux/actions/actions';
-=======
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-
-
-// static imports
-import * as actions from '../../actions/actions';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-<<<<<<< HEAD:src/views/Admin.js
 import Metrics from '../tabs/Metrics';
 import Images from '../tabs/Images';
 import Yml from '../tabs/Yml';
@@ -33,29 +18,15 @@ import Settings from '../tabs/Settings';
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
-=======
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-<<<<<<< HEAD:src/views/Admin.js
 
 const AdminView = () => {
   const navigate = useNavigate();
-=======
-const AdminView = (props) => {
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -152,7 +123,6 @@ const AdminView = (props) => {
   };
 
   return (
-<<<<<<< HEAD:src/views/Admin.js
     <div className='container'>
       {/* Navbar */}
       <nav className='tab'>
@@ -168,84 +138,6 @@ const AdminView = (props) => {
                   selected === '/app/users/' ? selectedStyling : null
                 }
                 onClick={() => setSelected('/app/users/')}
-=======
-    <Router>
-      <div className='container'>
-        <nav className='tab'>
-          <header id='title'>
-            <img src={Docketeer} width={160} />
-          </header>
-          <div className='viewsAndButton'>
-            <ul>
-              <li>
-                <Link
-                  to='/app'
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
-                >
-                  <i className='fas fa-settings'></i> Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/running'
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
-                >
-                  <i className='fas fa-box-open'></i> Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/images'
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
-                >
-                  <i className='fas fa-database'></i> Images
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/metrics'
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
-                >
-                  <i className='fas fa-chart-pie'></i> Metrics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/yml'
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
-                >
-                  <i className='fas fa-file-upload'></i> Docker Compose
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/volume'
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
-                >
-                  <i className='fas fa-volume-history'></i> Volume History
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/logs'
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
-                >
-                  <i className="fas fa-log"></i> Process Logs
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <button
-                className="btn"
-                onClick={(e) => helper.handlePruneClick(e)}
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
               >
                 <i className='fas fa-settings'></i> Settings
               </Link>
@@ -354,18 +246,12 @@ const AdminView = (props) => {
           path='/metrics'
           element={
             <Metrics runningList={runningList} />
-<<<<<<< HEAD:src/views/Admin.js
           }
         />
         <Route
           path='/logs'
           element={
             <ProcessLogs
-=======
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs 
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
@@ -378,7 +264,6 @@ const AdminView = (props) => {
               runStoppedContainer={runStoppedContainer}
               stoppedList={stoppedList}
             />
-<<<<<<< HEAD:src/views/Admin.js
           }
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
@@ -394,16 +279,6 @@ const AdminView = (props) => {
         <Route
           path='/images'
           element={
-=======
-          </Route>
-          <Route path="/logTable/:containerId" >
-            <ProcessLogsTable />
-          </Route>
-          <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path="/images">
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/Admin.js
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}

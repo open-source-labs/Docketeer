@@ -1,17 +1,10 @@
 import parseContainerFormat from './parseContainerFormat';
-<<<<<<< HEAD:src/module/utils/commands.js
 import {
   filterOneProperty,
   listOfVolumeProperties
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
-=======
-import { filterOneProperty, listOfVolumeProperties } from './volumeHistoryHelper';
-import store from '../../renderer/store';
-import { makeArrayOfObjects } from './processLogHelper';
-
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
 
 /**
  * Grabs all active containers on app-start up
@@ -210,10 +203,6 @@ export const stop = (id, callback) => {
 export const runStopped = (
   id,
   runStoppedContainerDispatcher,
-<<<<<<< HEAD:src/module/utils/commands.js
-=======
-  refreshRunningContainers
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
 ) => {
   window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
     if (error) {
@@ -350,24 +339,7 @@ export const networkContainers = (getNetworkContainers) => {
 
       getNetworkContainers(networkContainers);
     }
-<<<<<<< HEAD:src/module/utils/commands.js
   );
-=======
-    if (stderr) {
-      console.log(`networkContainers stderr: ${stderr}`);
-      return;
-    }
-    
-    const dockerOutput = `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`;
-
-    // remove docker network defaults named: bridge, host, and none
-    const networkContainers = JSON.parse(dockerOutput).filter(
-      ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
-    );
-
-    getNetworkContainers(networkContainers);
-  });
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
 };
 
 export const inspectDockerContainer = (containerId) => {
@@ -396,7 +368,6 @@ export const inspectDockerContainer = (containerId) => {
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD:src/module/utils/commands.js
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
@@ -404,11 +375,6 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
       'compose.yaml'
     ];
     let cmd = `cd ${fileLocation} && docker compose up -d`;
-=======
-
-    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
-    let cmd = `cd ${fileLocation} && docker-compose up -d`;
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
@@ -487,17 +453,12 @@ export const dockerComposeStacks = (getContainerStacks, filePath, ymlFileName) =
 
 export const dockerComposeDown = (fileLocation, ymlFileName) => {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD:src/module/utils/commands.js
     const nativeYmlFilenames = [
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
       'compose.yaml'
     ];
-=======
-
-    const nativeYmlFilenames = ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml', 'compose.yaml'];
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
     let cmd = `cd ${fileLocation} && docker-compose down`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename   
     if (!nativeYmlFilenames.includes(ymlFileName)) {
@@ -536,7 +497,6 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
     if (!runningContainers.length) return;
     const containerParameters = {}
 
-<<<<<<< HEAD:src/module/utils/commands.js
     runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
         ID: container.ID,
@@ -577,43 +537,6 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
   .catch((err) => {
     console.log(err);
   })
-=======
-    let dbQuery = 'insert into metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid, created_at) values ';
-    runningContainers.forEach((container, idx) => {
-      // No need to worry about sql injections as it would be self sabotaging! 
-      const string = `('${container.ID}', 
-        '${container.Name}', 
-        '${container.CPUPerc}', 
-        '${container.MemPerc}', 
-        '${container.MemUsage}', 
-        '${container.NetIO}', 
-        '${container.BlockIO}', 
-        '${container.PIDs}', 
-        current_timestamp)`;
-      
-      if (idx === runningContainers.length - 1 && stoppedContainers.length === 0)
-        dbQuery += string;
-      else
-        dbQuery += string + ', ';
-    });
-    stoppedContainers.forEach((container, idx) => {
-      const string = `('${container.ID}', 
-        '${container.Names}', 
-        '0.00%',
-        '0.00%',
-        '00.0MiB/0.00GiB',
-        '0.00kB/0.00kB',
-        '00.0MB/00.0MB',
-        '0',
-        current_timestamp)`;
-      
-      if (idx === stoppedContainers.length - 1)
-        dbQuery += string;
-      else
-        dbQuery += string + ', ';
-    });
-    query(dbQuery);
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
   }, interval);
 };
 
@@ -671,7 +594,6 @@ export const getAllDockerVolumes = (getVolumeList) => {
         return;
       }
 
-<<<<<<< HEAD:src/module/utils/commands.js
       const dockerOutput = JSON.parse(
         `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
       );
@@ -679,17 +601,6 @@ export const getAllDockerVolumes = (getVolumeList) => {
       return getVolumeList(filterOneProperty(dockerOutput, 'Name'));
     }
   );
-=======
-    const dockerOutput = JSON.parse( 
-      `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`
-    );
-
-    return getVolumeList(filterOneProperty(dockerOutput, 'Name')); 
-  });
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
 };
 
 /**
@@ -700,12 +611,8 @@ export const getAllDockerVolumes = (getVolumeList) => {
  */
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
-<<<<<<< HEAD:src/module/utils/commands.js
   window.nodeMethod.runExec(
     `docker ps -a --filter volume=${volumeName} --format "{{json .}},"`,
-=======
-  exec(`docker ps -a --filter volume=${volumeName} --format "{{json .}},"`, 
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
     (error, stdout, stderr) => {
       if (error) {
         console.log(`getVolumeContainers error: ${error.message}`);
@@ -715,19 +622,10 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         console.log(`getVolumeContainers stderr: ${stderr}`);
         return;
       }
-<<<<<<< HEAD:src/module/utils/commands.js
       const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
 
       return getVolumeContainersList(
         listOfVolumeProperties(volumeName, dockerOutput)
-=======
-      
-      const dockerOutput = JSON.parse(
-        `[${stdout
-          .trim()
-          .slice(0, -1)
-        }]`
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
       );
 
       return getVolumeContainersList(listOfVolumeProperties(volumeName, dockerOutput));
@@ -735,19 +633,13 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
 };
 
 /**
-<<<<<<< HEAD:src/module/utils/commands.js
  * Builds and child_process.executes a docker logs command to generate logs
  *
-=======
- * Builds and executes a docker logs command to generate logs
- * 
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
  * @param {callback} getContainerLogs
  * @param {object} optionsObj
  * @returns {object} containerLogs
  */
 
-<<<<<<< HEAD:src/module/utils/commands.js
 export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
   let containerLogs = { stdout: [], stderr: [] };
 
@@ -771,24 +663,6 @@ export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
         containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
         containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
       });
-=======
-export const getLogs = (optionsObj, getContainerLogsDispatcher) => {
-  
-  // build inputCommandString to get logs from command line
-  let inputCommandString = 'docker logs --timestamps ';
-  if (optionsObj.since) {
-    inputCommandString += `--since ${optionsObj.since} `;
-  }
-  optionsObj.tail ? inputCommandString += `--tail ${optionsObj.tail} ` : inputCommandString += '--tail 50 ';
-  inputCommandString += `${optionsObj.containerId}`;
-
-  const containerLogs = { stdout: [], stderr: [] };
-  
-  exec(inputCommandString, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/commands.js
     }
     return containerLogs;
 };

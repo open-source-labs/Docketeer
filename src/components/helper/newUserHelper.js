@@ -3,11 +3,7 @@
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
 import store from '../../renderer/store';
-<<<<<<< HEAD:src/module/utils/helper/newUserHelper.js
 import * as actions from '../../redux/actions/actions';
-=======
-import * as actions from '../../actions/actions';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/helper/newUserHelper.js
 
 export const handleNewUser = (e) => {
   e.preventDefault();

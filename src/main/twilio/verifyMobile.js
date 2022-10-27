@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 const twilio = require('twilio');
 // import { config } from 'dotenv';
 // config();
-=======
-import twilio from 'twilio';
-import { config } from 'dotenv';
-
-config();
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -25,8 +18,4 @@ const verifyMobileNumber = async (mobileNumber) => {
     .catch((err) => console.error(err));
 };
 
-<<<<<<< HEAD
 // export default verifyMobileNumber;
-=======
-export default verifyMobileNumber;
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")

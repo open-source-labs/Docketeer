@@ -1,29 +1,15 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD:src/views/UserView.js
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
 import * as actions from '../../redux/actions/actions';
-=======
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-
-// static imports
-import * as actions from '../../actions/actions';
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-<<<<<<< HEAD:src/views/UserView.js
 import Metrics from '../tabs/Metrics';
 import ImagesUser from '../tabs/ImagesUser';
 import Yml from '../tabs/Yml';
@@ -32,16 +18,6 @@ import Settings from '../tabs/Settings';
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
-=======
-import Metrics from "../tabs/Metrics";
-import ImagesUser from "../tabs/ImagesUser";
-import Yml from "../tabs/Yml";
-import ContainersUser from "../tabs/ContainersUser";
-import Settings from "../tabs/Settings";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
@@ -49,10 +25,7 @@ import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
 const UserView = (props) => {
-<<<<<<< HEAD:src/views/UserView.js
   const navigate = useNavigate();
-=======
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -148,7 +121,6 @@ const UserView = (props) => {
   };
 
   return (
-<<<<<<< HEAD:src/views/UserView.js
     <div className='container'>
       {/* <Navbar /> */}
       <nav className='tab'>
@@ -256,104 +228,10 @@ const UserView = (props) => {
         <Route
           path='/volume'
           element={
-=======
-    <Router>
-      <div className='container'>
-        <nav className='tab'>
-          <header id='title'>
-            <img src={Docketeer} width={160} />
-          </header>
-          <div className='viewsAndButton'>
-            <ul>
-              <li>
-                <Link
-                  to='/app'
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
-                >
-                  <i className="fas fa-settings"></i> Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
-                >
-                  <i className='fas fa-box-open'></i> Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/images'
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
-                >
-                  <i className='fas fa-database'></i> Images
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
-                >
-                  <i className='fas fa-chart-pie'></i> Metrics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/yml'
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
-                >
-                  <i className='fas fa-file-upload'></i> Docker Compose
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/volume'
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
-                >
-                  <i className="fas fa-volume-history"></i> Volume History
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/logs'
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
-                >
-                  <i className="fas fa-log"></i> Process Logs
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <button
-                className='btn'
-                onClick={(e) => helper.handlePruneClick(e)}
-              >
-                System Prune
-              </button>
-              <span> </span>
-              <button className='btn' onClick={(e) => handleLogout(e)}>
-                Logout
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path='/volume'>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
             <VolumeHistory
               arrayOfVolumeNames={arrayOfVolumeNames}
               volumeContainersList={volumeContainersList}
             />
-<<<<<<< HEAD:src/views/UserView.js
           }
         />
         <Route
@@ -367,14 +245,6 @@ const UserView = (props) => {
           path='/logs'
           element={
             <ProcessLogs
-=======
-          </Route>
-          <Route path='/metrics'>
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs 
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
               runIm={helper.runIm}
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
@@ -387,7 +257,6 @@ const UserView = (props) => {
               runStoppedContainer={runStoppedContainer}
               stoppedList={stoppedList}
             />
-<<<<<<< HEAD:src/views/UserView.js
           }
         />
         <Route
@@ -408,16 +277,6 @@ const UserView = (props) => {
         <Route
           path='/images'
           element={
-=======
-          </Route>
-          <Route path="/logTable/:containerId" >
-            <ProcessLogsTable />
-          </Route>
-          <Route path='/yml'>
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path='/images'>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
             <ImagesUser
               runIm={helper.runIm}
               removeIm={helper.removeIm}
@@ -426,16 +285,11 @@ const UserView = (props) => {
               imagesList={imagesList}
               runningList={runningList}
             />
-<<<<<<< HEAD:src/views/UserView.js
           }
         />
         <Route
           path='/running'
           element={
-=======
-          </Route>
-          <Route path='/running'>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
             <ContainersUser
               runIm={helper.runIm}
               stop={helper.stop}
@@ -449,16 +303,11 @@ const UserView = (props) => {
               runStoppedContainer={runStoppedContainer}
               stoppedList={stoppedList}
             />
-<<<<<<< HEAD:src/views/UserView.js
           }
         />
         <Route
           path='/'
           element={
-=======
-          </Route>
-          <Route path='/'>
->>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)"):src/components/views/UserView.js
             <Settings
               runningList={runningList}
               stop={helper.stop}

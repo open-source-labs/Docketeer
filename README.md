@@ -25,7 +25,7 @@ awesome when someone starts to use it.
 
 <!-- ![logo](https://user-images.githubusercontent.com/67434664/94055454-f7177a00-fdaa-11ea-95dd-1d4980400812.png) -->
 
-![logo](src/assets/images/docketeer-title2.png)
+![logo](assets/docketeer-title2.png)
 
 ## About
 
@@ -58,13 +58,13 @@ root
 
 ```js
 // .env
-TWILIO_NUMBER = '';
-TWILIO_ACCOUNT_SID = '';
-TWILIO_AUTH_TOKEN = '';
-SERVICE_SID = '';
-VERIFICATION_SERVICE_SID = '';
-SLACK_WEBHOOK = '';
-POSTGRES_URI = '';
+TWILIO_NUMBER = ''
+TWILIO_ACCOUNT_SID = ''
+TWILIO_AUTH_TOKEN = ''
+SERVICE_SID = ''
+VERIFICATION_SERVICE_SID = ''
+SLACK_WEBHOOK = ''
+POSTGRES_URI = ''
 ```
 
 5. Create a folder called `security` in the project's top-level directory. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
@@ -124,11 +124,11 @@ To change the system admin password, create a new user with your preferred crede
 
 ```js
 // .env.js
-MY_PHONE_NUMBER = 'your mobile number';
-TWILIO_ACCOUNT_SID = 'code from your console';
-TWILIO_AUTH_TOKEN = 'token from your console';
-SERVICE_SID = 'code from notify service instance';
-VERIFICATION_SERVICE_SID = 'code from verify service instance';
+MY_PHONE_NUMBER = 'your mobile number'
+TWILIO_ACCOUNT_SID = 'code from your console'
+TWILIO_AUTH_TOKEN = 'token from your console'
+SERVICE_SID = 'code from notify service instance'
+VERIFICATION_SERVICE_SID = 'code from verify service instance'
 ```
 
 4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
@@ -149,7 +149,7 @@ You can view a list of running and exited containers, available images, volume h
 ### ➮ Live Metrics
 
 Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
-![alt text](src/assets/images/docketeer-metrics.gif)
+![alt text](assets/docketeer-metrics.gif)
 
 ### ➮ Uploading
 
@@ -190,11 +190,11 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes, improvements, and new features to Docketeer.
 
 ### Authors
-- Abigail Gerig [@4estgirl] (https://github.com/4estgirl) | [Linkedin] (https://www.linkedin.com/in/abigail-gerig/)
-- Trine Medina [@TrineMedina] (https://github.com/TrineMedina) | [Linkedin] (https://www.linkedin.com/in/trinemedina/)
-- Christian Looff [@cmlooff] (https://github.com/cmlooff) | [LinkedIn] (https://www.linkedin.com/in/christian-looff/)
-- Reuel Warner-Rosen [@Ruliwr] (https://github.com/Ruliwr) | [Linkedin] (https://www.linkedin.com/in/Ruliwr/)
-- Matt Dias [@Schmang13] (https://github.com/Schmang13) | [Linkedin] (https://www.linkedin.com/in/matthew-j-dias/)
+- Abigail Gerig [@4estgirl](https://github.com/4estgirl) | [Linkedin](https://www.linkedin.com/in/abigail-gerig/)
+- Trine Medina [@TrineMedina](https://github.com/TrineMedina) | [Linkedin](https://www.linkedin.com/in/trinemedina/)
+- Christian Looff [@cmlooff](https://github.com/cmlooff) | [LinkedIn](https://www.linkedin.com/in/christian-looff/)
+- Reuel Warner-Rosen [@Ruliwr](https://github.com/Ruliwr) | [Linkedin](https://www.linkedin.com/in/Ruliwr/)
+- Matt Dias [@Schmang13](https://github.com/Schmang13) | [Linkedin](https://www.linkedin.com/in/matthew-j-dias/)
 - Christina Son [@cson17](https://github.com/cson17) | [Linkedin](https://www.linkedin.com/in/christinason17/)
 - Fernando Luna [@lunaf-github](https://github.com/lunaf-github) | [Linkedin](https://www.linkedin.com/in/fernando-luna)
 - Austin Andrews [@austinandrews](https://github.com/austinandrews) | [Linkedin](https://www.linkedin.com/in/austinandrews17/)

@@ -490,7 +490,6 @@ const Settings = (props) => {
         <TableCell>
           <span className='container-id'>{container.ID}</span>
         </TableCell>
-        <TableCell>{container.Image}</TableCell>
         <TableCell align='center'>
           <Checkbox
             onClick={(event) =>
@@ -870,7 +869,6 @@ const Settings = (props) => {
               <TableRow>
                 <TableCell>Container Name</TableCell>
                 <TableCell>Container ID</TableCell>
-                <TableCell>Image</TableCell>
                 <TableCell align='center'>
                   Memory {`>${mem_threshold}%`}
                 </TableCell>

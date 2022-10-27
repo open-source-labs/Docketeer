@@ -13,32 +13,29 @@ import PropTypes from 'prop-types';
 const ProcessLogsCard = (props) => {
   const navigate = useNavigate();
 
-  const ProcessLogsCard = (props) => {
-    return (
+  return (
 
-      <button className="btn-process" onClick={() => navigate(`/app/logTable/${props.container.ID}`)}>
-        <div className="box" key={`${props.status}Box-${props.index}`}>
+    <button className="btn-process" onClick={() => navigate(`/app/logTable/${props.container.ID}`)}>
+      <div className="box" key={`${props.status}Box-${props.index}`}>
 
-          <div className="box-label">
-            <h3>{props.container.Name || props.container.Names}</h3>
-            <p>ID: {props.container.ID}</p>
-          </div>
-    
-          <div className="stopped-info">
-            <strong>Status: </strong> {props.status}
-          </div>
-
+        <div className="box-label">
+          <h3>{props.container.Name || props.container.Names}</h3>
+          <p>ID: {props.container.ID}</p>
         </div>
-      </button>
 
-    );
-  };
+        <div className="stopped-info">
+          <strong>Status: </strong> {props.status}
+        </div>
 
-  ProcessLogsCard.propTypes = {
-    container: PropTypes.object,
-    index: PropTypes.number,
-    status: PropTypes.string,
-  };
-}
+      </div>
+    </button>
+  );
+};
+
+ProcessLogsCard.propTypes = {
+  container: PropTypes.object,
+  index: PropTypes.number,
+  status: PropTypes.string,
+};
 
 export default ProcessLogsCard;

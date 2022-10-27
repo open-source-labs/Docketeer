@@ -13,7 +13,7 @@ import {
   checkPasswordLength,
   confirmPassword,
   checkPhone,
-} from '../../module/utils/helper/newUserHelper';
+} from '../helper/newUserHelper';
 
 
 const NewUserDisplay = () => {

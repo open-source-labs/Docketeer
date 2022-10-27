@@ -6,10 +6,10 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux';
 import store from './store';
 
-import '../assets/css/styles.css';
-import '../assets/css/metric.css';
-import '../assets/css/running.css';
-import '../assets/css/static.css';
+import '../components/css/styles.css';
+import '../components/css/metric.css';
+import '../components/css/running.css';
+import '../components/css/static.css';
 import { App } from './App.js';
 
 
@@ -18,11 +18,11 @@ const root = createRoot(rootNode)
 root.render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<App />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/*' element={<App />} />
+      </Routes>
+    </BrowserRouter>
     {/* </React.StrictMode> */}
   </Provider>
 );

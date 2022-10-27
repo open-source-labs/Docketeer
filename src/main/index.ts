@@ -1,7 +1,5 @@
-import { AnyARecord } from "dns";
-
-const electron = require('electron');
-const path = require('path');
+const electron = require ('electron');
+const path = require ('path');
 const url = require('url');
 
 /*          Docketeer 7.0
@@ -11,15 +9,15 @@ const url = require('url');
 // const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 const verifyCode = require('./twilio/verifyCode');
-const verifyMobileNumber = require('./twilio/verifyMobile');
-const postEvent = require('./twilio/postEvent');
-const emailEvent = require('./email/emailEvent');
+const verifyMobileNumber = require ('./twilio/verifyMobile');
+const postEvent = require ('./twilio/postEvent');
+const emailEvent = require ('./email/emailEvent');
 
 // global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
-let mainWindow: any;
+let mainWindow;
 
 function createMainWindow() {
-  mainWindow = new electron.BrowserWindow({
+   mainWindow = new electron.BrowserWindow({
     width: 1300,
     height: 800,
     webPreferences: {
@@ -37,9 +35,12 @@ function createMainWindow() {
         protocol: 'file:',
         slashes: true,
       })
-    );
+      );
+    }
+    mainWindow.on('closed', () => {
+      mainWindow = null;
+    })
   }
-}
 
     electron.app.on('ready', createMainWindow)
     
@@ -57,7 +58,6 @@ function createMainWindow() {
     })
     
 
-
   /*               Docketeer 7.0    
   ** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.
   */
@@ -72,17 +72,17 @@ function createMainWindow() {
 //       .catch(err =>
 //         console.log('[electron-extensions] An error occurred: ', err));
 //   });
-
-// mainWindow.webContents.on('did-frame-finish-load', () => {
-//   if (isDevelopment) {
-//     mainWindow.webContents.openDevTools();
-//     mainWindow.webContents.on('devtools-opened', () => {
-//       mainWindow.focus();
-//       setImmediate(() => {
-//         mainWindow.focus();
-//       });
-//   });
-// }});
+  
+  // mainWindow.webContents.on('did-frame-finish-load', () => {
+  //   if (isDevelopment) {
+  //     mainWindow.webContents.openDevTools();
+  //     mainWindow.webContents.on('devtools-opened', () => {
+  //       mainWindow.focus();
+  //       setImmediate(() => {
+  //         mainWindow.focus();
+  //       });
+  //   });
+  // }});
 
 //   mainWindow.on('closed', () => {
 //     mainWindow = null;

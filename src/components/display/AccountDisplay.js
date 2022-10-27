@@ -17,8 +17,8 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone,
-} from '../../module/utils/helper/settingsHelper';
+  checkPhone
+} from '../helper/settingsHelper';
 
 const AccountDisplay = () => {
   const session = useSelector((state) => state.session);
@@ -67,7 +67,10 @@ const AccountDisplay = () => {
             Update
           </Button>
           <br />
+          <span id='update-email-alert'></span>
         </form>
+        <p>2. Update your phone number</p>
+        <br />
         <form className='settings' autoComplete='off'>
           <TextField
             id='update-phone-input'

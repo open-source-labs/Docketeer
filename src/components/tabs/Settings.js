@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
@@ -5,7 +6,7 @@ import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
 
 // React Component Imports
-import AccountDisplay from '../components/display/AccountDisplay';
+import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
 import Table from '@mui/material/Table';
@@ -307,21 +308,11 @@ const Settings = (props) => {
         return response;
       });
   };
-  //! updateState is not being called anywhere...so not really sure if this is actually happening.
-  const updateState = async () => {
-    const output = await getData();
-    output.forEach((el) => {
-      stateObject[el.id] = el.github_url;
-    });
-  };
 
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   //check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
-    //console logs to demonstrate
-    console.log('githubLink tempGithubLink check: ', tempGithubLink)
-    console.log('test slice',tempGithubLink[event.target.id].slice(0,22))
     const example = "https://api.github.com"
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
@@ -393,7 +384,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleCpuChange = () => {
+  const handleCpuChange = (event) => {
     setCpuThreshold(document.getElementById('cpu-threshold-input').value);
   };
 
@@ -465,7 +456,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleMemChange = () => {
+  const handleMemChange = (event) => {
     setMemThreshold(document.getElementById('mem-threshold-input').value);
   };
 

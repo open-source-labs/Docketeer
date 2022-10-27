@@ -6,7 +6,8 @@ import * as actions from '../../redux/actions/actions';
 
 import  store  from '../../renderer/store.js';
 import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
 
 /**
  * Displays process logs as table
@@ -14,7 +15,6 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use fo
  * @description Container that displays all running and not running docker containers. Each box is wrapped by
  * a Router link.
  */
-
 
 const ProcessLogsTable = () => {
 
@@ -32,6 +32,11 @@ const ProcessLogsTable = () => {
 
   const [btnIdList, setBtnIdList] = useState([id]);
   const [rows, setRows] = useState([]);
+
+  const [csvData, setCsvData] = useState([
+    [ 'container', 'type', 'time', 'message']
+  ]);
+
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
   const { stdout, stderr } = logs;
 
@@ -57,7 +62,7 @@ const ProcessLogsTable = () => {
     { field: 'container', headerName: 'Container', width: 150 },
     { field: 'type', headerName: 'Log Type', width: 120 },
     { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 400 }
+    { field: 'message', headerName: 'Message', width: 550 }
   ];
 
   const createContainerCheckboxes = (currId) => {
@@ -94,8 +99,8 @@ const ProcessLogsTable = () => {
 
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
-   const newRows = [];
-
+    const newRows = [];
+    const newCSV = [];
 
     if(stdout) {
       stdout.forEach((log, index) => {
@@ -109,8 +114,7 @@ const ProcessLogsTable = () => {
         });
         newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
-    }
-    if(stderr) {
+
       stderr.forEach((log, index) => {
         const currCont = runningList.find(el => el.ID === log.containerName);
         newRows.push({
@@ -118,15 +122,15 @@ const ProcessLogsTable = () => {
           type: 'stderr',
           time: log.timeStamp,
           message: log.logMsg,
-          id: Math.random() * 100
+          id: `stderr ${index}`
         });
+        newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
       });
 
       setRows(newRows);
       setCsvData([[ 'container', 'type', 'time', 'message'], ...newCSV]);
     }
-   setRows(newRows)
-  }
+  };
 
   return (
     <div className='renderContainers'>

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import * as helper from '../module/utils/commands';
+import * as helper from '../helper/commands';
 
 /**
  * Render Images of the user has

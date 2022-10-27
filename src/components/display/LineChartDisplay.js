@@ -3,8 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import { FormControlLabel, Checkbox, FormGroup } from '@mui/material';
+=======
+import { DataGrid } from '@mui/x-data-grid';
+import { FormControlLabel, Checkbox } from '@mui/material';
+>>>>>>> dev
 
 /**
  * Displays linegraph and github metrics
@@ -262,15 +267,8 @@ const LineChartDisplay = () => {
   ]
   gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
-    const li = [
-      <tr key={`tr ${index}`}>
-        <th>Date</th>
-        <th>Time</th>
-        <th>URL</th>
-        <th>Author</th>
-      </tr>
-    ];
-    el[name].forEach((ob) => {
+    const rows = [];
+    el[name].forEach((ob, index) => {
       let author = '';
       let date = 'n/a';
       let time = 'n/a';
@@ -280,12 +278,9 @@ const LineChartDisplay = () => {
         console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
-        text = 'Github Commits';
-        url = (
-          <a href={ob.url} target='_blank' rel='noreferrer'>
-            {text}
-          </a>
-        );
+        url = ob.url;
+        message = ob.message;
+
         time = time.split('T');
         date = time[0];
         time = time[1];

@@ -115,11 +115,7 @@ const Containers = (props) => {
                 data={chartInfo}
                 options={{
                   responsive: true,
-                  plugins: {
-                    legend: {
-                      display: false
-                    }
-                  },
+                  plugins: { legend: { display: false } },
                   scales: {
                     y: {
                       ticks: {
@@ -129,9 +125,7 @@ const Containers = (props) => {
                       },
                       stacked: true
                     },
-                    x: {
-                      categorySpacing: 0
-                    }
+                    x: { categorySpacing: 0 }
                   }
                 }}
               />

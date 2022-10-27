@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 
 import Docketeer from '../../../assets/docketeer-title.png';
 
-const Login = () => {
+  const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());

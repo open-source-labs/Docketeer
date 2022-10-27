@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
@@ -38,7 +38,7 @@ const SysAdmin = () => {
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.Container(id));
+  const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const runStoppedContainer = (data) =>
     dispatch(actions.runStoppedContainer(data));
   const stopRunningContainer = (id) =>
@@ -55,7 +55,7 @@ const SysAdmin = () => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const userInfo = useSelector((state) => state.session);
+  const userInfo = useSelector((state) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
     (state) => state.volumeList.arrayOfVolumeNames
   );
@@ -86,11 +86,11 @@ const SysAdmin = () => {
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((data) => data.json())
       .then((response) => {
@@ -99,7 +99,7 @@ const SysAdmin = () => {
       .catch((err) => {
         console.log(err);
       });
-    navigate('/login');
+      navigate('/login');
   };
 
   useEffect(() => {
@@ -133,16 +133,17 @@ const SysAdmin = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // * SysAdmin Unique useEffect
   useEffect(() => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         token: userInfo.token,
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((response) => {
         return response.json();
@@ -159,106 +160,106 @@ const SysAdmin = () => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
   return (
-    <div>
-      <div className="container">
-        <nav className="tab">
-          <header id="title">
-            <img src={Docketeer} width={160} />
-          </header>
-          <div className="viewsAndButton">
-            <ul>
-              <li>
-                <Link
-                  to="/app"
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
-                >
-                  <i className="fas fa-settings"></i> Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/users"
-                  style={selected === '/users' ? selectedStyling : null}
-                  onClick={() => setSelected('/users')}
-                >
-                  <i className="fas fa-users"></i> Users
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
-                >
-                  <i className="fas fa-box-open"></i> Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/images"
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
-                >
-                  <i className="fas fa-database"></i> Images
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
-                >
-                  <i className="fas fa-chart-pie"></i> Metrics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/yml"
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
-                >
-                  <i className="fas fa-file-upload"></i> Docker Compose
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/volume"
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
-                >
-                  <i className="fas fa-volume-history"></i> Volume History
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/logs"
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
-                >
-                  <i className="fas fa-log"></i> Process Logs
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <button
-                className="btn"
-                onClick={(e) => helper.handlePruneClick(e)}
+    <div className='container'>
+      {/* Navbar */}
+      <nav className='tab'>
+        <header id='title'>
+          <img src={Docketeer} width={160} />
+        </header>
+        <div className='viewsAndButton'>
+          <ul>
+            <li>
+              <Link
+                to='/app/'
+                style={selected === '/app/' ? selectedStyling : null}
+                onClick={() => setSelected('/app/')}
               >
-                System Prune
-              </button>
-              <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
-                Logout
-              </button>
-            </div>
+                <i className='fas fa-settings'></i> Settings
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/users'
+                style={selected === '/app/users' ? selectedStyling : null}
+                onClick={() => setSelected('/app/users')}
+              >
+                <i className='fas fa-users'></i> Users
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/running'
+                style={selected === '/app/running' ? selectedStyling : null}
+                onClick={() => setSelected(() => '/app/running')}
+              >
+                <i className='fas fa-box-open'></i> Containers
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/images'
+                style={selected === '/app/images' ? selectedStyling : null}
+                onClick={() => setSelected('/app/images')}
+              >
+                <i className='fas fa-database'></i> Images
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/metrics'
+                style={selected === '/app/metrics' ? selectedStyling : null}
+                onClick={() => setSelected('/app/metrics')}
+              >
+                <i className='fas fa-chart-pie'></i> Metrics
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/yml'
+                style={selected === '/app/yml' ? selectedStyling : null}
+                onClick={() => setSelected('/app/yml')}
+              >
+                <i className='fas fa-file-upload'></i> Docker Compose
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/volume'
+                style={selected === '/app/volume' ? selectedStyling : null}
+                onClick={() => setSelected('/app/volume')}
+              >
+                <i className='fas fa-volume-history'></i> Volume History
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/logs'
+                style={selected === '/app/logs' ? selectedStyling : null}
+                onClick={() => setSelected('/app/logs')}
+              >
+                <i className='fas fa-log'></i> Process Logs
+              </Link>
+            </li>
+          </ul>
+          <div>
+            <button
+              style={{borderRadius: 5, marginBottom: 10}}
+              className='btn'
+              onClick={(e) => helper.handlePruneClick(e)}
+            >
+              System Prune
+            </button>
+            <span> </span>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
+              Logout
+            </button>
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>
       <Routes>
         <Route path='/volume' element={
           <VolumeHistory
@@ -289,9 +290,9 @@ const SysAdmin = () => {
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
         <Route path='/yml' element={
-          <Yml
-            networkList={networkList}
-            composeymlFiles={composeymlFiles}
+          <Yml 
+            networkList={networkList} 
+            composeymlFiles={composeymlFiles} 
           />}
         />
         <Route path='/images' element={

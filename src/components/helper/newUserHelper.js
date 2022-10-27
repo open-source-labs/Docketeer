@@ -3,9 +3,7 @@
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
 import store from '../../renderer/store';
-import * as actions from '../../actions/actions';
-import { NetworkCellSharp, NextWeek } from '@material-ui/icons';
-import { username } from '../../../security/email';
+import * as actions from '../../redux/actions/actions';
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -88,8 +86,8 @@ export const createNewUser = (email, username, password, phone) => {
       username: username,
       password: password,
       email: email,
-      phone: phone,
-    }),
+      phone: phone
+    })
   })
     .then(() => {
       document.getElementById('signupUsername').value = '';

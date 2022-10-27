@@ -14,16 +14,15 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.GET_VOLUME_LIST: {
+    case types.GET_VOLUME_LIST:
       // merges arrays using spread operator
       const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
       return {
         ...state,
         arrayOfVolumeNames: newVolumeList
       };
-    }
 
-    case types.GET_VOLUME_CONTAINERS_LIST: {
+    case types.GET_VOLUME_CONTAINERS_LIST: 
       const newVolumeContainersList = [...state.volumeContainersList];
       if (newVolumeContainersList.length) {
         // ensures no duplicate volumes
@@ -38,7 +37,6 @@ export default function (state = initialState, action) {
         ...state,
         volumeContainersList: newVolumeContainersList
       };
-    }
 
     default:
       return state;

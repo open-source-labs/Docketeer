@@ -18,7 +18,6 @@ import { Button } from '@mui/material';
  */
 
 const Yml = () => {
-  const classes = useStyles();
   const [filePath, setFilePath] = useState('');
   const [ymlFile, setYmlFile] = useState('');
   const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn

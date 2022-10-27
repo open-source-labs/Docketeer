@@ -38,7 +38,7 @@ const SysAdmin = () => {
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.Container(id));
+  const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const runStoppedContainer = (data) =>
     dispatch(actions.runStoppedContainer(data));
   const stopRunningContainer = (id) =>

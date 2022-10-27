@@ -143,6 +143,7 @@ Within the Image and Docker Compose tab, you pull images from DockerHub by provi
 
 ### ➮ Process Logs
 View process logs from any number of running or stopped containers. The table is both exportable and sortable by any parameter. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
+
 ![alt text](assets/docketeer-process-logs.gif)
 
 <br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).

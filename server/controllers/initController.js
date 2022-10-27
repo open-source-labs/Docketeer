@@ -45,7 +45,6 @@ initController.gitURL = (req, res, next) => {
   const parameter = [req.body.githubUrl]
   db.query2(`SELECT github_url FROM containers where name = $1`, parameter)
     .then((data) => {
-      if (!data.rows[0]) return next();
       res.locals.url = data;
       return next();
     })

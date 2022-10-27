@@ -31,7 +31,7 @@ initController.initDatabase = (req, res, next) => {
 initController.timeZone = (req, res, next) => {
   const parameter = [req.body.timezone.toString()]
   console.log(parameter)
-  db.query2(`set time zone $1`, parameter)
+  db.query2(`ALTER DATABASE postgres SET timezone TO ${parameter}`)
     .then((data) => {
       return next();
     })

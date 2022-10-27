@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 const volumeHistory = (props) => {
   const [volumeName, setVolumeName] = useState('');
   const [volumeList, setVolumeList] = useState('');
-
+  console.log(props)
   // Container details
   const containerDetails = (container, i) => {
     // unique key error here, fix required
     return (
       <div
         className="volume-container-details"
-        key={`vol.${container.Names}-${i}`}
+        key={`vol-${i}`}
       >
         <strong>Container Name: </strong>
         {container['Names']}
@@ -33,23 +33,23 @@ const volumeHistory = (props) => {
     volumeProps.map((ele, i) => {
       const details = [];
 
-      ele.containers.length
-        ? ele.containers.forEach((el) => details.push(containerDetails(el, i)))
-        : details.push(
-            <div className="volume-container-details">
-              No container found in this volume
-            </div>
-          );
-
-      return (
-        <div className="box" key={`volume${i}`}>
-          <div className="box-label">
-            <h3>{ele.vol_name}</h3>
-          </div>
-          {details}
+    ele.containers.length
+      ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
+      : details.push(
+        <div className='volume-container-details' key={`ummmmm-${i}`}>
+          No container found in this volume
         </div>
       );
-    });
+
+    return (
+      <div className="box" key={`vol_${i}`}>
+        <div className="box-label">
+          <h3>{ele.vol_name}</h3>
+        </div>
+        {details}
+      </div>
+    );
+  });
 
   // Initializes the volume history tab to be the list of volumes
   let renderList = renderVolumeHistory(props.volumeContainersList);

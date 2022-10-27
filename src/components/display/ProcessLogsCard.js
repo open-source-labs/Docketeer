@@ -7,28 +7,46 @@
  */
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types';
-// import ProcessLogsTable from '../display/ProcessLogsTable';
+import ProcessLogsTable from '../display/ProcessLogsTable';
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 
 const ProcessLogsCard = (props) => {
-  return (
-    <div className="box" key={`${props.status}Box-${props.index}`}>
-      <div className="box-label">
-        <h3>{props.container.Name || props.container.Names}</h3>
-        <p>ID: {props.container.ID}</p>
-      </div>
+  const navigate = useNavigate();
 
-      <div className="stopped-info">
-        <strong>Status: </strong> {props.status}
-      </div>
-    </div>
-  );
-};
+  const ProcessLogsCard = (props) => {
+    return (
 
-ProcessLogsCard.propTypes = {
-  container: PropTypes.object,
-  index: PropTypes.number,
-  status: PropTypes.string,
-};
+      <button className="btn-process" onClick={() => navigate(`/app/logTable/${props.container.ID}`)}>
+        <div className="box" key={`${props.status}Box-${props.index}`}>
+
+          <div className="box-label">
+            <h3>{props.container.Name || props.container.Names}</h3>
+            <p>ID: {props.container.ID}</p>
+          </div>
+    
+          <div className="stopped-info">
+            <strong>Status: </strong> {props.status}
+          </div>
+
+        </div>
+      </button>
+
+    );
+  };
+
+  ProcessLogsCard.propTypes = {
+    container: PropTypes.object,
+    index: PropTypes.number,
+    status: PropTypes.string,
+  };
+}
 
 export default ProcessLogsCard;

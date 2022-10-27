@@ -1,8 +1,9 @@
 import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
-import * as categories from '../constants/notificationCategories';
+import * as categories from '../../constants/notificationCategories';
 // object that holds what notifications have been sent
-import { cpuNotification, memoryNotification } from './api/slack.js';
+import memoryNotification from '../../main/slack/memoryNotification.js';
+import cpuNotification from '../../main/slack/cpuNotification.js';
 const dotenv = require('dotenv');
 dotenv.config();
 const sentNotifications = {};
@@ -93,7 +94,7 @@ const sendNotification = async (
         stat,
         triggeringValue,
         containerId
-      ),
+      )
     };
 
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
@@ -120,7 +121,7 @@ const sendNotification = async (
     stopped,
     percent: stat,
     type,
-    threshold: triggeringValue,
+    threshold: triggeringValue
   };
 
   await ipcRenderer.invoke('email-event', body);

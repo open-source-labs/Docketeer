@@ -6,7 +6,6 @@
   "author": "Team Docketeer",
   "main": "dist/DockteerElectron.js",
   "scripts": {
-    "electron:serve": "concurrently",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
     "buildWeb": "webpack",
@@ -38,7 +37,6 @@
     "@babel/preset-env": "^7.19.3",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
-    "@electron/remote": "^2.0.8",
     "@redux-devtools/core": "^3.13.1",
     "axios": "^1.0.0",
     "babel-loader": "^8.2.5",

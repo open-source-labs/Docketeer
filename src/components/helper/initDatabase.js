@@ -1,26 +1,27 @@
-import { exec } from 'child_process';
-import path from 'path';
-import { config } from 'dotenv';
-
-config();
-
 export default () => {
-  const directory =
-    process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '..', '..', 'database')
-      : path.join(path.dirname(__dirname), 'database');
 
-  exec(`cd src/database ; docker compose up --no-recreate --wait`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message} `);
+  fetch('http://localhost:3000/init', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    console.log(response);
+    if (response.error !== null){
+      alert(`Make sure Docker Desktop is running. \n\n ${response.error}`);
+      return
+    }
+    if (response.stderr){
+      console.log(`stderr: ${response.stderr}`);
       return;
     }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(stdout);
-  });
+    console.log(response.stdout);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 };
 
 // initDatabase is invoked upon login and composes the network consisting of a containerized SQL database 

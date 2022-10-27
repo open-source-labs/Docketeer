@@ -151,13 +151,30 @@ const ProcessLogsTable = () => {
           <FormGroup style={{display: 'flex', flexDirection: 'row'}}>
             {containerSelectors}  {/** Checkboxes for running containers */}
           </FormGroup>
-
-          <button type='button' onClick={ () => {
-             handleGetLogs(btnIdList)
-          }}>
-          Get Logs
-          </button>
-          <h4>SelectedContainers: {selectedContainerNames}</h4>
+          <Button 
+            sx={{
+              ml: 1,
+              width: 120
+            }}
+            size='medium'
+            variant='contained'
+            style={{marginBottom: 10}}
+            type='button' onClick={() => {
+              handleGetLogs(btnIdList);
+            }}>
+            Get Logs
+          </Button>
+          <Button
+            sx={{
+              ml: 1,
+              width: 180
+            }}
+            size='medium'
+            variant='contained'
+            style={{marginBottom: 10}}
+          >
+            <CSVLink style={{textDecoration: 'none', color: 'white', fontFamily: 'Roboto, Helvetica, Arial, sans-serif'}} data={csvData}>Download To CSV</CSVLink>
+          </Button>
         </form>
 
         <div

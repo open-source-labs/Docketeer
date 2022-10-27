@@ -3,15 +3,13 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 import installExtension, {
   REDUX_DEVTOOLS,
-  REACT_DEVELOPER_TOOLS,
+  REACT_DEVELOPER_TOOLS
 } from 'electron-devtools-installer';
 
-import {
-  verifyCode,
-  verifyMobileNumber,
-  postEvent,
-} from '../module/utils/api/twilio';
-import { emailEvent } from '../module/utils/api/email';
+import verifyCode from './twilio/verifyCode';
+import verifyMobileNumber from './twilio/verifyMobile';
+import postEvent from './twilio/postEvent';
+import emailEvent from './email/emailEvent';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow: BrowserWindow | null;
@@ -31,15 +29,11 @@ function createMainWindow() {
   app.whenReady().then(() => {
     const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
     const extensionsPlural = extensions.length > 0 ? 's' : '';
-    Promise.all(extensions.map((extension) => installExtension(extension)))
-      .then((names) =>
-        console.log(
-          `[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(
-            ', '
-          )}`
-        )
-      )
-      .catch((err) => console.log('[electron-extensions]', err));
+    Promise.all(extensions.map(extension => installExtension(extension)))
+      .then(names =>
+        console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
+      .catch(err =>
+        console.log('[electron-extensions] An error occurred: ', err));
   });
 
   if (isDevelopment) {
@@ -62,10 +56,9 @@ function createMainWindow() {
         setImmediate(() => {
           window.focus();
         });
-      });
-    }
-  });
-
+    });
+  }});
+  
   window.on('closed', () => {
     mainWindow = null;
   });

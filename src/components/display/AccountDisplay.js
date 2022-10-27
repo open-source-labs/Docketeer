@@ -2,8 +2,8 @@
  * @module AccountDisplay
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Material UI Imports
 import Button from '@material-ui/core/Button';
@@ -18,10 +18,10 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone,
-} from '../../module/utils/helper/settingsHelper';
+  checkPhone
+} from '../helper/settingsHelper';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       marginLeft: 5,
@@ -52,30 +52,32 @@ const AccountDisplay = () => {
   const session = useSelector((state) => state.session);
   const classes = useStyles();
 
-  return (
+  return(
     <div>
       <div className="metric-section-title">
         <h3>Account Information</h3>
       </div>
       <div className="settings-container">
-        <p>View your account information.</p>
-        <br />
+        <p>
+          View your account information.
+        </p>
+        <br/>
         <strong>Email</strong>
         <p>{session.email}</p>
-        <br />
+        <br/>
         <strong>Username</strong>
         <p>{session.username}</p>
-        <br />
+        <br/>
         <strong>Phone</strong>
         <p>{session.phone}</p>
-        <br />
+        <br/>
       </div>
       <div className="metric-section-title">
         <h3>Update Your Account</h3>
       </div>
       <div className="settings-container">
         <p>1. Update your email address</p>
-        <br />
+        <br/>
         <form className={classes.root} autoComplete="off">
           <TextField
             className={classes.textfield}
@@ -93,20 +95,18 @@ const AccountDisplay = () => {
           >
             Update
           </Button>
-          <br />
+          <br/>
           <span id="update-email-alert"></span>
         </form>
         <p>2. Update your phone number</p>
-        <br />
+        <br/>
         <form className={classes.root} autoComplete="off">
           <TextField
             className={classes.textfield}
             id="update-phone-input"
             label="Phone Number"
             helperText={session.phone}
-            onChange={() =>
-              checkPhone(document.getElementById('update-phone-input').value)
-            }
+            onChange={() => checkPhone(document.getElementById('update-phone-input').value)}
             variant="outlined"
             size="small"
           />
@@ -118,14 +118,14 @@ const AccountDisplay = () => {
           >
             Update
           </Button>
-          <br />
+          <br/>
           <span id="update-phone-alert"></span>
         </form>
         <p>3. Use the form below to update your password:</p>
-        <br />
+        <br/>
         <form className={classes.root} autoComplete="off">
           <p>Current Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id="current-password-input"
@@ -136,9 +136,9 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="current-password-alert"></span>
-          <br />
+          <br/>
           <p>New Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id="new-password-input"
@@ -149,9 +149,9 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="new-password-alert"></span>
-          <br />
+          <br/>
           <p>Confirm New Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id="new-password-confirmation-input"
@@ -163,8 +163,8 @@ const AccountDisplay = () => {
             size="small"
           />
           <span id="confirm-new-password-alert"></span>
-          <br />
-          <br />
+          <br/>
+          <br/>
           <Button
             className={classes.button}
             size="medium"

@@ -1,6 +1,9 @@
 {
   "extends": "./node_modules/electron-webpack/tsconfig-base.json",
-  "exclude": ["node_modules", "build"],
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
@@ -13,7 +16,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "jsx": "react",
-    "outDir": "build"
+    "outDir": "build",
     // "module": "commonjs",
   }
 }

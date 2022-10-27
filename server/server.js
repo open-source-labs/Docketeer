@@ -1,5 +1,5 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const cors = require('cors');
 
 // Routers
@@ -32,7 +32,7 @@ app.use('/', (req, res) => {
 });
 
 // Global Error Handler
-app.get('/', (req, res, next, err) => {
+app.get('/', (req, res, next, err)=> {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
@@ -43,7 +43,7 @@ app.get('/', (req, res, next, err) => {
 });
 
 // Open up server on PORT
-app.listen(PORT, () => {
+app.listen(PORT, ()=> {
   console.log(`server is listening on port ${PORT}`);
 });
 

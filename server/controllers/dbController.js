@@ -10,7 +10,6 @@ const sysadmin = require('../../security/sysadmin');
 const dbController = {};
 
 dbController.createRoles = (req, res, next) => {
-
   db.query('CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);')
     .then(() => {
       return next();
@@ -41,7 +40,6 @@ dbController.createTable = (req, res, next) => {
 };
 
 dbController.insertAdmin = (req, res, next) => {
-
   const { password } = res.locals;
   const email = (sysadmin.email === null || sysadmin.email === '') ? 'sysadmin@email.com' : sysadmin.email;
   const phone = (sysadmin.phone === null || sysadmin.phone === '') ? '+15013456789' : sysadmin.email;

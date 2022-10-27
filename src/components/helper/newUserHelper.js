@@ -3,7 +3,7 @@
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
 import store from '../../renderer/store';
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 
 export const handleNewUser = (e) => {
   e.preventDefault();
@@ -26,11 +26,11 @@ export const handleNewUser = (e) => {
   }
   if (!checkPhone(phone)) {
     window.alert(
-      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900'
-    );
+      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900');
     return;
   }
-  return createNewUser(email, username, password, phone);
+
+  createNewUser(email, username, password, phone);
 };
 
 export const confirmPassword = () => {
@@ -53,10 +53,11 @@ export const confirmPassword = () => {
 export const checkPasswordLength = () => {
   const passwordLengthAlert = document.getElementById('password-length-alert');
   const password = document.getElementById('signupPassword').value;
+  const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 
-  if (password.length < 6) {
+  if (!regex.test(password)) {
     passwordLengthAlert.innerHTML =
-      'Warning: Password must be 6 characters or longer';
+      '\nWarning: Password must be 6 characters or longer \nand must include at least one number and one letter';
   } else {
     passwordLengthAlert.innerHTML = '';
   }
@@ -79,59 +80,57 @@ export const createNewUser = (email, username, password, phone) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username: username,
       password: password,
       email: email,
-      phone: phone,
-    }),
-  })
-    .then((response) => {
-      return response.json();
+      phone: phone
     })
-    .then((data) => {
-      if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-        window.alert(data.error);
-      } else {
-        document.getElementById('signupUsername').value = '';
-        document.getElementById('signupPassword').value = '';
-        document.getElementById('signupPasswordConfirmation').value = '';
-        document.getElementById('signupEmail').value = '';
-        document.getElementById('signupPhone').value = '';
-        document.getElementById('password-length-alert').innerHTML = '';
-        document.getElementById('password-confirmation-alert').innerHTML = '';
+  })
+    .then(() => {
+      document.getElementById('signupUsername').value = '';
+      document.getElementById('signupPassword').value = '';
+      document.getElementById('signupPasswordConfirmation').value = '';
+      document.getElementById('signupEmail').value = '';
+      document.getElementById('signupPhone').value = '';
+      document.getElementById('password-length-alert').innerHTML = '';
+      document.getElementById('password-confirmation-alert').innerHTML = '';
 
-        window.alert(`New user has been successfully created. \n\n
+      window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
-
-        getUpdatedUserList();
-      }
+  
+    }). then (() =>{
+      getUpdatedUserList();
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
+
 export const getUpdatedUserList = () => {
+
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      username: store.userInfo.username,
-      token: store.userInfo.token,
+      // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
+      // token: store.userInfo.token,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('this is data from newUserHelper', data);
       updateUserList(data);
+    })
+    .catch((err) => {
+      console.log('error in getUpdatedUserList: ', err);
     });
 };
 
-export const updateUserList = (data) => {
+export const updateUserList = (data) => {  
   store.dispatch(actions.updateUserList(data));
 };

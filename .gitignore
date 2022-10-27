@@ -12,5 +12,7 @@ src/.store.js.icloud
 src/components/display/.RunningContainers.js.icloud
 src/components/display/.StoppedContainers.js.icloud
 src/database/docketeerdb
+server/database/docketeerdb
 .env
 yarn.lock
+coverage

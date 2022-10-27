@@ -25,7 +25,7 @@ userController.createUser = (req, res, next) => {
       .catch((err) => {
         return next({
           log: `Error in userController newUser: ${err}`,
-          message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+          message: { err: 'An error occurred creating new user in database. See userController.newUser.' },
         });
       });
   }
@@ -45,7 +45,7 @@ userController.getAllUsers = (req, res, next) => {
       .catch((err) => {
         return next({
           log: `Error in userController getAllUsers: ${err}`,
-          message: { err: 'An error occured retrieving all users from database. See userController.getAllUsers.' },
+          message: { err: 'An error occurred retrieving all users from database. See userController.getAllUsers.' },
         });
       });
   }
@@ -65,7 +65,7 @@ userController.getOneUser = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController getOneUser: ${err}`,
-        message: { err: 'An error occured retrieving user from database. See userController.getOneUser.' },
+        message: { err: 'An error occurred retrieving user from database. See userController.getOneUser.' },
       });
     });
 };
@@ -86,7 +86,26 @@ userController.verifyUser = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController checkUserExists: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See userController.checkUserExists.' },
+        message: { err: 'An error occurred while checking if username exists. See userController.checkUserExists.' },
+      });
+    });
+};
+
+// Checks database to ensure at least one person is SysAdmin - there should never be 0 sysAdmins.
+userController.checkSysAdmin = (req, res, next) => {
+
+  const query = 'SELECT * FROM users WHERE role_id = 1';
+
+  db.query(query)
+    .then((data) => {
+      res.locals.sysAdmins = data.rowCount;
+      res.locals.id = data.rows[0]._id;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController switchUserRole: ${err}`,
+        message: { err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.' },
       });
     });
 };
@@ -95,31 +114,35 @@ userController.verifyUser = (req, res, next) => {
 userController.switchUserRole = (req, res, next) => {
 
   const roleMap = {
-    sysadmin: 1,
+    'system admin': 1,
     admin: 2,
-    user: 3,
-  };
+    user: 3
+  }
 
-  const { _id, changeToAdmin } = req.body;
+  const { _id, role } = req.body
 
-  const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+  if(res.locals.sysAdmins === 1 && _id == res.locals.id){
+    res.locals.hasError = true;
+    next();
+  }  else {
 
-  // Array destructuring assignment and ternary operator
-  const [ newRole, newRoleId ] = changeToAdmin ? [ 'admin', roleMap.admin ] : [ 'user', roleMap.user ];
-
-  // const newRoleId = changeToAdmin ? roleMap.admin : roleMap.user;
-  const parameters = [ newRole, newRoleId, _id ];
-  db.query(query, parameters)
-    .then((data) => {
-      res.locals.user = data.rows[0];
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController switchUserRole: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See userController.switchUserRole.' },
+    const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+ 
+    const parameters = [role, roleMap[role], _id]
+ 
+    db.query(query, parameters)
+      .then((data) => {
+        res.locals.role = data.rows[0].role;
+        res.locals.hasError = false;
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in userController switchUserRole: ${err}`,
+          message: { err: 'An error occurred while switching roles. See userController.switchUserRole.' },
+        });
       });
-    });
+  }
 };
 
 userController.updatePassword = (req, res, next) => {
@@ -144,7 +167,7 @@ userController.updatePassword = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updatePassword: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See userController.updatePassword.' },
+        message: { err: 'An error occurred while checking if username exists. See userController.updatePassword.' },
       });
     });
 };
@@ -164,7 +187,7 @@ userController.updatePhone = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updatePhone: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See userController.updatePhone.' },
+        message: { err: 'An error occurred while checking if username exists. See userController.updatePhone.' },
       });
     });
 };
@@ -183,30 +206,9 @@ userController.updateEmail = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updateEmail: ${err}`,
-        message: { err: 'An error occured while checking if username exists. See userController.updateEmail.' },
+        message: { err: 'An error occurred while checking if username exists. See userController.updateEmail.' },
       });
     });
 };
 
-/**
- * @description verifies clients hash token that matches databases token 
- */
-userController.verifySysadmin = (req, res, next) =>{
-  const {username, token} = req.body;
-
-  const query = `SELECT * FROM users WHERE username='${username}' AND token='${token}';`;
-  db.query(query)
-    .then((data) => {
-      
-      if (!data.rows[0]) res.locals.error = 'Access Denied';
-      return next();
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in userController verifySysadmin: ${err}`,
-        message: { err: 'An error occured while checking if token exists. See userController.verifySysadmin.' },
-      });
-    });
-
-};
 module.exports = userController;

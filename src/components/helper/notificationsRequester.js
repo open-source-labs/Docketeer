@@ -1,12 +1,8 @@
 /* eslint-disable implicit-arrow-linebreak */
-import { ipcRenderer } from 'electron';
 import store from '../../renderer/store';
-import * as categories from '../../constants/notificationCategories'; 
-// object that holds what notifications have been sent
-import memoryNotification from '../../main/slack/memoryNotification.js'
-import cpuNotification  from '../../main/slack/cpuNotification.js'
-const dotenv = require('dotenv');
-dotenv.config();
+import * as categories from '../../redux/constants/notificationCategories';
+// import memoryNotification from '../../main/slack/memoryNotification.js';
+// import cpuNotification from '../../main/slack/cpuNotification.js';
 const sentNotifications = {};
 let state;
 
@@ -14,9 +10,6 @@ let state;
 const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
-  // note: this was previously returning an error because each conditional was trying to access a property on the containerObject that did not exist
-  // e.g., containerObject.mp, containerObject.cpu, etc.
-  // fix was to change it to actual properties, like containerObject.MemPerc, containerObject.CPUPerc, etc.
   if (notificationSettingType === categories.MEMORY)
     return parseFloat(containerObject.MemPerc.replace('%', ''));
   if (notificationSettingType === categories.CPU)
@@ -27,8 +20,6 @@ const getTargetStat = (containerObject, notificationSettingType) => {
 const getContainerObject = (containerList, containerId) => {
   for (let i = 0; i < containerList.length; i += 1) {
     const containerObject = containerList[i];
-    // note: this conditional was previously checking for containerObject.cid === containerId, but cid is not a property on containerObject, resulting in undefined being returned every time.
-    // changed from containerObject.cid to containerObject.ID
     if (containerObject.ID === containerId) return containerObject;
   }
   // container not present in container list (ex: running or stopped notificationList)
@@ -55,20 +46,19 @@ const constructNotificationMessage = (
 ) => {
   let message = '';
   switch (notificationType) {
-
-  case categories.STOPPED:
-    message = `Container with ID of ${containerId} has stopped`;
-    break;
-  case categories.CPU || categories.MEMORY:
+    case categories.STOPPED:
+      message = `Container with ID of ${containerId} has stopped`;
+      break;
+    case categories.CPU || categories.MEMORY:
       message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat};
         Alert Setting: ${triggeringValue}`;
-    break;
-  default:
+      break;
+    default:
       message = `${notificationType} alert for container with ID of ${containerId}. 
         Current Value: ${stat}; 
         Alert Setting: ${triggeringValue}`;
-    break;
+      break;
   }
 
   return message;
@@ -80,15 +70,14 @@ const sendNotification = async (
   containerId,
   stat,
   triggeringValue,
-  containerObject,
+  containerObject
 ) => {
-
   // Pull the current state, note we do this within this function as opposed to accessing the global state variable in the file because contact preferences may have been updated since the initialization of state variable in the file.
   const currentState = store.getState();
   const contactPreference = currentState.session.contact_pref;
   const email = currentState.session.email;
   // If the user's contact preferences are set to phone
-  if (contactPreference === 'phone'){
+  if (contactPreference === 'phone') {
     // Construct the message body which will be used to send a text
     const body = {
       mobileNumber: state.session.phone,
@@ -97,11 +86,11 @@ const sendNotification = async (
         stat,
         triggeringValue,
         containerId
-      ),
+      )
     };
-  
+
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
-    return await ipcRenderer.invoke('post-event', body);
+    return await window.nodeMethod.rendInvoke('post-event', body);
   }
 
   // Else if the user's contact preferences are set to email, or null (default to email)
@@ -109,21 +98,25 @@ const sendNotification = async (
   const date = new Date();
   const dateString = date.toLocaleDateString();
   const timeString = date.toLocaleTimeString();
-  const type = notificationType === 'CPU' ? notificationType : notificationType.toLowerCase();
+  const type =
+    notificationType === 'CPU'
+      ? notificationType
+      : notificationType.toLowerCase();
   const stopped = type === 'stopped' ? 'true' : 'false';
-  
+
   const body = {
     email,
-    containerName: (stopped === 'true' ? containerObject.Names : containerObject.Name),
+    containerName:
+      stopped === 'true' ? containerObject.Names : containerObject.Name,
     time: timeString,
     date: dateString,
     stopped,
     percent: stat,
     type,
-    threshold: triggeringValue,
+    threshold: triggeringValue
   };
 
-  await ipcRenderer.invoke('email-event', body);
+  await window.nodeMethod.rendInvoke('email-event', body);
 };
 
 /**
@@ -150,12 +143,10 @@ const checkForNotifications = (
   notificationSettingsSet.forEach((containerId) => {
     // check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
-    
+
     if (containerObject) {
-      console.log(triggeringValue);
       // gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
-      console.log(stat);
       // if the stat should trigger rule
       if (stat > triggeringValue) {
         // if the container is in sentNotifications object
@@ -178,7 +169,7 @@ const checkForNotifications = (
               containerId,
               stat,
               triggeringValue,
-              containerObject,
+              containerObject
             );
             console.log(
               `** Notification SENT. ${notificationType} 
@@ -205,8 +196,8 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
-          memoryNotification();
-          cpuNotification(); 
+          // memoryNotification();
+          // cpuNotification();
           console.log(
             `** Notification SENT. ${notificationType} 
             containerId: ${containerId} 

@@ -1,28 +1,28 @@
-import { exec } from 'child_process';
-import path from 'path';
-import { config } from 'dotenv';
-
-config();
-
 export default () => {
-  const directory =
-    process.env.NODE_ENV === 'development'
-      ? path.resolve(__dirname, '..', '..', 'database')
-      : path.join(path.dirname(__dirname), 'database');
 
-  exec(`cd ${directory} ; docker-compose up --no-recreate -d`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message} `);
+  fetch('http://localhost:3000/init', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then((data) => data.json())
+  .then((response) => {
+    if (response.error !== null){
+      alert(`Make sure Docker Desktop is running. \n\n ${response.error}`);
+      return
+    }
+    if (response.stderr){
+      console.log(`stderr: ${response.stderr}`);
       return;
     }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(stdout);
-  });
+    console.log(response.stdout);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 };
 
-// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database 
+// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database
 // which is the metrics data, notifications preferences data, and etc. being persisted
-// (for further details look into src / databse)
+// (for further details look into server / databse)

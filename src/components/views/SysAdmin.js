@@ -1,38 +1,32 @@
 // module imports
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 // static imports
-import * as actions from '../../actions/actions';
+import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
-import Metrics from "../tabs/Metrics";
-import Images from "../tabs/Images";
-import Yml from "../tabs/Yml";
-import Containers from "../tabs/Containers";
-import Settings from "../tabs/Settings";
-import UserList from "../tabs/Users";
-import VolumeHistory from "../tabs/VolumeHistory";
-import ProcessLogs from "../tabs/ProcessLogs";
-import ProcessLogsTable from "../display/ProcessLogsTable";
+import Metrics from '../tabs/Metrics';
+import Images from '../tabs/Images';
+import Yml from '../tabs/Yml';
+import Containers from '../tabs/Containers';
+import Settings from '../tabs/Settings';
+import UserList from '../tabs/Users';  //* Feature only for SysAdmin
+import VolumeHistory from '../tabs/VolumeHistory';
+import ProcessLogs from '../tabs/ProcessLogs';
+import ProcessLogsTable from '../display/ProcessLogsTable';
 
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Container component that has all redux logic along with react router
-const SysAdmin = (props) => {
+const SysAdmin = () => {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const addRunningContainers = (data) =>
     dispatch(actions.addRunningContainers(data));
@@ -44,15 +38,14 @@ const SysAdmin = (props) => {
   const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.Container(id));
+  const removeContainer = (id) => dispatch(actions.removeContainer(id));
   const runStoppedContainer = (data) =>
     dispatch(actions.runStoppedContainer(data));
   const stopRunningContainer = (id) =>
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-  const updateUserList = (data) => dispatch(actions.updateUserList(data));
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
   const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data) =>
     dispatch(actions.getVolumeContainersList(data));
@@ -62,7 +55,7 @@ const SysAdmin = (props) => {
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
   const imagesList = useSelector((state) => state.images.imagesList);
   const networkList = useSelector((state) => state.networkList.networkList);
-  const userInfo = useSelector((state) => state.session);
+  const userInfo = useSelector((state) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
     (state) => state.volumeList.arrayOfVolumeNames
   );
@@ -87,18 +80,17 @@ const SysAdmin = (props) => {
   // Local state for routers
   const [selected, setSelected] = useState('/');
 
-
   const handleLogout = (e) => {
     updateSession();
     logoutUser();
     fetch('http://localhost:3000/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((data) => data.json())
       .then((response) => {
@@ -107,6 +99,7 @@ const SysAdmin = (props) => {
       .catch((err) => {
         console.log(err);
       });
+      navigate('/login');
   };
 
   useEffect(() => {
@@ -139,16 +132,17 @@ const SysAdmin = (props) => {
     return () => clearInterval(interval);
   }, []);
 
+  // * SysAdmin Unique useEffect
   useEffect(() => {
     fetch('http://localhost:3000/admin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         token: userInfo.token,
-        username: userInfo.username,
-      }),
+        username: userInfo.username
+      })
     })
       .then((response) => {
         return response.json();
@@ -165,191 +159,184 @@ const SysAdmin = (props) => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    borderBottomRightRadius: '10px'
   };
 
-
-
   return (
-    <Router>
-      <div className="container">
-        <nav className="tab">
-          <header id="title">
-            <img src={Docketeer} width={160} />
-          </header>
-          <div className="viewsAndButton">
-            <ul>
-              <li>
-                <Link
-                  to="/app"
-                  style={selected === '/' ? selectedStyling : null}
-                  onClick={() => setSelected('/')}
-                >
-                  <i className="fas fa-settings"></i> Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/users"
-                  style={selected === '/users' ? selectedStyling : null}
-                  onClick={() => setSelected('/users')}
-                >
-                  <i className="fas fa-users"></i> Users
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/running"
-                  style={selected === '/running' ? selectedStyling : null}
-                  onClick={() => setSelected(() => '/running')}
-                >
-                  <i className="fas fa-box-open"></i> Containers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/images"
-                  style={selected === '/images' ? selectedStyling : null}
-                  onClick={() => setSelected('/images')}
-                >
-                  <i className="fas fa-database"></i> Images
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/metrics"
-                  style={selected === '/metrics' ? selectedStyling : null}
-                  onClick={() => setSelected('/metrics')}
-                >
-                  <i className="fas fa-chart-pie"></i> Metrics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/yml"
-                  style={selected === '/yml' ? selectedStyling : null}
-                  onClick={() => setSelected('/yml')}
-                >
-                  <i className="fas fa-file-upload"></i> Docker Compose
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/volume"
-                  style={selected === '/volume' ? selectedStyling : null}
-                  onClick={() => setSelected('/volume')}
-                >
-                  <i className="fas fa-volume-history"></i> Volume History
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/logs"
-                  style={selected === '/logs' ? selectedStyling : null}
-                  onClick={() => setSelected('/logs')}
-                >
-                  <i className="fas fa-log"></i> Process Logs
-                </Link>
-              </li>
-            </ul>
-            <div>
-              <button
-                className="btn"
-                onClick={(e) => helper.handlePruneClick(e)}
+    <div className='container'>
+      {/* Navbar */}
+      <nav className='tab'>
+        <header id='title'>
+          <img src={Docketeer} width={160} />
+        </header>
+        <div className='viewsAndButton'>
+          <ul>
+            <li>
+              <Link
+                to='/app/'
+                style={selected === '/app/' ? selectedStyling : null}
+                onClick={() => setSelected('/app/')}
               >
-                System Prune
-              </button>
-              <span> </span>
-              <button className="btn" onClick={(e) => handleLogout(e)}>
-                Logout
-              </button>
-            </div>
+                <i className='fas fa-settings'></i> Settings
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/users'
+                style={selected === '/app/users' ? selectedStyling : null}
+                onClick={() => setSelected('/app/users')}
+              >
+                <i className='fas fa-users'></i> Users
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/running'
+                style={selected === '/app/running' ? selectedStyling : null}
+                onClick={() => setSelected(() => '/app/running')}
+              >
+                <i className='fas fa-box-open'></i> Containers
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/images'
+                style={selected === '/app/images' ? selectedStyling : null}
+                onClick={() => setSelected('/app/images')}
+              >
+                <i className='fas fa-database'></i> Images
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/metrics'
+                style={selected === '/app/metrics' ? selectedStyling : null}
+                onClick={() => setSelected('/app/metrics')}
+              >
+                <i className='fas fa-chart-pie'></i> Metrics
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/yml'
+                style={selected === '/app/yml' ? selectedStyling : null}
+                onClick={() => setSelected('/app/yml')}
+              >
+                <i className='fas fa-file-upload'></i> Docker Compose
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/volume'
+                style={selected === '/app/volume' ? selectedStyling : null}
+                onClick={() => setSelected('/app/volume')}
+              >
+                <i className='fas fa-volume-history'></i> Volume History
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/app/logs'
+                style={selected === '/app/logs' ? selectedStyling : null}
+                onClick={() => setSelected('/app/logs')}
+              >
+                <i className='fas fa-log'></i> Process Logs
+              </Link>
+            </li>
+          </ul>
+          <div>
+            <button
+              style={{borderRadius: 5, marginBottom: 10}}
+              className='btn'
+              onClick={(e) => helper.handlePruneClick(e)}
+            >
+              System Prune
+            </button>
+            <span> </span>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
+              Logout
+            </button>
           </div>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/volume">
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          </Route>
-          <Route path="/metrics">
-            <Metrics runningList={runningList} />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/logs">
-            <ProcessLogs
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-
-          <Route path="/logTable/:containerId" >
-            <ProcessLogsTable />
-          </Route>
-
-          <Route path="/yml">
-            <Yml networkList={networkList} composeymlFiles={composeymlFiles} />
-          </Route>
-          <Route path="/images">
-            <Images
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          </Route>
-          <Route path="/running">
-            <Containers
-              runIm={helper.runIm}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              runningList={runningList}
-              addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          </Route>
-
-          <Route path="/">
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          </Route>
-
-        </Switch>
-      </div>
-    </Router>
+        </div>
+      </nav>
+      <Routes>
+        <Route path='/volume' element={
+          <VolumeHistory
+            arrayOfVolumeNames={arrayOfVolumeNames}
+            volumeContainersList={volumeContainersList}
+          />}
+        />
+        <Route path='/metrics' element={
+          <Metrics key={1} runningList={runningList} 
+          />}
+        />
+        <Route path='/users' element={<UserList />} />
+        <Route path='/logs' element={
+          <ProcessLogs
+            key={1}
+            runIm={helper.runIm}
+            stop={helper.stop}
+            stopRunningContainer={stopRunningContainer}
+            runningList={runningList}
+            addRunningContainers={addRunningContainers}
+            // Stopped Containers
+            runStopped={helper.runStopped}
+            remove={helper.remove}
+            removeContainer={removeContainer}
+            runStoppedContainer={runStoppedContainer}
+            stoppedList={stoppedList}
+          />}
+        />
+        <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
+        <Route path='/yml' element={
+          <Yml 
+            networkList={networkList} 
+            composeymlFiles={composeymlFiles} 
+          />}
+        />
+        <Route path='/images' element={
+          <Images
+            runIm={helper.runIm}
+            removeIm={helper.removeIm}
+            addRunningContainers={addRunningContainers}
+            refreshImagesList={refreshImagesList}
+            imagesList={imagesList}
+            runningList={runningList}
+          />}
+        />
+        <Route path='/running' element={
+          <Containers
+            runIm={helper.runIm}
+            stop={helper.stop}
+            stopRunningContainer={stopRunningContainer}
+            runningList={runningList}
+            addRunningContainers={addRunningContainers}
+            imagesList={imagesList}
+            // Stopped Containers
+            runStopped={helper.runStopped}
+            remove={helper.remove}
+            removeContainer={removeContainer}
+            runStoppedContainer={runStoppedContainer}
+            stoppedList={stoppedList}
+          />}
+        />
+        <Route path='/' element={
+          <Settings
+            runningList={runningList}
+            stop={helper.stop}
+            stopRunningContainer={stopRunningContainer}
+            stoppedList={stoppedList}
+            runStopped={helper.runStopped}
+            refreshRunningContainers={refreshRunningContainers}
+            runStoppedContainer={runStoppedContainer}
+            phoneNumber={phoneNumber}
+            memoryNotificationList={memoryNotificationList}
+            cpuNotificationList={cpuNotificationList}
+            stoppedNotificationList={stoppedNotificationList}
+          />}
+        />
+      </Routes>
+    </div>
   );
 };
 

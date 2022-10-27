@@ -235,107 +235,107 @@ const UserView = (props) => {
           <Route
             path='volume'
             element={
-              // <VolumeHistory
-              //   arrayOfVolumeNames={arrayOfVolumeNames}
-              //   volumeContainersList={volumeContainersList}
-              // />
-              <h2>I'm Volume History!</h2>
+              <VolumeHistory
+                arrayOfVolumeNames={arrayOfVolumeNames}
+                volumeContainersList={volumeContainersList}
+              />
+              // <h2>I'm Volume History!</h2>
             }
           />
           <Route
             path='metrics'
             element={
-              // <Metrics runningList={runningList}/>
-              <h2>I'm Metrics!</h2>
+              <Metrics runningList={runningList} />
+              // <h2>I'm Metrics!</h2>
             }
           />
 
           <Route
             path='logs'
             element={
-              // <ProcessLogs
-              //   runIm={helper.runIm}
-              //   stop={helper.stop}
-              //   stopRunningContainer={stopRunningContainer}
-              //   runningList={runningList}
-              //   addRunningContainers={addRunningContainers}
-              //   // Stopped Containers
-              //   runStopped={helper.runStopped}
-              //   remove={helper.remove}
-              //   removeContainer={removeContainer}
-              //   runStoppedContainer={runStoppedContainer}
-              //   stoppedList={stoppedList}
-              // />
-              <h2>I'm Logs!</h2>
+              <ProcessLogs
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+              // <h2>I'm Logs!</h2>
             }
           />
           <Route
             path='logTable/:containerId'
             element={
-              // <ProcessLogsTable />
-              <h2>I'm Process Logs</h2>
+              <ProcessLogsTable />
+              // <h2>I'm Process Logs</h2>
             }
           />
           <Route
             path='yml'
             element={
-              // <Yml
-              //   networkList={networkList}
-              //   composeymlFiles={composeymlFiles}
-              // />
-              <h2>I'm YML!</h2>
+              <Yml
+                networkList={networkList}
+                composeymlFiles={composeymlFiles}
+              />
+              // <h2>I'm YML!</h2>
             }
           />
           <Route
             path='images'
             element={
-              // <ImagesUser
-              //   runIm={helper.runIm}
-              //   removeIm={helper.removeIm}
-              //   addRunningContainers={addRunningContainers}
-              //   refreshImagesList={refreshImagesList}
-              //   imagesList={imagesList}
-              //   runningList={runningList}
-              // />
-              <h2>I'm Images!</h2>
+              <ImagesUser
+                runIm={helper.runIm}
+                removeIm={helper.removeIm}
+                addRunningContainers={addRunningContainers}
+                refreshImagesList={refreshImagesList}
+                imagesList={imagesList}
+                runningList={runningList}
+              />
+              // <h2>I'm Images!</h2>
             }
           />
           <Route
             path='running'
             element={
-              // <ContainersUser
-              //   runIm={helper.runIm}
-              //   stop={helper.stop}
-              //   stopRunningContainer={stopRunningContainer}
-              //   runningList={runningList}
-              //   addRunningContainers={addRunningContainers}
-              //   // Stopped Containers
-              //   runStopped={helper.runStopped}
-              //   remove={helper.remove}
-              //   removeContainer={removeContainer}
-              //   runStoppedContainer={runStoppedContainer}
-              //   stoppedList={stoppedList}
-              // />
-              <h2>I'm Running!</h2>
+              <ContainersUser
+                runIm={helper.runIm}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                runningList={runningList}
+                addRunningContainers={addRunningContainers}
+                // Stopped Containers
+                runStopped={helper.runStopped}
+                remove={helper.remove}
+                removeContainer={removeContainer}
+                runStoppedContainer={runStoppedContainer}
+                stoppedList={stoppedList}
+              />
+              // <h2>I'm Running!</h2>
             }
           />
           <Route
             path='/'
             element={
-              // <Settings
-              //   runningList={runningList}
-              //   stop={helper.stop}
-              //   stopRunningContainer={stopRunningContainer}
-              //   stoppedList={stoppedList}
-              //   runStopped={helper.runStopped}
-              //   refreshRunningContainers={refreshRunningContainers}
-              //   runStoppedContainer={runStoppedContainer}
-              //   phoneNumber={phoneNumber}
-              //   memoryNotificationList={memoryNotificationList}
-              //   cpuNotificationList={cpuNotificationList}
-              //   stoppedNotificationList={stoppedNotificationList}
-              // />
-              <h2>I'm Settings!</h2>
+              <Settings
+                runningList={runningList}
+                stop={helper.stop}
+                stopRunningContainer={stopRunningContainer}
+                stoppedList={stoppedList}
+                runStopped={helper.runStopped}
+                refreshRunningContainers={refreshRunningContainers}
+                runStoppedContainer={runStoppedContainer}
+                phoneNumber={phoneNumber}
+                memoryNotificationList={memoryNotificationList}
+                cpuNotificationList={cpuNotificationList}
+                stoppedNotificationList={stoppedNotificationList}
+              />
+              // <h2>I'm Settings!</h2>
             }
           />
         </Routes>

@@ -18,7 +18,7 @@ import * as actions from '../../redux/actions/actions';
 // React Component Imports
 //TODO App
 // import App from '../App';
-// import DebugRouter from '../debug/debugRouter';
+import DebugRouter from '../debug/debugRouter';
 
 // Material UI Imports
 // import { makeStyles } from '@@mui/material/styles';
@@ -27,7 +27,7 @@ import Button from '@mui/material/Button';
 
 import Docketeer from '../../../assets/docketeer-title.png';
 // Helper Functions Import
-// import { handleLogin, authenticateUser } from '../helper/loginHelper';
+import { handleLogin, authenticateUser } from '../helper/loginHelper';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {

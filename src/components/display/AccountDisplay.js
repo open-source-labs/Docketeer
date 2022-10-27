@@ -247,7 +247,7 @@ const AccountDisplay = () => {
           <Button
             // className={classes.button}
             size='medium'
-            color='default'
+            color='primary'
             variant='contained'
             onClick={() => handlePasswordChange()}
             endIcon={<SendIcon />}

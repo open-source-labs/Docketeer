@@ -16,18 +16,22 @@ const initialState = {
   userList: []
 };
 
-export default function (state = initialState, action) {
-  switch (action.type) {
+export default function (state = initialState, action){
+
+  switch(action.type) {
+
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_SESSION: {
-      return {
-        ...state,
-        isLoggedIn: !state.isLoggedIn
+
+      return { 
+        ...state, 
+        isLoggedIn : (!state.isLoggedIn) 
       };
     }
 
     // Upon successful sign-up or login, update session state with all user info
     case types.UPDATE_USER: {
+
       const {
         _id,
         username,

@@ -23,7 +23,8 @@ router.post('/',
 router.post(
   '/switch',
   userController.verifySysadmin,
-  userController.switchUserRole,
+  userController.checkSysAdmin,
+  userController.switchUserRole, 
   (req, res) => {
     return res.status(200).json(res.locals.user);
   }

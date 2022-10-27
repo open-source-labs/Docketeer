@@ -26,9 +26,7 @@ userController.createUser = (req, res, next) => {
       .catch((err) => {
         return next({
           log: `Error in userController newUser: ${err}`,
-          message: {
-            err: 'An error occured creating new user in database. See userController.newUser.',
-          },
+          message: { err: 'An error occurred creating new user in database. See userController.newUser.' },
         });
       });
   }
@@ -48,9 +46,7 @@ userController.getAllUsers = (req, res, next) => {
       .catch((err) => {
         return next({
           log: `Error in userController getAllUsers: ${err}`,
-          message: {
-            err: 'An error occured retrieving all users from database. See userController.getAllUsers.',
-          },
+          message: { err: 'An error occurred retrieving all users from database. See userController.getAllUsers.' },
         });
       });
   }
@@ -70,9 +66,7 @@ userController.getOneUser = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController getOneUser: ${err}`,
-        message: {
-          err: 'An error occured retrieving user from database. See userController.getOneUser.',
-        },
+        message: { err: 'An error occurred retrieving user from database. See userController.getOneUser.' },
       });
     });
 };
@@ -94,44 +88,55 @@ userController.verifyUser = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController checkUserExists: ${err}`,
-        message: {
-          err: 'An error occured while checking if username exists. See userController.checkUserExists.',
-        },
+        message: { err: 'An error occurred while checking if username exists. See userController.checkUserExists.' },
+      });
+    });
+};
+
+// Checks database to ensure at least one person is SysAdmin - there should never be 0 sysAdmins.
+userController.checkSysAdmin = (req, res, next) => {
+// TODO: Add logic to check length of returned data
+  const query = 'SELECT * FROM users WHERE role_id = 1';
+
+  db.query(query)
+    .then((data) => {
+      res.locals.sysAdmins = data.length;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in userController switchUserRole: ${err}`,
+        message: { err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.' },
       });
     });
 };
 
 // switches role of user upon designation by system admin
 userController.switchUserRole = (req, res, next) => {
-  const roleMap = {
-    sysadmin: 1,
-    admin: 2,
-    user: 3,
+
+  const roleMap = { // TM
+    1: 'system admin', 
+    2: 'admin',
+    3: 'user'
   };
 
-  const { _id, changeToAdmin } = req.body;
+  const { _id, role_id} = req.body;
 
-  const query =
-    'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
-
-  // Array destructuring assignment and ternary operator
-  const [newRole, newRoleId] = changeToAdmin
-    ? ['admin', roleMap.admin]
-    : ['user', roleMap.user];
-
-  // const newRoleId = changeToAdmin ? roleMap.admin : roleMap.user;
-  const parameters = [newRole, newRoleId, _id];
+  const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+ 
+  
+  const parameters = [roleMap[role_id], role_id, _id]; // TM
+ 
   db.query(query, parameters)
     .then((data) => {
       res.locals.user = data.rows[0];
+
       return next();
     })
     .catch((err) => {
       return next({
         log: `Error in userController switchUserRole: ${err}`,
-        message: {
-          err: 'An error occured while checking if username exists. See userController.switchUserRole.',
-        },
+        message: { err: 'An error occurred while switching roles. See userController.switchUserRole.' },
       });
     });
 };
@@ -160,9 +165,7 @@ userController.updatePassword = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updatePassword: ${err}`,
-        message: {
-          err: 'An error occured while checking if username exists. See userController.updatePassword.',
-        },
+        message: { err: 'An error occurred while checking if username exists. See userController.updatePassword.' },
       });
     });
 };
@@ -181,9 +184,7 @@ userController.updatePhone = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updatePhone: ${err}`,
-        message: {
-          err: 'An error occured while checking if username exists. See userController.updatePhone.',
-        },
+        message: { err: 'An error occurred while checking if username exists. See userController.updatePhone.' },
       });
     });
 };
@@ -202,9 +203,7 @@ userController.updateEmail = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController updateEmail: ${err}`,
-        message: {
-          err: 'An error occured while checking if username exists. See userController.updateEmail.',
-        },
+        message: { err: 'An error occurred while checking if username exists. See userController.updateEmail.' },
       });
     });
 };
@@ -224,9 +223,7 @@ userController.verifySysadmin = (req, res, next) => {
     .catch((err) => {
       return next({
         log: `Error in userController verifySysadmin: ${err}`,
-        message: {
-          err: 'An error occured while checking if token exists. See userController.verifySysadmin.',
-        },
+        message: { err: 'An error occurred while checking if token exists. See userController.verifySysadmin.' },
       });
     });
 };

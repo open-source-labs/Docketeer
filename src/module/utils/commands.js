@@ -592,7 +592,7 @@ export const getContainerGitUrl = (container) => {
   .then((data) => data.json())
   .then((response) => {
     console.log(response);
-    //need to figure out what I actually want to return
+    //I believe this should return the github_url that is linked to the container
     return response;
   })
   .catch((err) => {

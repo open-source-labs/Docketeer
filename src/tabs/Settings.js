@@ -128,7 +128,7 @@ const Settings = (props) => {
       console.log(err);
     })
   };
-  //!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------// 
   // const handleCheckSetting = (containerId, containerName, metricName) => {
   //   // add to DB
   //   query(
@@ -200,7 +200,7 @@ const Settings = (props) => {
   //     }
   //   );
   // };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   /**
    * @title NOTIFICATION PREFERENCES
@@ -337,7 +337,7 @@ const Settings = (props) => {
   //     }
   //   }
   // };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   // SAVING USER INPUTS: NOTIFICATION AND MEMORY CYCLE
   // 1. GET DATA FROM THE FORM
@@ -514,14 +514,14 @@ const Settings = (props) => {
     })
     // return query(queryType.GET_CONTAINERS, []);
   };
-//! updateState is not being called anywhere...so not really sure if this is actually happening.
+  //! updateState is not being called anywhere...so not really sure if this is actually happening.
   const updateState = async () => {
     const output = await getData();
     output.forEach((el) => {
       stateObject[el.id] = el.github_url;
     });
   };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
 
   const githubLink = (event) => {
@@ -541,17 +541,17 @@ const Settings = (props) => {
           url: github_url
         })
       })
-        .then((data) => data.json())
-        .then((response) => {
-          console.log('githubLink: ', response);
-          return response;
-        })
-        .catch((err) => {
-          console.log('githubLink: ', err);
-        })
+      .then((data) => data.json())
+      .then((response) => {
+        console.log('githubLink: ', response);
+        return response;
+      })
+      .catch((err) => {
+        console.log('githubLink: ', err);
+      })
     }
   }
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
   // const githubLink = (event) => {
   //   if (!tempGithubLink)
   //     alert('Please provide a link in accordance with provided example');
@@ -571,7 +571,7 @@ const Settings = (props) => {
   //     );
   //   }
   // };
-//!----------------------------------------------------------------------------------------------------------------//
+  //!----------------------------------------------------------------------------------------------------------------//
 
   // Redux: Map state to props
   const _id = useSelector((state) => state.session._id);
@@ -791,6 +791,7 @@ const Settings = (props) => {
             variant='contained'
             name={container.Names ? container.Names : container.Name}
             id={container.ID}
+            //!need to reset the field when button is clicked
             onClick={(e) => githubLink(e)}
           >
             Confirm

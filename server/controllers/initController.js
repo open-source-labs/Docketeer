@@ -46,26 +46,18 @@ initController.timeZone = (req, res, next) => {
 //This query gets invoked on line 420 of LineChartDisplay but unsure of when it runs.
   //Can't get it to console log and need to figure out what it needs to return. At first glance, looks like just the query response
 initController.gitURL = (req, res, next) => {
-  console.log('req.body: ', req.body)
-  const parameter = [(req.body.githubUrl)]
-  console.log('parameter: ', parameter)
-  //there is currently nothing in the table....so need to populate it first to see if queries work
-  db.query2(`SELECT * FROM containers`)
-  .then((data) => {
-    console.log(`container table data: `, data)
-    res.locals.data = data;
-    return next();
-  })
-  //pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
-  // db.query2(`SELECT github_url FROM containers where name = '${parameter}'`)
-  //   .then((data) => {
-  //     console.log(data)
-  //     return next();
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //     if (err) return next(err);
-  //   });
+  const parameter = [req.body.githubUrl]
+  // pretty sure I need to use the $1 and parameters array, but can't find out how to invoke this yet
+  db.query2(`SELECT github_url FROM containers where name = $1`, parameter)
+    .then((data) => {
+      console.log('GitHubURL: ', data)
+      res.locals.url = data.row[0].github_url;
+      return next();
+    })
+    .catch((err) => {
+      console.log(err)
+      if (err) return next(err);
+    });
 }
 
 

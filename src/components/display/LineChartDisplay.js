@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
-import * as actions from '../../module/actions/actions';
-import query from '../../module/utils/psqlQuery';
-import * as helper from '../../module/utils/commands';
+import * as actions from '../../actions/actions';
+import query from '../../../server/models/psqlQuery';
+import * as helper from '../helper/commands';
 import { Link } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';

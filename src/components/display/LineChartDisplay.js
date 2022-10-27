@@ -270,7 +270,6 @@ const LineChartDisplay = () => {
       let url = 'n/a';
       let message = 'n/a';
       if (ob.time.length) {
-        console.log('github object: ', ob)
         time = ob.time;
         author = ob.author;
         url = ob.url;

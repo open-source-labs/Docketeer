@@ -38,6 +38,7 @@ const Containers = (props) => {
         </div>
         <div className='stopped-button'>
           <button
+            data-testid='run-btn'
             className='run-btn'
             onClick={() =>
               props.runStopped(container['ID'], props.runStoppedContainer)
@@ -75,8 +76,7 @@ const Containers = (props) => {
           backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [cpuData, memoryData]
-          // barPercentage: 0.4
+          barPercentage: 0.45
         },
         {
           stack,
@@ -85,8 +85,7 @@ const Containers = (props) => {
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
-          data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)]
-          // barPercentage: 0.4
+          barPercentage: 0.45
         }
       ]
     };
@@ -114,23 +113,29 @@ const Containers = (props) => {
               </div>
             </div>
             <div className='chart-info'>
-              <Bar
+              <Chart
+                type='bar'
                 data={chartInfo}
                 options={{
                   responsive: true,
-                  plugins: { legend: { display: false } },
-                  scales: {
-                    y: 
-                      {
-                        ticks: {
-                          min: 0,
-                          max: 100,
-                          stepSize: 50,
-                        },
-                        stacked: true
-                      },
-                    x: { categorySpacing: 0 },
+                  plugins: {
+                    legend: {
+                      display: false
+                    }
                   },
+                  scales: {
+                    y: {
+                      ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 50
+                      },
+                      stacked: true
+                    },
+                    x: {
+                      categorySpacing: 0
+                    }
+                  }
                 }}
               />
             </div>
@@ -150,7 +155,7 @@ const Containers = (props) => {
   });
 
   return (
-    <div className='renderContainers'>
+    <div title='renderContainers' className='renderContainers'>
       <div className='header'>
         <h1 className='tabTitle'>
           Running Containers: {props.runningList.length}

@@ -18,15 +18,14 @@ describe('makeArrayOfObjects', () => {
     const result = makeArrayOfObjects(string);
     expect(result).toBeInstanceOf(Array);
   });
-
+    
   it('each element in returned array is of type object', () => {
-    const processLog =
-      'this is the timestamp\nthis is the log message\nthis is the second timestamp\nthis is the second log message';
+    const processLog = 'this is the timestamp\nthis is the log message\nthis is the second timestamp\nthis is the second log message';
     const result = makeArrayOfObjects(processLog);
 
     let output = false;
 
-    if (result.every((element) => typeof element === 'object')) {
+    if(result.every((element) => typeof element === 'object')){
       output = true;
     }
 
@@ -54,6 +53,7 @@ describe('makeArrayOfObjects', () => {
 });
 
 describe('buildOptionsObj', () => {
+
   let sinceButton;
   let tailButton;
   let sinceInput;

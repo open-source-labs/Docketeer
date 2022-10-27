@@ -1,6 +1,6 @@
 /**
  * @module Login Router
- * @description Routes all requests to login endpoint
+ * @description Routes all requests to login endpoint 
  */
 
 const express = require('express');
@@ -11,8 +11,7 @@ const cookieController = require('../controllers/cookieController');
 
 const router = express.Router();
 
-router.post(
-  '/',
+router.post('/',
   signupController.completedFormCheck,
   userController.verifyUser,
   bcryptController.comparePassword,

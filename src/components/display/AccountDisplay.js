@@ -2,8 +2,8 @@
  * @module AccountDisplay
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Material UI Imports
 import Button from '@mui/material/Button';
@@ -17,13 +17,13 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone,
-} from '../../module/utils/helper/settingsHelper';
+  checkPhone
+} from '../helper/settingsHelper';
 
 const AccountDisplay = () => {
   const session = useSelector((state) => state.session);
 
-  return (
+  return(
     <div>
       <div className='metric-section-title'>
         <h3>Account Information</h3>
@@ -33,13 +33,13 @@ const AccountDisplay = () => {
         <br />
         <strong>Email</strong>
         <p>{session.email}</p>
-        <br />
+        <br/>
         <strong>Username</strong>
         <p>{session.username}</p>
-        <br />
+        <br/>
         <strong>Phone</strong>
         <p>{session.phone}</p>
-        <br />
+        <br/>
       </div>
       <div className='metric-section-title'>
         <h3>Update Your Account</h3>
@@ -100,7 +100,7 @@ const AccountDisplay = () => {
         <br />
         <form className='settingsForm' autoComplete='off'>
           <p>Current Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id='current-password-input'
@@ -113,7 +113,7 @@ const AccountDisplay = () => {
           <span id='current-password-alert'></span>
           <br />
           <p>New Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id='new-password-input'
@@ -126,7 +126,7 @@ const AccountDisplay = () => {
           <span id='new-password-alert'></span>
           <br />
           <p>Confirm New Password</p>
-          <br />
+          <br/>
           <TextField
             required
             id='new-password-confirmation-input'

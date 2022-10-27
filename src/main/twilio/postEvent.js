@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 const twilio = require('twilio');
 // import { config } from 'dotenv';
 // config();
+=======
+import twilio from 'twilio';
+import { config } from 'dotenv';
+
+config();
+>>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -12,7 +19,11 @@ const postEvent = (mobileNumber, eventMessage) => {
     .create({
       body: eventMessage,
       to: mobileNumber,
+<<<<<<< HEAD
       from: twilioNumber
+=======
+      from: twilioNumber,
+>>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")
     })
     .then(() => {
       console.log('User notified');
@@ -23,4 +34,8 @@ const postEvent = (mobileNumber, eventMessage) => {
     });
 };
 
+<<<<<<< HEAD
 // export default postEvent;
+=======
+export default postEvent;
+>>>>>>> 276c4d7 (Revert "Updated linting for project. (#107)")

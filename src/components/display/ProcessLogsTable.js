@@ -12,14 +12,11 @@ import { CSVLink } from 'react-csv';
 /**
  * Displays process logs as table
  * @module ProcessLogsTable
- * @description Container that displays all running and not running docker containers. Each box is wrapped by
- * a Router link.
+ * @description Container that displays all running and not running docker containers. Each box is wrapped by 
+ * a Router link. 
  */
 
-const ProcessLogsTable = () => {
-  const dispatch = useDispatch();
-  const getContainerLogsDispatcher = (data) =>
-    dispatch(actions.getContainerLogs(data));
+const ProcessLogsTable = (props) => {
 
   // grab clicked container
   const urlString = window.location.href;
@@ -134,7 +131,7 @@ const ProcessLogsTable = () => {
   return (
     <div className='renderContainers'>
 
-      <div className="settings-container">
+      <div className='settings-container'>
         <form>
           <h1 style={{margin: 10}}>Container Process Logs</h1>
 
@@ -191,8 +188,13 @@ const ProcessLogsTable = () => {
             }}
           />
         </div>
+
+        
       </div>
+
+
     </div>
+
   );
 };
 

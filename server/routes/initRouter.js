@@ -18,7 +18,7 @@ router.get('/',
 router.post('/timezone',
   initController.timeZone,
   (req, res) => {
-    return res.status(200);
+    return res.sendStatus(200);
   }
 );
 

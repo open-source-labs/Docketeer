@@ -105,6 +105,31 @@ const Settings = (props) => {
   // handle check
   // I couldve made this a single function where queryType gets passed in
   // but the query's parameters are not the same
+
+  //! insert all container information performs two database calls on the backend
+  const handleCheckSetting = (containerId, containerName, metricName) => {
+    fetch('http://localhost:3000/settings/insert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        name: containerName,
+        metric: metricName.toLowerCase()
+      })
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      //!not sure if I need to actually return anything here
+      fetchNotificationSettings();
+      console.log('Insert container and settings completed: ', response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  };
+//!----------------------------------------------------------------------------------------------//
   // const handleCheckSetting = (containerId, containerName, metricName) => {
   //   // add to DB
   //   query(
@@ -135,9 +160,32 @@ const Settings = (props) => {
   //     }
   //   );
   // };
+//!----------------------------------------------------------------------------------------------//
 
   // handle uncheck
   // remove from DB
+  const handleUnCheckSetting = (containerId, metricName) => {
+    fetch('http://localhost:3000/settings/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        container: containerId,
+        metric: metricName.toLowerCase()
+      })
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      //!not sure if I need to actually return anything here
+      fetchNotificationSettings();
+      console.log('Delete container settings completed: ', response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+  //!----------------------------------------------------------------------------------------------//
   // const handleUnCheckSetting = (containerId, metricName) => {
   //   // add to DB
   //   query(
@@ -154,10 +202,29 @@ const Settings = (props) => {
   //     }
   //   );
   // };
+//!----------------------------------------------------------------------------------------------//
 
   /**
    * @title NOTIFICATION PREFERENCES
    */
+
+  const fetchNotificationSettings = async () => {
+    fetch('http://localhost:3000/settings/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data) => data.json())
+    .then((response) => {
+      // const tempMemory = [];
+      // const tempCPU = [];
+      // const tempStopped = [];
+      // response.rows.forEach((el, i) =>)
+    })
+  }
+  //!----------------------------------------------------------------------------------------------//
+
   // const fetchNotificationSettings = () => {
   //   return query(queryType.GET_NOTIFICATION_SETTINGS, [], (err, res) => {
   //     if (err) {

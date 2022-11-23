@@ -1,4 +1,22 @@
 const supertest = require('supertest');
+import { Done } from '@mui/icons-material';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { request } from 'http';
+import app from '../app';
+
+describe('GET test route', () => {
+  it('responds with json', () => {
+    request(app)
+      .getHeader('/test')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end((err, res) => {
+        if (err) return Done(err);
+        done();
+      });
+  });
+});
+
 // const server = require('../server/app');
 
 // const request = supertest(server);

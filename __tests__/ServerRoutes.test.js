@@ -1,4 +1,77 @@
 const supertest = require('supertest');
+const request = require('supertest');
+const assert = require('assert');
+const express = require('express');
+
+const app = express();
+
+app.use('/test', (req, res) => {
+  res.status(200).json({
+    success: true,
+  });
+});
+
+describe('/test route', () => {
+  it('get request to test route', (done) => {
+    request(app).get('/test').expect('Content-Type', /json/).expect(200, done);
+  });
+  it('post requeust to test route', (done) => {
+    request(app)
+      .post('/test')
+      .send({ random: 'info' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+  it('put request to test route', (done) => {
+    request(app)
+      .put('/test')
+      .send({ random: 'info' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+  it('delete request to test route', (done) => {
+    request(app)
+      .delete('/test')
+      .send({ random: 'info' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
+
+/* all route testing needed */
+
+// signup route
+
+
+describe('/signup route', () => {
+  it('get request to getAllUsers controller', (done) => {
+    request(app)
+      .get('/signup')
+      .send({ username: 'info'})
+      // .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
+
+// setting route
+
+// logout route
+
+// login route
+
+// init route
+
+// db route
+
+// api route
+
+// admin route
+
+// account route
+
 // const server = require('../server/app');
 
 // const request = supertest(server);

@@ -20,18 +20,18 @@ import Docketeer from '../../../assets/docketeer-title.png';
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
 
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
-  useEffect(() => {
-    fetch("http://localhost:3000/db")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return console.log("Connected to DB successfully", data);
-      })
-      .catch((err) => {
-        return console.log("Fetch request to /db failed:", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/db")
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       return console.log("Connected to DB successfully", data);
+  //     })
+  //     .catch((err) => {
+  //       return console.log("Fetch request to /db failed:", err);
+  //     });
+  // }, []);
 
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {

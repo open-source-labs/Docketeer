@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Containers from '../src/components/tabs/Containers';
-
+import {describe, expect, test, jest} from '@jest/globals';
+import '@testing-library/react';
+import '@testing-library/jest-dom';
+import { Chart } from 'react-chartjs-2'; 
+import {stop} from '../src/components/helper/commands.js'
+import ToggleDisplay from '../src/components/display/ToggleDisplay';
 // Started to migrate to React-Testing-Library...
 import { create } from 'react-test-renderer';
 import { fireEvent, render, screen } from '@testing-library/react';
-import * as actions from '@testing-library/jest-dom';
 
 const props = {
   runningList: [
@@ -27,20 +31,37 @@ const props = {
       Created: '2 days ago',
       name: 'zealous_pare'
     }
-  ]
+  ],
+  stop: jest.fn()
 };
+
+
 /**     Docketeer 7.0
  * This was the previous groups code, we left commented just incase it became useful down the road.
  */
 
 // Debug test
-// describe('Containers', () => {
-//   test('Renders the Container Component', () => {
-//     render(<Containers {...props} />);
-//     // Screening the component
-//     screen.debug();
-//   });
-// });
+describe('Containers', () => {
+  beforeAll(()=>{
+    render(<Containers {...props} />);
+
+  })
+
+  describe('Running List containers', () => {
+    test('Stop button is called', async () => {   
+      const stopButton = document.querySelector('.stop-btn')
+      await fireEvent.click(stopButton)
+      screen.debug()
+      expect(stopButton).toBeCalled
+    });
+    test('Wanted to test toggle display',() => {
+      render(<ToggleDisplay/>)
+      screen.debug()
+      expect(1).toBe(1)
+    })
+  })
+
+}); 
 
 // function shallowSetup() {
 //   const props = {
@@ -103,7 +124,7 @@ const props = {
  * These are all preliminary tests that were not veted out. Could be useful as a starting point.
  */
 
-//! NEED TO FIGURE OUT HOW TO ADD ONCLICK TEST
+// ! NEED TO FIGURE OUT HOW TO ADD ONCLICK TEST
 // test('ClassName run-btn in stopped component have onClick function', () => {
 //   const handleOnClick = jest.fn();
 
@@ -120,9 +141,9 @@ const props = {
 
 // describe('It should render the exited containers', () => {
 //   const { reactWrapper } = shallowSetup();
-//!   test('Should render <div> tag in Stopped', () => {
-//!    expect(reactWrapper.type()).toEqual('div');
-//!   });
+// !   test('Should render <div> tag in Stopped', () => {
+// !    expect(reactWrapper.type()).toEqual('div');
+// !   });
 
 //*   test('Should have className run-btn in Stopped component', () => {
 //*     expect(

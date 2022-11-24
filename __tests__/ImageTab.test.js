@@ -2,10 +2,90 @@
  * These tests do not work as enzyme is highly depricated and does not communicate with React 18
  */
 
-// import React from 'react';
-// import { configure, shallow } from "enzyme";
-// import Adapter from "enzyme-adapter-react-16";
-// import Images from '../src/components/tabs/Images';
+import React from 'react';
+import { describe, expect, test, jest } from '@jest/globals';
+import Images from '../src/components/tabs/Images';
+import '@testing-library/react';
+import '@testing-library/jest-dom';
+import {
+  fireEvent,
+  getByLabelText,
+  getByTestId,
+  render,
+  screen,
+} from '@testing-library/react';
+import { remove } from '../src/components/helper/commands';
+
+const props = {
+  imagesList: [
+    {
+      ID: '2718634043dc',
+      Size: '111 MB',
+      Name: 'redis',
+    },
+  ],
+  // repo: ['repo'],
+  run: jest.fn(),
+};
+
+// Debug testing, checks for image box to render on screen
+describe('Images', () => {
+  it('renders an image', () => {
+    render(<Images {...props} />);
+  });
+});
+
+/* ----- button testing ------ */
+
+// currently gets stuck at window.runExec method --> reads undefined
+describe('run button on click', () => {
+  it('fires run button functionality', async () => {
+    const { container } = render(<Images {...props} />);
+    const runButton = screen.getByRole('button', { name: 'RUN' });
+    await fireEvent.click(runButton);
+    expect(runButton).toBeCalled;
+  });
+});
+
+// currently gets stuck at window.runExec method --> reads undefined
+describe('pull button on click', () => {
+  it('fires pull button functionality', async () => {
+    const { container } = render(<Images {...props} />);
+    const pullButton = screen.getByRole('button', { name: 'Pull' });
+    await fireEvent.click(pullButton);
+    expect(pullButton).toBeCalled;
+  });
+});
+
+// currently gets stuck at window.runExec method --> reads undefined
+describe('remove button on click', () => {
+  it('fires remove button functionality', async () => {
+    const { container } = render(<Images {...props} />);
+    const removeButton = screen.getByRole('button', { name: 'REMOVE' });
+    await fireEvent.click(removeButton);
+    expect(removeButton).toBeCalled;
+  });
+});
+
+// need test for text in input field?
+
+/* ------ actions/reducers ------ */
+
+// Get Images
+// Refresh Images
+// Remove Images
+
+
+
+//   describe('Rendered images', () => {
+//     test('run button works', async () => {
+//       const runButton = document.querySelector('.run-btn');
+//       await fireEvent.click(runButton);
+//       screen.debug();
+//       expect(runButton).toBeCalled;
+//     });
+//   });
+// });
 
 // configure({ adapter: new Adapter() });
 // function shallowSetup() {

@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-  imagesList: []
+  imagesList: [],
 };
 
 export default function (state = initialState, action) {
@@ -13,7 +13,7 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
-        imagesList: newImagesList
+        imagesList: newImagesList,
       };
     }
 

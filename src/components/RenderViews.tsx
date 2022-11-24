@@ -7,7 +7,7 @@ import SysAdminView from './views/SysAdmin';
 
 interface RootState {
   session: {
-    role: 'string'
+    role: string
   }
 }
 
@@ -15,22 +15,25 @@ const RenderViews = () => {
   // grab current user's role
   const role = useSelector((state: RootState) => state.session.role); 
 
-  if (role === 'system admin') { return (  
-    <div>
-      <SysAdminView />
-    </div>
+  if (role === 'system admin') { 
+    return (  
+      <div>
+        <SysAdminView />
+      </div>
     )
   }
-  else if (role === 'admin') { return (
-    <div>
-      <AdminView />
-    </div>
+  else if (role === 'admin') { 
+    return (
+      <div>
+        <AdminView />
+      </div>
     )
   }
-  else if (role === 'user') { return (
-    <div>
-      <UserView />
-    </div>
+  else if (role === 'user') { 
+    return (
+      <div>
+        <UserView />
+      </div>
     )
   }
 };

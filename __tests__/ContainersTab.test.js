@@ -4,11 +4,12 @@ import {describe, expect, test, jest} from '@jest/globals';
 import '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Chart } from 'react-chartjs-2'; 
-import {stop} from '../src/components/helper/commands.js'
+import {stop} from '../src/components/helper/commands.js';
 import ToggleDisplay from '../src/components/display/ToggleDisplay';
 // Started to migrate to React-Testing-Library...
 import { create } from 'react-test-renderer';
 import { fireEvent, render, screen } from '@testing-library/react';
+
 
 const props = {
   runningList: [
@@ -26,10 +27,12 @@ const props = {
   stoppedList: [
     {
       Names: 'zealous',
-      ID: 'c902ec744095',
-      Img: '84c5f6e03bf0',
-      Created: '2 days ago',
-      name: 'zealous_pare'
+      ID: 'c902ec744095', // only this property was correctly referenced!
+      Image: '84c5f6e03bf0', 
+      RunningFor: '2 days ago',
+      Img: '84c5f6e03bf0', // this property is not used...
+      Created: '2 days ago', // this property is not used
+      name: 'zealous_pare' // this property is also not used anywhere
     }
   ],
   stop: jest.fn()
@@ -42,25 +45,54 @@ const props = {
 
 // Debug test
 describe('Containers', () => {
-  beforeAll(()=>{
+  beforeEach(()=>{
     render(<Containers {...props} />);
+  });
 
-  })
+  xdescribe('Running List containers', () => {
 
-  describe('Running List containers', () => {
-    test('Stop button is called', async () => {   
-      const stopButton = document.querySelector('.stop-btn')
-      await fireEvent.click(stopButton)
-      screen.debug()
-      expect(stopButton).toBeCalled
+    test('Should have render correct amount of containers', () => {
+      const runningContainers = screen.getByText('Running Containers', {exact:false});
+      const text = runningContainers.innerHTML;
+      // console.log(text)
+      // screen.debug(runningContainers)
+      expect(text).toEqual(`Running Containers: ${props.runningList.length}`);
     });
+
+    test('Name of container should properly display', ()=>{
+      const h3 = screen.getAllByRole('heading', { level: 3 });
+      const name = h3[0].innerHTML;
+      expect(name).toEqual('blissful_matsumoto');
+      console.log(name);
+    });
+
+    test('Stop button is called', async () => {   
+      const stopButton = document.querySelector('.stop-btn');
+      await fireEvent.click(stopButton);
+      screen.debug();
+      expect(stopButton).toBeCalled;
+    });
+    
     test('Wanted to test toggle display',() => {
-      render(<ToggleDisplay/>)
+      render(<ToggleDisplay/>);
+      screen.debug();
+      expect(1).toBe(1);
+    });
+
+  });
+
+  describe('Stopped List Containers', () => {
+
+    xtest('Should have render correct amount of containers', () => {
+      const exitedContainers = screen.getByText('Exited Containers', {exact:false});
+      const text = exitedContainers.innerHTML;
+      expect(text).toEqual(`Exited Containers: ${props.stoppedList.length}`);
+    });
+
+    test('Name of container should properly display', () => {
       screen.debug()
-      expect(1).toBe(1)
     })
   })
-
 }); 
 
 // function shallowSetup() {

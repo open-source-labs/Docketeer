@@ -5,9 +5,15 @@ import AdminView from './views/Admin';
 import UserView from './views/UserView';
 import SysAdminView from './views/SysAdmin';
 
-const RenderViews = (props) => {
+interface RootState {
+  session: {
+    role: 'string'
+  }
+}
+
+const RenderViews = () => {
   // grab current user's role
-  const role = useSelector((state) => state.session.role); 
+  const role = useSelector((state: RootState) => state.session.role); 
 
   if (role === 'system admin') { return (  
     <div>

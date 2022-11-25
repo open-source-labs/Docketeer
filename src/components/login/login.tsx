@@ -85,7 +85,7 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, "error")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         } else {
           updateSession(); // loggedIn = true
@@ -94,7 +94,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.log("Fetch: POST error to /login", err);
+        console.log('Fetch: POST error to /login', err);
         // created a pop window for wrong username/password
         window.alert('Wrong Password or Username. Please try Again!');
       });

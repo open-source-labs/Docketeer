@@ -18,7 +18,7 @@
     "moduleResolution": "node",
     "removeComments": true
   },
-  "include": ["src/**/*", "server/models/psqlQuery.js"]
+  "include": ["src/**/*", "server/**/*"]
 }
 
 // "images-png.d.ts"

@@ -4,7 +4,7 @@ import { buildOptionsObj } from '../helper/processLogHelper';
 import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 
-import  store  from '../../renderer/store.js';
+import  store  from '../../renderer/store';
 import { DataGrid } from '@mui/x-data-grid';
 import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
 import { CSVLink } from 'react-csv';

@@ -20,3 +20,5 @@
   },
   "include": ["src/**/*", "server/**/*"]
 }
+
+// "images-png.d.ts"

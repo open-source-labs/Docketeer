@@ -4,11 +4,11 @@ import {describe, expect, test, jest} from '@jest/globals';
 import '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Chart } from 'react-chartjs-2'; 
-import {stop} from '../src/components/helper/commands.js'
 import ToggleDisplay from '../src/components/display/ToggleDisplay';
 // Started to migrate to React-Testing-Library...
 import { create } from 'react-test-renderer';
 import { fireEvent, render, screen } from '@testing-library/react';
+
 
 const props = {
   runningList: [
@@ -26,13 +26,17 @@ const props = {
   stoppedList: [
     {
       Names: 'zealous',
-      ID: 'c902ec744095',
-      Img: '84c5f6e03bf0',
-      Created: '2 days ago',
-      name: 'zealous_pare'
+      ID: 'c902ec744095', // only this property was correctly referenced!
+      Image: '84c5f6e03bf0', 
+      RunningFor: '2 days ago',
+      Img: '84c5f6e03bf0', // this property is not used...
+      Created: '2 days ago', // this property is not used
+      name: 'zealous_pare' // this property is also not used anywhere
     }
   ],
-  stop: jest.fn()
+  stop: jest.fn(),
+  remove: jest.fn(),
+  runStopped: jest.fn()
 };
 
 
@@ -42,26 +46,86 @@ const props = {
 
 // Debug test
 describe('Containers', () => {
-  beforeAll(()=>{
+  beforeEach(()=>{
     render(<Containers {...props} />);
-
-  })
+  });
 
   describe('Running List containers', () => {
-    test('Stop button is called', async () => {   
-      const stopButton = document.querySelector('.stop-btn')
-      await fireEvent.click(stopButton)
-      screen.debug()
-      expect(stopButton).toBeCalled
-    });
-    test('Wanted to test toggle display',() => {
-      render(<ToggleDisplay/>)
-      screen.debug()
-      expect(1).toBe(1)
-    })
-  })
 
+    test('Should have render correct amount of containers', () => {
+      const runningContainers = screen.getByText('Running Containers', {exact:false});
+      const text = runningContainers.innerHTML;
+      // console.log(text)
+      // screen.debug(runningContainers)
+      expect(text).toEqual(`Running Containers: ${props.runningList.length}`);
+    });
+
+    test('Name of container should properly display', ()=>{
+      const h3 = screen.getAllByRole('heading', { level: 3 });
+      const name = h3[0].innerHTML;
+      expect(name).toEqual('blissful_matsumoto');
+      console.log(name);
+    });
+    
+    test('Show details button works', async () => {
+
+      // const mockButton = jest.fn(ToggleDisplay);
+      // screen.debug(mockButton)
+      // mockButton();
+      // expect(mockButton).toBeCalled; 
+
+      // this test is very basic...
+      // i don't think we can fully check functionality without using chart.js
+      const buttons = screen.getAllByRole('button');
+      const showDetails = buttons[0];
+      await fireEvent.click(showDetails);
+      expect(showDetails).toBeCalled
+      screen.debug()
+    });
+
+    test('Stop button is called', async () => {   
+      const stopButton = document.querySelector('.stop-btn');
+      await fireEvent.click(stopButton);
+      screen.debug();
+      expect(stopButton).toBeCalled;
+    });
+    
+    test('Wanted to test toggle display',() => {
+      render(<ToggleDisplay/>);
+      screen.debug();
+      expect(1).toBe(1);
+    });
+
+  });
+
+  describe('Stopped List Containers', () => {
+
+    xtest('Should have render correct amount of containers', () => {
+      const exitedContainers = screen.getByText('Exited Containers', {exact:false});
+      const text = exitedContainers.innerHTML;
+      expect(text).toEqual(`Exited Containers: ${props.stoppedList.length}`);
+    });
+
+    test('Name of container should properly display', () => {
+      const name = screen.getAllByText('zealous');
+      expect(name).toHaveLength(2);
+    });
+
+    test('Run and remove button should fire', async () => {
+      const buttons = screen.getAllByRole('button');
+      const runButton = buttons[2];
+      const removeButton = buttons[3];
+      await fireEvent.click(runButton);
+      await fireEvent.click(removeButton);
+      expect(runButton).toBeCalled;
+    });
+    
+  });
 }); 
+
+// check if chart autorefreshes?
+
+
 
 // function shallowSetup() {
 //   const props = {

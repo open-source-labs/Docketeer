@@ -35,9 +35,7 @@ describe('Create a New User functionality', () => {
   });
   // password is at least 6 chars long
   test('password field must have at least 6 chars', () => {
-    const password = '123456';
-    const passInput = document.getElementById('signupPassword');
-    expect(passInput).toHaveValue(password).toBeGreaterThanOrEqual(6);
+
   });
   // password and confirm passwords match
   // if either of these tests fail, check for error message alert

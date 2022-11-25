@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 
 import Docketeer from '../../../assets/docketeer-title.png';
 
-  const Login = () => {
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
@@ -36,8 +36,8 @@ import Docketeer from '../../../assets/docketeer-title.png';
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e) => {
     e.preventDefault(); // prevents form submit from reloading page
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
     const username = usernameInput.value;
     const password = passwordInput.value;
 
@@ -67,7 +67,7 @@ import Docketeer from '../../../assets/docketeer-title.png';
         return response.json();
       })
       .then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, "error")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         } else {
           updateSession(); // loggedIn = true
@@ -76,7 +76,7 @@ import Docketeer from '../../../assets/docketeer-title.png';
         }
       })
       .catch((err) => {
-        console.log("Fetch: POST error to /login", err);
+        console.log('Fetch: POST error to /login', err);
         // created a pop window for wrong username/password
         window.alert('Wrong Password or Username. Please try Again!');
       });

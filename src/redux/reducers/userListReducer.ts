@@ -1,10 +1,14 @@
 import * as types from "../constants/actionTypes";
 
-const initialState = {
+type initialState = {
+  userList: any[];
+};
+
+const obj: initialState = {
   userList: [],
 };
 
-export default function (state = initialState, action) {
+export default function (state: initialState, action: any) {
   switch (action.type) {
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_USER_LIST:
@@ -13,7 +17,7 @@ export default function (state = initialState, action) {
       };
 
     case types.UPDATE_USER_ROLE: {
-      const { _id, role } = action.payload;
+      const { _id, role }: { _id: string; role: string } = action.payload;
       const newUserList = [...state.userList];
       for (let i = 0; i < newUserList.length; i++) {
         if (newUserList[i]._id === _id) {

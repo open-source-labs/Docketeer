@@ -11,7 +11,7 @@ interface RootState {
   }
 }
 
-const RenderViews = () => {
+const RenderViews = ():any => {
   // grab current user's role
   const role = useSelector((state: RootState) => state.session.role); 
 

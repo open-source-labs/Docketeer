@@ -38,6 +38,7 @@ app.use('/logout', logoutRouter);
 
 // Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
+  console.log('why does changing react lead here');
   return res.status(404).json('404 Not Found');
 });
 

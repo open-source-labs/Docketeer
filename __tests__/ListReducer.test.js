@@ -17,30 +17,30 @@ describe("Dockeeter reducer", () => {
     };
   });
 
-  describe("unrecognized action types", () => {
-    it("should return the original without any duplication", () => {
-      expect(containerListReducer(state, { type: "qqqq" })).toBe(state);
+  describe("Action Types", () => {
+    it("Should return initial state if type is invalid", () => {
+      expect(containerListReducer(state, { type: "FakeActionType" })).toBe(state);
     });
   });
 
-  // describe('REFRESH_RUNNING_CONTAINERS', () => {
-  //   it('should overwrite the runningList array in the state to update it', () => {
-  //     expect(state.runningList.length).toEqual(0);
-  //     let action = {
-  //       type: 'REFRESH_RUNNING_CONTAINERS',
-  //       payload: [{ cid: '123' }, { cid: '456' }]
-  //     };
-  //     expect(containerListReducer(state, action).runningList.length).toEqual(2);
-  //     action = {
-  //       type: 'REFRESH_RUNNING_CONTAINERS',
-  //       payload: [{ cid: '789' }]
-  //     };
-  //     expect(containerListReducer(state, action).runningList.length).toEqual(1);
-  //     expect(containerListReducer(state, action).runningList[0].ID).toEqual(
-  //       '789'
-  //     );
-  //   });
-  // });
+  describe('REFRESH_RUNNING_CONTAINERS', () => {
+    it('should overwrite the runningList array in the state to update it', () => {
+      expect(state.runningList.length).toEqual(0);
+      let action = {
+        type: 'REFRESH_RUNNING_CONTAINERS',
+        payload: [{ cid: '123' }, { cid: '456' }]
+      };
+      expect(containerListReducer(state, action).runningList.length).toEqual(2);
+      action = {
+        type: 'REFRESH_RUNNING_CONTAINERS',
+        payload: [{ cid: '789' }]
+      };
+      // expect(containerListReducer(state, action).runningList.length).toEqual(1);
+      // expect(containerListReducer(state, action).runningList[0].ID).toEqual(
+      //   '789'
+      // );
+    });
+  });
 
   // describe('REFRESH_STOPPED_CONTAINERS', () => {
   //   it('should overwrite the stoppedList array in the state to update it', () => {

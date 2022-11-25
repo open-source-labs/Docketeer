@@ -1,4 +1,5 @@
 const electron = require ('electron');
+
 const path = require ('path');
 const url = require('url');
 
@@ -28,6 +29,7 @@ function createMainWindow() {
   
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL(`http://localhost:4000`);
+    mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadURL(
       url.format({

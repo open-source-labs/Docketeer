@@ -58,19 +58,21 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
+      // {
+      //   /** Loading Images
+      //    * /\.(png|svg|jpg|jpeg|gif)$/i -> i is for case-insensitive
+      //    */
+      //   test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      //   type: 'asset/resource'
+      // },
       {
-        /** Loading Images
-         * /\.(png|svg|jpg|jpeg|gif)$/i -> i is for case-insensitive
-         */
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource'
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'assets/[name].[ext]'
-        }
+        type: 'asset/resource',
+        // loader: 'file-loader'
+        // options: {
+        //   name: 'assets/[name].[ext]'
+        // }
+  
       }
     ]
   },

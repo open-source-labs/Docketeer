@@ -11,6 +11,7 @@ import * as actions from '../../redux/actions/actions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+// @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
 
 interface UserInfo {
@@ -49,7 +50,7 @@ const Login = () => {
   // }, []);
 
   // callback function invoked when 'login' button is clicked
-  const handleLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogin = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevents form submit from reloading page
     console.log("Event:", e)
     const usernameInput = document.getElementById("username");
@@ -112,7 +113,7 @@ const Login = () => {
           <h1 className='tabTitle'>Login</h1>
         </div>
         <div className='settings-container'>
-          <form className='loginForm' onSubmit={() => handleLogin}>
+          <form className='loginForm' onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}>
             <TextField 
               id='username' 
               label='Username' 

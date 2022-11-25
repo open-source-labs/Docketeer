@@ -1,7 +1,7 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 const initialState = {
-  userList: []
+  userList: [],
 };
 
 export default function (state = initialState, action) {
@@ -9,7 +9,7 @@ export default function (state = initialState, action) {
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_USER_LIST:
       return {
-        userList: action.payload
+        userList: action.payload,
       };
 
     case types.UPDATE_USER_ROLE: {
@@ -23,12 +23,12 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
-        userList: newUserList
+        userList: newUserList,
       };
     }
     default:
       return {
-        ...state
+        ...state,
       };
   }
 }

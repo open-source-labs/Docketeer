@@ -1,19 +1,19 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 const initialState = {
-  name: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
   container_stops: false,
-  isSysAdmin: false
+  isSysAdmin: false,
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
     case types.UPDATE_ALL:
       return;

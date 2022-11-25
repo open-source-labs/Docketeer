@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-
+import * as types from "../constants/actionTypes";
+import {PayloadAction} from '@reduxjs/toolkit';
 /**
  * @description Reducer for the list of containers running in each volume
  * State has been separated into two arrays for future implementation
@@ -7,22 +7,28 @@ import * as types from '../constants/actionTypes';
  * @param {Array} arrayOfVolumeNames List of volumes running
  * @param {nested Objects} volumeContainersList Containers running under each volume
  */
-const initialState = {
+
+interface stateType {
+  arrayOfVolumeNames: any[];
+  volumeContainersList: any[];
+}
+
+const initialState: stateType = {
   arrayOfVolumeNames: [],
-  volumeContainersList: []
+  volumeContainersList: [],
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.GET_VOLUME_LIST:
       // merges arrays using spread operator
       const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
       return {
         ...state,
-        arrayOfVolumeNames: newVolumeList
+        arrayOfVolumeNames: newVolumeList,
       };
 
-    case types.GET_VOLUME_CONTAINERS_LIST: 
+    case types.GET_VOLUME_CONTAINERS_LIST:
       const newVolumeContainersList = [...state.volumeContainersList];
       if (newVolumeContainersList.length) {
         // ensures no duplicate volumes
@@ -35,7 +41,7 @@ export default function (state = initialState, action) {
       newVolumeContainersList.push(action.payload);
       return {
         ...state,
-        volumeContainersList: newVolumeContainersList
+        volumeContainersList: newVolumeContainersList,
       };
 
     default:

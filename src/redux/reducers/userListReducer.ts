@@ -1,14 +1,15 @@
 import * as types from "../constants/actionTypes";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-type initialState = {
+interface stateType {
   userList: any[];
-};
+}
 
-const obj: initialState = {
+const initialState: stateType = {
   userList: [],
 };
 
-export default function (state: initialState, action: any) {
+export default function (state = initialState, action: PayloadAction<any>) {
   switch (action.type) {
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_USER_LIST:

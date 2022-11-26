@@ -12,7 +12,7 @@ const Images = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    helper.pullImage(repo);
+    helper.pullImage('redis');
   };
 
   const renderImagesList = props.imagesList.map((ele, i) => {

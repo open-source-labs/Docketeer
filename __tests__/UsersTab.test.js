@@ -65,6 +65,14 @@ describe('Create a New User functionality', () => {
 
 });
 
+//* Dummy Test
+describe('dummy test', () => {
+  test('dummy test', () => {
+    expect(2 + 2).toBe(4);
+  });
+});
+
+/* ----- clean up functions ---- */
 const getPasswordField = () => {
   return document.getElementById('signupPassword');
 };

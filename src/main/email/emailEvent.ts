@@ -1,6 +1,8 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+// TODO: the communication files seem to be unused, could improve functionality
 
-const emailEvent = (args) => {
+
+const emailEvent = (args: string[]) => {
   fetch('http://localhost:3000/api', {
     method: 'POST',
     headers: {
@@ -19,4 +21,3 @@ const emailEvent = (args) => {
     });
 };
 
-// export default emailEvent;

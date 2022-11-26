@@ -227,6 +227,7 @@ export const runStopped = (
  * @param {*} callback_2
  */
 
+// this function is used to run an image from the image tab
 export const runIm = (id, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
   window.nodeMethod.runExec(`docker run ${id}`, (error, stdout, stderr) => {

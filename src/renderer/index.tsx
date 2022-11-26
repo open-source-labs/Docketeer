@@ -13,6 +13,7 @@ import '../components/css/static.css';
 import App from './App';
 
 
+
 const rootNode = document.getElementById('root')!;
 const root = createRoot(rootNode)
 root.render(

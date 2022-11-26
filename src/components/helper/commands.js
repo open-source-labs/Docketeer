@@ -66,27 +66,28 @@ const errorCheck = (key, error) => {
   else{
     console.log(error.message);
   }
-  return
-}
+  return;
+};
 
 export const refreshRunning = (refreshRunningContainers) => {
   window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
-        errorCheck("refreshRunning", error);
+        errorCheck('refreshRunning', error);
         return;
       }
       if (stderr) {
         console.log(`refreshRunning stderr: ${stderr}`);
         return;
       }
-      
+      // console.log(stdout);
       const dockerOutput = `[${stdout
         .trim()
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
+      // console.log(convertedValue);
       refreshRunningContainers(convertedValue);
     }
   );
@@ -102,7 +103,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
     'docker ps -f "status=exited" --format "{{json .}},"',
     (error, stdout, stderr) => {
       if (error) {
-        errorCheck("refreshStopped", error);
+        errorCheck('refreshStopped', error);
         return;
       }
       if (stderr) {
@@ -126,7 +127,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
 export const refreshImages = (callback) => {
   window.nodeMethod.runExec('docker images', (error, stdout, stderr) => {
     if (error) {
-      errorCheck("refreshImages", error);
+      errorCheck('refreshImages', error);
       return;
     }
     if (stderr) {
@@ -306,6 +307,10 @@ export const pullImage = (repo) => {
       console.log(`pullImage stderr: ${stderr}`);
       return;
     }
+    alert(`${repo} is currently being downloaded`);
+    console.log(stdout);
+    console.log(repo, 'is currently being pulled');
+    // if not error, add a loading component until page renders a new component
   });
 };
 
@@ -488,7 +493,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  * Writes metric stats into database
  */
 
- export const writeToDb = () => {
+export const writeToDb = () => {
   const interval = 300000;
   setInterval(() => {
     const state = store.getState();
@@ -496,7 +501,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
     const stoppedContainers = state.containersList.stoppedList;
 
     if (!runningContainers.length) return;
-    const containerParameters = {}
+    const containerParameters = {};
 
     runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
@@ -509,7 +514,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
         block: container.BlockIO,
         pid: container.PIDs,
         timestamp: 'current_timestamp'
-      }
+      };
     });
     if (stoppedContainers.length >= 1) {
       stoppedContainers.forEach((container) => { 
@@ -523,21 +528,21 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
           block: '00.0MB/00.0MB',
           pid: '0',
           timestamp: 'current_timestamp'
-        }
+        };
       });
     }
     fetch('http://localhost:3000/init/addMetrics', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      containers: containerParameters
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        containers: containerParameters
+      })
     })
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+      .catch((err) => {
+        console.log(err);
+      });
   }, interval);
 };
 
@@ -554,13 +559,13 @@ export const setDbSessionTimeZone = () => {
       timezone: offsetTimeZoneInHours
     })
   })
-  .then((data) => data.json())
-  .then((response) => {
-    return;
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+    .then((data) => data.json())
+    .then((response) => {
+      return;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const getContainerGitUrl = async (container) => {
@@ -572,7 +577,7 @@ export const getContainerGitUrl = async (container) => {
     body: JSON.stringify({
       githubUrl: container
     })
-  })
+  });
   return await response.json();
 };
 
@@ -629,7 +634,6 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
         listOfVolumeProperties(volumeName, dockerOutput)
       );
 
-      return getVolumeContainersList(listOfVolumeProperties(volumeName, dockerOutput));
     });
 };
 
@@ -642,30 +646,30 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
-  let containerLogs = { stdout: [], stderr: [] };
+  const containerLogs = { stdout: [], stderr: [] };
 
-    // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerIds.length; i++) {
-      // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs --timestamps ';
-      if (optionsObj.since) {
-        inputCommandString += `--since ${optionsObj.since} `;
-      }
-      optionsObj.tail
-        ? (inputCommandString += `--tail ${optionsObj.tail} `)
-        : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerIds[i]}`;
-
-      window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`);
-          return;
-        }
-        containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
-        containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
-      });
+  // iterate through containerIds array in optionsObj
+  for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    // build inputCommandString to get logs from command line
+    let inputCommandString = 'docker logs --timestamps ';
+    if (optionsObj.since) {
+      inputCommandString += `--since ${optionsObj.since} `;
     }
-    return containerLogs;
+    optionsObj.tail
+      ? (inputCommandString += `--tail ${optionsObj.tail} `)
+      : (inputCommandString += '--tail 50 ');
+    inputCommandString += `${optionsObj.containerIds[i]}`;
+
+    window.nodeMethod.runExec(inputCommandString, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])];
+      containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])];
+    });
+  }
+  return containerLogs;
 };
 
 

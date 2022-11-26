@@ -1,11 +1,17 @@
 import * as types from '../constants/actionTypes';
+import { PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface stateType {
+  runningList: any[],
+  stoppedList: any[]
+}
+
+const initialState: stateType = {
   runningList: [],
   stoppedList: []
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();
@@ -16,7 +22,7 @@ export default function (state = initialState, action) {
 
     case types.STOP_RUNNING_CONTAINER:
       const newStoppedList = state.stoppedList.slice();
-      const newestRunningList = [];
+      const newestRunningList: object[] = [];
       for (let container of state.runningList) {
         if (container.ID !== action.payload) {
           newestRunningList.push(container);
@@ -30,7 +36,7 @@ export default function (state = initialState, action) {
 
     case types.RUN_STOPPED_CONTAINER: 
       const runningListCopy = state.runningList.slice();
-      const newerStoppedContainer = [];
+      const newerStoppedContainer: object[] = [];
       for (let container of state.stoppedList) {
         if (container.ID === action.payload) {
         } else {
@@ -44,7 +50,7 @@ export default function (state = initialState, action) {
       };
 
     case types.REFRESH_RUNNING_CONTAINERS: 
-      const newRunningList2 = [];
+      const newRunningList2: object[] = [];
       for (const container of action.payload) {
         newRunningList2.push(container);
       }

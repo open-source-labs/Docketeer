@@ -19,5 +19,7 @@
     "removeComments": true,
     "noEmit": false
   },
-  "include": ["src/**/*", "server/models/psqlQuery.js"]
+  "include": ["src/**/*", "server/**/*"]
 }
+
+// "images-png.d.ts"

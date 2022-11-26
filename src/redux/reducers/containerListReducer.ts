@@ -1,15 +1,21 @@
 /* eslint-disable no-case-declarations */
+import { PayloadAction } from '@reduxjs/toolkit';
 import * as types from '../constants/actionTypes';
 
-const initialState = {
+interface stateType {
+  runningList: any[],
+  stoppedList: any[]
+}
+
+const initialState: stateType = {
   runningList: [],
   stoppedList: []
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.ADD_RUNNING_CONTAINERS:
-      const newRunningList = state.runningList.slice();
+      const newRunningList: object[] = state.runningList.slice();
       for (const container of action.payload) {
         newRunningList.push(container);
       }
@@ -17,7 +23,7 @@ export default function (state = initialState, action) {
 
     case types.STOP_RUNNING_CONTAINER:
       const newStoppedList = state.stoppedList.slice();
-      const newestRunningList = [];
+      const newestRunningList: object[] = [];
       for (const container of state.runningList) {
         if (container.ID !== action.payload) {
           newestRunningList.push(container);
@@ -31,7 +37,7 @@ export default function (state = initialState, action) {
 
     case types.RUN_STOPPED_CONTAINER:
       const runningListCopy = state.runningList.slice();
-      const newerStoppedContainer = [];
+      const newerStoppedContainer: object[] = [];
       for (const container of state.stoppedList) {
         // eslint-disable-next-line no-empty
         if (container.ID === action.payload) {
@@ -46,14 +52,14 @@ export default function (state = initialState, action) {
       };
 
     case types.REFRESH_RUNNING_CONTAINERS:
-      const newRunningList2 = [];
+      const newRunningList2: object[] = [];
       for (const container of action.payload) {
         newRunningList2.push(container);
       }
       return { ...state, runningList: newRunningList2 };
 
     case types.REMOVE_CONTAINER:
-      const removeContainerList = [];
+      const removeContainerList: object[] = [];
       for (const container of state.stoppedList) {
         if (container.ID !== action.payload) {
           removeContainerList.push(container);
@@ -62,14 +68,14 @@ export default function (state = initialState, action) {
       return { ...state, stoppedList: removeContainerList };
 
     case types.ADD_STOPPED_CONTAINERS:
-      const newerStoppedList = state.stoppedList.slice();
+      const newerStoppedList: object[] = state.stoppedList.slice();
       for (const container of action.payload) {
         newerStoppedList.push(container);
       }
       return { ...state, stoppedList: newerStoppedList };
 
     case types.REFRESH_STOPPED_CONTAINERS:
-      const newStoppedList4 = [];
+      const newStoppedList4: object[] = [];
       for (const container of action.payload) {
         newStoppedList4.push(container);
       }
@@ -77,5 +83,5 @@ export default function (state = initialState, action) {
 
     default:
       return state;
-  }
-}
+  };
+};

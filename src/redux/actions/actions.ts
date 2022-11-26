@@ -1,151 +1,151 @@
 import * as types from '../constants/actionTypes';
 
-export const addRunningContainers = (data) => ({
+export const addRunningContainers = (data: object[]) => ({
   type: types.ADD_RUNNING_CONTAINERS,
   payload: data
 });
 
-export const removeContainer = (id) => ({
+export const removeContainer = (id: number) => ({
   type: types.REMOVE_CONTAINER,
   payload: id
 });
 
-export const stopRunningContainer = (id) => ({
+export const stopRunningContainer = (id: number) => ({
   type: types.STOP_RUNNING_CONTAINER,
   payload: id
 });
 
-export const addStoppedContainers = (data) => ({
+export const addStoppedContainers = (data: object[]) => ({
   type: types.ADD_STOPPED_CONTAINERS,
   payload: data
 });
 
-export const runStoppedContainer = (id) => ({
+export const runStoppedContainer = (id: number) => ({
   type: types.RUN_STOPPED_CONTAINER,
   payload: id
 });
 
-export const getImages = (data) => ({
+export const getImages = (data: object[]) => ({
   type: types.GET_IMAGES,
   payload: data
 });
 
-export const runImage = (id) => ({
+export const runImage = (id: number) => ({
   type: types.RUN_IMAGE,
   payload: id
 });
 
-export const removeImage = (id) => ({
+export const removeImage = (id: number) => ({
   type: types.REMOVE_IMAGE,
   payload: id
 });
 
-export const refreshRunningContainers = (data) => ({
+export const refreshRunningContainers = (data: object[]) => ({
   type: types.REFRESH_RUNNING_CONTAINERS,
   payload: data
 });
 
-export const refreshStoppedContainers = (data) => ({
+export const refreshStoppedContainers = (data: object[]) => ({
   type: types.REFRESH_STOPPED_CONTAINERS,
   payload: data
 });
 
-export const refreshImages = (data) => ({
+export const refreshImages = (data: object[]) => ({
   type: types.REFRESH_IMAGES,
   payload: data
 });
 
-export const composeymlFiles = (data) => ({
+export const composeymlFiles = (data: object[]) => ({
   type: types.COMPOSE_YML_FILES,
   payload: data
 });
 
-export const getNetworkContainers = (data) => ({
+export const getNetworkContainers = (data: object[]) => ({
   type: types.GET_NETWORK_CONTAINERS,
   payload: data
 });
 
-export const getContainerStacks = (data) => ({
+export const getContainerStacks = (data: object[]) => ({
   type: types.GET_CONTAINER_STACKS,
   payload: data
 });
 
-export const composeDown = (data) => ({
+export const composeDown = (data: object[]) => ({
   type: types.COMPOSE_DOWN,
   payload: data
 });
 
-export const composeUp = (data) => ({
+export const composeUp = (data: object[]) => ({
   type: types.COMPOSE_UP,
   payload: data
 });
 
-export const buildAxis = (data) => ({
+export const buildAxis = (data: object[]) => ({
   type: types.BUILD_AXIS,
   payload: data
 });
 
-export const buildMemory = (data) => ({
+export const buildMemory = (data: object[]) => ({
   type: types.BUILD_MEMORY,
   payload: data
 });
 
-export const buildCpu = (data) => ({
+export const buildCpu = (data: object[]) => ({
   type: types.BUILD_CPU,
   payload: data
 });
 
-export const buildWrittenIO = (data) => ({
+export const buildWrittenIO = (data: object[]) => ({
   type: types.BUILD_WRITTEN_IO,
   payload: data
 });
 
-export const buildReadIO = (data) => ({
+export const buildReadIO = (data: object[]) => ({
   type: types.BUILD_READ_IO,
   payload: data
 });
 
-export const addPhoneNumber = (data) => ({
+export const addPhoneNumber = (data: object[]) => ({
   type: types.ADD_PHONE_NUMBER,
   payload: data
 });
 
-export const addMemoryNotificationSetting = (data) => ({
+export const addMemoryNotificationSetting = (data: object[]) => ({
   type: types.ADD_MEMORY_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const addCpuNotificationSetting = (data) => ({
+export const addCpuNotificationSetting = (data: object[]) => ({
   type: types.ADD_CPU_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const addStoppedNotificationSetting = (data) => ({
+export const addStoppedNotificationSetting = (data: object[]) => ({
   type: types.ADD_STOPPED_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const removeMemoryNotificationSetting = (data) => ({
+export const removeMemoryNotificationSetting = (data: object[]) => ({
   type: types.REMOVE_MEMORY_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const removeCpuNotificationSetting = (data) => ({
+export const removeCpuNotificationSetting = (data: object[]) => ({
   type: types.REMOVE_CPU_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const removeStoppedNotificationSetting = (data) => ({
+export const removeStoppedNotificationSetting = (data: object[]) => ({
   type: types.REMOVE_STOPPED_NOTIFICATION_SETTING,
   payload: data
 });
 
-export const addNotificationFrequency = (data) => ({
+export const addNotificationFrequency = (data: object[]) => ({
   type: types.NOTIFICATION_FREQUENCY,
   payload: data
 });
 
-export const addMonitoringFrequency = (data) => ({
+export const addMonitoringFrequency = (data: object[]) => ({
   type: types.MONITORING_FREQUENCY,
   payload: data
 });
@@ -154,40 +154,40 @@ export const updateSession = () => ({
   type: types.UPDATE_SESSION
 });
 
-export const updateUser = (data) => ({
+export const updateUser = (data: object[]) => ({
   type: types.UPDATE_USER,
   payload: data
 });
 
-export const logoutUser = (data) => ({
+export const logoutUser = (data: object[]) => ({
   type: types.LOGOUT_USER,
   payload: data
 });
 
-export const updateUserList = (data) => ({
+export const updateUserList = (data: object[]) => ({
   type: types.UPDATE_USER_LIST,
   payload: data
 });
 
-export const updateUserRole = (data) => ({
+export const updateUserRole = (data: object[]) => ({
   type: types.UPDATE_USER_ROLE,
   payload: data
 });
 
 // get volume
-export const getVolumeList = (data) => ({
+export const getVolumeList = (data: object[]) => ({
   type: types.GET_VOLUME_LIST,
   payload: data
 });
 
 // get containers that live in volume
-export const getVolumeContainersList = (data) => ({
+export const getVolumeContainersList = (data: object[]) => ({
   type: types.GET_VOLUME_CONTAINERS_LIST,
   payload: data
 });
 
 // get container logs
-export const getContainerLogs = (data) => ({
+export const getContainerLogs = (data: object[]) => ({
   type: types.GET_CONTAINER_LOGS,
   payload: data
 });

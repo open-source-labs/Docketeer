@@ -48,24 +48,27 @@ describe('Dockeeter reducer', () => {
     });
   });
 
-  // describe('REFRESH_STOPPED_CONTAINERS', () => {
-  //   it('should overwrite the stoppedList array in the state to update it', () => {
-  //     expect(state.stoppedList.length).toEqual(0);
-  //     let action = {
-  //       type: 'REFRESH_STOPPED_CONTAINERS',
-  //       payload: [{ cid: '123' }, { cid: '456' }]
-  //     };
-  //     expect(containerListReducer(state, action).stoppedList.length).toEqual(2);
-  //     action = {
-  //       type: 'REFRESH_STOPPED_CONTAINERS',
-  //       payload: [{ cid: '789' }]
-  //     };
-  //     expect(containerListReducer(state, action).stoppedList.length).toEqual(1);
-  //     expect(containerListReducer(state, action).stoppedList[0].ID).toEqual(
-  //       '789'
-  //     );
-  //   });
-  // });
+  describe('REFRESH_STOPPED_CONTAINERS', () => {
+    it('should overwrite the stoppedList array in the state to update it', () => {
+      expect(state.stoppedList.length).toEqual(0);
+      let action = {
+        type: 'REFRESH_STOPPED_CONTAINERS',
+        payload: [{ cid: '123' }, { cid: '456' }]
+      };
+      let newState = containerListReducer(state, action);
+      expect(newState.stoppedList.length).toEqual(2);
+
+      action = {
+        type: 'REFRESH_STOPPED_CONTAINERS',
+        payload: [{ cid: '789' }]
+      };
+      newState = containerListReducer(state, action);
+      expect(newState.stoppedList.length).toEqual(1);
+      expect(newState.stoppedList[0].cid).toEqual(
+        '789'
+      );
+    });
+  });
 
   describe('REFRESH_IMAGES', () => {
     it('should overwrite the imagesList array in the state to update it', () => {
@@ -94,30 +97,31 @@ describe('Dockeeter reducer', () => {
     });
   });
 
-  // describe('STOP_RUNNING_CONTAINER', () => {
-  //   it('should remove a specified container from the runningList and add it to the stoppedList', () => {
-  //     let newState = {
-  //       runningList: [{ cid: '123' }, { cid: '456' }],
-  //       stoppedList: []
-  //     };
-  //     const action = { type: 'STOP_RUNNING_CONTAINER', payload: '123' };
-  //     newState = containerListReducer(newState, action);
-  //     expect(newState.runningList[0].ID).toEqual('456');
-  //   });
-  // });
+  describe('STOP_RUNNING_CONTAINER', () => {
+    it('should remove a specified container from the runningList and add it to the stoppedList', () => {
+      let newState = {
+        runningList: [{ ID: '123' }, { ID: '456' }],
+        stoppedList: []
+      };
+      const action = { type: 'STOP_RUNNING_CONTAINER', payload: '123' };
+      newState = containerListReducer(newState, action);
+      expect(newState.runningList[0].ID).toEqual('456');
+    });
+  });
 
-  // describe('RUN_STOPPED_CONTAINER', () => {
-  //   it('should remove a specified container from the stoppedList', () => {
-  //     const newState = {
-  //       runningList: [],
-  //       stoppedList: [{ cid: '123' }, { cid: '456' }]
-  //     };
-  //     const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
-  //     expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual(
-  //       '456'
-  //     );
-  //   });
-  // });
+  describe('RUN_STOPPED_CONTAINER', () => {
+    it('should remove a specified container from the stoppedList', () => {
+      const newState = {
+        runningList: [],
+        stoppedList: [{ ID: '123' }, { ID: '456' }]
+      };
+      const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
+      console.log(newState);
+      expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual(
+        '45fsdf6'
+      );
+    });
+  });
 
   describe('REMOVE_IMAGE', () => {
     it('should remove a specified image from the imagesList', () => {

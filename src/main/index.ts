@@ -33,7 +33,7 @@ function createMainWindow() {
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, '/index.js'),
+        pathname: path.join(__dirname, '/index'),
         protocol: 'file:',
         slashes: true,
       })
@@ -45,7 +45,7 @@ function createMainWindow() {
   }
 
     electron.app.on('ready', createMainWindow)
-    
+    electron.app.on('renderer-process-crashed', createMainWindow)
     // MacOS Specific function
     electron.app.on('window-all-closed', function () {
       // Common for application and their menu bar to stay active until use quits explicitly 

@@ -306,6 +306,10 @@ export const pullImage = (repo) => {
       console.log(`pullImage stderr: ${stderr}`);
       return;
     }
+    alert(`${repo} is currently being downloaded`);
+    console.log(stdout);
+    console.log(repo, 'is currently being pulled');
+    // if not error, add a loading component until page renders a new component
   });
 };
 

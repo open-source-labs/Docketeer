@@ -28,3 +28,5 @@ src/database/docketeerdb
 .env
 yarn.lock
 coverage
+
+.history

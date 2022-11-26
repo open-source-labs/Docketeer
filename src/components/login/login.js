@@ -44,13 +44,15 @@ import Docketeer from '../../../assets/docketeer-title.png';
     // clears input fields after login
     usernameInput.value = "";
     passwordInput.value = "";
-
+    console.log("username:", username);
+    console.log("password:", password);
     authenticateUser(username, password);
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect
   // either SSID in cookie.
   const authenticateUser = (username, password) => {
+    console.log("YOU ARE HERE!")
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {

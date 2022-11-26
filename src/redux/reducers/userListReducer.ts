@@ -1,19 +1,24 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  userList: []
+interface stateType {
+  userList: any[];
+}
+
+const initialState: stateType = {
+  userList: [],
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: PayloadAction<any>) {
   switch (action.type) {
     // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_USER_LIST:
       return {
-        userList: action.payload
+        userList: action.payload,
       };
 
     case types.UPDATE_USER_ROLE: {
-      const { _id, role } = action.payload;
+      const { _id, role }: { _id: string; role: string } = action.payload;
       const newUserList = [...state.userList];
       for (let i = 0; i < newUserList.length; i++) {
         if (newUserList[i]._id === _id) {
@@ -23,12 +28,12 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
-        userList: newUserList
+        userList: newUserList,
       };
     }
     default:
       return {
-        ...state
+        ...state,
       };
   }
 }

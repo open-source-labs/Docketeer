@@ -135,7 +135,7 @@ const Containers = (props) => {
             className='stop-btn'
             onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
-            STOP
+            STOfP
           </button>
         </div>
       </div>
@@ -153,7 +153,7 @@ const Containers = (props) => {
 
       <div className='header'>
         <h1 className='tabTitle'>
-          Exited Containers: {props.stoppedList.length}
+          Exited Conftainers: {props.stoppedList.length}
         </h1>
       </div>
       <div className='stopped-containers'>{renderStoppedList}</div>

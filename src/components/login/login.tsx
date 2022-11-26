@@ -117,7 +117,8 @@ const Login = () => {
             <TextField 
               id='username' 
               label='Username' 
-              variant='outlined' 
+              variant='outlined'
+              value='sysadmin' 
             />
             <br />
             <br />
@@ -126,6 +127,7 @@ const Login = () => {
               label='Password'
               type='password'
               variant='outlined'
+              value='belugas'
             />
             <br />
             {/* * Submit Button * */}

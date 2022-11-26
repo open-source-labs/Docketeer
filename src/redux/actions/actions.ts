@@ -154,7 +154,7 @@ export const updateSession = () => ({
   type: types.UPDATE_SESSION
 });
 
-export const updateUser = (data: object[]) => ({
+export const updateUser = (data: object) => ({
   type: types.UPDATE_USER,
   payload: data
 });

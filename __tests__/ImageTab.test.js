@@ -36,10 +36,18 @@ const props = {
 // const mockRun = jest.fn();
 // const mockRremove = jest.fn();
 
+/* ----- search bar ----- */
+
+test('Search accepts input', async () => {
+  const search = screen.getByRole('input');
+  await fireEvent.change(search, { target: { value: 'search' } });
+  expect(search.value).toBe('search');
+});
+
 /* ----- button testing ------ */
 
 describe('run button on click', () => {
-  it('fires run button functionality', async () => {
+  test('fires run button functionality', async () => {
     const { container } = render(<Images {...props} />);
     const runButton = screen.getByRole('button', { name: 'RUN' });
     await fireEvent.click(runButton);
@@ -49,7 +57,7 @@ describe('run button on click', () => {
 
 // currently gets stuck at window.runExec method --> reads undefined
 describe('pull button on click', () => {
-  it('fires pull button functionality', async () => {
+  test('fires pull button functionality', async () => {
     const { container } = render(<Images {...props} />);
     const pullButton = screen.getByRole('button', { name: 'Pull' });
     await fireEvent.click(pullButton);
@@ -58,7 +66,7 @@ describe('pull button on click', () => {
 });
 
 describe('remove button on click', () => {
-  it('fires remove button functionality', async () => {
+  test('fires remove button functionality', async () => {
     const { container } = render(<Images {...props} />);
     const removeButton = screen.getByRole('button', { name: 'REMOVE' });
     await fireEvent.click(removeButton);
@@ -71,14 +79,16 @@ describe('remove button on click', () => {
 /* ------ actions/reducers ------ */
 
 describe('Images', () => {
-  it('renders an image if one is found', () => {
+  test('renders an image if one is found', () => {
     render(<Images {...props} />);
   });
-  it('refreshes page if image removed', () => {
-    // need to check that refreshRunning helper function is called
-
-  });
 });
+
+//   it('refreshes page if image removed', () => {
+//     // need to check that refreshRunning helper function is called
+
+//   });
+// });
 
 //* Dummy Test
 describe('dummy test', () => {

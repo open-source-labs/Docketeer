@@ -305,6 +305,8 @@ export const pullImage = (repo) => {
       console.log(`pullImage stderr: ${stderr}`);
       return;
     }
+    console.log(stdout);
+    console.log('pull image working');
   });
 };
 

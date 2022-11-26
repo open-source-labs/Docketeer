@@ -46,10 +46,13 @@
     "@babel/preset-env": "^7.19.3",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@jest/globals": "^29.3.1",
     "@mui/system": "^5.10.10",
     "@redux-devtools/core": "^3.13.1",
+    "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.2.3",
     "@types/pg": "^8.6.5",
     "axios": "^1.0.0",
     "babel-loader": "^8.2.5",
@@ -60,6 +63,7 @@
     "dotenv": "^16.0.3",
     "electron": "^21.0.1",
     "electron-devtools-installer": "^3.2.0",
+    "electron-reloader": "^1.2.3",
     "express": "^4.18.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -73,7 +77,6 @@
     "react-test-renderer": "^18.2.0",
     "style-loader": "^3.3.1",
     "supertest": "^6.3.0",
-    "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "twilio": "^3.82.1",
@@ -92,7 +95,6 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
-    "preset": "ts-jest",
     "moduleNameMapper": {
       "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"

@@ -90,7 +90,7 @@ const Containers = (props) => {
               </div>
             </div>
             <div className="chart-info">
-            <Chart
+              <Chart
                 type='bar'
                 data={chartInfo}
                 options={{

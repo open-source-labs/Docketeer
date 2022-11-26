@@ -1,13 +1,17 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   containerLogs: {
     stdoutLogs: [],
-    stderrLogs: []
-  }
+    stderrLogs: [],
+  },
 };
 
-const processLogsReducer = (state = initialState, action) => {
+const processLogsReducer = (
+  state = initialState,
+  action: PayloadAction<any>
+) => {
   switch (action.type) {
     case types.GET_CONTAINER_LOGS: {
       const newContainerLogs = action.payload;

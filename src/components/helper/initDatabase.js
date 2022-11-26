@@ -7,6 +7,24 @@ export default () => {
   })
     .then((data) => data.json())
     .then((response) => {
+      if (response.error !== null){
+        console.log('Make sure Docker Desktop is running', response.error);
+        // Not clear why the alert is needed
+        // i'll change to console.log for now
+        console.log(`Make sure Docker Desktop is running. \n\n ${response.error}`);
+        return;
+      }
+      if (response.stderr){
+        console.log(`stderr: ${response.stderr}`);
+        return;
+      }
+      console.log(response.stdout);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    .then((data) => data.json())
+    .then((response) => {
       if (response.error !== null) {
         alert(`Make sure Docker Desktop is running. \n\n ${response.error}`);
         return;

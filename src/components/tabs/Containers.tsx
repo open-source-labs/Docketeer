@@ -2,15 +2,15 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-
+import { ContainerProps, ContainerType, ChartInfoType} from './TabTypes'; 
 /**
  * Display all running and stopped containers
  *
  * @param {*} props
  */
 
-const Containers = (props) => {
-  const renderStoppedList = props.stoppedList.map((container, i) => {
+const Containers = (props: ContainerProps) => {
+  const renderStoppedList = props.stoppedList.map((container: ContainerType, i: number) => {
     return (
       <div className='box' key={`stoppedBox-${i}`}>
         <div className='box-label'>
@@ -52,7 +52,7 @@ const Containers = (props) => {
     );
   });
 
-  const renderRunningList = props.runningList.map((container, i) => {
+  const renderRunningList = props.runningList.map((container: ContainerType, i: number) => {
     const cpuData = parseFloat(
       container.CPUPerc.substring(0, container.CPUPerc.length - 1)
     ).toFixed(2);
@@ -60,7 +60,7 @@ const Containers = (props) => {
       container.MemPerc.substring(0, container.MemPerc.length - 1)
     ).toFixed(2);
     const stack = 'stack';
-    const chartInfo = {
+    const chartInfo: ChartInfoType = {
       labels: ['CPU', 'Memory'],
       datasets: [
         {
@@ -75,7 +75,7 @@ const Containers = (props) => {
         {
           stack,
           label: Math.random(),
-          data: [(100 - cpuData).toFixed(2), (100 - memoryData).toFixed(2)],
+          data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
@@ -135,7 +135,7 @@ const Containers = (props) => {
             className='stop-btn'
             onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
-            STOfP
+            STOP
           </button>
         </div>
       </div>

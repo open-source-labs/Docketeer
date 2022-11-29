@@ -1,3 +1,4 @@
+// unable to currently use this ts file, possible conflict with electron
 import { contextBridge, ipcRenderer } from "electron";
 import child_process, { ExecException } from "child_process";
 

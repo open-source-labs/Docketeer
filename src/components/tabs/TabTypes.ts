@@ -34,6 +34,8 @@ export type ContainerProps = {
     remove: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     stop: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     runningList: Array<RunningListType>;
+    runIm: (id: string, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
+    addRunningContainers: (data: object[]) => void;
   }
 
   // Stopped containers have a Names key and running containers have a Name key

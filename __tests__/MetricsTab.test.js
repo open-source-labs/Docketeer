@@ -13,22 +13,25 @@ import { create } from 'react-test-renderer';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 const props = {
-  runningList: [{ BlockIO: "1B/2B", ID: "6f49565a501c", CPUPerc: "20.00%", MemPerc: "0.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_1", NetIO: "3B/4B", PIDs: "0" }, { BlockIO: "3B/4B", ID: "6f49565a501c", CPUPerc: "30.00%", MemPerc: "20.00%", MemUsage: "5B/6B", Name: "checkpoint_nginx_2", NetIO: "5B/6B", PIDs: "0" }]
-}
+  runningList: [{ BlockIO: '1B/2B', ID: '6f49565a501c', CPUPerc: '20.00%', MemPerc: '0.00%', MemUsage: '5B/6B', Name: 'checkpoint_nginx_1', NetIO: '3B/4B', PIDs: '0' }, { BlockIO: '3B/4B', ID: '6f49565a501c', CPUPerc: '30.00%', MemPerc: '20.00%', MemUsage: '5B/6B', Name: 'checkpoint_nginx_2', NetIO: '5B/6B', PIDs: '0' }]
+};
 
-describe('Metrics tab should render', () => {
-  beforeEach(()=>{
-    render(
-      <Provider store={store}>
-        <Metrics {...props}/>
-      </Provider>
-    )
-  });
+// Docketeer 8.0
+// Testing chart.js might be better handled through component rather than testing suite
 
-  test('Metrics', ()=>{
-    expect(1).toBe(1)
-  })
-})
+// describe('Metrics tab should render', () => {
+//   beforeEach(()=>{
+//     render(
+//       <Provider store={store}>
+//         <Metrics {...props}/>
+//       </Provider>
+//     );
+//   });
+
+//   test('Metrics', ()=>{
+//     expect(1).toBe(1);
+//   });
+// });
 
 /*
 

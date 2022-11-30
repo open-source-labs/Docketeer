@@ -55,7 +55,14 @@ export const refreshImages = (data: object[]) => ({
   payload: data,
 });
 
-export const composeymlFiles = (data: object[]) => ({
+/* --------------- */
+type composeymlFilesStr = {
+  type: string;
+  payload: object[];
+};
+/* --------------- */
+
+export const composeymlFiles = (data: composeymlFilesStr) => ({
   type: types.COMPOSE_YML_FILES,
   payload: data,
 });
@@ -159,9 +166,9 @@ export const updateUser = (data: object) => ({
   payload: data,
 });
 
-export const logoutUser = (data: object[]) => ({
+export const logoutUser = () => ({
   type: types.LOGOUT_USER,
-  payload: data,
+  // payload: data
 });
 
 export const updateUserList = (data: object[]) => ({

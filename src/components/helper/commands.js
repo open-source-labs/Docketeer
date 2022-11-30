@@ -373,6 +373,7 @@ export const inspectDockerContainer = (containerId) => {
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
+  console.log(fileLocation, ymlFileName);
   return new Promise((resolve, reject) => {
     const nativeYmlFilenames = [
       'docker-compose.yml',
@@ -382,6 +383,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
     ];
     let cmd = `cd ${fileLocation} && docker compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
+    
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
     }

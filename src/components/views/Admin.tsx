@@ -7,6 +7,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
+// @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
@@ -28,58 +29,87 @@ import initDatabase from '../helper/initDatabase';
 const AdminView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const addRunningContainers = (data) =>
+  const addRunningContainers = (data: object[]) =>
     dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data) =>
+  const refreshRunningContainers = (data: object[]) =>
     dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data) =>
+  const refreshStoppedContainers = (data: object[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data) =>
+  const refreshImagesList = (data: object[]) => dispatch(actions.refreshImages(data));
+  // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
+  const getNetworkContainers = (data: object[]) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (data) =>
-    dispatch(actions.runStoppedContainer(data));
-  const stopRunningContainer = (id) =>
+  const removeContainer = (id: number) => dispatch(actions.removeContainer(id));
+  // this parameter was changed from data: object[] because in the actions file, an id argument was being requested
+  const runStoppedContainer = (id: number) =>
+    dispatch(actions.runStoppedContainer(id));
+  const stopRunningContainer = (id: number) =>
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
+  // originally, this function have any parameters, but typescript through an error saying it was needed. Check this out later
   const logoutUser = () => dispatch(actions.logoutUser());
-  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data) =>
-    dispatch(actions.getVolumeContainersList(data));
+  const getVolumeList = (data: object[]) => dispatch(actions.getVolumeList(data));
+  const getVolumeContainersList = (data: object[]) => dispatch(actions.getVolumeContainersList(data));
+
+  interface containersList {
+    runningList: object[],
+    stoppedList: object[]
+  }
+
+  interface imagesList {
+    imagesList: any[]
+  }
+
+  interface volumeList {
+    arrayOfVolumeNames: any[]
+    volumeContainersList: any[]
+  }
+  
+  interface notificationList {
+    phoneNumber: any[],
+    memoryNotificationList: any[],
+    cpuNotificationList: any[],
+    stoppedNotificationList: any[],
+  }
+
+  interface stateType {
+    containersList: containersList,
+    images: imagesList,
+    volumeList: volumeList,
+    notificationList: notificationList
+  };
 
   // map state to props
-  const runningList = useSelector((state) => state.containersList.runningList);
-  const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  const imagesList = useSelector((state) => state.images.imagesList);
-  const networkList = useSelector((state) => state.networkList.networkList);
+  const runningList = useSelector((state: stateType) => state.containersList.runningList);
+  const stoppedList = useSelector((state: stateType) => state.containersList.stoppedList);
+  const imagesList = useSelector((state: stateType) => state.images.imagesList);
+  // const networkList = useSelector((state: stateType) => state.networkList.networkList);
 
   const arrayOfVolumeNames = useSelector(
-    (state) => state.volumeList.arrayOfVolumeNames
+    (state: stateType) => state.volumeList.arrayOfVolumeNames
   );
   const volumeContainersList = useSelector(
-    (state) => state.volumeList.volumeContainersList
+    (state: stateType) => state.volumeList.volumeContainersList
   );
 
   // map state to props
   const phoneNumber = useSelector(
-    (state) => state.notificationList.phoneNumber
+    (state: stateType) => state.notificationList.phoneNumber
   );
   const memoryNotificationList = useSelector(
-    (state) => state.notificationList.memoryNotificationList
+    (state: stateType) => state.notificationList.memoryNotificationList
   );
   const cpuNotificationList = useSelector(
-    (state) => state.notificationList.cpuNotificationList
+    (state: stateType) => state.notificationList.cpuNotificationList
   );
   const stoppedNotificationList = useSelector(
-    (state) => state.notificationList.stoppedNotificationList
+    (state: stateType) => state.notificationList.stoppedNotificationList
   );
 
   // declare a local state variable called selected, initialize to '/'
   const [selected, setSelected] = useState('/');
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
     navigate('/login');  
@@ -135,7 +165,7 @@ const AdminView = () => {
               <Link
                 to='/app/users/'
                 style={
-                  selected === '/app/users/' ? selectedStyling : null
+                  selected === '/app/users/' ? selectedStyling : undefined
                 }
                 onClick={() => setSelected('/app/users/')}
               >
@@ -148,7 +178,7 @@ const AdminView = () => {
                 style={
                   selected === '/app/running'
                     ? selectedStyling
-                    : null
+                    : undefined
                 }
                 onClick={() => setSelected(() => '/app/running')}
               >
@@ -161,7 +191,7 @@ const AdminView = () => {
                 style={
                   selected === '/app/images'
                     ? selectedStyling
-                    : null
+                    : undefined
                 }
                 onClick={() => setSelected('/app/images')}
               >
@@ -174,7 +204,7 @@ const AdminView = () => {
                 style={
                   selected === '/app/metrics'
                     ? selectedStyling
-                    : null
+                    : undefined
                 }
                 onClick={() => setSelected('/app/metrics')}
               >
@@ -185,7 +215,7 @@ const AdminView = () => {
               <Link
                 to='/app/yml'
                 style={
-                  selected === '/app/yml' ? selectedStyling : null
+                  selected === '/app/yml' ? selectedStyling : undefined
                 }
                 onClick={() => setSelected('/app/yml')}
               >
@@ -198,7 +228,7 @@ const AdminView = () => {
                 style={
                   selected === '/app/volume'
                     ? selectedStyling
-                    : null
+                    : undefined
                 }
                 onClick={() => setSelected('/app/volume')}
               >
@@ -209,7 +239,7 @@ const AdminView = () => {
               <Link
                 to='/app/logs'
                 style={
-                  selected === '/app/logs' ? selectedStyling : null
+                  selected === '/app/logs' ? selectedStyling : undefined
                 }
                 onClick={() => setSelected('/app/logs')}
               >
@@ -226,7 +256,7 @@ const AdminView = () => {
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
               Logout
             </button>
           </div>
@@ -271,8 +301,9 @@ const AdminView = () => {
           path='/yml'
           element={
             <Yml
-              networkList={networkList}
-              composeymlFiles={composeymlFiles}
+            //the below properties for the Yml component were throwing errors. The Yml component file didn't seem to be using these so they have been marked out for now
+              // networkList={networkList}
+              // composeymlFiles={composeymlFiles}
             />
           }
         />
@@ -329,5 +360,5 @@ const AdminView = () => {
     </div>
   );
 };
-
+//adding comment to commit
 export default AdminView;

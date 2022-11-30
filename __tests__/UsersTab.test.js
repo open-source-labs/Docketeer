@@ -58,7 +58,7 @@ describe('Create a New User functionality', () => {
     const onSubmit = jest.fn();
     const button = screen.getByRole('button', { name: 'Submit' });
     await fireEvent.click(button);
-    expect(onSubmit).toHaveBeenCalledTimes(1);
+    expect(onSubmit).toBeCalled;
   });
 
   //* Dummy Test

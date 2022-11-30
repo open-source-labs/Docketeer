@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { ContainerProps, ContainerType, ChartInfoType} from './TabTypes'; 
+import { ContainerProps, ContainerType, ChartInfoType } from './TabTypes'; 
 /**
  * Display all running and stopped containers
  *
@@ -65,7 +65,7 @@ const Containers = (props: ContainerProps) => {
       datasets: [
         {
           stack,
-          label: Math.random(),
+          label: Math.random().toString(),
           data: [cpuData, memoryData],
           backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
           borderColor: 'rgba(0,0,0,0)',
@@ -74,7 +74,7 @@ const Containers = (props: ContainerProps) => {
         },
         {
           stack,
-          label: Math.random(),
+          label: Math.random().toString(),
           data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',

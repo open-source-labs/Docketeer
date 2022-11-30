@@ -1,39 +1,71 @@
-// gotta do all these functions
+import type { ChartData, ChartOptions, ChartDataset } from 'chart.js';
+// Refer to the Settings Tab for more information on stoppedList and runningList
+export interface StoppedListType {
+    Names: string,
+    ID: string,
+    Image: string,
+    RunningFor: string,
+    Img: string,
+    Created: string,
+    name: string,
+    CPUPerc: string,
+    MemPerc: string,
+}
+export interface RunningListType {
+    block: string,
+    ID: string,
+    CPUPerc: string,
+    MemPerc: string,
+    MemUsage: string,
+    Name: string,
+    NetIO: string,
+    PIDs: string,
+    Image: string,
+    RunningFor: string,
+}
+
+// for more info review actions.ts file and Settings.ts
 export type ContainerProps = {
-    stoppedList: any[];
-    runStopped: any;
-    runStoppedContainer: any;
-    removeContainer: any;
-    stopRunningContainer: any;
-    remove: any;
-    stop: any;
-    runningList: any[];
+    stoppedList: Array<StoppedListType>;
+    runStopped: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
+    runStoppedContainer: (id: string) => void;
+    removeContainer: (id: string) => void;
+    stopRunningContainer: (id: string) => void;
+    remove: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
+    stop: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
+    runningList: Array<RunningListType>;
   }
-  // gotta do all those anys
+
+  // Stopped containers have a Names key and running containers have a Name key
   export type ContainerType = {
-    Name: string;
-    Names: string;
-    ID: number;
-    Image: any;
-    RunningFor: any;
-    CPUPerc: any;
-    MemPerc: any;
+    Name?: string;
+    Names?: string;
+    ID: string;
+    Image: string;
+    RunningFor: string;
+    CPUPerc: string;
+    MemPerc: string;
   
   }
   
+  // uneeded at this point
   export type ChartInfoType = {
-    labels: string[] | number[];
+    labels: string[];
     datasets: DataSetType[];
-  
+    data?: any
   }
-  // just the label function
+  
   export type DataSetType = {
     stack: string;
-    label: any;
-    data: string[];
+    label: string;
+    data: ChartDataset<"bar", string[]> | string[];
     backgroundColor: string[];
     borderColor: string;
     borderWidth: number;
     barPercentage: number;
   }
   
+//   export interface BarType {
+//     options: any;
+//     data: any;
+//   }

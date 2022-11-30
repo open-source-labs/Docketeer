@@ -6,6 +6,7 @@ import * as actions from "../../redux/actions/actions";
 import * as helper from "../helper/commands";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, Checkbox } from "@mui/material";
+import { RootState } from "../../renderer/store";
 
 /**
  * Displays linegraph and github metrics
@@ -16,13 +17,19 @@ const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState("4");
-  const memory = useSelector((state) => state.graphs.graphMemory);
-  const cpu = useSelector((state) => state.graphs.graphCpu);
-  const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
-  const readIO = useSelector((state) => state.graphs.graphReadIO);
-  const axis = useSelector((state) => state.graphs.graphAxis);
-  const runningList = useSelector((state) => state.containersList.runningList);
-  const stoppedList = useSelector((state) => state.containersList.stoppedList);
+  const memory = useSelector((state: RootState) => state.graphs["graphMemory"]);
+  const cpu = useSelector((state: RootState) => state.graphs["graphCpu"]);
+  const writtenIO = useSelector(
+    (state: RootState) => state.graphs["graphWrittenIO"]
+  );
+  const readIO = useSelector((state: RootState) => state.graphs["graphReadIO"]);
+  const axis = useSelector((state: RootState) => state.graphs["graphAxis"]);
+  const runningList = useSelector(
+    (state: RootState) => state.containersList.runningList
+  );
+  const stoppedList = useSelector(
+    (state: RootState) => state.containersList.stoppedList
+  );
 
   const dispatch = useDispatch();
   const buildAxis = (data: string) => dispatch(actions.buildAxis(data));
@@ -82,10 +89,7 @@ const LineChartDisplay = () => {
 
     const output = await getContainerMetrics();
 
-    const generateLineColor = (
-      containerName: string[],
-      activeContainers: {}
-    ) => {
+    const generateLineColor = (containerName: string, activeContainers: {}) => {
       const colorOptions = [
         "red",
         "blue",

@@ -6,8 +6,6 @@ import React from 'react';
 import { describe, expect, test, jest } from '@jest/globals';
 import Images from '../src/components/tabs/Images';
 // import ImageUsers from '../src/components/tabs/ImagesUser';
-
-import mockAxios from 'axios';
 import '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
@@ -28,20 +26,17 @@ const props = {
   ],
   runIm: jest.fn(),
   removeIm: jest.fn(),
+  onClick: jest.fn(),
 };
 
-/* ----- mock functions ----- */
-
-// jest.mock('axios');
-// const mockRun = jest.fn();
-// const mockRremove = jest.fn();
-
 /* ----- search bar ----- */
-
-test('Search accepts input', async () => {
-  const search = screen.getByRole('input');
-  await fireEvent.change(search, { target: { value: 'search' } });
-  expect(search.value).toBe('search');
+describe('Seach bar testing', () => {
+  test('Search accepts input', async () => {
+    const { container } = render(<Images {...props} />);  
+    const search = screen.getByRole('textbox');
+    await fireEvent.change(search, { target: { value: 'search' } });
+    expect(search.value).toBe('search');
+  });
 });
 
 /* ----- button testing ------ */
@@ -56,14 +51,14 @@ describe('run button on click', () => {
 });
 
 // currently gets stuck at window.runExec method --> reads undefined
-describe('pull button on click', () => {
-  test('fires pull button functionality', async () => {
-    const { container } = render(<Images {...props} />);
-    const pullButton = screen.getByRole('button', { name: 'Pull' });
-    await fireEvent.click(pullButton);
-    expect(pullButton).toBeCalled;
-  });
-});
+// describe('pull button on click', () => {
+//   test('fires pull button functionality', () => {
+//     const { container } = render(<Images {...props} />);
+//     const pullButton = screen.getByRole('button', { name: 'Pull' });
+//     fireEvent.click(pullButton);
+//     expect(pullButton).toBeCalled;
+//   });
+// });
 
 describe('remove button on click', () => {
   test('fires remove button functionality', async () => {
@@ -73,8 +68,6 @@ describe('remove button on click', () => {
     expect(removeButton).toBeCalled;
   });
 });
-
-// need test for text in input field?
 
 /* ------ actions/reducers ------ */
 

@@ -10,11 +10,8 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import Users from '../src/components/tabs/Users';
 import NewUserDisplay from '../src/components/display/NewUserDisplay';
-import { checkPasswordLength } from '../src/components/helper/newUserHelper';
-import { userInfo } from 'os';
-import user from '@testing-library/user-event';
+import * as helpers from '../src/components/helper/newUserHelper';
 
 const props = {
   onSubmit: jest.fn(),
@@ -22,14 +19,14 @@ const props = {
   onClick: jest.fn(),
 };
 
-/* ----- Mock Functions ----- */
-
 /* ----- Manage Users Table ----- */
 
-// checking for button functionality
-// describe('Manage Users Table', () => {
-//   test()
-// })
+// check for component render
+// describe('Render Manage Users Table', () => {
+//   beforeEach(() => {
+//     render(<NewUserDisplay {...props} />);
+//   });
+// });
 
 /* ----- Create a New User ----- */
 
@@ -41,7 +38,6 @@ describe('Create a New User functionality', () => {
   // input fields take in text
   test('input fields take in text', () => {
     const input = document.getElementById('signupEmail');
-    // screen.debug();
     expect(input).toHaveValue('');
   });
   // password is at least 6 chars long
@@ -51,19 +47,19 @@ describe('Create a New User functionality', () => {
     expect(password.value).toBe('123456');
   });
   // password and confirm passwords match
-  // if either of these tests fail, check for error message alert
   test('Password must match Confirm Password', async () => {
     const signup = document.getElementById('signupPassword');
     const confirmation = document.getElementById('signupPasswordConfirmation');
     await fireEvent.change(signup, { target: { value: '123456' } });
-    await fireEvent.change(confirmation, { target: { value: '123456' } }); 
+    await fireEvent.change(confirmation, { target: { value: '123456' } });
     expect(signup.value).toBe(confirmation.value);
   });
-
-  // submit button works when password fields match
-  test('onSubmit is called when password fields match', async () => {});
-
-  // Manage Users Table gains a row with correct information
+  test('check that onSubmit button is working', async () => {
+    const onSubmit = jest.fn();
+    const button = screen.getByRole('button', { name: 'Submit' });
+    await fireEvent.click(button);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
 
   //* Dummy Test
   describe('dummy test', () => {

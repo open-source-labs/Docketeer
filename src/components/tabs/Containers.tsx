@@ -115,14 +115,8 @@ const Containers = (props: ContainerProps) => {
                   plugins: { legend: { display: false } },
                   scales: {
                     y: {
-                      ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 50
-                      },
                       stacked: true
                     },
-                    x: { categorySpacing: 0 }
                   }
                 }}
               />

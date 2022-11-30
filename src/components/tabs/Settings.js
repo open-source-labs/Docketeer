@@ -134,7 +134,7 @@ const Settings = (props) => {
       });
   };
 
-/**
+  /**
  * @title COMMUNICATION
  */
 
@@ -314,7 +314,7 @@ const Settings = (props) => {
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   // check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
-    const example = 'https://api.github.com'
+    const example = 'https://api.github.com';
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
     if (!event.target.id) return alert('Please provide a container ID');

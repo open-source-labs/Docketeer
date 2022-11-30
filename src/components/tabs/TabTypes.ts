@@ -1,5 +1,4 @@
-// not sure if I need this
-import type { ChartData, ChartOptions, ChartDataset } from 'chart.js';
+
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
     Names: string,

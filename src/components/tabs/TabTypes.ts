@@ -1,3 +1,4 @@
+// not sure if I need this
 import type { ChartData, ChartOptions, ChartDataset } from 'chart.js';
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
@@ -58,7 +59,7 @@ export type ContainerProps = {
   export type DataSetType = {
     stack: string;
     label: string;
-    data: ChartDataset<"bar", string[]> | string[];
+    data: string[];
     backgroundColor: string[];
     borderColor: string;
     borderWidth: number;

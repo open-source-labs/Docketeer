@@ -5,12 +5,12 @@ export const addRunningContainers = (data: object[]) => ({
   payload: data,
 });
 
-export const removeContainer = (id: number) => ({
+export const removeContainer = (id: string) => ({
   type: types.REMOVE_CONTAINER,
   payload: id,
 });
 
-export const stopRunningContainer = (id: number) => ({
+export const stopRunningContainer = (id: string) => ({
   type: types.STOP_RUNNING_CONTAINER,
   payload: id,
 });
@@ -20,7 +20,7 @@ export const addStoppedContainers = (data: object[]) => ({
   payload: data,
 });
 
-export const runStoppedContainer = (id: number) => ({
+export const runStoppedContainer = (id: string) => ({
   type: types.RUN_STOPPED_CONTAINER,
   payload: id,
 });
@@ -30,12 +30,12 @@ export const getImages = (data: object[]) => ({
   payload: data,
 });
 
-export const runImage = (id: number) => ({
+export const runImage = (id: string) => ({
   type: types.RUN_IMAGE,
   payload: id,
 });
 
-export const removeImage = (id: number) => ({
+export const removeImage = (id: string) => ({
   type: types.REMOVE_IMAGE,
   payload: id,
 });

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-
+import {StoppedListType, RunningListType} from '../tabs/TabTypes'
 // static imports
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
@@ -39,11 +39,11 @@ const AdminView = () => {
   // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data: object[]) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id: number) => dispatch(actions.removeContainer(id));
+  const removeContainer = (id: string) => dispatch(actions.removeContainer(id));
   // this parameter was changed from data: object[] because in the actions file, an id argument was being requested
-  const runStoppedContainer = (id: number) =>
+  const runStoppedContainer = (id: string) =>
     dispatch(actions.runStoppedContainer(id));
-  const stopRunningContainer = (id: number) =>
+  const stopRunningContainer = (id: string) =>
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   // originally, this function have any parameters, but typescript through an error saying it was needed. Check this out later
@@ -52,8 +52,8 @@ const AdminView = () => {
   const getVolumeContainersList = (data: object[]) => dispatch(actions.getVolumeContainersList(data));
 
   interface containersList {
-    runningList: object[],
-    stoppedList: object[]
+    runningList: RunningListType[],
+    stoppedList: StoppedListType[]
   }
 
   interface imagesList {

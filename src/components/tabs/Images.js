@@ -11,8 +11,50 @@ const Images = (props) => {
   const [repo, setRepo] = useState('');
 
   const handleClick = (e) => {
-    e.preventDefault();
-    helper.pullImage(repo);
+    if (!repo) {
+      alert('Please enter an image to pull!');
+      return;
+    }
+    else {
+      let existingRepo = false;
+      if(repo.includes(':')){
+        const splitRepo = repo.split(':');
+        // can't break out of a forEach, so opted to use map as temp solution
+        props.imagesList.map((el)=>{
+          if(el.reps === splitRepo[0] && el.tag === splitRepo[1]){
+            existingRepo = true;
+            return;
+          }
+        });
+        if (existingRepo === true) {
+          alert('This image already exists!');
+          return;
+        }
+        else {
+          alert('Looking for image');
+          helper.pullImage(repo);
+          return;
+        }
+      } 
+      
+      else {
+        props.imagesList.map((el)=>{
+          if (el.reps === repo && el.tag === 'latest'){
+            existingRepo = true;
+            return;
+          }
+        });
+        if (existingRepo === true){
+          alert('This image already exists!');
+          return;
+        }        
+        else {
+          alert('Looking for image');
+          helper.pullImage(repo);
+          return;
+        }
+      }
+    }
   };
 
   const renderImagesList = props.imagesList.map((ele, i) => {
@@ -69,10 +111,11 @@ const Images = (props) => {
       <div className="header">
         <h1 className="tabTitle">Images</h1>
         <div className="runByButton">
-          <label>Enter Image Repo</label>
+          <label>Enter Image Repo<span style={{fontSize:'10px'}}>(version defaults to latest)</span></label>
           <span>
             <input
               type="text"
+              placeholder='image:version'
               value={repo}
               onChange={(e) => {
                 setRepo(e.target.value);

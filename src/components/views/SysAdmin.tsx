@@ -7,6 +7,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
+// @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
@@ -23,64 +24,71 @@ import ProcessLogsTable from '../display/ProcessLogsTable';
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
+import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
 
 // Container component that has all redux logic along with react router
 const SysAdmin = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const addRunningContainers = (data) =>
-    dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data) =>
+  const addRunningContainers = (data: ContainerObj[]) => 
+   dispatch(actions.addRunningContainers(data));
+  const refreshRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data) =>
+  const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data) => dispatch(actions.refreshImages(data));
-  const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data) =>
+  const refreshImagesList = (data: ImageObj[]) => 
+    dispatch(actions.refreshImages(data));
+  // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
+  const getNetworkContainers = (data: NetworkObj[]) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (data) =>
-    dispatch(actions.runStoppedContainer(data));
-  const stopRunningContainer = (id) =>
+  const removeContainer = (id: string) => 
+    dispatch(actions.removeContainer(id));
+  const runStoppedContainer = (id: string) =>
+    dispatch(actions.runStoppedContainer(id));
+  const stopRunningContainer = (id: string) =>
     dispatch(actions.stopRunningContainer(id));
-  const updateSession = () => dispatch(actions.updateSession());
-  const logoutUser = () => dispatch(actions.logoutUser());
-  const updateUserList = (data) => dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
-  const getVolumeList = (data) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data) =>
+  const updateSession = () => 
+    dispatch(actions.updateSession());
+  const logoutUser = () => 
+    dispatch(actions.logoutUser());
+  const updateUserList = (data: UserObj[]) => 
+    dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
+  const getVolumeList = (data: { Name: string }[]) =>
+    dispatch(actions.getVolumeList(data));
+  const getVolumeContainersList = (data: VolumeObj) =>
     dispatch(actions.getVolumeContainersList(data));
 
   // map state to props
-  const runningList = useSelector((state) => state.containersList.runningList);
-  const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  const imagesList = useSelector((state) => state.images.imagesList);
-  const networkList = useSelector((state) => state.networkList.networkList);
-  const userInfo = useSelector((state) => state.session); //* Feature only for SysAdmin
+  const runningList = useSelector((state: StateType) => state.containersList.runningList);
+  const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
+  const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  // const networkList = useSelector((state: StateType) => state.networkList.networkList);
+  const userInfo = useSelector((state: StateType) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
-    (state) => state.volumeList.arrayOfVolumeNames
+    (state: StateType) => state.volumeList.arrayOfVolumeNames
   );
   const volumeContainersList = useSelector(
-    (state) => state.volumeList.volumeContainersList
+    (state: StateType) => state.volumeList.volumeContainersList
   );
 
   // map state to props
   const phoneNumber = useSelector(
-    (state) => state.notificationList.phoneNumber
+    (state: StateType) => state.notificationList.phoneNumber
   );
   const memoryNotificationList = useSelector(
-    (state) => state.notificationList.memoryNotificationList
+    (state: StateType) => state.notificationList.memoryNotificationList
   );
   const cpuNotificationList = useSelector(
-    (state) => state.notificationList.cpuNotificationList
+    (state: StateType) => state.notificationList.cpuNotificationList
   );
   const stoppedNotificationList = useSelector(
-    (state) => state.notificationList.stoppedNotificationList
+    (state: StateType) => state.notificationList.stoppedNotificationList
   );
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     updateSession();
     logoutUser();
     fetch('http://localhost:3000/logout', {
@@ -103,7 +111,6 @@ const SysAdmin = () => {
   };
 
   useEffect(() => {
-
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
@@ -177,7 +184,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/'
-                style={selected === '/app/' ? selectedStyling : null}
+                style={selected === '/app/' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/')}
               >
                 <i className='fas fa-settings'></i> Settings
@@ -186,7 +193,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/users'
-                style={selected === '/app/users' ? selectedStyling : null}
+                style={selected === '/app/users' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/users')}
               >
                 <i className='fas fa-users'></i> Users
@@ -195,7 +202,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/running'
-                style={selected === '/app/running' ? selectedStyling : null}
+                style={selected === '/app/running' ? selectedStyling : undefined}
                 onClick={() => setSelected(() => '/app/running')}
               >
                 <i className='fas fa-box-open'></i> Containers
@@ -204,7 +211,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/images'
-                style={selected === '/app/images' ? selectedStyling : null}
+                style={selected === '/app/images' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/images')}
               >
                 <i className='fas fa-database'></i> Images
@@ -213,7 +220,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/metrics'
-                style={selected === '/app/metrics' ? selectedStyling : null}
+                style={selected === '/app/metrics' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/metrics')}
               >
                 <i className='fas fa-chart-pie'></i> Metrics
@@ -222,7 +229,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/yml'
-                style={selected === '/app/yml' ? selectedStyling : null}
+                style={selected === '/app/yml' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/yml')}
               >
                 <i className='fas fa-file-upload'></i> Docker Compose
@@ -231,7 +238,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/volume'
-                style={selected === '/app/volume' ? selectedStyling : null}
+                style={selected === '/app/volume' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/volume')}
               >
                 <i className='fas fa-volume-history'></i> Volume History
@@ -240,7 +247,7 @@ const SysAdmin = () => {
             <li>
               <Link
                 to='/app/logs'
-                style={selected === '/app/logs' ? selectedStyling : null}
+                style={selected === '/app/logs' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/logs')}
               >
                 <i className='fas fa-log'></i> Process Logs
@@ -256,7 +263,7 @@ const SysAdmin = () => {
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={(e) => handleLogout(e)}>
+            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
               Logout
             </button>
           </div>
@@ -281,7 +288,7 @@ const SysAdmin = () => {
             stop={helper.stop}
             stopRunningContainer={stopRunningContainer}
             runningList={runningList}
-            addRunningContainers={addRunningContainers}
+            // addRunningContainers={addRunningContainers}
             // Stopped Containers
             runStopped={helper.runStopped}
             remove={helper.remove}
@@ -293,8 +300,8 @@ const SysAdmin = () => {
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
         <Route path='/yml' element={
           <Yml 
-            networkList={networkList} 
-            composeymlFiles={composeymlFiles} 
+            // networkList={networkList} 
+            // composeymlFiles={composeymlFiles} 
           />}
         />
         <Route path='/images' element={
@@ -313,8 +320,7 @@ const SysAdmin = () => {
             stop={helper.stop}
             stopRunningContainer={stopRunningContainer}
             runningList={runningList}
-            addRunningContainers={addRunningContainers}
-            imagesList={imagesList}
+            // addRunningContainers={addRunningContainers}
             // Stopped Containers
             runStopped={helper.runStopped}
             remove={helper.remove}
@@ -330,7 +336,7 @@ const SysAdmin = () => {
             stopRunningContainer={stopRunningContainer}
             stoppedList={stoppedList}
             runStopped={helper.runStopped}
-            refreshRunningContainers={refreshRunningContainers}
+            // refreshRunningContainers={refreshRunningContainers}
             runStoppedContainer={runStoppedContainer}
             phoneNumber={phoneNumber}
             memoryNotificationList={memoryNotificationList}

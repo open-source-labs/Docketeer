@@ -61,6 +61,7 @@ const Settings = (props) => {
     addStoppedNotificationSetting: PropTypes.func.isRequired,
     addPhoneNumber: PropTypes.func.isRequired,
     addNotificationFrequency: PropTypes.func.isRequired,
+    // the 2 below
     runningList: PropTypes.array.isRequired,
     stoppedList: PropTypes.array.isRequired,
     memoryNotificationList: PropTypes.object.isRequired,
@@ -117,7 +118,7 @@ const Settings = (props) => {
    * @title NOTIFICATION PREFERENCES
    */
 
-  //updates state as to which boxes are checked
+  // updates state as to which boxes are checked
   const fetchNotificationSettings = async () => {
     fetch('http://localhost:3000/settings/', {
       method: 'GET',
@@ -133,7 +134,7 @@ const Settings = (props) => {
       });
   };
 
-/**
+  /**
  * @title COMMUNICATION
  */
 
@@ -311,9 +312,9 @@ const Settings = (props) => {
 
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
-  //check if githubLinks are in the correct format, then save them to the database
+  // check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event) => {
-    const example = "https://api.github.com"
+    const example = 'https://api.github.com';
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
     if (!event.target.id) return alert('Please provide a container ID');
@@ -332,7 +333,7 @@ const Settings = (props) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          document.getElementById('gittext').value = ''
+          document.getElementById('gittext').value = '';
           return response;
         })
         .catch((err) => {

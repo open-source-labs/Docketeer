@@ -12,26 +12,26 @@ const ProcessLogs = (props) => {
   const renderRunningList = [];
   props.runningList.map((container, index) => {
     renderRunningList.push(
-        <ProcessLogsCard
-          key={index}
-          index={index}
-          container={container}
-          status='Running'
-        />
+      <ProcessLogsCard
+        key={index}
+        index={index}
+        container={container}
+        status='Running'
+      />
     );
   });
 
   const renderStoppedList = [];
   props.stoppedList.map((container, index) => {
     renderStoppedList.push(
-        <ProcessLogsCard key={index} index={index} container={container} status='Stopped' />
+      <ProcessLogsCard key={index} index={index} container={container} status='Stopped' />
     );
   });
 
   return (
     <div className='renderContainers'>
       <div className='header'>
-        <h1 className='tabTitle'>Process Logs</h1>
+        <h1 className='tabTitle'>Procsess Logs</h1>
       </div>
 
       <h3>Running Containers: {props.runningList.length}</h3>

@@ -57,6 +57,6 @@ export const makeArrayOfObjects = (string, containerName) => {
 
   // filter out empty messages
   const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
-
+  console.log('array of logs in processloghelper', arrayOfLogs);
   return arrayOfLogs;
 };

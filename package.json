@@ -4,12 +4,12 @@
   "license": "MIT",
   "description": "A Docker Visualizer",
   "author": "Team Docketeer",
-  "main": "dist/DockteerElectron.js",
+  "main": "dist/DocketeerElectron.js",
   "scripts": {
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.js\" \"npm run dev:electron\"",
-    "buildWeb": "webpack",
+    "buildWeb": "webpack --config=./webpack.react.config.js",
     "test": "jest --verbose"
   },
   "dependencies": {
@@ -23,7 +23,6 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
-    "chart.js": "^3.9.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "pg": "^8.8.0",
@@ -56,6 +55,7 @@
     "axios": "^1.0.0",
     "babel-loader": "^8.2.5",
     "bcryptjs": "^2.4.3",
+    "chart.js": "^3.9.1",
     "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",

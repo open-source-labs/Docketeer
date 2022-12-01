@@ -300,16 +300,18 @@ export const handlePruneClick = (e) => {
 export const pullImage = (repo) => {
   window.nodeMethod.runExec(`docker pull ${repo}`, (error, stdout, stderr) => {
     if (error) {
-      alert(`${error.message}`);
+      console.log('error occurred in pulling image');
+      alert(`Image repo '${repo}' seems to not exist, or may be a private repo.`);
+      // alert(`${error.message}`);
       return;
     }
     if (stderr) {
       console.log(`pullImage stderr: ${stderr}`);
       return;
     }
+     
     alert(`${repo} is currently being downloaded`);
     console.log(stdout);
-    console.log(repo, 'is currently being pulled');
     // if not error, add a loading component until page renders a new component
   });
 };
@@ -373,6 +375,7 @@ export const inspectDockerContainer = (containerId) => {
  */
 
 export const dockerComposeUp = (fileLocation, ymlFileName) => {
+  console.log(fileLocation, ymlFileName);
   return new Promise((resolve, reject) => {
     const nativeYmlFilenames = [
       'docker-compose.yml',
@@ -382,6 +385,7 @@ export const dockerComposeUp = (fileLocation, ymlFileName) => {
     ];
     let cmd = `cd ${fileLocation} && docker compose up -d`;
     // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
+    
     if (!nativeYmlFilenames.includes(ymlFileName)) {
       cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
     }

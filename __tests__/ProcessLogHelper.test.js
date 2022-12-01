@@ -16,7 +16,9 @@ describe('makeArrayOfObjects', () => {
     
     `;
     const result = makeArrayOfObjects(string);
+    console.log(result);
     expect(result).toBeInstanceOf(Array);
+    expect(result.containerName).toBe(undefined);
   });
     
   it('each element in returned array is of type object', () => {
@@ -31,6 +33,8 @@ describe('makeArrayOfObjects', () => {
 
     expect(output).toEqual(true);
   });
+
+  
   // //We edited the makeArrayOfObjects function and now this fails, not sure why as there still is a key of logMsg and timeStamp
   // it('each object in returned array has timeStamp and logMsg properties', () => {
   //   const processLog =

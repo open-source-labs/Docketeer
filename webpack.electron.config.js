@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', 'jsx', '.js']
   },
   devtool: 'inline-source-map',
   entry: './src/main/index.ts',
@@ -20,6 +20,6 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'DockteerElectron.js'
+    filename: 'DocketeerElectron.js'
   }
 };

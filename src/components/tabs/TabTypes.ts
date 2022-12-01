@@ -66,8 +66,21 @@ export type ContainerProps = {
     borderWidth: number;
     barPercentage: number;
   }
-  
-//   export interface BarType {
-//     options: any;
-//     data: any;
-//   }
+
+export type DispatchType = {
+
+};
+
+export type SettingsProps = {
+  addMonitoringFrequency: (data: string | number) => void;
+  addMemoryNotificationSetting: (data: object[]) => void;
+  addCpuNotificationSetting: (data: object[]) => void;
+  addStoppedNotificationSetting: (data: object[]) => void;
+  addPhoneNumber: (data: object[]) => void;
+  addNotificationFrequency: (data:  object[]) => void;
+  runningList: RunningListType;
+  stoppedList: StoppedListType;
+  memoryNotificationList: {};
+  cpuNotificationList: {};
+  stoppedNotificationList: {};
+  };

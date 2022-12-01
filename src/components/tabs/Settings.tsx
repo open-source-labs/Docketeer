@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
-import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
+import { DispatchType, SettingsProps } from './TabTypes';
+
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
@@ -25,23 +26,23 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const mapDispatchToProps = (dispatch) => ({
-  addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) =>
+const mapDispatchToProps = (dispatch: DispatchType) => ({
+  addPhoneNumber: (data: object[]) => dispatch(actions.addPhoneNumber(data)),
+  addNotificationFrequency: (data: object[]) =>
     dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) =>
+  addMonitoringFrequency: (data: object[]) =>
     dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) =>
+  addMemoryNotificationSetting: (data: object[]) =>
     dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) =>
+  addCpuNotificationSetting: (data: object[]) =>
     dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) =>
+  addStoppedNotificationSetting: (data: object[]) =>
     dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) =>
+  removeMemoryNotificationSetting: (data: object[]) =>
     dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) =>
+  removeCpuNotificationSetting: (data: object[]) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) =>
+  removeStoppedNotificationSetting: (data: object[]) =>
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
@@ -49,29 +50,12 @@ const mapDispatchToProps = (dispatch) => ({
 let showVerificationInput = false;
 let isVerified = false;
 
-const Settings = (props) => {
+const Settings = (props: SettingsProps) => {
   const [mobileNumber, setMobileNumber] = useState('');
-
-  // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
-  // https://reactjs.org/docs/typechecking-with-proptypes.html
-  Settings.propTypes = {
-    addMonitoringFrequency: PropTypes.func.isRequired,
-    addMemoryNotificationSetting: PropTypes.func.isRequired,
-    addCpuNotificationSetting: PropTypes.func.isRequired,
-    addStoppedNotificationSetting: PropTypes.func.isRequired,
-    addPhoneNumber: PropTypes.func.isRequired,
-    addNotificationFrequency: PropTypes.func.isRequired,
-    // the 2 below
-    runningList: PropTypes.array.isRequired,
-    stoppedList: PropTypes.array.isRequired,
-    memoryNotificationList: PropTypes.object.isRequired,
-    cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired
-  };
 
   // handle check
   // insert all container information performs two database calls on the backend
-  const handleCheckSetting = (containerId, containerName, metricName) => {
+  const handleCheckSetting = (containerId: string, containerName: string, metricName: string) => {
     fetch('http://localhost:3000/settings/insert', {
       method: 'POST',
       headers: {
@@ -94,7 +78,7 @@ const Settings = (props) => {
 
   // handle uncheck
   // remove container/metric from DB
-  const handleUnCheckSetting = (containerId, metricName) => {
+  const handleUnCheckSetting = (containerId: string, metricName: string) => {
     fetch('http://localhost:3000/settings/delete', {
       method: 'POST',
       headers: {
@@ -190,7 +174,7 @@ const Settings = (props) => {
   const [tempNotifFreq, setTempNotifFreq] = useState('');
 
   const notificationFrequency = () => {
-    let frequency = 5;
+    let frequency: string | number = 5;
     if (isNaN(Number(tempNotifFreq)))
       alert('Please enter notification frequency in numerical format. ex: 15');
     else {
@@ -221,7 +205,7 @@ const Settings = (props) => {
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
 
   const monitoringFrequency = () => {
-    let frequency = 2;
+    let frequency: string | number = 2;
     if (isNaN(Number(tempMonitoringFrequency)))
       alert('Please enter monitoring frequency in numerical format. ex: 15');
     else {
@@ -278,7 +262,7 @@ const Settings = (props) => {
    */
 
   // general function to check if a container is in a notification setting list
-  const isSelected = (set, containerId) => set.has(containerId);
+  const isSelected = (set, containerId: string) => set.has(containerId);
 
   const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
 

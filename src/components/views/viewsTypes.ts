@@ -66,3 +66,30 @@ export interface VolumeObj {
     vol_name: string,
     containers: object[]
 }
+
+interface containersList {
+    runningList: RunningListType[],
+    stoppedList: StoppedListType[]
+}
+
+interface imagesList {
+  imagesList: any[]
+}
+
+interface volumeList {
+  arrayOfVolumeNames: any[]
+  volumeContainersList: any[]
+}
+
+interface notificationList {
+  phoneNumber: any[],
+  memoryNotificationList: any[],
+  cpuNotificationList: any[],stoppedNotificationList: any[],
+}
+
+export interface StateType {
+  containersList: containersList,
+  images: imagesList,
+  volumeList: volumeList,
+  notificationList: notificationList
+};

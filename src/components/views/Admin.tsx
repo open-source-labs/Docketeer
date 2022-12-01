@@ -24,6 +24,9 @@ import ProcessLogsTable from '../display/ProcessLogsTable';
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
+// Types and Interface
+import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
+
 // Container component that has all redux logic along with react router
 
 const AdminView = () => {
@@ -51,59 +54,31 @@ const AdminView = () => {
   const getVolumeList = (data: object[]) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data: object[]) => dispatch(actions.getVolumeContainersList(data));
 
-  interface containersList {
-    runningList: RunningListType[],
-    stoppedList: StoppedListType[]
-  }
-
-  interface imagesList {
-    imagesList: any[]
-  }
-
-  interface volumeList {
-    arrayOfVolumeNames: any[]
-    volumeContainersList: any[]
-  }
-  
-  interface notificationList {
-    phoneNumber: any[],
-    memoryNotificationList: any[],
-    cpuNotificationList: any[],
-    stoppedNotificationList: any[],
-  }
-
-  interface stateType {
-    containersList: containersList,
-    images: imagesList,
-    volumeList: volumeList,
-    notificationList: notificationList
-  };
-
   // map state to props
-  const runningList = useSelector((state: stateType) => state.containersList.runningList);
-  const stoppedList = useSelector((state: stateType) => state.containersList.stoppedList);
-  const imagesList = useSelector((state: stateType) => state.images.imagesList);
-  // const networkList = useSelector((state: stateType) => state.networkList.networkList);
+  const runningList = useSelector((state: StateType) => state.containersList.runningList);
+  const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
+  const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  // const networkList = useSelector((state: StateType) => state.networkList.networkList);
 
   const arrayOfVolumeNames = useSelector(
-    (state: stateType) => state.volumeList.arrayOfVolumeNames
+    (state: StateType) => state.volumeList.arrayOfVolumeNames
   );
   const volumeContainersList = useSelector(
-    (state: stateType) => state.volumeList.volumeContainersList
+    (state: StateType) => state.volumeList.volumeContainersList
   );
 
   // map state to props
   const phoneNumber = useSelector(
-    (state: stateType) => state.notificationList.phoneNumber
+    (state: StateType) => state.notificationList.phoneNumber
   );
   const memoryNotificationList = useSelector(
-    (state: stateType) => state.notificationList.memoryNotificationList
+    (state: StateType) => state.notificationList.memoryNotificationList
   );
   const cpuNotificationList = useSelector(
-    (state: stateType) => state.notificationList.cpuNotificationList
+    (state: StateType) => state.notificationList.cpuNotificationList
   );
   const stoppedNotificationList = useSelector(
-    (state: stateType) => state.notificationList.stoppedNotificationList
+    (state: StateType) => state.notificationList.stoppedNotificationList
   );
 
   // declare a local state variable called selected, initialize to '/'
@@ -328,7 +303,7 @@ const AdminView = () => {
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
-              addRunningContainers={addRunningContainers}
+              // addRunningContainers={addRunningContainers}
               // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}

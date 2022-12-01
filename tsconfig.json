@@ -4,13 +4,7 @@
     "module": "commonjs",
     "jsx": "react",
     "esModuleInterop": true,
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016",
-      "es2017", 
-      "es2021"
-    ],
+    "lib": ["dom", "es2015", "es2016", "es2017", "es2021"],
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",

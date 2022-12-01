@@ -7,6 +7,7 @@ import * as helper from "../helper/commands";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../renderer/store";
+import { AnyArray } from "immer/dist/internal";
 
 /**
  * Displays linegraph and github metrics
@@ -143,10 +144,29 @@ const LineChartDisplay = () => {
 
     const containerMetrics = await getContainerMetrics();
 
-    const auxObj = {};
+    interface auxObjType {
+      container?: ContainerInterface;
+      currentContainer?: any;
+      containerName?: any;
+    }
 
+    interface ContainerInterface {
+      memory?: any;
+      cpu?: any;
+      writtenIO?: any;
+      readIO?: any;
+    }
+
+    // interface ContainerNameInterface{
+
+    // }
+
+    //const container: keyof auxObjType = 'container'
+
+    const auxObj: auxObjType = {};
+    //const container: keyof typeof auxObj;
     Object.keys(activeContainers).forEach((container) => {
-      auxObj[container] = {
+      auxObj[container as keyof typeof auxObj] = {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
         writtenIO: buildBarGraphObj(container),
@@ -155,19 +175,19 @@ const LineChartDisplay = () => {
     });
 
     // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
-    containerMetrics.rows.forEach((dataPoint) => {
+    containerMetrics.rows.forEach((dataPoint: any) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split("/");
-      auxObj[currentContainer].cpu.data.push(
+      auxObj[currentContainer as keyof typeof auxObj].cpu.data.push(
         dataPoint.cpu_pct.replace("%", "")
       );
-      auxObj[currentContainer].memory.data.push(
+      auxObj[currentContainer as keyof typeof auxObj].memory.data.push(
         dataPoint.memory_pct.replace("%", "")
       );
-      auxObj[currentContainer].writtenIO.data.push(
+      auxObj[currentContainer as keyof typeof auxObj].writtenIO.data.push(
         parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ""))
       );
-      auxObj[currentContainer].readIO.data.push(
+      auxObj[currentContainer as keyof typeof auxObj].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ""))
       );
       let date = "";
@@ -188,29 +208,50 @@ const LineChartDisplay = () => {
 
     let longest = 0; // 32
 
-    Object.keys(auxObj).forEach((containerName) => {
-      if (auxObj[containerName].memory.data.length > longest) {
-        longest = auxObj[containerName].memory.data.length;
+    Object.keys(auxObj).forEach((containerName: string) => {
+      if (
+        auxObj[containerName as keyof typeof auxObj].memory.data.length >
+        longest
+      ) {
+        longest =
+          auxObj[containerName as keyof typeof auxObj].memory.data.length;
       }
     });
 
     // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
-    Object.keys(auxObj).forEach((containerName) => {
-      if (auxObj[containerName].memory.data.length < longest) {
-        const lengthToAdd = longest - auxObj[containerName].memory.data.length;
+    Object.keys(auxObj).forEach((containerName: string) => {
+      if (
+        auxObj[containerName as keyof typeof auxObj].memory.data.length <
+        longest
+      ) {
+        const lengthToAdd =
+          longest -
+          auxObj[containerName as keyof typeof auxObj].memory.data.length;
         for (let i = 0; i < lengthToAdd; i += 1) {
-          auxObj[containerName].memory.data.unshift("0.00");
-          auxObj[containerName].cpu.data.unshift("0.00");
-          auxObj[containerName].writtenIO.data.unshift("0.00");
-          auxObj[containerName].readIO.data.unshift("0.00");
+          auxObj[containerName as keyof typeof auxObj].memory.data.unshift(
+            "0.00"
+          );
+          auxObj[containerName as keyof typeof auxObj].cpu.data.unshift("0.00");
+          auxObj[containerName as keyof typeof auxObj].writtenIO.data.unshift(
+            "0.00"
+          );
+          auxObj[containerName as keyof typeof auxObj].readIO.data.unshift(
+            "0.00"
+          );
         }
       }
-      buildMemory([auxObj[containerName].memory]);
-      buildCpu([auxObj[containerName].cpu]);
-      buildWrittenIO([auxObj[containerName].writtenIO]);
-      buildReadIO([auxObj[containerName].readIO]);
+      buildMemory(auxObj[containerName as keyof typeof auxObj].memory);
+      buildCpu(auxObj[containerName as keyof typeof auxObj].cpu);
+      buildWrittenIO(auxObj[containerName as keyof typeof auxObj].writtenIO);
+      buildReadIO(auxObj[containerName as keyof typeof auxObj].readIO);
     });
   };
+
+  interface obType {
+    containerName: any;
+  }
+
+  const containerName;
 
   //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName: string) => {
@@ -218,7 +259,7 @@ const LineChartDisplay = () => {
     ob[containerName] = [];
     const time = Number(timePeriod);
     //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date = new Date(Date.parse(new Date()) - 2629746000);
+    let date: Date = new Date(Date.parse(new Date()) - 2629746000);
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
@@ -233,7 +274,7 @@ const LineChartDisplay = () => {
       const data = await fetch(url);
       const jsonData = await data.json();
 
-      jsonData.forEach((commitData) => {
+      jsonData.forEach((commitData: any) => {
         ob[containerName].push({
           time: commitData.commit.author.date,
           url: commitData.html_url,
@@ -268,7 +309,7 @@ const LineChartDisplay = () => {
       field: "url",
       headerName: "URL",
       width: 175,
-      renderCell: (params) => (
+      renderCell: (params: any) => (
         <a target="_blank" rel="noreferrer" href={params.row.url}>
           {params.row.id}
         </a>
@@ -279,7 +320,7 @@ const LineChartDisplay = () => {
   ];
   gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
-    const rows = [];
+    const rows: any[];
     el[name].forEach((ob, index) => {
       let author = "";
       let date = "n/a";

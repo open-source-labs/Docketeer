@@ -235,7 +235,7 @@ const Settings = (props: SettingsProps) => {
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     updateFormData(value);
   };
 

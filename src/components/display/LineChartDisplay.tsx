@@ -101,7 +101,7 @@ const LineChartDisplay = () => {
         "orange",
       ];
 
-      const idx = activeContainers.findIndex(containerName);
+      const idx = activeContainers.toString().indexOf(containerName);
       return colorOptions[idx];
     };
     // build function that will return formated object into necessary
@@ -258,7 +258,8 @@ const LineChartDisplay = () => {
     ob[containerName as keyof typeof ob] = [];
     const time = Number(timePeriod);
     //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date: Date = new Date(
+
+    let date: any = new Date(
       Date.parse(new Date().toISOString()) - 2629746000
     ).toISOString();
     date.setHours(date.getHours() - time);
@@ -319,13 +320,19 @@ const LineChartDisplay = () => {
     { field: "author", headerName: "Author", width: 175 },
     { field: "message", headerName: "Message", width: 525, align: "left" },
   ];
-  gitData = gitUrls.map((el: {}, index: any) => {
-    type nameType = any[];
-    const name: nameType = Object.keys(el);
+
+  // interface elType {
+  //   name: {};
+  // }
+
+  gitData = gitUrls.map((el, index: any) => {
+    const name = Object.keys(el);
     type rowsType = any[];
     const rows: rowsType = [];
     type columnsType = any[];
     const columns: columnsType = [];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     el[name].forEach((ob: any, index: any) => {
       let author = "";
       let date = "n/a";
@@ -333,7 +340,7 @@ const LineChartDisplay = () => {
       let url = "n/a";
       let message = "n/a";
       if (ob.time.length) {
-        time = ob.time;
+        time = ob.time as string;
         author = ob.author;
         url = ob.url;
         message = "";
@@ -347,7 +354,8 @@ const LineChartDisplay = () => {
             message = ob.message;
           }
         }
-
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         time = time.split("T");
         date = time[0];
         time = time[1];
@@ -387,7 +395,7 @@ const LineChartDisplay = () => {
 
   let currentList;
   const selectList = () => {
-    const result: result[] = [];
+    const result: any[] = [];
     const completeContainerList = [...runningList, ...stoppedList];
     completeContainerList.forEach((container, index) => {
       const containerNameKey = container.Name

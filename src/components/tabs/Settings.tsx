@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import * as categories from '../../redux/constants/notificationCategories';
-import { DispatchType, SettingsProps } from './TabTypes';
+import { DispatchType, SettingsProps, WindowType, RunningContainerType, ContainerType } from './TabTypes';
 
 
 // React Component Imports
@@ -121,6 +121,8 @@ const Settings = (props: SettingsProps) => {
   /**
  * @title COMMUNICATION
  */
+  // have to declare window for TypeScript compatibility 
+  let window: WindowType;
 
   const verifyMobileNumber = async () => {
     await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
@@ -157,7 +159,8 @@ const Settings = (props: SettingsProps) => {
             props.addPhoneNumber(mobileNumber);
             showVerificationInput = true;
             verifyMobileNumber();
-            document.getElementById('textfield').value = '';
+            let field = document.getElementById('textfield');
+            if (field) (field as HTMLInputElement).value = '';
           })
           .catch((err) => {
             console.log('handlePhoneNumberSubmit: ', err);
@@ -262,7 +265,8 @@ const Settings = (props: SettingsProps) => {
    */
 
   // general function to check if a container is in a notification setting list
-  const isSelected = (set, containerId: string) => set.has(containerId);
+  // the below set is typed as any due to continued changing parameters
+  const isSelected = (set: any, containerId: string) => set.has(containerId);
 
   const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
 
@@ -317,7 +321,8 @@ const Settings = (props: SettingsProps) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          document.getElementById('gittext').value = '';
+          let field = document.getElementById('gittext');
+          if (field) (field as HTMLInputElement).value = '';
           return response;
         })
         .catch((err) => {
@@ -370,10 +375,11 @@ const Settings = (props: SettingsProps) => {
   };
 
   const handleCpuChange = (event) => {
-    setCpuThreshold(document.getElementById('cpu-threshold-input').value);
+    let field = document.getElementById('cpu-threshold-input');
+    if (field) setCpuThreshold((field as HTMLInputElement).value);
   };
 
-  const handleCpuSubmit = (value) => {
+  const handleCpuSubmit = (value: string) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
@@ -442,16 +448,19 @@ const Settings = (props: SettingsProps) => {
   };
 
   const handleMemChange = (event) => {
-    setMemThreshold(document.getElementById('mem-threshold-input').value);
+    let field = document.getElementById('mem-threshold-input');
+    if (field) setMemThreshold((field as HTMLInputElement).value);
   };
 
   const handleStoppedContainersChange = (event) => {
-    setStoppedContainers(
-      document.getElementById('stopped-containers-input').checked
+    let ele = document.getElementById('stopped-containers-input');
+    if (ele) setStoppedContainers(
+      //let ele = document.getElementById('stopped-containers-input');
+     (ele as HTMLInputElement).checked
     );
   };
 
-  const renderAllContainersList = allContainersList.map((container, i) => {
+  const renderAllContainersList = allContainersList.map((container: RunningContainerType, i: number) => {
     const isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID

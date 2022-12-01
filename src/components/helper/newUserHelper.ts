@@ -38,9 +38,9 @@ export const confirmPassword = () => {
   const confirmationPassword = (<HTMLInputElement>document.getElementById(
     'signupPasswordConfirmation'
   )).value;
-  const passwordConfirmationAlert = document.getElementById(
+  const passwordConfirmationAlert = (<HTMLSpanElement>document.getElementById(
     'password-confirmation-alert'
-  ) as HTMLInputElement;
+  ));
 
   if (password !== confirmationPassword) {
     passwordConfirmationAlert.innerHTML = 'Warning: Passwords do not match';
@@ -51,7 +51,7 @@ export const confirmPassword = () => {
 };
 
 export const checkPasswordLength = () => {
-  const passwordLengthAlert = (<HTMLInputElement>document.getElementById('password-length-alert'));
+  const passwordLengthAlert = (<HTMLSpanElement>document.getElementById('password-length-alert'));
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 

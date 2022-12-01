@@ -77,12 +77,6 @@ describe('Images', () => {
   });
 });
 
-//   it('refreshes page if image removed', () => {
-//     // need to check that refreshRunning helper function is called
-
-//   });
-// });
-
 //* Dummy Test
 describe('dummy test', () => {
   test('dummy test', () => {

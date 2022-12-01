@@ -36,15 +36,15 @@ describe('rendering VolumeTab', () => {
 });
 
 /* ----- search bar ----- */
-
-
-
-//* Dummy Test
-describe('dummy test', () => {
-  test('dummy test', () => {
-    expect(2 + 2).toBe(4);
+describe('Seach bar testing', () => {
+  test('Search accepts input', async () => {
+    const { container } = render(<VolumeTab {...props} />);  
+    const search = screen.getByRole('textbox');
+    await fireEvent.change(search, { target: { value: 'search' } });
+    expect(search.value).toBe('search');
   });
 });
+
 
 //* Dummy Test
 describe('dummy test', () => {

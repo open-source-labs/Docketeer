@@ -118,7 +118,7 @@ describe('Dockeeter reducer', () => {
       const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
       console.log(newState);
       expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual(
-        '45fsdf6'
+        '456'
       );
     });
   });

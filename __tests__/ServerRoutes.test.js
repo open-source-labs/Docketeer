@@ -45,14 +45,24 @@ describe('/test route', () => {
 
 // signup route
 
-
 describe('/signup route', () => {
-  it('get request to getAllUsers controller', (done) => {
-    request(app)
+  it('get request', async () => {
+    await request(app)
       .get('/signup')
-      .send({ username: 'info'})
-      // .expect('Content-Type', /json/)
-      .expect(200, done);
+      .send({ username: 'test', email: 'test@test.com', password: 'password' })
+      .expect('Content-Type', 'text/html; charset=utf-8'); 
+  });
+  it('post request', async () => {
+    await request(app)
+      .post('/signup')
+      .send({
+        username: 'test',
+        email: 'test@test.com',
+        password: 'password',
+        phone: '+15555555555',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', 'text/html; charset=utf-8');
   });
 });
 

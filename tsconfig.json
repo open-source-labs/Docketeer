@@ -10,7 +10,8 @@
     "outDir": "./dist",
     "strict": true,
     "moduleResolution": "node",
-    "removeComments": true
+    "removeComments": true,
+    "noEmit": false
   },
   "include": ["src/**/*", "server/**/*"]
 }

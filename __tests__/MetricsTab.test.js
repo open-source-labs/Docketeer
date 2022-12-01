@@ -2,6 +2,7 @@
  * These tests do not work as enzyme is highly depricated and does not communicate with React 18
  */
 
+/* ----- testing metrics ----- */
 
 import React, { Component } from 'react';
 import Metrics from '../src/components/tabs/Metrics';

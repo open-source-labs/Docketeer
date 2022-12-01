@@ -41,20 +41,20 @@ describe('makeArrayOfObjects', () => {
   //     'this_is_the_first_timestampZ this is the first log message\nthere is no second time stamp but there is a second log message';
   //   const result = makeArrayOfObjects(processLog);
 
-  //   let output = false;
+//     let output = false;
 
-  //   if (
-  //     result.every(
-  //       (element) =>
-  //         element.timeStamp && element.logMsg && element.containerName
-  //     )
-  //   ) {
-  //     output = true;
-  //   }
+//     if (
+//       result.every(
+//         (element) =>
+//           element.timeStamp && element.logMsg && element.containerName
+//       )
+//     ) {
+//       output = true;
+//     }
 
-  //   expect(output).toEqual(true);
-  // });
-});
+//     expect(output).toEqual(true);
+//   });
+// });
 
 describe('buildOptionsObj', () => {
 

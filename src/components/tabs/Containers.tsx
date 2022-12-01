@@ -147,7 +147,7 @@ const Containers = (props: ContainerProps) => {
 
       <div className='header'>
         <h1 className='tabTitle'>
-          Exited Conftainers: {props.stoppedList.length}
+          Exited Containers: {props.stoppedList.length}
         </h1>
       </div>
       <div className='stopped-containers'>{renderStoppedList}</div>

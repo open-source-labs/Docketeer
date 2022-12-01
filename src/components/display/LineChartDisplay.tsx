@@ -7,7 +7,7 @@ import * as helper from "../helper/commands";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../renderer/store";
-import { AnyArray } from "immer/dist/internal";
+import { AnyAction } from "redux";
 
 /**
  * Displays linegraph and github metrics
@@ -100,7 +100,8 @@ const LineChartDisplay = () => {
         "grey",
         "orange",
       ];
-      const idx = activeContainers.indexOf(containerName);
+
+      const idx = activeContainers.toString().indexOf(containerName);
       return colorOptions[idx];
     };
     // build function that will return formated object into necessary
@@ -147,7 +148,7 @@ const LineChartDisplay = () => {
     interface auxObjType {
       container?: ContainerInterface;
       currentContainer?: any;
-      containerName?: any;
+      containerName?: string;
     }
 
     interface ContainerInterface {
@@ -248,20 +249,21 @@ const LineChartDisplay = () => {
   };
 
   interface obType {
-    containerName: any;
+    containerName?: any;
   }
-
-  const containerName;
 
   //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName: string) => {
-    const ob = {};
-    ob[containerName] = [];
+    const ob: obType = {};
+    ob[containerName as keyof typeof ob] = [];
     const time = Number(timePeriod);
     //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date: Date = new Date(Date.parse(new Date()) - 2629746000);
+
+    let date: any = new Date(
+      Date.parse(new Date().toISOString()) - 2629746000
+    ).toISOString();
     date.setHours(date.getHours() - time);
-    date = date.toISOString();
+    //date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
 
     if (urlObj.rows.length) {
@@ -275,7 +277,7 @@ const LineChartDisplay = () => {
       const jsonData = await data.json();
 
       jsonData.forEach((commitData: any) => {
-        ob[containerName].push({
+        ob[containerName as keyof typeof ob].push({
           time: commitData.commit.author.date,
           url: commitData.html_url,
           author: commitData.commit.author.name,
@@ -283,7 +285,7 @@ const LineChartDisplay = () => {
         });
       });
     } else {
-      ob[containerName].push({
+      ob[containerName as keyof typeof ob].push({
         time: "",
         url: "Connect github repo in settings",
       });
@@ -296,7 +298,7 @@ const LineChartDisplay = () => {
       Object.keys(activeContainers).map((container) => {
         return fetchGitData(container);
       })
-    ).then((data) => setGitUrls(data));
+    ).then((data: any) => setGitUrls(data));
   };
   //populating the github commits into a MUI DataGrid
   //This should allow multiple tables be stacked if multiple containers are selected
@@ -318,17 +320,27 @@ const LineChartDisplay = () => {
     { field: "author", headerName: "Author", width: 175 },
     { field: "message", headerName: "Message", width: 525, align: "left" },
   ];
-  gitData = gitUrls.map((el, index) => {
+
+  // interface elType {
+  //   name: {};
+  // }
+
+  gitData = gitUrls.map((el, index: any) => {
     const name = Object.keys(el);
-    const rows: any[];
-    el[name].forEach((ob, index) => {
+    type rowsType = any[];
+    const rows: rowsType = [];
+    type columnsType = any[];
+    const columns: columnsType = [];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    el[name].forEach((ob: any, index: any) => {
       let author = "";
       let date = "n/a";
       let time = "n/a";
       let url = "n/a";
       let message = "n/a";
       if (ob.time.length) {
-        time = ob.time;
+        time = ob.time as string;
         author = ob.author;
         url = ob.url;
         message = "";
@@ -342,7 +354,8 @@ const LineChartDisplay = () => {
             message = ob.message;
           }
         }
-
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         time = time.split("T");
         date = time[0];
         time = time[1];
@@ -382,7 +395,7 @@ const LineChartDisplay = () => {
 
   let currentList;
   const selectList = () => {
-    const result = [];
+    const result: any[] = [];
     const completeContainerList = [...runningList, ...stoppedList];
     completeContainerList.forEach((container, index) => {
       const containerNameKey = container.Name
@@ -406,7 +419,7 @@ const LineChartDisplay = () => {
     currentList = result;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     if (e.target.type === "radio") {
       setTimePeriod(e.target.value);
       return;
@@ -414,7 +427,7 @@ const LineChartDisplay = () => {
     const containerName = e.target.name;
     // deep copy the state object
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
-    if (activeContainers[containerName]) {
+    if (activeContainers[containerName as keyof typeof activeContainers]) {
       delete copyObj[containerName];
     } else {
       copyObj[containerName] = true;
@@ -521,16 +534,24 @@ const LineChartDisplay = () => {
       </div>
 
       <div className="allCharts">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment
+@ts-ignore */}
         <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
       </div>
 
       <div className="allCharts">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment
+@ts-ignore */}
         <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
       </div>
       <div className="allCharts">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment
+@ts-ignore */}
         <Bar key="Bar-Written" data={writtenIOObj} options={writtenIOOptions} />
       </div>
       <div className="allCharts">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment
+@ts-ignore */}
         <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
       </div>
       <div className="metric-section-title">

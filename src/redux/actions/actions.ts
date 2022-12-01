@@ -188,7 +188,7 @@ export const getVolumeList = (data: object[]) => ({
 });
 
 // get containers that live in volume
-export const getVolumeContainersList = (data: object[]) => ({
+export const getVolumeContainersList = (data: object) => ({
   type: types.GET_VOLUME_CONTAINERS_LIST,
   payload: data,
 });

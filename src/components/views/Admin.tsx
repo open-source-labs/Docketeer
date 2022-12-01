@@ -25,22 +25,22 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
+import { ContainerObj, StoppedContainerObj, ImageObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
 
 // Container component that has all redux logic along with react router
 
 const AdminView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const addRunningContainers = (data: object[]) =>
+  const addRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data: object[]) =>
+  const refreshRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data: object[]) =>
+  const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data: object[]) => dispatch(actions.refreshImages(data));
+  const refreshImagesList = (data: ImageObj[]) => dispatch(actions.refreshImages(data));
   // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data: object[]) =>
+  const getNetworkContainers = (data: NetworkObj[]) =>
     dispatch(actions.getNetworkContainers(data));
   const removeContainer = (id: string) => dispatch(actions.removeContainer(id));
   // this parameter was changed from data: object[] because in the actions file, an id argument was being requested
@@ -51,8 +51,8 @@ const AdminView = () => {
   const updateSession = () => dispatch(actions.updateSession());
   // originally, this function have any parameters, but typescript through an error saying it was needed. Check this out later
   const logoutUser = () => dispatch(actions.logoutUser());
-  const getVolumeList = (data: object[]) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data: object[]) => dispatch(actions.getVolumeContainersList(data));
+  const getVolumeList = (data: { Name: string }[]) => dispatch(actions.getVolumeList(data));
+  const getVolumeContainersList = (data: VolumeObj[]) => dispatch(actions.getVolumeContainersList(data));
 
   // map state to props
   const runningList = useSelector((state: StateType) => state.containersList.runningList);

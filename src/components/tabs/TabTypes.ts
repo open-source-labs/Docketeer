@@ -67,7 +67,3 @@ export type ContainerProps = {
     barPercentage: number;
   }
   
-//   export interface BarType {
-//     options: any;
-//     data: any;
-//   }

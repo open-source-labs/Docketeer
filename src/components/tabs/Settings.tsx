@@ -25,6 +25,7 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { AnyAaaaRecord } from 'dns';
 
 const mapDispatchToProps = (dispatch: DispatchType) => ({
   addPhoneNumber: (data: object[]) => dispatch(actions.addPhoneNumber(data)),
@@ -301,7 +302,7 @@ const Settings = (props: SettingsProps) => {
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   // check if githubLinks are in the correct format, then save them to the database
-  const githubLink = (event) => {
+  const githubLink = (event: any ) => {
     const example = 'https://api.github.com';
     if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
@@ -348,11 +349,11 @@ const Settings = (props: SettingsProps) => {
   const dispatch = useDispatch();
   const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
 
-  const handleRadioChange = (event) => {
+  const handleRadioChange = (event: any) => {
     setValue(event.target.value);
   };
 
-  const handleRadioSubmit = (value) => {
+  const handleRadioSubmit = (value: string) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
@@ -374,7 +375,7 @@ const Settings = (props: SettingsProps) => {
       });
   };
 
-  const handleCpuChange = (event) => {
+  const handleCpuChange = (event: any) => {
     let field = document.getElementById('cpu-threshold-input');
     if (field) setCpuThreshold((field as HTMLInputElement).value);
   };
@@ -402,7 +403,7 @@ const Settings = (props: SettingsProps) => {
       });
   };
 
-  const handleMemSubmit = (value) => {
+  const handleMemSubmit = (value: string) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
@@ -425,7 +426,7 @@ const Settings = (props: SettingsProps) => {
       });
   };
 
-  const handleStoppedContainersSubmit = (value) => {
+  const handleStoppedContainersSubmit = (value: string) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
@@ -447,12 +448,12 @@ const Settings = (props: SettingsProps) => {
       });
   };
 
-  const handleMemChange = (event) => {
+  const handleMemChange = (event: any) => {
     let field = document.getElementById('mem-threshold-input');
     if (field) setMemThreshold((field as HTMLInputElement).value);
   };
 
-  const handleStoppedContainersChange = (event) => {
+  const handleStoppedContainersChange = (event: any) => {
     let ele = document.getElementById('stopped-containers-input');
     if (ele) setStoppedContainers(
       //let ele = document.getElementById('stopped-containers-input');
@@ -460,7 +461,7 @@ const Settings = (props: SettingsProps) => {
     );
   };
 
-  const renderAllContainersList = allContainersList.map((container: RunningContainerType, i: number) => {
+  const renderAllContainersList = allContainersList.map((container: RunningListType, i: number) => {
     const isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID
@@ -609,7 +610,7 @@ const Settings = (props: SettingsProps) => {
                 }}
                 size='medium'
                 variant='contained'
-                onClick={(e) => handlePhoneNumberSubmit(e)}
+                onClick={() => handlePhoneNumberSubmit()}
                 endIcon={<SendIcon />}
               >
                 Verify
@@ -714,7 +715,7 @@ const Settings = (props: SettingsProps) => {
               }}
               size='medium'
               variant='contained'
-              onClick={(e) => notificationFrequency(e)}
+              onClick={() => notificationFrequency()}
             >
               Confirm
             </Button>
@@ -741,7 +742,7 @@ const Settings = (props: SettingsProps) => {
               }}
               size='medium'
               variant='contained'
-              onClick={(e) => monitoringFrequency(e)}
+              onClick={() => monitoringFrequency()}
             >
               Confirm
             </Button>

@@ -24,6 +24,8 @@ import ProcessLogsTable from '../display/ProcessLogsTable';
 // helper function imports
 import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
+
+// Types and Interface
 import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
 
 // Container component that has all redux logic along with react router

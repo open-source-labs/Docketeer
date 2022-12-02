@@ -11,7 +11,7 @@ interface callback {
     stderr: string | Buffer
   ): object;
 }
-
+// the runExec function created is why localhost:4000 doesn't work, because it does not exist in the browser window. This is specific to electron, but not sure why they did it in this fashion as the exec() method already exists for node.js
 function runExec(command: string, callback: callback): object {
   return child_process.exec(command, callback as any);
 }

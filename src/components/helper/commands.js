@@ -27,11 +27,14 @@ export const addRunning = (runningList, callback) => {
         return;
       }
       // trim whitespace at end out stdout, slice to remove trailing comma and remove spaces
+    
       const dockerOutput = `[${stdout
         .trim()
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
+    
       const convertedValue = JSON.parse(dockerOutput);
+
       const newList = [];
 
       for (let i = 0; i < convertedValue.length; i++) {
@@ -44,6 +47,7 @@ export const addRunning = (runningList, callback) => {
         }
         isInTheList ? '' : newList.push(convertedValue[i]);
       }
+      console.log('addrunning newlist', newList);
       newList.length ? callback(newList) : '';
     }
   );
@@ -228,9 +232,11 @@ export const runStopped = (
  */
 
 // this function is used to run an image from the image tab
-export const runIm = (id, runningList, callback_1, callback_2) => {
+export const runIm = (container, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
-  window.nodeMethod.runExec(`docker run ${id}`, (error, stdout, stderr) => {
+  const {imgid, reps, tag} = container;
+  console.log(container);
+  window.nodeMethod.runExec(`docker run --name ${reps}-${tag} ${reps}:${tag}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;
@@ -241,6 +247,7 @@ export const runIm = (id, runningList, callback_1, callback_2) => {
     }
   });
   callback_1(runningList, callback_2);
+  alert('Running container');
 };
 
 /**

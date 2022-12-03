@@ -112,9 +112,10 @@ const Images = (props: ImagesProps) => {
         <div className="stopped-button">
           <button
             className="run-btn"
+            // {props.runIm and props.removeIm could be converted to helper.runIm instead-- not sure why they passed it as props}
             onClick={() =>
               props.runIm(
-                ele['imgid'],
+                ele,
                 props.runningList,
                 helper.addRunning,
                 props.addRunningContainers

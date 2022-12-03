@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import * as categories from '../../redux/constants/notificationCategories';
-import { DispatchType, SettingsProps, WindowType, UserInfo } from './TabTypes';
+import { DispatchType, SettingsProps, WindowType, UserInfo, RunningListType } from './TabTypes';
 
 
 // React Component Imports
@@ -25,7 +25,6 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { AnyAaaaRecord } from 'dns';
 import { RootState } from '../../renderer/store';
 
 const mapDispatchToProps = (dispatch: DispatchType) => ({
@@ -52,7 +51,8 @@ const mapDispatchToProps = (dispatch: DispatchType) => ({
 let showVerificationInput = false;
 let isVerified = false;
 
-const Settings: any = (props: SettingsProps) => {
+
+const Settings = (props: SettingsProps) => {
   const [mobileNumber, setMobileNumber] = useState('');
 
   // handle check
@@ -875,3 +875,4 @@ const Settings: any = (props: SettingsProps) => {
 };
 
 export default connect(null, mapDispatchToProps)(Settings);
+

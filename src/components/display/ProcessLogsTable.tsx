@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { buildOptionsObj } from "../helper/processLogHelper";
 import { getLogs } from "../helper/commands";
 import * as actions from "../../redux/actions/actions";
+import "./ProcessLogsCard";
 
 import store from "../../renderer/store";
 import { DataGrid } from "@mui/x-data-grid";
@@ -54,7 +55,7 @@ const ProcessLogsTable = () => {
     );
     containerLogsPromise.then((data) => {
       const newLogs = data;
-      setLogs(newLogs);
+      setLogs(newLogs as keyof typeof setLogs);
       return newLogs;
     });
   };
@@ -66,7 +67,7 @@ const ProcessLogsTable = () => {
     { field: "message", headerName: "Message", width: 550 },
   ];
 
-  const createContainerCheckboxes = (currId) => {
+  const createContainerCheckboxes = (currId: string) => {
     // iterate through runningList -> create label and checkbox for each one
     for (let i = 0; i < runningList.length; i++) {
       // by default, clicked container should be checked
@@ -106,11 +107,11 @@ const ProcessLogsTable = () => {
   };
 
   // create array to hold labels & boxes to render
-  const containerSelectors = [];
+  const containerSelectors: any[] = [];
   createContainerCheckboxes(id);
 
   // handle checkboxes
-  const handleCheck = (e) => {
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const box = e.target;
     // if checkbox is changed to true add to button idList
     if (box.checked === true) {
@@ -123,37 +124,51 @@ const ProcessLogsTable = () => {
     }
   };
 
+  interface RowsDataType {
+    container: string;
+    type: string;
+    time: string;
+    message: string;
+    id: number;
+  }
+
+  type CSVData = string[];
+
   // Populating the StdOut Table Data Using stdout.map
   const tableData = () => {
-    const newRows = [];
-    const newCSV = [];
+    const newRows: RowsDataType[] = [];
+    const newCSV: CSVData[] = [];
 
     if (stdout) {
       stdout.forEach((log, index) => {
-        const currCont = runningList.find((el) => el.ID === log.containerName);
+        const currCont = runningList.find(
+          (el) => el.ID === log["containerName"]
+        );
         newRows.push({
           container: currCont.Name,
           type: "stdout",
-          time: log.timeStamp,
-          message: log.logMsg,
+          time: log["timeStamp"],
+          message: log["logMsg"],
           id: Math.random() * 100,
         });
-        newCSV.push([currCont.Name, "stdout", log.timeStamp, log.logMsg]);
+        newCSV.push([currCont.Name, "stdout", log["timeStamp"], log["logMsg"]]);
       });
 
       stderr.forEach((log, index) => {
-        const currCont = runningList.find((el) => el.ID === log.containerName);
+        const currCont = runningList.find(
+          (el) => el.ID === log["containerName"]
+        );
         newRows.push({
           container: currCont.Name,
           type: "stderr",
-          time: log.timeStamp,
-          message: log.logMsg,
-          id: `stderr ${index}`,
+          time: log["timeStamp"],
+          message: log["logMsg"],
+          id: parseInt(`stderr ${index}`),
         });
-        newCSV.push([currCont.Name, "stderr", log.timeStamp, log.logMsg]);
+        newCSV.push([currCont.Name, "stderr", log["timeStamp"], log["logMsg"]]);
       });
 
-      setRows(newRows);
+      setRows(newRows as keyof typeof setRows);
       setCsvData([["container", "type", "time", "message"], ...newCSV]);
     }
   };

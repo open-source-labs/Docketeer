@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import * as categories from '../../redux/constants/notificationCategories';
-import { DispatchType, SettingsProps, WindowType, RunningContainerType, ContainerType } from './TabTypes';
+import { DispatchType, SettingsProps, WindowType, UserInfo } from './TabTypes';
 
 
 // React Component Imports
@@ -26,6 +26,7 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { AnyAaaaRecord } from 'dns';
+import { RootState } from '../../renderer/store';
 
 const mapDispatchToProps = (dispatch: DispatchType) => ({
   addPhoneNumber: (data: object[]) => dispatch(actions.addPhoneNumber(data)),
@@ -51,7 +52,7 @@ const mapDispatchToProps = (dispatch: DispatchType) => ({
 let showVerificationInput = false;
 let isVerified = false;
 
-const Settings = (props: SettingsProps) => {
+const Settings: any = (props: SettingsProps) => {
   const [mobileNumber, setMobileNumber] = useState('');
 
   // handle check
@@ -281,7 +282,7 @@ const Settings = (props: SettingsProps) => {
   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
   const stateObject = {};
   allContainersList.forEach((el) => {
-    if (!stateObject[el.ID]) stateObject[el.ID] = '';
+    if (!stateObject[el.ID as keyof typeof tempGithubLink]) ((stateObject as Record<typeof el.ID, typeof el.ID>))[el.ID] = '';
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
@@ -304,11 +305,11 @@ const Settings = (props: SettingsProps) => {
   // check if githubLinks are in the correct format, then save them to the database
   const githubLink = (event: any ) => {
     const example = 'https://api.github.com';
-    if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
+    if (!tempGithubLink[event.target.id as keyof typeof tempGithubLink] || (tempGithubLink as Record<typeof event.target.id, typeof event.target.id>)[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
     if (!event.target.id) return alert('Please provide a container ID');
     else {
-      const github_url = tempGithubLink[event.target.id];
+      const github_url = tempGithubLink[event.target.id as keyof typeof tempGithubLink];
       fetch('http://localhost:3000/settings/gitLinks', {
         method: 'POST',
         headers: {
@@ -333,12 +334,12 @@ const Settings = (props: SettingsProps) => {
   };
 
   // Redux: Map state to props
-  const _id = useSelector((state) => state.session._id);
-  const mem_threshold = useSelector((state) => state.session.mem_threshold);
-  const cpu_threshold = useSelector((state) => state.session.cpu_threshold);
-  const container_stops = useSelector((state) => state.session.container_stops);
-  const contact_pref = useSelector((state) => state.session.contact_pref);
-  const phone = useSelector((state) => state.session.phone);
+  const _id = useSelector((state: RootState) => state.session._id);
+  const mem_threshold = useSelector((state: RootState) => state.session.mem_threshold);
+  const cpu_threshold = useSelector((state: RootState) => state.session.cpu_threshold);
+  const container_stops = useSelector((state: RootState) => state.session.container_stops);
+  const contact_pref = useSelector((state: RootState) => state.session.contact_pref);
+  const phone = useSelector((state: RootState) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
   const [cpuThreshold, setCpuThreshold] = useState('');
@@ -347,7 +348,7 @@ const Settings = (props: SettingsProps) => {
   const [value, setValue] = useState(contact_pref);
 
   const dispatch = useDispatch();
-  const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
+  const updateUser = (userInfo: UserInfo) => dispatch(actions.updateUser(userInfo));
 
   const handleRadioChange = (event: any) => {
     setValue(event.target.value);
@@ -461,7 +462,7 @@ const Settings = (props: SettingsProps) => {
     );
   };
 
-  const renderAllContainersList = allContainersList.map((container: RunningListType, i: number) => {
+  const renderAllContainersList = allContainersList.map((container: any, i: number) => {
     const isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID
@@ -485,7 +486,7 @@ const Settings = (props: SettingsProps) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -501,7 +502,7 @@ const Settings = (props: SettingsProps) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -517,7 +518,7 @@ const Settings = (props: SettingsProps) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -543,7 +544,7 @@ const Settings = (props: SettingsProps) => {
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
             variant='outlined'
             onChange={(e) => {
-              stateObject[container.ID] = e.target.value;
+              (stateObject as Record<typeof container.ID, typeof container.ID>)[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
             }}
             size='small'

@@ -36,7 +36,7 @@ export type ContainerProps = {
     remove: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     stop: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     runningList: RunningListType[];
-    runIm: (id: string, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
+    runIm: (id: ContainerType, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
   }
 
   // Stopped containers have a Names key and running containers have a Name key
@@ -108,3 +108,17 @@ export type SettingsProps = {
   cpuNotificationList: {};
   stoppedNotificationList: {};
   };
+
+  export interface UserInfo {
+    _id: number,
+    username: string,
+    email: string,
+    phone: string,
+    role: string,
+    role_id: number,
+    contact_pref: string | null,
+    mem_threshold: number,
+    cpu_threshold: number,
+    container_stops: boolean,
+    token: string
+  }

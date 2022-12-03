@@ -3,13 +3,13 @@
  *
  *  @param {*} stdout
  */
-const convert = (stdout) => {
-  let newArray = stdout.split("\n");
-  let result = [];
+const convert = (stdout: string) => {
+  const newArray = stdout.split('\n');
+  const result = [];
   for (let i = 1; i < newArray.length - 1; i++) {
-    let removedSpace = newArray[i].replace(/\s+/g, " "); // remove all spaces and replace it to 1 space
-    removedSpace = removedSpace.replace(/\s[/]\s/g, "/"); // remove all the space in between slash
-    let splittedArray = removedSpace.split(" ");
+    let removedSpace = newArray[i].replace(/\s+/g, ' '); // remove all spaces and replace it to 1 space
+    removedSpace = removedSpace.replace(/\s[/]\s/g, '/'); // remove all the space in between slash
+    let splittedArray = removedSpace.split(' ');
     result.push(splittedArray);
   }
   return result;
@@ -17,7 +17,7 @@ const convert = (stdout) => {
 
 /**
  * Converts all the array into array of objects containing key of the value
- * 
+ *
  * @param {*} array
  * @param {*} objArray
  */
@@ -43,7 +43,7 @@ const convertArrToObj = (array, objArray) => {
  *  d: d1 Block I/O total
  *     d2 Block I/O System Total
  *  Refactoring is welcomed since it is not optimized way.
- * 
+ *
  * @param {*} array
  */
 const convertToMetricsArr = (array) => {
@@ -53,23 +53,23 @@ const convertToMetricsArr = (array) => {
   let netArray = [0, 0];
   let blockArray = [0, 0];
   for (let i = 0; i < array.length; i++) {
-    let cpu = array[i]["CPUPerc"].replace(/([%])+/g, "");
+    let cpu = array[i]['CPUPerc'].replace(/([%])+/g, '');
     cpuSum += parseFloat(cpu);
-    let memory = array[i]["MemPerc"].replace(/([%])+/g, "");
+    let memory = array[i]['MemPerc'].replace(/([%])+/g, '');
     memorySum += parseFloat(memory);
-    let splittedNet = array[i]["NetIO"].split("/");
-    let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ""));
+    let splittedNet = array[i]['NetIO'].split('/');
+    let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));
     let netTotal;
-    if (splittedNet[1].slice(-2) === "kB") {
-      netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, ""));
+    if (splittedNet[1].slice(-2) === 'kB') {
+      netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, ''));
     } else {
-      netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, "")) * 1000;
+      netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, '')) * 1000;
     }
     netArray[0] += netvalue;
     netArray[1] += netTotal;
-    let splittedBlock = array[i]["BlockIO"].split("/");
-    let blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ""));
-    let blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ""));
+    let splittedBlock = array[i]['BlockIO'].split('/');
+    let blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ''));
+    let blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ''));
     blockArray[0] += blockValue;
     blockArray[1] += blockTotal;
   }

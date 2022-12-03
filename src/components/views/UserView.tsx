@@ -295,7 +295,6 @@ const UserView = () => {
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
-              addRunningContainers={addRunningContainers}
               // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}

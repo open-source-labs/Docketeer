@@ -338,7 +338,7 @@ const SysAdmin = () => {
             stopRunningContainer={stopRunningContainer}
             stoppedList={stoppedList}
             runStopped={helper.runStopped}
-            // refreshRunningContainers={refreshRunningContainers}
+            refreshRunningContainers={refreshRunningContainers}
             runStoppedContainer={runStoppedContainer}
             phoneNumber={phoneNumber}
             memoryNotificationList={memoryNotificationList}

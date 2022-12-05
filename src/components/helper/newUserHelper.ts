@@ -4,8 +4,9 @@
  */
 import store from '../../renderer/store';
 import * as actions from '../../redux/actions/actions';
+import React from 'react';
 
-export const handleNewUser = (e: Event) => {
+export const handleNewUser = (e: any) => {
   e.preventDefault();
 
   const username = (<HTMLInputElement>document.getElementById('signupUsername')).value;

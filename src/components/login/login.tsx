@@ -15,24 +15,25 @@ import Button from '@mui/material/Button';
 import Docketeer from '../../../assets/docketeer-title.png';
 
 interface UserInfo {
-  _id: number,
-  username: string,
-  email: string,
-  phone: string,
-  role: string,
-  role_id: number,
-  contact_pref: string | null,
-  mem_threshold: number,
-  cpu_threshold: number,
-  container_stops: boolean,
-  token: string
+  _id: number;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
+  token: string;
 }
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const updateSession = () => dispatch(actions.updateSession());
-  const updateUser = (userInfo: UserInfo) => dispatch(actions.updateUser(userInfo));
+  const updateUser = (userInfo: UserInfo) =>
+    dispatch(actions.updateUser(userInfo));
 
   // Docketeer 8.0 - We don't think the below useEffect function served a purpose any more and it caused issues with testing. This should probably be deleted
   // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
@@ -50,21 +51,23 @@ const Login = () => {
   // }, []);
 
   // callback function invoked when 'login' button is clicked
-  const handleLogin = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>) => {
+  const handleLogin = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>
+  ) => {
     e.preventDefault(); // prevents form submit from reloading page
-    console.log("Event:", e)
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    if(usernameInput != null || passwordInput != null) {
+    console.log('Event:', e);
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    if (usernameInput != null || passwordInput != null) {
       const username: string = (usernameInput as HTMLInputElement).value;
       const password: string = (passwordInput as HTMLInputElement).value;
-      
+
       // clears input fields after login
-      (usernameInput as HTMLInputElement).value = "";
-      (passwordInput as HTMLInputElement).value = "";
-      
-      console.log("username:", username);
-      console.log("password:", password);
+      (usernameInput as HTMLInputElement).value = '';
+      (passwordInput as HTMLInputElement).value = '';
+
+      console.log('username:', username);
+      console.log('password:', password);
       authenticateUser(username, password);
     }
   };
@@ -72,16 +75,16 @@ const Login = () => {
   // callback function which will send request to endpoint http://localhost:3000/login and expect
   // either SSID in cookie.
   const authenticateUser = (username: string, password: string) => {
-    console.log("YOU ARE HERE!")
-    fetch("http://localhost:3000/login", {
-      method: "POST",
+    console.log('YOU ARE HERE!');
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: username,
-        password: password
-      })
+        password: password,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -103,50 +106,56 @@ const Login = () => {
   return (
     <div>
       <header>
-        <img src={Docketeer} width={160} />
+        <img
+          src={Docketeer}
+          width={160}
+        />
       </header>
       <br />
       <br />
       <br />
-      <div className='renderContainers'>
-        <div className='header'>
-          <h1 className='tabTitle'>Login</h1>
+      <div className="renderContainers">
+        <div className="header">
+          <h1 className="tabTitle">Login</h1>
         </div>
-        <div className='settings-container'>
-          <form className='loginForm' onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}>
-            <TextField 
-              id='username' 
-              label='Username' 
-              variant='outlined'
-              value='sysadmin' 
+        <div className="settings-container">
+          <form
+            className="loginForm"
+            onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}
+          >
+            <TextField
+              id="username"
+              label="Username"
+              variant="outlined"
+              // value=""
             />
             <br />
             <br />
             <TextField
-              id='password'
-              label='Password'
-              type='password'
-              variant='outlined'
-              value='belugas'
+              id="password"
+              label="Password"
+              type="password"
+              variant="outlined"
+              // value=""
             />
             <br />
             {/* * Submit Button * */}
             <Button
-              variant='contained'
-              color='primary'
-              type='submit'
-              size='medium'
+              variant="contained"
+              color="primary"
+              type="submit"
+              size="medium"
               onClick={() => handleLogin}
               sx={{
-                m: 1
+                m: 1,
               }}
             >
               Login
             </Button>
             <hr />
             <div
-              className='g-signin2'
-              data-onsuccess='onSignIn'
+              className="g-signin2"
+              data-onsuccess="onSignIn"
               style={{ width: '200px', borderRadius: '4px' }}
             ></div>
           </form>

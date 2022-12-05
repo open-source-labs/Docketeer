@@ -54,7 +54,7 @@ const convertToMetricsArr = (array: any[]) => {
   let newArr = [];
   let cpuSum = 0;
   let memorySum = 0;
-  let netArray = [0, 0];
+  let netArray: any = [0, 0];
   let blockArray = [0, 0];
   for (let i = 0; i < array.length; i++) {
     let cpu = array[i]['CPUPerc'].replace(/([%])+/g, '');

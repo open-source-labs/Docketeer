@@ -78,7 +78,7 @@ export type ContainerProps = {
     barPercentage: number;
   }
 
-  // dont judge me, im coming back for you
+
 export type DispatchType = (...args: any[]) => void;
 
 export type WindowType = {
@@ -95,18 +95,23 @@ type RendInvokebody = {
 }
 
 export type SettingsProps = {
-  addMonitoringFrequency: (data: string | number) => void;
-  addMemoryNotificationSetting: (data: object[]) => void;
-  addCpuNotificationSetting: (data: object[]) => void;
-  addStoppedNotificationSetting: (data: object[]) => void;
-  addPhoneNumber: (data: object[] | string) => void;
-  addNotificationFrequency: (data: string | number) => void;
-  runningList: RunningListType[];
-  stoppedList: StoppedListType[];
-  // fixing the below
-  memoryNotificationList: {};
-  cpuNotificationList: {};
-  stoppedNotificationList: {};
+  addMonitoringFrequency: (data: any) => void;
+  addMemoryNotificationSetting: (data: any) => void;
+  addCpuNotificationSetting: (data: any) => void;
+  addStoppedNotificationSetting: (data: any) => void;
+  addPhoneNumber: (data: any) => void;
+  addNotificationFrequency: (data: any) => void;
+  runningList: any[];
+  stop?: (id: any, callback: any) => void;
+  stoppedList: any[];
+  stopRunningContainer: (id: string) => { type: string; payload: string; };
+  runStopped: (id: any, runStoppedContainerDispatcher: any) => void;
+  refreshRunningContainers: (data: any[]) => void;
+  runStoppedContainer: (id: string) => void;
+  phoneNumber?: string[];
+  memoryNotificationList: any[];
+  cpuNotificationList: any[];
+  stoppedNotificationList: any[];
   };
 
   export interface UserInfo {

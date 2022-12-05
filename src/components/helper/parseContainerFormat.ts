@@ -1,3 +1,5 @@
+
+
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -21,10 +23,11 @@ const convert = (stdout: string) => {
  * @param {*} array
  * @param {*} objArray
  */
-const convertArrToObj = (array, objArray) => {
+const convertArrToObj = (array: string[][], objArray: string[]) => {
+  // console.log('convertedArr: ', array, objArray);
   const result = [];
   for (let i = 0; i < array.length; i++) {
-    let containerObj = {};
+    let containerObj: any = {};
     for (let j = 0; j < array[i].length; j++) {
       containerObj[objArray[j]] = array[i][j];
     }
@@ -46,7 +49,8 @@ const convertArrToObj = (array, objArray) => {
  *
  * @param {*} array
  */
-const convertToMetricsArr = (array) => {
+const convertToMetricsArr = (array: any[]) => {
+  console.log('metrics array: ', array)
   let newArr = [];
   let cpuSum = 0;
   let memorySum = 0;

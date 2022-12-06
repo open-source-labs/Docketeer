@@ -5,11 +5,12 @@
 import store from '../../renderer/store';
 import * as actions from '../../redux/actions/actions';
 
-export const handleNewUser = (e) => {
+export const handleNewUser = (e, roleID) => {
   e.preventDefault();
 
   const username = document.getElementById('signupUsername').value;
   const password = document.getElementById('signupPassword').value;
+  const role_id = roleID;
   const confirmationPassword = document.getElementById(
     'signupPasswordConfirmation'
   ).value;
@@ -30,7 +31,7 @@ export const handleNewUser = (e) => {
     return;
   }
 
-  createNewUser(email, username, password, phone);
+  createNewUser(email, username, password, phone, role_id);
 };
 
 export const confirmPassword = () => {
@@ -76,7 +77,7 @@ export const checkPhone = (phone) => {
   return phone.match(regex) !== null;
 };
 
-export const createNewUser = (email, username, password, phone) => {
+export const createNewUser = (email, username, password, phone, role_id) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
@@ -86,7 +87,8 @@ export const createNewUser = (email, username, password, phone) => {
       username: username,
       password: password,
       email: email,
-      phone: phone
+      phone: phone,
+      role_id: role_id
     })
   })
     .then(() => {

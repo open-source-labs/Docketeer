@@ -3,7 +3,8 @@
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
 const db = require('../models/cloudModel');
-
+const bcrypt = require('bcryptjs');
+const { ConnectingAirportsOutlined } = require('@mui/icons-material');
 const userController = {};
 
 // create new user
@@ -71,17 +72,29 @@ userController.getOneUser = (req, res, next) => {
 };
 
 // verify user exists and send back user info
-userController.verifyUser = (req, res, next) => {
+userController.verifyUser =  (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { username } = req.body;
+  const { username, password } = req.body;
 
   const getUser = `SELECT * FROM users WHERE username='${username}';`;
 
   db.query(getUser)
-    .then((data) => {
-      if (data.rows[0]) res.locals.user = data.rows[0]; else res.locals.error = 'Incorrect username or password.';
-      return next();
+    .then(async (data) => {
+      // console.log('hello');
+      // console.log(password);
+      // console.log(data.rows[0].password);
+      const match = await bcrypt.compare(password, data.rows[0].password);
+      // console.log(match);
+      if (data.rows[0] && match) {
+        res.locals.user = data.rows[0]; 
+        return next();
+      } else {
+        res.locals.error = 'Incorrect username or password.';
+        delete res.locals.user;
+        // return next();
+      }
+      
     })
     .catch((err) => {
       return next({
@@ -117,9 +130,9 @@ userController.switchUserRole = (req, res, next) => {
     'system admin': 1,
     admin: 2,
     user: 3
-  }
+  };
 
-  const { _id, role } = req.body
+  const { _id, role } = req.body;
 
   if(res.locals.sysAdmins === 1 && _id == res.locals.id){
     res.locals.hasError = true;
@@ -128,7 +141,7 @@ userController.switchUserRole = (req, res, next) => {
 
     const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
  
-    const parameters = [role, roleMap[role], _id]
+    const parameters = [role, roleMap[role], _id];
  
     db.query(query, parameters)
       .then((data) => {

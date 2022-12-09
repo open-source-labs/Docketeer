@@ -65,7 +65,7 @@ const errorsCalled = {};
 const errorCheck = (key, error) => {
   if(!errorsCalled[key]) {
     errorsCalled[key] = error.message;
-    alert(`Make sure Docker Desktop is running. \n\n ${error.message}`);
+    alert('Make sure Docker Desktop is running.');
   }
   else{
     console.log(error.message);

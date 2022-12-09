@@ -4,7 +4,10 @@ const cors = require('cors');
 const colors = require('colors');
 
 // Routers
+// sign up for sysadmin to add new users to their account
 const signupRouter = require('./routes/signupRouter');
+// sign up for new sysadmin users
+const signupSysAdminRouter = require('./routes/signupSysAdminRouter');
 const loginRouter = require('./routes/loginRouter');
 const adminRouter = require('./routes/adminRouter');
 const accountRouter = require('./routes/accountRouter');
@@ -28,7 +31,10 @@ app.use('/test', (req, res) => {
 
 app.use('/settings', settingsRouter);
 app.use('/init', initRouter);
+// sign up for sysadmin to add new users to their account
 app.use('/signup', signupRouter);
+// sign up for new sysadmin users
+// app.use('/signupsysadmin', signupSysAdminRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/account', accountRouter);

@@ -11,12 +11,25 @@ const userController = {};
 userController.createUser = (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { username, email, phone } = req.body;
+  const { username, email, phone, role_id} = req.body;
   const { hash } = res.locals;
-  
-  const createUser = 'INSERT INTO users (username, email, password, phone, role) VALUES ($1, $2, $3, $4, \'user\') RETURNING *;';
-  const userDetails = [username, email, hash, phone];
+  let role;
 
+  switch(role_id) {
+  case '1':
+    role = 'system admin';
+    break;
+  case '2':
+    role = 'admin';
+    break;
+  case '3':
+    role = 'user';
+    break;
+  }
+  
+  const createUser = 'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
+  const userDetails = [username, email, hash, phone, role, role_id];
+  console.log('USERDETAILS:', userDetails);
   if (username && hash) {
     db.query(createUser, userDetails)
       .then((data) => {

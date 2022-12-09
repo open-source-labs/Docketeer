@@ -143,12 +143,7 @@ const Login = () => {
             >
               Login
             </Button>
-            <hr />
-            <div
-              className='g-signin2'
-              data-onsuccess='onSignIn'
-              style={{ width: '200px', borderRadius: '4px' }}
-            ></div>
+            <a className='link-signup' href='#' >New SysAdmin Sign Up</a>
           </form>
         </div>
       </div>

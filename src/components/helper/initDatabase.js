@@ -28,7 +28,7 @@ export default () => {
     .then((data) => data.json())
     .then((response) => {
       if (response.error !== null) {
-        alert(`Make sure Docker Desktop is running. \n\n ${response.error}`);
+        alert('Make sure Docker Desktop is running.');
         return;
       }
       if (response.stderr) {

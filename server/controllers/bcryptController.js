@@ -26,7 +26,7 @@ bcryptController.hashPassword = (req, res, next) => {
 };
 
 // Hash new user password with bCrypt - User updated password
-bcryptController.hashNewPassword = (req, res, next) => {
+bcryptController.hashNewPassword = async (req, res, next) => {
 
   // if there is an error property on res.locals, return next(). i.e., incorrect password entered
   if (Object.prototype.hasOwnProperty.call(res.locals, 'error')){
@@ -36,7 +36,7 @@ bcryptController.hashNewPassword = (req, res, next) => {
   const { newPassword } = req.body;
   const saltRounds = 10;
 
-  bcrypt.hash(newPassword, saltRounds)
+  await bcrypt.hash(newPassword, saltRounds)
     .then((hash) => {
       res.locals.hash = hash;
       return next();
@@ -49,38 +49,6 @@ bcryptController.hashNewPassword = (req, res, next) => {
     });
 };
 
-// Compare user's inputted password with password in database
-bcryptController.comparePassword = (req, res, next) => {
-  if (res.locals.error) return next();
-
-  const { username, password } = req.body;
-
-  const getHash = `SELECT password FROM users WHERE username='${ username }';`;
-
-  db.query(getHash)
-    .then((data) => {
-      bcrypt.compare(password, data.rows[0].password)
-        .then((result) => {
-          if (!result) {
-            res.locals.error = 'Incorrect username or password.';
-            delete res.locals.user;
-          }
-          return next();
-        })
-        .catch((err) => {
-          return next({
-            log: `Error in bcryptController comparePassword: ${err}`,
-            message: { err: 'An error occured comparing inputted password with saved password. See bcryptController.copmarePassword.' },
-          });
-        });
-    })
-    .catch((err) => {
-      return next({
-        log: `Error in bcryptController comparePassword: ${err}`,
-        message: { err: 'An error occured retrieving hashed password from database. See bcryptController.comparePassword.' },
-      });
-    });
-};
 /**
  * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
  */

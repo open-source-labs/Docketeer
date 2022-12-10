@@ -41,7 +41,7 @@ const Login = () => {
     //check that username and password are inputted
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
-    if(usernameInput != null || passwordInput != null) {
+   
       const username: string = (usernameInput as HTMLInputElement).value;
       const password: string = (passwordInput as HTMLInputElement).value;
       // clears input fields after login
@@ -100,7 +100,7 @@ const Login = () => {
               id='username' 
               label='Username' 
               variant='outlined'
-              value='sysadmin' 
+            
             />
             <br />
             <br />
@@ -109,7 +109,7 @@ const Login = () => {
               label='Password'
               type='password'
               variant='outlined'
-              value='belugas'
+             
             />
             <br />
             {/* * Login Button * */}

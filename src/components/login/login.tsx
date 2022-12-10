@@ -35,7 +35,7 @@ const Login = () => {
   const updateUser = (userInfo: UserInfo) => dispatch(actions.updateUser(userInfo));
 
   // Docketeer 8.0 - We don't think the below useEffect function served a purpose any more and it caused issues with testing. This should probably be deleted
-  // Need to set the app element to body for screen-readers (disability), otherwise modal will throw an error
+  // Need to set the app element to body for screen-readers, otherwise modal will throw an error
   // useEffect(() => {
   //   fetch("http://localhost:3000/db")
   //     .then((response) => {
@@ -52,27 +52,29 @@ const Login = () => {
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevents form submit from reloading page
-    console.log("Event:", e)
+    //console.log("Event:", e)
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
-    if(usernameInput != null || passwordInput != null) {
+   
       const username: string = (usernameInput as HTMLInputElement).value;
       const password: string = (passwordInput as HTMLInputElement).value;
-      
+    
       // clears input fields after login
       (usernameInput as HTMLInputElement).value = "";
       (passwordInput as HTMLInputElement).value = "";
+      // make sure there is content in both input fields before running authenticateUser
+      if (!username || !password) window.alert('Please enter a username and password.');
+      else authenticateUser(username, password);
+      // console.log("username:", username);
+      // console.log("password:", password);
       
-      console.log("username:", username);
-      console.log("password:", password);
-      authenticateUser(username, password);
-    }
+   // } 
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect
   // either SSID in cookie.
   const authenticateUser = (username: string, password: string) => {
-    console.log("YOU ARE HERE!")
+    // console.log("YOU ARE HERE!")
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -118,7 +120,7 @@ const Login = () => {
               id='username' 
               label='Username' 
               variant='outlined'
-              value='sysadmin' 
+            
             />
             <br />
             <br />
@@ -127,7 +129,7 @@ const Login = () => {
               label='Password'
               type='password'
               variant='outlined'
-              value='belugas'
+             
             />
             <br />
             {/* * Submit Button * */}

@@ -2,16 +2,46 @@
 import React, { useState } from 'react';
 import * as helper from '../helper/commands';
 
+// types to add to the types file
+interface ContainerObj {
+  BlockIO: string, 
+  CPUPerc: string,
+  Container: string,
+  ID: string,
+  MemPerc: string,
+  MemUsage: string,
+  Name: string,
+  NetIO: string,
+  PIDs: string,
+  Image?: string,
+  RunningFor?: string
+}
+
+interface imageObj {
+  reps: string, 
+  tag: string, 
+  imgid: string, 
+  size: string
+}
+
+interface ImagesProps {
+  imagesList: imageObj[],
+  runningList: ContainerObj[],
+  addRunningContainers: (data: ContainerObj[]) => void,
+  refreshImagesList: (data: imageObj[]) => void,
+  runIm: (id: string, runningList: ContainerObj[], callback_1: () => void, callback_2: () => void) => void,
+  removeIm: ( id: string, imagesList: imageObj[], callback_1: () => void, callback_2: () => void) => void
+}
+
 /**
  * Render Images of the user has
  * 
  * @param {*} props 
  */
-const Images = (props) => {
+const Images = (props: ImagesProps) => {
   const [repo, setRepo] = useState('');
 
-  const handleClick = (e) => {
-    console.log(props.imagesList);
+  const handleClick = () => {
     if (!repo) {
       alert('Please enter an image to pull!');
       return;
@@ -27,6 +57,8 @@ const Images = (props) => {
             return;
           }
         });
+        // ingore was used below because Typescript says the codition will never be true, but this is not an accurate error
+        // @ts-ignore 
         if (existingRepo === true) {
           alert('This image already exists!');
           return;
@@ -45,6 +77,8 @@ const Images = (props) => {
             return;
           }
         });
+        // ingore was used below because Typescript says the codition will never be true, but this is not an accurate error
+        // @ts-ignore 
         if (existingRepo === true){
           alert('This image already exists!');
           return;
@@ -58,7 +92,7 @@ const Images = (props) => {
     }
   };
 
-  const renderImagesList = props.imagesList.map((ele, i) => {
+  const renderImagesList = props.imagesList.map((ele, i: number) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
@@ -124,7 +158,7 @@ const Images = (props) => {
               }}
             ></input>
           </span>
-          <button className="run-btn" onClick={(e) => handleClick(e)}>
+          <button className="run-btn" onClick={() => handleClick()}>
             Pull
           </button>
         </div>

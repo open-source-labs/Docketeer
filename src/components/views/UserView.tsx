@@ -295,8 +295,6 @@ const UserView = () => {
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
-                  // @ts-ignore: Unreachable code error
-              addRunningContainers={addRunningContainers}
               // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}

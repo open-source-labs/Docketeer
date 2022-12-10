@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
-import PropTypes from 'prop-types';
 import * as categories from '../../redux/constants/notificationCategories';
+import { DispatchType, SettingsProps, WindowType, UserInfo, RunningListType } from './TabTypes';
+
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
@@ -24,24 +25,25 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { RootState } from '../../renderer/store';
 
-const mapDispatchToProps = (dispatch) => ({
-  addPhoneNumber: (data) => dispatch(actions.addPhoneNumber(data)),
-  addNotificationFrequency: (data) =>
+const mapDispatchToProps = (dispatch: DispatchType) => ({
+  addPhoneNumber: (data: object[]) => dispatch(actions.addPhoneNumber(data)),
+  addNotificationFrequency: (data: object[]) =>
     dispatch(actions.addNotificationFrequency(data)),
-  addMonitoringFrequency: (data) =>
+  addMonitoringFrequency: (data: object[]) =>
     dispatch(actions.addMonitoringFrequency(data)),
-  addMemoryNotificationSetting: (data) =>
+  addMemoryNotificationSetting: (data: object[]) =>
     dispatch(actions.addMemoryNotificationSetting(data)),
-  addCpuNotificationSetting: (data) =>
+  addCpuNotificationSetting: (data: object[]) =>
     dispatch(actions.addCpuNotificationSetting(data)),
-  addStoppedNotificationSetting: (data) =>
+  addStoppedNotificationSetting: (data: object[]) =>
     dispatch(actions.addStoppedNotificationSetting(data)),
-  removeMemoryNotificationSetting: (data) =>
+  removeMemoryNotificationSetting: (data: object[]) =>
     dispatch(actions.removeMemoryNotificationSetting(data)),
-  removeCpuNotificationSetting: (data) =>
+  removeCpuNotificationSetting: (data: object[]) =>
     dispatch(actions.removeCpuNotificationSetting(data)),
-  removeStoppedNotificationSetting: (data) =>
+  removeStoppedNotificationSetting: (data: object[]) =>
     dispatch(actions.removeStoppedNotificationSetting(data))
 });
 
@@ -49,29 +51,13 @@ const mapDispatchToProps = (dispatch) => ({
 let showVerificationInput = false;
 let isVerified = false;
 
-const Settings = (props) => {
-  const [mobileNumber, setMobileNumber] = useState('');
 
-  // Similar to TypeScript, we can use propTypes to explicit declare a type for a prop. This enables type checking and allows for catching of bugs.
-  // https://reactjs.org/docs/typechecking-with-proptypes.html
-  Settings.propTypes = {
-    addMonitoringFrequency: PropTypes.func.isRequired,
-    addMemoryNotificationSetting: PropTypes.func.isRequired,
-    addCpuNotificationSetting: PropTypes.func.isRequired,
-    addStoppedNotificationSetting: PropTypes.func.isRequired,
-    addPhoneNumber: PropTypes.func.isRequired,
-    addNotificationFrequency: PropTypes.func.isRequired,
-    // the 2 below
-    runningList: PropTypes.array.isRequired,
-    stoppedList: PropTypes.array.isRequired,
-    memoryNotificationList: PropTypes.object.isRequired,
-    cpuNotificationList: PropTypes.object.isRequired,
-    stoppedNotificationList: PropTypes.object.isRequired
-  };
+const Settings = (props: SettingsProps) => {
+  const [mobileNumber, setMobileNumber] = useState('');
 
   // handle check
   // insert all container information performs two database calls on the backend
-  const handleCheckSetting = (containerId, containerName, metricName) => {
+  const handleCheckSetting = (containerId: string, containerName: string, metricName: string) => {
     fetch('http://localhost:3000/settings/insert', {
       method: 'POST',
       headers: {
@@ -94,7 +80,7 @@ const Settings = (props) => {
 
   // handle uncheck
   // remove container/metric from DB
-  const handleUnCheckSetting = (containerId, metricName) => {
+  const handleUnCheckSetting = (containerId: string, metricName: string) => {
     fetch('http://localhost:3000/settings/delete', {
       method: 'POST',
       headers: {
@@ -137,6 +123,8 @@ const Settings = (props) => {
   /**
  * @title COMMUNICATION
  */
+  // have to declare window for TypeScript compatibility 
+  let window: WindowType;
 
   const verifyMobileNumber = async () => {
     await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
@@ -173,7 +161,8 @@ const Settings = (props) => {
             props.addPhoneNumber(mobileNumber);
             showVerificationInput = true;
             verifyMobileNumber();
-            document.getElementById('textfield').value = '';
+            let field = document.getElementById('textfield');
+            if (field) (field as HTMLInputElement).value = '';
           })
           .catch((err) => {
             console.log('handlePhoneNumberSubmit: ', err);
@@ -190,7 +179,7 @@ const Settings = (props) => {
   const [tempNotifFreq, setTempNotifFreq] = useState('');
 
   const notificationFrequency = () => {
-    let frequency = 5;
+    let frequency: string | number = 5;
     if (isNaN(Number(tempNotifFreq)))
       alert('Please enter notification frequency in numerical format. ex: 15');
     else {
@@ -221,7 +210,7 @@ const Settings = (props) => {
   const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
 
   const monitoringFrequency = () => {
-    let frequency = 2;
+    let frequency: string | number = 2;
     if (isNaN(Number(tempMonitoringFrequency)))
       alert('Please enter monitoring frequency in numerical format. ex: 15');
     else {
@@ -251,7 +240,7 @@ const Settings = (props) => {
 
   // VERIFICATION OF THE CODE TYPED IN BY USER FROM SMS
   const [formData, updateFormData] = useState('');
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     updateFormData(value);
   };
 
@@ -278,7 +267,8 @@ const Settings = (props) => {
    */
 
   // general function to check if a container is in a notification setting list
-  const isSelected = (set, containerId) => set.has(containerId);
+  // the below set is typed as any due to continued changing parameters
+  const isSelected = (set: any, containerId: string) => set.has(containerId);
 
   const allContainersList = props.runningList.concat(props.stoppedList); // INSTEAD OF CREATING A NEW STATE IN THE REDUCER CONCATENATED 2 ALREADY EXISTING STATES
 
@@ -292,7 +282,7 @@ const Settings = (props) => {
   // 1. CREATE AN OBJECT STATE WITH LIST OF CONTAINERS AS KEYS AND EMPTY ARRAYS AS VALUES
   const stateObject = {};
   allContainersList.forEach((el) => {
-    if (!stateObject[el.ID]) stateObject[el.ID] = '';
+    if (!stateObject[el.ID as keyof typeof tempGithubLink]) ((stateObject as Record<typeof el.ID, typeof el.ID>))[el.ID] = '';
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
@@ -313,13 +303,13 @@ const Settings = (props) => {
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
   // check if githubLinks are in the correct format, then save them to the database
-  const githubLink = (event) => {
+  const githubLink = (event: any ) => {
     const example = 'https://api.github.com';
-    if (!tempGithubLink[event.target.id] || tempGithubLink[event.target.id].slice(0,22) != example)
+    if (!tempGithubLink[event.target.id as keyof typeof tempGithubLink] || (tempGithubLink as Record<typeof event.target.id, typeof event.target.id>)[event.target.id].slice(0,22) != example)
       return alert('Please provide a link in accordance with provided example');
     if (!event.target.id) return alert('Please provide a container ID');
     else {
-      const github_url = tempGithubLink[event.target.id];
+      const github_url = tempGithubLink[event.target.id as keyof typeof tempGithubLink];
       fetch('http://localhost:3000/settings/gitLinks', {
         method: 'POST',
         headers: {
@@ -333,7 +323,8 @@ const Settings = (props) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          document.getElementById('gittext').value = '';
+          let field = document.getElementById('gittext');
+          if (field) (field as HTMLInputElement).value = '';
           return response;
         })
         .catch((err) => {
@@ -343,12 +334,12 @@ const Settings = (props) => {
   };
 
   // Redux: Map state to props
-  const _id = useSelector((state) => state.session._id);
-  const mem_threshold = useSelector((state) => state.session.mem_threshold);
-  const cpu_threshold = useSelector((state) => state.session.cpu_threshold);
-  const container_stops = useSelector((state) => state.session.container_stops);
-  const contact_pref = useSelector((state) => state.session.contact_pref);
-  const phone = useSelector((state) => state.session.phone);
+  const _id = useSelector((state: RootState) => state.session._id);
+  const mem_threshold = useSelector((state: RootState) => state.session.mem_threshold);
+  const cpu_threshold = useSelector((state: RootState) => state.session.cpu_threshold);
+  const container_stops = useSelector((state: RootState) => state.session.container_stops);
+  const contact_pref = useSelector((state: RootState) => state.session.contact_pref);
+  const phone = useSelector((state: RootState) => state.session.phone);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
   const [cpuThreshold, setCpuThreshold] = useState('');
@@ -357,13 +348,13 @@ const Settings = (props) => {
   const [value, setValue] = useState(contact_pref);
 
   const dispatch = useDispatch();
-  const updateUser = (userInfo) => dispatch(actions.updateUser(userInfo));
+  const updateUser = (userInfo: UserInfo) => dispatch(actions.updateUser(userInfo));
 
-  const handleRadioChange = (event) => {
+  const handleRadioChange = (event: any) => {
     setValue(event.target.value);
   };
 
-  const handleRadioSubmit = (value) => {
+  const handleRadioSubmit = (value: string) => {
     fetch('http://localhost:3000/account/contact', {
       method: 'POST',
       headers: {
@@ -385,11 +376,12 @@ const Settings = (props) => {
       });
   };
 
-  const handleCpuChange = (event) => {
-    setCpuThreshold(document.getElementById('cpu-threshold-input').value);
+  const handleCpuChange = (event: any) => {
+    let field = document.getElementById('cpu-threshold-input');
+    if (field) setCpuThreshold((field as HTMLInputElement).value);
   };
 
-  const handleCpuSubmit = (value) => {
+  const handleCpuSubmit = (value: string) => {
     fetch('http://localhost:3000/account/cpu', {
       method: 'POST',
       headers: {
@@ -412,7 +404,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleMemSubmit = (value) => {
+  const handleMemSubmit = (value: string) => {
     fetch('http://localhost:3000/account/memory', {
       method: 'POST',
       headers: {
@@ -435,7 +427,7 @@ const Settings = (props) => {
       });
   };
 
-  const handleStoppedContainersSubmit = (value) => {
+  const handleStoppedContainersSubmit = (value: string) => {
     fetch('http://localhost:3000/account/stops', {
       method: 'POST',
       headers: {
@@ -457,17 +449,20 @@ const Settings = (props) => {
       });
   };
 
-  const handleMemChange = (event) => {
-    setMemThreshold(document.getElementById('mem-threshold-input').value);
+  const handleMemChange = (event: any) => {
+    let field = document.getElementById('mem-threshold-input');
+    if (field) setMemThreshold((field as HTMLInputElement).value);
   };
 
-  const handleStoppedContainersChange = (event) => {
-    setStoppedContainers(
-      document.getElementById('stopped-containers-input').checked
+  const handleStoppedContainersChange = (event: any) => {
+    let ele = document.getElementById('stopped-containers-input');
+    if (ele) setStoppedContainers(
+      //let ele = document.getElementById('stopped-containers-input');
+     (ele as HTMLInputElement).checked
     );
   };
 
-  const renderAllContainersList = allContainersList.map((container, i) => {
+  const renderAllContainersList = allContainersList.map((container: any, i: number) => {
     const isMemorySelected = isSelected(
       props.memoryNotificationList,
       container.ID
@@ -491,7 +486,7 @@ const Settings = (props) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -507,7 +502,7 @@ const Settings = (props) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -523,7 +518,7 @@ const Settings = (props) => {
         </TableCell>
         <TableCell align='center'>
           <Checkbox
-            onClick={(event) =>
+            onClick={(event: any) =>
               event.target.checked
                 ? handleCheckSetting(
                   container.ID,
@@ -549,7 +544,7 @@ const Settings = (props) => {
             helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
             variant='outlined'
             onChange={(e) => {
-              stateObject[container.ID] = e.target.value;
+              (stateObject as Record<typeof container.ID, typeof container.ID>)[container.ID] = e.target.value;
               setTempGithubLink(stateObject);
             }}
             size='small'
@@ -616,7 +611,7 @@ const Settings = (props) => {
                 }}
                 size='medium'
                 variant='contained'
-                onClick={(e) => handlePhoneNumberSubmit(e)}
+                onClick={() => handlePhoneNumberSubmit()}
                 endIcon={<SendIcon />}
               >
                 Verify
@@ -721,7 +716,7 @@ const Settings = (props) => {
               }}
               size='medium'
               variant='contained'
-              onClick={(e) => notificationFrequency(e)}
+              onClick={() => notificationFrequency()}
             >
               Confirm
             </Button>
@@ -748,7 +743,7 @@ const Settings = (props) => {
               }}
               size='medium'
               variant='contained'
-              onClick={(e) => monitoringFrequency(e)}
+              onClick={() => monitoringFrequency()}
             >
               Confirm
             </Button>
@@ -880,3 +875,4 @@ const Settings = (props) => {
 };
 
 export default connect(null, mapDispatchToProps)(Settings);
+

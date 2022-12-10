@@ -8,6 +8,11 @@ import { useSelector, useDispatch } from "react-redux";
 // Material UI Imports
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
 
 import {
   handleNewUser,
@@ -15,6 +20,13 @@ import {
   confirmPassword,
   checkPhone,
 } from "../helper/newUserHelper";
+
+// this will store the value from the user role
+let valueRole = '3'; 
+//setting value of the RadioGroup MUI Component to the one selected by the user
+const handleSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  valueRole = (event.target as HTMLInputElement).value;
+}
 
 const NewUserDisplay = () => {
   return (
@@ -94,13 +106,26 @@ const NewUserDisplay = () => {
             }}
           />
           <br />
+          <FormControl>
+            <RadioGroup
+              id="new-user-role"
+              row
+              defaultValue="3"
+              onChange={handleSelect}
+            >
+              <FormControlLabel value="1" control={<Radio />} label="System Admin"></FormControlLabel>
+              <FormControlLabel value="2" control={<Radio />} label="Admin"></FormControlLabel>
+              <FormControlLabel value="3" control={<Radio />} label="User"></FormControlLabel>
+            </RadioGroup>
+          </FormControl>
+          <br />
           <span id="phone-alert"></span>
           <br />
           <Button
             variant="contained"
             size="medium"
             type="submit"
-            onClick={(e) => handleNewUser(e)}
+            onClick={(e) => handleNewUser(e, valueRole)}
             sx={{
               m: 1,
             }}

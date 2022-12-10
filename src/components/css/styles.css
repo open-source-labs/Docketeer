@@ -658,7 +658,15 @@ ul {
 /* Login Screen Form Added 10/21/22 */
 .loginForm {
   margin: 8px;
-  width: 25ch;
+  width: fit-content;
+}
+
+.btn-signup {
+  border: none;
+  color: rgb(0, 153, 255);
+  background-color: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .settingsForm {

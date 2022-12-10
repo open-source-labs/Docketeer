@@ -6,6 +6,7 @@ const express = require('express');
 const configController = require('../controllers/configController');
 const userController = require('../controllers/userController');
 const bcryptController = require('../controllers/bcryptController');
+const { useControlled } = require('@mui/material');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post('/contact',
 );
 
 router.post('/password', 
-  bcryptController.comparePassword,
+  userController.verifyUser,
   bcryptController.hashNewPassword,
   userController.updatePassword,
   (req, res) => {

@@ -8,6 +8,17 @@ import { useSelector, useDispatch } from 'react-redux';
 // Material UI Imports
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import {
   handleNewUser,
@@ -16,9 +27,36 @@ import {
   checkPhone,
 } from '../helper/newUserHelper';
 
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 const NewUserDisplay = () => {
+  // const [password, setPassword] = useState('');
+  const [values, setValues] = useState({
+    email: '',
+    username: '',
+    password: '',
+    passwordConfirmation: '',
+    phone: '',
+    showPassword: false,
+  });
+
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
+
   return (
+   
     <div style={{ background: '#E1E4E6' }}>
       <div className='settings-container' style={{ marginTop: '80px' }}>
         <div className='metric-section-title'>
@@ -35,11 +73,19 @@ const NewUserDisplay = () => {
           logging in.
         </p>
         <br />
-        <form className='settingsForm'>
+        <Box
+          className='settingsForm'
+          component= 'form'
+          autoComplete= 'off'
+          onSubmit={(e) => handleNewUser(e)}
+          sx={{color:'blue'}}
+        >
+     
           <TextField
             id='signupEmail'
             label='Email'
             variant='outlined'
+            required
             sx={{
               m: 1
             }}
@@ -49,39 +95,84 @@ const NewUserDisplay = () => {
             id='signupUsername'
             label='Username'
             variant='outlined'
+            required
+            inputProps={{ minLength: 4, maxLength: 16 }}
             sx={{
               m: 1
             }}
           />
           <br />
-          <TextField
+
+          <FormControl sx={{ m: 1, maxWidth:195 }} variant="outlined">
+            <InputLabel htmlFor="signupPassword">Password</InputLabel>
+            <OutlinedInput
+              id="signupPassword"
+              type={values.showPassword ? 'text' : 'password'}
+              onChange={(e)=>{
+                checkPasswordLength(e);
+                setValues({...values, password:e.target.value})
+              }}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    // onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          {values.password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {values.password}/>}
+          <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span>
+
+          {/* <TextField
             id='signupPassword'
             label='Password'
             variant='outlined'
             type='password'
-            onChange={() => checkPasswordLength()}
+            required
+            inputProps={{ minLength: 6, maxLength: 16 }}
+            
+            onChange={(e) => {
+              setPassword(e.target.value);
+              checkPasswordLength(e);}}
             sx={{
               m: 1
             }}
-          />
-          <span id='password-length-alert'></span>
+          /> */}
+
+          {/* {password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {password}/>}
+          <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span> */}
+
           <br />
           <TextField
             id='signupPasswordConfirmation'
             label='Confirm Password'
             variant='outlined'
             type='password'
-            onChange={() => confirmPassword()}
+            required
+            onChange={(e) => {
+              setValues({...values, passwordConfirmation:e.target.value})
+              confirmPassword(e)
+            }}
             sx={{
               m: 1
             }}
           />
-          <span id='password-confirmation-alert'></span>
+          {/* This is sacrilege but I hardcoded this bar and made it hidden to keep the same formatting as above */}
+          {<PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginBottom:-20,visibility:'hidden', maxHeight:0 }} />}
+          <span id='password-confirmation-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10, paddingTop:15}}></span>
           <br />
           <TextField
             id='signupPhone'
             label='Phone'
             variant='outlined'
+            required
             onChange={() => {
               checkPhone(document.getElementById('signupPhone').value);
             }}
@@ -96,14 +187,13 @@ const NewUserDisplay = () => {
             variant='contained'
             size='medium'
             type='submit'
-            onClick={(e) => handleNewUser(e)}
             sx={{
               m: 1
             }}
           >
             Submit
           </Button>
-        </form>
+        </Box>
       </div>
     </div>
   );

@@ -1,20 +1,15 @@
-import '@testing-library/react';
 import '@testing-library/jest-dom';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
-import {render, fireEvent, screen, getAllByRole} from '@testing-library/react';
-// trying to import ts files is giving issues for time being, probably related to compiling
+import React from 'react';
+import {render, fireEvent, screen} from '@testing-library/react';
 import App from '../src/renderer/App';
 import Login from '../src/components/login/login';
-// import AccountDisplay from '../src/components/display/AccountDisplay';
-import {BrowserRouter, MemoryRouter, Routes, Route, Link} from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/renderer/store';
-import {describe, expect, test, jest} from '@jest/globals';
+import {describe, beforeEach, expect, test, jest} from '@jest/globals';
 import fetchMock from 'jest-fetch-mock';
 import { act } from 'react-test-renderer';
-
+import Docketeer from '../assets/docketeer-title.png';
 
 const mockedUsedNavigate = jest.fn();
 // jest.mock('react-router-dom', () => ({
@@ -24,18 +19,16 @@ const mockedUsedNavigate = jest.fn();
 fetchMock.enableMocks();
 
 describe('Login Page Renders', () => {
-
   beforeEach( async () => {
     fetch.resetMocks();
     await act(()=>{
       render(
         <Provider store={store}>
-          <MemoryRouter initialEntries={['/']}>
-            <App/>
+          <MemoryRouter initialEntries={['/login']}>
+            <App />
           </MemoryRouter>
         </Provider>
       );
-
     });
     screen.debug();
   });
@@ -60,9 +53,10 @@ describe('Login Page Renders', () => {
       fireEvent.click(loginButton);
     });
     // need to fix issue of localhost/4000 not rendering anything after you login
-    // screen.debug( ); 
-    // it is blank, which is expected for the test, but not for the application as a whole
+  });
 
-    // should fail, look into this test
+  test('Docketeer Image', async () => {
+    const image = await screen.findByRole('img');
+    expect(image).toHaveProperty('width');
   });
 });

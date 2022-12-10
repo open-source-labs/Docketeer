@@ -19,6 +19,7 @@ router.post('/',
   cookieController.setAdminCookie,
   bcryptController.hashCookie,
   (req, res) => {
+    console.log(res.locals);
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);
   }

@@ -1,1 +1,0 @@
-Because of the migration of our new dependencies, the original tests no longer work with Reacat 18. We were in the process of migrating away from enzyme but did not have time to fully implement. Would be a great task to pick up for the next iteration team.

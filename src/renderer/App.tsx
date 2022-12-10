@@ -5,8 +5,8 @@ import { Routes, Route } from 'react-router-dom';
 import Login from '../components/login/login';
 import RenderViews from '../components/RenderViews';
 import Authentication from '../components/Authentication';
-
 const App = () => {
+  
   return (
     <Routes>
       <Route path='/login' element={<Login />} />

@@ -262,6 +262,7 @@ const LineChartDisplay = () => {
     let date: any = new Date(
       Date.parse(new Date().toISOString()) - 2629746000
     ).toISOString();
+     date = new Date(date)
     date.setHours(date.getHours() - time);
     //date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);

@@ -7,6 +7,7 @@ import * as actions from '../../redux/actions/actions';
 
 export const handleNewUser = (e, roleID) => {
   e.preventDefault();
+  console.log('This is role id:', roleID);
 
   const username = document.getElementById('signupUsername').value;
   const password = document.getElementById('signupPassword').value;

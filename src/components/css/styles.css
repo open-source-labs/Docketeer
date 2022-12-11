@@ -661,8 +661,12 @@ ul {
   width: fit-content;
 }
 
-.link-signup {
-  font-size: small;
+.btn-signup {
+  border: none;
+  color: rgb(0, 153, 255);
+  background-color: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .settingsForm {

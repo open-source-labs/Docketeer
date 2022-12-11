@@ -49,7 +49,7 @@ const Login = () => {
       (passwordInput as HTMLInputElement).value = "";
 
       authenticateUser(username, password);
-    }
+    
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect

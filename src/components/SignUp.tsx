@@ -11,7 +11,7 @@ import {
     checkPasswordLength,
     confirmPassword,
     checkPhone,
-  } from "../helper/newUserHelper";
+  } from "./helper/newUserHelper";
 
 const SignUp = () => {
     const navigate = useNavigate();

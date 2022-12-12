@@ -12,7 +12,7 @@ app.use('/test', (req, res) => {
   });
 });
 
-describe('/test route', () => {
+xdescribe('/test route', () => {
   test('get request to test route', (done) => {
     request(app).get('/test').expect('Content-Type', /json/).expect(200, done);
   });

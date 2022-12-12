@@ -675,7 +675,7 @@ export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
     // build inputCommandString to get logs from command line
     let inputCommandString = 'docker logs --timestamps ';
     if (optionsObj.since) {
-      inputCommandString += `--since ${optionsObj.since} `;
+      inputCommandString += `--since ${optionsObj.since} `;      
     }
     optionsObj.tail
       ? (inputCommandString += `--tail ${optionsObj.tail} `)
@@ -684,6 +684,7 @@ export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
 
     window.nodeMethod.runExec(inputCommandString, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
       if (error) {
+        alert(`Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.`);
         console.error(`exec error: ${error}`);
         return;
       }

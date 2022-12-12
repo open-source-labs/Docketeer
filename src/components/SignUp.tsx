@@ -13,9 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import PasswordStrengthBar from 'react-password-strength-bar';
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 // Helper Functions
 import {
@@ -24,13 +22,6 @@ import {
     confirmPassword,
     checkPhone,
   } from "./helper/newUserHelper";
-
-// this will store the value from the user role
-let valueRole = '3'; 
-//setting value of the RadioGroup MUI Component to the one selected by the user
-const handleSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-  valueRole = (event.target as HTMLInputElement).value;
-}
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -49,6 +40,7 @@ const SignUp = () => {
           showPassword: !values.showPassword,
         });
       };
+      
     return (
       <div className='renderContainers'>
         <div className='header'>
@@ -155,8 +147,10 @@ const SignUp = () => {
             label='Phone'
             variant='outlined'
             required
+            inputProps={{maxLength: 12 }}
+
             onChange={() => {
-              checkPhone(document.getElementById('signupPhone').value);
+              checkPhone(document.getElementById('signupPhone')?.value);
             }}
             sx={{
               m: 1
@@ -174,7 +168,8 @@ const SignUp = () => {
             m: 1
           }}
           >
-            Back</Button>
+            Back
+            </Button>
           <Button
             variant='contained'
             size='medium'

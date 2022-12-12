@@ -11,6 +11,8 @@
  //MUI Elements
  import TextField from '@mui/material/TextField';
  import Button from '@mui/material/Button';
+ import { grey } from '@mui/material/colors';
+
  
  // @ts-ignore
  import Docketeer from '../../assets/docketeer-title.png';
@@ -99,7 +101,7 @@
                id='username' 
                label='Username' 
                variant='outlined'
-             
+              value= 'sysadmin' 
              />
              <br />
              <br />
@@ -108,7 +110,7 @@
                label='Password'
                type='password'
                variant='outlined'
-              
+              value ='belugas'
              />
              <br />
              {/* * Login Button * */}
@@ -119,12 +121,27 @@
                size='medium'
                onClick={() => handleLogin}
                sx={{
-                 m: 1
+                 marginTop: 1,
+                 marginBottom:1
                }}
              >
                Login
              </Button>
-             <button className='btn-signup' onClick={ () => navigate('/signup') }>New SysAdmin Sign Up</button>
+             <br/>
+             <Button
+             variant= 'contained'
+            //  color='grey'
+             size='small'
+             onClick={()=> navigate('/userSignup')}
+             sx={{
+              color:'#1976d2',
+              background:'white',
+              marginTop:1
+             }}
+             >
+              Register New Sysadmin
+             </Button>
+             <br/>
            </form>
          </div> 
        </div>

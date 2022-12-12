@@ -39,6 +39,7 @@ const UserTable = () => {
   ]);
 
   const handleRoleChange = (event) => {
+    console.log('userl', userList)
     const id = event.id;
     const role = event.props.value;
 
@@ -55,14 +56,14 @@ const UserTable = () => {
         })
       })
         .then((response) => response.json())
-          // return response.json(); // This needs to be changed to one line since console.logs have been removed
+      // return response.json(); // This needs to be changed to one line since console.logs have been removed
         .then((data) => {
           // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
           const hasError = data;
           if (data) {
             console.log('no change');
             window.alert(
-              "Uh-oh! You're the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin."
+              'Uh-oh! You\'re the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin.'
             );
           } else {
             const payload = {
@@ -95,7 +96,7 @@ const UserTable = () => {
       >
         <Typography
           variant='h6'
-          sx={{ textAlign: 'center', mt: 4, mb: 1 }}
+          sx={{ textAlign: 'center', mt: 10, mb: 1 }}
         >
           Manage Users
         </Typography>

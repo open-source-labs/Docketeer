@@ -8,6 +8,7 @@ import SignUp from '../components/SignUp';
 import RenderViews from '../components/RenderViews';
 
 const App = () => {
+  
   return (
     <Routes>
       <Route path='/login' element={<Login />} />

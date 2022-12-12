@@ -35,7 +35,7 @@ export const handleNewUser = (e, roleID) => {
   createNewUser(email, username, password, phone, role_id);
 };
 
-export const confirmPassword = () => {
+export const confirmPassword = (e) => {
   const password = document.getElementById('signupPassword').value;
   const confirmationPassword = document.getElementById(
     'signupPasswordConfirmation'
@@ -52,12 +52,12 @@ export const confirmPassword = () => {
   return password === confirmationPassword;
 };
 
-export const checkPasswordLength = () => {
+export const checkPasswordLength = (e) => {
   const passwordLengthAlert = document.getElementById('password-length-alert');
   const password = document.getElementById('signupPassword').value;
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 
-  if (!regex.test(password)) {
+  if (!regex.test(password) && password) {
     passwordLengthAlert.innerHTML =
       '\nWarning: Password must be 6 characters or longer \nand must include at least one number and one letter';
   } else {
@@ -68,7 +68,7 @@ export const checkPasswordLength = () => {
 
 export const checkPhone = (phone) => {
   const regex = /[+][1][\d]{10}$/;
-  const phoneAlert = document.getElementById('phone-alert');
+  const phoneAlert = document.getElementById('signupPhone');
   if (phone.match(regex) === null) {
     phoneAlert.innerHTML =
       'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900';

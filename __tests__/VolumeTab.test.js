@@ -44,11 +44,3 @@ describe('Seach bar testing', () => {
     expect(search.value).toBe('search');
   });
 });
-
-
-//* Dummy Test
-describe('dummy test', () => {
-  test('dummy test', () => {
-    expect(2 + 2).toBe(4);
-  });
-});

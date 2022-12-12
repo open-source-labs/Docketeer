@@ -45,6 +45,7 @@ function createMainWindow() {
   }
 
     electron.app.on('ready', createMainWindow)
+    
     electron.app.on('renderer-process-crashed', createMainWindow)
     // MacOS Specific function
     electron.app.on('window-all-closed', function () {

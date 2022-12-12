@@ -31,7 +31,7 @@ const ProcessLogs = (props) => {
   return (
     <div className='renderContainers'>
       <div className='header'>
-        <h1 className='tabTitle'>Procsess Logs</h1>
+        <h1 className='tabTitle'>Process Logs</h1>
       </div>
 
       <h3>Running Containers: {props.runningList.length}</h3>

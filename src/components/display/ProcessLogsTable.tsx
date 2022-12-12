@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { buildOptionsObj } from "../helper/processLogHelper";
-import { getLogs } from "../helper/commands";
-import * as actions from "../../redux/actions/actions";
-import "./ProcessLogsCard";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { buildOptionsObj } from '../helper/processLogHelper';
+import { getLogs } from '../helper/commands';
+import * as actions from '../../redux/actions/actions';
+import './ProcessLogsCard';
 
-import store from "../../renderer/store";
-import { DataGrid } from "@mui/x-data-grid";
-import { Checkbox, FormControlLabel, FormGroup, Button } from "@mui/material"; // use for container selection
-import { CSVLink } from "react-csv";
+import store from '../../renderer/store';
+import { DataGrid } from '@mui/x-data-grid';
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
 
 /**
  * Displays process logs as table
@@ -24,7 +24,7 @@ const ProcessLogsTable = () => {
 
   // grab clicked container
   const urlString = window.location.href;
-  const containerID = urlString.split("/");
+  const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
 
   // access runningList from state
@@ -34,7 +34,7 @@ const ProcessLogsTable = () => {
   const [rows, setRows] = useState([]);
 
   const [csvData, setCsvData] = useState([
-    ["container", "type", "time", "message"],
+    ['container', 'type', 'time', 'message'],
   ]);
 
   const [logs, setLogs] = useState({ stdout: [], stderr: [] });
@@ -61,10 +61,10 @@ const ProcessLogsTable = () => {
   };
 
   const columns = [
-    { field: "container", headerName: "Container", width: 150 },
-    { field: "type", headerName: "Log Type", width: 120 },
-    { field: "time", headerName: "Timestamp", width: 200 },
-    { field: "message", headerName: "Message", width: 550 },
+    { field: 'container', headerName: 'Container', width: 150 },
+    { field: 'type', headerName: 'Log Type', width: 120 },
+    { field: 'time', headerName: 'Timestamp', width: 200 },
+    { field: 'message', headerName: 'Message', width: 550 },
   ];
 
   const createContainerCheckboxes = (currId: string) => {
@@ -142,34 +142,34 @@ const ProcessLogsTable = () => {
     if (stdout) {
       stdout.forEach((log, index) => {
         const currCont = runningList.find(
-          (el) => el.ID === log["containerName"]
+          (el) => el.ID === log['containerName']
         );
         newRows.push({
           container: currCont.Name,
-          type: "stdout",
-          time: log["timeStamp"],
-          message: log["logMsg"],
+          type: 'stdout',
+          time: log['timeStamp'],
+          message: log['logMsg'],
           id: Math.random() * 100,
         });
-        newCSV.push([currCont.Name, "stdout", log["timeStamp"], log["logMsg"]]);
+        newCSV.push([currCont.Name, 'stdout', log['timeStamp'], log['logMsg']]);
       });
 
       stderr.forEach((log, index) => {
         const currCont = runningList.find(
-          (el) => el.ID === log["containerName"]
+          (el) => el.ID === log['containerName']
         );
         newRows.push({
           container: currCont.Name,
-          type: "stderr",
-          time: log["timeStamp"],
-          message: log["logMsg"],
+          type: 'stderr',
+          time: log['timeStamp'],
+          message: log['logMsg'],
           id: parseInt(`stderr ${index}`),
         });
-        newCSV.push([currCont.Name, "stderr", log["timeStamp"], log["logMsg"]]);
+        newCSV.push([currCont.Name, 'stderr', log['timeStamp'], log['logMsg']]);
       });
 
       setRows(newRows as keyof typeof setRows);
-      setCsvData([["container", "type", "time", "message"], ...newCSV]);
+      setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };
 
@@ -178,17 +178,34 @@ const ProcessLogsTable = () => {
       <div className="settings-container">
         <form>
           <h1 style={{ margin: 10 }}>Container Process Logs</h1>
-
+          <h3>
+            <a
+              style={{ margin: 5 }}
+              target="_blank"
+              rel="noreferrer"
+              href="https://docs.docker.com/engine/reference/commandline/logs/"
+            >
+              Click here
+            </a>{''}
+            for more information on logs
+          </h3>
+          <br></br>
           <input
             style={{ margin: 5 }}
             type="radio"
             id="sinceInput"
             name="logOption"
           />
-          <label style={{ margin: 5 }} htmlFor="sinceInput">
+          <label
+            style={{ margin: 5 }}
+            htmlFor="sinceInput"
+          >
             Since
           </label>
-          <input type="text" id="sinceText" />
+          <input
+            type="text"
+            id="sinceText"
+          />
           <br></br>
           <input
             style={{ margin: 5 }}
@@ -196,12 +213,19 @@ const ProcessLogsTable = () => {
             id="tailInput"
             name="logOption"
           />
-          <label style={{ margin: 5 }} htmlFor="tailInput">
+          <label
+            style={{ margin: 5 }}
+            htmlFor="tailInput"
+          >
             Tail
           </label>
-          <input style={{ marginLeft: 14 }} type="text" id="tailText" />
+          <input
+            style={{ marginLeft: 14 }}
+            type="text"
+            id="tailText"
+          />
 
-          <FormGroup style={{ display: "flex", flexDirection: "row" }}>
+          <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
             {containerSelectors} {/** Checkboxes for running containers */}
           </FormGroup>
           <Button
@@ -230,9 +254,9 @@ const ProcessLogsTable = () => {
           >
             <CSVLink
               style={{
-                textDecoration: "none",
-                color: "white",
-                fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+                textDecoration: 'none',
+                color: 'white',
+                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
               }}
               data={csvData}
             >
@@ -243,16 +267,16 @@ const ProcessLogsTable = () => {
 
         <div
           className="process-logs-container"
-          style={{ height: 660, width: "100%" }}
+          style={{ height: 660, width: '100%' }}
         >
           <DataGrid
             key="DataGrid"
             rows={rows}
             columns={columns}
-            getRowHeight={() => "auto"}
+            getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
-                sortModel: [{ field: "time", sort: "desc" }], // default sorts table by time
+                sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
               },
             }}
           />

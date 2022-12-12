@@ -178,21 +178,26 @@ const NewUserDisplay = () => {
               m: 1
             }}
           />
-          <FormControl>
+         
+          <br />
+          <span id='phone-alert' style={{marginLeft:10}}></span>
+          <br />
+           <FormControl>
             <RadioGroup
               id="new-user-role"
               row
               defaultValue="3"
               onChange={handleSelect}
+              sx={{
+                m: 1
+              }}
             >
               <FormControlLabel value="1" control={<Radio />} label="System Admin"></FormControlLabel>
               <FormControlLabel value="2" control={<Radio />} label="Admin"></FormControlLabel>
               <FormControlLabel value="3" control={<Radio />} label="User"></FormControlLabel>
             </RadioGroup>
-          </FormControl>
-          <br />
-          <span id='phone-alert'></span>
-          <br />
+          </FormControl> 
+          <br/>
           <Button
             variant='contained'
             size='medium'

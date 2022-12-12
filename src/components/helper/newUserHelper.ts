@@ -34,15 +34,9 @@ export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
   createNewUser(email, username, password, phone, roleID);
 };
 
-<<<<<<< HEAD:src/components/helper/newUserHelper.ts
 export const confirmPassword = () => {
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
   const confirmationPassword = (<HTMLInputElement>document.getElementById(
-=======
-export const confirmPassword = (e) => {
-  const password = document.getElementById('signupPassword').value;
-  const confirmationPassword = document.getElementById(
->>>>>>> development:src/components/helper/newUserHelper.js
     'signupPasswordConfirmation'
   )).value;
   const passwordConfirmationAlert = (<HTMLSpanElement>document.getElementById(
@@ -57,15 +51,9 @@ export const confirmPassword = (e) => {
   return password === confirmationPassword;
 };
 
-<<<<<<< HEAD:src/components/helper/newUserHelper.ts
 export const checkPasswordLength = () => {
   const passwordLengthAlert = (<HTMLSpanElement>document.getElementById('password-length-alert'));
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
-=======
-export const checkPasswordLength = (e) => {
-  const passwordLengthAlert = document.getElementById('password-length-alert');
-  const password = document.getElementById('signupPassword').value;
->>>>>>> development:src/components/helper/newUserHelper.js
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 
   if (!regex.test(password) && password) {
@@ -79,11 +67,7 @@ export const checkPasswordLength = (e) => {
 
 export const checkPhone = (phone: string) => {
   const regex = /[+][1][\d]{10}$/;
-<<<<<<< HEAD:src/components/helper/newUserHelper.ts
   const phoneAlert = document.getElementById('phone-alert') as HTMLInputElement;
-=======
-  const phoneAlert = document.getElementById('signupPhone');
->>>>>>> development:src/components/helper/newUserHelper.js
   if (phone.match(regex) === null) {
     phoneAlert.innerHTML =
       'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900';

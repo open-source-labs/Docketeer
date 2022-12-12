@@ -6,9 +6,8 @@ import store from '../../renderer/store';
 import * as actions from '../../redux/actions/actions';
 import React from 'react';
 
-export const handleNewUser = (e, roleID) => {
+export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
   e.preventDefault();
-  console.log('This is role id:', roleID);
 
   const username = (<HTMLInputElement>document.getElementById('signupUsername')).value;
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
@@ -32,7 +31,7 @@ export const handleNewUser = (e, roleID) => {
     return;
   }
 
-  createNewUser(email, username, password, phone, role_id);
+  createNewUser(email, username, password, phone, roleID);
 };
 
 export const confirmPassword = () => {
@@ -78,7 +77,7 @@ export const checkPhone = (phone: string) => {
   return phone.match(regex) !== null;
 };
 
-export const createNewUser = (email, username, password, phone, role_id) => {
+export const createNewUser = (email: string, username: string, password: string, phone: string, role_id: string) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {

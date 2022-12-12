@@ -4,19 +4,18 @@
  */
 import store from '../../renderer/store';
 import * as actions from '../../redux/actions/actions';
+import React from 'react';
 
-export const handleNewUser = (e, roleID) => {
+export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
   e.preventDefault();
-  console.log('This is role id:', roleID);
 
-  const username = document.getElementById('signupUsername').value;
-  const password = document.getElementById('signupPassword').value;
-  const role_id = roleID;
-  const confirmationPassword = document.getElementById(
+  const username = (<HTMLInputElement>document.getElementById('signupUsername')).value;
+  const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
+  const confirmationPassword = (<HTMLInputElement>document.getElementById(
     'signupPasswordConfirmation'
-  ).value;
-  const email = document.getElementById('signupEmail').value;
-  const phone = document.getElementById('signupPhone').value;
+  )).value;
+  const email = (<HTMLInputElement>document.getElementById('signupEmail')).value;
+  const phone = (<HTMLInputElement>document.getElementById('signupPhone')).value;
 
   if (!checkPasswordLength()) {
     window.alert('Warning: Password must be 6 characters or longer');
@@ -32,17 +31,17 @@ export const handleNewUser = (e, roleID) => {
     return;
   }
 
-  createNewUser(email, username, password, phone, role_id);
+  createNewUser(email, username, password, phone, roleID);
 };
 
-export const confirmPassword = (e) => {
-  const password = document.getElementById('signupPassword').value;
-  const confirmationPassword = document.getElementById(
+export const confirmPassword = () => {
+  const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
+  const confirmationPassword = (<HTMLInputElement>document.getElementById(
     'signupPasswordConfirmation'
-  ).value;
-  const passwordConfirmationAlert = document.getElementById(
+  )).value;
+  const passwordConfirmationAlert = (<HTMLSpanElement>document.getElementById(
     'password-confirmation-alert'
-  );
+  ));
 
   if (password !== confirmationPassword) {
     passwordConfirmationAlert.innerHTML = 'Warning: Passwords do not match';
@@ -52,9 +51,9 @@ export const confirmPassword = (e) => {
   return password === confirmationPassword;
 };
 
-export const checkPasswordLength = (e) => {
-  const passwordLengthAlert = document.getElementById('password-length-alert');
-  const password = document.getElementById('signupPassword').value;
+export const checkPasswordLength = () => {
+  const passwordLengthAlert = (<HTMLSpanElement>document.getElementById('password-length-alert'));
+  const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 
   if (!regex.test(password) && password) {
@@ -66,9 +65,9 @@ export const checkPasswordLength = (e) => {
   return password.length >= 6;
 };
 
-export const checkPhone = (phone) => {
+export const checkPhone = (phone: string) => {
   const regex = /[+][1][\d]{10}$/;
-  const phoneAlert = document.getElementById('signupPhone');
+  const phoneAlert = document.getElementById('phone-alert') as HTMLInputElement;
   if (phone.match(regex) === null) {
     phoneAlert.innerHTML =
       'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900';
@@ -78,7 +77,7 @@ export const checkPhone = (phone) => {
   return phone.match(regex) !== null;
 };
 
-export const createNewUser = (email, username, password, phone, role_id) => {
+export const createNewUser = (email: string, username: string, password: string, phone: string, role_id: string) => {
   fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {
@@ -93,13 +92,13 @@ export const createNewUser = (email, username, password, phone, role_id) => {
     })
   })
     .then(() => {
-      document.getElementById('signupUsername').value = '';
-      document.getElementById('signupPassword').value = '';
-      document.getElementById('signupPasswordConfirmation').value = '';
-      document.getElementById('signupEmail').value = '';
-      document.getElementById('signupPhone').value = '';
-      document.getElementById('password-length-alert').innerHTML = '';
-      document.getElementById('password-confirmation-alert').innerHTML = '';
+      (<HTMLInputElement>document.getElementById('signupUsername')).value = '';
+      (<HTMLInputElement>document.getElementById('signupPassword')).value = '';
+      (<HTMLInputElement>document.getElementById('signupPasswordConfirmation')).value = '';
+      (<HTMLInputElement>document.getElementById('signupEmail')).value = '';
+      (<HTMLInputElement>document.getElementById('signupPhone')).value = '';
+      (<HTMLSpanElement>document.getElementById('password-length-alert')).innerHTML = '';
+      (<HTMLSpanElement>document.getElementById('password-confirmation-alert')).innerHTML = '';
 
       window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
@@ -134,6 +133,6 @@ export const getUpdatedUserList = () => {
     });
 };
 
-export const updateUserList = (data) => {  
+export const updateUserList = (data: object[]) => {  
   store.dispatch(actions.updateUserList(data));
 };

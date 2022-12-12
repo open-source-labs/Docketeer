@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions/actions';
 import * as categories from '../../redux/constants/notificationCategories';
-import { DispatchType, SettingsProps, WindowType, UserInfo, RunningListType } from './TabTypes';
+import { DispatchType, SettingsProps, WindowType, UserInfo } from '../../../types';
 
 
 // React Component Imports

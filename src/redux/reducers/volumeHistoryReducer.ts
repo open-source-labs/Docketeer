@@ -1,5 +1,6 @@
 import * as types from "../constants/actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
+import {volumeState} from '../../../types';
 
 /**
  * @description Reducer for the list of containers running in each volume
@@ -9,17 +10,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
  * @param {nested Objects} volumeContainersList Containers running under each volume
  */
 
-interface stateType {
-  arrayOfVolumeNames: any[];
-  volumeContainersList: any[];
-}
-
-const initialState: stateType = {
-  arrayOfVolumeNames: [],
-  volumeContainersList: [],
-};
-
-export default function (state = initialState, action: PayloadAction<any>) {
+export default function (state = volumeState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.GET_VOLUME_LIST:
       // merges arrays using spread operator

@@ -16,20 +16,10 @@
  
  // @ts-ignore
  import Docketeer from '../../assets/docketeer-title.png';
+
+ // import interface
+ import { UserInfo } from '../../types';
  
- interface UserInfo {
-   _id: number,
-   username: string,
-   email: string,
-   phone: string,
-   role: string,
-   role_id: number,
-   contact_pref: string | null,
-   mem_threshold: number,
-   cpu_threshold: number,
-   container_stops: boolean,
-   token: string
- }
  
  const Login = () => {
    const navigate = useNavigate();

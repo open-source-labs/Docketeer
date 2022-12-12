@@ -1,18 +1,10 @@
 /* eslint-disable no-case-declarations */
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { containerState } from '../../../types';
 
-interface stateType {
-  networkList: any[],
-  composeStack: any[]
-}
 
-const initialState: stateType = {
-  networkList: [],
-  composeStack: []
-};
-
-export default function (state = initialState, action: PayloadAction<any>) {
+export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
   case types.GET_NETWORK_CONTAINERS:
     const networkListCopy = state.networkList.slice();
@@ -39,8 +31,6 @@ export default function (state = initialState, action: PayloadAction<any>) {
     // return { ...state, composeStack: currentState };
 
     // the previous team's code was broken. our new 6.0 code is broken as well but less so, more specifically on the process compose tab, only the most recently added network will have a compose-down button (all networks added via compose-up in Docketeer should have a compose down button)
-     
-    // Docketeer 7.0 did not attempt this bug. So the next team could look into this issue
       
     const composeStackUpdater = (arr1: [], arr2: [], output = []) => {
       arr1.forEach((element) => {

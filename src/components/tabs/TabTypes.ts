@@ -11,8 +11,6 @@ export interface StoppedListType {
     CPUPerc: string,
     MemPerc: string,
 }
-
-//BlockIO, MemUsage, Name, NetIO, PIDs
 export interface RunningListType {
     BlockIO?: string,
     ID: string,
@@ -60,8 +58,6 @@ export type ContainerProps = {
     MemPerc: string;
   }
 
-  
-  // uneeded at this point
   export type ChartInfoType = {
     labels: string[];
     datasets: DataSetType[];

@@ -1,13 +1,6 @@
-/**        Docketeer 7.0
- * These tests do not, might be an issue with the word export.
- */
-
 import containerListReducer from '../src/redux/reducers/containerListReducer'; // import containerList reducer
 import imageListReducer from '../src/redux/reducers/imageListReducer'; // import imageListReducer reducer
-import {describe, expect, test, jest} from '@jest/globals';
-import '@testing-library/react';
-import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import {describe, beforeEach, expect, test} from '@jest/globals';
 
 describe('Dockeeter reducer', () => {
   let state;
@@ -21,13 +14,13 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('Action Types', () => {
-    it('Should return initial state if type is invalid', () => {
+    test('Should return initial state if type is invalid', () => {
       expect(containerListReducer(state, { type: 'FakeActionType' })).toBe(state);
     });
   });
 
   describe('REFRESH_RUNNING_CONTAINERS', () => {
-    it('Should return a different state with each reducer invocation', () => {
+    test('Should return a different state with each reducer invocation', () => {
       expect(state.runningList.length).toEqual(0);
       let action = {
         type: 'REFRESH_RUNNING_CONTAINERS',
@@ -49,7 +42,7 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('REFRESH_STOPPED_CONTAINERS', () => {
-    it('should overwrite the stoppedList array in the state to update it', () => {
+    test('should overwrite the stoppedList array in the state to update it', () => {
       expect(state.stoppedList.length).toEqual(0);
       let action = {
         type: 'REFRESH_STOPPED_CONTAINERS',
@@ -71,7 +64,7 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('REFRESH_IMAGES', () => {
-    it('should overwrite the imagesList array in the state to update it', () => {
+    test('should overwrite the imagesList array in the state to update it', () => {
       expect(state.imagesList.length).toEqual(0);
       let action = {
         type: 'REFRESH_IMAGES',
@@ -85,7 +78,7 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('REMOVE_CONTAINER', () => {
-    it('should remove the specified container from the stoppedList array in the state', () => {
+    test('should remove the specified container from the stoppedList array in the state', () => {
       const newState = {
         stoppedList: [{ ID: '123' }, { ID: '456' }]
       };
@@ -98,7 +91,7 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('STOP_RUNNING_CONTAINER', () => {
-    it('should remove a specified container from the runningList and add it to the stoppedList', () => {
+    test('should remove a specified container from the runningList and add it to the stoppedList', () => {
       let newState = {
         runningList: [{ ID: '123' }, { ID: '456' }],
         stoppedList: []
@@ -110,13 +103,12 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('RUN_STOPPED_CONTAINER', () => {
-    it('should remove a specified container from the stoppedList', () => {
+    test('should remove a specified container from the stoppedList', () => {
       const newState = {
         runningList: [],
         stoppedList: [{ ID: '123' }, { ID: '456' }]
       };
       const action = { type: 'RUN_STOPPED_CONTAINER', payload: '123' };
-      console.log(newState);
       expect(containerListReducer(newState, action).stoppedList[0].ID).toEqual(
         '456'
       );
@@ -124,7 +116,7 @@ describe('Dockeeter reducer', () => {
   });
 
   describe('REMOVE_IMAGE', () => {
-    it('should remove a specified image from the imagesList', () => {
+    test('should remove a specified image from the imagesList', () => {
       const newState = {
         imagesList: [{ id: '123' }, { id: '456' }]
       };

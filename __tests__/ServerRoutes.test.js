@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+import {describe, beforeEach, expect, test, jest} from '@jest/globals';
 
 const app = express();
 
@@ -12,10 +13,10 @@ app.use('/test', (req, res) => {
 });
 
 describe('/test route', () => {
-  it('get request to test route', (done) => {
+  test('get request to test route', (done) => {
     request(app).get('/test').expect('Content-Type', /json/).expect(200, done);
   });
-  it('post requeust to test route', (done) => {
+  test('post requeust to test route', (done) => {
     request(app)
       .post('/test')
       .send({ random: 'info' })
@@ -23,7 +24,7 @@ describe('/test route', () => {
       .expect('Content-Type', /json/)
       .expect(200, done);
   });
-  it('put request to test route', (done) => {
+  test('put request to test route', (done) => {
     request(app)
       .put('/test')
       .send({ random: 'info' })
@@ -31,7 +32,7 @@ describe('/test route', () => {
       .expect('Content-Type', /json/)
       .expect(200, done);
   });
-  it('delete request to test route', (done) => {
+  test('delete request to test route', (done) => {
     request(app)
       .delete('/test')
       .send({ random: 'info' })
@@ -46,20 +47,20 @@ describe('/test route', () => {
 // signup route
 
 describe('/signup route', () => {
-  it('get request', async () => {
+  test('get request', async () => {
     await request(app)
       .get('/signup')
       .send({ username: 'test', email: 'test@test.com', password: 'password' })
       .expect('Content-Type', 'text/html; charset=utf-8'); 
   });
-  it('post request', async () => {
+  test('post request', async () => {
     await request(app)
       .post('/signup')
       .send({
         username: 'test',
         email: 'test@test.com',
         password: 'password',
-        phone: '+15555555555',
+        phone: '+1555555555',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', 'text/html; charset=utf-8');
@@ -67,7 +68,14 @@ describe('/signup route', () => {
 });
 
 // setting route
-
+describe('Settings route', (done) =>{
+  test('GET', async () => {
+   await request(app)
+    .get('/settings')
+    .expect('Content-Type', 'text/html; charset=utf-8')
+    .expect(200,done)
+  })
+})
 // logout route
 
 // login route
@@ -219,9 +227,4 @@ describe('/signup route', () => {
 //   });
 // });
 
-//* Dummy Test
-describe('dummy test', () => {
-  test('dummy test', () => {
-    expect(2 + 2).toBe(4);
-  });
-});
+

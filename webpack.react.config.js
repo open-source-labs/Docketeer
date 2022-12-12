@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const { isEmptyBindingElement } = require('typescript');
 // console.log(path.join(__dirname, '/src/renderer/index.tsx'));
 
 module.exports = {
@@ -9,6 +10,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     mainFields: ['main', 'module', 'browser'],
     fallback: {
+      child_process: false,
       fs: false,
       tls: false,
       net: false,
@@ -93,7 +95,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html'
     }),
-    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
+    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
+    
     // new webpack.DefinePlugin({
     //   process: { env: {} }
     // })

@@ -53,7 +53,7 @@ const Login = () => {
       console.log("username:", username);
       console.log("password:", password);
       authenticateUser(username, password);
-    }
+    
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect

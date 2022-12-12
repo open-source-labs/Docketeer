@@ -2,12 +2,13 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Components
-import Login from '../components/login/login';
+import Login from '../components/Login';
 import Authentication from '../components/Authentication';
-import SignUp from '../components/display/SignUpDisplay';
+import SignUp from '../components/SignUp';
 import RenderViews from '../components/RenderViews';
 
 const App = () => {
+  
   return (
     <Routes>
       <Route path='/login' element={<Login />} />

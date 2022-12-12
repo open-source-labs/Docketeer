@@ -37,9 +37,9 @@ router.post('/addMetrics',
 );
 
 router.post('/getMetrics',
-initController.getMetrics,
-(req, res) => {
-  return res.status(200).json(res.locals.metrics)
+  initController.getMetrics,
+  (req, res) => {
+    return res.status(200).json(res.locals.metrics);
   }
 );
 

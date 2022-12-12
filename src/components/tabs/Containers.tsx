@@ -87,7 +87,7 @@ const Containers = (props: ContainerProps) => {
     return (
       <div className='box box-running' key={`runningBox-${i}`}>
         <div className='box-label'>
-          <h3>{container.Name}</h3>
+          <h3>Name: {container.Name}</h3>
           <p>ID: {container.ID}</p>
         </div>
         <div className='box-info'>

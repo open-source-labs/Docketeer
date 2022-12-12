@@ -3,7 +3,6 @@ import reducers from '../redux/reducers/index';
 
 const store = configureStore({
   reducer: reducers,
-  // this is not best practice!!
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,

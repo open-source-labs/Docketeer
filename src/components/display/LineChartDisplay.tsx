@@ -7,7 +7,7 @@ import * as helper from "../helper/commands";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, Checkbox } from "@mui/material";
 import { RootState } from "../../renderer/store";
-import { AnyAction } from "redux";
+import { auxObjType, obType } from '../../../types';
 
 /**
  * Displays linegraph and github metrics
@@ -26,10 +26,10 @@ const LineChartDisplay = () => {
   const readIO = useSelector((state: RootState) => state.graphs["graphReadIO"]);
   const axis = useSelector((state: RootState) => state.graphs["graphAxis"]);
   const runningList = useSelector(
-    (state: RootState) => state.containersList.runningList
+    (state: RootState) => state.containersList['runningList']
   );
   const stoppedList = useSelector(
-    (state: RootState) => state.containersList.stoppedList
+    (state: RootState) => state.containersList['stoppedList']
   );
 
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const LineChartDisplay = () => {
     labels: axis,
     datasets: cpu,
   };
-  const writtenIOObj = {
+const writtenIOObj = {
     labels: axis,
     datasets: writtenIO,
   };
@@ -145,27 +145,7 @@ const LineChartDisplay = () => {
 
     const containerMetrics = await getContainerMetrics();
 
-    interface auxObjType {
-      container?: ContainerInterface;
-      currentContainer?: any;
-      containerName?: string;
-    }
-
-    interface ContainerInterface {
-      memory?: any;
-      cpu?: any;
-      writtenIO?: any;
-      readIO?: any;
-    }
-
-    // interface ContainerNameInterface{
-
-    // }
-
-    //const container: keyof auxObjType = 'container'
-
     const auxObj: auxObjType = {};
-    //const container: keyof typeof auxObj;
     Object.keys(activeContainers).forEach((container) => {
       auxObj[container as keyof typeof auxObj] = {
         memory: buildLineGraphObj(container),
@@ -207,7 +187,7 @@ const LineChartDisplay = () => {
       buildAxis(timeStamp);
     });
 
-    let longest = 0; // 32
+    let longest = 0; 
 
     Object.keys(auxObj).forEach((containerName: string) => {
       if (
@@ -248,9 +228,6 @@ const LineChartDisplay = () => {
     });
   };
 
-  interface obType {
-    containerName?: any;
-  }
 
   //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName: string) => {
@@ -273,7 +250,7 @@ const LineChartDisplay = () => {
         new URLSearchParams({
           since: `${date}`,
         });
-      //need an actual url to test this, right now it can't connect
+      //need a url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
 
@@ -321,10 +298,6 @@ const LineChartDisplay = () => {
     { field: "author", headerName: "Author", width: 175 },
     { field: "message", headerName: "Message", width: 525, align: "left" },
   ];
-
-  // interface elType {
-  //   name: {};
-  // }
 
   gitData = gitUrls.map((el, index: any) => {
     const name = Object.keys(el);
@@ -399,9 +372,9 @@ const LineChartDisplay = () => {
     const result: any[] = [];
     const completeContainerList = [...runningList, ...stoppedList];
     completeContainerList.forEach((container, index) => {
-      const containerNameKey = container.Name
-        ? container.Name
-        : container.Names;
+      const containerNameKey = container['Name']
+        ? container['Name']
+        : container['Names'];
       result.push(
         <FormControlLabel
           key={`formControl-${index}`}

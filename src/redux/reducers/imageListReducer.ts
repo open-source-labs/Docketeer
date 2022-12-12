@@ -1,15 +1,9 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { imageState } from '../../../types';
 
-interface imageState {
-  imagesList: any[]
-}
 
-const initialState: imageState = {
-  imagesList: []
-};
-
-export default function (state = initialState, action: PayloadAction<any>) {
+export default function (state = imageState, action: PayloadAction<any>) {
   switch (action.type) {
   case types.GET_IMAGES: {
     const newImagesList = state.imagesList.slice();

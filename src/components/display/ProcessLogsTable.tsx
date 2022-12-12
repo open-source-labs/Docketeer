@@ -5,10 +5,11 @@ import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 import './ProcessLogsCard';
 
-import store from '../../renderer/store';
-import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
-import { CSVLink } from 'react-csv';
+import store from "../../renderer/store";
+import { DataGrid } from "@mui/x-data-grid";
+import { Checkbox, FormControlLabel, FormGroup, Button } from "@mui/material"; // use for container selection
+import { CSVLink } from "react-csv";
+import { ContainerType, RowsDataType } from "../../../types";
 
 /**
  * Displays process logs as table
@@ -27,7 +28,8 @@ const ProcessLogsTable = () => {
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
 
-  // access runningList from state
+  // access runningList from state - store has issue with runningList, ignore until updated
+  // @ts-ignore
   const runningList = store.getState().containersList.runningList;
 
   const [btnIdList, setBtnIdList] = useState([id]);
@@ -124,13 +126,7 @@ const ProcessLogsTable = () => {
     }
   };
 
-  interface RowsDataType {
-    container: string;
-    type: string;
-    time: string;
-    message: string;
-    id: number;
-  }
+  
 
   type CSVData = string[];
 
@@ -142,7 +138,7 @@ const ProcessLogsTable = () => {
     if (stdout) {
       stdout.forEach((log, index) => {
         const currCont = runningList.find(
-          (el) => el.ID === log['containerName']
+          (el: ContainerType) => el.ID === log["containerName"]
         );
         newRows.push({
           container: currCont.Name,
@@ -156,7 +152,7 @@ const ProcessLogsTable = () => {
 
       stderr.forEach((log, index) => {
         const currCont = runningList.find(
-          (el) => el.ID === log['containerName']
+          (el: ContainerType) => el.ID === log["containerName"]
         );
         newRows.push({
           container: currCont.Name,

@@ -1,37 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import * as helper from '../helper/commands';
-
-// types to add to the types file
-interface ContainerObj {
-  BlockIO: string, 
-  CPUPerc: string,
-  Container: string,
-  ID: string,
-  MemPerc: string,
-  MemUsage: string,
-  Name: string,
-  NetIO: string,
-  PIDs: string,
-  Image?: string,
-  RunningFor?: string
-}
-
-interface imageObj {
-  reps: string, 
-  tag: string, 
-  imgid: string, 
-  size: string
-}
-
-interface ImagesProps {
-  imagesList: imageObj[],
-  runningList: ContainerObj[],
-  addRunningContainers: (data: ContainerObj[]) => void,
-  refreshImagesList: (data: imageObj[]) => void,
-  runIm: (id: string, runningList: ContainerObj[], callback_1: () => void, callback_2: () => void) => void,
-  removeIm: ( id: string, imagesList: imageObj[], callback_1: () => void, callback_2: () => void) => void
-}
+import { ContainerObj, imageObj, ImagesProps } from '../../../types'; 
 
 /**
  * Render Images of the user has
@@ -112,7 +82,7 @@ const Images = (props: ImagesProps) => {
         <div className="stopped-button">
           <button
             className="run-btn"
-            // {props.runIm and props.removeIm could be converted to helper.runIm instead-- not sure why they passed it as props}
+            // {props.runIm and props.removeIm could be converted to helper.runIm instead-- not sure why it is passed as props}
             onClick={() =>
               props.runIm(
                 ele,

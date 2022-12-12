@@ -4,12 +4,7 @@ import { useSelector } from 'react-redux';
 import AdminView from './views/Admin';
 import UserView from './views/UserView';
 import SysAdminView from './views/SysAdmin';
-
-interface RootState {
-  session: {
-    role: string
-  }
-}
+import { RootState } from '../../types';
 
 const RenderViews = ():any => {
   // grab current user's role

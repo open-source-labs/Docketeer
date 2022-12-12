@@ -2,8 +2,8 @@
  * @module AccountDisplay
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 // Material UI Imports
 import Button from "@mui/material/Button";

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { ContainerProps, ContainerType, ChartInfoType } from './TabTypes'; 
+import { ContainerProps, ContainerType, ChartInfoType } from '../../../types'; 
 /**
  * Display all running and stopped containers
  *

@@ -10,12 +10,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -23,7 +20,6 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 
 import {
   handleNewUser,
@@ -79,7 +75,7 @@ const NewUserDisplay = () => {
           className='settingsForm'
           component= 'form'
           autoComplete= 'off'
-          onSubmit={(e) => handleNewUser(e)}
+          onSubmit={(e: any) => handleNewUser(e, e.target.roleID)}
           sx={{color:'blue'}}
         >
      
@@ -111,15 +107,14 @@ const NewUserDisplay = () => {
               id="signupPassword"
               type={values.showPassword ? 'text' : 'password'}
               onChange={(e)=>{
-                checkPasswordLength(e);
+                checkPasswordLength();
                 setValues({...values, password:e.target.value})
               }}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    // onMouseDown={handleMouseDownPassword}
+                    onClick={handleClickShowPassword}  
                     edge="end"
                   >
                     {values.showPassword ? <VisibilityOff /> : <Visibility />}
@@ -132,25 +127,6 @@ const NewUserDisplay = () => {
           {values.password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {values.password}/>}
           <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span>
 
-          {/* <TextField
-            id='signupPassword'
-            label='Password'
-            variant='outlined'
-            type='password'
-            required
-            inputProps={{ minLength: 6, maxLength: 16 }}
-            
-            onChange={(e) => {
-              setPassword(e.target.value);
-              checkPasswordLength(e);}}
-            sx={{
-              m: 1
-            }}
-          /> */}
-
-          {/* {password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {password}/>}
-          <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span> */}
-
           <br />
           <TextField
             id='signupPasswordConfirmation'
@@ -160,13 +136,12 @@ const NewUserDisplay = () => {
             required
             onChange={(e) => {
               setValues({...values, passwordConfirmation:e.target.value})
-              confirmPassword(e)
+              confirmPassword()
             }}
             sx={{
               m: 1
             }}
           />
-          {/* This is sacrilege but I hardcoded this bar and made it hidden to keep the same formatting as above */}
           {<PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginBottom:-20,visibility:'hidden', maxHeight:0 }} />}
           <span id='password-confirmation-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10, paddingTop:15}}></span>
           <br />
@@ -176,7 +151,8 @@ const NewUserDisplay = () => {
             variant='outlined'
             required
             onChange={() => {
-              checkPhone(document.getElementById('signupPhone').value);
+              const inputValue = (document.getElementById('signupPhone') as HTMLInputElement ).value
+              checkPhone(inputValue);
             }}
             sx={{
               m: 1

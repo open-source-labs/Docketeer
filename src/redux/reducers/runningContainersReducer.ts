@@ -1,17 +1,8 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { containerState } from '../../../types';
 
-interface stateType {
-  runningList: any[],
-  stoppedList: any[]
-}
-
-const initialState: stateType = {
-  runningList: [],
-  stoppedList: []
-};
-
-export default function (state = initialState, action: PayloadAction<any>) {
+export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList = state.runningList.slice();

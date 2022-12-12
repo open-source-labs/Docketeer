@@ -9,18 +9,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import {LogsCardProps} from '../../../types';
 
-interface containerType {
-  ID: number;
-  Name: string;
-  Names?: string;
-}
-
-interface LogsCardProps {
-  container: containerType;
-  index: number;
-  status: any;
-}
 
 const ProcessLogsCard = (props: LogsCardProps) => {
   const navigate = useNavigate();

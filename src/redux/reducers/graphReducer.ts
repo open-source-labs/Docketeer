@@ -1,39 +1,8 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { graphState } from '../../../types';
 
-const initialState = {
-  graphAxis: [],
-  graphMemory: [
-    {
-      label: '',
-      data: [],
-      fill: ''
-    }
-  ],
-  graphCpu: [
-    {
-      label: '',
-      data: [],
-      fill: ''
-    }
-  ],
-  graphWrittenIO: [
-    {
-      label: '',
-      data: [],
-      fill: ''
-    }
-  ],
-  graphReadIO: [
-    {
-      label: '',
-      data: [],
-      fill: ''
-    }
-  ]
-};
-
-const graphReducer = (state = initialState, action: PayloadAction<any>) => {
+const graphReducer = (state = graphState, action: PayloadAction<any>) => {
   switch (action.type) {
   case types.BUILD_AXIS: {
     if (action.payload === 'clear') return { ...state, graphAxis: [] };

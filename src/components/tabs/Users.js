@@ -39,7 +39,7 @@ const UserTable = () => {
   ]);
 
   const handleRoleChange = (event) => {
-    console.log('userl', userList)
+    console.log('userl', userList);
     const id = event.id;
     const role = event.props.value;
 

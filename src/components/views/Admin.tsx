@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import {StoppedListType, RunningListType} from '../tabs/TabTypes'
 // static imports
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
@@ -25,7 +24,7 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, VolumeObj, NetworkObj, StateType  } from "./viewsTypes";
+import { ContainerObj, StoppedContainerObj, ImageObj, VolumeObj, NetworkObj, StateType  } from '../../../types';
 
 // Container component that has all redux logic along with react router
 

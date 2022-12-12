@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { RunningListType } from "../tabs/TabTypes";
-
-interface ToggleDisplayProps {
-  container: RunningListType;
-}
+import { ToggleDisplayProps } from "../../../types";
 
 const ToggleDisplay = (props: ToggleDisplayProps) => {
   const [toggle, setToggle] = useState(false);

@@ -51,7 +51,7 @@ const SignUp = () => {
           className='settingsForm'
           component= 'form'
           autoComplete= 'off'
-          onSubmit={(e) => handleNewUser(e)}
+          onSubmit={(e: any) => handleNewUser(e, e.target.roleID)}
           sx={{color:'blue'}}
         >
      
@@ -83,7 +83,7 @@ const SignUp = () => {
               id="signupPassword"
               type={values.showPassword ? 'text' : 'password'}
               onChange={(e)=>{
-                checkPasswordLength(e);
+                checkPasswordLength();
                 setValues({...values, password:e.target.value})
               }}
               endAdornment={
@@ -104,25 +104,6 @@ const SignUp = () => {
           {values.password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {values.password}/>}
           <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span>
 
-          {/* <TextField
-            id='signupPassword'
-            label='Password'
-            variant='outlined'
-            type='password'
-            required
-            inputProps={{ minLength: 6, maxLength: 16 }}
-            
-            onChange={(e) => {
-              setPassword(e.target.value);
-              checkPasswordLength(e);}}
-            sx={{
-              m: 1
-            }}
-          /> */}
-
-          {/* {password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {password}/>}
-          <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span> */}
-
           <br />
           <TextField
             id='signupPasswordConfirmation'
@@ -132,7 +113,7 @@ const SignUp = () => {
             required
             onChange={(e) => {
               setValues({...values, passwordConfirmation:e.target.value})
-              confirmPassword(e)
+              confirmPassword()
             }}
             sx={{
               m: 1
@@ -150,7 +131,8 @@ const SignUp = () => {
             inputProps={{maxLength: 12 }}
 
             onChange={() => {
-              checkPhone(document.getElementById('signupPhone')?.value);
+              const inputElement =(document.getElementById('signupPhone') as HTMLInputElement).value;
+              checkPhone(inputElement)
             }}
             sx={{
               m: 1

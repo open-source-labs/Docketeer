@@ -3,7 +3,6 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
 import { ContainerProps, ContainerType, ChartInfoType } from '../../../types';
-import { ImageList } from '@mui/material';
 /**
  * Display all running and stopped containers
  *

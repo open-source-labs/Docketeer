@@ -1,16 +1,22 @@
 const supertest = require('supertest');
 const request = require('supertest');
-const assert = require('assert');
+const response = require('supertest');
 const express = require('express');
 import {describe, beforeEach, expect, test, jest} from '@jest/globals';
-
 const app = express();
+const signupRouter = require('../server/routes/signupRouter');
+const settingsRouter = require('../server/routes/settingsRouter');
+
+
+
 
 app.use('/test', (req, res) => {
   res.status(200).json({
     success: true,
   });
 });
+app.use('/signup', signupRouter);
+app.use('/settings', settingsRouter);
 
 xdescribe('/test route', () => {
   test('get request to test route', (done) => {
@@ -38,7 +44,8 @@ xdescribe('/test route', () => {
       .send({ random: 'info' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect(200, done)
+      .expect(response.locals.users).toEqual(1);
   });
 });
 
@@ -48,12 +55,14 @@ xdescribe('/test route', () => {
 
 describe('/signup route', () => {
   test('get request', async () => {
-    await request(app)
+    return request(app)
       .get('/signup')
       .send({ username: 'test', email: 'test@test.com', password: 'password' })
-      .expect('Content-Type', 'text/html; charset=utf-8'); 
+      .expect('Content-Type', 'application/json; charset=utf-8') 
+      .expect(200)
+      .expect(response);
   });
-  test('post request', async () => {
+  xtest('post request', async () => {
     await request(app)
       .post('/signup')
       .send({
@@ -62,20 +71,32 @@ describe('/signup route', () => {
         password: 'password',
         phone: '+1555555555',
       })
-      .set('Accept', 'application/json')
-      .expect('Content-Type', 'text/html; charset=utf-8');
+      .expect('Content-Type', 'application/json; charset=utf-8');
   });
 });
 
 // setting route
-describe('Settings route', (done) =>{
-  test('GET', async () => {
-   await request(app)
-    .get('/settings')
-    .expect('Content-Type', 'text/html; charset=utf-8')
-    .expect(200,done)
+describe('Settings route', () =>{
+  test('Get request should return empty mem, cpu, stopped', async () => {
+    await request(app)
+      .get('/settings')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response)
+  });
+  xtest('Post request', async () => {
+    await request(app)
+    .post('/settings/insert')
+    .send({
+      container: ['test', 'value'],
+      name: 'testname',
+      metric: 'hello'
+    })
+    .expect('Content-Type', 'application/json; charset=utf-8')
+    .expect(200)
+    .expect(response)
   })
-})
+});
 // logout route
 
 // login route

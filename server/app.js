@@ -3,10 +3,8 @@ const path = require('path');
 const cors = require('cors');
 const colors = require('colors');
 
-// Routers
-// sign up for sysadmin to add new users to their account
 const signupRouter = require('./routes/signupRouter');
-// sign up for new sysadmin users
+
 const signupSysAdminRouter = require('./routes/signupSysAdminRouter');
 const loginRouter = require('./routes/loginRouter');
 const adminRouter = require('./routes/adminRouter');
@@ -19,9 +17,9 @@ const settingsRouter = require('./routes/settingsRouter');
 
 const app = express();
 
-app.use(express.json()); // parses the request body
-app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-app.use(cors()); // enables ALL cors requests
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(cors()); 
 
 app.use('/test', (req, res) => {
   res.status(200).json({
@@ -31,10 +29,7 @@ app.use('/test', (req, res) => {
 
 app.use('/settings', settingsRouter);
 app.use('/init', initRouter);
-// sign up for sysadmin to add new users to their account
 app.use('/signup', signupRouter);
-// sign up for new sysadmin users
-// app.use('/signupsysadmin', signupSysAdminRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/account', accountRouter);
@@ -42,19 +37,16 @@ app.use('/api', apiRouter);
 app.use('/db', dbRouter);
 app.use('/logout', logoutRouter);
 
-// Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
   /*
     Reads the current URL (explains why electron crashes)
     const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('current url',url);
   */
- 
   // for development purposes, so we don't have to reopen electron everytime
   return res.status(404).redirect('/');
-  // return res.status(404).json('404 Not Found')
 });
 
-// Global Error Handler
 app.get('/', (req, res, next, err) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -66,3 +58,9 @@ app.get('/', (req, res, next, err) => {
 });
 
 module.exports = app;
+
+/*
+    Reads the current URL (explains why electron crashes)
+    const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('current url',url);
+*/

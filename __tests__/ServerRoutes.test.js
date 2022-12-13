@@ -1,18 +1,38 @@
 const supertest = require('supertest');
 const request = require('supertest');
-const assert = require('assert');
+const response = require('supertest');
 const express = require('express');
 import {describe, beforeEach, expect, test, jest} from '@jest/globals';
-
 const app = express();
+
+const signupRouter = require('../server/routes/signupRouter');
+const loginRouter = require('../server/routes/loginRouter');
+const adminRouter = require('../server/routes/adminRouter');
+const accountRouter = require('../server/routes/accountRouter');
+const apiRouter = require('../server/routes/apiRouter');
+const dbRouter = require('../server/routes/dbRouter');
+const initRouter = require('../server/routes/initRouter');
+const logoutRouter = require('../server/routes/logoutRouter');
+const settingsRouter = require('../server/routes/settingsRouter');
+
+
 
 app.use('/test', (req, res) => {
   res.status(200).json({
     success: true,
   });
 });
+app.use('/signup', signupRouter);
+app.use('/settings', settingsRouter);
+app.use('/init', initRouter);
+app.use('/login', loginRouter);
+app.use('/admin', adminRouter);
+app.use('/account', accountRouter);
+app.use('/api', apiRouter);
+app.use('/db', dbRouter);
+app.use('/logout', logoutRouter);
 
-describe('/test route', () => {
+xdescribe('/test route', () => {
   test('get request to test route', (done) => {
     request(app).get('/test').expect('Content-Type', /json/).expect(200, done);
   });
@@ -38,7 +58,8 @@ describe('/test route', () => {
       .send({ random: 'info' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect(200, done)
+      .expect(response.locals.users).toEqual(1);
   });
 });
 
@@ -50,45 +71,123 @@ describe('/signup route', () => {
   test('get request', async () => {
     await request(app)
       .get('/signup')
-      .send({ username: 'test', email: 'test@test.com', password: 'password' })
-      .expect('Content-Type', 'text/html; charset=utf-8'); 
+      // .send({ username: 'test', email: 'test@test.com', password: 'password' })
+      .expect('Content-Type', 'application/json; charset=utf-8') 
+      .expect(200)
+      .expect(response);
   });
   test('post request', async () => {
     await request(app)
       .post('/signup')
       .send({
-        username: 'test',
+        username: 'testwer',
         email: 'test@test.com',
-        password: 'password',
+        password: 'passwqw',
         phone: '+1555555555',
       })
       .set('Accept', 'application/json')
-      .expect('Content-Type', 'text/html; charset=utf-8');
+      .expect(200)
+      .expect('Content-Type', 'application/json; charset=utf-8');
   });
 });
 
 // setting route
-describe('Settings route', (done) =>{
-  test('GET', async () => {
-   await request(app)
-    .get('/settings')
-    .expect('Content-Type', 'text/html; charset=utf-8')
-    .expect(200,done)
-  })
-})
+describe('Settings route', () =>{
+  test('Get request should return empty mem, cpu, stopped', async () => {
+    await request(app)
+      .get('/settings')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response);
+  });
+  xtest('Post request', async () => {
+    await request(app)
+      .post('/settings/insert')
+      .send({
+        container: ['test', 'value'],
+        name: 'testname',
+        metric: 'hello'
+      })
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response);
+  });
+});
+
 // logout route
+describe('Logout Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/logout')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 
 // login route
+describe('Login Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/login')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 
 // init route
+describe('Init Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/init')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 
 // db route
-
+describe('Db Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/db')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 // api route
-
+describe('Api Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/api')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 // admin route
-
+describe('Admin Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/admin')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 // account route
+
+describe('Account Route', () => {
+  test('Get request', () => {
+    request(app)
+      .get('/account')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200)
+      .expect(response); 
+  });
+});
 
 // const server = require('../server/app');
 

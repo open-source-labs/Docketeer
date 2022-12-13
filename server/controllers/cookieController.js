@@ -3,8 +3,6 @@
  * @description Contains middleware that stores the user id in a HTTP-only cookie and sets HTTP-only cookie specifically for admins
  */
 
-
-
 const cookieController = {};
 
 // store the user id in a cookie

@@ -93,15 +93,14 @@ userController.verifyUser =  (req, res, next) => {
   const getUser = `SELECT * FROM users WHERE username='${username}';`;
 
   db.query(getUser)
-    .then(async (data) => {
-      const match = await bcrypt.compare(password, data.rows[0].password);
+    .then(async (data) => {  
+      const match = await bcrypt.compare(password, data.rows[0].password); 
       if (data.rows[0] && match) {
         res.locals.user = data.rows[0]; 
         return next();
       } else {
         res.locals.error = 'Incorrect username or password.';
         delete res.locals.user;
-        // return next();
       }
       
     })

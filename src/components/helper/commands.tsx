@@ -86,13 +86,12 @@ export const refreshRunning = (refreshRunningContainers) => {
         console.log(`refreshRunning stderr: ${stderr}`);
         return;
       }
-      // console.log(stdout);
+
       const dockerOutput = `[${stdout
         .trim()
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
-      // console.log(convertedValue);
       refreshRunningContainers(convertedValue);
     }
   );
@@ -140,7 +139,6 @@ export const refreshImages = (callback) => {
       return;
     }
     const value = parseContainerFormat.convert(stdout);
-    // console.log('stdout in refreshImages: ', stdout);
     const objArray = ['reps', 'tag', 'imgid', 'size'];
     const resultImages = [];
 
@@ -239,7 +237,6 @@ export const runStopped = (
 export const runIm = (container, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
   const { imgid, reps, tag } = container;
-  console.log(container);
   window.nodeMethod.runExec(`docker run --name ${reps}-${tag} ${reps}:${tag}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
@@ -311,11 +308,9 @@ export const handlePruneClick = (e) => {
 export const pullImage = (repo) => {
   window.nodeMethod.runExec(`docker pull ${repo}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
     if (error) {
-      console.log('error occurred in pulling image');
       alert(
         `Image repo '${repo}' seems to not exist, or may be a private repo.`
       );
-      // alert(`${error.message}`);
       return;
     }
     if (stderr) {

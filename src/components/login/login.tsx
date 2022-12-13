@@ -23,9 +23,8 @@ const Login = () => {
   const updateUser = (userInfo: UserInfo) =>
     dispatch(actions.updateUser(userInfo));
 
-   // callback function which will send request to endpoint http://localhost:3000/login and expect
+   // callback function which will send request to endpoint http://localhost:3000/login
    const authenticateUser = (username: string, password: string) => {
-    console.log("YOU ARE HERE!")
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -56,7 +55,6 @@ const Login = () => {
     // callback function invoked when 'login' button is clicked
   const handleLogin = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevents form submit from reloading page
-    console.log("Event:", e)
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
     if(usernameInput != null || passwordInput != null) {

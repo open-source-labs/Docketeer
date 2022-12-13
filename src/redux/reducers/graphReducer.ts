@@ -7,7 +7,7 @@ const graphReducer = (state = graphState, action: PayloadAction<any>) => {
   case types.BUILD_AXIS: {
     if (action.payload === 'clear') return { ...state, graphAxis: [] };
 
-    // cuts day of week from begingin and the timezone off the end.
+    // cuts day of week from begining and the timezone off the end.
     const formatedDate = action.payload.toString().slice(4, 24);
 
     // compare two string dates

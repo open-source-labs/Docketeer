@@ -94,11 +94,7 @@ userController.verifyUser =  (req, res, next) => {
 
   db.query(getUser)
     .then(async (data) => {
-      // console.log('hello');
-      // console.log(password);
-      // console.log(data.rows[0].password);
       const match = await bcrypt.compare(password, data.rows[0].password);
-      // console.log(match);
       if (data.rows[0] && match) {
         res.locals.user = data.rows[0]; 
         return next();

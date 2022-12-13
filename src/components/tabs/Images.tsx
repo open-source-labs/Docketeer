@@ -27,7 +27,7 @@ const Images = (props: ImagesProps) => {
             return;
           }
         });
-        // ingore was used below because Typescript says the codition will never be true, but this is not an accurate error
+        // ingore was used below because Typescript says the condition will never be true, but this is not an accurate error
         // @ts-ignore 
         if (existingRepo === true) {
           alert('This image already exists!');
@@ -47,7 +47,7 @@ const Images = (props: ImagesProps) => {
             return;
           }
         });
-        // ingore was used below because Typescript says the codition will never be true, but this is not an accurate error
+        // ignore was used below because Typescript says the codition will never be true, but this is not an accurate error
         // @ts-ignore 
         if (existingRepo === true){
           alert('This image already exists!');

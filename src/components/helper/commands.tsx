@@ -242,7 +242,11 @@ export const runStopped = (
 export const runIm = (container, runningList, callback_1, callback_2) => {
   // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
   const { imgid, reps, tag } = container;
-  window.nodeMethod.runExec(`docker run --name ${reps}-${tag} ${reps}:${tag}`, (error, stdout, stderr) => {
+  const containerId = Math.floor(Math.random() * 100)
+  const filteredRepo = reps
+  .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
+  .replace(/\s{2,}/g, " ");
+  window.nodeMethod.runExec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
       return;

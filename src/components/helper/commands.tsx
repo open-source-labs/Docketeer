@@ -53,7 +53,7 @@ export const addRunning = (runningList, callback) => {
         }
         isInTheList ? '' : newList.push(convertedValue[i]);
       }
-      console.log('addrunning newlist', newList);
+      // console.log('addrunning newlist', newList);
       newList.length ? callback(newList) : '';
     }
   );

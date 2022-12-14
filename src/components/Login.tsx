@@ -91,7 +91,6 @@
                id='username' 
                label='Username' 
                variant='outlined'
-              value= 'sysadmin' 
              />
              <br />
              <br />
@@ -100,7 +99,6 @@
                label='Password'
                type='password'
                variant='outlined'
-              value ='belugas'
              />
              <br />
              {/* * Login Button * */}

@@ -1,3 +1,8 @@
+/* The below ts-noCheck comment was made because this file has not yet been completely converted to Typescript. 
+The below comment removes all Typescript errors. Please remove this line of code to see what needs to be configured for Typescript compliance
+*/
+// @ts-noCheck
+
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -246,7 +251,7 @@ export const runIm = (container, runningList, callback_1, callback_2) => {
       console.log(`runIm stderr: ${stderr}`);
       return;
     }
-  );
+});
   callback_1(runningList, callback_2);
   alert('Running container');
 };

@@ -55,7 +55,6 @@ const UserTable = () => {
         })
       })
         .then((response) => response.json())
-      // return response.json(); // This needs to be changed to one line since console.logs have been removed
         .then((data) => {
           // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
           const hasError = data;

@@ -24,7 +24,6 @@ const convert = (stdout: string) => {
  * @param {*} objArray
  */
 const convertArrToObj = (array: string[][], objArray: string[]) => {
-  // console.log('convertedArr: ', array, objArray);
   const result = [];
   for (let i = 0; i < array.length; i++) {
     let containerObj: any = {};
@@ -50,7 +49,6 @@ const convertArrToObj = (array: string[][], objArray: string[]) => {
  * @param {*} array
  */
 const convertToMetricsArr = (array: any[]) => {
-  console.log('metrics array: ', array)
   let newArr = [];
   let cpuSum = 0;
   let memorySum = 0;

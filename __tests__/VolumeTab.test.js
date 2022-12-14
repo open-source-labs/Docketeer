@@ -1,6 +1,3 @@
-/**        Docketeer 7.0
- * These tests do not work as enzyme is highly depricated and does not communicate with React 18
- */
 
 import React from 'react';
 import { describe, expect, test, jest } from '@jest/globals';

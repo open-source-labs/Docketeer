@@ -101,6 +101,7 @@ ul {
   max-height: 800px;
   display: flex;
   flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .viewsAndButton {

@@ -38,6 +38,12 @@ app.use('/db', dbRouter);
 app.use('/logout', logoutRouter);
 
 app.use('/', (req, res) => {
+  /*
+    Reads the current URL (explains why electron crashes)
+    const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('current url',url);
+  */
+  // for development purposes, so we don't have to reopen electron everytime
   return res.status(404).redirect('/');
 });
 

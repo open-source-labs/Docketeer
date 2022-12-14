@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const { isEmptyBindingElement } = require('typescript');
-// console.log(path.join(__dirname, '/src/renderer/index.tsx'));
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -58,26 +57,13 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
-      // {
-      //   /** Loading Images
-      //    * /\.(png|svg|jpg|jpeg|gif)$/i -> i is for case-insensitive
-      //    */
-      //   test: /\.(png|svg|jpg|jpeg|gif)$/i,
-      //   type: 'asset/resource'
-      // },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-        // loader: 'file-loader'
-        // options: {
-        //   name: 'assets/[name].[ext]'
-        // }
-  
       }
     ]
   },
   devServer: {
-    // contentBase: path.join(__dirname, './dist/src/renderer'),
     static: {
       directory: path.join(__dirname, '/src/renderer')
     },
@@ -96,9 +82,5 @@ module.exports = {
       template: './src/renderer/index.html'
     }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
-    
-    // new webpack.DefinePlugin({
-    //   process: { env: {} }
-    // })
   ]
 };

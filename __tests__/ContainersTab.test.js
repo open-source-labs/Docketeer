@@ -4,7 +4,6 @@ import {describe, beforeEach, expect, test, jest} from '@jest/globals';
 import '@testing-library/jest-dom';
 import ToggleDisplay from '../src/components/display/ToggleDisplay';
 import { fireEvent, render, screen } from '@testing-library/react';
-// import { Chart } from 'react-chartjs-2'; 
 
 const props = {
   runningList: [

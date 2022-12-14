@@ -7,6 +7,7 @@ import * as actions from '../../redux/actions/actions';
 import React from 'react';
 
 export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
+
   e.preventDefault();
   const username = (<HTMLInputElement>document.getElementById('signupUsername')).value;
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;

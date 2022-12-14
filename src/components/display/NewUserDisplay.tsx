@@ -75,7 +75,7 @@ const NewUserDisplay = () => {
           className='settingsForm'
           component= 'form'
           autoComplete= 'off'
-          onSubmit={(e: any) => handleNewUser(e, e.target.roleID)}
+          onSubmit={(e: any) => handleNewUser(e, valueRole)}
           sx={{color:'blue'}}
         >
      

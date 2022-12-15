@@ -1,4 +1,5 @@
 const electron = require ('electron');
+
 const path = require ('path');
 const url = require('url');
 
@@ -28,10 +29,11 @@ function createMainWindow() {
   
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL(`http://localhost:4000`);
+    // mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, '/index.js'),
+        pathname: path.join(__dirname, '/index'),
         protocol: 'file:',
         slashes: true,
       })
@@ -44,6 +46,7 @@ function createMainWindow() {
 
     electron.app.on('ready', createMainWindow)
     
+    electron.app.on('renderer-process-crashed', createMainWindow)
     // MacOS Specific function
     electron.app.on('window-all-closed', function () {
       // Common for application and their menu bar to stay active until use quits explicitly 

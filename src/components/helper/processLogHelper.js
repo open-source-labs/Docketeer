@@ -57,6 +57,5 @@ export const makeArrayOfObjects = (string, containerName) => {
 
   // filter out empty messages
   const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
-
   return arrayOfLogs;
 };

@@ -4,19 +4,16 @@
     "module": "commonjs",
     "jsx": "react",
     "esModuleInterop": true,
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016",
-      "es2017", 
-      "es2021"
-    ],
+    "lib": ["dom", "es2015", "es2016", "es2017", "es2021"],
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",
     "strict": true,
     "moduleResolution": "node",
-    "removeComments": true
+    "removeComments": true,
+    "noEmit": false
   },
-  "include": ["src/**/*", "server/models/psqlQuery.js"]
+  "include": ["src/**/*", "server/**/*"]
 }
+
+// "images-png.d.ts"

@@ -3,19 +3,33 @@
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
 const db = require('../models/cloudModel');
-
+const bcrypt = require('bcryptjs');
+const { ConnectingAirportsOutlined } = require('@mui/icons-material');
 const userController = {};
 
 // create new user
 userController.createUser = (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { username, email, phone } = req.body;
+  const { username, email, phone, role_id} = req.body;
   const { hash } = res.locals;
-  
-  const createUser = 'INSERT INTO users (username, email, password, phone, role) VALUES ($1, $2, $3, $4, \'user\') RETURNING *;';
-  const userDetails = [username, email, hash, phone];
+  let role;
 
+  switch(role_id) {
+  case '1':
+    role = 'system admin';
+    break;
+  case '2':
+    role = 'admin';
+    break;
+  case '3':
+    role = 'user';
+    break;
+  }
+  
+  const createUser = 'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
+  const userDetails = [username, email, hash, phone, role, role_id];
+  console.log('USERDETAILS:', userDetails);
   if (username && hash) {
     db.query(createUser, userDetails)
       .then((data) => {
@@ -71,17 +85,24 @@ userController.getOneUser = (req, res, next) => {
 };
 
 // verify user exists and send back user info
-userController.verifyUser = (req, res, next) => {
+userController.verifyUser =  (req, res, next) => {
   if (res.locals.error) return next();
 
-  const { username } = req.body;
+  const { username, password } = req.body;
 
   const getUser = `SELECT * FROM users WHERE username='${username}';`;
 
   db.query(getUser)
-    .then((data) => {
-      if (data.rows[0]) res.locals.user = data.rows[0]; else res.locals.error = 'Incorrect username or password.';
-      return next();
+    .then(async (data) => {  
+      const match = await bcrypt.compare(password, data.rows[0].password); 
+      if (data.rows[0] && match) {
+        res.locals.user = data.rows[0]; 
+        return next();
+      } else {
+        res.locals.error = 'Incorrect username or password.';
+        delete res.locals.user;
+      }
+      
     })
     .catch((err) => {
       return next({
@@ -117,9 +138,9 @@ userController.switchUserRole = (req, res, next) => {
     'system admin': 1,
     admin: 2,
     user: 3
-  }
+  };
 
-  const { _id, role } = req.body
+  const { _id, role } = req.body;
 
   if(res.locals.sysAdmins === 1 && _id == res.locals.id){
     res.locals.hasError = true;
@@ -128,7 +149,7 @@ userController.switchUserRole = (req, res, next) => {
 
     const query = 'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
  
-    const parameters = [role, roleMap[role], _id]
+    const parameters = [role, roleMap[role], _id];
  
     db.query(query, parameters)
       .then((data) => {

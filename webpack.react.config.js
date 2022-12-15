@@ -1,14 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-// console.log(path.join(__dirname, '/src/renderer/index.tsx'));
+const { isEmptyBindingElement } = require('typescript');
 
 module.exports = {
   mode: process.env.NODE_ENV,
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     mainFields: ['main', 'module', 'browser'],
     fallback: {
+      child_process: false,
       fs: false,
       tls: false,
       net: false,
@@ -26,9 +27,7 @@ module.exports = {
       dns: false
     }
   },
-  entry: {
-    bundle: path.join(__dirname, '/src/renderer/index.tsx')
-  },
+  entry:  '/src/renderer/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'),
     // Taking our group of files and bundle them into Docketeer.js
@@ -40,7 +39,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(jsx|js)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -50,7 +49,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.(tsx|ts)$/,
         exclude: /node_modules/,
         loader: 'ts-loader'
       },
@@ -59,16 +58,12 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        /** Loading Images
-         * /\.(png|svg|jpg|jpeg|gif)$/i -> i is for case-insensitive
-         */
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource'
+        type: 'asset/resource',
       }
     ]
   },
   devServer: {
-    // contentBase: path.join(__dirname, './dist/src/renderer'),
     static: {
       directory: path.join(__dirname, '/src/renderer')
     },
@@ -86,9 +81,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html'
     }),
-    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
-    // new webpack.DefinePlugin({
-    //   process: { env: {} }
-    // })
+    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
   ]
 };

@@ -6,23 +6,27 @@ import {
   makeArrayOfObjects,
   buildOptionsObj
 } from '../src/components/helper/processLogHelper.js';
-import React from 'react';
+import {describe, beforeEach,afterEach, expect, test} from '@jest/globals';
 
 describe('makeArrayOfObjects', () => {
-  it('returns an array', () => {
-    const string = `Hello from Docker!
+  test('returns an array', () => {
+    const string = `HelloZ from Docker!
 
     This message shows that your installation appears to be working correctly.
     
     `;
     const result = makeArrayOfObjects(string);
     expect(result).toBeInstanceOf(Array);
+    expect(result.length).toEqual(2);
+    expect(result.containerName).toBe(undefined);
+    expect(result[0].logMsg).toEqual('HelloZ from Docker!');
+    expect(result[0].timeStamp).toBeUndefined();
   });
-    
-  it('each element in returned array is of type object', () => {
+  
+  // Can be addressed through TS
+  test('each element in returned array is of type object', () => {
     const processLog = 'this is the timestamp\nthis is the log message\nthis is the second timestamp\nthis is the second log message';
     const result = makeArrayOfObjects(processLog);
-
     let output = false;
 
     if(result.every((element) => typeof element === 'object')){
@@ -31,27 +35,8 @@ describe('makeArrayOfObjects', () => {
 
     expect(output).toEqual(true);
   });
-  // //We edited the makeArrayOfObjects function and now this fails, not sure why as there still is a key of logMsg and timeStamp
-  // it('each object in returned array has timeStamp and logMsg properties', () => {
-  //   const processLog =
-  //     'this_is_the_first_timestampZ this is the first log message\nthere is no second time stamp but there is a second log message';
-  //   const result = makeArrayOfObjects(processLog);
-
-  //   let output = false;
-
-  //   if (
-  //     result.every(
-  //       (element) =>
-  //         element.timeStamp && element.logMsg && element.containerName
-  //     )
-  //   ) {
-  //     output = true;
-  //   }
-
-  //   expect(output).toEqual(true);
-  // });
 });
-
+  
 describe('buildOptionsObj', () => {
 
   let sinceButton;
@@ -85,19 +70,16 @@ describe('buildOptionsObj', () => {
     document.body.innerHTML = '';
   });
 
-  it('when tail button is checked, tail value is added to optionsObj', () => {
+  test('when tail button is checked, tail value is added to optionsObj', () => {
     tailButton.checked = true;
-
     const result = buildOptionsObj('containerID');
-
     expect(result.tail).toEqual('1');
   });
 
-  it('when since button is checked, since value is added to since key on optionsObj', () => {
+  test('when since button is checked, since value is added to since key on optionsObj', () => {
     sinceButton.checked = true;
-
     const result = buildOptionsObj('containerID');
-
     expect(result.since).toEqual('72h10m3s');
   });
 });
+

@@ -10,13 +10,14 @@ import '../components/css/styles.css';
 import '../components/css/metric.css';
 import '../components/css/running.css';
 import '../components/css/static.css';
-import { App } from './App.js';
+import App from './App';
+
 
 
 const rootNode = document.getElementById('root')!;
 const root = createRoot(rootNode)
 root.render(
-  <Provider store={store}>
+  <Provider store={store} >
     {/* <React.StrictMode> */}
     <BrowserRouter>
       <Routes>

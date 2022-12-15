@@ -3,7 +3,7 @@
 import React from 'react';
 import { convertToMetricsArr } from '../helper/parseContainerFormat';
 import { Chart } from 'react-chartjs-2';
-import LineChartDisplay from '../display/LineChartDisplay.js';
+import LineChartDisplay from '../display/LineChartDisplay';
 
 /**
  * Display general metrics
@@ -149,8 +149,7 @@ const Metrics = (props) => {
           </div>
         </div>
       </div>
-      <LineChartDisplay 
-      />
+      <LineChartDisplay />
     </div>
   );
 };

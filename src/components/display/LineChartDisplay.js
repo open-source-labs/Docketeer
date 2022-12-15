@@ -1,4 +1,6 @@
 /* eslint-disable react/prop-types */
+// @ts-nocheck
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
@@ -14,7 +16,7 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
-  const [timePeriod, setTimePeriod] = useState('4');
+  const [timePeriod, setTimePeriod] = useState('');
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
@@ -30,9 +32,10 @@ const LineChartDisplay = () => {
   const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
   const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
 
-  //Grabbing the metrics data to be displayed on the charts
+  // Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
     const containerNamesArr = Object.keys(activeContainers);
+    // console.log('this is here', containerNamesArr);
     const response = await fetch('http://localhost:3000/init/getMetrics', {
       method: 'POST',
       headers: {
@@ -41,7 +44,7 @@ const LineChartDisplay = () => {
       body: JSON.stringify({
         containers: containerNamesArr
       })
-    })
+    });
     return await response.json(); 
   }
 
@@ -77,8 +80,7 @@ const LineChartDisplay = () => {
     if (!Object.keys(activeContainers).length) {
       return;
     }
-
-    const output = await getContainerMetrics();
+    const input = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -161,25 +163,25 @@ const LineChartDisplay = () => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
-      let date = "";
-      let time = "";
+      let date = '';
+      let time = '';
       for (let i = 1; i < dataPoint.created_at.length; i++){
         if (dataPoint.created_at[i] === 'T') {
-          break
+          break;
         }
         else (date += dataPoint.created_at[i]);
       }
       for (let i = 11; i < dataPoint.created_at.length; i++){
         if (dataPoint.created_at[i] === '.') {
-          break
+          break;
         }
         else (time += dataPoint.created_at[i]);
       }
-      let timeStamp = `${date} @ ${time}`
+      const timeStamp = `${date} @ ${time}`;
       buildAxis(timeStamp);
     });
 
-    let longest = 0; // 32
+    let longest = 0;
 
     Object.keys(auxObj).forEach((containerName) => {
       if (auxObj[containerName].memory.data.length > longest) {
@@ -205,13 +207,13 @@ const LineChartDisplay = () => {
     });
   };
 
-  //Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
+  // Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName) => {
     const ob = {};
     ob[containerName] = [];
     const time = Number(timePeriod);
-    //pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date = new Date(Date.parse(new Date()) - 2629746000)
+    // pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
+    let date = new Date(Date.parse(new Date()) - 2629746000);
     date.setHours(date.getHours() - time);
     date = date.toISOString();
     const urlObj = await helper.getContainerGitUrl(containerName);
@@ -222,7 +224,7 @@ const LineChartDisplay = () => {
         new URLSearchParams({
           since: `${date}`
         });
-        //need an actual url to test this, right now it can't connect
+        // need an actual url to test this, right now it can't connect
       const data = await fetch(url);
       const jsonData = await data.json();
 
@@ -250,9 +252,8 @@ const LineChartDisplay = () => {
       })
     ).then((data) => setGitUrls(data));
   };
-  //populating the github commits into a MUI DataGrid
-    //This should allow multiple tables be stacked if multiple containers are selected
-  let gitData;
+  // populating the github commits into a MUI DataGrid
+    // This should allow multiple tables be stacked if multiple containers are selected
 
   const columns = [
     {field: 'date', headerName: 'Date', width: 125 },
@@ -260,8 +261,8 @@ const LineChartDisplay = () => {
     {field: 'url', headerName: 'URL', width: 175, renderCell: (params) => <a target='_blank' rel='noreferrer' href={params.row.url}>{params.row.id}</a> },
     {field: 'author', headerName: 'Author', width: 175 },
     {field: 'message', headerName: 'Message', width: 525, align: 'left' },
-  ]
-  gitData = gitUrls.map((el, index) => {
+  ];
+  const gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
     const rows = [];
     el[name].forEach((ob, index) => {
@@ -278,11 +279,11 @@ const LineChartDisplay = () => {
         if (ob.message){
           if (ob.message.includes('<')){
             for (let i = 0; i < ob.message.length; i++) {
-              if (ob.message[i] === '<') break
+              if (ob.message[i] === '<') break;
               message += ob.message[i];
             }
           } else {
-            message = ob.message
+            message = ob.message;
           }
         }
 
@@ -305,15 +306,15 @@ const LineChartDisplay = () => {
         <h2>{name}</h2>
         <div className='ltTable' style={{height: 600, width: '100%',}}>
           <DataGrid
-          key='DataGrid'
-          rows={rows}
-          columns={columns}
-          getRowHeight={() => 'auto'}
-          initialState={{
-            sorting: {
-              sortModel: [{field: 'date', sort: 'asc'}]
-            }
-          }}
+            key='DataGrid'
+            rows={rows}
+            columns={columns}
+            getRowHeight={() => 'auto'}
+            initialState={{
+              sorting: {
+                sortModel: [{field: 'date', sort: 'asc'}]
+              }
+            }}
           />
         </div>
       </div>
@@ -441,7 +442,7 @@ const LineChartDisplay = () => {
           ></input>
           <label htmlFor='24-hours'> 24 hours</label>
           <br />
-            {currentList}
+          {currentList}
         </form>
       </div>
 
@@ -461,7 +462,7 @@ const LineChartDisplay = () => {
       <div className='metric-section-title'>
         <h3>GitHub History</h3>
       </div>
-        {gitData}
+      {gitData}
     </div>
   );
 };

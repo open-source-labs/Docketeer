@@ -6,6 +6,7 @@
   font-family: "Maven Pro", sans-serif;
   margin: 0;
   padding: 0;
+  box-sizing:border-box;
 }
 
 body {
@@ -100,6 +101,7 @@ ul {
   max-height: 800px;
   display: flex;
   flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .viewsAndButton {
@@ -658,7 +660,15 @@ ul {
 /* Login Screen Form Added 10/21/22 */
 .loginForm {
   margin: 8px;
-  width: 25ch;
+  width: fit-content;
+}
+
+.btn-signup {
+  border: none;
+  color: rgb(0, 153, 255);
+  background-color: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .settingsForm {

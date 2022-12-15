@@ -3,8 +3,9 @@ const path = require('path');
 const cors = require('cors');
 const colors = require('colors');
 
-// Routers
 const signupRouter = require('./routes/signupRouter');
+
+const signupSysAdminRouter = require('./routes/signupSysAdminRouter');
 const loginRouter = require('./routes/loginRouter');
 const adminRouter = require('./routes/adminRouter');
 const accountRouter = require('./routes/accountRouter');
@@ -16,9 +17,9 @@ const settingsRouter = require('./routes/settingsRouter');
 
 const app = express();
 
-app.use(express.json()); // parses the request body
-app.use(express.urlencoded({ extended: true })); // parses urlencoded payloads
-app.use(cors()); // enables ALL cors requests
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(cors()); 
 
 app.use('/test', (req, res) => {
   res.status(200).json({
@@ -36,12 +37,16 @@ app.use('/api', apiRouter);
 app.use('/db', dbRouter);
 app.use('/logout', logoutRouter);
 
-// Unknown Endpoint Error Handler
 app.use('/', (req, res) => {
-  return res.status(404).json('404 Not Found');
+  /*
+    Reads the current URL (explains why electron crashes)
+    const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('current url',url);
+  */
+  // for development purposes, so we don't have to reopen electron everytime
+  return res.status(404).redirect('/');
 });
 
-// Global Error Handler
 app.get('/', (req, res, next, err) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -53,3 +58,9 @@ app.get('/', (req, res, next, err) => {
 });
 
 module.exports = app;
+
+/*
+    Reads the current URL (explains why electron crashes)
+    const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('current url',url);
+*/

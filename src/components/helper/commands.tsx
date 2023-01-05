@@ -11,6 +11,7 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
+import { exec } from 'child_process';
 
 /**
  * Grabs all active containers on app-start up
@@ -19,6 +20,8 @@ import * as child_process from 'child_process';
  * @param {*} callback
  */
 
+
+// exec docker 
 
 export const addRunning = (runningList, callback) => {
   window.nodeMethod.runExec(
@@ -97,10 +100,30 @@ export const refreshRunning = (refreshRunningContainers) => {
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
+      // console.log(convertedValue)
       refreshRunningContainers(convertedValue);
     }
   );
 };
+
+export const newRefreshRunning = () => {
+  window.nodeMethod.runExec(
+    'curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/2f02752dde44/stats\?stream\=false',
+    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
+      if(error) {
+        errorCheck('newRefreshRunning', error)
+        return
+      }
+      if(stderr) {
+        console.log(`newRefreshRunning stderr: ${stderr}`)
+        // return
+      }
+      const dockerOutput = JSON.parse(stdout)
+      console.log(dockerOutput)
+    }
+  )
+}
+
 
 /**
  * Refreshes stopped containers

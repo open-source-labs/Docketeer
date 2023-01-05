@@ -112,6 +112,8 @@ const SysAdmin = () => {
       navigate('/login');
   };
 
+
+  // Initial refresh
   useEffect(() => {
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
@@ -134,6 +136,7 @@ const SysAdmin = () => {
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
   useEffect(() => {
     const interval = setInterval(() => {
+      helper.newRefreshRunning();
       helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);

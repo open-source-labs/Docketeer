@@ -11,9 +11,8 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
-import * as util from 'util';
-
-
+// import * as util from 'util';
+import utilPromisify from 'util.promisify'
 /**
  * Grabs all active containers on app-start up
  *
@@ -81,50 +80,52 @@ const errorCheck = (key, error) => {
   return;
 };
 
-export const refreshRunning = (refreshRunningContainers) => {
-
-  const apiDataList = [];
-
-  window.nodeMethod.runExec(
-    'docker stats --no-stream --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        errorCheck('refreshRunning', error);
-        return;
-      }
-      if (stderr) {
-        console.log(`refreshRunning stderr: ${stderr}`);
-        return;
-      }
-
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-      const convertedValue = JSON.parse(dockerOutput);
-
-      for (let each of convertedValue) {
-        window.nodeMethod.runExec(
-          `curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${each.ID}/stats\?stream\=false`,
-          (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-            if (error) {
-              errorCheck('refreshRunning', error);
-              return;
-            }
-            // if (stderr) {
-            //   console.log(`refreshRunning stderr: ${stderr}`);
-            //   return;
-            // }
-
-            const apiData = JSON.parse(stdout);
-            apiDataList.push(apiData);
-          }
-        );
-      }
+// We're using the article's info to promisify the window.nodeMethod.runExec and make it reusable in multiple instances
+//this function accepts a shell command (type string) and returns a either a resolved or rejected promise
+function promisifiedExec(cmd) {
+  return new Promise((resolve, reject) => {
+    window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
+    if (error) {
+     console.warn(error);
+     reject(error)
     }
-  );
+    resolve(stdout? stdout : stderr);
+   });
+  });
+ }
+
+// applying async/await to each container's fetch request 
+const getContainerDetails = async (containerId) =>{
+ const result = await promisifiedExec(`curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`)
+ return result
+}
+
+// this makes the refreshRunning function asynchronous so that when refteshRunningContainers callback is invoked
+// we have all the data retrived from the original command and the individual container details fetch
+const insideRefreshRunning = async () => {
+  const apiDataList = [];
+  const result = await promisifiedExec('docker stats --no-stream --format "{{json .}},"')
+  const dockerOutput = JSON.parse(`[${result
+    .trim()
+    .slice(0, -1)
+    .replaceAll(' ', '')}]`)
+    console.log(dockerOutput)
+  
+    for (let each of dockerOutput) {
+      const containerData = await getContainerDetails(each.ID)
+      const apiData = JSON.parse(containerData)
+      apiDataList.push(apiData)
+    }
+
+    return apiDataList
+}
+
+//awaiting all the data and updates the store with the new data
+export const refreshRunning = async (refreshRunningContainers) => {
+  const apiDataList = await insideRefreshRunning();
   refreshRunningContainers(apiDataList);
 };
+
 
 /**
  * Refreshes stopped containers

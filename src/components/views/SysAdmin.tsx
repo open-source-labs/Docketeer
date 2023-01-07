@@ -26,34 +26,34 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from '../../../types';
+import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType } from '../../../types';
 
 // Container component that has all redux logic along with react router
 const SysAdmin = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const addRunningContainers = (data: ContainerObj[]) => 
-   dispatch(actions.addRunningContainers(data));
+  const addRunningContainers = (data: ContainerObj[]) =>
+    dispatch(actions.addRunningContainers(data));
   const refreshRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.refreshRunningContainers(data));
   const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data: ImageObj[]) => 
+  const refreshImagesList = (data: ImageObj[]) =>
     dispatch(actions.refreshImages(data));
   // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data: NetworkObj[]) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id: string) => 
+  const removeContainer = (id: string) =>
     dispatch(actions.removeContainer(id));
   const runStoppedContainer = (id: string) =>
     dispatch(actions.runStoppedContainer(id));
   const stopRunningContainer = (id: string) =>
     dispatch(actions.stopRunningContainer(id));
-  const updateSession = () => 
+  const updateSession = () =>
     dispatch(actions.updateSession());
-  const logoutUser = () => 
+  const logoutUser = () =>
     dispatch(actions.logoutUser());
-  const updateUserList = (data: UserObj[]) => 
+  const updateUserList = (data: UserObj[]) =>
     dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
   const getVolumeList = (data: { Name: string }[]) =>
     dispatch(actions.getVolumeList(data));
@@ -109,9 +109,11 @@ const SysAdmin = () => {
       .catch((err) => {
         console.log(err);
       });
-      navigate('/login');
+    navigate('/login');
   };
 
+
+  // Initial refresh
   useEffect(() => {
     initDatabase();
     helper.refreshRunning(refreshRunningContainers);
@@ -258,14 +260,14 @@ const SysAdmin = () => {
           </ul>
           <div>
             <button
-              style={{borderRadius: 5, marginBottom: 10}}
+              style={{ borderRadius: 5, marginBottom: 10 }}
               className='btn'
               onClick={(e) => helper.handlePruneClick(e)}
             >
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
+            <button style={{ borderRadius: 5, marginBottom: 10 }} className='btn' onClick={() => handleLogout()}>
               Logout
             </button>
           </div>
@@ -279,7 +281,7 @@ const SysAdmin = () => {
           />}
         />
         <Route path='/metrics' element={
-          <Metrics key={1} runningList={runningList} 
+          <Metrics key={1} runningList={runningList}
           />}
         />
         <Route path='/users' element={<UserList />} />
@@ -301,9 +303,9 @@ const SysAdmin = () => {
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
         <Route path='/yml' element={
-          <Yml 
-            // networkList={networkList} 
-            // composeymlFiles={composeymlFiles} 
+          <Yml
+          // networkList={networkList} 
+          // composeymlFiles={composeymlFiles} 
           />}
         />
         <Route path='/images' element={

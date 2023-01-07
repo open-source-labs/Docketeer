@@ -21,6 +21,8 @@ import utilPromisify from 'util.promisify'
  */
 
 
+// exec docker 
+
 export const addRunning = (runningList, callback) => {
   window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
@@ -85,19 +87,19 @@ const errorCheck = (key, error) => {
 function promisifiedExec(cmd) {
   return new Promise((resolve, reject) => {
     window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
-    if (error) {
-     console.warn(error);
-     reject(error)
-    }
-    resolve(stdout? stdout : stderr);
-   });
+      if (error) {
+        console.warn(error);
+        reject(error)
+      }
+      resolve(stdout ? stdout : stderr);
+    });
   });
- }
+}
 
 // applying async/await to each container's fetch request 
-const getContainerDetails = async (containerId) =>{
- const result = await promisifiedExec(`curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`)
- return result
+const getContainerDetails = async (containerId) => {
+  const result = await promisifiedExec(`curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`)
+  return result
 }
 
 // this makes the refreshRunning function asynchronous so that when refteshRunningContainers callback is invoked
@@ -109,15 +111,37 @@ const insideRefreshRunning = async () => {
     .trim()
     .slice(0, -1)
     .replaceAll(' ', '')}]`)
-    console.log(dockerOutput)
-  
-    for (let each of dockerOutput) {
-      const containerData = await getContainerDetails(each.ID)
-      const apiData = JSON.parse(containerData)
-      apiDataList.push(apiData)
+
+  for (let each of dockerOutput) {
+    const containerData = await getContainerDetails(each.ID);
+    const apiData = JSON.parse(containerData);
+    // modify stats to match expected formatting
+    // BlockIO:"0B/4.1kB"
+    // CPUPerc:"3.03%"
+    // Container:"2f02752dde44"
+    // ID:"2f02752dde44"
+    // MemPerc:"7.91%"
+    // MemUsage:"31.64MiB/400MiB"
+    // Name:"docketeer-db"
+    // NetIO:"690kB/636kB"
+    // PIDs:"11"
+
+
+    const container = {
+      ID: apiData.id,
+      Name: apiData.name.slice(1),
+      CPUPerc: `${((apiData.cpu_stats.cpu_usage.total_usage - apiData.precpu_stats.cpu_usage.total_usage) / (apiData.cpu_stats.system_cpu_usage - apiData.precpu_stats.system_cpu_usage)) * apiData.cpu_stats.online_cpus * 100.0}%`,
+      MemPerc: `${((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / apiData.memory_stats.limit) * 100.0}%`,
+      MemUsage: `${(apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1000}kB / ${apiData.memory_stats.limit / 1000}kB`,
+      NetIO: `${apiData.networks.eth0.rx_bytes / 1000}kB / ${apiData.networks.eth0.tx_bytes / 1000}kB`,
+      BlockIO: `${apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
+      PIDs: `${apiData.pids_stats.current}`,
     }
 
-    return apiDataList
+    apiDataList.push(container);
+  }
+
+  return apiDataList
 }
 
 //awaiting all the data and updates the store with the new data
@@ -565,9 +589,9 @@ export const writeToDb = () => {
       containerParameters[container.name.slice(1)] = {
         ID: container.id,
         names: container.name.slice(1),
-        cpu: ((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.number_cpus * 100.0,
-        mem: ((container.memory_stats.usage - container.memory_stats.stats.cache) / container.memory_stats.limit),
-        memuse: container.memory_stats.usage - container.memory_stats.stats.cache,
+        cpu: `${((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.cpu_stats.online_cpus * 100.0}%`,
+        mem: `${((container.memory_stats.usage - container.memory_stats.stats.inactive_file) / container.memory_stats.limit) * 100.0}%`,
+        memuse: `${(container.memory_stats.usage - container.memory_stats.stats.inactive_file) / 1000}kB / ${container.memory_stats.limit / 1000}kB`,
         net: `${container.networks.eth0.rx_bytes / 1000}kB / ${container.networks.eth0.tx_bytes / 1000}kB`,
         block: `${container.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${container.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
         pid: container.pids_stats.current,

@@ -102,6 +102,10 @@ const getContainerDetails = async (containerId) => {
   return result
 }
 
+const fn = (num) => {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
 // this makes the refreshRunning function asynchronous so that when refteshRunningContainers callback is invoked
 // we have all the data retrived from the original command and the individual container details fetch
 const insideRefreshRunning = async () => {
@@ -125,16 +129,15 @@ const insideRefreshRunning = async () => {
     // Name:"docketeer-db"
     // NetIO:"690kB/636kB"
     // PIDs:"11"
-
-
+      
     const container = {
-      ID: apiData.id,
+      ID: apiData.id.slice(0,12),
       Name: apiData.name.slice(1),
-      CPUPerc: `${((apiData.cpu_stats.cpu_usage.total_usage - apiData.precpu_stats.cpu_usage.total_usage) / (apiData.cpu_stats.system_cpu_usage - apiData.precpu_stats.system_cpu_usage)) * apiData.cpu_stats.online_cpus * 100.0}%`,
-      MemPerc: `${((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / apiData.memory_stats.limit) * 100.0}%`,
-      MemUsage: `${(apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1000}kB / ${apiData.memory_stats.limit / 1000}kB`,
-      NetIO: `${apiData.networks.eth0.rx_bytes / 1000}kB / ${apiData.networks.eth0.tx_bytes / 1000}kB`,
-      BlockIO: `${apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
+      CPUPerc: `${fn(((apiData.cpu_stats.cpu_usage.total_usage - apiData.precpu_stats.cpu_usage.total_usage) / (apiData.cpu_stats.system_cpu_usage - apiData.precpu_stats.system_cpu_usage)) * apiData.cpu_stats.online_cpus * 100)}%`,
+      MemPerc: `${fn(((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / apiData.memory_stats.limit) * 100)}%`,
+      MemUsage: `${fn((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1048576)}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
+      NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(apiData.networks.eth0.tx_bytes / 1000)}kB`,
+      BlockIO: apiData.blkio_stats.io_service_bytes_recursive ? `${fn(apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000)}kB / ${fn(apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000)}kB` : `0kB / 0kB`,
       PIDs: `${apiData.pids_stats.current}`,
     }
 
@@ -569,43 +572,51 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  */
 
 export const writeToDb = () => {
-  const interval = 300000;
+  const interval = 30000;
   setInterval(() => {
     const state = store.getState();
 
     const runningContainers = state.containersList.runningList;
 
     const stoppedContainers = state.containersList.stoppedList;
-
+    
     if (!runningContainers.length) return;
     const containerParameters = {};
-
+    
     // used_memory = memory_stats.usage - memory_stats.stats.cache
 
-    console.log('🚀 ~ file: commands.tsx:551 ~ setInterval ~ state', state)
-    console.log('🚀 ~ file: commands.tsx:553 ~ setInterval ~ runningContainers', runningContainers)
-
     runningContainers.forEach((container) => {
-      containerParameters[container.name.slice(1)] = {
-        ID: container.id,
-        names: container.name.slice(1),
-        cpu: `${((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.cpu_stats.online_cpus * 100.0}%`,
-        mem: `${((container.memory_stats.usage - container.memory_stats.stats.inactive_file) / container.memory_stats.limit) * 100.0}%`,
-        memuse: `${(container.memory_stats.usage - container.memory_stats.stats.inactive_file) / 1000}kB / ${container.memory_stats.limit / 1000}kB`,
-        net: `${container.networks.eth0.rx_bytes / 1000}kB / ${container.networks.eth0.tx_bytes / 1000}kB`,
-        block: `${container.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${container.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
-        pid: container.pids_stats.current,
+      containerParameters[container.Name] = {
+
+        ID: container.ID,
+        names: container.Name,
+        cpu: container.CPUPerc,
+        mem: container.MemPerc,
+        memuse: container.MemUsage,
+        net: container.NetIO,
+        block: container.BlockIO,
+        pid: container.PIDs,
         timestamp: 'current_timestamp',
+
+        // ID: container.id,
+        // names: container.name.slice(1),
+        // cpu: `${((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.cpu_stats.online_cpus * 100.0}%`,
+        // mem: `${((container.memory_stats.usage - container.memory_stats.stats.inactive_file) / container.memory_stats.limit) * 100.0}%`,
+        // memuse: `${(container.memory_stats.usage - container.memory_stats.stats.inactive_file) / 1000}kB / ${container.memory_stats.limit / 1000}kB`,
+        // net: `${container.networks.eth0.rx_bytes / 1000}kB / ${container.networks.eth0.tx_bytes / 1000}kB`,
+        // block: `${container.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${container.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
+        // pid: `${container.pids_stats.current}`,
+        // timestamp: 'current_timestamp',
       };
     });
     if (stoppedContainers.length >= 1) {
       stoppedContainers.forEach((container) => {
-        containerParameters[container.name.slice(1)] = {
-          ID: container.id,
-          names: container.name.slice(1),
+        containerParameters[container.Names] = {
+          ID: container.ID,
+          names: container.Names,
           cpu: '0.00%',
           mem: '0.00%',
-          memuse: '0.00MiB/0.00GiB',
+          memuse: '0.00MiB/0.00MiB',
           net: '0.00kB/0.00kB',
           block: '0.00kB/0.00kB',
           pid: '0',
@@ -630,6 +641,9 @@ export const writeToDb = () => {
 export const setDbSessionTimeZone = () => {
   const currentTime = new Date();
   const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
+  console.log("🚀 ~ file: commands.tsx:644 ~ setDbSessionTimeZone ~ offsetTimeZoneInHours", offsetTimeZoneInHours)
+  console.log('in setDbSessionTimeZone');
+  
 
   fetch('http://localhost:3000/init/timezone', {
     method: 'POST',

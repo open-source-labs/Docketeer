@@ -11,7 +11,8 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
-import { exec } from 'child_process';
+import * as util from 'util';
+
 
 /**
  * Grabs all active containers on app-start up
@@ -76,13 +77,16 @@ const errorCheck = (key, error) => {
     errorsCalled[key] = error.message;
     alert(`Make sure Docker Desktop is running. \n\n ${error.message}`);
   }
-  else{
+  else {
     console.log(error.message);
   }
   return;
 };
 
 export const refreshRunning = (refreshRunningContainers) => {
+
+  const apiDataList = [];
+
   window.nodeMethod.runExec(
     'docker stats --no-stream --format "{{json .}},"',
     (error: child_process.ExecException | null, stdout: string, stderr: string) => {
@@ -100,10 +104,28 @@ export const refreshRunning = (refreshRunningContainers) => {
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
       const convertedValue = JSON.parse(dockerOutput);
-      // console.log(convertedValue)
-      refreshRunningContainers(convertedValue);
+
+      for (let each of convertedValue) {
+        window.nodeMethod.runExec(
+          `curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${each.ID}/stats\?stream\=false`,
+          (error: child_process.ExecException | null, stdout: string, stderr: string) => {
+            if (error) {
+              errorCheck('refreshRunning', error);
+              return;
+            }
+            // if (stderr) {
+            //   console.log(`refreshRunning stderr: ${stderr}`);
+            //   return;
+            // }
+
+            const apiData = JSON.parse(stdout);
+            apiDataList.push(apiData);
+          }
+        );
+      }
     }
   );
+  refreshRunningContainers(apiDataList);
 };
 
 export const newRefreshRunning = () => {
@@ -267,8 +289,8 @@ export const runIm = (container, runningList, callback_1, callback_2) => {
   const { imgid, reps, tag } = container;
   const containerId = Math.floor(Math.random() * 100)
   const filteredRepo = reps
-  .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
-  .replace(/\s{2,}/g, " ");
+    .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
+    .replace(/\s{2,}/g, " ");
   window.nodeMethod.runExec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
     if (error) {
       alert(`${error.message}`);
@@ -278,7 +300,7 @@ export const runIm = (container, runningList, callback_1, callback_2) => {
       console.log(`runIm stderr: ${stderr}`);
       return;
     }
-});
+  });
   callback_1(runningList, callback_2);
   alert('Running container');
 };
@@ -296,7 +318,7 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
     if (error) {
       alert(
         `${error.message}` +
-          '\nPlease stop running container first then remove.'
+        '\nPlease stop running container first then remove.'
       );
       return;
     }
@@ -546,35 +568,42 @@ export const writeToDb = () => {
   const interval = 300000;
   setInterval(() => {
     const state = store.getState();
+
     const runningContainers = state.containersList.runningList;
+
     const stoppedContainers = state.containersList.stoppedList;
 
     if (!runningContainers.length) return;
     const containerParameters = {};
 
+    // used_memory = memory_stats.usage - memory_stats.stats.cache
+
+    console.log('🚀 ~ file: commands.tsx:551 ~ setInterval ~ state', state)
+    console.log('🚀 ~ file: commands.tsx:553 ~ setInterval ~ runningContainers', runningContainers)
+
     runningContainers.forEach((container) => {
-      containerParameters[container.Name] = {
-        ID: container.ID,
-        names: container.Name,
-        cpu: container.CPUPerc,
-        mem: container.MemPerc,
-        memuse: container.MemUsage,
-        net: container.NetIO,
-        block: container.BlockIO,
-        pid: container.PIDs,
+      containerParameters[container.name.slice(1)] = {
+        ID: container.id,
+        names: container.name.slice(1),
+        cpu: ((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.number_cpus * 100.0,
+        mem: ((container.memory_stats.usage - container.memory_stats.stats.cache) / container.memory_stats.limit),
+        memuse: container.memory_stats.usage - container.memory_stats.stats.cache,
+        net: `${container.networks.eth0.rx_bytes / 1000}kB / ${container.networks.eth0.tx_bytes / 1000}kB`,
+        block: `${container.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${container.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
+        pid: container.pids_stats.current,
         timestamp: 'current_timestamp',
       };
     });
     if (stoppedContainers.length >= 1) {
       stoppedContainers.forEach((container) => {
-        containerParameters[container.Names] = {
-          ID: container.ID,
-          names: container.Names,
+        containerParameters[container.name.slice(1)] = {
+          ID: container.id,
+          names: container.name.slice(1),
           cpu: '0.00%',
           mem: '0.00%',
-          memuse: '00.0MiB/0.00GiB',
+          memuse: '0.00MiB/0.00GiB',
           net: '0.00kB/0.00kB',
-          block: '00.0MB/00.0MB',
+          block: '0.00kB/0.00kB',
           pid: '0',
           timestamp: 'current_timestamp',
         };
@@ -702,7 +731,7 @@ export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
     // build inputCommandString to get logs from command line
     let inputCommandString = 'docker logs --timestamps ';
     if (optionsObj.since) {
-      inputCommandString += `--since ${optionsObj.since} `;      
+      inputCommandString += `--since ${optionsObj.since} `;
     }
     optionsObj.tail
       ? (inputCommandString += `--tail ${optionsObj.tail} `)

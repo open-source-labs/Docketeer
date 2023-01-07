@@ -80,7 +80,6 @@ const convertToMetricsArr = (array: any[]) => {
   netArray = [netArray[0].toFixed(2), netArray[1].toFixed(2)];
   newArr.push(netArray);
   newArr.push(blockArray);
-
   return newArr;
 };
 

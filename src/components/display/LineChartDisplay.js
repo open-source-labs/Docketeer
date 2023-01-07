@@ -102,7 +102,7 @@ const LineChartDisplay = () => {
         label: containerName,
         data: [],
         lineTension: .5,
-        fill: false,
+        fill: true,
         borderColor: generateLineColor(
           containerName,
           Object.keys(activeContainers)
@@ -135,6 +135,7 @@ const LineChartDisplay = () => {
     }
 
     const containerMetrics = await getContainerMetrics();
+    console.log('🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics', containerMetrics);
     
     const auxObj = {};
 
@@ -148,6 +149,8 @@ const LineChartDisplay = () => {
     });
 
     // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
+
+
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
@@ -180,6 +183,7 @@ const LineChartDisplay = () => {
       const timeStamp = `${date} @ ${time}`;
       buildAxis(timeStamp);
     });
+    console.log('🚀 ~ file: LineChartDisplay.js:183 ~ containerMetrics.rows.forEach ~ containerMetrics', containerMetrics);
 
     let longest = 0;
 
@@ -377,7 +381,8 @@ const LineChartDisplay = () => {
     plugins:{
       title: { display: true, text: 'MEMORY', font: {size: 18}, position: 'top' },
       tooltips: {enabled: true, mode: 'index'},
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
+
     },
     responsive: true,
     maintainAspectRatio: false

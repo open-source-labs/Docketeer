@@ -45,15 +45,10 @@ export default function (state = containerState, action: PayloadAction<any>) {
     case types.REFRESH_RUNNING_CONTAINERS:
       const newRunningList2: object[] = [];
 
-      console.log('🚀 ~ file: containerListReducer.ts:48 ~ action.payload', action.payload);
-
       for (const container of action.payload) {
-        console.log('in for loop')
-        console.log('🚀 ~ file: containerListReducer.ts:48 ~ container', container)
         newRunningList2.push(container);
       }
 
-      console.log('🚀 ~ file: containerListReducer.ts:49 ~ newRunningList2', newRunningList2)
       return { ...state, runningList: newRunningList2 };
 
     case types.REMOVE_CONTAINER:

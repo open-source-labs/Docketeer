@@ -49,6 +49,21 @@ const graphReducer = (state = graphState, action: PayloadAction<any>) => {
     newReadIO.push(action.payload[0]);
     return { ...state, graphReadIO: newReadIO };
   }
+  // reveived reducer
+  case types.BUILD_RECEIVED_IO: {
+    if (action.payload === 'clear') return { ...state, graphReceivedIO: [] };
+    const newReceivedIO = state.graphReceivedIO.slice();
+    newReceivedIO.push(action.payload[0]);
+    return { ...state, graphReceivedIO: newReceivedIO };
+  }
+  //transmitted reducer
+  case types.BUILD_TRANSMITTED_IO: {
+    if (action.payload === 'clear') return { ...state, graphTransmittedIO: [] };
+    const newTransmittedIO = state.graphTransmittedIO.slice();
+    newTransmittedIO.push(action.payload[0]);
+    return { ...state, graphTransmittedIO: newTransmittedIO };
+  }
+
 
   default:
     return state;

@@ -32,6 +32,8 @@ import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, Networ
 const SysAdmin = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const refreshHostData = (data: ContainerObj[]) =>
+    dispatch(actions.refreshHostData(data));
   const addRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.addRunningContainers(data));
   const refreshRunningContainers = (data: ContainerObj[]) =>
@@ -116,6 +118,7 @@ const SysAdmin = () => {
   // Initial refresh
   useEffect(() => {
     initDatabase();
+    helper.getHostStats(refreshHostData);
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
@@ -136,7 +139,7 @@ const SysAdmin = () => {
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
   useEffect(() => {
     const interval = setInterval(() => {
-      helper.getHostStats();
+      helper.getHostStats(refreshHostData);
       helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);

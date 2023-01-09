@@ -13,7 +13,7 @@ import * as child_process from 'child_process';
 import * as os from 'os-utils';
 // import * as util from 'util';
 import utilPromisify from 'util.promisify'
-import { LegendToggleOutlined } from '@mui/icons-material';
+import { ConstructionOutlined, LegendToggleOutlined } from '@mui/icons-material';
 /**
  * Grabs all active containers on app-start up
  *
@@ -27,21 +27,34 @@ import { LegendToggleOutlined } from '@mui/icons-material';
 // loop through the cpuData array
 // for each object -> calculate the percentages of user, sys, idle and store in object
 
-
-export const getHostStats = () => {
-  const dataArr = []
-  window.nodeMethod.runCpuUsage((v) => {
-    console.log('data', v * 100, '%');  
-    dataArr.push(v*100)
-  });
-  
-  const memData = (1-window.nodeMethod.runFreeMemPercentage())*100
-  dataArr.push(memData)
-  console.log(`Host Memory Usage: ${memData}%`);
-  console.log('🚀 ~ file: commands.tsx:33 ~ getHostStats ~ dataArr', dataArr, dataArr.length)
-
-
+// formats our numbers to round to 2 decimal places
+const fn = (num) => {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
 }
+
+const promisifyCpuUsage = () => {
+  return new Promise ((resolve, reject) => {
+    window.nodeMethod.runCpuUsage((v) => {
+      resolve(v);
+    })
+  });
+}
+
+export const getHostStats = async (refreshHostData) => {
+  const hostData = {
+    cpuPerc: 0,
+    memPerc: 0,
+  };
+  
+  const cpuPerc = await promisifyCpuUsage();
+  hostData.cpuPerc = fn(cpuPerc * 100);
+  
+  const memPerc = (1 - window.nodeMethod.runFreeMemPercentage()) * 100;
+  hostData.memPerc = fn(memPerc);
+  
+  // dispatch hostData
+  refreshHostData(hostData);
+};
 
 
 export const addRunning = (runningList, callback) => {
@@ -121,10 +134,6 @@ function promisifiedExec(cmd) {
 const getContainerDetails = async (containerId) => {
   const result = await promisifiedExec(`curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`)
   return result
-}
-
-const fn = (num) => {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
 // this makes the refreshRunning function asynchronous so that when refteshRunningContainers callback is invoked

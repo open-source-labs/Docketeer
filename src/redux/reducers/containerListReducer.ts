@@ -5,6 +5,13 @@ import { containerState } from '../../../types';
 
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
+    case types.REFRESH_HOST_DATA:
+      const newHostStats: {[k: string]: number} = {};
+      for (const type in action.payload) {
+        newHostStats[type] = action.payload[type];
+      }
+      return { ...state, hostStats: newHostStats };
+
     case types.ADD_RUNNING_CONTAINERS:
       const newRunningList: object[] = state.runningList.slice();
       for (const container of action.payload) {

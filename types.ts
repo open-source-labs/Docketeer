@@ -295,14 +295,16 @@ export interface RootState {
     runningList: RunningListType[],
     stoppedList: StoppedListType[],
     networkList: any[],
-    composeStack: any[]
+    composeStack: any[],
+    hostStats: {[k: string]: number},
   }
 
   export const containerState: stateType = {
     runningList: [],
     stoppedList: [],
     networkList: [],
-    composeStack: []
+    composeStack: [],
+    hostStats: {}
   };
 
   export const graphState = {
@@ -334,7 +336,21 @@ export interface RootState {
         data: [],
         fill: ''
       }
-    ]
+    ],
+    graphReceivedIO: [ // received IO
+      {
+        label: '',
+        data: [],
+        fill: ''
+      }
+    ],
+    graphTransmittedIO: [ // transmitted IO
+      {
+        label: '',
+        data: [],
+        fill: ''
+      }
+    ],
   };
 
   interface imagesState {

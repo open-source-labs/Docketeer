@@ -2,7 +2,6 @@
 The below comment removes all Typescript errors. Please remove this line of code to see what needs to be configured for Typescript compliance
 */
 // @ts-noCheck
-
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -11,8 +10,10 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
+import * as os from 'os-utils';
 // import * as util from 'util';
 import utilPromisify from 'util.promisify'
+import { LegendToggleOutlined } from '@mui/icons-material';
 /**
  * Grabs all active containers on app-start up
  *
@@ -22,6 +23,26 @@ import utilPromisify from 'util.promisify'
 
 
 // exec docker 
+
+// loop through the cpuData array
+// for each object -> calculate the percentages of user, sys, idle and store in object
+
+
+export const getHostStats = () => {
+  const dataArr = []
+  window.nodeMethod.runCpuUsage((v) => {
+    console.log('data', v * 100, '%');  
+    dataArr.push(v*100)
+  });
+  
+  const memData = (1-window.nodeMethod.runFreeMemPercentage())*100
+  dataArr.push(memData)
+  console.log(`Host Memory Usage: ${memData}%`);
+  console.log('🚀 ~ file: commands.tsx:33 ~ getHostStats ~ dataArr', dataArr, dataArr.length)
+
+
+}
+
 
 export const addRunning = (runningList, callback) => {
   window.nodeMethod.runExec(
@@ -139,6 +160,8 @@ const insideRefreshRunning = async () => {
       NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(apiData.networks.eth0.tx_bytes / 1000)}kB`,
       BlockIO: apiData.blkio_stats.io_service_bytes_recursive ? `${fn(apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000)}kB / ${fn(apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000)}kB` : `0kB / 0kB`,
       PIDs: `${apiData.pids_stats.current}`,
+      // add new data
+         
     }
 
     apiDataList.push(container);
@@ -587,7 +610,6 @@ export const writeToDb = () => {
 
     runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
-
         ID: container.ID,
         names: container.Name,
         cpu: container.CPUPerc,
@@ -597,16 +619,6 @@ export const writeToDb = () => {
         block: container.BlockIO,
         pid: container.PIDs,
         timestamp: 'current_timestamp',
-
-        // ID: container.id,
-        // names: container.name.slice(1),
-        // cpu: `${((container.cpu_stats.cpu_usage.total_usage - container.precpu_stats.cpu_usage.total_usage) / (container.cpu_stats.system_cpu_usage - container.precpu_stats.system_cpu_usage)) * container.cpu_stats.online_cpus * 100.0}%`,
-        // mem: `${((container.memory_stats.usage - container.memory_stats.stats.inactive_file) / container.memory_stats.limit) * 100.0}%`,
-        // memuse: `${(container.memory_stats.usage - container.memory_stats.stats.inactive_file) / 1000}kB / ${container.memory_stats.limit / 1000}kB`,
-        // net: `${container.networks.eth0.rx_bytes / 1000}kB / ${container.networks.eth0.tx_bytes / 1000}kB`,
-        // block: `${container.blkio_stats.io_service_bytes_recursive[0].value / 1000}kB / ${container.blkio_stats.io_service_bytes_recursive[1].value / 1000}kB`,
-        // pid: `${container.pids_stats.current}`,
-        // timestamp: 'current_timestamp',
       };
     });
     if (stoppedContainers.length >= 1) {

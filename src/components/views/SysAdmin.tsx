@@ -136,6 +136,7 @@ const SysAdmin = () => {
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
   useEffect(() => {
     const interval = setInterval(() => {
+      helper.getHostStats();
       helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);

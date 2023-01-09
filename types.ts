@@ -295,14 +295,16 @@ export interface RootState {
     runningList: RunningListType[],
     stoppedList: StoppedListType[],
     networkList: any[],
-    composeStack: any[]
+    composeStack: any[],
+    hostStatList: any[]
   }
 
   export const containerState: stateType = {
     runningList: [],
     stoppedList: [],
     networkList: [],
-    composeStack: []
+    composeStack: [],
+    hostStatList: []
   };
 
   export const graphState = {

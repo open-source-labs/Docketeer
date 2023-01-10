@@ -15,7 +15,8 @@ const Containers = (props: ContainerProps) => {
       <div className='box' key={`stoppedBox-${i}`}>
         <div className='box-label'>
           <h3>{container.Names}</h3>
-          <p>ID: {container.ID}</p>
+          {/* <p>Image: {container.Image}</p>
+          <p>ID: {container.ID}</p> */}
         </div>
 
         <div className='stopped-info'>
@@ -24,10 +25,10 @@ const Containers = (props: ContainerProps) => {
               <strong>Img: </strong>{container.Image}
             </li>
             <li>
-              <strong>Created: </strong>{container.RunningFor}
+              <strong>ID: </strong>{container.ID}
             </li>
             <li>
-              <strong>Name: </strong>{container.Names}
+              <strong>Created: </strong>{container.RunningFor}
             </li>
           </ul>
         </div>
@@ -87,7 +88,8 @@ const Containers = (props: ContainerProps) => {
     return (
       <div className='box box-running' key={`runningBox-${i}`}>
         <div className='box-label'>
-          <h3>Name: {container.Name}</h3>
+          <h3>{container.Name}</h3>
+          <p>Image: {container.Image}</p>
           <p>ID: {container.ID}</p>
         </div>
         <div className='box-info'>

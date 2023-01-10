@@ -312,7 +312,7 @@ ul {
   flex-direction: column;
   background-color: white;
   margin: 20px 0px 20px 0px;
-  height: 300px;
+  height: 350px;
   width: 45%;
   /* height: 500px; */
   /* border-radius: 30px; */
@@ -326,6 +326,41 @@ ul {
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+ transition: width 0.5s ease-in;
+}
+.allCharts.expanded-chart {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color:white;
+  margin: 20px 0px 20px 0px;
+  height: 400px;
+  width: 100%;
+  transition: width 0.7s ease-out;
+}
+/* .expanded-chart {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color:white;
+  margin: 20px 0px 20px 0px;
+  height: 400px;
+  width: 100%;
+} */
+
+.buttonDisplay{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-content: center;
+}
+
+.chart-btn{
+  border: none;
+  margin-bottom: 10px;
+  background: none;
 }
 
 .gitHub-container {
@@ -703,3 +738,4 @@ ul {
   margin-left: 5;
   margin-bottom: 30;
 }
+

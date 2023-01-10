@@ -18,7 +18,7 @@ router.post('/',
   // cookieController.setAdminCookie,
   // bcryptController.hashCookie,
   (req, res) => {
-    console.log(res.locals);
+    console.log('Active User Session -> User:',res.locals.user);
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);
   }

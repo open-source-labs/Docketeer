@@ -140,11 +140,12 @@ const getContainerDetails = async (containerId) => {
 // we have all the data retrived from the original command and the individual container details fetch
 const insideRefreshRunning = async () => {
   const apiDataList = [];
-  const result = await promisifiedExec('docker stats --no-stream --format "{{json .}},"')
+  const result = await promisifiedExec('docker ps --format "{{json .}},"')
   const dockerOutput = JSON.parse(`[${result
     .trim()
     .slice(0, -1)
     .replaceAll(' ', '')}]`)
+  console.log("🚀 ~ file: commands.tsx:148 ~ insideRefreshRunning ~ dockerOutput", dockerOutput)
 
   for (let each of dockerOutput) {
     const containerData = await getContainerDetails(each.ID);
@@ -157,12 +158,13 @@ const insideRefreshRunning = async () => {
     // MemPerc:"7.91%"
     // MemUsage:"31.64MiB/400MiB"
     // Name:"docketeer-db"
+    // Image:"postgres:15"
     // NetIO:"690kB/636kB"
-    // PIDs:"11"
-      
+    // PIDs:"6"
     const container = {
-      ID: apiData.id.slice(0,12),
-      Name: apiData.name.slice(1),
+      ID: each.ID,
+      Name: each.Names,
+      Image: each.Image,
       CPUPerc: `${fn(((apiData.cpu_stats.cpu_usage.total_usage - apiData.precpu_stats.cpu_usage.total_usage) / (apiData.cpu_stats.system_cpu_usage - apiData.precpu_stats.system_cpu_usage)) * apiData.cpu_stats.online_cpus * 100)}%`,
       MemPerc: `${fn(((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / apiData.memory_stats.limit) * 100)}%`,
       MemUsage: `${fn((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1048576)}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
@@ -170,9 +172,7 @@ const insideRefreshRunning = async () => {
       BlockIO: apiData.blkio_stats.io_service_bytes_recursive ? `${fn(apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000)}kB / ${fn(apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000)}kB` : `0kB / 0kB`,
       PIDs: `${apiData.pids_stats.current}`,
       // add new data
-         
     }
-
     apiDataList.push(container);
   }
 
@@ -621,6 +621,7 @@ export const writeToDb = () => {
       containerParameters[container.Name] = {
         ID: container.ID,
         names: container.Name,
+        Image: container.Image,
         cpu: container.CPUPerc,
         mem: container.MemPerc,
         memuse: container.MemUsage,

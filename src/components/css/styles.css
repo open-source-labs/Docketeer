@@ -272,7 +272,8 @@ ul {
 .stopped-button {
   text-align: center;
   background: white;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 7px;
 }
 
 .images-header {
@@ -297,6 +298,13 @@ ul {
   width: 280px;
 }
 
+.metricCharts {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
 .allCharts {
   display: flex;
   justify-content: center;
@@ -304,7 +312,9 @@ ul {
   flex-direction: column;
   background-color: white;
   margin: 20px 0px 20px 0px;
-  height: 500px;
+  height: 300px;
+  width: 45%;
+  /* height: 500px; */
   /* border-radius: 30px; */
   /* width: 94%; */
   /* margin-top: 25px;

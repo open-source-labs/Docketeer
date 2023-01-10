@@ -26,6 +26,7 @@ const LineChartDisplay = () => {
   const axis = useSelector((state) => state.graphs.graphAxis);
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
+  // const containersCount = useSelector((state) => state.graphs.countainersCount); // added
 
   const dispatch = useDispatch();
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
@@ -36,6 +37,7 @@ const LineChartDisplay = () => {
   const buildReceivedIO = (data) => dispatch(actions.buildReceivedIO(data)); // received IO
   const buildTransmittedIO = (data) =>
     dispatch(actions.buildTransmittedIO(data)); // transmitted IO
+  // const buildContainersCount = (data) => dispatch(actions.buildContainersCount(data)); // added
 
   // Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
@@ -79,6 +81,13 @@ const LineChartDisplay = () => {
     labels: axis,
     datasets: transmittedIO,
   };
+  const activeContainersCountObj = {
+    // containers count
+    labels: axis,
+    datasets: activeContainersCountArr,
+  };
+
+  const activeContainersCountArr = []; // add
 
   /**
    * Resets all graph data in global store
@@ -92,12 +101,17 @@ const LineChartDisplay = () => {
     buildReadIO('clear');
     buildReceivedIO('clear'); // received IO
     buildTransmittedIO('clear'); // transmitted IO
+    // buildContainersCount('clear'); // added
 
     // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
     }
     const input = await getContainerMetrics();
+
+    const activeContainersCount = runningList.length; // add
+    activeContainersCountArr.push(activeContainersCount); // add
+    console.log('testing out array counter', activeContainersCountArr);
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -148,6 +162,7 @@ const LineChartDisplay = () => {
     buildReadIO('clear');
     buildReceivedIO('clear'); // received IO
     buildTransmittedIO('clear'); // transmitted IO
+    // buildContainersCount('clear'); // added
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -212,7 +227,7 @@ const LineChartDisplay = () => {
     });
     console.log(
       '🚀 ~ file: LineChartDisplay.js:183 ~ containerMetrics.rows.forEach ~ containerMetrics',
-      containerMetrics,
+      containerMetrics, activeContainersCountObj
     );
 
     let longest = 0;
@@ -234,6 +249,7 @@ const LineChartDisplay = () => {
           auxObj[containerName].readIO.data.unshift('0.00');
           auxObj[containerName].receivedIO.data.unshift('0.00'); // received IO
           auxObj[containerName].transmittedIO.data.unshift('0.00'); // transmitted IO
+          // container count n/a
         }
       }
       buildMemory([auxObj[containerName].memory]);
@@ -242,6 +258,7 @@ const LineChartDisplay = () => {
       buildReadIO([auxObj[containerName].readIO]);
       buildReceivedIO([auxObj[containerName].receivedIO]); // received IO
       buildTransmittedIO([auxObj[containerName].transmittedIO]); // transmitted IO
+      // buildContainersCount([activeContainersCountArr]); // transmitted IO
     });
   };
 
@@ -525,6 +542,22 @@ const LineChartDisplay = () => {
     maintainAspectRatio: false,
   };
 
+  const activeContainersCountOptions = {
+    // containers count
+    plugins: {
+      title: {
+        display: true,
+        text: 'CONTAINER COUNT',
+        font: { size: 18 },
+        position: 'top',
+      },
+      tooltips: { enabled: true, mode: 'index' },
+      legend: { display: true, position: 'bottom' },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   selectList();
   useEffect(() => {
     formatData();
@@ -570,35 +603,43 @@ const LineChartDisplay = () => {
           </div>
         </form>
       </div>
+      <section className='metricCharts'>
+        <div className="allCharts">
+          <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
+        </div>
 
-      <div className="allCharts">
-        <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
-      </div>
+        <div className="allCharts">
+          <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
+        </div>
+        <div className="allCharts">
+          <Bar key="Bar-Written" data={writtenIOObj} options={writtenIOOptions} />
+        </div>
+        <div className="allCharts">
+          <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
+        </div>
 
-      <div className="allCharts">
-        <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
-      </div>
-      <div className="allCharts">
-        <Bar key="Bar-Written" data={writtenIOObj} options={writtenIOOptions} />
-      </div>
-      <div className="allCharts">
-        <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
-      </div>
-
-      <div className="allCharts">
-        {' '}
-        {/* // received IO */}{' '}
-        <Bar key="Bar-Read" data={receivedIOObj} options={receivedIOOptions} />
-      </div>
-      <div className="allCharts">
-        {' '}
-        {/* // transmitted IO */}{' '}
+        <div className="allCharts">
+          {' '}
+          {/* // received IO */}{' '}
+          <Bar key="Bar-Read" data={receivedIOObj} options={receivedIOOptions} />
+        </div>
+        <div className="allCharts">
+          {' '}
+          {/* // transmitted IO */}{' '}
+          <Bar
+            key="Bar-Read"
+            data={transmittedIOObj}
+            options={transmittedIOOptions}
+          />
+        </div>
+      </section>
+      {/* <div className="allCharts">
         <Bar
           key="Bar-Read"
-          data={transmittedIOObj}
-          options={transmittedIOOptions}
+          data={activeContainersCountObj}
+          options={activeContainersCountOptions}
         />
-      </div>
+      </div> */}
 
       {/* <div className="metric-section-title">
         <h3>GitHub History</h3>

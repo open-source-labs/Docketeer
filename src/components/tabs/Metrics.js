@@ -11,10 +11,23 @@ import LineChartDisplay from '../display/LineChartDisplay';
  * @param {*} props
  */
 const Metrics = (props) => {
+  const fullRunningList = props.runningList;
   const result = convertToMetricsArr(props.runningList);
   const cpuData = (100 - result[0]).toFixed(2);
   const memoryData = (100 - result[1]).toFixed(2);
+  const cpuThreshold = props.threshold[0];
+  const memThreshold = props.threshold[1];
 
+  let cpuFails = 0;
+  let memFails = 0;
+
+  for (const each of fullRunningList) {
+    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''));
+    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''));
+    if (cpu >= cpuThreshold) cpuFails++;
+    if(memory >= memThreshold) memFails++;
+  }
+  
   const cpu = {
     labels: [`Available: ${cpuData}%`, `Usage: ${result[0].toFixed(2)}%`],
     datasets: [
@@ -145,6 +158,26 @@ const Metrics = (props) => {
             <h1 className='chart-title'>BLOCK IO:</h1>
             <p className='chart-number'>
               {Math.floor(result[3][0])}B / {Math.floor(result[3][1])}B
+            </p>
+          </div>
+          <div className='chart-container'>
+            <h1 className='chart-title'># of Running Containers:</h1>
+            <p className='chart-number'>
+              {fullRunningList.length}
+            </p>
+          </div>
+          <div className='chart-container'>
+            <h1 className='chart-title'>CPU Fail Counts:</h1>
+            <h4 className='threshold'>Threshold: {cpuThreshold}%</h4>
+            <p className='chart-number'>
+              {cpuFails}
+            </p>
+          </div>
+          <div className='chart-container'>
+            <h1 className='chart-title'>Memory Fail Counts:</h1>
+            <h4 className='threshold'>Threshold: {memThreshold}%</h4>
+            <p className='chart-number'>
+              {memFails}
             </p>
           </div>
         </div>

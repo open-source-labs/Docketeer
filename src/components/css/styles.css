@@ -400,6 +400,17 @@ ul {
   margin-top: 50px;
 }
 
+.threshold {
+  background: #57a3c6c0;
+  font-weight: 300;
+  font-size: 17px;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  /* border-radius: 10px 10px 0 0; */
+  margin: 0;
+}
+
 .chart-title {
   background: #052e41c0;
   font-weight: 700;

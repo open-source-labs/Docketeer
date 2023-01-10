@@ -66,6 +66,7 @@ const SysAdmin = () => {
   const runningList = useSelector((state: StateType) => state.containersList.runningList);
   const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const { mem_threshold, cpu_threshold } = useSelector((state: StateType) => state.session);
   // const networkList = useSelector((state: StateType) => state.networkList.networkList);
   const userInfo = useSelector((state: StateType) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
@@ -285,7 +286,7 @@ const SysAdmin = () => {
           />}
         />
         <Route path='/metrics' element={
-          <Metrics key={1} runningList={runningList}
+          <Metrics key={1} runningList={runningList} threshold={[cpu_threshold, mem_threshold]}
           />}
         />
         <Route path='/users' element={<UserList />} />

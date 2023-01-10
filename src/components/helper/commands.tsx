@@ -10,10 +10,7 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
-import * as os from 'os-utils';
-// import * as util from 'util';
-import utilPromisify from 'util.promisify'
-import { ConstructionOutlined, LegendToggleOutlined } from '@mui/icons-material';
+
 /**
  * Grabs all active containers on app-start up
  *
@@ -604,7 +601,7 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  */
 
 export const writeToDb = () => {
-  const interval = 30000;
+  const interval = 150000;
   setInterval(() => {
     const state = store.getState();
 

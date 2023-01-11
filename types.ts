@@ -147,9 +147,9 @@ export type SettingsProps = {
   export interface ImagesProps {
     imagesList: imageObj[],
     runningList: ContainerObj[],
-    addRunningContainers: (data: ContainerObj[]) => void,
+    refreshRunningContainers: (data: ContainerObj[]) => void,
     refreshImagesList: (data: imageObj[]) => void,
-    runIm: (ele: imageObj, runningList: ContainerObj[], callback_1: (runningList: any, callback: any) => void, callback_2: (data: ContainerObj[]) => void) => void,
+    runIm: (ele: imageObj, refreshRunningContainers: (data: ContainerObj[]) => void) => void,
     removeIm: ( id: string, imagesList: imageObj[], callback_1: (callback: any) => void, callback_2: (data: imageObj[]) => void) => void
   }
 

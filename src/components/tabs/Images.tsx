@@ -86,9 +86,7 @@ const Images = (props: ImagesProps) => {
             onClick={() =>
               props.runIm(
                 ele,
-                props.runningList,
-                helper.addRunning,
-                props.addRunningContainers
+                props.refreshRunningContainers
               )
             }
           >

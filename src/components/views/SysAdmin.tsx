@@ -317,7 +317,7 @@ const SysAdmin = () => {
           <Images
             runIm={helper.runIm}
             removeIm={helper.removeIm}
-            addRunningContainers={addRunningContainers}
+            refreshRunningContainers={refreshRunningContainers}
             refreshImagesList={refreshImagesList}
             imagesList={imagesList}
             runningList={runningList}

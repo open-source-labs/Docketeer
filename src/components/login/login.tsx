@@ -76,7 +76,7 @@ const Login = () => {
       <header>
         <img
           src={Docketeer}
-          width={300}
+          width={290}
         />
       </header>
       <br />

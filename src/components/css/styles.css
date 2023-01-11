@@ -21,7 +21,6 @@ header{
 
 body {
   margin: 0;
-  /* background: #276873; */
   background: #042331;
 }
 
@@ -171,9 +170,6 @@ h4{
   transform: translate(0px, 0px);
   box-shadow: 0px 9px 7px rgba(146, 139, 148, 1);
   padding: 10px;
-}
-.box-button-running:hover {
-  /* border-radius: 0px 0px 10.5px 10.5px; */
 }
 
 .box-label {

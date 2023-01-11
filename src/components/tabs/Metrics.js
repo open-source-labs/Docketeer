@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux'
  */
 const Metrics = (props) => {
   const hostStats = useSelector((state) => state.containersList.hostStats)
-
   const fullRunningList = props.runningList
   // const result = convertToMetricsArr(props.runningList)
   const result = hostStats

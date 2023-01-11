@@ -14,6 +14,7 @@ const dbRouter = require('./routes/dbRouter');
 const initRouter = require('./routes/initRouter');
 const logoutRouter = require('./routes/logoutRouter');
 const settingsRouter = require('./routes/settingsRouter');
+const commandRouter = require('./routes/commandRouter');
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/account', accountRouter);
 app.use('/api', apiRouter);
 app.use('/db', dbRouter);
 app.use('/logout', logoutRouter);
+app.use('/command', commandRouter);
 
 app.use('/', (req, res) => {
   /*

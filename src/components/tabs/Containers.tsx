@@ -22,7 +22,7 @@ const Containers = (props: ContainerProps) => {
         <div className='stopped-info'>
           <ul>
             <li>
-              <strong>Img: </strong>{container.Image}
+              <strong>Image: </strong>{container.Image}
             </li>
             <li>
               <strong>ID: </strong>{container.ID}

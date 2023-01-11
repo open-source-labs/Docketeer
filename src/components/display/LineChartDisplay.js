@@ -17,7 +17,7 @@ const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({})
   const [gitUrls, setGitUrls] = useState([])
   const [timePeriod, setTimePeriod] = useState('')
-  const [expanded, setExpanded] = useState('')
+  const [expanded, setExpanded] = useState({})
   const memory = useSelector((state) => state.graphs.graphMemory)
   const cpu = useSelector((state) => state.graphs.graphCpu)
   const writtenIO = useSelector((state) => state.graphs.graphWrittenIO)
@@ -486,7 +486,7 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES WRITTEN BY IMAGE',
+        text: 'IO BYTES WRITTEN BY CONTAINER',
         font: { size: 18 },
         position: 'top',
       },
@@ -500,7 +500,7 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES READ BY IMAGE',
+        text: 'IO BYTES READ BY CONTAINER',
         font: { size: 18 },
         position: 'top',
       },
@@ -516,7 +516,7 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES RECEIVED BY IMAGE',
+        text: 'IO BYTES RECEIVED BY CONTAINER',
         font: { size: 18 },
         position: 'top',
       },
@@ -532,7 +532,7 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES TRANSMITTED BY IMAGE',
+        text: 'IO BYTES TRANSMITTED BY CONTAINER',
         font: { size: 18 },
         position: 'top',
       },
@@ -568,7 +568,7 @@ const LineChartDisplay = () => {
   return (
     <div>
       <div className="metric-section-title">
-        <h3>Over Time</h3>
+        <h3>Metrics Over Time</h3>
       </div>
       <div className="metrics-options-form">
         <form
@@ -605,65 +605,207 @@ const LineChartDisplay = () => {
         </form>
       </div>
       <section className="metricCharts">
-        {/* first chart starts here */}
+        {/* first chart starts*/}
         <div
           className={
-            expanded === 'Line-Memory-Display'
-              ? 'expanded-chart allCharts'
+            expanded['Line-Memory-Display']
+              ? // expanded === 'Line-Memory-Display'
+                'expanded-chart allCharts'
               : 'allCharts'
           }
         >
           <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
           <div className="buttonDisplay">
-            {expanded === 'Line-Memory-Display' ? (
-              <button className="chart-btn" onClick={() => setExpanded('')}>
+            {expanded['Line-Memory-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: false })
+                }}
+              >
                 <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
                 className="chart-btn"
-                onClick={() => setExpanded('Line-Memory-Display')}
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: true })
+                }
               >
                 <i className="fas fa-expand"></i>
-                {/* Expand */}
               </button>
             )}
           </div>
         </div>
-        {/* first chart ends here */}
-
-        <div className="allCharts">
+        {/* first chart ends */}
+        {/* second chart - start */}
+        <div
+          className={
+            expanded['Line-Cpu-Display']
+              ? 'expanded-chart allCharts'
+              : 'allCharts'
+          }
+        >
           <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
+          <div className="buttonDisplay">
+            {expanded['Line-Cpu-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
         </div>
-        <div className="allCharts">
+        {/* second chart ends */}
+
+        {/* third chart start */}
+        <div
+          className={
+            expanded['written-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+          }
+        >
           <Bar
             key="Bar-Written"
             data={writtenIOObj}
             options={writtenIOOptions}
           />
+          <div className="buttonDisplay">
+            {expanded['written-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['written-IO']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['written-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
         </div>
-        <div className="allCharts">
-          <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
-        </div>
+        {/* third chart end */}
 
-        <div className="allCharts">
-          {' '}
-          {/* // received IO */}{' '}
+        {/* fourth chart start */}
+        <div
+          className={
+            expanded['read-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+          }
+        >
+          <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
+          <div className="buttonDisplay">
+            {expanded['read-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['read-IO']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() => setExpanded({ ...expanded, ['read-IO']: true })}
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
+        </div>
+        {/* fourth chart end */}
+
+        {/* fifth chart start */}
+        <div
+          className={
+            expanded['received-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+          }
+        >
           <Bar
             key="Bar-Read"
             data={receivedIOObj}
             options={receivedIOOptions}
           />
+          <div className="buttonDisplay">
+            {expanded['received-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['received-IO']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['received-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
         </div>
-        <div className="allCharts">
-          {' '}
-          {/* // transmitted IO */}{' '}
+        {/* fifth chart end */}
+
+        {/* sixth chart start */}
+        <div
+          className={
+            expanded['transmitted-IO']
+              ? 'expanded-chart allCharts'
+              : 'allCharts'
+          }
+        >
           <Bar
             key="Bar-Read"
             data={transmittedIOObj}
             options={transmittedIOOptions}
           />
+          <div className="buttonDisplay">
+            {expanded['transmitted-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['transmitted-IO']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['transmitted-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
         </div>
+        {/* sixth chart end */}
       </section>
       {/* <div className="allCharts">
         <Bar

@@ -17,7 +17,6 @@ const Metrics = (props) => {
   const fullRunningList = props.runningList
   // const result = convertToMetricsArr(props.runningList)
   const result = hostStats
-  console.log('COOONSOOOLEEE LOOOOOOGGGGG RESULTTTT', result)
   const cpuData = 100 - result.cpuPerc //.toFixed(2) // 60%
   const memoryData = 100 - result.memPerc //.toFixed(2)
   const cpuThreshold = props.threshold[0]

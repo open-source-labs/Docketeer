@@ -9,6 +9,16 @@
   box-sizing:border-box;
 }
 
+header{
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+/* header img{
+  width: 190px;
+} */
+
 body {
   margin: 0;
   /* background: #276873; */
@@ -65,7 +75,7 @@ h4{
   height: 100%;
   /* flex-wrap: wrap; */
   overflow: scroll;
-  /* border-radius: 30px; */
+  border-radius: 0.3rem;
   background: #e1e4e6;
 }
 

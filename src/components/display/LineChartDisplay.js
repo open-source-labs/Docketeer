@@ -849,34 +849,6 @@ const LineChartDisplay = () => {
           </div>
         </div>
         {/* sixth chart end */}
-        {/* seventh chart start */}
-        <div
-          className={
-            expanded['net-IO'] ? 'expanded-chart allCharts' : 'allCharts'
-          }
-        >
-          <Bar key="Bar-net" data={netIOObj} options={netIOOptions} />
-          <div className="buttonDisplay">
-            {expanded['net-IO'] ? (
-              <button
-                className="chart-btn"
-                onClick={() => {
-                  setExpanded({ ...expanded, ['net-IO']: false })
-                }}
-              >
-                <i className="fas fa-compress"></i>
-              </button>
-            ) : (
-              <button
-                className="chart-btn"
-                onClick={() => setExpanded({ ...expanded, ['net-IO']: true })}
-              >
-                <i className="fas fa-expand"></i>
-              </button>
-            )}
-          </div>
-        </div>
-        {/* seventh chart end */}
       </section>
       {/* <div className="allCharts">
         <Bar

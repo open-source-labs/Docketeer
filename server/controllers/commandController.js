@@ -4,10 +4,21 @@
  */
 
 const { exec } = require('child_process');
-const {cpuUsage, freemem, totalmem, freememPercentage} = require('os-utils');
-
+const { cpuUsage, freemem, totalmem, freememPercentage } = require('os-utils');
+// const {convert}  = require('/Users/eshaanjoshi/Documents/CodeSmith/Docketeer/src/components/helper/parseContainerFormat.ts');
 const commandController =  {};
 
+const convert = (stdout) => {
+  const newArray = stdout.split('\n');
+  const result = [];
+  for (let i = 1; i < newArray.length - 1; i++) {
+    let removedSpace = newArray[i].replace(/\s+/g, ' '); // remove all spaces and replace it to 1 space
+    removedSpace = removedSpace.replace(/\s[/]\s/g, '/'); // remove all the space in between slash
+    const splittedArray = removedSpace.split(' ');
+    result.push(splittedArray);
+  }
+  return result;
+};
 // ==========================================================
 // Function: fn
 // Purpose: formats our numbers to round to 2 decimal places
@@ -29,6 +40,18 @@ const promisifiedExec = (cmd) => {
       resolve(stdout ? stdout : stderr);
     });
   });
+};
+
+const convertArrToObj = (array, objArray) => {
+  const result = [];
+  for (let i = 0; i < array.length; i++) {
+    const containerObj = {};
+    for (let j = 0; j < array[i].length; j++) {
+      containerObj[objArray[j]] = array[i][j];
+    }
+    result.push(containerObj);
+  }
+  return result;
 };
 
 // ==========================================================
@@ -120,5 +143,109 @@ commandController.getHost = async (req, res, next) => {
   return next();
 };
 
+// ==========================================================
+// Middleware: runImage
+// Purpose: executes the docker run command with parameters and such
+// ==========================================================
+commandController.runImage = (req, res, next) => {
+  // list of running containers (docker ps)
+  console.log(req.body);
+  const { imgid, reps, tag } = req.body;
+  const containerId = Math.floor(Math.random() * 100);
+  const filteredRepo = reps
+    .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
+    .replace(/\s{2,}/g, ' ');
+  exec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
+    if (error) {
+      alert(`${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`runIm stderr: ${stderr}`);
+      return;
+    }
+    return next();
+  });
+  // const runningContainers = res.locals.containers;
+  // const stateCopy = req.body;
+  // console.log('🚀 ~ file: commandController.js:131 ~ stateCopy', stateCopy);
+  // for(let i = 0; i < runningContainers.length; i++) {
+  //   if(!stateCopy.includes(runningContainers[i])) stateCopy.push(runningContainers[i]);
+  // }
+  // res.locals.newRunningList = stateCopy;
+  // return next();
+  // logic here to run docker ps to get list of containers, make copy of running list, add the and push the new container in req.body into copy of running list, and send that into res.locals.newRunningList
+
+};
+
+// ==========================================================
+// Middleware: refreshStopped
+// Purpose: executes the docker ps command with status=exited flag to get list of stopped containers
+// ==========================================================
+commandController.refreshStopped = async (req, res, next) => {
+  // run exec(docker ps -f "status=exited" --format "{{json .}},")
+  const result = await promisifiedExec('docker ps -f "status=exited" --format "{{json .}},"');
+  const dockerOutput = result.trim().slice(0, -1);
+  const parsedDockerOutput = JSON.parse(`[${dockerOutput}]`);
+
+  res.locals.stoppedContainers = parsedDockerOutput;
+  return next();
+};
+
+// ==========================================================
+// Middleware: refreshImgaes
+// Purpose: executes the docker image command to get list of pulled images
+// ==========================================================
+commandController.refreshImages = async (req, res, next) => {
+  const result = await promisifiedExec('docker images');
+
+  const value = convert(result);
+
+  const objArray = ['reps', 'tag', 'imgid', 'size'];
+  const resultImages = [];
+
+  for (let i = 0; i < value.length; i++) {
+    const innerArray = [];
+    if (value[i][0] !== '<none>') {
+      innerArray.push(value[i][0]);
+      innerArray.push(value[i][1]);
+      innerArray.push(value[i][2]);
+      innerArray.push(value[i][6]);
+      resultImages.push(innerArray);
+    }
+  }
+
+  const convertedValue = convertArrToObj(
+    resultImages,
+    objArray
+  );
+
+  res.locals.imagesList = convertedValue;
+  return next();
+};
+
+// ==========================================================
+// Middleware: remove
+// Purpose: executes docker rm {containerId} command to remove a stopped container
+// ==========================================================
+commandController.remove = (req, res, next) => {
+  // logic to remove a container
+  console.log('in remove method ');
+  console.log(req.body);
+  exec(`docker rm ${req.body}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`remove stderr: ${stderr}`);
+      return;
+    }
+    // container deleted move to refreshStopped method
+    // res.locals.idRemoved = req.body;
+    return next();
+  });
+
+};
 // export controller here
 module.exports = commandController;

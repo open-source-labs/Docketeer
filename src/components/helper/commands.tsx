@@ -10,6 +10,8 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
+import { PostAdd } from '@mui/icons-material';
+import { removeContainer } from '../../redux/actions/actions';
 
 /**
  * Grabs all active containers on app-start up
@@ -19,85 +21,12 @@ import * as child_process from 'child_process';
  */
 
 
-// exec docker 
-
-// loop through the cpuData array
-// for each object -> calculate the percentages of user, sys, idle and store in object
-
-// formats our numbers to round to 2 decimal places
-const fn = (num) => {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
-}
-
-const promisifyCpuUsage = () => {
-  return new Promise ((resolve, reject) => {
-    window.nodeMethod.runCpuUsage((v) => {
-      resolve(v);
-    })
-  });
-}
-
-// export const getHostStats = async (refreshHostData) => {
-//   const hostData = {
-//     cpuPerc: 0,
-//     memPerc: 0,
-//   };
-  
-//   const cpuPerc = await promisifyCpuUsage();
-//   hostData.cpuPerc = fn(cpuPerc * 100);
-  
-//   const memPerc = (1 - window.nodeMethod.runFreeMemPercentage()) * 100;
-//   hostData.memPerc = fn(memPerc);
-  
-//   // dispatch hostData
-//   refreshHostData(hostData);
-// };
-
 export const getHostStats = (refreshHostData) => {
   fetch('http://localhost:3000/command/getHost')
     .then((res) => res.json())
     .then((data) => {
       refreshHostData(data);
     })
-};
-
-export const addRunning = (runningList, callback) => {
-  window.nodeMethod.runExec(
-    'docker stats --no-stream --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        alert(`${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`addRunning stderr: ${stderr}`);
-        return;
-      }
-      // trim whitespace at end out stdout, slice to remove trailing comma and remove spaces
-
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-
-      const convertedValue = JSON.parse(dockerOutput);
-
-      const newList = [];
-
-      for (let i = 0; i < convertedValue.length; i++) {
-        let isInTheList = false;
-        for (const container of runningList) {
-          if (container.ID === convertedValue[i].ID) {
-            isInTheList = true;
-            break;
-          }
-        }
-        isInTheList ? '' : newList.push(convertedValue[i]);
-      }
-      // console.log('addrunning newlist', newList);
-      newList.length ? callback(newList) : '';
-    }
-  );
 };
 
 /**
@@ -120,26 +49,13 @@ const errorCheck = (key, error) => {
   return;
 };
 
-// We're using the article's info to promisify the window.nodeMethod.runExec and make it reusable in multiple instances
-//this function accepts a shell command (type string) and returns a either a resolved or rejected promise
-function promisifiedExec(cmd) {
-  return new Promise((resolve, reject) => {
-    window.nodeMethod.runExec(cmd, (error, stdout, stderr) => {
-      if (error) {
-        console.warn(error);
-        reject(error)
-      }
-      resolve(stdout ? stdout : stderr);
-    });
-  });
-}
 
 // moved existing "command" functions to backend '/command' 
 export const refreshRunning = (refreshRunningContainers) => {
   fetch('http://localhost:3000/command/refreshRunning')
     .then((data) => data.json())
-    .then((data) => {
-      refreshRunningContainers(data);
+    .then((runningContainers) => {
+      refreshRunningContainers(runningContainers);
     });
 };
 
@@ -150,24 +66,11 @@ export const refreshRunning = (refreshRunningContainers) => {
  * @param {*} callback
  */
 export const refreshStopped = (refreshStoppedContainers) => {
-  window.nodeMethod.runExec(
-    'docker ps -f "status=exited" --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        errorCheck('refreshStopped', error);
-        return;
-      }
-      if (stderr) {
-        console.log(`refreshStopped stderr: ${stderr}`);
-        return;
-      }
-      // trim whitespace at end out stdout and slice to remove trailing comma
-      const dockerOutput = stdout.trim().slice(0, -1);
-      let output = `[${dockerOutput}]`;
-      output = JSON.parse(output);
-      refreshStoppedContainers(output);
-    }
-  );
+  fetch('http://localhost:3000/command/refreshStopped')
+    .then((data) => data.json())
+    .then((stoppedContainers) => {
+      refreshStoppedContainers(stoppedContainers)
+    })
 };
 
 /**
@@ -175,37 +78,12 @@ export const refreshStopped = (refreshStoppedContainers) => {
  *
  * @param {*} callback
  */
-export const refreshImages = (callback) => {
-  window.nodeMethod.runExec('docker images', (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      errorCheck('refreshImages', error);
-      return;
-    }
-    if (stderr) {
-      console.log(`refreshImages stderr: ${stderr}`);
-      return;
-    }
-    const value = parseContainerFormat.convert(stdout);
-    const objArray = ['reps', 'tag', 'imgid', 'size'];
-    const resultImages = [];
-
-    for (let i = 0; i < value.length; i++) {
-      const innerArray = [];
-      if (value[i][0] !== '<none>') {
-        innerArray.push(value[i][0]);
-        innerArray.push(value[i][1]);
-        innerArray.push(value[i][2]);
-        innerArray.push(value[i][6]);
-        resultImages.push(innerArray);
-      }
-    }
-
-    const convertedValue = parseContainerFormat.convertArrToObj(
-      resultImages,
-      objArray
-    );
-    callback(convertedValue);
-  });
+export const refreshImages = (refreshImagesList) => {
+  fetch('http://localhost:3000/command/refreshImages')
+    .then((data) => data.json())
+    .then((imagesList) => {
+      refreshImagesList(imagesList)
+    })
 };
 
 /**
@@ -214,18 +92,15 @@ export const refreshImages = (callback) => {
  * @param {*} id
  * @param {*} callback
  */
-export const remove = (id, callback) => {
-  window.nodeMethod.runExec(`docker rm ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`remove stderr: ${stderr}`);
-      return;
-    }
-    callback(id);
-  });
+export const remove = (containerID, removeContainer) => {
+  console.log('containerID: ', containerID);
+  fetch('http://localhost:3000/command/remove', {method: 'post', headers: {
+    'Content-Type': 'application/json'
+  }, body: JSON.stringify(containerID)})
+    .then((data) => data.json())
+    .then(() => {
+       removeContainer(containerID)
+     })
 };
 
 /**
@@ -281,24 +156,14 @@ export const runStopped = (
  */
 
 // this function is used to run an image from the image tab
-export const runIm = (container, runningList, callback_1, callback_2) => {
-  // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
-  const { imgid, reps, tag } = container;
-  const containerId = Math.floor(Math.random() * 100)
-  const filteredRepo = reps
-    .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
-    .replace(/\s{2,}/g, " ");
-  window.nodeMethod.runExec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`runIm stderr: ${stderr}`);
-      return;
-    }
-  });
-  callback_1(runningList, callback_2);
+export const runIm = (container, refreshRunningContainers) => {
+  fetch('http://localhost:3000/command/runImage', {method: 'post', headers: {
+    'Content-Type': 'application/json'
+  }, body: JSON.stringify(container)})
+    .then((data) => data.json())
+    .then((newRunningList) => {
+      refreshRunningContainers(newRunningList)
+    })
   alert('Running container');
 };
 

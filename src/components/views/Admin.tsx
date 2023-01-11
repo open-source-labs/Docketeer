@@ -260,7 +260,7 @@ const AdminView = () => {
               stop={helper.stop}
               stopRunningContainer={stopRunningContainer}
               runningList={runningList}
-              addRunningContainers={addRunningContainers}
+              refreshRunningContainers={refreshRunningContainers}
               // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}
@@ -287,7 +287,7 @@ const AdminView = () => {
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
+              refreshRunningContainers={refreshRunningContainers}
               refreshImagesList={refreshImagesList}
               imagesList={imagesList}
               runningList={runningList}

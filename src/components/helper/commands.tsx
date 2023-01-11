@@ -127,59 +127,13 @@ function promisifiedExec(cmd) {
   });
 }
 
-// applying async/await to each container's fetch request 
-const getContainerDetails = async (containerId) => {
-  const result = await promisifiedExec(`curl --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`)
-  return result
-}
-
-// this makes the refreshRunning function asynchronous so that when refteshRunningContainers callback is invoked
-// we have all the data retrived from the original command and the individual container details fetch
-const insideRefreshRunning = async () => {
-  const apiDataList = [];
-  const result = await promisifiedExec('docker ps --format "{{json .}},"')
-  const dockerOutput = JSON.parse(`[${result
-    .trim()
-    .slice(0, -1)
-    .replaceAll(' ', '')}]`)
-  console.log("🚀 ~ file: commands.tsx:148 ~ insideRefreshRunning ~ dockerOutput", dockerOutput)
-
-  for (let each of dockerOutput) {
-    const containerData = await getContainerDetails(each.ID);
-    const apiData = JSON.parse(containerData);
-    // modify stats to match expected formatting
-    // BlockIO:"0B/4.1kB"
-    // CPUPerc:"3.03%"
-    // Container:"2f02752dde44"
-    // ID:"2f02752dde44"
-    // MemPerc:"7.91%"
-    // MemUsage:"31.64MiB/400MiB"
-    // Name:"docketeer-db"
-    // Image:"postgres:15"
-    // NetIO:"690kB/636kB"
-    // PIDs:"6"
-    const container = {
-      ID: each.ID,
-      Name: each.Names,
-      Image: each.Image,
-      CPUPerc: `${fn(((apiData.cpu_stats.cpu_usage.total_usage - apiData.precpu_stats.cpu_usage.total_usage) / (apiData.cpu_stats.system_cpu_usage - apiData.precpu_stats.system_cpu_usage)) * apiData.cpu_stats.online_cpus * 100)}%`,
-      MemPerc: `${fn(((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / apiData.memory_stats.limit) * 100)}%`,
-      MemUsage: `${fn((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1048576)}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
-      NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(apiData.networks.eth0.tx_bytes / 1000)}kB`,
-      BlockIO: apiData.blkio_stats.io_service_bytes_recursive ? `${fn(apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000)}kB / ${fn(apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000)}kB` : `0kB / 0kB`,
-      PIDs: `${apiData.pids_stats.current}`,
-      // add new data
-    }
-    apiDataList.push(container);
-  }
-
-  return apiDataList
-}
-
-//awaiting all the data and updates the store with the new data
-export const refreshRunning = async (refreshRunningContainers) => {
-  const apiDataList = await insideRefreshRunning();
-  refreshRunningContainers(apiDataList);
+// moved existing "command" functions to backend '/command' 
+export const refreshRunning = (refreshRunningContainers) => {
+  fetch('http://localhost:3000/command/refreshRunning')
+    .then((data) => data.json())
+    .then((data) => {
+      refreshRunningContainers(data);
+    });
 };
 
 

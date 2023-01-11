@@ -12,9 +12,9 @@ router.get('/',
   (req, res) => {
     return res.status(200).json(res.locals);
   }
-)
+);
 
-//insert container and settings
+// insert container and settings
 router.post('/insert',
   settingsController.addContainer, settingsController.addContainerSettings,
   (req, res) => {
@@ -55,6 +55,6 @@ router.post('/gitLinks',
   (req, res) => {
     return res.status(200).json({});
   }
-)
+);
 
 module.exports = router;

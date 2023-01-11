@@ -37,22 +37,29 @@ const promisifyCpuUsage = () => {
   });
 }
 
-export const getHostStats = async (refreshHostData) => {
-  const hostData = {
-    cpuPerc: 0,
-    memPerc: 0,
-  };
+// export const getHostStats = async (refreshHostData) => {
+//   const hostData = {
+//     cpuPerc: 0,
+//     memPerc: 0,
+//   };
   
-  const cpuPerc = await promisifyCpuUsage();
-  hostData.cpuPerc = fn(cpuPerc * 100);
+//   const cpuPerc = await promisifyCpuUsage();
+//   hostData.cpuPerc = fn(cpuPerc * 100);
   
-  const memPerc = (1 - window.nodeMethod.runFreeMemPercentage()) * 100;
-  hostData.memPerc = fn(memPerc);
+//   const memPerc = (1 - window.nodeMethod.runFreeMemPercentage()) * 100;
+//   hostData.memPerc = fn(memPerc);
   
-  // dispatch hostData
-  refreshHostData(hostData);
-};
+//   // dispatch hostData
+//   refreshHostData(hostData);
+// };
 
+export const getHostStats = (refreshHostData) => {
+  fetch('http://localhost:3000/command/getHost')
+    .then((res) => res.json())
+    .then((data) => {
+      refreshHostData(data);
+    })
+};
 
 export const addRunning = (runningList, callback) => {
   window.nodeMethod.runExec(

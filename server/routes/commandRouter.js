@@ -12,13 +12,18 @@ const router = express.Router();
 
 // Route Handler: 
 router.get('/refreshRunning', 
-  // may need depending on what info is sent over in request body
-  // userController.getOneUser, 
   commandController.getContainers,
   commandController.getApiData,
   (req, res) => {
     return res.status(200).json(res.locals.apiData);
   }
 );
+
+// Route for getting host stats
+router.get('/getHost', 
+  commandController.getHost, 
+  (req, res, next) => {
+    return res.status(200).json(res.locals.hostData);
+  });
 
 module.exports = router;

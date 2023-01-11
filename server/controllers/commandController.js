@@ -4,14 +4,22 @@
  */
 
 const { exec } = require('child_process');
+const {cpuUsage, freemem, totalmem, freememPercentage} = require('os-utils');
 
 const commandController =  {};
 
-// formats our numbers to round to 2 decimal places
+// ==========================================================
+// Function: fn
+// Purpose: formats our numbers to round to 2 decimal places
+// ==========================================================
 const fn = (num) => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
 
+// ==========================================================
+// Function: promisifiedExec
+// Purpose: makes our command line functions to return Promise
+// ==========================================================
 const promisifiedExec = (cmd) => {
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
@@ -23,6 +31,10 @@ const promisifiedExec = (cmd) => {
   });
 };
 
+// ==========================================================
+// Middleware: getContainers
+// Purpose: pulls running container info from docker ps command
+// ==========================================================
 commandController.getContainers = async (req, res, next) => {
   // grab list of containers and info using docker ps
   const result = await promisifiedExec('docker ps --format "{{json .}},"');
@@ -34,6 +46,11 @@ commandController.getContainers = async (req, res, next) => {
   return next();
 };
 
+// ==========================================================
+// Middleware: getApiData
+// Purpose: pulls docker engine api info for EACH container
+// and sends bac
+// ==========================================================
 commandController.getApiData = async (req, res, next) => {
   const apiDataList = [];
   const requests = [];
@@ -74,4 +91,34 @@ commandController.getApiData = async (req, res, next) => {
   return next();
 };
 
+// ==========================================================
+// Middleware: getHost
+// Purpose: pulls host statistics using the os-utils module
+// ==========================================================
+commandController.getHost = async (req, res, next) => {
+  const hostData = {
+    cpuPerc: 0,
+    memPerc: 0,
+  };
+
+  const promisifyCpuUsage = () => {
+    return new Promise ((resolve, reject) => {
+      cpuUsage((data) => {
+        resolve(data);
+      });
+    });
+  };
+
+  const cpuPerc = await promisifyCpuUsage();
+  hostData.cpuPerc = fn(cpuPerc * 100);
+  
+  const memPerc = (1 - freememPercentage()) * 100;
+  hostData.memPerc = fn(memPerc);
+  
+  res.locals.hostData = hostData;
+  // dispatch hostData
+  return next();
+};
+
+// export controller here
 module.exports = commandController;

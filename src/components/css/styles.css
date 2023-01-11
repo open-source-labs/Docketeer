@@ -27,6 +27,11 @@ ul {
   padding: 0;
 }
 
+h4{
+  margin-top: 12px;
+  font-size: large;
+}
+
 .container {
   display: flex;
   background: #042331;
@@ -288,11 +293,12 @@ ul {
 }
 
 .chart-container {
-  width: 300px;
-  /* border: 1px solid #052e41c0; */
-  margin: 40px 0px;
-  /* border-radius: 10px 10px 0 0; */
+  width: 350px;
+  margin-bottom: 30px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
 }
+
 .dougnutChart {
   height: 170px;
   width: 280px;
@@ -311,21 +317,58 @@ ul {
   align-content: center;
   flex-direction: column;
   background-color: white;
-  margin: 20px 0px 20px 0px;
-  height: 300px;
-  width: 45%;
+  margin: 20px 0px;
+  height: 320px;
+  width: calc(50% - 30px);
   /* height: 500px; */
   /* border-radius: 30px; */
   /* width: 94%; */
   /* margin-top: 25px;
   margin-left: 20px;
   margin-right: 20px; */
-  padding: 15px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+  padding: 20px;
+  /* -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; */
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+  border-radius: 0.3rem;
+ transition: width 0.5s ease-in;
+}
+.allCharts.expanded-chart {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color:white;
+  margin: 20px 0px 20px 0px;
+  height: 400px;
+  width: 100%;
+  transition: width 0.7s ease-out;
+}
+/* .expanded-chart {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  background-color:white;
+  margin: 20px 0px 20px 0px;
+  height: 400px;
+  width: 100%;
+} */
+
+.buttonDisplay{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-content: center;
+}
+
+.chart-btn{
+  border: none;
+  margin-bottom: 10px;
+  background: none;
 }
 
 .gitHub-container {
@@ -390,14 +433,12 @@ ul {
 }
 
 .chart-number {
+  padding-top: 5px;
+  padding-bottom: 5px;
   background-color: white;
-  font-size: 24px;
+  font-size: 22px;
   text-align: center;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  border-radius: 0 0 10px 10px;
 }
 
 .section {
@@ -416,20 +457,19 @@ ul {
   font-size: 17px;
   color: white;
   text-align: center;
-  line-height: 30px;
+  line-height: 35px;
   /* border-radius: 10px 10px 0 0; */
   margin: 0;
 }
 
 .chart-title {
   background: #052e41c0;
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 500;
+  font-size: 20px;
   color: white;
   text-align: center;
-  line-height: 50px;
-  /* border-radius: 10px 10px 0 0; */
-  margin: 0;
+  line-height: 45px;
+  border-radius: 10px 10px 0 0;
 }
 
 #drag-file {
@@ -703,3 +743,4 @@ ul {
   margin-left: 5;
   margin-bottom: 30;
 }
+

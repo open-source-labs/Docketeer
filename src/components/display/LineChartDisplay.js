@@ -8,6 +8,15 @@ import * as actions from '../../redux/actions/actions'
 import * as helper from '../helper/commands'
 import { DataGrid } from '@mui/x-data-grid'
 import { FormControlLabel, Checkbox } from '@mui/material'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 
 /**
  * Displays linegraph and github metrics
@@ -86,6 +95,22 @@ const LineChartDisplay = () => {
     // containers count
     labels: axis,
     datasets: activeContainersCountArr,
+  }
+  const netIOObj = {
+    // network IO
+    labels: axis,
+    datasets: [
+      {
+        label: 'transmitted',
+        data: transmittedIO,
+        backgroundColor: 'rgb(255, 99, 132)',
+      },
+      {
+        label: 'received',
+        data: receivedIO,
+        backgroundColor: 'rgb(75, 192, 192)',
+      },
+    ],
   }
 
   const activeContainersCountArr = [] // add
@@ -559,6 +584,24 @@ const LineChartDisplay = () => {
     maintainAspectRatio: false,
   }
 
+  const netIOOptions = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'NETWORK I/O',
+      },
+    },
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  }
+
   selectList()
   useEffect(() => {
     formatData()
@@ -806,6 +849,34 @@ const LineChartDisplay = () => {
           </div>
         </div>
         {/* sixth chart end */}
+        {/* seventh chart start */}
+        <div
+          className={
+            expanded['net-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+          }
+        >
+          <Bar key="Bar-net" data={netIOObj} options={netIOOptions} />
+          <div className="buttonDisplay">
+            {expanded['net-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['net-IO']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() => setExpanded({ ...expanded, ['net-IO']: true })}
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
+        </div>
+        {/* seventh chart end */}
       </section>
       {/* <div className="allCharts">
         <Bar

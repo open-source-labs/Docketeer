@@ -6,11 +6,17 @@
 
 const express = require('express');
 const commandController = require('../controllers/commandController');
+const { route } = require('./signupRouter');
 
 
 const router = express.Router();
 
-// Route Handler: 
+// ==========================================================
+// Route Handling for Commands
+// Purpose: contains routing for various commands located in /helper/commands
+// ==========================================================
+
+// Route for refreshing the running container list
 router.get('/refreshRunning', 
   commandController.getContainers,
   commandController.getApiData,
@@ -19,7 +25,7 @@ router.get('/refreshRunning',
   }
 );
 
-// Route for getting host stats
+// Route for fetching user host stats
 router.get('/getHost', 
   commandController.getHost, 
   (req, res, next) => {
@@ -43,20 +49,56 @@ router.get('/refreshStopped',
   }
 );
 
-// Route to refresh images
+// Route to refresh list of images
 router.get('/refreshImages',
   commandController.refreshImages,
   (req, res, next) => {
     return res.status(200).json(res.locals.imagesList);
   }
 );
-
-// Route to remove container
-router.post('/remove',
-  commandController.remove,
+  
+// Route to remove a stopped container
+router.get('/removeContainer', 
+  commandController.remove, 
   (req, res, next) => {
-    return res.status(201).json(res.locals.idRemoved);
+    return res.status(200).json(res.locals.idRemoved);
   }
 );
 
+// Route to stop a running container
+router.get('/stopContainer', 
+  commandController.stopContainer, 
+  (req, res, next) => {
+    return res.status(200).json(res.locals.containerStopped);
+  }
+);
+
+// Route to run a stopped container
+router.get('/runStopped', 
+  commandController.runStopped,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.containerRan);
+  }
+);
+
+// Route to remove an image
+router.get('/removeImage', 
+  commandController.removeImage,
+  (req, res, next) => {
+    return res.status(200);
+  });
+
+// Route for running the docker prune command
+router.get('/dockerPrune', 
+  commandController.dockerPrune,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.pruneMessage);
+  });
+
+// Route to pull new images
+router.get('/pullImage', 
+  commandController.pullImage,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.imgMessage);
+  });
 module.exports = router;

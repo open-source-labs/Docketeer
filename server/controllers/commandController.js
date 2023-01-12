@@ -229,10 +229,7 @@ commandController.refreshImages = async (req, res, next) => {
 // Purpose: executes docker rm {containerId} command to remove a stopped container
 // ==========================================================
 commandController.remove = (req, res, next) => {
-  // logic to remove a container
-  console.log('in remove method ');
-  console.log(req.body);
-  exec(`docker rm ${req.body}`, (error, stdout, stderr) => {
+  exec(`docker rm ${req.query.id}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`${error.message}`);
       return;
@@ -243,9 +240,100 @@ commandController.remove = (req, res, next) => {
     }
     // container deleted move to refreshStopped method
     // res.locals.idRemoved = req.body;
+    res.locals.idRemoved = {message: `Container with id ${req.query.id} deleted`};
     return next();
   });
-
 };
+
+// ==========================================================
+// Middleware: stopContainer
+// Purpose: executes docker stop {id} command to stop a running container
+// ==========================================================
+commandController.stopContainer = (req, res, next) => {
+  exec(`docker stop ${req.query.id}`, (error, stderr, stdout) => {
+    if(error) {
+      console.log(`${error.message}`);
+      return; 
+    }
+    if(stderr) {
+      console.log(`stop stderr: ${stderr}`);
+      return;
+    }
+
+    res.locals.containerStopped = {message: `Running Container with id ${req.query.id} stopped`};
+    return next();
+  });
+};
+
+// ==========================================================
+// Middleware: runStopped
+// Purpose: executes docker start {id} command to run a stopped container
+// ==========================================================
+commandController.runStopped = (req, res, next) => {
+  console.log('inside docker runstopped', req.query.id);
+  exec(`docker start ${req.query.id}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`runStopped stderr: ${stderr}`);
+      return;
+    }
+
+    res.locals.containerRan = {message: `Running container with id ${req.query.id}`};
+    return next();
+
+  });
+};
+
+// ==========================================================
+// Middleware: removeImage
+// Purpose: executes `docker rmi -f {id} command to remove a pulled image 
+// ==========================================================
+commandController.removeImage = (req, res, next) => {
+  // console.log('in remove image');
+  exec(`docker rmi -f ${req.query.id}`, (error, stderr, stdout) => {
+    if(error) {
+      console.log(`${error.message}` + '\nPlease stop running container first then remove.');
+      return;
+    }
+    if(stderr) {
+      console.log(`removeIm stderr: ${stderr}`);
+      return;
+    }
+    return next();
+  });
+};
+
+// ==========================================================
+// Middleware: dockerPrune
+// Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced) 
+// ==========================================================
+commandController.dockerPrune = (req, res, next) => {
+  res.locals.pruneMessage = {message: 
+    'Remove all unused containers, networks, images (both dangling and unreferenced)'};
+  return next();
+};
+
+// ==========================================================
+// Middleware: pullImage
+// Purpose: executes docker pull {repo} command to pull a new image
+// ==========================================================
+commandController.pullImage = (req, res, next) => {
+  exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`);
+      return; 
+    }
+    if(stderr) {
+      console.log(`pullImage stderr: ${stderr}`);
+    }
+    res.locals.imgMessage = {message:`${req.query.repo} is currently being downloaded` };
+    return next();
+  });
+  return next();
+};
+
 // export controller here
 module.exports = commandController;

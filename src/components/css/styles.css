@@ -147,7 +147,7 @@ border-radius: 0.7rem;
 .box {
   margin-top: 20px;
   margin-left: 20px;
-  width: 250px;
+  min-width: 250px;
   background: white;
   padding-bottom: 10px;
   position: relative;
@@ -156,6 +156,8 @@ border-radius: 0.7rem;
 
 .stopped-containers{
   display: flex;
+  flex-wrap: wrap;
+  min-width: auto;
 }
 
 
@@ -164,7 +166,7 @@ border-radius: 0.7rem;
 }
 
 .toggle-box {
-  background-color: white;
+  /* background-color: white; */
   width: 250px;
   transform: translate(-5px, 5px);
 }
@@ -198,9 +200,10 @@ border-radius: 0.7rem;
 }
 
 .box-info {
-  font-size: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  background: none;
+  font-size: 11px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .box li {

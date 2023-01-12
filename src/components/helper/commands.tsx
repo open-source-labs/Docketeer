@@ -87,19 +87,17 @@ export const refreshImages = (refreshImagesList) => {
 };
 
 /**
- * Removes images
+ * Removes stopped containers
  *
  * @param {*} id
  * @param {*} callback
  */
 export const remove = (containerID, removeContainer) => {
-  console.log('containerID: ', containerID);
-  fetch('http://localhost:3000/command/remove', {method: 'post', headers: {
-    'Content-Type': 'application/json'
-  }, body: JSON.stringify(containerID)})
-    .then((data) => data.json())
-    .then(() => {
-       removeContainer(containerID)
+  fetch(`http://localhost:3000/command/removeContainer?id=${containerID}`)
+    .then((message) => message.json())
+    .then((message) => {
+        console.log({message})
+        removeContainer(containerID)
      })
 };
 
@@ -107,55 +105,65 @@ export const remove = (containerID, removeContainer) => {
  * Stops a container on what user selects
  *
  * @param {*} id
- * @param {*} callback
+ * @param {*} refreshStoppedContainers
  */
-export const stop = (id, callback) => {
-  window.nodeMethod.runExec(`docker stop ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stop stderr: ${stderr}`);
-      return;
-    }
-    callback(id);
-  });
+export const stop = (id, refreshStoppedContainers) => {
+  fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({message})
+      refreshStoppedContainers(id)
+    })
+
+  // THE BELOW CODE RUNS KINDA FAST
+  // window.nodeMethod.runExec(`docker stop ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
+  //   if (error) {
+  //     alert(`${error.message}`);
+  //     return;
+  //   }
+  //   if (stderr) {
+  //     console.log(`stop stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   callback(id);
+  // });
 };
 
 /**
- * Starts the container
+ * Starts a stopped container in containers tab
  *
  * @param {*} id
  * @param {*} callback
  */
-export const runStopped = (
-  id,
-  runStoppedContainerDispatcher,
-) => {
-  window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`runStopped stderr: ${stderr}`);
-      return;
-    }
-    runStoppedContainerDispatcher(id);
-  });
+export const runStopped = (id, runStoppedContainerDispatcher) => {
+  console.log('inside runStopped')
+  fetch(`http://localhost:3000/command/runStopped?id=${id}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({message})
+      runStoppedContainerDispatcher(id)
+    })
+  // window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
+  //   if (error) {
+  //     alert(`${error.message}`);
+  //     return;
+  //   }
+  //   if (stderr) {
+  //     console.log(`runStopped stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   runStoppedContainerDispatcher(id);
+  // });
 };
 
 /**
- * Run image
+ * Runs an image from the pulled images list in image tab
  *
  * @param {*} id
  * @param {*} runningList
  * @param {*} callback_1
  * @param {*} callback_2
  */
-
-// this function is used to run an image from the image tab
 export const runIm = (container, refreshRunningContainers) => {
   fetch('http://localhost:3000/command/runImage', {method: 'post', headers: {
     'Content-Type': 'application/json'
@@ -168,28 +176,38 @@ export const runIm = (container, refreshRunningContainers) => {
 };
 
 /**
- * Remove Image
+ * Removes an image from pulled images list in image tab
  *
  * @param {*} id
  * @param {*} imagesList
- * @param {*} callback_1
- * @param {*} callback_2
+ * @param {*} refreshImages
+ * @param {*} refreshImagesList
  */
-export const removeIm = (id, imagesList, callback_1, callback_2) => {
-  window.nodeMethod.runExec(`docker rmi -f ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(
-        `${error.message}` +
-        '\nPlease stop running container first then remove.'
-      );
-      return;
-    }
-    if (stderr) {
-      console.log(`removeIm stderr: ${stderr}`);
-      return;
-    }
-    callback_1(callback_2);
-  });
+export const removeIm = (id, imagesList, refreshImages, refreshImagesList) => {
+  // fetch request to removeImage route passing param of id
+  // console.log('inside removeIm')
+  // this will exec the docker rmi -f {id} command
+  // after successfully executing, function will then invoke callback1, passing in the dispatch function, refreshImagesList
+  // refreshImages callback is actually the refreshImages command defined above
+  
+  fetch(`http://localhost:3000/command/removeImage?id=${id}`)
+    .then(() => {
+      refreshImages(refreshImagesList)
+  })
+  // window.nodeMethod.runExec(`docker rmi -f ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
+  //   if (error) {
+  //     alert(
+  //       `${error.message}` +
+  //       '\nPlease stop running container first then remove.'
+  //     );
+  //     return;
+  //   }
+  //   if (stderr) {
+  //     console.log(`removeIm stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   callback_1(refreshImagesList);
+  // });
 };
 
 /**
@@ -199,6 +217,11 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
  */
 
 export const handlePruneClick = (e) => {
+  // fetch(`http://localhost:3000/command/dockerPrune`)
+  //   .then((message) => message.json())
+  //   .then((message) => {
+  //     console.log({message})
+  //   })
   e.preventDefault();
   window.nodeMethod.runExec(
     'docker system prune --force',
@@ -222,6 +245,11 @@ export const handlePruneClick = (e) => {
  */
 
 export const pullImage = (repo) => {
+  // fetch(`http://localhost:3000/command/pullImage?repo=${repo}`)
+  //   .then((message) => message.json())
+  //   .then((message) => {
+  //     console.log({message})
+  //   })
   window.nodeMethod.runExec(`docker pull ${repo}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
     if (error) {
       alert(

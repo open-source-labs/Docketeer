@@ -295,7 +295,7 @@ const SysAdmin = () => {
             key={1}
             runIm={helper.runIm}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             runningList={runningList}
             // addRunningContainers={addRunningContainers}
             // Stopped Containers
@@ -327,7 +327,7 @@ const SysAdmin = () => {
           <Containers
             runIm={helper.runIm}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             runningList={runningList}
             // addRunningContainers={addRunningContainers}
             // Stopped Containers
@@ -342,7 +342,7 @@ const SysAdmin = () => {
           <Settings
             runningList={runningList}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             stoppedList={stoppedList}
             runStopped={helper.runStopped}
             refreshRunningContainers={refreshRunningContainers}

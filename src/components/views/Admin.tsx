@@ -258,7 +258,7 @@ const AdminView = () => {
             <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
               refreshRunningContainers={refreshRunningContainers}
               // Stopped Containers
@@ -300,7 +300,7 @@ const AdminView = () => {
             <Containers
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
               // addRunningContainers={addRunningContainers}
               // Stopped Containers
@@ -318,7 +318,7 @@ const AdminView = () => {
             <Settings
               runningList={runningList}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               stoppedList={stoppedList}
               runStopped={helper.runStopped}
               refreshRunningContainers={refreshRunningContainers}

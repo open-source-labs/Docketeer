@@ -129,7 +129,7 @@ const Containers = (props: ContainerProps) => {
         {/* <div className='box-button box-button-running'> */}
         <div className='stop-btn'>
           <button
-            onClick={() => props.stop(container.ID, props.stopRunningContainer)}
+            onClick={() => props.stop(container.ID, props.refreshStoppedContainers)}
           >
             STOP
           </button>

@@ -11,9 +11,6 @@
   grid-template-rows: auto;
   margin-bottom: 50px;
   justify-items: center;
-
-  /* margin: 20px; */
-  /* padding: 15px; */
 }
 
 .avaliable-box {
@@ -48,11 +45,6 @@
   flex-direction: column;
   border-radius: 0.3rem;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
-  /* -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; */
 }
 
 .lineChart {
@@ -80,11 +72,6 @@
   padding: 20px 10px 15px 15px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
   border-radius: 0.3rem;
-  /* -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; */
 }
 
 .metrics-options-form input {

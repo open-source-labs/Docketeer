@@ -659,7 +659,7 @@ const LineChartDisplay = () => {
         </form>
       </div>
       <section className="metricCharts">
-        {/* second chart - start */}
+        {/* first chart - start*/}
         <div
           className={
             expanded['Line-Cpu-Display']
@@ -690,13 +690,12 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* second chart ends */}
-        {/* first chart starts*/}
+        {/* first chart - end*/}
+        {/* second chart - start */}
         <div
           className={
             expanded['Line-Memory-Display']
-              ? // expanded === 'Line-Memory-Display'
-                'expanded-chart allCharts'
+              ? 'expanded-chart allCharts'
               : 'allCharts'
           }
         >
@@ -723,8 +722,8 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* first chart ends */}
-        {/* third chart start */}
+        {/* second chart - end */}
+        {/* third chart - start */}
         <div
           className={
             expanded['written-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -757,9 +756,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* third chart end */}
+        {/* third chart - end */}
 
-        {/* fourth chart start */}
+        {/* fourth chart - start */}
         <div
           className={
             expanded['read-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -786,9 +785,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* fourth chart end */}
+        {/* fourth chart - end */}
 
-        {/* fifth chart start */}
+        {/* fifth chart - start */}
         <div
           className={
             expanded['received-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -821,9 +820,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* fifth chart end */}
+        {/* fifth chart - end */}
 
-        {/* sixth chart start */}
+        {/* sixth chart - start */}
         <div
           className={
             expanded['transmitted-IO']
@@ -858,7 +857,7 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* sixth chart end */}
+        {/* sixth chart - end */}
       </section>
       {/* <div className="allCharts">
         <Bar

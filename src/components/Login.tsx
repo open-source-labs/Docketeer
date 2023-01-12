@@ -76,16 +76,16 @@
    return (
      <div>
        <header>
-         <img src={Docketeer} width={160} />
+         <img src={Docketeer} width={300} />
        </header>
        <br />
        <br />
        <br />
-       <div className='renderContainers'>
+       <div className='renderContainers login-container'>
          <div className='header'>
            <h1 className='tabTitle'>Login</h1>
          </div>
-         <div className='settings-container'>
+         <div className='settings-container inner-box'>
            <form className='loginForm' onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}>
              <TextField 
                id='username' 
@@ -107,6 +107,7 @@
                color='primary'
                type='submit'
                size='medium'
+               className='login-buttons'
                onClick={() => handleLogin}
                sx={{
                  marginTop: 1,
@@ -119,6 +120,7 @@
              <Button
              variant= 'contained'
              size='small'
+             className='register login-buttons'
              onClick={()=> navigate('/userSignup')}
              sx={{
               color:'#1976d2',
@@ -126,7 +128,7 @@
               marginTop:1
              }}
              >
-              Register New Sysadmin
+              Register
              </Button>
              <br/>
            </form>

@@ -64,6 +64,9 @@ h4{
   color: #042331;
 }
 
+
+
+
 .renderContainers {
   /* display: flex; */
   color: #042331;
@@ -76,6 +79,22 @@ h4{
   overflow: scroll;
   border-radius: 0.3rem;
   background: #e1e4e6;
+}
+
+.renderContainers.login-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 40%;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 0.7rem;
+  padding-top: 30px;
+  padding-bottom: 120px;
+}
+
+.settings-container.inner-box{
+border-radius: 0.7rem;
 }
 
 .header {
@@ -123,6 +142,15 @@ h4{
   flex-direction: column;
   height: 80%;
   align-items: center;
+}
+
+.login-buttons{
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.register.login-buttons:hover{
+ background-color: #e3f6f5;
 }
 
 .viewsAndButton div {

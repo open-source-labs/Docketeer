@@ -260,7 +260,7 @@ commandController.stopContainer = (req, res, next) => {
       return;
     }
 
-    res.locals.containerStopped = {message: `Running Container with id ${req.query.id} stopped`};
+    res.locals.containerStopped = {message: `Stopped Container with id ${req.query.id} stopped`};
     return next();
   });
 };

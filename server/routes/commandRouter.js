@@ -67,7 +67,8 @@ router.get('/removeContainer',
 
 // Route to stop a running container
 router.get('/stopContainer', 
-  commandController.stopContainer, 
+  commandController.stopContainer,
+  commandController.refreshStopped, 
   (req, res, next) => {
     return res.status(200).json(res.locals.containerStopped);
   }

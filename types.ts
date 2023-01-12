@@ -30,9 +30,9 @@ export type ContainerProps = {
     runStopped: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     runStoppedContainer: (id: string) => void;
     removeContainer: (id: string) => void;
-    stopRunningContainer: (id: string) => void;
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
     remove: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
-    stop: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
+    stop: (id: string, refreshStoppedContainers: (data: StoppedContainerObj[]) => void) => void;
     runningList: RunningListType[];
     runIm: (id: ContainerType, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
   }
@@ -99,7 +99,7 @@ export type SettingsProps = {
   runningList: any[];
   stop?: (id: any, callback: any) => void;
   stoppedList: any[];
-  stopRunningContainer: (id: string) => { type: string; payload: string; };
+  refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   runStopped: (id: any, runStoppedContainerDispatcher: any) => void;
   refreshRunningContainers: (data: any[]) => void;
   runStoppedContainer: (id: string) => void;

@@ -105,14 +105,14 @@ export const remove = (containerID, removeContainer) => {
  * Stops a container on what user selects
  *
  * @param {*} id
- * @param {*} callback
+ * @param {*} refreshStoppedContainers
  */
-export const stop = (id, callback) => {
+export const stop = (id, refreshStoppedContainers) => {
   fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
     .then((message) => message.json())
     .then((message) => {
       console.log({message})
-      callback(id)
+      refreshStoppedContainers(id)
     })
 
   // THE BELOW CODE RUNS KINDA FAST
@@ -180,7 +180,7 @@ export const runIm = (container, refreshRunningContainers) => {
  *
  * @param {*} id
  * @param {*} imagesList
- * @param {*} callback_1
+ * @param {*} refreshImages
  * @param {*} refreshImagesList
  */
 export const removeIm = (id, imagesList, refreshImages, refreshImagesList) => {

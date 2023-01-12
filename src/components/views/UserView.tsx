@@ -247,7 +247,7 @@ const UserView = () => {
             <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
               addRunningContainers={addRunningContainers}
               // Stopped Containers
@@ -293,7 +293,7 @@ const UserView = () => {
             <ContainersUser
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
               // Stopped Containers
               runStopped={helper.runStopped}
@@ -310,7 +310,7 @@ const UserView = () => {
             <Settings
               runningList={runningList}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               stoppedList={stoppedList}
               runStopped={helper.runStopped}
               refreshRunningContainers={refreshRunningContainers}

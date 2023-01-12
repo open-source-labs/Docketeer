@@ -50,7 +50,7 @@ root
   └─ src
 ```
 
-4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. 
+4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. Create your own database to house user information and insert your URI in this file.
 ```js
 // .env
 TWILIO_NUMBER = ''
@@ -98,13 +98,7 @@ You are all set! Now just enter the following command to start up Docketeer!
 npm run dev
 ```
 
-To log in as sysadmin, use the following credentials
-```
-username: sysadmin
-password: belugas
-```
-
-To change the system admin password, create a new user with your preferred credentials, then change the role and role_id manually in the database. 
+For now, the sign up function will create a System Admin user.
 
 
 ## Twilio setup
@@ -174,6 +168,10 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
+- Nathan Cho [@nathanycho](https://github.com/nathanycho) | [LinkedIn](https://www.linkedin.com/in/nathanycho/)
+- Garima Bhatia [@GarimaB06](https://github.com/GarimaB06) | [LinkedIn](https://www.linkedin.com/)
+- Eshaan Joshi [@eshaan32](https://github.com/eshaan32) | [LinkedIn](https://www.linkedin.com/in/eshaanjoshi/)
+- Jonathan Wong [@WongJonathann](https://github.com/WongJonathann) | [LinkedIn](https://www.linkedin.com/in/jon-wong-00/)
 - Sarah Moosa [@Sbethm](https://github.com/Sbethm) | [LinkedIn](https://www.linkedin.com/in/sarah-moosa-4b05721b6/)
 - Cedar Cooper [@CedarCooper](https://github.com/CedarCooper) | [LinkedIn](https://www.linkedin.com/in/cedar-cooper/)
 - Tiffany Chau [@tiffanynchau](https://github.com/tiffanynchau/) | [LinkedIn](https://www.linkedin.com/in/tiffanynchau/)

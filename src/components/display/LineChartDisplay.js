@@ -139,15 +139,25 @@ const LineChartDisplay = () => {
     activeContainersCountArr.push(activeContainersCount) // add
     console.log('testing out array counter', activeContainersCountArr)
 
+    // const colorOptions = [
+    //   'red',
+    //   'blue',
+    //   'green',
+    //   'purple',
+    //   'yellow',
+    //   'grey',
+    //   'orange',
+    // ]
+
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
-        'red',
-        'blue',
-        'green',
-        'purple',
-        'yellow',
-        'grey',
-        'orange',
+        '#e74645',
+        '#2a6fdb',
+        '#1ac0c6',
+        '#e645be',
+        '#facd60',
+        '#679186',
+        '#ff9400',
       ]
       const idx = activeContainers.indexOf(containerName)
       return colorOptions[idx]
@@ -168,7 +178,7 @@ const LineChartDisplay = () => {
       return obj
     }
     // Datastructure for Bargraph
-    const buildBarGraphObj = (containerName) => {
+    const buildBarGraphObj = (containerName, stackID = 'Stack 0') => {
       const obj = {
         label: containerName,
         data: [],
@@ -177,6 +187,7 @@ const LineChartDisplay = () => {
           containerName,
           Object.keys(activeContainers),
         ),
+        stack: stackID,
       }
       return obj
     }
@@ -206,10 +217,10 @@ const LineChartDisplay = () => {
       auxObj[container] = {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
-        writtenIO: buildBarGraphObj(container),
+        writtenIO: buildBarGraphObj(container, 'Stack 1'),
         readIO: buildBarGraphObj(container),
         receivedIO: buildBarGraphObj(container), // added
-        transmittedIO: buildBarGraphObj(container), // added
+        transmittedIO: buildBarGraphObj(container, 'Stack 1'), // added
       }
     })
 
@@ -648,6 +659,38 @@ const LineChartDisplay = () => {
         </form>
       </div>
       <section className="metricCharts">
+        {/* second chart - start */}
+        <div
+          className={
+            expanded['Line-Cpu-Display']
+              ? 'expanded-chart allCharts'
+              : 'allCharts'
+          }
+        >
+          <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
+          <div className="buttonDisplay">
+            {expanded['Line-Cpu-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
+        </div>
+        {/* second chart ends */}
         {/* first chart starts*/}
         <div
           className={
@@ -681,39 +724,6 @@ const LineChartDisplay = () => {
           </div>
         </div>
         {/* first chart ends */}
-        {/* second chart - start */}
-        <div
-          className={
-            expanded['Line-Cpu-Display']
-              ? 'expanded-chart allCharts'
-              : 'allCharts'
-          }
-        >
-          <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
-          <div className="buttonDisplay">
-            {expanded['Line-Cpu-Display'] ? (
-              <button
-                className="chart-btn"
-                onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false })
-                }}
-              >
-                <i className="fas fa-compress"></i>
-              </button>
-            ) : (
-              <button
-                className="chart-btn"
-                onClick={() =>
-                  setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
-                }
-              >
-                <i className="fas fa-expand"></i>
-              </button>
-            )}
-          </div>
-        </div>
-        {/* second chart ends */}
-
         {/* third chart start */}
         <div
           className={

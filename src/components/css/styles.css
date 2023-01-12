@@ -9,6 +9,8 @@
   box-sizing:border-box;
 }
 
+
+
 header{
   display: flex;
   justify-content: center;
@@ -158,43 +160,31 @@ border-radius: 0.7rem;
 }
 
 .box {
-  border: 1px solid #bab2b5;
-  /* border-radius: 11.5px; */
   margin-top: 20px;
   margin-left: 20px;
   width: 250px;
   background: white;
   padding-bottom: 10px;
   position: relative;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
-.box:hover {
-  -webkit-box-shadow: 0px 5px 8px 2px rgba(148, 139, 148, 1);
-  -moz-box-shadow: 0px 5px 8px 2px rgba(148, 139, 148, 1);
-  box-shadow: 0px 5px 8px 2px rgba(148, 139, 148, 1);
+.stopped-containers{
+  display: flex;
 }
+
 
 .box-running {
-  max-height: 240px;
-  margin-bottom: 100px;
-  padding-bottom: 0;
+  border-radius: 0.7rem;
 }
 
 .toggle-box {
   background-color: white;
   width: 250px;
   transform: translate(-5px, 5px);
-  box-shadow: 0px 9px 7px rgba(146, 139, 148, 1);
-}
-.toggle-box:hover {
-  box-shadow: 0px 17px 14px 1px rgba(148, 139, 148, 1);
 }
 
 .box-button-running {
-  /* border-radius: 0px 0px 10.5px 10.5px; */
   transform: translate(0px, 0px);
   box-shadow: 0px 9px 7px rgba(146, 139, 148, 1);
   padding: 10px;
@@ -203,12 +193,11 @@ border-radius: 0.7rem;
 .box-label {
   color: white;
   display: flex;
-  /* font-size: 16px; */
-  font-weight: bold;
+  font-weight: bolder;
   flex-direction: column;
   background: #052e41c0;
   padding: 10px;
-  /* border-radius: 10px 10px 0 0; */
+  border-radius: 10px 10px 0 0;
   justify-content: flex-start;
 }
 
@@ -275,11 +264,11 @@ border-radius: 0.7rem;
   padding-left: 25px;
 }
 
-.box-button {
+/* .box-button {
   position: relative;
   text-align: center;
   background: white;
-}
+} */
 
 .stopped-header {
   color: white;
@@ -613,10 +602,8 @@ border-radius: 0.7rem;
 }
 
 .btn {
-  /* background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%); */
+  border-radius: 0.2rem;
   background-color: #599bb3;
-  /* border-radius: 11px; */
-  /* border: 2px solid #29668f; */
   border: 2px solid #599bb3;
   display: inline-block;
   cursor: pointer;
@@ -635,21 +622,52 @@ border-radius: 0.7rem;
   top: 1px;
 }
 
-.stop-btn {
-  margin-right: 10px;
+.stop-btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.stop-btn button{
+  margin-top: 20px;
+  margin-bottom: 20px;
   box-shadow: 0px 10px 14px -7px grey;
   background-color: white;
-  /* border-radius: 4px; */
+  border-radius: 0.2rem;
   border: 1px solid red;
   display: inline-block;
   cursor: pointer;
   color: red;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   text-decoration: none;
   outline: none;
 }
-.stop-btn:hover {
+
+.remove-btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.remove-btn{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 10px 14px -7px grey;
+  background-color: white;
+  border-radius: 0.2rem;
+  border: 1px solid red;
+  display: inline-block;
+  cursor: pointer;
+  color: red;
+  font-size: 12px;
+  padding: 5px 10px;
+  text-decoration: none;
+  outline: none;
+}
+.remove-btn button:hover {
+  background-color: rgba(255, 0, 0, 0.75);
+  color: white;
+}
+.stop-btn button:hover {
   background-color: rgba(255, 0, 0, 0.75);
   color: white;
 }
@@ -658,13 +676,13 @@ border-radius: 0.7rem;
   margin-right: 10px;
   background-color: white;
   box-shadow: 0px 10px 14px -7px grey;
-  /* border-radius: 6px; */
+  border-radius: 0.2rem;
   border: 1px solid green;
   display: inline-block;
   cursor: pointer;
   color: green;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   text-decoration: none;
   outline: none;
 }

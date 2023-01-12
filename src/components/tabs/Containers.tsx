@@ -76,7 +76,8 @@ const Containers = (props: ContainerProps) => {
         {
           stack,
           label: Math.random().toString(),
-          data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
+          // data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
+          data: ['100', '100'],
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
@@ -117,7 +118,8 @@ const Containers = (props: ContainerProps) => {
                   plugins: { legend: { display: false } },
                   scales: {
                     y: {
-                      stacked: true
+                      // stacked: true
+                      stacked: false
                     },
                   }
                 }}

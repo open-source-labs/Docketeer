@@ -43,7 +43,7 @@ const Containers = (props: ContainerProps) => {
             RUN
           </button>
           <button
-            className='stop-btn'
+            className='remove-btn'
             onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
@@ -126,14 +126,15 @@ const Containers = (props: ContainerProps) => {
           </div>
           <ToggleDisplay container={container} />
         </div>
-        <div className='box-button box-button-running'>
+        {/* <div className='box-button box-button-running'> */}
+        <div className='stop-btn'>
           <button
-            className='stop-btn'
             onClick={() => props.stop(container.ID, props.stopRunningContainer)}
           >
             STOP
           </button>
         </div>
+        {/* </div> */}
       </div>
     );
   });

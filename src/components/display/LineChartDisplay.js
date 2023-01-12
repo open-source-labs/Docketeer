@@ -139,15 +139,25 @@ const LineChartDisplay = () => {
     activeContainersCountArr.push(activeContainersCount) // add
     console.log('testing out array counter', activeContainersCountArr)
 
+    // const colorOptions = [
+    //   'red',
+    //   'blue',
+    //   'green',
+    //   'purple',
+    //   'yellow',
+    //   'grey',
+    //   'orange',
+    // ]
+
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
-        'red',
-        'blue',
-        'green',
-        'purple',
-        'yellow',
-        'grey',
-        'orange',
+        '#e74645',
+        '#2a6fdb',
+        '#1ac0c6',
+        '#e645be',
+        '#facd60',
+        '#679186',
+        '#ff9400',
       ]
       const idx = activeContainers.indexOf(containerName)
       return colorOptions[idx]
@@ -168,7 +178,7 @@ const LineChartDisplay = () => {
       return obj
     }
     // Datastructure for Bargraph
-    const buildBarGraphObj = (containerName) => {
+    const buildBarGraphObj = (containerName, stackID = 'Stack 0') => {
       const obj = {
         label: containerName,
         data: [],
@@ -177,6 +187,7 @@ const LineChartDisplay = () => {
           containerName,
           Object.keys(activeContainers),
         ),
+        stack: stackID,
       }
       return obj
     }
@@ -206,10 +217,10 @@ const LineChartDisplay = () => {
       auxObj[container] = {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
-        writtenIO: buildBarGraphObj(container),
+        writtenIO: buildBarGraphObj(container, 'Stack 1'),
         readIO: buildBarGraphObj(container),
         receivedIO: buildBarGraphObj(container), // added
-        transmittedIO: buildBarGraphObj(container), // added
+        transmittedIO: buildBarGraphObj(container, 'Stack 1'), // added
       }
     })
 
@@ -648,40 +659,7 @@ const LineChartDisplay = () => {
         </form>
       </div>
       <section className="metricCharts">
-        {/* first chart starts*/}
-        <div
-          className={
-            expanded['Line-Memory-Display']
-              ? // expanded === 'Line-Memory-Display'
-                'expanded-chart allCharts'
-              : 'allCharts'
-          }
-        >
-          <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
-          <div className="buttonDisplay">
-            {expanded['Line-Memory-Display'] ? (
-              <button
-                className="chart-btn"
-                onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Memory-Display']: false })
-                }}
-              >
-                <i className="fas fa-compress"></i>
-              </button>
-            ) : (
-              <button
-                className="chart-btn"
-                onClick={() =>
-                  setExpanded({ ...expanded, ['Line-Memory-Display']: true })
-                }
-              >
-                <i className="fas fa-expand"></i>
-              </button>
-            )}
-          </div>
-        </div>
-        {/* first chart ends */}
-        {/* second chart - start */}
+        {/* first chart - start*/}
         <div
           className={
             expanded['Line-Cpu-Display']
@@ -712,9 +690,40 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* second chart ends */}
-
-        {/* third chart start */}
+        {/* first chart - end*/}
+        {/* second chart - start */}
+        <div
+          className={
+            expanded['Line-Memory-Display']
+              ? 'expanded-chart allCharts'
+              : 'allCharts'
+          }
+        >
+          <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
+          <div className="buttonDisplay">
+            {expanded['Line-Memory-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: false })
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
+          </div>
+        </div>
+        {/* second chart - end */}
+        {/* third chart - start */}
         <div
           className={
             expanded['written-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -747,9 +756,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* third chart end */}
+        {/* third chart - end */}
 
-        {/* fourth chart start */}
+        {/* fourth chart - start */}
         <div
           className={
             expanded['read-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -776,9 +785,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* fourth chart end */}
+        {/* fourth chart - end */}
 
-        {/* fifth chart start */}
+        {/* fifth chart - start */}
         <div
           className={
             expanded['received-IO'] ? 'expanded-chart allCharts' : 'allCharts'
@@ -811,9 +820,9 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* fifth chart end */}
+        {/* fifth chart - end */}
 
-        {/* sixth chart start */}
+        {/* sixth chart - start */}
         <div
           className={
             expanded['transmitted-IO']
@@ -848,7 +857,7 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* sixth chart end */}
+        {/* sixth chart - end */}
       </section>
       {/* <div className="allCharts">
         <Bar

@@ -93,7 +93,7 @@ const Images = (props: ImagesProps) => {
             RUN
           </button>
           <button
-            className="stop-btn"
+            className="remove-btn"
             onClick={() =>
               props.removeIm(
                 ele['imgid'],

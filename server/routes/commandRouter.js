@@ -4,6 +4,7 @@
  */
 
 
+const { RunningWithErrors } = require('@mui/icons-material');
 const express = require('express');
 const commandController = require('../controllers/commandController');
 const { route } = require('./signupRouter');
@@ -30,7 +31,8 @@ router.get('/getHost',
   commandController.getHost, 
   (req, res, next) => {
     return res.status(200).json(res.locals.hostData);
-  });
+  }
+);
 
 // Route for adding a new running container to runningList state
 router.post('/runImage',
@@ -39,7 +41,8 @@ router.post('/runImage',
   commandController.getApiData,
   (req, res, next) => {
     return res.status(201).json(res.locals.apiData);
-  });
+  }
+);
 
 // Route for refreshing stopped containers
 router.get('/refreshStopped',
@@ -87,19 +90,89 @@ router.get('/removeImage',
   commandController.removeImage,
   (req, res, next) => {
     return res.status(200);
-  });
+  }
+);
 
 // Route for running the docker prune command
 router.get('/dockerPrune', 
   commandController.dockerPrune,
   (req, res, next) => {
     return res.status(200).json(res.locals.pruneMessage);
-  });
+  }
+);
 
 // Route to pull new images
 router.get('/pullImage', 
   commandController.pullImage,
   (req, res, next) => {
     return res.status(200).json(res.locals.imgMessage);
-  });
+  }
+);
+
+// Route to get network container list
+router.get('/networkContainers',
+  commandController.networkContainers,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.networkContainers);
+  }
+);
+
+// Route to inspect docker container
+router.get('/inspect',
+  commandController.inspectDockerContainer,
+  (req, res, next) => {
+    return res.status().json(res.locals.inspectOut);
+  }
+);
+
+// Route to compose a docker file
+router.post('/composeUp',
+  commandController.composeUp,
+  commandController.composeStacks,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.output);
+  }
+);
+
+// Route to compose DOWN a docker file
+router.post('/composeDown',
+  commandController.composeDown,
+  commandController.composeStacks,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.output);
+  }
+);
+
+// Route to get list of container networks
+router.get('/composeStacks', 
+  commandController.composeStacks,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.output);
+  }
+);
+
+// Route to get all Docker Volumes
+router.get('/allDockerVolumes',
+  commandController.getAllDockerVolumes,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.dockerVolumes);
+  }
+);
+
+// Route to get all containers running in specified volume
+router.get('/volumeContainers', 
+  commandController.getVolumeContainers,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.volumeContainers);
+  }
+);
+
+// Route to get all container logs
+router.post('/allLogs', 
+  commandController.getLogs,
+  (req, res, next) => {
+    return res.status(200).json(res.locals.logs);
+  }
+);
+
 module.exports = router;

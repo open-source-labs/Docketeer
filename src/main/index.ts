@@ -55,6 +55,10 @@ electron.app.on('window-all-closed', function () {
   }
 })
 
+// ==========================================================
+// Function: Register a preload script so we know whenever a new renderer is created.
+// Purpose: when the new renderer is created, use the devtool-instaler installExtension function to locally REDUX_DEVTOOLS
+// ==========================================================
 electron.app.whenReady().then(() => {
   installExtension(REDUX_DEVTOOLS)
     .then((name: any) => console.log(`Added Extension:  ${name}`))

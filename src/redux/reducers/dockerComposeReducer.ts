@@ -56,10 +56,10 @@ export default function (state = containerState, action: PayloadAction<any>) {
 
   case types.COMPOSE_DOWN:
     const prevState = state.composeStack.slice();
-    const fileLocation = action.payload;
+    const filePath = action.payload;
 
     const removedStack = prevState.filter(
-      (container) => container.FilePath !== fileLocation
+      (container) => container.FilePath !== filePath
     );
 
     return { ...state, composeStack: removedStack };

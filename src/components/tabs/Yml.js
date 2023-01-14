@@ -102,17 +102,10 @@ const Yml = () => {
               <button
                 className='btn'
                 onClick={() => {
-                  helper
-                    .dockerComposeDown(container.FilePath, container.YmlFileName)
-                    .then((res) => {
-                      if (res) {
-                        helper.dockerComposeStacks(getContainerStacks, container.FilePath, container.YmlFileName);
-                        setYmlFile('');
-                        setFilePath('');
-                        setYmlFileName('');
-                      }
-                    })
-                    .catch((err) => console.log(err));
+                  helper.dockerComposeDown(getContainerStacks, container.FilePath, container.YmlFileName);
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
                 }}
               >
                 Docker Compose Down
@@ -160,17 +153,10 @@ const Yml = () => {
             size='medium'
             variant='contained'
             onClick={() => {
-              helper
-                .dockerComposeUp(filePath, ymlFileName) 
-                .then((res) => {
-                  if (res) { 
-                    helper.dockerComposeStacks(getContainerStacks, filePath, ymlFileName);
-                    setYmlFile('');
-                    setFilePath('');
-                    setYmlFileName('');
-                  }
-                })
-                .catch((err) => console.log(err));
+              helper.dockerComposeUp(getContainerStacks, filePath, ymlFileName);
+              setYmlFile('');
+              setFilePath('');
+              setYmlFileName('');
             }}
           >
             Docker Compose Up

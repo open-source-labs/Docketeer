@@ -48,18 +48,14 @@ const ProcessLogsTable = () => {
   }, [logs.stderr.length, csvData.length]);
 
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (idList: string[]) => {
+  const handleGetLogs = async (idList: string[]) => {
     const optionsObj = buildOptionsObj(idList);
 
     // Using a promise as the process to pull the container logs takes a fair bit of time
-    const containerLogsPromise = Promise.resolve(
-      getLogs(optionsObj, getContainerLogsDispatcher)
-    );
-    containerLogsPromise.then((data) => {
-      const newLogs = data;
-      setLogs(newLogs as keyof typeof setLogs);
-      return newLogs;
-    });
+    const containerLogs = await getLogs(optionsObj, getContainerLogsDispatcher);
+    console.log('containerLogs', containerLogs)
+    setLogs(containerLogs as keyof typeof setLogs);
+    return containerLogs;
   };
 
   const columns = [

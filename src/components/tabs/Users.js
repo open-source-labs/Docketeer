@@ -83,43 +83,47 @@ const UserTable = () => {
   };
 
   return (
-    <div style={{ background: '#E1E4E6', height: 600 }}>
-      <Box
-        sx={{
-          ml: 5,
-          width: '90%',
-          height: 425,
-          background: 'white'
-        }}
-      >
-        <Typography
-          variant='h6'
-          sx={{ textAlign: 'center', mt: 10, mb: 1 }}
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Users</h1>
+      </div>
+      <div className='users-container'>
+        <Box
+          sx={{
+            height: 425,
+            background: 'white',
+            p: 2
+          }}
         >
-          Manage Users
-        </Typography>
-        <Typography
-          sx={{ textAlign: 'center', mt: 0, mb: 1, color: 'gray', fontStyle: 'italic', fontWeight: 'lighter' }}
-        >
-          * Double click on the role to access the drop down menu
-        </Typography>
-        <DataGrid
-          sx={{}}
-          columns={columns}
-          rows={userList}
-          experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
-          getRowId={(row) => row._id}
-          rowsPerPageOptions={[5, 10, 20]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          getRowSpacing={(params) => ({
-            // Sets spacing between rows
-            top: params.isFirstVisible ? 0 : 5, // Sets spacing for top row to zero and 5 for everything else
-            bottom: params.isLastVisible ? 0 : 5
-          })}
-        />
-      </Box>
-      <NewUserDisplay />
+          <Typography
+            variant='h6'
+            sx={{ mt: 0, mb: 0, fontFamily: 'Lexend' }}
+          >
+            Manage Users
+          </Typography>
+          <Typography
+            sx={{ mt: 0, mb: 1, color: 'gray', fontFamily: 'Lexend', fontStyle: 'italic', fontWeight: 'lighter' }}
+          >
+            * Double click on the role to access the drop down menu
+          </Typography>
+          <DataGrid
+            sx={{}}
+            columns={columns}
+            rows={userList}
+            experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
+            getRowId={(row) => row._id}
+            rowsPerPageOptions={[5, 10, 20]}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            getRowSpacing={(params) => ({
+              // Sets spacing between rows
+              top: params.isFirstVisible ? 0 : 5, // Sets spacing for top row to zero and 5 for everything else
+              bottom: params.isLastVisible ? 0 : 5
+            })}
+          />
+        </Box>
+        <NewUserDisplay />
+      </div>
     </div>
   );
 };

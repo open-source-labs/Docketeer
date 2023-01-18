@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 const { net } = require('electron');
 const { constants } = require('fs/promises');
 const { cpuUsage, freemem, totalmem, freememPercentage } = require('os-utils');
-const commandController =  {};
+const commandController = {};
 
 
 // ==========================================================
@@ -162,12 +162,12 @@ commandController.getApiData = async (req, res, next) => {
     const result = await promisifiedExec(`curl -v --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`);
     return result;
   };
-  
+
   for (const each of dockerOutput) {
     // const containerData = getContainerDetails(each.ID);
     requests.push(getContainerDetails(each.ID));
   }
-  
+
   const promisedApi = await Promise.all(requests);
 
   for (const each of promisedApi) {
@@ -202,7 +202,7 @@ commandController.getHost = async (req, res, next) => {
   };
 
   const promisifyCpuUsage = () => {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       cpuUsage((data) => {
         resolve(data);
       });
@@ -211,10 +211,10 @@ commandController.getHost = async (req, res, next) => {
 
   const cpuPerc = await promisifyCpuUsage();
   hostData.cpuPerc = fn(cpuPerc * 100);
-  
+
   const memPerc = (1 - freememPercentage()) * 100;
   hostData.memPerc = fn(memPerc);
-  
+
   res.locals.hostData = hostData;
   // dispatch hostData
   return next();
@@ -226,7 +226,6 @@ commandController.getHost = async (req, res, next) => {
 // ==========================================================
 commandController.runImage = (req, res, next) => {
   // list of running containers (docker ps)
-  console.log(req.body);
   const { imgid, reps, tag } = req.body;
   const containerId = Math.floor(Math.random() * 100);
   const filteredRepo = reps
@@ -243,16 +242,6 @@ commandController.runImage = (req, res, next) => {
     }
     return next();
   });
-  // const runningContainers = res.locals.containers;
-  // const stateCopy = req.body;
-  // console.log('🚀 ~ file: commandController.js:131 ~ stateCopy', stateCopy);
-  // for(let i = 0; i < runningContainers.length; i++) {
-  //   if(!stateCopy.includes(runningContainers[i])) stateCopy.push(runningContainers[i]);
-  // }
-  // res.locals.newRunningList = stateCopy;
-  // return next();
-  // logic here to run docker ps to get list of containers, make copy of running list, add the and push the new container in req.body into copy of running list, and send that into res.locals.newRunningList
-
 };
 
 // ==========================================================
@@ -317,7 +306,7 @@ commandController.remove = (req, res, next) => {
     }
     // container deleted move to refreshStopped method
     // res.locals.idRemoved = req.body;
-    res.locals.idRemoved = {message: `Container with id ${req.query.id} deleted`};
+    res.locals.idRemoved = { message: `Container with id ${req.query.id} deleted` };
     return next();
   });
 };
@@ -328,16 +317,16 @@ commandController.remove = (req, res, next) => {
 // ==========================================================
 commandController.stopContainer = (req, res, next) => {
   exec(`docker stop ${req.query.id}`, (error, stderr, stdout) => {
-    if(error) {
+    if (error) {
       console.log(`${error.message}`);
-      return next(error); 
+      return next(error);
     }
-    if(stderr) {
+    if (stderr) {
       console.log(`stop stderr: ${stderr}`);
       return;
     }
 
-    res.locals.containerStopped = {message: `Stopped Container with id ${req.query.id} stopped`};
+    res.locals.containerStopped = { message: `Stopped Container with id ${req.query.id} stopped` };
     return next();
   });
 };
@@ -347,7 +336,6 @@ commandController.stopContainer = (req, res, next) => {
 // Purpose: executes docker start {id} command to run a stopped container
 // ==========================================================
 commandController.runStopped = (req, res, next) => {
-  console.log('inside docker runstopped', req.query.id);
   exec(`docker start ${req.query.id}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`${error.message}`);
@@ -358,7 +346,7 @@ commandController.runStopped = (req, res, next) => {
       return;
     }
 
-    res.locals.containerRan = {message: `Running container with id ${req.query.id}`};
+    res.locals.containerRan = { message: `Running container with id ${req.query.id}` };
     return next();
 
   });
@@ -369,13 +357,12 @@ commandController.runStopped = (req, res, next) => {
 // Purpose: executes `docker rmi -f {id} command to remove a pulled image 
 // ==========================================================
 commandController.removeImage = (req, res, next) => {
-  // console.log('in remove image');
   exec(`docker rmi -f ${req.query.id}`, (error, stderr, stdout) => {
-    if(error) {
+    if (error) {
       console.log(`${error.message}` + '\nPlease stop running container first then remove.');
       return next(error);
     }
-    if(stderr) {
+    if (stderr) {
       console.log(`removeIm stderr: ${stderr}`);
       return;
     }
@@ -399,8 +386,10 @@ commandController.dockerPrune = (req, res, next) => {
         console.log(`handlePruneClick stderr: ${stderr}`);
         return;
       }
-      res.locals.pruneMessage = {message: 
-        'Remove all unused containers, networks, images (both dangling and unreferenced)'};
+      res.locals.pruneMessage = {
+        message:
+          'Remove all unused containers, networks, images (both dangling and unreferenced)'
+      };
       return next();
     }
   );
@@ -414,12 +403,12 @@ commandController.pullImage = (req, res, next) => {
   exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`);
-      return next(error); 
+      return next(error);
     }
-    if(stderr) {
+    if (stderr) {
       console.log(`pullImage stderr: ${stderr}`);
     }
-    res.locals.imgMessage = {message:`${req.query.repo} is currently being downloaded`};
+    res.locals.imgMessage = { message: `${req.query.repo} is currently being downloaded` };
     return next();
   });
 };
@@ -520,15 +509,15 @@ commandController.composeStacks = (req, res, next) => {
         .trim()
         .slice(0, -1)
         .replaceAll(' ', '')}]`;
-        
+
       const parseDockerOutput = JSON.parse(dockerOutput);
-      
+
       // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
       if (req.body.filePath && req.body.ymlFileName) {
         const directoryNameArray = req.body.filePath.split('/');
         const containerNetworkName =
           directoryNameArray[directoryNameArray.length - 1].concat('_default');
-        
+
         parseDockerOutput.forEach((obj) => {
           if (containerNetworkName === obj.Name) {
             obj.FilePath = req.body.filePath;
@@ -536,7 +525,6 @@ commandController.composeStacks = (req, res, next) => {
           }
         });
       }
-      console.log('parseDockerOutput: ', parseDockerOutput);
       res.locals.output = parseDockerOutput;
       return next();
     }
@@ -552,7 +540,6 @@ commandController.composeStacks = (req, res, next) => {
 // erased from the state
 // ==========================================================
 commandController.composeDown = async (req, res, next) => {
-  console.log(req.body);
   const nativeYmlFilenames = new Set([
     'docker-compose.yml',
     'docker-compose.yaml',
@@ -600,7 +587,6 @@ commandController.getAllDockerVolumes = (req, res, next) => {
 // Purpose: runs docker ps filtering by volume name to get list of containers running in the specified volume
 // ==========================================================
 commandController.getVolumeContainers = (req, res, next) => {
-  console.log(req.query);
   exec(`docker ps -a --filter volume=${req.query.volumeName} --format "{{json .}},"`, (error, stdout, stderr) => {
     if (error) {
       console.log(`getVolumeContainers error: ${error.message}`);
@@ -622,7 +608,7 @@ commandController.getVolumeContainers = (req, res, next) => {
 // ==========================================================
 commandController.getLogs = (req, res, next) => {
 
-  const containerLogs = {stdout: [], stderr: []};
+  const containerLogs = { stdout: [], stderr: [] };
   const optionsObj = req.body;
   // iterate through containerIds array in optionsObj
   for (let i = 0; i < optionsObj.containerIds.length; i++) {
@@ -636,7 +622,6 @@ commandController.getLogs = (req, res, next) => {
       : (inputCommandString += '--tail 50 ');
     inputCommandString += `${optionsObj.containerIds[i]}`;
 
-    console.log('🚀 ~ file: commandController.js:639 ~ inputCommandString', inputCommandString);
     exec(inputCommandString, (error, stdout, stderr) => {
       if (error) {
         alert('Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.');
@@ -650,12 +635,11 @@ commandController.getLogs = (req, res, next) => {
         ...containerLogs.stderr,
         ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
       ];
-      console.log(containerLogs);
       res.locals.logs = containerLogs;
       return next();
     });
   }
-  
+
 };
 // export controller here
 module.exports = commandController;

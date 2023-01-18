@@ -186,7 +186,7 @@ const SysAdmin = () => {
       {/* Navbar */}
       <nav className='tab'>
         <header id='title'>
-          <img src={Docketeer} width={160} />
+          <img src={Docketeer} width={220} />
         </header>
         <div className='viewsAndButton'>
           <ul>

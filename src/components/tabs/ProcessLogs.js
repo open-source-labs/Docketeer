@@ -38,6 +38,8 @@ const ProcessLogs = (props) => {
 
       <div className='containers'>{renderRunningList}</div>
 
+      <br></br>
+
       <h3>Stopped Containers: {props.stoppedList.length}</h3>
 
       <div className='containers'>{renderStoppedList}</div>

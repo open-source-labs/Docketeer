@@ -29,7 +29,7 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
-  
+
   useEffect(() => {
     // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
@@ -67,14 +67,14 @@ const Yml = () => {
         // get yml file name from the filepath for composing up a new container network 
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
-        
+
         const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
       }
     };
   }, []);
-  
+
   // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
@@ -124,43 +124,31 @@ const Yml = () => {
       </div>
       <div className='settings-container'>
         <div id='drag-file'>
-          Upload your Docker Compose file here to compose
+          <div className='btn-compose-up'>
+            Upload your Docker Compose file here to compose
+            <div>
+              <button className="etc-btn" id="upload-btn">
+                <input hidden id='uploadFile' type='file' accept='.yml'></input>
+                UPLOAD FILE
+              </button>
+              <button className="etc-btn"
+                onClick={() => {
+                  helper.dockerComposeUp(getContainerStacks, filePath, ymlFileName);
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
+                }}
+              >
+                DOCKER COMPOSE UP
+              </button>
+            </div>
+          </div>
           {ymlFile && (
             <pre style={{ margin: '1rem 0rem' }}>
               <code>{ymlFile}</code>
             </pre>
           )}
           <br />
-        </div>
-        <div className='btn-compose-up'>
-          <Button
-            sx={{
-              ml: 1,
-              width: 150
-            }}
-            style={{marginTop: 10}}
-            component='label'
-            size='medium'
-            variant='contained'>
-            <input hidden id='uploadFile' type='file' accept='.yml'></input>
-            Upload File
-          </Button>
-          <Button
-            sx={{
-              ml: 1,
-              width: 200
-            }}
-            size='medium'
-            variant='contained'
-            onClick={() => {
-              helper.dockerComposeUp(getContainerStacks, filePath, ymlFileName);
-              setYmlFile('');
-              setFilePath('');
-              setYmlFileName('');
-            }}
-          >
-            Docker Compose Up
-          </Button>
         </div>
       </div>
       <div className='settings-container'>

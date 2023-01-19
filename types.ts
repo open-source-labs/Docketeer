@@ -492,6 +492,73 @@ export type SqlQuery = {
 // ==========================================================
 // Controller Types
 // ==========================================================
+export interface ApiController {
+  sendEmailAlert: (req: Request, res: Response, next: NextFunction) => void,
+  signupEmail: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface BcryptController {
+ hashPassword: (req: Request, res: Response, next: NextFunction) => void,
+ hashNewPassword: (req: Request, res: Response, next: NextFunction) => void,
+ hashCookie: (req: Request, res: Response, next: NextFunction) => void
+}
+
+export interface CommandController{
+  getContainers: (req: Request, res: Response, next: NextFunction) => void,
+  getApiData: (req: Request, res: Response, next: NextFunction) => void,
+  getHost: (req: Request, res: Response, next: NextFunction) => void,
+  runImage: (req: Request, res: Response, next: NextFunction) => void,
+  refreshStopped: (req: Request, res: Response, next: NextFunction) => void,
+  refreshImages: (req: Request, res: Response, next: NextFunction) => void,
+  remove: (req: Request, res: Response, next: NextFunction) => void,
+  stopContainer: (req: Request, res: Response, next: NextFunction) => void,
+  runStopped: (req: Request, res: Response, next: NextFunction) => void,
+  removeImage: (req: Request, res: Response, next: NextFunction) => void,
+  dockerPrune: (req: Request, res: Response, next: NextFunction) => void,
+  pullImage: (req: Request, res: Response, next: NextFunction) => void,
+  networkContainers: (req: Request, res: Response, next: NextFunction) => void,
+  inspectDockerContainer: (req: Request, res: Response, next: NextFunction) => void,
+  composeUp: (req: Request, res: Response, next: NextFunction) => void,
+  composeStacks: (req: Request, res: Response, next: NextFunction) => void,
+  composeDown: (req: Request, res: Response, next: NextFunction) => void,
+  getAllDockerVolumes: (req: Request, res: Response, next: NextFunction) => void,
+  getVolumeContainers: (req: Request, res: Response, next: NextFunction) => void,getLogs: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface DbController{
+  createRoles: (req: Request, res: Response, next: NextFunction) => void,
+  insertRoles: (req: Request, res: Response, next: NextFunction) => void,
+  createTable: (req: Request, res: Response, next: NextFunction) => void,
+  insertAdmin: (req: Request, res: Response, next: NextFunction) => void,
+  createAdminPassword: (req: Request, res: Response, next: NextFunction) => void,
+  removeToken: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface InitController{
+  initDatabase: (req: Request, res: Response, next: NextFunction) => void,
+  timeZone: (req: Request, res: Response, next: NextFunction) => void,
+  gitUrl: (req: Request, res: Response, next: NextFunction) => void,
+  addMetrics: (req: Request, res: Response, next: NextFunction) => void,
+  getMetrics:(req: Request, res: Response, next: NextFunction) => void,
+  
+}
+
+export interface SettingsController {
+  addContainer: (req: Request, res: Response, next: NextFunction) => void,
+  addContainerSettings: (req: Request, res: Response, next: NextFunction) => void,
+  deleteContainerSettings: (req: Request, res: Response, next: NextFunction) => void,
+  notificationSettings: (req: Request, res: Response, next: NextFunction) => void,
+  addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void,
+  notificationFrequency: (req: Request, res: Response, next: NextFunction) => void,
+  monitoringFrequency: (req: Request, res: Response, next: NextFunction) => void,
+  addGitLinks: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface SignupController {
+  usernameCheck: (req: Request, res: Response, next: NextFunction) => void,
+  passwordCheck: (req: Request, res: Response, next: NextFunction) => void,
+}
+
 export interface UserController {
   createUser: (req: Request, res: Response, next: NextFunction) => void,
   getAllUsers: (req: Request, res: Response, next: NextFunction) => void,
@@ -503,3 +570,4 @@ export interface UserController {
   updatePhone: (req: Request, res: Response, next: NextFunction) => void,
   updateEmail: (req: Request, res: Response, next: NextFunction) => void,
 }
+

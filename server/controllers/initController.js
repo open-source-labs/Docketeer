@@ -74,10 +74,8 @@ initController.addMetrics = (req, res, next) => {
 };
 
 initController.getMetrics = async (req, res, next) => {
-  console.log(req.body);
-  const timePeriod = req.body.time;
   let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-  const queryStringEnd = `AND created_at >= now() - interval '${timePeriod} hour' ORDER BY "created_at" ASC`;
+  const queryStringEnd = 'AND created_at >= now() - interval \'4 hour\' ORDER BY "created_at" ASC';
   const containerList = req.body.containers;
   let count = 1;
   // if only one checkbox is clicked, this will run

@@ -23,12 +23,11 @@ const LineChartDisplay = () => {
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
   const readIO = useSelector((state) => state.graphs.graphReadIO);
-  const receivedIO = useSelector((state) => state.graphs.graphReceivedIO); // received IO
-  const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO); // transmitted IO
+  const receivedIO = useSelector((state) => state.graphs.graphReceivedIO);
+  const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO);
   const axis = useSelector((state) => state.graphs.graphAxis);
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
-  // const containersCount = useSelector((state) => state.graphs.countainersCount); // added
 
   const dispatch = useDispatch();
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
@@ -36,16 +35,12 @@ const LineChartDisplay = () => {
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
   const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
   const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
-  const buildReceivedIO = (data) => dispatch(actions.buildReceivedIO(data)); // received IO
-  const buildTransmittedIO = (data) =>
-    dispatch(actions.buildTransmittedIO(data)); // transmitted IO
-  // const buildContainersCount = (data) => dispatch(actions.buildContainersCount(data)); // added
+  const buildReceivedIO = (data) => dispatch(actions.buildReceivedIO(data)); 
+  const buildTransmittedIO = (data) => dispatch(actions.buildTransmittedIO(data)); 
 
   // Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
-    console.log(timePeriod);
     const containerNamesArr = Object.keys(activeContainers);
-    // console.log('this is here', containerNamesArr);
     const response = await fetch('http://localhost:3000/init/getMetrics', {
       method: 'POST',
       headers: {
@@ -53,7 +48,7 @@ const LineChartDisplay = () => {
       },
       body: JSON.stringify({
         containers: containerNamesArr,
-        time: timePeriod,
+        time: timePeriod
       }),
     });
     return await response.json();
@@ -81,18 +76,18 @@ const LineChartDisplay = () => {
     datasets: receivedIO,
   };
   const transmittedIOObj = {
-    // transmitted IO
+    
     labels: axis,
     datasets: transmittedIO,
   };
+  // Not yet implemented but expecting to use for 
+  // countainer count metrics over many hosts
   const activeContainersCountObj = {
-    // containers count
     labels: axis,
     datasets: activeContainersCountArr,
   };
+  const activeContainersCountArr = [];
 
-  const activeContainersCountArr = []; // add
-  // const chartDataArr = [memoryObj, cpuObj, writtenIOObj, readIOObj, receivedIOObj, transmittedIOObj];
   /**
    * Resets all graph data in global store
    * Builds memory and cpu object for input into Line Components
@@ -103,19 +98,14 @@ const LineChartDisplay = () => {
     buildAxis('clear');
     buildWrittenIO('clear');
     buildReadIO('clear');
-    buildReceivedIO('clear'); // received IO
-    buildTransmittedIO('clear'); // transmitted IO
-    // buildContainersCount('clear'); // added
+    buildReceivedIO('clear'); 
+    buildTransmittedIO('clear'); 
 
     // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
     }
-    const input = await getContainerMetrics();
-
-    // const activeContainersCount = runningList.length; // add
-    // activeContainersCountArr.push(activeContainersCount); // add
-    // console.log('testing out array counter', activeContainersCountArr);
+    // const input = await getContainerMetrics();
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -160,14 +150,13 @@ const LineChartDisplay = () => {
       return obj;
     };
 
-    // buildMemory('clear');
-    // buildCpu('clear');
-    // buildAxis('clear');
-    // buildWrittenIO('clear');
-    // buildReadIO('clear');
-    // buildReceivedIO('clear'); // received IO
-    // buildTransmittedIO('clear'); // transmitted IO
-    // // buildContainersCount('clear'); // added
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
+    buildWrittenIO('clear');
+    buildReadIO('clear');
+    buildReceivedIO('clear'); 
+    buildTransmittedIO('clear'); 
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -197,7 +186,7 @@ const LineChartDisplay = () => {
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
-      const receivedAndTransmittedIO = dataPoint.net_io.split('/'); // adding network IO reference
+      const receivedAndTransmittedIO = dataPoint.net_io.split('/');
       auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''));
       auxObj[currentContainer].memory.data.push(
         dataPoint.memory_pct.replace('%', ''),
@@ -208,7 +197,6 @@ const LineChartDisplay = () => {
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, '')),
       );
-      // Adding transmittedIO data
       auxObj[currentContainer].receivedIO.data.push(
         parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, '')),
       );
@@ -230,11 +218,6 @@ const LineChartDisplay = () => {
       const timeStamp = `${date} @ ${time}`;
       buildAxis(timeStamp);
     });
-    console.log(
-      '🚀 ~ file: LineChartDisplay.js:183 ~ containerMetrics.rows.forEach ~ containerMetrics',
-      containerMetrics,
-      // activeContainersCountObj,
-    );
 
     let longest = 0;
 
@@ -253,23 +236,18 @@ const LineChartDisplay = () => {
           auxObj[containerName].cpu.data.unshift('0.00');
           auxObj[containerName].writtenIO.data.unshift('0.00');
           auxObj[containerName].readIO.data.unshift('0.00');
-          auxObj[containerName].receivedIO.data.unshift('0.00'); // received IO
-          auxObj[containerName].transmittedIO.data.unshift('0.00'); // transmitted IO
-          // container count n/a
+          auxObj[containerName].receivedIO.data.unshift('0.00'); 
+          auxObj[containerName].transmittedIO.data.unshift('0.00'); 
         }
       }
       buildMemory([auxObj[containerName].memory]);
       buildCpu([auxObj[containerName].cpu]);
       buildWrittenIO([auxObj[containerName].writtenIO]);
       buildReadIO([auxObj[containerName].readIO]);
-      buildReceivedIO([auxObj[containerName].receivedIO]); // received IO
-      buildTransmittedIO([auxObj[containerName].transmittedIO]); // transmitted IO
-      // buildContainersCount([activeContainersCountArr]); // transmitted IO
+      buildReceivedIO([auxObj[containerName].receivedIO]); 
+      buildTransmittedIO([auxObj[containerName].transmittedIO]); 
     });
   };
-
-  
-  // console.log('testing out chart element:', metricsGraphRenderer);
 
   // Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName) => {
@@ -445,7 +423,6 @@ const LineChartDisplay = () => {
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
-      console.log('Radio Clicked', e.target.value);
       setTimePeriod(e.target.value);
       return;
     }
@@ -458,128 +435,9 @@ const LineChartDisplay = () => {
       copyObj[containerName] = true;
     }
     setActiveContainers(copyObj);
-    buildGraphRenderArr(); // invoke build graph render array
   };
 
-  let metricsGraphRenderObj;
-
-  async function buildGraphRenderArr(){
-    const graphRenderArr = [
-      'Line', 'Line', 'Bar', 'Bar', 'Bar', 'Bar'
-    ];
-    const graphDataArr = [
-      'memory', 'cpu', 'writtenIO', 'readIO', 'receivedIO', 'transmittedIO'
-    ];
-    
-    // const buildGraphData = async () => {
-    //   const requests = [];
-    //   const graphDataStateArr = [ memory, cpu, writtenIO, readIO, receivedIO, transmittedIO ];
-
-    //   const getStateData = async (stateData) => {
-    //     const result = await new Promise((resolve,reject) => {
-    //       resolve(stateData);
-    //     });
-    //     return result;
-    //   };
-
-    //   for (const each of graphDataStateArr) {
-    //     requests.push(getStateData(each));
-    //   }
-
-    //   const promisedStateData = await Promise.all(requests);
-
-    //   const chartDataArr = [];
   
-    //   promisedStateData.forEach((graphData) => {
-    //     const dataObj = {
-    //       labels: axis,
-    //       datasets: graphData,
-    //     };
-    //     chartDataArr.push(dataObj);
-    //   });
-    //   // console.log('Building charts with chartDataArr:',chartDataArr);
-    //   return chartDataArr;
-    // };
-  
-    const buildGraphOptions = () => {
-      // input chart titles to pass into options.plugin.title.text 
-      const chartTitleArr = [
-        'MEMORY', 'CPU',  
-        'IO BYTES WRITTEN BY CONTAINER', 'IO BYTES READ BY CONTAINER', 
-        'IO BYTES RECEIVED BY CONTAINER', 'IO BYTES TRANSMITTED BY CONTAINER'
-      ];
-  
-      const chartOptionsArr = [];
-  
-      chartTitleArr.forEach((chartTitle) => {
-        const options = {
-          plugins: {
-            title: {
-              display: true,
-              text: chartTitle,
-              font: { size: 18 },
-              position: 'top',
-            },
-            tooltips: { enabled: true, mode: 'index' },
-            legend: { display: true, position: 'bottom' },
-          },
-          responsive: true,
-          maintainAspectRatio: false,
-        };
-        chartOptionsArr.push(options);
-      });
-      // console.log('Building chart with chartOptionArr:',chartOptionsArr);
-      return chartOptionsArr;
-    };
-
-    const chartDataArr = await [memoryObj, cpuObj, writtenIOObj, readIOObj, receivedIOObj, transmittedIOObj];
-    const chartOptionsArr =  buildGraphOptions();
-
-    console.log('testing chart inputs:', chartDataArr);
-
-    // name of display class and 
-    const metricsGraphRender = [];
-    
-    for (let i = 0; i < chartDataArr.length; i++) {
-      metricsGraphRender.push(
-        // <h3>Loading</h3>
-        <div className={
-          expanded[`${graphDataArr[i]}-display`]
-            ? 'expanded-chart allCharts'
-            : 'allCharts'
-        }> { 
-            graphRenderArr[i] === 'Line' 
-              ? <Line key="Line-CPU" data={chartDataArr[i]} options={chartOptionsArr[i]} />
-              : <Bar key="Line-CPU" data={chartDataArr[i]} options={chartOptionsArr[i]} />
-          }
-          <div className="buttonDisplay"> {
-            expanded[`${graphDataArr[i]}-display`] 
-              ? (<button className="chart-btn"
-                onClick={() => {
-                  setExpanded({ ...expanded, [`${graphDataArr[i]}-display`]: false });
-                }}>
-                <i className="fas fa-compress"></i>
-              </button>) 
-              : (<button className="chart-btn"
-                onClick={() =>
-                  setExpanded({ ...expanded, [`${graphDataArr[i]}-display`]: true })
-                }>
-                <i className="fas fa-expand"></i>
-              </button>)}
-          </div>
-        </div> 
-        
-      );
-    }
-    
-    console.log('testing chart output:', Array.isArray(metricsGraphRender), metricsGraphRender);
-    metricsGraphRenderObj = metricsGraphRender;
-    console.log('assign to obj:', metricsGraphRenderObj);
-    // return metricsGraphRender;
-  }
-  
-  // const metricsGraphRenderObj = new Array(buildGraphRenderArr());
-  // console.log('outside of build:', Array.isArray(metricsGraphRenderObj), metricsGraphRenderObj);
   
 
   const cpuOptions = {
@@ -642,7 +500,7 @@ const LineChartDisplay = () => {
   };
 
   const receivedIOOptions = {
-    // received IO
+    
     plugins: {
       title: {
         display: true,
@@ -658,7 +516,7 @@ const LineChartDisplay = () => {
   };
 
   const transmittedIOOptions = {
-    // transmitted IO
+    
     plugins: {
       title: {
         display: true,
@@ -674,7 +532,6 @@ const LineChartDisplay = () => {
   };
 
   const activeContainersCountOptions = {
-    // containers count
     plugins: {
       title: {
         display: true,
@@ -700,10 +557,6 @@ const LineChartDisplay = () => {
       <div className="metric-section-title">
         <h3>Metrics Over Time</h3>
       </div>
-      <div className="metric-section-title">
-        {metricsGraphRenderObj}
-        <h3>LOADING here</h3>
-      </div>
       <div className="metrics-options-form">
         <form
           onChange={(e) => {
@@ -712,12 +565,13 @@ const LineChartDisplay = () => {
         >
           <input type="radio" id="1-hours" name="timePeriod" value="1"></input>
           <label htmlFor="1-hours"> 1 hours</label>
-          <input type="radio" id="2-hours" name="timePeriod" value="2"></input>
-          <label htmlFor="2-hours"> 2 hours</label>
           <input type="radio" id="4-hours" name="timePeriod" value="4" defaultChecked></input>
           <label htmlFor="4-hours"> 4 hours</label>
           <input type="radio" id="12-hours" name="timePeriod" value="12"></input>
           <label htmlFor="12-hours"> 12 hours</label>
+          <input type="radio" id="24-hours" name="timePeriod" value="24"></input>
+          <label htmlFor="24-hours"> 24 hours</label>
+
           <br />
           <div>
             <h4>Running Containers List:</h4>

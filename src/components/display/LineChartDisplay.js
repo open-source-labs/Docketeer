@@ -1,57 +1,50 @@
 /* eslint-disable react/prop-types */
 // @ts-nocheck
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Line, Bar } from 'react-chartjs-2'
-import * as actions from '../../redux/actions/actions'
-import * as helper from '../helper/commands'
-import { DataGrid } from '@mui/x-data-grid'
-import { FormControlLabel, Checkbox } from '@mui/material'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Line, Bar } from 'react-chartjs-2';
+import * as actions from '../../redux/actions/actions';
+import * as helper from '../helper/commands';
+import { DataGrid } from '@mui/x-data-grid';
+import { FormControlLabel, Checkbox } from '@mui/material';
+import { ReadableStreamBYOBRequest } from 'stream/web';
 
 /**
  * Displays linegraph and github metrics
  *
  */
 const LineChartDisplay = () => {
-  const [activeContainers, setActiveContainers] = useState({})
-  const [gitUrls, setGitUrls] = useState([])
-  const [timePeriod, setTimePeriod] = useState('')
-  const [expanded, setExpanded] = useState({})
-  const memory = useSelector((state) => state.graphs.graphMemory)
-  const cpu = useSelector((state) => state.graphs.graphCpu)
-  const writtenIO = useSelector((state) => state.graphs.graphWrittenIO)
-  const readIO = useSelector((state) => state.graphs.graphReadIO)
-  const receivedIO = useSelector((state) => state.graphs.graphReceivedIO) // received IO
-  const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO) // transmitted IO
-  const axis = useSelector((state) => state.graphs.graphAxis)
-  const runningList = useSelector((state) => state.containersList.runningList)
-  const stoppedList = useSelector((state) => state.containersList.stoppedList)
+  const [activeContainers, setActiveContainers] = useState({});
+  const [gitUrls, setGitUrls] = useState([]);
+  const [timePeriod, setTimePeriod] = useState('4');
+  const [expanded, setExpanded] = useState({});
+  const memory = useSelector((state) => state.graphs.graphMemory);
+  const cpu = useSelector((state) => state.graphs.graphCpu);
+  const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
+  const readIO = useSelector((state) => state.graphs.graphReadIO);
+  const receivedIO = useSelector((state) => state.graphs.graphReceivedIO); // received IO
+  const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO); // transmitted IO
+  const axis = useSelector((state) => state.graphs.graphAxis);
+  const runningList = useSelector((state) => state.containersList.runningList);
+  const stoppedList = useSelector((state) => state.containersList.stoppedList);
   // const containersCount = useSelector((state) => state.graphs.countainersCount); // added
 
-  const dispatch = useDispatch()
-  const buildAxis = (data) => dispatch(actions.buildAxis(data))
-  const buildMemory = (data) => dispatch(actions.buildMemory(data))
-  const buildCpu = (data) => dispatch(actions.buildCpu(data))
-  const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data))
-  const buildReadIO = (data) => dispatch(actions.buildReadIO(data))
-  const buildReceivedIO = (data) => dispatch(actions.buildReceivedIO(data)) // received IO
+  const dispatch = useDispatch();
+  const buildAxis = (data) => dispatch(actions.buildAxis(data));
+  const buildMemory = (data) => dispatch(actions.buildMemory(data));
+  const buildCpu = (data) => dispatch(actions.buildCpu(data));
+  const buildWrittenIO = (data) => dispatch(actions.buildWrittenIO(data));
+  const buildReadIO = (data) => dispatch(actions.buildReadIO(data));
+  const buildReceivedIO = (data) => dispatch(actions.buildReceivedIO(data)); // received IO
   const buildTransmittedIO = (data) =>
-    dispatch(actions.buildTransmittedIO(data)) // transmitted IO
+    dispatch(actions.buildTransmittedIO(data)); // transmitted IO
   // const buildContainersCount = (data) => dispatch(actions.buildContainersCount(data)); // added
 
   // Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
-    const containerNamesArr = Object.keys(activeContainers)
+    console.log(timePeriod);
+    const containerNamesArr = Object.keys(activeContainers);
     // console.log('this is here', containerNamesArr);
     const response = await fetch('http://localhost:3000/init/getMetrics', {
       method: 'POST',
@@ -60,94 +53,69 @@ const LineChartDisplay = () => {
       },
       body: JSON.stringify({
         containers: containerNamesArr,
+        time: timePeriod,
       }),
-    })
-    return await response.json()
+    });
+    return await response.json();
   }
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
     datasets: memory,
-  }
+  };
   const cpuObj = {
     labels: axis,
     datasets: cpu,
-  }
+  };
   const writtenIOObj = {
     labels: axis,
     datasets: writtenIO,
-  }
+  };
   const readIOObj = {
     labels: axis,
     datasets: readIO,
-  }
+  };
   const receivedIOObj = {
     labels: axis,
     datasets: receivedIO,
-  }
+  };
   const transmittedIOObj = {
     // transmitted IO
     labels: axis,
     datasets: transmittedIO,
-  }
+  };
   const activeContainersCountObj = {
     // containers count
     labels: axis,
     datasets: activeContainersCountArr,
-  }
-  const netIOObj = {
-    // network IO
-    labels: axis,
-    datasets: [
-      {
-        label: 'transmitted',
-        data: transmittedIO,
-        backgroundColor: 'rgb(255, 99, 132)',
-      },
-      {
-        label: 'received',
-        data: receivedIO,
-        backgroundColor: 'rgb(75, 192, 192)',
-      },
-    ],
-  }
+  };
 
-  const activeContainersCountArr = [] // add
-
+  const activeContainersCountArr = []; // add
+  // const chartDataArr = [memoryObj, cpuObj, writtenIOObj, readIOObj, receivedIOObj, transmittedIOObj];
   /**
    * Resets all graph data in global store
    * Builds memory and cpu object for input into Line Components
    */
   const formatData = async () => {
-    buildMemory('clear')
-    buildCpu('clear')
-    buildAxis('clear')
-    buildWrittenIO('clear')
-    buildReadIO('clear')
-    buildReceivedIO('clear') // received IO
-    buildTransmittedIO('clear') // transmitted IO
+    buildMemory('clear');
+    buildCpu('clear');
+    buildAxis('clear');
+    buildWrittenIO('clear');
+    buildReadIO('clear');
+    buildReceivedIO('clear'); // received IO
+    buildTransmittedIO('clear'); // transmitted IO
     // buildContainersCount('clear'); // added
 
     // if active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
-      return
+      return;
     }
-    const input = await getContainerMetrics()
+    const input = await getContainerMetrics();
 
-    const activeContainersCount = runningList.length // add
-    activeContainersCountArr.push(activeContainersCount) // add
-    console.log('testing out array counter', activeContainersCountArr)
-
-    // const colorOptions = [
-    //   'red',
-    //   'blue',
-    //   'green',
-    //   'purple',
-    //   'yellow',
-    //   'grey',
-    //   'orange',
-    // ]
+    // const activeContainersCount = runningList.length; // add
+    // activeContainersCountArr.push(activeContainersCount); // add
+    // console.log('testing out array counter', activeContainersCountArr);
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
@@ -158,10 +126,10 @@ const LineChartDisplay = () => {
         '#facd60',
         '#679186',
         '#ff9400',
-      ]
-      const idx = activeContainers.indexOf(containerName)
-      return colorOptions[idx]
-    }
+      ];
+      const idx = activeContainers.indexOf(containerName);
+      return colorOptions[idx];
+    };
     // build function that will return formated object into necessary
     // datastructure for chart.js line graphs
     const buildLineGraphObj = (containerName) => {
@@ -174,9 +142,9 @@ const LineChartDisplay = () => {
           containerName,
           Object.keys(activeContainers),
         ),
-      }
-      return obj
-    }
+      };
+      return obj;
+    };
     // Datastructure for Bargraph
     const buildBarGraphObj = (containerName, stackID = 'Stack 0') => {
       const obj = {
@@ -188,30 +156,30 @@ const LineChartDisplay = () => {
           Object.keys(activeContainers),
         ),
         stack: stackID,
-      }
-      return obj
-    }
+      };
+      return obj;
+    };
 
-    buildMemory('clear')
-    buildCpu('clear')
-    buildAxis('clear')
-    buildWrittenIO('clear')
-    buildReadIO('clear')
-    buildReceivedIO('clear') // received IO
-    buildTransmittedIO('clear') // transmitted IO
-    // buildContainersCount('clear'); // added
+    // buildMemory('clear');
+    // buildCpu('clear');
+    // buildAxis('clear');
+    // buildWrittenIO('clear');
+    // buildReadIO('clear');
+    // buildReceivedIO('clear'); // received IO
+    // buildTransmittedIO('clear'); // transmitted IO
+    // // buildContainersCount('clear'); // added
 
     if (!Object.keys(activeContainers).length) {
-      return
+      return;
     }
 
-    const containerMetrics = await getContainerMetrics()
+    const containerMetrics = await getContainerMetrics();
     console.log(
       '🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics',
       containerMetrics,
-    )
+    );
 
-    const auxObj = {}
+    const auxObj = {};
 
     Object.keys(activeContainers).forEach((container) => {
       auxObj[container] = {
@@ -221,105 +189,108 @@ const LineChartDisplay = () => {
         readIO: buildBarGraphObj(container),
         receivedIO: buildBarGraphObj(container), // added
         transmittedIO: buildBarGraphObj(container, 'Stack 1'), // added
-      }
-    })
+      };
+    });
 
     // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
     // parse metrics received from DB, into a usable array
     containerMetrics.rows.forEach((dataPoint) => {
-      const currentContainer = dataPoint.container_name
-      const writtenReadIO = dataPoint.block_io.split('/')
-      const receivedAndTransmittedIO = dataPoint.net_io.split('/') // adding network IO reference
-      auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''))
+      const currentContainer = dataPoint.container_name;
+      const writtenReadIO = dataPoint.block_io.split('/');
+      const receivedAndTransmittedIO = dataPoint.net_io.split('/'); // adding network IO reference
+      auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''));
       auxObj[currentContainer].memory.data.push(
         dataPoint.memory_pct.replace('%', ''),
-      )
+      );
       auxObj[currentContainer].writtenIO.data.push(
         parseFloat(writtenReadIO[0].replace(/([A-z])+/g, '')),
-      )
+      );
       auxObj[currentContainer].readIO.data.push(
         parseFloat(writtenReadIO[1].replace(/([A-z])+/g, '')),
-      )
+      );
       // Adding transmittedIO data
       auxObj[currentContainer].receivedIO.data.push(
         parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, '')),
-      )
+      );
       auxObj[currentContainer].transmittedIO.data.push(
         parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, '')),
-      )
-      let date = ''
-      let time = ''
+      );
+      let date = '';
+      let time = '';
       for (let i = 1; i < dataPoint.created_at.length; i++) {
         if (dataPoint.created_at[i] === 'T') {
-          break
-        } else date += dataPoint.created_at[i]
+          break;
+        } else date += dataPoint.created_at[i];
       }
       for (let i = 11; i < dataPoint.created_at.length; i++) {
         if (dataPoint.created_at[i] === '.') {
-          break
-        } else time += dataPoint.created_at[i]
+          break;
+        } else time += dataPoint.created_at[i];
       }
-      const timeStamp = `${date} @ ${time}`
-      buildAxis(timeStamp)
-    })
+      const timeStamp = `${date} @ ${time}`;
+      buildAxis(timeStamp);
+    });
     console.log(
       '🚀 ~ file: LineChartDisplay.js:183 ~ containerMetrics.rows.forEach ~ containerMetrics',
       containerMetrics,
-      activeContainersCountObj,
-    )
+      // activeContainersCountObj,
+    );
 
-    let longest = 0
+    let longest = 0;
 
     Object.keys(auxObj).forEach((containerName) => {
       if (auxObj[containerName].memory.data.length > longest) {
-        longest = auxObj[containerName].memory.data.length
+        longest = auxObj[containerName].memory.data.length;
       }
-    })
+    });
 
     // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
     Object.keys(auxObj).forEach((containerName) => {
       if (auxObj[containerName].memory.data.length < longest) {
-        const lengthToAdd = longest - auxObj[containerName].memory.data.length
+        const lengthToAdd = longest - auxObj[containerName].memory.data.length;
         for (let i = 0; i < lengthToAdd; i += 1) {
-          auxObj[containerName].memory.data.unshift('0.00')
-          auxObj[containerName].cpu.data.unshift('0.00')
-          auxObj[containerName].writtenIO.data.unshift('0.00')
-          auxObj[containerName].readIO.data.unshift('0.00')
-          auxObj[containerName].receivedIO.data.unshift('0.00') // received IO
-          auxObj[containerName].transmittedIO.data.unshift('0.00') // transmitted IO
+          auxObj[containerName].memory.data.unshift('0.00');
+          auxObj[containerName].cpu.data.unshift('0.00');
+          auxObj[containerName].writtenIO.data.unshift('0.00');
+          auxObj[containerName].readIO.data.unshift('0.00');
+          auxObj[containerName].receivedIO.data.unshift('0.00'); // received IO
+          auxObj[containerName].transmittedIO.data.unshift('0.00'); // transmitted IO
           // container count n/a
         }
       }
-      buildMemory([auxObj[containerName].memory])
-      buildCpu([auxObj[containerName].cpu])
-      buildWrittenIO([auxObj[containerName].writtenIO])
-      buildReadIO([auxObj[containerName].readIO])
-      buildReceivedIO([auxObj[containerName].receivedIO]) // received IO
-      buildTransmittedIO([auxObj[containerName].transmittedIO]) // transmitted IO
+      buildMemory([auxObj[containerName].memory]);
+      buildCpu([auxObj[containerName].cpu]);
+      buildWrittenIO([auxObj[containerName].writtenIO]);
+      buildReadIO([auxObj[containerName].readIO]);
+      buildReceivedIO([auxObj[containerName].receivedIO]); // received IO
+      buildTransmittedIO([auxObj[containerName].transmittedIO]); // transmitted IO
       // buildContainersCount([activeContainersCountArr]); // transmitted IO
-    })
-  }
+    });
+  };
+
+  
+  // console.log('testing out chart element:', metricsGraphRenderer);
 
   // Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
   const fetchGitData = async (containerName) => {
-    const ob = {}
-    ob[containerName] = []
-    const time = Number(timePeriod)
+    const ob = {};
+    ob[containerName] = [];
+    const time = Number(timePeriod);
     // pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date = new Date(Date.parse(new Date()) - 2629746000)
-    date.setHours(date.getHours() - time)
-    date = date.toISOString()
-    const urlObj = await helper.getContainerGitUrl(containerName)
+    let date = new Date(Date.parse(new Date()) - 2629746000);
+    date.setHours(date.getHours() - time);
+    date = date.toISOString();
+    const urlObj = await helper.getContainerGitUrl(containerName);
 
     if (urlObj.rows.length) {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
           since: `${date}`,
-        })
+        });
       // need an actual url to test this, right now it can't connect
-      const data = await fetch(url)
-      const jsonData = await data.json()
+      const data = await fetch(url);
+      const jsonData = await data.json();
 
       jsonData.forEach((commitData) => {
         ob[containerName].push({
@@ -327,24 +298,24 @@ const LineChartDisplay = () => {
           url: commitData.html_url,
           author: commitData.commit.author.name,
           message: commitData.commit.message,
-        })
-      })
+        });
+      });
     } else {
       ob[containerName].push({
         time: '',
         url: 'Connect github repo in settings',
-      })
+      });
     }
-    return ob
-  }
+    return ob;
+  };
 
   const renderGitInfo = () => {
     Promise.all(
       Object.keys(activeContainers).map((container) => {
-        return fetchGitData(container)
+        return fetchGitData(container);
       }),
-    ).then((data) => setGitUrls(data))
-  }
+    ).then((data) => setGitUrls(data));
+  };
   // populating the github commits into a MUI DataGrid
   // This should allow multiple tables be stacked if multiple containers are selected
 
@@ -363,39 +334,39 @@ const LineChartDisplay = () => {
     },
     { field: 'author', headerName: 'Author', width: 175 },
     { field: 'message', headerName: 'Message', width: 525, align: 'left' },
-  ]
+  ];
   const gitData = gitUrls.map((el, index) => {
-    const name = Object.keys(el)
-    const rows = []
+    const name = Object.keys(el);
+    const rows = [];
     el[name].forEach((ob, index) => {
-      let author = ''
-      let date = 'n/a'
-      let time = 'n/a'
-      let url = 'n/a'
-      let message = 'n/a'
+      let author = '';
+      let date = 'n/a';
+      let time = 'n/a';
+      let url = 'n/a';
+      let message = 'n/a';
       if (ob.time.length) {
-        time = ob.time
-        author = ob.author
-        url = ob.url
-        message = ''
+        time = ob.time;
+        author = ob.author;
+        url = ob.url;
+        message = '';
         if (ob.message) {
           if (ob.message.includes('<')) {
             for (let i = 0; i < ob.message.length; i++) {
-              if (ob.message[i] === '<') break
-              message += ob.message[i]
+              if (ob.message[i] === '<') break;
+              message += ob.message[i];
             }
           } else {
-            message = ob.message
+            message = ob.message;
           }
         }
 
-        time = time.split('T')
-        date = time[0]
-        time = time[1]
+        time = time.split('T');
+        date = time[0];
+        time = time[1];
         time = time
           .split('')
           .slice(0, time.length - 1)
-          .join('')
+          .join('');
       }
       rows.push({
         date: date,
@@ -404,8 +375,8 @@ const LineChartDisplay = () => {
         author: author,
         message: message,
         id: `Github Commit #${index}`,
-      })
-    })
+      });
+    });
     return (
       <div key={index} className="gitHub-container">
         <h2>{name}</h2>
@@ -423,18 +394,18 @@ const LineChartDisplay = () => {
           />
         </div>
       </div>
-    )
-  })
+    );
+  });
 
-  let currentList
-  let runningListEl
-  let stoppedListEl
+  let currentList;
+  let runningListEl;
+  let stoppedListEl;
   const selectList = () => {
-    const result = [[], []]
+    const result = [[], []];
     // const completeContainerList = [...runningList, ...stoppedList];
 
     runningList.forEach((container, index) => {
-      const containerNameKey = container.Name ? container.Name : container.Names
+      const containerNameKey = container.Name ? container.Name : container.Names;
       result[0].push(
         <FormControlLabel
           key={`formControl-${index}`}
@@ -448,12 +419,12 @@ const LineChartDisplay = () => {
           }
           label={containerNameKey}
         />,
-      )
-    })
-    runningListEl = result[0]
+      );
+    });
+    runningListEl = result[0];
 
     stoppedList.forEach((container, index) => {
-      const containerNameKey = container.Name ? container.Name : container.Names
+      const containerNameKey = container.Name ? container.Name : container.Names;
       result[1].push(
         <FormControlLabel
           key={`formControl-${index}`}
@@ -467,26 +438,149 @@ const LineChartDisplay = () => {
           }
           label={containerNameKey}
         />,
-      )
-    })
-    stoppedListEl = result[1]
-  }
+      );
+    });
+    stoppedListEl = result[1];
+  };
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
-      setTimePeriod(e.target.value)
-      return
+      console.log('Radio Clicked', e.target.value);
+      setTimePeriod(e.target.value);
+      return;
     }
-    const containerName = e.target.name
+    const containerName = e.target.name;
     // deep copy the state object
-    const copyObj = JSON.parse(JSON.stringify(activeContainers))
+    const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
-      delete copyObj[containerName]
+      delete copyObj[containerName];
     } else {
-      copyObj[containerName] = true
+      copyObj[containerName] = true;
     }
-    setActiveContainers(copyObj)
+    setActiveContainers(copyObj);
+    buildGraphRenderArr(); // invoke build graph render array
+  };
+
+  let metricsGraphRenderObj;
+
+  async function buildGraphRenderArr(){
+    const graphRenderArr = [
+      'Line', 'Line', 'Bar', 'Bar', 'Bar', 'Bar'
+    ];
+    const graphDataArr = [
+      'memory', 'cpu', 'writtenIO', 'readIO', 'receivedIO', 'transmittedIO'
+    ];
+    
+    // const buildGraphData = async () => {
+    //   const requests = [];
+    //   const graphDataStateArr = [ memory, cpu, writtenIO, readIO, receivedIO, transmittedIO ];
+
+    //   const getStateData = async (stateData) => {
+    //     const result = await new Promise((resolve,reject) => {
+    //       resolve(stateData);
+    //     });
+    //     return result;
+    //   };
+
+    //   for (const each of graphDataStateArr) {
+    //     requests.push(getStateData(each));
+    //   }
+
+    //   const promisedStateData = await Promise.all(requests);
+
+    //   const chartDataArr = [];
+  
+    //   promisedStateData.forEach((graphData) => {
+    //     const dataObj = {
+    //       labels: axis,
+    //       datasets: graphData,
+    //     };
+    //     chartDataArr.push(dataObj);
+    //   });
+    //   // console.log('Building charts with chartDataArr:',chartDataArr);
+    //   return chartDataArr;
+    // };
+  
+    const buildGraphOptions = () => {
+      // input chart titles to pass into options.plugin.title.text 
+      const chartTitleArr = [
+        'MEMORY', 'CPU',  
+        'IO BYTES WRITTEN BY CONTAINER', 'IO BYTES READ BY CONTAINER', 
+        'IO BYTES RECEIVED BY CONTAINER', 'IO BYTES TRANSMITTED BY CONTAINER'
+      ];
+  
+      const chartOptionsArr = [];
+  
+      chartTitleArr.forEach((chartTitle) => {
+        const options = {
+          plugins: {
+            title: {
+              display: true,
+              text: chartTitle,
+              font: { size: 18 },
+              position: 'top',
+            },
+            tooltips: { enabled: true, mode: 'index' },
+            legend: { display: true, position: 'bottom' },
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        };
+        chartOptionsArr.push(options);
+      });
+      // console.log('Building chart with chartOptionArr:',chartOptionsArr);
+      return chartOptionsArr;
+    };
+
+    const chartDataArr = await [memoryObj, cpuObj, writtenIOObj, readIOObj, receivedIOObj, transmittedIOObj];
+    const chartOptionsArr =  buildGraphOptions();
+
+    console.log('testing chart inputs:', chartDataArr);
+
+    // name of display class and 
+    const metricsGraphRender = [];
+    
+    for (let i = 0; i < chartDataArr.length; i++) {
+      metricsGraphRender.push(
+        // <h3>Loading</h3>
+        <div className={
+          expanded[`${graphDataArr[i]}-display`]
+            ? 'expanded-chart allCharts'
+            : 'allCharts'
+        }> { 
+            graphRenderArr[i] === 'Line' 
+              ? <Line key="Line-CPU" data={chartDataArr[i]} options={chartOptionsArr[i]} />
+              : <Bar key="Line-CPU" data={chartDataArr[i]} options={chartOptionsArr[i]} />
+          }
+          <div className="buttonDisplay"> {
+            expanded[`${graphDataArr[i]}-display`] 
+              ? (<button className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, [`${graphDataArr[i]}-display`]: false });
+                }}>
+                <i className="fas fa-compress"></i>
+              </button>) 
+              : (<button className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, [`${graphDataArr[i]}-display`]: true })
+                }>
+                <i className="fas fa-expand"></i>
+              </button>)}
+          </div>
+        </div> 
+        
+      );
+    }
+    
+    console.log('testing chart output:', Array.isArray(metricsGraphRender), metricsGraphRender);
+    metricsGraphRenderObj = metricsGraphRender;
+    console.log('assign to obj:', metricsGraphRenderObj);
+    // return metricsGraphRender;
   }
+  
+  // const metricsGraphRenderObj = new Array(buildGraphRenderArr());
+  // console.log('outside of build:', Array.isArray(metricsGraphRenderObj), metricsGraphRenderObj);
+  
 
   const cpuOptions = {
     plugins: {
@@ -501,7 +595,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
   const memoryOptions = {
     plugins: {
@@ -516,7 +610,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
   const writtenIOOptions = {
     plugins: {
@@ -531,7 +625,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
   const readIOOptions = {
     plugins: {
       title: {
@@ -545,7 +639,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
   const receivedIOOptions = {
     // received IO
@@ -561,7 +655,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
   const transmittedIOOptions = {
     // transmitted IO
@@ -577,7 +671,7 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
   const activeContainersCountOptions = {
     // containers count
@@ -593,60 +687,37 @@ const LineChartDisplay = () => {
     },
     responsive: true,
     maintainAspectRatio: false,
-  }
+  };
 
-  const netIOOptions = {
-    plugins: {
-      title: {
-        display: true,
-        text: 'NETWORK I/O',
-      },
-    },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
-  }
-
-  selectList()
+  selectList();
   useEffect(() => {
-    formatData()
-    renderGitInfo()
-  }, [activeContainers, timePeriod])
+    formatData();
+    renderGitInfo();
+  }, [activeContainers, timePeriod]);
 
   return (
     <div>
       <div className="metric-section-title">
         <h3>Metrics Over Time</h3>
       </div>
+      <div className="metric-section-title">
+        {metricsGraphRenderObj}
+        <h3>LOADING here</h3>
+      </div>
       <div className="metrics-options-form">
         <form
           onChange={(e) => {
-            handleChange(e)
+            handleChange(e);
           }}
         >
-          <input
-            type="radio"
-            id="4-hours"
-            name="timePeriod"
-            value="4"
-            defaultChecked
-          ></input>
+          <input type="radio" id="1-hours" name="timePeriod" value="1"></input>
+          <label htmlFor="1-hours"> 1 hours</label>
+          <input type="radio" id="2-hours" name="timePeriod" value="2"></input>
+          <label htmlFor="2-hours"> 2 hours</label>
+          <input type="radio" id="4-hours" name="timePeriod" value="4" defaultChecked></input>
           <label htmlFor="4-hours"> 4 hours</label>
-          <input
-            type="radio"
-            id="12-hours"
-            name="timePeriod"
-            value="12"
-          ></input>
+          <input type="radio" id="12-hours" name="timePeriod" value="12"></input>
           <label htmlFor="12-hours"> 12 hours</label>
-          <input type="radio" id="other" name="timePeriod" value="24"></input>
-          <label htmlFor="24-hours"> 24 hours</label>
           <br />
           <div>
             <h4>Running Containers List:</h4>
@@ -659,7 +730,8 @@ const LineChartDisplay = () => {
         </form>
       </div>
       <section className="metricCharts">
-        {/* first chart - start*/}
+        {/* first chart - start */}
+
         <div
           className={
             expanded['Line-Cpu-Display']
@@ -673,7 +745,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false })
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -690,7 +762,7 @@ const LineChartDisplay = () => {
             )}
           </div>
         </div>
-        {/* first chart - end*/}
+        {/* first chart - end */}
         {/* second chart - start */}
         <div
           className={
@@ -705,7 +777,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Memory-Display']: false })
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -739,7 +811,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['written-IO']: false })
+                  setExpanded({ ...expanded, ['written-IO']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -770,7 +842,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['read-IO']: false })
+                  setExpanded({ ...expanded, ['read-IO']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -803,7 +875,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['received-IO']: false })
+                  setExpanded({ ...expanded, ['received-IO']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -840,7 +912,7 @@ const LineChartDisplay = () => {
               <button
                 className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['transmitted-IO']: false })
+                  setExpanded({ ...expanded, ['transmitted-IO']: false });
                 }}
               >
                 <i className="fas fa-compress"></i>
@@ -872,7 +944,7 @@ const LineChartDisplay = () => {
       </div> */}
       {/* {gitData} */}
     </div>
-  )
-}
+  );
+};
 
-export default LineChartDisplay
+export default LineChartDisplay;

@@ -471,3 +471,11 @@ export const sessionState = {
     container_stops: boolean;
     token: string;
   }
+
+  export type ServerError = {
+    log: string, 
+    status: number,
+    message: {
+        err: string
+    }
+  }

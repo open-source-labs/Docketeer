@@ -3,13 +3,13 @@
  * @description Routes all requests to login endpoint 
  */
 
-const express = require('express');
-const userController = require('../controllers/userController');
+import {Request, Response,Router} from 'express';
+import userController from '../controllers/userController';
 // the below are unnecessary until Docketeer can run in the browser
 // const bcryptController = require('../controllers/bcryptController');
 // const cookieController = require('../controllers/cookieController');
 
-const router = express.Router();
+const router = Router();
 
 router.post('/',
   userController.verifyUser,
@@ -17,11 +17,11 @@ router.post('/',
   // cookieController.setSSIDCookie,
   // cookieController.setAdminCookie,
   // bcryptController.hashCookie,
-  (req, res) => {
+  (req: Request, res: Response) => {
     console.log('Active User Session -> User:',res.locals.user);
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(200).json(res.locals.user);
   }
 );
 
-module.exports = router;
+export default router;

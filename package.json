@@ -8,7 +8,7 @@
   "scripts": {
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.js\" \"npm run dev:electron\"",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
     "buildWeb": "webpack --config=./webpack.react.config.js",
     "test": "jest --verbose"
   },
@@ -55,6 +55,7 @@
     "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@types/cors": "^2.8.13",
     "@types/jest": "^29.2.3",
     "@types/pg": "^8.6.5",
     "@types/react-csv": "^1.1.3",

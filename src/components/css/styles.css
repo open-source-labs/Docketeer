@@ -584,13 +584,13 @@ h4 {
   top: 1px;
 }
 
+.stop-btn-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .stop-btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.stop-btn button {
   margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 10px 14px -7px grey;
@@ -610,9 +610,6 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-.remove-btn {
   margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 10px 14px -7px grey;
@@ -628,12 +625,12 @@ h4 {
   outline: none;
 }
 
-.remove-btn button:hover {
+.remove-btn:hover {
   background-color: rgba(255, 0, 0, 0.75);
   color: white;
 }
 
-.stop-btn button:hover {
+.stop-btn:hover {
   background-color: rgba(255, 0, 0, 0.75);
   color: white;
 }
@@ -689,6 +686,11 @@ h4 {
 
 #upload-btn {
   margin-right: 1vw;
+}
+
+#getlogs-btn {
+  margin-right: 1vw;
+  margin-bottom: 1vh;
 }
 
 .toggle-button {

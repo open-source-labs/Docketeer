@@ -2,17 +2,17 @@
  * @module AdminRouter
  * @description Routes all requests to admin endpoint 
  */
-const express = require('express');
-const userController = require('../controllers/userController');
+import { Router, Request, Response } from 'express';
+import userController from '../controllers/userController';
 
-const router = express.Router();
+const router = Router();
 
 // Route Handler: Checks if client has sysadmin privilege. Get all users from users table and send back to client (system admin)
 router.post('/', 
   userController.getAllUsers, 
-  (req, res) => {
-    if(res.locals.error) return res.status(200).json(res.locals.error);
-    return res.status(200).json(res.locals.users);
+  (req: Request, res: Response) => {
+    if(res.locals.error) return res.status(201).json(res.locals.error);
+    return res.status(201).json(res.locals.users);
   }
 );
 
@@ -20,9 +20,9 @@ router.post('/',
 router.post('/switch',
   userController.checkSysAdmin,
   userController.switchUserRole, 
-  (req, res) => {
-      return res.status(200).json(res.locals.hasError);
+  (req: Request, res: Response) => {
+      return res.status(201).json(res.locals.hasError);
     }
 );
 
-module.exports = router;
+export default router;

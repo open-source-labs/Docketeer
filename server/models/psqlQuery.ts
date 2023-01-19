@@ -3,7 +3,8 @@
  *  Make sure it matches the port in the docker-compose.yml (schema.sql)
  */
 
-const { Pool } = require('pg');
+import { Pool } from 'pg';
+import { SqlQuery } from '../../types';
 
 const pool = new Pool({
   host: 'localhost', 
@@ -13,9 +14,11 @@ const pool = new Pool({
   port: 5433,
 });
 
-module.exports = {
-  query2: (text, params, callback) => {
+const db: SqlQuery = {
+  query: (text, params, callback) => {
     console.log('Executed Docketeer query...', text);
     return pool.query(text, params, callback);
   }
 };
+
+export default db;

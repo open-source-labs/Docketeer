@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from 'express';
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
@@ -271,211 +272,234 @@ export interface StateType {
 };
 
 export interface RootState {
-    session: {
-      isLoggedIn?: boolean,
-      role: string,
-    }
-  }
-
-  export interface UserInfo {
-    _id: number,
-    username: string,
-    email: string,
-    phone: string,
+  session: {
+    isLoggedIn?: boolean,
     role: string,
-    role_id: number,
-    contact_pref: string | null,
-    mem_threshold: number,
-    cpu_threshold: number,
-    container_stops: boolean,
-    token: string
   }
+}
 
-  export interface stateType {
-    runningList: RunningListType[],
-    stoppedList: StoppedListType[],
-    networkList: any[],
-    composeStack: any[],
-    hostStats: {[k: string]: number},
-  }
+export interface UserInfo {
+  _id: number,
+  username: string,
+  email: string,
+  phone: string,
+  role: string,
+  role_id: number,
+  contact_pref: string | null,
+  mem_threshold: number,
+  cpu_threshold: number,
+  container_stops: boolean,
+  token: string
+}
 
-  export const containerState: stateType = {
-    runningList: [],
-    stoppedList: [],
-    networkList: [],
-    composeStack: [],
-    hostStats: {}
-  };
+export interface stateType {
+  runningList: RunningListType[],
+  stoppedList: StoppedListType[],
+  networkList: any[],
+  composeStack: any[],
+  hostStats: {[k: string]: number},
+}
 
-  export const graphState = {
-    graphAxis: [],
-    graphMemory: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphCpu: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphWrittenIO: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphReadIO: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphReceivedIO: [ // received IO
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphTransmittedIO: [ // transmitted IO
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-  };
+export const containerState: stateType = {
+  runningList: [],
+  stoppedList: [],
+  networkList: [],
+  composeStack: [],
+  hostStats: {}
+};
 
-  interface imagesState {
-    imagesList: any[]
-  }
-  
-    export const imageState: imagesState = {
-    imagesList: []
-  };
+export const graphState = {
+  graphAxis: [],
+  graphMemory: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphCpu: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphWrittenIO: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphReadIO: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphReceivedIO: [ // received IO
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphTransmittedIO: [ // transmitted IO
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+};
 
-    export const notificationState = {
-    phoneNumber: '',
-    memoryNotificationList: new Set(),
-    cpuNotificationList: new Set(),
-    stoppedNotificationList: new Set()
-  };
+interface imagesState {
+  imagesList: any[]
+}
 
-    export const logsState = {
-    containerLogs: {
-      stdoutLogs: [],
-      stderrLogs: [],
-    },
-  };
+export const imageState: imagesState = {
+  imagesList: []
+};
+
+export const notificationState = {
+  phoneNumber: '',
+  memoryNotificationList: new Set(),
+  cpuNotificationList: new Set(),
+  stoppedNotificationList: new Set()
+};
+
+export const logsState = {
+  containerLogs: {
+    stdoutLogs: [],
+    stderrLogs: [],
+  },
+};
 
 export const sessionState = {
-    _id: "",
-    username: "",
-    email: "",
-    phone: "",
-    role: "",
-    role_id: "",
-    contact_pref: "",
-    mem_threshold: "",
-    cpu_threshold: "",
-    container_stops: "",
-    token: "",
-    isLoggedIn: false,
-    userList: [],
-  };
+  _id: "",
+  username: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: "",
+  token: "",
+  isLoggedIn: false,
+  userList: [],
+};
 
-  interface userType {
-    userList: any[];
+interface userType {
+  userList: any[];
+}
+
+export const userState: userType = {
+  userList: [],
+};
+
+export const userReducerState = {
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: false,
+  isSysAdmin: false,
+};
+
+interface volumeType {
+  arrayOfVolumeNames: any[];
+  volumeContainersList: any[];
+}
+
+export const volumeState: volumeType = {
+  arrayOfVolumeNames: [],
+  volumeContainersList: [],
+};
+
+export interface auxObjType {
+  container?: ContainerInterface;
+  currentContainer?: any;
+  containerName?: string;
+}
+
+export interface ContainerInterface {
+  memory?: any;
+  cpu?: any;
+  writtenIO?: any;
+  readIO?: any;
+}
+
+export interface obType {
+  containerName?: any;
+}
+
+export interface LogsCardProps {
+  container: ContainerType;
+  index: number;
+  status: any;
+}
+
+export interface RowsDataType {
+  container: string;
+  type: string;
+  time: string;
+  message: string;
+  id: number;
+}
+
+export interface ToggleDisplayProps {
+  container: RunningListType;
+}
+
+
+export interface UserInfo {
+  _id: number;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
+  token: string;
+}
+
+// ==========================================================
+// Server-Side Typing
+// ==========================================================
+
+export type ServerError = {
+  log: string, 
+  status: number,
+  message: {
+      err: string
   }
-  
-  export const userState: userType = {
-    userList: [],
-  };
+}
 
-  export const userReducerState = {
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-    role_id: "",
-    contact_pref: "",
-    mem_threshold: "",
-    cpu_threshold: "",
-    container_stops: false,
-    isSysAdmin: false,
-  };
+export type SqlQuery = {
+  query: (text: string, params?: any | any[], callback?: any) => void | any,
+}
 
-  interface volumeType {
-    arrayOfVolumeNames: any[];
-    volumeContainersList: any[];
-  }
-  
-  export const volumeState: volumeType = {
-    arrayOfVolumeNames: [],
-    volumeContainersList: [],
-  };
-
-  export interface auxObjType {
-    container?: ContainerInterface;
-    currentContainer?: any;
-    containerName?: string;
-  }
-
-  export interface ContainerInterface {
-    memory?: any;
-    cpu?: any;
-    writtenIO?: any;
-    readIO?: any;
-  }
-
-  export interface obType {
-    containerName?: any;
-  }
-
-  export interface LogsCardProps {
-    container: ContainerType;
-    index: number;
-    status: any;
-  }
- 
-  export interface RowsDataType {
-    container: string;
-    type: string;
-    time: string;
-    message: string;
-    id: number;
-  }
-
-  export interface ToggleDisplayProps {
-    container: RunningListType;
-  }
-
-
-  export interface UserInfo {
-    _id: number;
-    username: string;
-    email: string;
-    phone: string;
-    role: string;
-    role_id: number;
-    contact_pref: string | null;
-    mem_threshold: number;
-    cpu_threshold: number;
-    container_stops: boolean;
-    token: string;
-  }
-
-  export type ServerError = {
-    log: string, 
-    status: number,
-    message: {
-        err: string
-    }
-  }
+// ==========================================================
+// Controller Types
+// ==========================================================
+export interface UserController {
+  createUser: (req: Request, res: Response, next: NextFunction) => void,
+  getAllUsers: (req: Request, res: Response, next: NextFunction) => void,
+  getOneUser: (req: Request, res: Response, next: NextFunction) => void,
+  verifyUser: (req: Request, res: Response, next: NextFunction) => void,
+  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => void,
+  switchUserRole: (req: Request, res: Response, next: NextFunction) => void,
+  updatePassword: (req: Request, res: Response, next: NextFunction) => void,
+  updatePhone: (req: Request, res: Response, next: NextFunction) => void,
+  updateEmail: (req: Request, res: Response, next: NextFunction) => void,
+}

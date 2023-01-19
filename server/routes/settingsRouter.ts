@@ -2,14 +2,14 @@
  * @module settingsRouter Router
  * @description Performs all of the settings functionality for adding/removing containers and notifications.
  */
-const express = require('express');
-const settingsController = require('../controllers/settingsController');
+import { Router, Request, Response } from 'express';
+import settingsController from '../controllers/settingsController';
   
-const router = express.Router();
+const router = Router();
 
 router.get('/', 
   settingsController.notificationSettings,
-  (req, res) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals);
   }
 );
@@ -17,44 +17,44 @@ router.get('/',
 // insert container and settings
 router.post('/insert',
   settingsController.addContainer, settingsController.addContainerSettings,
-  (req, res) => {
-    return res.status(200).json(res.locals);
+  (req: Request, res: Response) => {
+    return res.status(201).json(res.locals);
   }
 );
 
 router.post('/delete',
   settingsController.deleteContainerSettings,
-  (req, res) => {
-    return res.status(200).json({});
+  (req: Request, res: Response) => {
+    return res.status(201).json({});
   }
 );
 
 router.post('/phone',
   settingsController.addPhoneNumber,
-  (req, res) => {
-    return res.status(200).json({});
+  (req: Request, res: Response) => {
+    return res.status(201).json({});
   }
 );
 
 router.post('/notification',
   settingsController.notificationFrequency,
-  (req, res) => {
-    return res.status(200).json({});
+  (req: Request, res: Response) => {
+    return res.status(201).json({});
   }
 );
 
 router.post('/monitoring',
   settingsController.monitoringFrequency,
-  (req, res) => {
-    return res.status(200).json({});
+  (req: Request, res: Response) => {
+    return res.status(201).json({});
   }
 );
 
 router.post('/gitLinks',
   settingsController.addGitLinks,
-  (req, res) => {
-    return res.status(200).json({});
+  (req: Request, res: Response) => {
+    return res.status(201).json({});
   }
 );
 
-module.exports = router;
+export default router;

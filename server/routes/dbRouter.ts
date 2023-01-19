@@ -2,10 +2,10 @@
  * @module Database Router
  * @description Routes all endpoints for initializing the database for new users
  */
-const express = require('express');
-const dbController = require('../controllers/dbController');
+import { Router, Request, Response } from 'express';
+import dbController from '../controllers/dbController';
   
-const router = express.Router();
+const router = Router();
 
 // Route handler: instantiates user and roles tables of database, adds role types 
 router.get('/',
@@ -14,9 +14,9 @@ router.get('/',
   dbController.createTable,
   dbController.createAdminPassword,
   dbController.insertAdmin,
-  (req, res) => {
+  (req: Request, res: Response) => {
     return res.status(200).json('Database initialized successfully');
   }
 );
 
-module.exports = router;
+export default router;

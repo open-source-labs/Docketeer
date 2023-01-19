@@ -2,8 +2,8 @@
  * @module AdminRouter
  * @description Routes all requests to admin endpoint 
  */
-import {Router, Request, Response} from'express';
-const userController = require('../controllers/userController');
+import { Router, Request, Response } from 'express';
+import userController from '../controllers/userController';
 
 const router = Router();
 
@@ -11,8 +11,8 @@ const router = Router();
 router.post('/', 
   userController.getAllUsers, 
   (req: Request, res: Response) => {
-    if(res.locals.error) return res.status(200).json(res.locals.error);
-    return res.status(200).json(res.locals.users);
+    if(res.locals.error) return res.status(201).json(res.locals.error);
+    return res.status(201).json(res.locals.users);
   }
 );
 
@@ -21,7 +21,7 @@ router.post('/switch',
   userController.checkSysAdmin,
   userController.switchUserRole, 
   (req: Request, res: Response) => {
-      return res.status(200).json(res.locals.hasError);
+      return res.status(201).json(res.locals.hasError);
     }
 );
 

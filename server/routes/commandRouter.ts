@@ -3,14 +3,11 @@
  * @description Routes all requests to APIs 
  */
 
+import { Router, Request, Response } from 'express';
+import { RunningWithErrors } from '@mui/icons-material';
+import commandController from '../controllers/commandController';
 
-const { RunningWithErrors } = require('@mui/icons-material');
-const express = require('express');
-const commandController = require('../controllers/commandController');
-const { route } = require('./signupRouter');
-
-
-const router = express.Router();
+const router = Router();
 
 // ==========================================================
 // Route Handling for Commands
@@ -21,7 +18,7 @@ const router = express.Router();
 router.get('/refreshRunning', 
   commandController.getContainers,
   commandController.getApiData,
-  (req, res) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.apiData);
   }
 );
@@ -29,7 +26,7 @@ router.get('/refreshRunning',
 // Route for fetching user host stats
 router.get('/getHost', 
   commandController.getHost, 
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.hostData);
   }
 );
@@ -39,7 +36,7 @@ router.post('/runImage',
   commandController.runImage,
   commandController.getContainers,
   commandController.getApiData,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(201).json(res.locals.apiData);
   }
 );
@@ -47,7 +44,7 @@ router.post('/runImage',
 // Route for refreshing stopped containers
 router.get('/refreshStopped',
   commandController.refreshStopped,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.stoppedContainers);
   }
 );
@@ -55,7 +52,7 @@ router.get('/refreshStopped',
 // Route to refresh list of images
 router.get('/refreshImages',
   commandController.refreshImages,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.imagesList);
   }
 );
@@ -63,7 +60,7 @@ router.get('/refreshImages',
 // Route to remove a stopped container
 router.get('/removeContainer', 
   commandController.remove, 
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.idRemoved);
   }
 );
@@ -72,7 +69,7 @@ router.get('/removeContainer',
 router.get('/stopContainer', 
   commandController.stopContainer,
   commandController.refreshStopped, 
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.containerStopped);
   }
 );
@@ -80,7 +77,7 @@ router.get('/stopContainer',
 // Route to run a stopped container
 router.get('/runStopped', 
   commandController.runStopped,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.containerRan);
   }
 );
@@ -88,7 +85,7 @@ router.get('/runStopped',
 // Route to remove an image
 router.get('/removeImage', 
   commandController.removeImage,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200);
   }
 );
@@ -96,7 +93,7 @@ router.get('/removeImage',
 // Route for running the docker prune command
 router.get('/dockerPrune', 
   commandController.dockerPrune,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.pruneMessage);
   }
 );
@@ -104,7 +101,7 @@ router.get('/dockerPrune',
 // Route to pull new images
 router.get('/pullImage', 
   commandController.pullImage,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.imgMessage);
   }
 );
@@ -112,7 +109,7 @@ router.get('/pullImage',
 // Route to get network container list
 router.get('/networkContainers',
   commandController.networkContainers,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.networkContainers);
   }
 );
@@ -120,8 +117,8 @@ router.get('/networkContainers',
 // Route to inspect docker container
 router.get('/inspect',
   commandController.inspectDockerContainer,
-  (req, res, next) => {
-    return res.status().json(res.locals.inspectOut);
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.inspectOut);
   }
 );
 
@@ -129,8 +126,8 @@ router.get('/inspect',
 router.post('/composeUp',
   commandController.composeUp,
   commandController.composeStacks,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.output);
+  (req: Request, res: Response) => {
+    return res.status(201).json(res.locals.output);
   }
 );
 
@@ -138,15 +135,15 @@ router.post('/composeUp',
 router.post('/composeDown',
   commandController.composeDown,
   commandController.composeStacks,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.output);
+  (req: Request, res: Response) => {
+    return res.status(201).json(res.locals.output);
   }
 );
 
 // Route to get list of container networks
 router.get('/composeStacks', 
   commandController.composeStacks,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.output);
   }
 );
@@ -154,7 +151,7 @@ router.get('/composeStacks',
 // Route to get all Docker Volumes
 router.get('/allDockerVolumes',
   commandController.getAllDockerVolumes,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.dockerVolumes);
   }
 );
@@ -162,7 +159,7 @@ router.get('/allDockerVolumes',
 // Route to get all containers running in specified volume
 router.get('/volumeContainers', 
   commandController.getVolumeContainers,
-  (req, res, next) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.volumeContainers);
   }
 );
@@ -170,9 +167,9 @@ router.get('/volumeContainers',
 // Route to get all container logs
 router.post('/allLogs', 
   commandController.getLogs,
-  (req, res, next) => {
-    return res.status(200).json(res.locals.logs);
+  (req: Request, res: Response) => {
+    return res.status(201).json(res.locals.logs);
   }
 );
 
-module.exports = router;
+export default router;

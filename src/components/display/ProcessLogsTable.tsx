@@ -122,7 +122,7 @@ const ProcessLogsTable = () => {
     }
   };
 
-  
+
 
   type CSVData = string[];
 
@@ -167,96 +167,77 @@ const ProcessLogsTable = () => {
 
   return (
     <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Container Process Logs</h1>
+      </div>
       <div className="settings-container">
         <form>
-          <h1 style={{ margin: 10 }}>Container Process Logs</h1>
-          <h3>
-            <a
+          <div className="log-timeframe">
+            <h3>Time Frame:</h3>
+            <input
               style={{ margin: 5 }}
-              target="_blank"
-              rel="noreferrer"
-              href="https://docs.docker.com/engine/reference/commandline/logs/"
+              type="radio"
+              id="sinceInput"
+              name="logOption"
+            />
+            <label
+              style={{ margin: 5 }}
+              htmlFor="sinceInput"
             >
-              Click here
-            </a>{''}
-            for more information on logs
-          </h3>
-          <br></br>
-          <input
-            style={{ margin: 5 }}
-            type="radio"
-            id="sinceInput"
-            name="logOption"
-          />
-          <label
-            style={{ margin: 5 }}
-            htmlFor="sinceInput"
-          >
-            Since
-          </label>
-          <input
-            type="text"
-            id="sinceText"
-          />
-          <br></br>
-          <input
-            style={{ margin: 5 }}
-            type="radio"
-            id="tailInput"
-            name="logOption"
-          />
-          <label
-            style={{ margin: 5 }}
-            htmlFor="tailInput"
-          >
-            Tail
-          </label>
-          <input
-            style={{ marginLeft: 14 }}
-            type="text"
-            id="tailText"
-          />
-
-          <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
-            {containerSelectors} {/** Checkboxes for running containers */}
-          </FormGroup>
-          <Button
-            sx={{
-              ml: 1,
-              width: 120,
-            }}
-            size="medium"
-            variant="contained"
-            style={{ marginBottom: 10 }}
-            type="button"
+              Since
+            </label>
+            <input
+              type="text"
+              id="sinceText"
+            />
+            <br></br>
+            <input
+              style={{ margin: 5 }}
+              type="radio"
+              id="tailInput"
+              name="logOption"
+            />
+            <label
+              style={{ margin: 5 }}
+              htmlFor="tailInput"
+            >
+              Tail
+            </label>
+            <input
+              style={{ marginLeft: 14 }}
+              type="text"
+              id="tailText"
+            />
+          </div>
+          <br />
+          <div className="log-containers">
+            <h3>Running Containers:</h3>
+            <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
+              {containerSelectors} {/** Checkboxes for running containers */}
+            </FormGroup>
+          </div>
+          <br />
+          <button className="etc-btn" id="getlogs-btn" type="button"
             onClick={() => {
               handleGetLogs(btnIdList);
             }}
           >
-            Get Logs
-          </Button>
-          <Button
-            sx={{
-              ml: 1,
-              width: 180,
-            }}
-            size="medium"
-            variant="contained"
-            style={{ marginBottom: 10 }}
-          >
+            GET LOGS
+          </button>
+          <button className="etc-btn" type="button">
             <CSVLink
               style={{
                 textDecoration: 'none',
-                color: 'white',
-                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                color: '#0064ff',
               }}
               data={csvData}
             >
-              Download To CSV
+              DOWNLOAD TO CSV
             </CSVLink>
-          </Button>
+          </button>
         </form>
-
+      </div>
+      <div className="settings-container">
         <div
           className="process-logs-container"
           style={{ height: 660, width: '100%' }}

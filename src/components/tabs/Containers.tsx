@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { ContainerProps, ContainerType, ChartInfoType } from '../../../types'; 
+import { ContainerProps, ContainerType, ChartInfoType } from '../../../types';
 /**
  * Display all running and stopped containers
  *
@@ -129,8 +129,8 @@ const Containers = (props: ContainerProps) => {
           <ToggleDisplay container={container} />
         </div>
         {/* <div className='box-button box-button-running'> */}
-        <div className='stop-btn'>
-          <button
+        <div className='stop-btn-box'>
+          <button className='stop-btn'
             onClick={() => props.stop(container.ID, props.refreshStoppedContainers)}
           >
             STOP

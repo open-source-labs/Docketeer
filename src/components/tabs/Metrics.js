@@ -1,10 +1,10 @@
 /* eslint-disable no-tabs */
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { convertToMetricsArr } from '../helper/parseContainerFormat'
-import { Chart } from 'react-chartjs-2'
-import LineChartDisplay from '../display/LineChartDisplay'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { convertToMetricsArr } from '../helper/parseContainerFormat';
+import { Chart } from 'react-chartjs-2';
+import LineChartDisplay from '../display/LineChartDisplay';
+import { useSelector } from 'react-redux';
 
 /**
  * Display general metrics
@@ -12,24 +12,24 @@ import { useSelector } from 'react-redux'
  * @param {*} props
  */
 const Metrics = (props) => {
-  const hostStats = useSelector((state) => state.containersList.hostStats)
-  const fullRunningList = props.runningList
+  const hostStats = useSelector((state) => state.containersList.hostStats);
+  const fullRunningList = props.runningList;
   // const result = convertToMetricsArr(props.runningList)
-  const result = hostStats
-  const cpuData = 100 - result.cpuPerc //.toFixed(2) // 60%
-  const memoryData = 100 - result.memPerc //.toFixed(2)
-  const cpuThreshold = props.threshold[0]
-  const memThreshold = props.threshold[1]
+  const result = hostStats;
+  const cpuData = 100 - result.cpuPerc; // .toFixed(2) // 60%
+  const memoryData = 100 - result.memPerc; // .toFixed(2)
+  const cpuThreshold = props.threshold[0];
+  const memThreshold = props.threshold[1];
 
-  let cpuFails = 0
-  let memFails = 0
+  let cpuFails = 0;
+  let memFails = 0;
 
   // used to monitor threshold and fail counts
   for (const each of fullRunningList) {
-    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''))
-    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''))
-    if (cpu >= cpuThreshold) cpuFails++
-    if (memory >= memThreshold) memFails++
+    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''));
+    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''));
+    if (cpu >= cpuThreshold) cpuFails++;
+    if (memory >= memThreshold) memFails++;
   }
 
   const cpu = {
@@ -41,7 +41,7 @@ const Metrics = (props) => {
         data: [cpuData, result.cpuPerc],
       },
     ],
-  }
+  };
 
   const memory = {
     labels: [`Available: ${memoryData}%`, `Usage: ${result.memPerc}%`],
@@ -52,7 +52,7 @@ const Metrics = (props) => {
         data: [memoryData, result.memPerc],
       },
     ],
-  }
+  };
 
   const memOptions = {
     responsive: true,
@@ -63,18 +63,18 @@ const Metrics = (props) => {
       legend: { display: false },
       datalabels: {
         formatter: (value, ctx) => {
-          let sum = 0
-          const dataArr = ctx.chart.data.datasets[0].data
+          let sum = 0;
+          const dataArr = ctx.chart.data.datasets[0].data;
           dataArr.map((data) => {
-            sum += data
-          })
-          const percentage = (value * 100) / sum + '%'
-          return percentage
+            sum += data;
+          });
+          const percentage = (value * 100) / sum + '%';
+          return percentage;
         },
         color: '#fff',
       },
     },
-  }
+  };
 
   const cpuOptions = {
     responsive: true,
@@ -85,18 +85,18 @@ const Metrics = (props) => {
       legend: { display: false },
       datalabels: {
         formatter: (value, ctx) => {
-          let sum = 0
-          const dataArr = ctx.chart.data.datasets[0].data
+          let sum = 0;
+          const dataArr = ctx.chart.data.datasets[0].data;
           dataArr.map((data) => {
-            sum += data
-          })
-          const percentage = (value * 100) / sum + '%'
-          return percentage
+            sum += data;
+          });
+          const percentage = (value * 100) / sum + '%';
+          return percentage;
         },
         color: '#fff',
       },
     },
-  }
+  };
 
   return (
     <div className="renderContainers">
@@ -119,11 +119,11 @@ const Metrics = (props) => {
           <div className="legend-container">
             <div className="legend-section">
               <div className="avaliable-box"></div>
-              <p className="legend-text">Available {Math.round(cpuData)}%</p>
+              <p className="legend-text"> Available {Math.round(cpuData)}%</p>
             </div>
             <div className="legend-section">
               <div className="usage-box"></div>
-              <p className="legend-text">Usage {Math.round(result.cpuPerc)}%</p>
+              <p className="legend-text"> Usage {Math.round(result.cpuPerc)}%</p>
             </div>
           </div>
         </div>
@@ -140,28 +140,16 @@ const Metrics = (props) => {
           <div className="legend-container">
             <div className="legend-section">
               <div className="avaliable-box"></div>
-              <p className="legend-text">Available {Math.round(memoryData)}%</p>
+              <p className="legend-text"> Available {Math.round(memoryData)}%</p>
             </div>
             <div className="legend-section">
               <div className="usage-box"></div>
-              <p className="legend-text">Usage {Math.round(result.memPerc)}%</p>
+              <p className="legend-text"> Usage {Math.round(result.memPerc)}%</p>
             </div>
           </div>
         </div>
 
         <div className="">
-          {/* <div className="chart-container">
-            <h1 className="chart-title">NET IO:</h1>
-            <p className="chart-number">
-              {Math.floor(result[2][0])}kB / {Math.floor(result[2][1])}kB
-            </p>
-          </div>
-          <div className="chart-container">
-            <h1 className="chart-title">BLOCK IO:</h1>
-            <p className="chart-number">
-              {Math.floor(result[3][0])}B / {Math.floor(result[3][1])}B
-            </p>
-          </div> */}
           <div className="chart-container">
             <h1 className="chart-title"># of Running Containers:</h1>
             <p className="chart-number">{fullRunningList.length}</p>
@@ -190,7 +178,7 @@ const Metrics = (props) => {
         for more information on these metrics
       </p> */}
     </div>
-  )
-}
+  );
+};
 
-export default Metrics
+export default Metrics;

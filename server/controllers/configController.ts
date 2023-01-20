@@ -3,12 +3,13 @@
  * @description Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
  */
 
-const db = require('../models/cloudModel');
+import db from '../models/cloudModel';
+import { Request, Response, NextFunction } from 'express';
+import { ConfigController, ServerError } from '../../types';
 
-const configController = {};
-
+const configController: ConfigController = {
 // update configuration thresholds
-configController.configureThresholds = (req, res, next) => {
+configureThresholds: (req: Request, res: Response, next: NextFunction ) => {
   if (res.locals.error) return next();
 
   const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
@@ -17,21 +18,21 @@ configController.configureThresholds = (req, res, next) => {
   const thresholdDetails = [contact_pref, mem_threshold, cpu_threshold, container_stops, _id];
 
   db.query(inputThresholds, thresholdDetails)
-    .then((data) => {
+    .then((data: any) => {
       res.locals.user = data.rows[0];
       return next();
     })
-    .catch((err) => {
+    .catch((err: ServerError) => {
       return next({
         log: `Error in userController newUser: ${err}`,
-        message: { err: 'An error occured creating new user in database. See userController.newUser.' },
+        message: { err: 'An error occured creating new user in database. See userController .newUser.' },
       });
     });
 
-};
+},
 
 // configure contact preference
-configController.updateContactPref = (req, res, next) => {
+updateContactPref: (req: Request, res: Response, next: NextFunction) => {
   if (res.locals.error) return next();
 
   const { contact_pref, _id } = req.body;
@@ -40,20 +41,20 @@ configController.updateContactPref = (req, res, next) => {
   const prefDetails = [contact_pref, _id];
 
   db.query(inputPref, prefDetails)
-    .then((data) => {
+    .then((data: any) => {
       res.locals.user = data.rows[0];
       return next();
     })
-    .catch((err) => {
+    .catch((err: ServerError) => {
       return next({
         log: `Error in configController updateContactPref: ${err}`,
-        message: { err: 'An error occured updating contact preferences in database. See configController.updateContactPref.' },
+        message: { err: 'An error occured updating contact preferences in database. See configController .updateContactPref.' },
       });
     });
-};
+},
 
 // configure CPU threshold
-configController.updateCPUThreshold = (req, res, next) => {
+updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
   if (res.locals.error) return next();
 
   const { cpu_threshold, _id } = req.body;
@@ -62,20 +63,20 @@ configController.updateCPUThreshold = (req, res, next) => {
   const CPUDetails = [cpu_threshold, _id];
 
   db.query(inputCPU, CPUDetails)
-    .then((data) => {
+    .then((data: any) => {
       res.locals.user = data.rows[0];
       return next();
     })
-    .catch((err) => {
+    .catch((err: ServerError) => {
       return next({
         log: `Error in configController updateCPUThreshold: ${err}`,
-        message: { err: 'An error occured updating CPU threshold in database. See configController.updateCPUThreshold.' },
+        message: { err: 'An error occured updating CPU threshold in database. See configController .updateCPUThreshold.' },
       });
     });
-};
+},
 
 // configure memory threshold
-configController.updateMemThreshold = (req, res, next) => {
+updateMemThreshold: (req: Request, res: Response, next: NextFunction) => {
   if (res.locals.error) return next();
 
   const { mem_threshold, _id } = req.body;
@@ -84,20 +85,20 @@ configController.updateMemThreshold = (req, res, next) => {
   const memDetails = [mem_threshold, _id];
 
   db.query(inputMem, memDetails)
-    .then((data) => {
+    .then((data: any) => {
       res.locals.user = data.rows[0];
       return next();
     })
-    .catch((err) => {
+    .catch((err: ServerError) => {
       return next({
         log: `Error in configController updateMemThreshold: ${err}`,
-        message: { err: 'An error occured updating memory threshold in database. See configController.updateMemThreshold.' },
+        message: { err: 'An error occured updating memory threshold in database. See configController .updateMemThreshold.' },
       });
     });
-};
+},
 
 // configure preference to receive notification when a container stops running
-configController.updateStopPref = (req, res, next) => {
+updateStopPref: (req: Request, res: Response, next: NextFunction) => {
   if (res.locals.error) return next();
 
   const { container_stops, _id } = req.body;
@@ -106,16 +107,18 @@ configController.updateStopPref = (req, res, next) => {
   const stopPrefDetails = [container_stops, _id];
 
   db.query(inputStopPref, stopPrefDetails)
-    .then((data) => {
+    .then((data: any) => {
       res.locals.user = data.rows[0];
       return next();
     })
-    .catch((err) => {
+    .catch((err: ServerError) => {
       return next({
         log: `Error in configController updateStopPref: ${err}`,
-        message: { err: 'An error occured updating container stop preference in database. See configController.updateStopPref.' },
+        message: { err: 'An error occured updating container stop preference in database. See configController .updateStopPref.' },
       });
     });
-};
+},
 
-module.exports = configController;
+}
+
+export default configController;

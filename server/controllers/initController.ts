@@ -3,7 +3,7 @@
  * @description Contains middleware that creates and runs the local database
  */
 
-import db from "../models/cloudModel";
+import db from "../models/psqlQuery";
 import { Request, Response, NextFunction } from "express";
 import { InitController, ServerError } from "../../types";
 import path from 'path';

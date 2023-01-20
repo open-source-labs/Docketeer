@@ -522,7 +522,20 @@ export interface CommandController{
   composeStacks: (req: Request, res: Response, next: NextFunction) => void,
   composeDown: (req: Request, res: Response, next: NextFunction) => void,
   getAllDockerVolumes: (req: Request, res: Response, next: NextFunction) => void,
-  getVolumeContainers: (req: Request, res: Response, next: NextFunction) => void,getLogs: (req: Request, res: Response, next: NextFunction) => void,
+  getVolumeContainers: (req: Request, res: Response, next: NextFunction) => void,
+  getLogs: (req: Request, res: Response, next: NextFunction) => void,
+}
+export interface CookieController {
+  setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void,
+  setAdminCookie: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface ConfigController{
+  configureThresholds: (req: Request, res: Response, next: NextFunction) => void,
+  updateContactPref: (req: Request, res: Response, next: NextFunction) => void,
+  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void,
+  updateMemThreshold: (req: Request, res: Response, next: NextFunction) => void,
+  updateStopPref: (req: Request, res: Response, next: NextFunction) => void,
 }
 
 export interface DbController{
@@ -540,7 +553,6 @@ export interface InitController{
   gitUrl: (req: Request, res: Response, next: NextFunction) => void,
   addMetrics: (req: Request, res: Response, next: NextFunction) => void,
   getMetrics:(req: Request, res: Response, next: NextFunction) => void,
-  
 }
 
 export interface SettingsController {

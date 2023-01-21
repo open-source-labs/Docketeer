@@ -104,6 +104,7 @@ const Login = () => {
               color='primary'
               type='submit'
               size='medium'
+              role='login'
               className='login-buttons'
               onClick={() => handleLogin}
               sx={{

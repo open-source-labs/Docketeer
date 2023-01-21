@@ -378,11 +378,13 @@ h4 {
 }
 
 .users-container {
+  border-radius: 0.5rem;
   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; 
+  /* overflow: hidden; */
 }
 
 .settings-container {
@@ -393,11 +395,13 @@ h4 {
   background-color: white;
   margin: 20px 0px 20px 0px;
   padding: 15px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 40px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  border-radius: 0.5rem;
+  line-height: 1.5rem;
 }
 
 .container-name {
@@ -466,10 +470,11 @@ h4 {
   line-height: 45px;
   border-radius: 10px 10px 0 0;
 }
-
+/* 
 #drag-file {
   background-color: white;
-}
+} */
+
 
 .modal-container {
   position: fixed;

@@ -56,7 +56,24 @@ describe('Login Page Renders', () => {
     // should ensure the login button has been clicked
     expect(loginButton2).toBeCalled;
     // should ensure that the authenticate user function invoked by button click is called
-    expect(authenticateUser).toBeCalled;
+    expect(authenticateUser).toHaveBeenCalled;
+  });
+
+  test('Register Button navigates to Sign Up Page', async () => {    
+    // select the register button
+    const registerButton = screen.getByRole('register');
+    // fire event to click the button, navigating to new page
+    await act(() => {
+      fireEvent.click(registerButton);
+    });
+    // assert that the event happened
+    expect(registerButton).toBeCalled;
+
+    // on new page, select the title h1 element -> 'Sign Up'
+    const title = document.querySelector('h1');
+    
+    // assert that the title element has the SIgn Up text
+    expect(title.textContent).toBe('Sign Up');
   });
 
   test('Docketeer Image', async () => {

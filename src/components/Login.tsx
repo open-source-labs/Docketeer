@@ -118,6 +118,7 @@ const Login = () => {
             <Button
               variant='contained'
               size='small'
+              role='register'
               className='register login-buttons'
               onClick={() => navigate('/userSignup')}
               sx={{

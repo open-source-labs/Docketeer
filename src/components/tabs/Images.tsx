@@ -126,7 +126,7 @@ const Images = (props: ImagesProps) => {
               setRepo(e.target.value);
             }}
           ></input>
-          <button className="etc-btn" onClick={() => handleClick()}>
+          <button className="etc-btn" name='pull' onClick={() => handleClick()}>
             PULL
           </button>
         </span>

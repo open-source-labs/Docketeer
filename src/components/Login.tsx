@@ -104,6 +104,7 @@ const Login = () => {
               color='primary'
               type='submit'
               size='medium'
+              role='login'
               className='login-buttons'
               onClick={() => handleLogin}
               sx={{
@@ -117,6 +118,7 @@ const Login = () => {
             <Button
               variant='contained'
               size='small'
+              role='register'
               className='register login-buttons'
               onClick={() => navigate('/userSignup')}
               sx={{

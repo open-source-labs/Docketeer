@@ -9,18 +9,19 @@ import {
 import {describe, beforeEach,afterEach, expect, test} from '@jest/globals';
 
 describe('makeArrayOfObjects', () => {
-  test('returns an array', () => {
-    const string = `HelloZ from Docker!
-
-    This message shows that your installation appears to be working correctly.
-    
+  test('returns a result array with appropriately constructed object elements', () => {
+    const string2 = `2022-12-22T19:36:44.564948926Z 2022/12/22 19:36:44 [notice] 1#1: start worker process 22\n2022-12-22T20:12:01.081323805Z 2022/12/22 20:12:01 [notice] 22#22: gracefully shutting down
     `;
-    const result = makeArrayOfObjects(string);
+
+    const result = makeArrayOfObjects(string2);
+    console.log(result);
     expect(result).toBeInstanceOf(Array);
     expect(result.length).toEqual(2);
     expect(result.containerName).toBe(undefined);
-    expect(result[0].logMsg).toEqual('HelloZ from Docker!');
-    expect(result[0].timeStamp).toBeUndefined();
+    expect(result[0].logMsg).toEqual('1#1: start worker process 22');
+    expect(result[0].timeStamp).toBe('12/22/2022, 1:36:44 PM');
+    expect(result[1].logMsg).toEqual('22#22: gracefully shutting down');
+    expect(result[1].timeStamp).toBe('12/22/2022, 2:12:01 PM');
   });
   
   // Can be addressed through TS

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import {render, fireEvent, screen} from '@testing-library/react';
 import App from '../src/renderer/App';
-import Login from '../src/components/login/login';
+import {authenticateUser} from '../src/components/Login';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/renderer/store';
@@ -10,11 +10,6 @@ import {describe, beforeEach, expect, test, jest} from '@jest/globals';
 import fetchMock from 'jest-fetch-mock';
 import { act } from 'react-test-renderer';
 import Docketeer from '../assets/docketeer-title.png';
-
-const mockedUsedNavigate = jest.fn();
-// jest.mock('react-router-dom', () => ({
-//  useNavigate: () => mockedUsedNavigate,
-// }));
 
 fetchMock.enableMocks();
 
@@ -46,13 +41,39 @@ describe('Login Page Renders', () => {
   });
   
   test('Login button', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ username: 'sysadmin', password: 'belugas' }));
+    fetch.mockResponseOnce(JSON.stringify({ username: 'csgroup', password: 'csgroup' }));
     const alert = window.alert = jest.fn();
-    const loginButton = screen.getByRole('button');
+
+    // mock the login module as a whole, accessing the imported authenticateUser function property
+    jest.mock('../src/components/Login');
+
+    // select login button
+    const loginButton2 = screen.getByRole('login');
+    // fire event to click login button
     await act(()=>{
-      fireEvent.click(loginButton);
+      fireEvent.click(loginButton2);
     });
-    // need to fix issue of localhost/4000 not rendering anything after you login
+    // should ensure the login button has been clicked
+    expect(loginButton2).toBeCalled;
+    // should ensure that the authenticate user function invoked by button click is called
+    expect(authenticateUser).toHaveBeenCalled;
+  });
+
+  test('Register Button navigates to Sign Up Page', async () => {    
+    // select the register button
+    const registerButton = screen.getByRole('register');
+    // fire event to click the button, navigating to new page
+    await act(() => {
+      fireEvent.click(registerButton);
+    });
+    // assert that the event happened
+    expect(registerButton).toBeCalled;
+
+    // on new page, select the title h1 element -> 'Sign Up'
+    const title = document.querySelector('h1');
+    
+    // assert that the title element has the SIgn Up text
+    expect(title.textContent).toBe('Sign Up');
   });
 
   test('Docketeer Image', async () => {

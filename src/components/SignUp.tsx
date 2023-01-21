@@ -17,6 +17,7 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 
 // Helper Functions
 import {
+  checkDbInit,
   handleNewUser,
   checkPasswordLength,
   confirmPassword,
@@ -51,7 +52,10 @@ const SignUp = () => {
           className='settingsForm'
           component='form'
           autoComplete='off'
-          onSubmit={(e: any) => handleNewUser(e, '1')}
+          onSubmit={(e: any) => {
+            checkDbInit();
+            handleNewUser(e, '1');
+          }}
           sx={{ color: 'blue' }}
         >
 
@@ -84,7 +88,7 @@ const SignUp = () => {
               type={values.showPassword ? 'text' : 'password'}
               onChange={(e) => {
                 checkPasswordLength();
-                setValues({ ...values, password: e.target.value })
+                setValues({ ...values, password: e.target.value });
               }}
               endAdornment={
                 <InputAdornment position="end">
@@ -111,8 +115,8 @@ const SignUp = () => {
             type='password'
             required
             onChange={(e) => {
-              setValues({ ...values, passwordConfirmation: e.target.value })
-              confirmPassword()
+              setValues({ ...values, passwordConfirmation: e.target.value });
+              confirmPassword();
             }}
             sx={{
               m: 1
@@ -131,7 +135,7 @@ const SignUp = () => {
 
             onChange={() => {
               const inputElement = (document.getElementById('signupPhone') as HTMLInputElement).value;
-              checkPhone(inputElement)
+              checkPhone(inputElement);
             }}
             sx={{
               m: 1
@@ -145,7 +149,7 @@ const SignUp = () => {
               variant='contained'
               size='medium'
               onClick={() => {
-                history.back()
+                history.back();
               }}
               sx={{
                 m: 1
@@ -167,7 +171,7 @@ const SignUp = () => {
         </Box>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default SignUp;

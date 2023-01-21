@@ -1,25 +1,25 @@
-import express, {NextFunction, Request, Response} from'express';
+import express, { NextFunction, Request, Response } from 'express';
 // import path from'path';
-import cors from'cors';
+import cors from 'cors';
 // import colors from'colors';
 
-import signupRouter from'./routes/signupRouter';
-import loginRouter from'./routes/loginRouter';
-import adminRouter from'./routes/adminRouter';
-import accountRouter from'./routes/accountRouter';
-import apiRouter from'./routes/apiRouter';
-import dbRouter from'./routes/dbRouter';
-import initRouter from'./routes/initRouter';
-import logoutRouter from'./routes/logoutRouter';
-import settingsRouter from'./routes/settingsRouter';
-import commandRouter from'./routes/commandRouter';
+import accountRouter from './routes/accountRouter';
+import adminRouter from './routes/adminRouter';
+import apiRouter from './routes/apiRouter';
+import commandRouter from './routes/commandRouter';
+import dbRouter from './routes/dbRouter';
+import initRouter from './routes/initRouter';
+import loginRouter from './routes/loginRouter';
+import logoutRouter from './routes/logoutRouter';
+import settingsRouter from './routes/settingsRouter';
+import signupRouter from './routes/signupRouter';
 import { ServerError } from '../types';
 
 const app = express();
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-app.use(cors()); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use('/test', (req: Request, res: Response) => {
   res.status(200).json({
@@ -27,16 +27,16 @@ app.use('/test', (req: Request, res: Response) => {
   });
 });
 
-app.use('/settings', settingsRouter);
-app.use('/init', initRouter);
-app.use('/signup', signupRouter);
-app.use('/login', loginRouter);
-app.use('/admin', adminRouter);
 app.use('/account', accountRouter);
+app.use('/admin', adminRouter);
 app.use('/api', apiRouter);
-app.use('/db', dbRouter);
-app.use('/logout', logoutRouter);
 app.use('/command', commandRouter);
+app.use('/db', dbRouter);
+app.use('/init', initRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/settings', settingsRouter);
+app.use('/signup', signupRouter);
 
 app.use('/', (req: Request, res: Response) => {
   /*

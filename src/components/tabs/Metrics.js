@@ -37,7 +37,7 @@ const Metrics = (props) => {
     datasets: [
       {
         label: 'CPU',
-        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
+        backgroundColor: ['#4594ce', '#67f267'],
         data: [cpuData, result.cpuPerc],
       },
     ],
@@ -48,7 +48,7 @@ const Metrics = (props) => {
     datasets: [
       {
         label: 'Memory',
-        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
+        backgroundColor: ['#4594ce', '#67f267'],
         data: [memoryData, result.memPerc],
       },
     ],

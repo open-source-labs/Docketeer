@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
+import { AnyAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
 import React from 'react';
 import ProcessLogsCard from '../display/ProcessLogsCard';
+import { ContainerType } from '../../../types';
 
 /**
  * Display all running and stopped containers. Each box can be selected to view process log tables.
@@ -8,9 +10,9 @@ import ProcessLogsCard from '../display/ProcessLogsCard';
  * @param {*} props
  */
 
-const ProcessLogs = (props) => {
-  const renderRunningList = [];
-  props.runningList.map((container, index) => {
+const ProcessLogs = (props: any) => {
+  const renderRunningList: any[] = [];
+  props.runningList.map((container: ContainerType, index: number) => {
     renderRunningList.push(
       <ProcessLogsCard
         key={index}
@@ -21,8 +23,8 @@ const ProcessLogs = (props) => {
     );
   });
 
-  const renderStoppedList = [];
-  props.stoppedList.map((container, index) => {
+  const renderStoppedList: any[] = [];
+  props.stoppedList.map((container: ContainerType, index: number) => {
     renderStoppedList.push(
       <ProcessLogsCard key={index} index={index} container={container} status='Stopped' />
     );

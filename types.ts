@@ -25,6 +25,11 @@ export interface RunningListType {
     RunningFor: string,
 }
 
+export interface hostStats {
+  cpuPerc: string,
+  memPerc: string,
+}
+
 // for more info review actions.ts file and Settings.ts
 export type ContainerProps = {
     stoppedList: StoppedListType[];
@@ -36,6 +41,7 @@ export type ContainerProps = {
     stop: (id: string, refreshStoppedContainers: (data: StoppedContainerObj[]) => void) => void;
     runningList: RunningListType[];
     runIm: (id: ContainerType, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
+    hostStats?: hostStats[];
   }
 
   // Stopped containers have a Names key and running containers have a Name key
@@ -242,9 +248,10 @@ interface session {
 }
 
 // "any" has been used below since strict typing was used to define these props in the tabs types 
-interface containersList {
+export interface containersList {
   runningList: any[],
-  stoppedList: any[]
+  stoppedList: any[],
+  hostStats: any,
 }
 
 interface imagesList {

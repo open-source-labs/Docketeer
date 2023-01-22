@@ -93,7 +93,7 @@ h4 {
 }
 
 .container-heading{
-  margin: 30px;
+  margin: 10px;
 }
 
 .settings-container.inner-box {
@@ -116,7 +116,7 @@ h4 {
 }
 
 .tabTitle {
-  margin: 25px;
+  margin: 50px 15px;
   font-weight: bolder;
   font-size: 30px;
 }
@@ -127,10 +127,10 @@ h4 {
 }
 
 .containers {
-  background-color: #e1e4e6;
-  max-height: 800px;
   display: flex;
   flex-wrap: wrap;
+  background-color: #e1e4e6;
+  max-height: 800px;
   overflow-y: auto;
 }
 
@@ -162,7 +162,7 @@ h4 {
 
 .box {
   margin-top: 20px;
-  margin-left: 20px;
+  margin-right: 20px;
   min-width: 250px;
   background: white;
   padding-bottom: 10px;

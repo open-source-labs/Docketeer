@@ -4,15 +4,14 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay';
 import { useSelector } from 'react-redux';
-import { ContainerProps, hostStats, containersList } from '../../../types';
-import { RootState, AppDispatch } from '../../renderer/store';
+import {  MetricsProps } from '../../../types';
 
 /**
  * Display general metrics
  *
  * @param {*} props
  */
-const Metrics = (props : any) => {
+const Metrics = (props: MetricsProps) => {
   const fullRunningList = props.runningList;
   const hostStats = useSelector((state: any) => state.containersList.hostStats);
   const cpuData = 100 - hostStats.cpuPerc; 

@@ -44,6 +44,11 @@ export type ContainerProps = {
     hostStats?: hostStats[];
   }
 
+export type MetricsProps = {
+  runningList: any[];
+  threshold: any[];
+}
+
   // Stopped containers have a Names key and running containers have a Name key
   export type ContainerType = {
     Name?: string;
@@ -251,7 +256,7 @@ interface session {
 export interface containersList {
   runningList: any[],
   stoppedList: any[],
-  hostStats: any,
+  hostStats: string[],
 }
 
 interface imagesList {

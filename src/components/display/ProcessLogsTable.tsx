@@ -39,13 +39,14 @@ const ProcessLogsTable = () => {
     ['container', 'type', 'time', 'message'],
   ]);
 
-  const [logs, setLogs] = useState({ stdout: [], stderr: [] });
-  const { stdout, stderr } = logs;
+
+  const [counter, setCounter] = useState(0);
+  const { stdout, stderr } = store.getState().processLogs.containerLogs;
 
   // This will update the logs table after all logs have been pulled - there will be a lag before they render
   useEffect(() => {
     tableData();
-  }, [logs.stderr.length, csvData.length]);
+  }, [counter, csvData.length]);
 
   // Get logs button handler function. Grabs logs and updates component state
   const handleGetLogs = async (idList: string[]) => {
@@ -53,8 +54,9 @@ const ProcessLogsTable = () => {
 
     // Using a promise as the process to pull the container logs takes a fair bit of time
     const containerLogs = await getLogs(optionsObj, getContainerLogsDispatcher);
-    console.log('containerLogs', containerLogs)
-    setLogs(containerLogs as keyof typeof setLogs);
+    getContainerLogsDispatcher(containerLogs);
+    console.log('containerLogs', containerLogs);
+    setCounter(counter + 1);
     return containerLogs;
   };
 
@@ -132,7 +134,7 @@ const ProcessLogsTable = () => {
     const newCSV: CSVData[] = [];
 
     if (stdout) {
-      stdout.forEach((log, index) => {
+      stdout.forEach((log: { [k: string]: any; }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
@@ -145,8 +147,9 @@ const ProcessLogsTable = () => {
         });
         newCSV.push([currCont.Name, 'stdout', log['timeStamp'], log['logMsg']]);
       });
-
-      stderr.forEach((log, index) => {
+    }
+    if (stderr) {
+      stderr.forEach((log: { [k: string]: any; }, index: any) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
@@ -155,7 +158,7 @@ const ProcessLogsTable = () => {
           type: 'stderr',
           time: log['timeStamp'],
           message: log['logMsg'],
-          id: parseInt(`stderr ${index}`),
+          id: parseInt(index),
         });
         newCSV.push([currCont.Name, 'stderr', log['timeStamp'], log['logMsg']]);
       });

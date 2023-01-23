@@ -111,6 +111,7 @@ const UserTable = () => {
           * Double click on the role to access the drop down menu
         </Typography>
         <DataGrid
+          className="user-table"
           sx={{}}
           columns={columns}
           rows={userList}

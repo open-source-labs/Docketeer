@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import * as helper from '../helper/commands';
+import { ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
  * 
  * @param {*} props
  */
-const Images = (props) => {
+const Images = (props: ImagesProps) => {
   const [repo, setRepo] = useState('');
 
-  const handleClick = (e) => {
+  const handleClick = (e: MouseEvent) => {
     e.preventDefault();
     helper.pullImage(repo);
   };

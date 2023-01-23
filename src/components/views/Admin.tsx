@@ -57,6 +57,7 @@ const AdminView = () => {
   const runningList = useSelector((state: StateType) => state.containersList.runningList);
   const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const { mem_threshold, cpu_threshold } = useSelector((state: StateType) => state.session);
   // const networkList = useSelector((state: StateType) => state.networkList.networkList);
 
   const arrayOfVolumeNames = useSelector(
@@ -249,7 +250,7 @@ const AdminView = () => {
         <Route
           path='/metrics'
           element={
-            <Metrics runningList={runningList} />
+            <Metrics runningList={runningList} threshold={[cpu_threshold, mem_threshold]}/>
           }
         />
         <Route

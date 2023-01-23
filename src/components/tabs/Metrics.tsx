@@ -1,25 +1,23 @@
 /* eslint-disable no-tabs */
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { convertToMetricsArr } from '../helper/parseContainerFormat'
-import { Chart } from 'react-chartjs-2'
-import LineChartDisplay from '../display/LineChartDisplay'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { Chart } from 'react-chartjs-2';
+import LineChartDisplay from '../display/LineChartDisplay';
+import { useSelector } from 'react-redux';
+import {  MetricsProps } from '../../../types';
 
 /**
  * Display general metrics
  *
  * @param {*} props
  */
-const Metrics = (props) => {
-  const hostStats = useSelector((state) => state.containersList.hostStats)
-  const fullRunningList = props.runningList
-  // const result = convertToMetricsArr(props.runningList)
-  const result = hostStats
-  const cpuData = 100 - result.cpuPerc // .toFixed(2) // 60%
-  const memoryData = 100 - result.memPerc // .toFixed(2)
-  const cpuThreshold = props.threshold[0]
-  const memThreshold = props.threshold[1]
+const Metrics = (props: MetricsProps) => {
+  const fullRunningList = props.runningList;
+  const hostStats = useSelector((state: any) => state.containersList.hostStats);
+  const cpuData = 100 - hostStats.cpuPerc; 
+  const memoryData = 100 - hostStats.memPerc; 
+  const cpuThreshold = props.threshold[0];
+  const memThreshold = props.threshold[1];
 
   let cpuFails = 0
   let memFails = 0
@@ -33,23 +31,23 @@ const Metrics = (props) => {
   }
 
   const cpu = {
-    labels: [`Available: ${cpuData}%`, `Usage: ${result.cpuPerc}%`],
+    labels: [`Available: ${cpuData}%`, `Usage: ${hostStats.cpuPerc}%`],
     datasets: [
       {
         label: 'CPU',
         backgroundColor: ['#4594ce', '#67f267'],
-        data: [cpuData, result.cpuPerc],
+        data: [cpuData, hostStats.cpuPerc],
       },
     ],
   }
 
   const memory = {
-    labels: [`Available: ${memoryData}%`, `Usage: ${result.memPerc}%`],
+    labels: [`Available: ${memoryData}%`, `Usage: ${hostStats.memPerc}%`],
     datasets: [
       {
         label: 'Memory',
         backgroundColor: ['#4594ce', '#67f267'],
-        data: [memoryData, result.memPerc],
+        data: [memoryData, hostStats.memPerc],
       },
     ],
   }
@@ -62,14 +60,14 @@ const Metrics = (props) => {
       tooltips: { enabled: true, mode: 'index' },
       legend: { display: false },
       datalabels: {
-        formatter: (value, ctx) => {
-          let sum = 0
-          const dataArr = ctx.chart.data.datasets[0].data
-          dataArr.map((data) => {
-            sum += data
-          })
-          const percentage = (value * 100) / sum + '%'
-          return percentage
+        formatter: (value: number, ctx: any) => {
+          let sum = 0;
+          const dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.map((data: any) => {
+            sum += data;
+          });
+          const percentage = (value * 100) / sum + '%';
+          return percentage;
         },
         color: '#fff',
       },
@@ -84,14 +82,14 @@ const Metrics = (props) => {
       tooltips: { enabled: false },
       legend: { display: false },
       datalabels: {
-        formatter: (value, ctx) => {
-          let sum = 0
-          const dataArr = ctx.chart.data.datasets[0].data
-          dataArr.map((data) => {
-            sum += data
-          })
-          const percentage = (value * 100) / sum + '%'
-          return percentage
+        formatter: (value: number, ctx: any) => {
+          let sum = 0;
+          const dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.map((data: any) => {
+            sum += data;
+          });
+          const percentage = (value * 100) / sum + '%';
+          return percentage;
         },
         color: '#fff',
       },
@@ -123,10 +121,7 @@ const Metrics = (props) => {
             </div>
             <div className="legend-section">
               <div className="usage-box"></div>
-              <p className="legend-text">
-                {' '}
-                Usage {Math.round(result.cpuPerc)}%
-              </p>
+              <p className="legend-text"> Usage {Math.round(hostStats.cpuPerc)}%</p>
             </div>
           </div>
         </div>
@@ -150,10 +145,7 @@ const Metrics = (props) => {
             </div>
             <div className="legend-section">
               <div className="usage-box"></div>
-              <p className="legend-text">
-                {' '}
-                Usage {Math.round(result.memPerc)}%
-              </p>
+              <p className="legend-text"> Usage {Math.round(hostStats.memPerc)}%</p>
             </div>
           </div>
         </div>

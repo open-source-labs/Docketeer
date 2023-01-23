@@ -10,6 +10,7 @@
 header {
   display: flex;
   justify-content: center;
+  color: #042331;
 }
 
 body {
@@ -19,7 +20,8 @@ body {
 
 i {
   color: rgb(105, 105, 72);
-  transition: 0.3s;
+  transition: 0.7s;
+  margin-right: 8px;
 }
 
 ul {
@@ -60,7 +62,7 @@ h4 {
   padding: 0px 25px 0px 25px;
   min-width: 78vw;
   height: 100%;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   overflow: scroll;
   border-radius: 0.3rem;
   background: #e1e4e6;
@@ -90,6 +92,10 @@ h4 {
   padding-bottom: 120px;
 }
 
+.container-heading{
+  margin: 10px;
+}
+
 .settings-container.inner-box {
   border-radius: 0.7rem;
 }
@@ -110,6 +116,7 @@ h4 {
 }
 
 .tabTitle {
+  margin: 20px 15px;
   font-weight: bolder;
   font-size: 30px;
 }
@@ -120,10 +127,10 @@ h4 {
 }
 
 .containers {
-  background-color: #e1e4e6;
-  max-height: 800px;
   display: flex;
   flex-wrap: wrap;
+  background-color: #e1e4e6;
+  max-height: 800px;
   overflow-y: auto;
 }
 
@@ -155,7 +162,7 @@ h4 {
 
 .box {
   margin-top: 20px;
-  margin-left: 20px;
+  margin-right: 20px;
   min-width: 250px;
   background: white;
   padding-bottom: 10px;
@@ -220,11 +227,13 @@ h4 {
 }
 
 .tab ul li:hover {
-  border-left: #e1e4e6 12px solid;
+  /* border-left: #e1e4e6 5px solid; */
+  
 }
 
 .tab ul li a:hover {
   font-weight: 900;
+  color: #ecfffe;
 }
 
 .tab ul li a:hover i {
@@ -379,12 +388,9 @@ h4 {
 
 .users-container {
   border-radius: 0.5rem;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; 
-  /* overflow: hidden; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .settings-container {
@@ -394,13 +400,11 @@ h4 {
   flex-direction: column;
   background-color: white;
   margin: 20px 0px 20px 0px;
-  padding: 15px;
-  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  padding: 30px;
   border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   line-height: 1.5rem;
 }
 
@@ -790,4 +794,9 @@ h4 {
   padding: 1vh 1vw;
   width: 50vw;
   margin: 1vh 1vw 0 0;
+  border-radius: 0.2rem;
+}
+
+.user-table{
+  height: calc(100% - 70px) !important;
 }

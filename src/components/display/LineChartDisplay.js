@@ -550,7 +550,7 @@ const LineChartDisplay = () => {
   return (
     <div>
       <div className="metric-section-title">
-        <h3>Metrics Over Time</h3>
+        <h3 className="container-heading">Metrics Over Time</h3>
       </div>
       <div className="metrics-options-form">
         <form

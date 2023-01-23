@@ -19,15 +19,15 @@ const Metrics = (props: MetricsProps) => {
   const cpuThreshold = props.threshold[0];
   const memThreshold = props.threshold[1];
 
-  let cpuFails = 0;
-  let memFails = 0;
+  let cpuFails = 0
+  let memFails = 0
 
   // used to monitor threshold and fail counts
   for (const each of fullRunningList) {
-    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''));
-    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''));
-    if (cpu >= cpuThreshold) cpuFails++;
-    if (memory >= memThreshold) memFails++;
+    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''))
+    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''))
+    if (cpu >= cpuThreshold) cpuFails++
+    if (memory >= memThreshold) memFails++
   }
 
   const cpu = {
@@ -35,22 +35,22 @@ const Metrics = (props: MetricsProps) => {
     datasets: [
       {
         label: 'CPU',
-        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
+        backgroundColor: ['#4594ce', '#67f267'],
         data: [cpuData, hostStats.cpuPerc],
       },
     ],
-  };
+  }
 
   const memory = {
     labels: [`Available: ${memoryData}%`, `Usage: ${hostStats.memPerc}%`],
     datasets: [
       {
         label: 'Memory',
-        backgroundColor: ['rgba(44, 130, 201, 1)', 'rgba(19, 221, 29, 1)'],
+        backgroundColor: ['#4594ce', '#67f267'],
         data: [memoryData, hostStats.memPerc],
       },
     ],
-  };
+  }
 
   const memOptions = {
     responsive: true,
@@ -72,7 +72,7 @@ const Metrics = (props: MetricsProps) => {
         color: '#fff',
       },
     },
-  };
+  }
 
   const cpuOptions = {
     responsive: true,
@@ -94,7 +94,7 @@ const Metrics = (props: MetricsProps) => {
         color: '#fff',
       },
     },
-  };
+  }
 
   return (
     <div className="renderContainers">
@@ -102,7 +102,7 @@ const Metrics = (props: MetricsProps) => {
         <h1 className="tabTitle">Metrics</h1>
       </div>
       <div className="metric-section-title">
-        <h3>Host Metrics</h3>
+        <h3 className="container-heading">Host Metrics</h3>
       </div>
       <div className="aggregate-conatiner">
         <div className="pieChart">
@@ -138,7 +138,10 @@ const Metrics = (props: MetricsProps) => {
           <div className="legend-container">
             <div className="legend-section">
               <div className="avaliable-box"></div>
-              <p className="legend-text"> Available {Math.round(memoryData)}%</p>
+              <p className="legend-text">
+                {' '}
+                Available {Math.round(memoryData)}%
+              </p>
             </div>
             <div className="legend-section">
               <div className="usage-box"></div>
@@ -176,7 +179,7 @@ const Metrics = (props: MetricsProps) => {
         for more information on these metrics
       </p> */}
     </div>
-  );
-};
+  )
+}
 
-export default Metrics;
+export default Metrics

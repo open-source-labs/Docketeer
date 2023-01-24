@@ -101,6 +101,29 @@ npm run dev
 For now, the sign up function will create a System Admin user.
 
 
+## Returning Users: Version Update
+1. Navigate to the project directory and **add upstream** this [repository](https://github.com/open-source-labs/Docketeer.git) to your cloned fork.
+```
+git remote add upstream https://github.com/open-source-labs/Docketeer.git
+```
+
+2. Pull down the updates.
+```
+git pull origin upstream
+```
+
+3. Install new dependencies.
+```
+npm install
+```
+
+4. You are all set! Now just enter the following command to start up Docketeer!
+```
+npm run dev
+```
+
+
+
 ## Twilio setup
 1. Follow documents found [here](https://www.twilio.com/docs/node/install) to download the helper library.
 2. In order to manage Twilio SMS notifications follow the [step plan](https://www.twilio.com/docs/notify/quickstart/sms#messagingservice).
@@ -130,7 +153,7 @@ You can view a list of running and exited containers, available images, volume h
 
 ### ➮ Live Metrics
 Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
-![alt text](assets/docketeer-metrics.gif)
+![alt text](assets/metrics.gif)
 
 ### ➮ Uploading
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
@@ -138,7 +161,7 @@ Within the Image and Docker Compose tab, you pull images from DockerHub by provi
 ### ➮ Process Logs
 View process logs from any number of running or stopped containers. The table is both exportable and sortable by any parameter. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
 
-![alt text](assets/docketeer-process-logs.gif)
+![alt text](assets/logs.gif)
 
 <br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
 

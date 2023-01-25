@@ -57,6 +57,7 @@ const AdminView = () => {
   const runningList = useSelector((state: StateType) => state.containersList.runningList);
   const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const { mem_threshold, cpu_threshold } = useSelector((state: StateType) => state.session);
   // const networkList = useSelector((state: StateType) => state.networkList.networkList);
 
   const arrayOfVolumeNames = useSelector(
@@ -249,7 +250,7 @@ const AdminView = () => {
         <Route
           path='/metrics'
           element={
-            <Metrics runningList={runningList} />
+            <Metrics runningList={runningList} threshold={[cpu_threshold, mem_threshold]}/>
           }
         />
         <Route
@@ -258,9 +259,9 @@ const AdminView = () => {
             <ProcessLogs
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
-              addRunningContainers={addRunningContainers}
+              refreshRunningContainers={refreshRunningContainers}
               // Stopped Containers
               runStopped={helper.runStopped}
               remove={helper.remove}
@@ -287,7 +288,7 @@ const AdminView = () => {
             <Images
               runIm={helper.runIm}
               removeIm={helper.removeIm}
-              addRunningContainers={addRunningContainers}
+              refreshRunningContainers={refreshRunningContainers}
               refreshImagesList={refreshImagesList}
               imagesList={imagesList}
               runningList={runningList}
@@ -300,7 +301,7 @@ const AdminView = () => {
             <Containers
               runIm={helper.runIm}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               runningList={runningList}
               // addRunningContainers={addRunningContainers}
               // Stopped Containers
@@ -318,7 +319,7 @@ const AdminView = () => {
             <Settings
               runningList={runningList}
               stop={helper.stop}
-              stopRunningContainer={stopRunningContainer}
+              refreshStoppedContainers={refreshStoppedContainers}
               stoppedList={stoppedList}
               runStopped={helper.runStopped}
               refreshRunningContainers={refreshRunningContainers}

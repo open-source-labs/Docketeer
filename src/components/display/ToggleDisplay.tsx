@@ -13,11 +13,11 @@ const ToggleDisplay = (props: ToggleDisplayProps) => {
       <div onClick={() => tog()} className="toggle-button">
         {toggle ? (
           <button className="btn toggle-button-detail">
-            Hide Details <i className="fas fa-arrow-up arrow"></i>
+            Hide Details 
           </button>
         ) : (
           <button className="btn toggle-button-detail ">
-            Show Details <i className="fas fa-arrow-down arrow"></i>
+            Show Details 
           </button>
         )}
       </div>

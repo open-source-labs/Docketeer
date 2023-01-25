@@ -48,3 +48,13 @@
   content: url(../../../assets/docketeer-logs.svg);
   width: 22px;
 }
+
+.fa-expand {
+  content: url(../../../assets/expand-icon.svg);
+  width: 22px;
+}
+
+.fa-compress {
+  content: url(../../../assets/compress-icon.svg);
+  width: 22px;
+}

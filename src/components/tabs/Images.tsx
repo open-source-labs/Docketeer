@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import * as helper from '../helper/commands';
-import { ContainerObj, imageObj, ImagesProps } from '../../../types'; 
+import { ContainerObj, imageObj, ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
@@ -18,11 +18,11 @@ const Images = (props: ImagesProps) => {
     }
     else {
       let existingRepo = false;
-      if(repo.includes(':')){
+      if (repo.includes(':')) {
         const splitRepo = repo.split(':');
         // can't break out of a forEach, so opted to use map as temp solution
-        props.imagesList.map((el)=>{
-          if(el.reps === splitRepo[0] && el.tag === splitRepo[1]){
+        props.imagesList.map((el) => {
+          if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
             existingRepo = true;
             return;
           }
@@ -38,21 +38,21 @@ const Images = (props: ImagesProps) => {
           helper.pullImage(repo);
           return;
         }
-      } 
-      
+      }
+
       else {
-        props.imagesList.map((el)=>{
-          if (el.reps === repo && el.tag === 'latest'){
+        props.imagesList.map((el) => {
+          if (el.reps === repo && el.tag === 'latest') {
             existingRepo = true;
             return;
           }
         });
         // ignore was used below because Typescript says the codition will never be true, but this is not an accurate error
         // @ts-ignore 
-        if (existingRepo === true){
+        if (existingRepo === true) {
           alert('This image already exists!');
           return;
-        }        
+        }
         else {
           alert('Looking for image');
           helper.pullImage(repo);
@@ -86,16 +86,14 @@ const Images = (props: ImagesProps) => {
             onClick={() =>
               props.runIm(
                 ele,
-                props.runningList,
-                helper.addRunning,
-                props.addRunningContainers
+                props.refreshRunningContainers
               )
             }
           >
             RUN
           </button>
           <button
-            className="stop-btn"
+            className="remove-btn"
             onClick={() =>
               props.removeIm(
                 ele['imgid'],
@@ -116,22 +114,22 @@ const Images = (props: ImagesProps) => {
     <div className="renderContainers">
       <div className="header">
         <h1 className="tabTitle">Images</h1>
-        <div className="runByButton">
-          <label>Enter Image Repo<span style={{fontSize:'10px'}}>(version defaults to latest)</span></label>
-          <span>
-            <input
-              type="text"
-              placeholder='image:version'
-              value={repo}
-              onChange={(e) => {
-                setRepo(e.target.value);
-              }}
-            ></input>
-          </span>
-          <button className="run-btn" onClick={() => handleClick()}>
-            Pull
+      </div>
+      <div className="settings-container">
+        <label>Enter Image Repository <span style={{ fontSize: '10px' }}> (version defaults to latest)</span></label>
+        <span>
+          <input className="input-box"
+            type="text"
+            placeholder='image:version'
+            value={repo}
+            onChange={(e) => {
+              setRepo(e.target.value);
+            }}
+          ></input>
+          <button className="etc-btn" name='pull' onClick={() => handleClick()}>
+            PULL
           </button>
-        </div>
+        </span>
       </div>
       <div className="containers">{renderImagesList}</div>
     </div>

@@ -39,27 +39,25 @@ const ProcessLogsTable = () => {
     ['container', 'type', 'time', 'message'],
   ]);
 
-  const [logs, setLogs] = useState({ stdout: [], stderr: [] });
-  const { stdout, stderr } = logs;
+
+  const [counter, setCounter] = useState(0);
+  const { stdout, stderr } = store.getState().processLogs.containerLogs;
 
   // This will update the logs table after all logs have been pulled - there will be a lag before they render
   useEffect(() => {
     tableData();
-  }, [logs.stderr.length, csvData.length]);
+  }, [counter, csvData.length]);
 
   // Get logs button handler function. Grabs logs and updates component state
-  const handleGetLogs = (idList: string[]) => {
+  const handleGetLogs = async (idList: string[]) => {
     const optionsObj = buildOptionsObj(idList);
 
     // Using a promise as the process to pull the container logs takes a fair bit of time
-    const containerLogsPromise = Promise.resolve(
-      getLogs(optionsObj, getContainerLogsDispatcher)
-    );
-    containerLogsPromise.then((data) => {
-      const newLogs = data;
-      setLogs(newLogs as keyof typeof setLogs);
-      return newLogs;
-    });
+    const containerLogs = await getLogs(optionsObj, getContainerLogsDispatcher);
+    getContainerLogsDispatcher(containerLogs);
+    console.log('containerLogs', containerLogs);
+    setCounter(counter + 1);
+    return containerLogs;
   };
 
   const columns = [
@@ -126,7 +124,7 @@ const ProcessLogsTable = () => {
     }
   };
 
-  
+
 
   type CSVData = string[];
 
@@ -136,7 +134,7 @@ const ProcessLogsTable = () => {
     const newCSV: CSVData[] = [];
 
     if (stdout) {
-      stdout.forEach((log, index) => {
+      stdout.forEach((log: { [k: string]: any; }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
@@ -149,8 +147,9 @@ const ProcessLogsTable = () => {
         });
         newCSV.push([currCont.Name, 'stdout', log['timeStamp'], log['logMsg']]);
       });
-
-      stderr.forEach((log, index) => {
+    }
+    if (stderr) {
+      stderr.forEach((log: { [k: string]: any; }, index: any) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
@@ -159,7 +158,7 @@ const ProcessLogsTable = () => {
           type: 'stderr',
           time: log['timeStamp'],
           message: log['logMsg'],
-          id: parseInt(`stderr ${index}`),
+          id: parseInt(index),
         });
         newCSV.push([currCont.Name, 'stderr', log['timeStamp'], log['logMsg']]);
       });
@@ -171,96 +170,77 @@ const ProcessLogsTable = () => {
 
   return (
     <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Container Process Logs</h1>
+      </div>
       <div className="settings-container">
         <form>
-          <h1 style={{ margin: 10 }}>Container Process Logs</h1>
-          <h3>
-            <a
+          <div className="log-timeframe">
+            <h3>Time Frame:</h3>
+            <input
               style={{ margin: 5 }}
-              target="_blank"
-              rel="noreferrer"
-              href="https://docs.docker.com/engine/reference/commandline/logs/"
+              type="radio"
+              id="sinceInput"
+              name="logOption"
+            />
+            <label
+              style={{ margin: 5 }}
+              htmlFor="sinceInput"
             >
-              Click here
-            </a>{''}
-            for more information on logs
-          </h3>
-          <br></br>
-          <input
-            style={{ margin: 5 }}
-            type="radio"
-            id="sinceInput"
-            name="logOption"
-          />
-          <label
-            style={{ margin: 5 }}
-            htmlFor="sinceInput"
-          >
-            Since
-          </label>
-          <input
-            type="text"
-            id="sinceText"
-          />
-          <br></br>
-          <input
-            style={{ margin: 5 }}
-            type="radio"
-            id="tailInput"
-            name="logOption"
-          />
-          <label
-            style={{ margin: 5 }}
-            htmlFor="tailInput"
-          >
-            Tail
-          </label>
-          <input
-            style={{ marginLeft: 14 }}
-            type="text"
-            id="tailText"
-          />
-
-          <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
-            {containerSelectors} {/** Checkboxes for running containers */}
-          </FormGroup>
-          <Button
-            sx={{
-              ml: 1,
-              width: 120,
-            }}
-            size="medium"
-            variant="contained"
-            style={{ marginBottom: 10 }}
-            type="button"
+              Since
+            </label>
+            <input
+              type="text"
+              id="sinceText"
+            />
+            <br></br>
+            <input
+              style={{ margin: 5 }}
+              type="radio"
+              id="tailInput"
+              name="logOption"
+            />
+            <label
+              style={{ margin: 5 }}
+              htmlFor="tailInput"
+            >
+              Tail
+            </label>
+            <input
+              style={{ marginLeft: 14 }}
+              type="text"
+              id="tailText"
+            />
+          </div>
+          <br />
+          <div className="log-containers">
+            <h3>Running Containers:</h3>
+            <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
+              {containerSelectors} {/** Checkboxes for running containers */}
+            </FormGroup>
+          </div>
+          <br />
+          <button className="etc-btn" id="getlogs-btn" type="button"
             onClick={() => {
               handleGetLogs(btnIdList);
             }}
           >
-            Get Logs
-          </Button>
-          <Button
-            sx={{
-              ml: 1,
-              width: 180,
-            }}
-            size="medium"
-            variant="contained"
-            style={{ marginBottom: 10 }}
-          >
+            GET LOGS
+          </button>
+          <button className="etc-btn" type="button">
             <CSVLink
               style={{
                 textDecoration: 'none',
-                color: 'white',
-                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                color: '#0064ff',
               }}
               data={csvData}
             >
-              Download To CSV
+              DOWNLOAD TO CSV
             </CSVLink>
-          </Button>
+          </button>
         </form>
-
+      </div>
+      <div className="settings-container">
         <div
           className="process-logs-container"
           style={{ height: 660, width: '100%' }}

@@ -1,24 +1,24 @@
-const electron = require ('electron');
+const electron = require('electron');
 
-const path = require ('path');
+const path = require('path');
 const url = require('url');
 
 /*          Docketeer 7.0
 ** Next team can work on integrating Dev Tools
 */
 
-// const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 const verifyCode = require('./twilio/verifyCode');
-const verifyMobileNumber = require ('./twilio/verifyMobile');
-const postEvent = require ('./twilio/postEvent');
-const emailEvent = require ('./email/emailEvent');
+const verifyMobileNumber = require('./twilio/verifyMobile');
+const postEvent = require('./twilio/postEvent');
+const emailEvent = require('./email/emailEvent');
 
 // global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
 let mainWindow;
 
 function createMainWindow() {
-   mainWindow = new electron.BrowserWindow({
+  mainWindow = new electron.BrowserWindow({
     width: 1300,
     height: 800,
     webPreferences: {
@@ -26,7 +26,7 @@ function createMainWindow() {
       sandbox: false
     },
   });
-  
+
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL(`http://localhost:4000`);
     // mainWindow.webContents.openDevTools()
@@ -37,33 +37,43 @@ function createMainWindow() {
         protocol: 'file:',
         slashes: true,
       })
-      );
-    }
-    mainWindow.on('closed', () => {
-      mainWindow = null;
-    })
+    );
   }
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  })
+}
 
-    electron.app.on('ready', createMainWindow)
-    
-    electron.app.on('renderer-process-crashed', createMainWindow)
-    // MacOS Specific function
-    electron.app.on('window-all-closed', function () {
-      // Common for application and their menu bar to stay active until use quits explicitly 
-      if (process.platform !== 'darwin') {
-        electron.app.quit()
-      }
-    })
-    // MacOS Specific function
-    electron.app.on('activate', function() {
-      // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
-      if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
-    })
-    
+electron.app.on('ready', createMainWindow)
 
-  /*               Docketeer 7.0    
-  ** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.
-  */
+electron.app.on('renderer-process-crashed', createMainWindow)
+// MacOS Specific function
+electron.app.on('window-all-closed', function () {
+  // Common for application and their menu bar to stay active until use quits explicitly 
+  if (process.platform !== 'darwin') {
+    electron.app.quit()
+  }
+})
+
+// ==========================================================
+// Function: Register a preload script so we know whenever a new renderer is created.
+// Purpose: when the new renderer is created, use the devtool-instaler installExtension function to locally REDUX_DEVTOOLS
+// ==========================================================
+electron.app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then((name: any) => console.log(`Added Extension:  ${name}`))
+    .catch((err: any) => console.log('An error occurred: ', err));
+})
+
+// MacOS Specific function
+electron.app.on('activate', function () {
+  // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
+  if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow()
+})
+
+/*               Docketeer 7.0    
+** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.
+*/
 
 // //? comment out lines 30-38 if dev tools is slowing app
 //   app.whenReady().then(() => {
@@ -75,17 +85,17 @@ function createMainWindow() {
 //       .catch(err =>
 //         console.log('[electron-extensions] An error occurred: ', err));
 //   });
-  
-  // mainWindow.webContents.on('did-frame-finish-load', () => {
-  //   if (isDevelopment) {
-  //     mainWindow.webContents.openDevTools();
-  //     mainWindow.webContents.on('devtools-opened', () => {
-  //       mainWindow.focus();
-  //       setImmediate(() => {
-  //         mainWindow.focus();
-  //       });
-  //   });
-  // }});
+
+// mainWindow.webContents.on('did-frame-finish-load', () => {
+//   if (isDevelopment) {
+//     mainWindow.webContents.openDevTools();
+//     mainWindow.webContents.on('devtools-opened', () => {
+//       mainWindow.focus();
+//       setImmediate(() => {
+//         mainWindow.focus();
+//       });
+//   });
+// }});
 
 //   mainWindow.on('closed', () => {
 //     mainWindow = null;

@@ -1,5 +1,10 @@
 import * as types from "../constants/actionTypes";
 
+export const refreshHostData = (data: object) => ({
+  type: types.REFRESH_HOST_DATA,
+  payload: data,
+})
+
 export const addRunningContainers = (data: object[]) => ({
   type: types.ADD_RUNNING_CONTAINERS,
   payload: data,
@@ -109,6 +114,17 @@ export const buildWrittenIO = (data: string) => ({
 
 export const buildReadIO = (data: string) => ({
   type: types.BUILD_READ_IO,
+  payload: data,
+});
+
+// received IO
+export const buildReceivedIO = (data: string) => ({
+  type: types.BUILD_RECEIVED_IO,
+  payload: data,
+});
+// transmitted IO
+export const buildTransmittedIO = (data: string) => ({
+  type: types.BUILD_TRANSMITTED_IO,
   payload: data,
 });
 

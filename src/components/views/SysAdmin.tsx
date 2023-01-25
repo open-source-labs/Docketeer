@@ -26,34 +26,36 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from '../../../types';
+import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType } from '../../../types';
 
 // Container component that has all redux logic along with react router
 const SysAdmin = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const addRunningContainers = (data: ContainerObj[]) => 
-   dispatch(actions.addRunningContainers(data));
+  const refreshHostData = (data: ContainerObj[]) =>
+    dispatch(actions.refreshHostData(data));
+  const addRunningContainers = (data: ContainerObj[]) =>
+    dispatch(actions.addRunningContainers(data));
   const refreshRunningContainers = (data: ContainerObj[]) =>
     dispatch(actions.refreshRunningContainers(data));
   const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data: ImageObj[]) => 
+  const refreshImagesList = (data: ImageObj[]) =>
     dispatch(actions.refreshImages(data));
   // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data: NetworkObj[]) =>
     dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id: string) => 
+  const removeContainer = (id: string) =>
     dispatch(actions.removeContainer(id));
   const runStoppedContainer = (id: string) =>
     dispatch(actions.runStoppedContainer(id));
   const stopRunningContainer = (id: string) =>
     dispatch(actions.stopRunningContainer(id));
-  const updateSession = () => 
+  const updateSession = () =>
     dispatch(actions.updateSession());
-  const logoutUser = () => 
+  const logoutUser = () =>
     dispatch(actions.logoutUser());
-  const updateUserList = (data: UserObj[]) => 
+  const updateUserList = (data: UserObj[]) =>
     dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
   const getVolumeList = (data: { Name: string }[]) =>
     dispatch(actions.getVolumeList(data));
@@ -64,6 +66,7 @@ const SysAdmin = () => {
   const runningList = useSelector((state: StateType) => state.containersList.runningList);
   const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const { mem_threshold, cpu_threshold } = useSelector((state: StateType) => state.session);
   // const networkList = useSelector((state: StateType) => state.networkList.networkList);
   const userInfo = useSelector((state: StateType) => state.session); //* Feature only for SysAdmin
   const arrayOfVolumeNames = useSelector(
@@ -109,11 +112,14 @@ const SysAdmin = () => {
       .catch((err) => {
         console.log(err);
       });
-      navigate('/login');
+    navigate('/login');
   };
 
+
+  // Initial refresh
   useEffect(() => {
     initDatabase();
+    helper.getHostStats(refreshHostData);
     helper.refreshRunning(refreshRunningContainers);
     helper.refreshStopped(refreshStoppedContainers);
     helper.refreshImages(refreshImagesList);
@@ -134,6 +140,7 @@ const SysAdmin = () => {
   // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
   useEffect(() => {
     const interval = setInterval(() => {
+      helper.getHostStats(refreshHostData);
       helper.refreshRunning(refreshRunningContainers);
       helper.refreshStopped(refreshStoppedContainers);
       helper.refreshImages(refreshImagesList);
@@ -179,7 +186,7 @@ const SysAdmin = () => {
       {/* Navbar */}
       <nav className='tab'>
         <header id='title'>
-          <img src={Docketeer} width={160} />
+          <img src={Docketeer} width={220} />
         </header>
         <div className='viewsAndButton'>
           <ul>
@@ -258,14 +265,14 @@ const SysAdmin = () => {
           </ul>
           <div>
             <button
-              style={{borderRadius: 5, marginBottom: 10}}
+              style={{ borderRadius: 5, marginBottom: 10 }}
               className='btn'
               onClick={(e) => helper.handlePruneClick(e)}
             >
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
+            <button style={{ borderRadius: 5, marginBottom: 10 }} className='btn' onClick={() => handleLogout()}>
               Logout
             </button>
           </div>
@@ -279,7 +286,7 @@ const SysAdmin = () => {
           />}
         />
         <Route path='/metrics' element={
-          <Metrics key={1} runningList={runningList} 
+          <Metrics key={1} runningList={runningList} threshold={[cpu_threshold, mem_threshold]}
           />}
         />
         <Route path='/users' element={<UserList />} />
@@ -288,7 +295,7 @@ const SysAdmin = () => {
             key={1}
             runIm={helper.runIm}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             runningList={runningList}
             // addRunningContainers={addRunningContainers}
             // Stopped Containers
@@ -301,16 +308,16 @@ const SysAdmin = () => {
         />
         <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
         <Route path='/yml' element={
-          <Yml 
-            // networkList={networkList} 
-            // composeymlFiles={composeymlFiles} 
+          <Yml
+          // networkList={networkList} 
+          // composeymlFiles={composeymlFiles} 
           />}
         />
         <Route path='/images' element={
           <Images
             runIm={helper.runIm}
             removeIm={helper.removeIm}
-            addRunningContainers={addRunningContainers}
+            refreshRunningContainers={refreshRunningContainers}
             refreshImagesList={refreshImagesList}
             imagesList={imagesList}
             runningList={runningList}
@@ -320,7 +327,7 @@ const SysAdmin = () => {
           <Containers
             runIm={helper.runIm}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             runningList={runningList}
             // addRunningContainers={addRunningContainers}
             // Stopped Containers
@@ -335,7 +342,7 @@ const SysAdmin = () => {
           <Settings
             runningList={runningList}
             stop={helper.stop}
-            stopRunningContainer={stopRunningContainer}
+            refreshStoppedContainers={refreshStoppedContainers}
             stoppedList={stoppedList}
             runStopped={helper.runStopped}
             refreshRunningContainers={refreshRunningContainers}

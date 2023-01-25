@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import {render, fireEvent, screen} from '@testing-library/react';
 import App from '../src/renderer/App';
-import {authenticateUser} from '../src/components/Login';
+import Login from '../src/components/Login';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/renderer/store';
@@ -25,9 +25,9 @@ describe('Login Page Renders', () => {
         </Provider>
       );
     });
-    screen.debug();
+    // screen.debug();
   });
-
+  
   test('Username accepts input', async () => {
     const username = document.querySelector('#username');
     await fireEvent.change(username, {target: {value:'sysadmin'}});
@@ -40,12 +40,14 @@ describe('Login Page Renders', () => {
     expect(password.value).toBe('belugas');
   });
   
-  test('Login button', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ username: 'csgroup', password: 'csgroup' }));
-    const alert = window.alert = jest.fn();
+  test('Login button is clicked, throwing error', async () => {
+    const spy = jest.spyOn(console, 'log');
 
-    // mock the login module as a whole, accessing the imported authenticateUser function property
-    jest.mock('../src/components/Login');
+    const username = document.querySelector('#username');
+    await fireEvent.change(username, { target: { value: '' } });
+    
+    const password = document.querySelector('#password');
+    await fireEvent.change(password, {target: {value:''}});
 
     // select login button
     const loginButton2 = screen.getByRole('login');
@@ -53,10 +55,27 @@ describe('Login Page Renders', () => {
     await act(()=>{
       fireEvent.click(loginButton2);
     });
-    // should ensure the login button has been clicked
-    expect(loginButton2).toBeCalled;
-    // should ensure that the authenticate user function invoked by button click is called
-    expect(authenticateUser).toHaveBeenCalled;
+
+    // assert the console logs for errors were throw
+    expect(spy).toHaveBeenCalled();
+  });
+
+  test('Login button is clicked, logging in', async () => {
+    // test to submit a valid login, and redirect to a new page 
+    
+    fireEvent.change(document.querySelector('#username'), { target: { value: 'test2' } });
+    
+    fireEvent.change(document.querySelector('#password'), { target: { value: 'codesmith123' } });
+
+    const loginButton = screen.getByRole('login'); 
+    await act(()=>{
+      fireEvent.click(screen.getByRole('login'));
+    });
+
+    expect(loginButton).toBeCalled;
+    
+    // Needs Completion Docketeam 10.0
+
   });
 
   test('Register Button navigates to Sign Up Page', async () => {    

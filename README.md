@@ -50,7 +50,7 @@ root
   └─ src
 ```
 
-4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. 
+4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. Create your own database to house user information and insert your URI in this file.
 ```js
 // .env
 TWILIO_NUMBER = ''
@@ -98,13 +98,30 @@ You are all set! Now just enter the following command to start up Docketeer!
 npm run dev
 ```
 
-To log in as sysadmin, use the following credentials
+For now, the sign up function will create a System Admin user.
+
+
+## Returning Users: Version Update
+1. Navigate to the project directory and **add upstream** this [repository](https://github.com/open-source-labs/Docketeer.git) to your cloned fork.
 ```
-username: sysadmin
-password: belugas
+git remote add upstream https://github.com/open-source-labs/Docketeer.git
 ```
 
-To change the system admin password, create a new user with your preferred credentials, then change the role and role_id manually in the database. 
+2. Pull down the updates.
+```
+git pull origin upstream
+```
+
+3. Install new dependencies.
+```
+npm install
+```
+
+4. You are all set! Now just enter the following command to start up Docketeer!
+```
+npm run dev
+```
+
 
 
 ## Twilio setup
@@ -136,7 +153,7 @@ You can view a list of running and exited containers, available images, volume h
 
 ### ➮ Live Metrics
 Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
-![alt text](assets/docketeer-metrics.gif)
+![alt text](assets/metrics.gif)
 
 ### ➮ Uploading
 Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
@@ -144,7 +161,7 @@ Within the Image and Docker Compose tab, you pull images from DockerHub by provi
 ### ➮ Process Logs
 View process logs from any number of running or stopped containers. The table is both exportable and sortable by any parameter. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
 
-![alt text](assets/docketeer-process-logs.gif)
+![alt text](assets/logs.gif)
 
 <br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
 
@@ -174,6 +191,10 @@ npm run test
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
 ### Authors
+- Nathan Cho [@nathanycho](https://github.com/nathanycho) | [LinkedIn](https://www.linkedin.com/in/nathanycho/)
+- Garima Bhatia [@GarimaB06](https://github.com/GarimaB06) | [LinkedIn](https://www.linkedin.com/in/garimab06/)
+- Eshaan Joshi [@eshaan32](https://github.com/eshaan32) | [LinkedIn](https://www.linkedin.com/in/eshaanjoshi/)
+- Jonathan Wong [@WongJonathann](https://github.com/WongJonathann) | [LinkedIn](https://www.linkedin.com/in/jon-wong-00/)
 - Sarah Moosa [@Sbethm](https://github.com/Sbethm) | [LinkedIn](https://www.linkedin.com/in/sarah-moosa-4b05721b6/)
 - Cedar Cooper [@CedarCooper](https://github.com/CedarCooper) | [LinkedIn](https://www.linkedin.com/in/cedar-cooper/)
 - Tiffany Chau [@tiffanynchau](https://github.com/tiffanynchau/) | [LinkedIn](https://www.linkedin.com/in/tiffanynchau/)

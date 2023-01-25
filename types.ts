@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from 'express';
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
@@ -24,18 +25,29 @@ export interface RunningListType {
     RunningFor: string,
 }
 
+export interface hostStats {
+  cpuPerc: string,
+  memPerc: string,
+}
+
 // for more info review actions.ts file and Settings.ts
 export type ContainerProps = {
     stoppedList: StoppedListType[];
     runStopped: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
     runStoppedContainer: (id: string) => void;
     removeContainer: (id: string) => void;
-    stopRunningContainer: (id: string) => void;
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
     remove: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
-    stop: (id: string, runStoppedContainerDispatcher: (id: string) => void) => void;
+    stop: (id: string, refreshStoppedContainers: (data: StoppedContainerObj[]) => void) => void;
     runningList: RunningListType[];
     runIm: (id: ContainerType, runningList: RunningListType, callback_1: () => void, callback_2: () => void) => void;
+    hostStats?: hostStats[];
   }
+
+export type MetricsProps = {
+  runningList: any[];
+  threshold: any[];
+}
 
   // Stopped containers have a Names key and running containers have a Name key
   export type ContainerType = {
@@ -99,7 +111,7 @@ export type SettingsProps = {
   runningList: any[];
   stop?: (id: any, callback: any) => void;
   stoppedList: any[];
-  stopRunningContainer: (id: string) => { type: string; payload: string; };
+  refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   runStopped: (id: any, runStoppedContainerDispatcher: any) => void;
   refreshRunningContainers: (data: any[]) => void;
   runStoppedContainer: (id: string) => void;
@@ -147,9 +159,9 @@ export type SettingsProps = {
   export interface ImagesProps {
     imagesList: imageObj[],
     runningList: ContainerObj[],
-    addRunningContainers: (data: ContainerObj[]) => void,
+    refreshRunningContainers: (data: ContainerObj[]) => void,
     refreshImagesList: (data: imageObj[]) => void,
-    runIm: (ele: imageObj, runningList: ContainerObj[], callback_1: (runningList: any, callback: any) => void, callback_2: (data: ContainerObj[]) => void) => void,
+    runIm: (ele: imageObj, refreshRunningContainers: (data: ContainerObj[]) => void) => void,
     removeIm: ( id: string, imagesList: imageObj[], callback_1: (callback: any) => void, callback_2: (data: imageObj[]) => void) => void
   }
 
@@ -241,9 +253,10 @@ interface session {
 }
 
 // "any" has been used below since strict typing was used to define these props in the tabs types 
-interface containersList {
+export interface containersList {
   runningList: any[],
-  stoppedList: any[]
+  stoppedList: any[],
+  hostStats: string[],
 }
 
 interface imagesList {
@@ -271,187 +284,314 @@ export interface StateType {
 };
 
 export interface RootState {
-    session: {
-      isLoggedIn?: boolean,
-      role: string,
-    }
-  }
-
-  export interface UserInfo {
-    _id: number,
-    username: string,
-    email: string,
-    phone: string,
+  session: {
+    isLoggedIn?: boolean,
     role: string,
-    role_id: number,
-    contact_pref: string | null,
-    mem_threshold: number,
-    cpu_threshold: number,
-    container_stops: boolean,
-    token: string
   }
+}
 
-  export interface stateType {
-    runningList: RunningListType[],
-    stoppedList: StoppedListType[],
-    networkList: any[],
-    composeStack: any[]
-  }
+export interface UserInfo {
+  _id: number,
+  username: string,
+  email: string,
+  phone: string,
+  role: string,
+  role_id: number,
+  contact_pref: string | null,
+  mem_threshold: number,
+  cpu_threshold: number,
+  container_stops: boolean,
+  token: string
+}
 
-  export const containerState: stateType = {
-    runningList: [],
-    stoppedList: [],
-    networkList: [],
-    composeStack: []
-  };
+export interface stateType {
+  runningList: RunningListType[],
+  stoppedList: StoppedListType[],
+  networkList: any[],
+  composeStack: any[],
+  hostStats: {[k: string]: number},
+}
 
-  export const graphState = {
-    graphAxis: [],
-    graphMemory: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphCpu: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphWrittenIO: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ],
-    graphReadIO: [
-      {
-        label: '',
-        data: [],
-        fill: ''
-      }
-    ]
-  };
+export const containerState: stateType = {
+  runningList: [],
+  stoppedList: [],
+  networkList: [],
+  composeStack: [],
+  hostStats: {}
+};
 
-  interface imagesState {
-    imagesList: any[]
-  }
-  
-    export const imageState: imagesState = {
-    imagesList: []
-  };
+export const graphState = {
+  graphAxis: [],
+  graphMemory: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphCpu: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphWrittenIO: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphReadIO: [
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphReceivedIO: [ // received IO
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+  graphTransmittedIO: [ // transmitted IO
+    {
+      label: '',
+      data: [],
+      fill: ''
+    }
+  ],
+};
 
-    export const notificationState = {
-    phoneNumber: '',
-    memoryNotificationList: new Set(),
-    cpuNotificationList: new Set(),
-    stoppedNotificationList: new Set()
-  };
+interface imagesState {
+  imagesList: any[]
+}
 
-    export const logsState = {
-    containerLogs: {
-      stdoutLogs: [],
-      stderrLogs: [],
-    },
-  };
+export const imageState: imagesState = {
+  imagesList: []
+};
+
+export const notificationState = {
+  phoneNumber: '',
+  memoryNotificationList: new Set(),
+  cpuNotificationList: new Set(),
+  stoppedNotificationList: new Set()
+};
+
+export const logsState = {
+  containerLogs: {
+    stdoutLogs: [],
+    stderrLogs: [],
+  },
+};
 
 export const sessionState = {
-    _id: "",
-    username: "",
-    email: "",
-    phone: "",
-    role: "",
-    role_id: "",
-    contact_pref: "",
-    mem_threshold: "",
-    cpu_threshold: "",
-    container_stops: "",
-    token: "",
-    isLoggedIn: false,
-    userList: [],
-  };
+  _id: "",
+  username: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: "",
+  token: "",
+  isLoggedIn: false,
+  userList: [],
+};
 
-  interface userType {
-    userList: any[];
+interface userType {
+  userList: any[];
+}
+
+export const userState: userType = {
+  userList: [],
+};
+
+export const userReducerState = {
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: false,
+  isSysAdmin: false,
+};
+
+interface volumeType {
+  arrayOfVolumeNames: any[];
+  volumeContainersList: any[];
+}
+
+export const volumeState: volumeType = {
+  arrayOfVolumeNames: [],
+  volumeContainersList: [],
+};
+
+export interface auxObjType {
+  container?: ContainerInterface;
+  currentContainer?: any;
+  containerName?: string;
+}
+
+export interface ContainerInterface {
+  memory?: any;
+  cpu?: any;
+  writtenIO?: any;
+  readIO?: any;
+}
+
+export interface obType {
+  containerName?: any;
+}
+
+export interface LogsCardProps {
+  container: ContainerType;
+  index: number;
+  status: any;
+}
+
+export interface RowsDataType {
+  container: string;
+  type: string;
+  time: string;
+  message: string;
+  id: number;
+}
+
+export interface ToggleDisplayProps {
+  container: RunningListType;
+}
+
+
+export interface UserInfo {
+  _id: number;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
+  token: string;
+}
+
+// ==========================================================
+// Server-Side Typing
+// ==========================================================
+
+export type ServerError = {
+  log: string, 
+  status: number,
+  message: {
+      err: string
   }
-  
-  export const userState: userType = {
-    userList: [],
-  };
+}
 
-  export const userReducerState = {
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-    role_id: "",
-    contact_pref: "",
-    mem_threshold: "",
-    cpu_threshold: "",
-    container_stops: false,
-    isSysAdmin: false,
-  };
+export type SqlQuery = {
+  query: (text: string, params?: any | any[], callback?: any) => void | any,
+}
 
-  interface volumeType {
-    arrayOfVolumeNames: any[];
-    volumeContainersList: any[];
-  }
-  
-  export const volumeState: volumeType = {
-    arrayOfVolumeNames: [],
-    volumeContainersList: [],
-  };
+// ==========================================================
+// Controller Types
+// ==========================================================
+export interface ApiController {
+  sendEmailAlert: (req: Request, res: Response, next: NextFunction) => void,
+  signupEmail: (req: Request, res: Response, next: NextFunction) => void,
+}
 
-  export interface auxObjType {
-    container?: ContainerInterface;
-    currentContainer?: any;
-    containerName?: string;
-  }
+export interface BcryptController {
+ hashPassword: (req: Request, res: Response, next: NextFunction) => void,
+ hashNewPassword: (req: Request, res: Response, next: NextFunction) => void,
+ hashCookie: (req: Request, res: Response, next: NextFunction) => void
+}
 
-  export interface ContainerInterface {
-    memory?: any;
-    cpu?: any;
-    writtenIO?: any;
-    readIO?: any;
-  }
+export interface CommandController{
+  getContainers: (req: Request, res: Response, next: NextFunction) => void,
+  getApiData: (req: Request, res: Response, next: NextFunction) => void,
+  getHost: (req: Request, res: Response, next: NextFunction) => void,
+  runImage: (req: Request, res: Response, next: NextFunction) => void,
+  refreshStopped: (req: Request, res: Response, next: NextFunction) => void,
+  refreshImages: (req: Request, res: Response, next: NextFunction) => void,
+  remove: (req: Request, res: Response, next: NextFunction) => void,
+  stopContainer: (req: Request, res: Response, next: NextFunction) => void,
+  runStopped: (req: Request, res: Response, next: NextFunction) => void,
+  removeImage: (req: Request, res: Response, next: NextFunction) => void,
+  dockerPrune: (req: Request, res: Response, next: NextFunction) => void,
+  pullImage: (req: Request, res: Response, next: NextFunction) => void,
+  networkContainers: (req: Request, res: Response, next: NextFunction) => void,
+  inspectDockerContainer: (req: Request, res: Response, next: NextFunction) => void,
+  composeUp: (req: Request, res: Response, next: NextFunction) => void,
+  composeStacks: (req: Request, res: Response, next: NextFunction) => void,
+  composeDown: (req: Request, res: Response, next: NextFunction) => void,
+  getAllDockerVolumes: (req: Request, res: Response, next: NextFunction) => void,
+  getVolumeContainers: (req: Request, res: Response, next: NextFunction) => void,
+  getLogs: (req: Request, res: Response, next: NextFunction) => void,
+}
+export interface CookieController {
+  setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void,
+  setAdminCookie: (req: Request, res: Response, next: NextFunction) => void,
+}
 
-  export interface obType {
-    containerName?: any;
-  }
+export interface ConfigController{
+  configureThresholds: (req: Request, res: Response, next: NextFunction) => void,
+  updateContactPref: (req: Request, res: Response, next: NextFunction) => void,
+  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void,
+  updateMemThreshold: (req: Request, res: Response, next: NextFunction) => void,
+  updateStopPref: (req: Request, res: Response, next: NextFunction) => void,
+}
 
-  export interface LogsCardProps {
-    container: ContainerType;
-    index: number;
-    status: any;
-  }
- 
-  export interface RowsDataType {
-    container: string;
-    type: string;
-    time: string;
-    message: string;
-    id: number;
-  }
+export interface DbController{
+  createRoles: (req: Request, res: Response, next: NextFunction) => void,
+  insertRoles: (req: Request, res: Response, next: NextFunction) => void,
+  createTable: (req: Request, res: Response, next: NextFunction) => void,
+  insertAdmin: (req: Request, res: Response, next: NextFunction) => void,
+  createAdminPassword: (req: Request, res: Response, next: NextFunction) => void,
+  removeToken: (req: Request, res: Response, next: NextFunction) => void,
+}
 
-  export interface ToggleDisplayProps {
-    container: RunningListType;
-  }
+export interface InitController{
+  initDatabase: (req: Request, res: Response, next: NextFunction) => void,
+  timeZone: (req: Request, res: Response, next: NextFunction) => void,
+  gitUrl: (req: Request, res: Response, next: NextFunction) => void,
+  addMetrics: (req: Request, res: Response, next: NextFunction) => void,
+  getMetrics:(req: Request, res: Response, next: NextFunction) => void,
+}
 
+export interface SettingsController {
+  addContainer: (req: Request, res: Response, next: NextFunction) => void,
+  addContainerSettings: (req: Request, res: Response, next: NextFunction) => void,
+  deleteContainerSettings: (req: Request, res: Response, next: NextFunction) => void,
+  notificationSettings: (req: Request, res: Response, next: NextFunction) => void,
+  addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void,
+  notificationFrequency: (req: Request, res: Response, next: NextFunction) => void,
+  monitoringFrequency: (req: Request, res: Response, next: NextFunction) => void,
+  addGitLinks: (req: Request, res: Response, next: NextFunction) => void,
+}
 
-  export interface UserInfo {
-    _id: number;
-    username: string;
-    email: string;
-    phone: string;
-    role: string;
-    role_id: number;
-    contact_pref: string | null;
-    mem_threshold: number;
-    cpu_threshold: number;
-    container_stops: boolean;
-    token: string;
-  }
+export interface SignupController {
+  usernameCheck: (req: Request, res: Response, next: NextFunction) => void,
+  passwordCheck: (req: Request, res: Response, next: NextFunction) => void,
+}
+
+export interface UserController {
+  createUser: (req: Request, res: Response, next: NextFunction) => void,
+  getAllUsers: (req: Request, res: Response, next: NextFunction) => void,
+  getOneUser: (req: Request, res: Response, next: NextFunction) => void,
+  verifyUser: (req: Request, res: Response, next: NextFunction) => void,
+  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => void,
+  switchUserRole: (req: Request, res: Response, next: NextFunction) => void,
+  updatePassword: (req: Request, res: Response, next: NextFunction) => void,
+  updatePhone: (req: Request, res: Response, next: NextFunction) => void,
+  updateEmail: (req: Request, res: Response, next: NextFunction) => void,
+}
+

@@ -30,3 +30,6 @@ yarn.lock
 coverage
 
 .history
+src/.DS_Store
+.gitignore
+src/.DS_Store

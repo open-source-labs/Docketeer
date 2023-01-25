@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Material UI Imports
@@ -17,44 +17,48 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 
 // Helper Functions
 import {
-    handleNewUser,
-    checkPasswordLength,
-    confirmPassword,
-    checkPhone,
-  } from "./helper/newUserHelper";
+  checkDbInit,
+  handleNewUser,
+  checkPasswordLength,
+  confirmPassword,
+  checkPhone,
+} from "./helper/newUserHelper";
 
 const SignUp = () => {
-    const navigate = useNavigate();
-    const [values, setValues] = useState({
-        email: '',
-        username: '',
-        password: '',
-        passwordConfirmation: '',
-        phone: '',
-        showPassword: false,
-      });
-    
-      const handleClickShowPassword = () => {
-        setValues({
-          ...values,
-          showPassword: !values.showPassword,
-        });
-      };
-      
-    return (
-      <div className='renderContainers'>
-        <div className='header'>
-          <h1 className='tabTitle'>Sign Up</h1>
-        </div>
-        <div className='settings-container'>
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    email: '',
+    username: '',
+    password: '',
+    passwordConfirmation: '',
+    phone: '',
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  return (
+    <div className='renderContainers signup-container'>
+      <div className='header'>
+        <h1 className='tabTitle'>Sign Up</h1>
+      </div>
+      <div className='settings-container inner-box'>
         <Box
           className='settingsForm'
-          component= 'form'
-          autoComplete= 'off'
-          onSubmit={(e: any) => handleNewUser(e, '1')}
-          sx={{color:'blue'}}
+          component='form'
+          autoComplete='off'
+          onSubmit={(e: any) => {
+            checkDbInit();
+            handleNewUser(e, '1');
+          }}
+          sx={{ color: 'blue' }}
         >
-     
+
           <TextField
             id='signupEmail'
             label='Email'
@@ -77,14 +81,14 @@ const SignUp = () => {
           />
           <br />
 
-          <FormControl sx={{ m: 1, maxWidth:195 }} variant="outlined">
+          <FormControl sx={{ m: 1, maxWidth: 215 }} variant="outlined">
             <InputLabel htmlFor="signupPassword">Password</InputLabel>
             <OutlinedInput
               id="signupPassword"
               type={values.showPassword ? 'text' : 'password'}
-              onChange={(e)=>{
+              onChange={(e) => {
                 checkPasswordLength();
-                setValues({...values, password:e.target.value})
+                setValues({ ...values, password: e.target.value });
               }}
               endAdornment={
                 <InputAdornment position="end">
@@ -100,8 +104,8 @@ const SignUp = () => {
               label="Password"
             />
           </FormControl>
-          {values.password && <PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginLeft:10 }} password= {values.password}/>}
-          <span id='password-length-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10}}></span>
+          {values.password && <PasswordStrengthBar style={{ maxWidth: '190px', color: 'red', marginLeft: 10 }} password={values.password} />}
+          <span id='password-length-alert' style={{ fontSize: 10, textAlign: 'left', maxWidth: 190, display: 'inline-block', marginLeft: 10 }}></span>
 
           <br />
           <TextField
@@ -111,27 +115,27 @@ const SignUp = () => {
             type='password'
             required
             onChange={(e) => {
-              setValues({...values, passwordConfirmation:e.target.value})
-              confirmPassword()
+              setValues({ ...values, passwordConfirmation: e.target.value });
+              confirmPassword();
             }}
             sx={{
               m: 1
             }}
           />
           {/* This is sacrilege but I hardcoded this bar and made it hidden to keep the same formatting as above */}
-          {<PasswordStrengthBar style={{maxWidth:'190px', color:'red',marginBottom:-20,visibility:'hidden', maxHeight:0 }} />}
-          <span id='password-confirmation-alert' style={{fontSize:10, textAlign:'left', maxWidth:190, display:'inline-block', marginLeft:10, paddingTop:15}}></span>
+          {<PasswordStrengthBar style={{ maxWidth: '190px', color: 'red', marginBottom: -20, visibility: 'hidden', maxHeight: 0 }} />}
+          <span id='password-confirmation-alert' style={{ fontSize: 10, textAlign: 'left', maxWidth: 190, display: 'inline-block', marginLeft: 10, paddingTop: 15 }}></span>
           <br />
           <TextField
             id='signupPhone'
             label='Phone'
             variant='outlined'
             required
-            inputProps={{maxLength: 12 }}
+            inputProps={{ maxLength: 12 }}
 
             onChange={() => {
-              const inputElement =(document.getElementById('signupPhone') as HTMLInputElement).value;
-              checkPhone(inputElement)
+              const inputElement = (document.getElementById('signupPhone') as HTMLInputElement).value;
+              checkPhone(inputElement);
             }}
             sx={{
               m: 1
@@ -140,31 +144,34 @@ const SignUp = () => {
           <br />
           <span id='phone-alert'></span>
           <br />
-          <Button
-          variant='contained'
-          size='medium'
-          onClick={()=>{
-            history.back()}}
-          sx={{
-            m: 1
-          }}
-          >
-            Back
+          <div className="signup-btn">
+            <Button
+              variant='contained'
+              size='medium'
+              onClick={() => {
+                history.back();
+              }}
+              sx={{
+                m: 1
+              }}
+            >
+              Back
             </Button>
-          <Button
-            variant='contained'
-            size='medium'
-            type='submit'
-            sx={{
-              m: 1
-            }}
-          >
-            Submit
-          </Button>
+            <Button
+              variant='contained'
+              size='medium'
+              type='submit'
+              sx={{
+                m: 1
+              }}
+            >
+              Submit
+            </Button>
+          </div>
         </Box>
-        </div>
       </div>
-    )
-}
+    </div>
+  );
+};
 
 export default SignUp;

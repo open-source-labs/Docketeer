@@ -2,7 +2,6 @@
 The below comment removes all Typescript errors. Please remove this line of code to see what needs to be configured for Typescript compliance
 */
 // @ts-noCheck
-
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
@@ -11,60 +10,9 @@ import {
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
 import * as child_process from 'child_process';
+import { PostAdd } from '@mui/icons-material';
+import { removeContainer } from '../../redux/actions/actions';
 
-/**
- * Grabs all active containers on app-start up
- *
- * @param {*} runningList
- * @param {*} callback
- */
-
-
-export const addRunning = (runningList, callback) => {
-  window.nodeMethod.runExec(
-    'docker stats --no-stream --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        alert(`${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`addRunning stderr: ${stderr}`);
-        return;
-      }
-      // trim whitespace at end out stdout, slice to remove trailing comma and remove spaces
-
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-
-      const convertedValue = JSON.parse(dockerOutput);
-
-      const newList = [];
-
-      for (let i = 0; i < convertedValue.length; i++) {
-        let isInTheList = false;
-        for (const container of runningList) {
-          if (container.ID === convertedValue[i].ID) {
-            isInTheList = true;
-            break;
-          }
-        }
-        isInTheList ? '' : newList.push(convertedValue[i]);
-      }
-      // console.log('addrunning newlist', newList);
-      newList.length ? callback(newList) : '';
-    }
-  );
-};
-
-/**
- * Refreshes running containers
- *
- * @param {*} callback
- * @param {*} runningList
- */
 
 const errorsCalled = {};
 
@@ -73,216 +21,153 @@ const errorCheck = (key, error) => {
     errorsCalled[key] = error.message;
     alert(`Make sure Docker Desktop is running. \n\n ${error.message}`);
   }
-  else{
+  else {
     console.log(error.message);
   }
   return;
 };
 
-export const refreshRunning = (refreshRunningContainers) => {
-  window.nodeMethod.runExec(
-    'docker stats --no-stream --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        errorCheck('refreshRunning', error);
-        return;
-      }
-      if (stderr) {
-        console.log(`refreshRunning stderr: ${stderr}`);
-        return;
-      }
+/**
+ * Grabs all active containers on app-start up
+ *
+ * @param {*} refreshHostData
+ */
 
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-      const convertedValue = JSON.parse(dockerOutput);
-      refreshRunningContainers(convertedValue);
-    }
-  );
+export const getHostStats = (refreshHostData) => {
+  fetch('http://localhost:3000/command/getHost')
+    .then((res) => res.json())
+    .then((data) => {
+      refreshHostData(data);
+    })
+    .catch((err) => console.log(err));
 };
+
+/**
+ * Refreshes running containers
+ *
+ * @param {*} refreshRunningContainers
+ */
+
+// moved existing "command" functions to backend '/command' 
+export const refreshRunning = (refreshRunningContainers) => {
+  fetch('http://localhost:3000/command/refreshRunning')
+    .then((data) => data.json())
+    .then((runningContainers) => {
+      refreshRunningContainers(runningContainers);
+    })
+    .catch((err) => console.log(err));
+};
+
 
 /**
  * Refreshes stopped containers
  *
- * @param {*} callback
+ * @param {*} refreshStoppedContainers
  */
 export const refreshStopped = (refreshStoppedContainers) => {
-  window.nodeMethod.runExec(
-    'docker ps -f "status=exited" --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        errorCheck('refreshStopped', error);
-        return;
-      }
-      if (stderr) {
-        console.log(`refreshStopped stderr: ${stderr}`);
-        return;
-      }
-      // trim whitespace at end out stdout and slice to remove trailing comma
-      const dockerOutput = stdout.trim().slice(0, -1);
-      let output = `[${dockerOutput}]`;
-      output = JSON.parse(output);
-      refreshStoppedContainers(output);
-    }
-  );
+  fetch('http://localhost:3000/command/refreshStopped')
+    .then((data) => data.json())
+    .then((stoppedContainers) => {
+      refreshStoppedContainers(stoppedContainers);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
  * Refreshes images
  *
- * @param {*} callback
+ * @param {*} refreshImagesList
  */
-export const refreshImages = (callback) => {
-  window.nodeMethod.runExec('docker images', (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      errorCheck('refreshImages', error);
-      return;
-    }
-    if (stderr) {
-      console.log(`refreshImages stderr: ${stderr}`);
-      return;
-    }
-    const value = parseContainerFormat.convert(stdout);
-    const objArray = ['reps', 'tag', 'imgid', 'size'];
-    const resultImages = [];
-
-    for (let i = 0; i < value.length; i++) {
-      const innerArray = [];
-      if (value[i][0] !== '<none>') {
-        innerArray.push(value[i][0]);
-        innerArray.push(value[i][1]);
-        innerArray.push(value[i][2]);
-        innerArray.push(value[i][6]);
-        resultImages.push(innerArray);
-      }
-    }
-
-    const convertedValue = parseContainerFormat.convertArrToObj(
-      resultImages,
-      objArray
-    );
-    callback(convertedValue);
-  });
+export const refreshImages = (refreshImagesList) => {
+  fetch('http://localhost:3000/command/refreshImages')
+    .then((data) => data.json())
+    .then((imagesList) => {
+      refreshImagesList(imagesList);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
- * Removes images
+ * Removes stopped containers
  *
- * @param {*} id
- * @param {*} callback
+ * @param {*} containerID
+ * @param {*} removeContainer
  */
-export const remove = (id, callback) => {
-  window.nodeMethod.runExec(`docker rm ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`remove stderr: ${stderr}`);
-      return;
-    }
-    callback(id);
-  });
+export const remove = (containerID, removeContainer) => {
+  fetch(`http://localhost:3000/command/removeContainer?id=${containerID}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({ message });
+      removeContainer(containerID);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
  * Stops a container on what user selects
  *
  * @param {*} id
- * @param {*} callback
+ * @param {*} refreshStoppedContainers
  */
-export const stop = (id, callback) => {
-  window.nodeMethod.runExec(`docker stop ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stop stderr: ${stderr}`);
-      return;
-    }
-    callback(id);
-  });
+export const stop = (id, refreshStoppedContainers) => {
+  fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({ message });
+      refreshStoppedContainers(id);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
- * Starts the container
+ * Starts a stopped container in containers tab
  *
  * @param {*} id
- * @param {*} callback
+ * @param {*} runStoppedContainerDispatcher
  */
-export const runStopped = (
-  id,
-  runStoppedContainerDispatcher,
-) => {
-  window.nodeMethod.runExec(`docker start ${id}`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`runStopped stderr: ${stderr}`);
-      return;
-    }
-    runStoppedContainerDispatcher(id);
-  });
+export const runStopped = (id, runStoppedContainerDispatcher) => {
+  fetch(`http://localhost:3000/command/runStopped?id=${id}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({ message });
+      runStoppedContainerDispatcher(id);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
- * Run image
+ * Runs an image from the pulled images list in image tab
  *
- * @param {*} id
- * @param {*} runningList
- * @param {*} callback_1
- * @param {*} callback_2
+ * @param {*} container
+ * @param {*} refreshRunningContainers
  */
-
-// this function is used to run an image from the image tab
-export const runIm = (container, runningList, callback_1, callback_2) => {
-  // props.runIm(ele['imgid'], props.runningList, helper.addRunning, props.addRunningContainers)
-  const { imgid, reps, tag } = container;
-  const containerId = Math.floor(Math.random() * 100)
-  const filteredRepo = reps
-  .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
-  .replace(/\s{2,}/g, " ");
-  window.nodeMethod.runExec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
-    if (error) {
-      alert(`${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`runIm stderr: ${stderr}`);
-      return;
-    }
-});
-  callback_1(runningList, callback_2);
-  alert('Running container');
+export const runIm = (container, refreshRunningContainers) => {
+  fetch('http://localhost:3000/command/runImage', {
+    method: 'post', headers: {
+      'Content-Type': 'application/json'
+    }, body: JSON.stringify(container)
+  })
+    .then((data) => data.json())
+    .then((newRunningList) => {
+      refreshRunningContainers(newRunningList);
+    })
+    .catch((err) => console.log(err));
+  alert('Running container.');
 };
 
 /**
- * Remove Image
+ * Removes an image from pulled images list in image tab
  *
  * @param {*} id
- * @param {*} imagesList
- * @param {*} callback_1
- * @param {*} callback_2
+ * @param {*} refreshImages
+ * @param {*} refreshImagesList
  */
-export const removeIm = (id, imagesList, callback_1, callback_2) => {
-  window.nodeMethod.runExec(`docker rmi -f ${id}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(
-        `${error.message}` +
-          '\nPlease stop running container first then remove.'
-      );
-      return;
-    }
-    if (stderr) {
-      console.log(`removeIm stderr: ${stderr}`);
-      return;
-    }
-    callback_1(callback_2);
-  });
+export const removeIm = (id, refreshImages, refreshImagesList) => {
+  fetch(`http://localhost:3000/command/removeImage?id=${id}`)
+    .then(() => {
+      refreshImages(refreshImagesList)
+        .catch((err) => console.log(err));
+    });
 };
 
 /**
@@ -293,19 +178,12 @@ export const removeIm = (id, imagesList, callback_1, callback_2) => {
 
 export const handlePruneClick = (e) => {
   e.preventDefault();
-  window.nodeMethod.runExec(
-    'docker system prune --force',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        alert(`${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`handlePruneClick stderr: ${stderr}`);
-        return;
-      }
-    }
-  );
+  fetch(`http://localhost:3000/command/dockerPrune`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({ message });
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -315,22 +193,12 @@ export const handlePruneClick = (e) => {
  */
 
 export const pullImage = (repo) => {
-  window.nodeMethod.runExec(`docker pull ${repo}`, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-    if (error) {
-      alert(
-        `Image repo '${repo}' seems to not exist, or may be a private repo.`
-      );
-      return;
-    }
-    if (stderr) {
-      console.log(`pullImage stderr: ${stderr}`);
-      return;
-    }
-
-    alert(`${repo} is currently being downloaded`);
-    console.log(stdout);
-    // if not error, add a loading component until page renders a new component
-  });
+  fetch(`http://localhost:3000/command/pullImage?repo=${repo}`)
+    .then((message) => message.json())
+    .then((message) => {
+      console.log({ message });
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -340,179 +208,85 @@ export const pullImage = (repo) => {
  */
 
 export const networkContainers = (getNetworkContainers) => {
-  window.nodeMethod.runExec(
-    'docker network ls --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`networkContainers error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`networkContainers stderr: ${stderr}`);
-        return;
-      }
-
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-
-      // remove docker network defaults named: bridge, host, and none
-      const networkContainers = JSON.parse(dockerOutput).filter(
-        ({ Name }) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
-      );
-
+  fetch(`http://localhost:3000/command/networkContainers`)
+    .then((data) => data.json())
+    .then((networkContainers) => {
       getNetworkContainers(networkContainers);
-    }
-  );
+    })
+    .catch((err) => console.log(err));
 };
 
+/**
+ * Inspects a specific containers
+ * Docketeer 9.0 => We don't see this called anywhere(?) Maybe if future iterators
+ * have a use for this, the backend routing / fetching is set up for you!
+ *
+ * @param {*} containerId
+ */
+
 export const inspectDockerContainer = (containerId) => {
-  window.nodeMethod.runExec(
-    `docker inspect ${containerId}`,
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`inspectDockerContainer error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`inspectDockerContainer stderr: ${stderr}`);
-        return;
-      }
-      console.log(stdout);
-    }
-  );
+  fetch(`http://localhost:3000/command/inspect?id=${containerId}`)
+    .then((data) => data.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
  * Compose up a docker container network
- *
- * @param {*} fileLocation
- * @param {*} ymlFileName
- */
-
-export const dockerComposeUp = (fileLocation, ymlFileName) => {
-  console.log(fileLocation, ymlFileName);
-  return new Promise((resolve, reject) => {
-    const nativeYmlFilenames = [
-      'docker-compose.yml',
-      'docker-compose.yaml',
-      'compose.yml',
-      'compose.yaml',
-    ];
-    let cmd = `cd ${fileLocation} && docker compose up -d`;
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
-
-    if (!nativeYmlFilenames.includes(ymlFileName)) {
-      cmd = `cd ${fileLocation} && docker compose -f ${ymlFileName} up -d`;
-    }
-
-    window.nodeMethod.runExec(cmd, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.warn(error.message);
-        return;
-      }
-      if (stderr) {
-        resolve(stderr);
-      }
-      if (stdout) {
-        console.log(stdout);
-      }
-    });
-  });
-};
-
-/**
- * Get list of running container networks
  *
  * @param {*} getContainerStacks
  * @param {*} filePath
  * @param {*} ymlFileName
  */
 
-export const dockerComposeStacks = (
-  getContainerStacks,
-  filePath,
-  ymlFileName
-) => {
-  let parseDockerOutput;
+export const dockerComposeUp = (getContainerStacks, filePath, ymlFileName) => {
+  fetch('http://localhost:3000/command/composeUp', {
+    method: 'post', headers: {
+      'Content-Type': 'application/json'
+    }, body: JSON.stringify({ filePath: filePath, ymlFileName: ymlFileName })
+  })
+    .then((data) => data.json())
+    .then((dockerOutput) => {
+      getContainerStacks(dockerOutput);
+    })
+    .catch((err) => console.log(err));
+};
 
-  window.nodeMethod.runExec(
-    'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`dockerComposeStacks error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`dockerComposeStacks stderr: ${stderr}`);
-        return;
-      }
+/**
+ * Get list of running container networks
+ *
+ * @param {*} getContainerStacks
+ */
 
-      // create array of running container network objects
-      // the array is sorted in alphabetical order based on network Name
-      const dockerOutput = `[${stdout
-        .trim()
-        .slice(0, -1)
-        .replaceAll(' ', '')}]`;
-      parseDockerOutput = JSON.parse(dockerOutput);
-
-      // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
-      if (filePath && ymlFileName) {
-        const directoryNameArray = filePath.split('/');
-        const containerNetworkName =
-          directoryNameArray[directoryNameArray.length - 1].concat('_default');
-
-        parseDockerOutput.forEach((obj) => {
-          if (containerNetworkName === obj.Name) {
-            obj.FilePath = filePath;
-            obj.YmlFileName = ymlFileName;
-          }
-        });
-      }
-
-      getContainerStacks(parseDockerOutput);
-    }
-  );
+export const dockerComposeStacks = (getContainerStacks) => {
+  fetch('http://localhost:3000/command/composeStacks')
+    .then((data) => data.json())
+    .then((dockerOutput) => {
+      getContainerStacks(dockerOutput);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
  * Compose down selected container network
  *
- * @param {*} fileLocation
+ * @param {*} filePath
  * @param {*} ymlFileName
  */
 
-export const dockerComposeDown = (fileLocation, ymlFileName) => {
-  return new Promise((resolve, reject) => {
-    const nativeYmlFilenames = [
-      'docker-compose.yml',
-      'docker-compose.yaml',
-      'compose.yml',
-      'compose.yaml',
-    ];
-    let cmd = `cd ${fileLocation} && docker-compose down`;
-    // if ymlFilename is not a native yml/yaml file name, add -f flag and non-native filename
-    if (!nativeYmlFilenames.includes(ymlFileName)) {
-      cmd = `cd ${fileLocation} && docker-compose -f ${ymlFileName} down`;
-    }
-
-    window.nodeMethod.runExec(cmd, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.warn(error.message);
-        return;
-      }
-
-      if (stderr) {
-        console.log(stderr);
-        resolve(stderr);
-      }
-
-      if (stdout) {
-        console.log(stdout);
-      }
-    });
-  });
+export const dockerComposeDown = (getContainerStacks, filePath, ymlFileName) => {
+  fetch('http://localhost:3000/command/composeDown', {
+    method: 'post', headers: {
+      'Content-Type': 'application/json'
+    }, body: JSON.stringify({ filePath: filePath, ymlFileName: ymlFileName })
+  })
+    .then((data) => data.json())
+    .then((dockerOutput) => {
+      getContainerStacks(dockerOutput);
+    })
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -520,19 +294,24 @@ export const dockerComposeDown = (fileLocation, ymlFileName) => {
  */
 
 export const writeToDb = () => {
-  const interval = 300000;
+  const interval = 150000;
   setInterval(() => {
     const state = store.getState();
+
     const runningContainers = state.containersList.runningList;
+
     const stoppedContainers = state.containersList.stoppedList;
 
     if (!runningContainers.length) return;
     const containerParameters = {};
 
+    // used_memory = memory_stats.usage - memory_stats.stats.cache
+
     runningContainers.forEach((container) => {
       containerParameters[container.Name] = {
         ID: container.ID,
         names: container.Name,
+        Image: container.Image,
         cpu: container.CPUPerc,
         mem: container.MemPerc,
         memuse: container.MemUsage,
@@ -549,9 +328,9 @@ export const writeToDb = () => {
           names: container.Names,
           cpu: '0.00%',
           mem: '0.00%',
-          memuse: '00.0MiB/0.00GiB',
+          memuse: '0.00MiB/0.00MiB',
           net: '0.00kB/0.00kB',
-          block: '00.0MB/00.0MB',
+          block: '0.00kB/0.00kB',
           pid: '0',
           timestamp: 'current_timestamp',
         };
@@ -614,25 +393,14 @@ export const getContainerGitUrl = async (container) => {
 
 
 export const getAllDockerVolumes = (getVolumeList) => {
-  window.nodeMethod.runExec(
-    'docker volume ls --format "{{json .}},"',
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`getAllDockerVolumes error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`getAllDockerVolumes stderr: ${stderr}`);
-        return;
-      }
-
-      const dockerOutput = JSON.parse(
-        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
-      );
-
-      return getVolumeList(filterOneProperty(dockerOutput, 'Name'));
-    }
-  );
+  fetch('http://localhost:3000/command/allDockerVolumes')
+    .then((volumes) => volumes.json())
+    .then((dockerVolumes) => {
+      return getVolumeList(filterOneProperty(dockerVolumes, 'Name'));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -643,24 +411,15 @@ export const getAllDockerVolumes = (getVolumeList) => {
  */
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
-  window.nodeMethod.runExec(
-    `docker ps -a --filter volume=${volumeName} --format "{{json .}},"`,
-    (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.log(`getVolumeContainers error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`getVolumeContainers stderr: ${stderr}`);
-        return;
-      }
-      const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
-
-      return getVolumeContainersList(
-        listOfVolumeProperties(volumeName, dockerOutput)
+  fetch(`http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`)
+    .then((data) => data.json())
+    .then((volumeContainers) => {
+      return getVolumeContainersList(listOfVolumeProperties(volumeName, volumeContainers)
       );
-    }
-  );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -672,35 +431,18 @@ export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
  */
 
 export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
-  const containerLogs = { stdout: [], stderr: [] };
-
-  // iterate through containerIds array in optionsObj
-  for (let i = 0; i < optionsObj.containerIds.length; i++) {
-    // build inputCommandString to get logs from command line
-    let inputCommandString = 'docker logs --timestamps ';
-    if (optionsObj.since) {
-      inputCommandString += `--since ${optionsObj.since} `;      
-    }
-    optionsObj.tail
-      ? (inputCommandString += `--tail ${optionsObj.tail} `)
-      : (inputCommandString += '--tail 50 ');
-    inputCommandString += `${optionsObj.containerIds[i]}`;
-
-    window.nodeMethod.runExec(inputCommandString, (error: child_process.ExecException | null, stdout: string, stderr: string) => {
-      if (error) {
-        alert(`Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.`);
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      containerLogs.stdout = [
-        ...containerLogs.stdout,
-        ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
-      ];
-      containerLogs.stderr = [
-        ...containerLogs.stderr,
-        ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
-      ];
-    });
+  try {
+    const response = await fetch('http://localhost:3000/command/allLogs',
+      { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(optionsObj) });
+    return await response.json();
   }
-  return containerLogs;
+  catch {
+    console.log(err);
+  }
+  // fetch(`http://localhost:3000/command/allLogs?optionsObj=${optionsObj}`)
+  //   .then((data) => data.json())
+  //   .then((allLogs) => {return allLogs})
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 };

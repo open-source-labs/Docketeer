@@ -1,4 +1,5 @@
 import React from 'react';
+import * as helper from '../src/components/helper/commands';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 import Images from '../src/components/tabs/Images';
 import {
@@ -57,14 +58,15 @@ describe('Images', () => {
   });
 
   // currently gets stuck at window.runExec method --> reads undefined
-  // describe('pull button on click', () => {
-  //   test('fires pull button functionality', () => {
-  //     const { container } = render(<Images {...props} />);
-  //     const pullButton = screen.getByRole('button', { name: 'Pull' });
-  //     fireEvent.click(pullButton);
-  //     expect(pullButton).toBeCalled;
-  //   });
-  // });
+  describe('pull button on click', () => {
+    test('fires pull button functionality', () => {
+      // const { container } = render(<Images {...props} />);
+      const pullButton = screen.getByRole('button', { name: 'PULL' });
+      fireEvent.click(pullButton);
+      expect(pullButton).toBeCalled;
+      expect(Images.handleClick).toBeCalled;
+    });
+  });
 
   describe('Images', () => {
     test('Renders an image if one is found', () => {

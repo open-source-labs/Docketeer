@@ -1,37 +1,66 @@
 import React, { Component } from 'react';
 import Metrics from '../src/components/tabs/Metrics';
-import {describe, expect, test, jest} from '@jest/globals';
+import {describe, expect, test, beforeEach, afterEach, jest} from '@jest/globals';
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/renderer/store';
-import { create } from 'react-test-renderer';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react-test-renderer';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 
 const props = {
-  runningList: [{ BlockIO: '1B/2B', ID: '6f49565a501c', CPUPerc: '20.00%', MemPerc: '0.00%', MemUsage: '5B/6B', Name: 'checkpoint_nginx_1', NetIO: '3B/4B', PIDs: '0' }, { BlockIO: '3B/4B', ID: '6f49565a501c', CPUPerc: '30.00%', MemPerc: '20.00%', MemUsage: '5B/6B', Name: 'checkpoint_nginx_2', NetIO: '5B/6B', PIDs: '0' }]
+  runningList: [
+    {
+      ID: 'a802306eeac3',
+      Name: 'blissful_matsumoto',
+      Image: 'postgres:15',
+      CPUPerc: '0.17',
+      MemPerc: '0.11',
+      MemUsage: '2.19MiB / 1.94MiB',
+      NetIO: '796kB/0kB',
+      BlockIO: '34029.57kB / 4.1kB',
+      PIDs: '5'
+    }
+  ],
+  threshold: [
+    80.00, // state.session.cpu_threshold:
+    80.00, // state.session.mem_threshold: 
+  ],
 };
 
-// describe('Metrics tab should render', () => {
-//   beforeEach(()=>{
-//     render(
-//       <Provider store={store}>
-//         <Metrics {...props}/>
-//       </Provider>
-//     );
-//   });
+fetchMock.enableMocks();
 
-//   test('Metrics', ()=>{
-//     expect(1).toBe(1);
+// // This test tab needs work as we are unable to render the metrics component for testing
+// describe('Metrics tab should render', () => {
+//   beforeEach( async () => {
+//     fetch.resetMocks();
+
+//     async function metricsRenderer(){
+//       return <Metrics runningList={props.runningList} threshold={props.threshold}/>;
+//     }
+
+//     const MetricsTab = await metricsRenderer();
+//     console.log(MetricsTab);
+
+//     await act( () => {
+//       render(
+//         <Provider store={store}>
+//           <MemoryRouter initialEntries={['/app/*']}>
+//             {/* <Metrics runningList={props.runningList} threshold={props.threshold}/> */}
+//             {MetricsTab}
+//           </MemoryRouter>
+//         </Provider>
+//       );
+//       // console.log(screen);
+//       screen.debug();
+//     });
 //   });
 // });
-
-
 
 //* Dummy Test
 describe('dummy test', () => {
   test('dummy test', () => {
     expect(2 + 2).toBe(4);
   });
-
-});
-
+});  

@@ -102,8 +102,8 @@ export const createNewUser = (email: string, username: string, password: string,
 
       window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
-  
-    }). then (() =>{
+
+    }).then(() => {
       getUpdatedUserList();
     })
     .catch((err) => {
@@ -133,6 +133,13 @@ export const getUpdatedUserList = () => {
     });
 };
 
-export const updateUserList = (data: object[]) => {  
+export const updateUserList = (data: object[]) => {
   store.dispatch(actions.updateUserList(data));
+};
+
+export const checkDbInit = () => {
+  fetch('http://localhost:3000/db')
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((err) => { console.log(err); });
 };

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { ContainerProps, ContainerType, ChartInfoType } from '../../../types'; 
+import { ContainerProps, ContainerType, ChartInfoType } from '../../../types';
 /**
  * Display all running and stopped containers
  *
@@ -15,19 +15,20 @@ const Containers = (props: ContainerProps) => {
       <div className='box' key={`stoppedBox-${i}`}>
         <div className='box-label'>
           <h3>{container.Names}</h3>
-          <p>ID: {container.ID}</p>
+          {/* <p>Image: {container.Image}</p>
+          <p>ID: {container.ID}</p> */}
         </div>
 
         <div className='stopped-info'>
           <ul>
             <li>
-              <strong>Img: </strong>{container.Image}
+              <strong>Image: </strong>{container.Image}
+            </li>
+            <li>
+              <strong>ID: </strong>{container.ID}
             </li>
             <li>
               <strong>Created: </strong>{container.RunningFor}
-            </li>
-            <li>
-              <strong>Name: </strong>{container.Names}
             </li>
           </ul>
         </div>
@@ -42,7 +43,7 @@ const Containers = (props: ContainerProps) => {
             RUN
           </button>
           <button
-            className='stop-btn'
+            className='remove-btn'
             onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
@@ -75,7 +76,8 @@ const Containers = (props: ContainerProps) => {
         {
           stack,
           label: Math.random().toString(),
-          data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
+          // data: [(100 - Number(cpuData)).toFixed(2), (100 - Number(memoryData)).toFixed(2)],
+          data: ['100', '100'],
           backgroundColor: ['rgba(155, 198, 233, 1)', 'rgba(217, 252, 219, 1)'],
           borderColor: 'rgba(0,0,0,0)',
           borderWidth: 1,
@@ -87,7 +89,8 @@ const Containers = (props: ContainerProps) => {
     return (
       <div className='box box-running' key={`runningBox-${i}`}>
         <div className='box-label'>
-          <h3>Name: {container.Name}</h3>
+          <h3>{container.Name}</h3>
+          <p>Image: {container.Image}</p>
           <p>ID: {container.ID}</p>
         </div>
         <div className='box-info'>
@@ -115,7 +118,8 @@ const Containers = (props: ContainerProps) => {
                   plugins: { legend: { display: false } },
                   scales: {
                     y: {
-                      stacked: true
+                      // stacked: true
+                      stacked: false
                     },
                   }
                 }}
@@ -124,14 +128,15 @@ const Containers = (props: ContainerProps) => {
           </div>
           <ToggleDisplay container={container} />
         </div>
-        <div className='box-button box-button-running'>
-          <button
-            className='stop-btn'
-            onClick={() => props.stop(container.ID, props.stopRunningContainer)}
+        {/* <div className='box-button box-button-running'> */}
+        <div className='stop-btn-box'>
+          <button className='stop-btn'
+            onClick={() => props.stop(container.ID, props.refreshStoppedContainers)}
           >
             STOP
           </button>
         </div>
+        {/* </div> */}
       </div>
     );
   });

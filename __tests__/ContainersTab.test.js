@@ -50,7 +50,7 @@ describe('Containers', () => {
     test('Name of container should properly display', ()=>{
       const h3 = screen.getAllByRole('heading', { level: 3 });
       const name = h3[0].innerHTML;
-      expect(name).toEqual('Name: blissful_matsumoto');
+      expect(name).toEqual('blissful_matsumoto');
     });
 
     test('Stop button is called', async () => {   
@@ -61,10 +61,10 @@ describe('Containers', () => {
     test('Toggle Display button works', () => {
       render(<ToggleDisplay {...props}/>);
       const button = screen.getAllByRole('button');
-      expect(button[4]).toHaveTextContent('Show Details');
-      fireEvent.click(button[4]);
-      expect(button[4]).toHaveTextContent('Hide Details');
-
+      expect(button[0]).toHaveTextContent('Show Details');
+      fireEvent.click(button[0]);
+      expect(button[0]).toHaveTextContent('Hide Details');
+      expect(button[1]).toHaveTextContent('STOP');
     });
   });
 
@@ -78,7 +78,7 @@ describe('Containers', () => {
 
     test('Name of container should properly display', () => {
       const name = screen.getAllByText('zealous');
-      expect(name).toHaveLength(2);
+      expect(name).toHaveLength(1);
     });
 
     test('Run and remove button should fire', async () => {
@@ -89,9 +89,7 @@ describe('Containers', () => {
       await fireEvent.click(removeButton);
       expect(runButton).toBeCalled;
       expect(removeButton).toBeCalled;
-
     });
-    
   });
 }); 
 

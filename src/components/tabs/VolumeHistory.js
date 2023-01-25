@@ -17,18 +17,14 @@ const volumeHistory = (props) => {
         className="volume-container-details"
         key={`vol-${i}`}
       >
-        <strong>Container Name: </strong>
+        <strong>Container: </strong>
         {container['Names']}
-        <ul>
-          <li>
-            <strong>Status: </strong>
-            {container['State']}
-          </li>
-          <li>
-            <strong>Running For: </strong>
-            {container['Status']}
-          </li>
-        </ul>
+        <br />
+        <strong>Status: </strong>
+        {container['State']}
+        <br />
+        <strong>Runtime: </strong>
+        {container['Status']}
       </div>
     );
   };
@@ -40,14 +36,14 @@ const volumeHistory = (props) => {
     ele.containers.length
       ? ele.containers.forEach(el => details.push(containerDetails(el, i)))
       : details.push(
-        <div className='volume-container-details' key={`ummmmm-${i}`}>
+        <div className='volume-container-details' key={`index-${i}`}>
           No container found in this volume
         </div>
       );
 
     return (
       <div className="box" key={`vol_${i}`}>
-        <div className="box-label">
+        <div className="volume-box-label">
           <h3>{ele.vol_name}</h3>
         </div>
         {details}
@@ -71,23 +67,23 @@ const volumeHistory = (props) => {
     <div className="renderContainers">
       <div className="header">
         <h1 className="tabTitle">Volume History</h1>
-        <div className="runByButton">
-          <label>Search Volume</label>
-          <span>
-            <input
-              type="text"
-              value={volumeName}
-              onChange={(e) => {
-                setVolumeName(e.target.value);
-              }}
-            />
-          </span>
-          <button className="run-btn" onClick={(e) => handleClick(e)}>
-            Find
-          </button>
-        </div>
       </div>
-      <div className="containers">{renderList}</div> 
+      <div className="settings-container">
+        <label>Search Volume</label>
+        <span>
+          <input className="input-box"
+            type="text"
+            value={volumeName}
+            onChange={(e) => {
+              setVolumeName(e.target.value);
+            }}
+          />
+          <button className="etc-btn" onClick={(e) => handleClick(e)}>
+            FIND
+          </button>
+        </span>
+      </div>
+      <div className="containers">{renderList}</div>
     </div>
   );
 };

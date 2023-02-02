@@ -105,7 +105,7 @@ const SysAdmin = () => {
         username: userInfo.username
       })
     })
-      .then(async (data) => await data.json())
+      .then((data) => data.json())
       .then((response) => {
         console.log(response);
       })
@@ -160,8 +160,8 @@ const SysAdmin = () => {
         username: userInfo.username
       })
     })
-      .then(async (response) => {
-        return await response.json();
+      .then((response) => {
+        return response.json();
       })
       .then((data) => {
         updateUserList(data);

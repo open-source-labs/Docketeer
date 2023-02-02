@@ -9,8 +9,8 @@ const emailEvent = (args: string[]) => {
     },
     body: JSON.stringify(args)
   })
-    .then(async (response) => {
-      return await response.json();
+    .then((response) => {
+      return response.json();
     })
     .then((data) => {
       console.log(data);

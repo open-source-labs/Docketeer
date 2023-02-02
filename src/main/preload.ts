@@ -18,6 +18,6 @@ function runExec (command: string, callback: callback): object {
 contextBridge.exposeInMainWorld('nodeMethod', {
   runExec,
   bool: true,
-  rendInvoke: async (input1: string, input2: (...args: any[]) => Promise<any>) =>
-    await ipcRenderer.invoke(input1, input2)
+  rendInvoke: (input1: string, input2: (...args: any[]) => Promise<any>) =>
+    ipcRenderer.invoke(input1, input2)
 });

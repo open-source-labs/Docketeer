@@ -1,25 +1,26 @@
-/* eslint-disable no-case-declarations */
-import { PayloadAction } from '@reduxjs/toolkit';
+import { type PayloadAction } from '@reduxjs/toolkit';
 import * as types from '../constants/actionTypes';
 import { containerState } from '../../../types';
 
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
-    case types.REFRESH_HOST_DATA:
-      const newHostStats: {[k: string]: number} = {};
+    case types.REFRESH_HOST_DATA: {
+      const newHostStats: Record<string, number> = {};
       for (const type in action.payload) {
         newHostStats[type] = action.payload[type];
       }
       return { ...state, hostStats: newHostStats };
+    }
 
-    case types.ADD_RUNNING_CONTAINERS:
+    case types.ADD_RUNNING_CONTAINERS: {
       const newRunningList: object[] = state.runningList.slice();
       for (const container of action.payload) {
         newRunningList.push(container);
       }
       return { ...state, runningList: newRunningList };
+    }
 
-    case types.STOP_RUNNING_CONTAINER:
+    case types.STOP_RUNNING_CONTAINER: {
       const newStoppedList = state.stoppedList.slice();
       const newestRunningList: object[] = [];
       for (const container of state.runningList) {
@@ -32,8 +33,9 @@ export default function (state = containerState, action: PayloadAction<any>) {
         runningList: newestRunningList,
         stoppedList: newStoppedList
       };
+    }
 
-    case types.RUN_STOPPED_CONTAINER:
+    case types.RUN_STOPPED_CONTAINER: {
       const runningListCopy = state.runningList.slice();
       const newerStoppedContainer: object[] = [];
       for (const container of state.stoppedList) {
@@ -48,17 +50,17 @@ export default function (state = containerState, action: PayloadAction<any>) {
         runningList: runningListCopy,
         stoppedList: newerStoppedContainer
       };
+    }
 
-    case types.REFRESH_RUNNING_CONTAINERS:
+    case types.REFRESH_RUNNING_CONTAINERS: {
       const newRunningList2: object[] = [];
-
       for (const container of action.payload) {
         newRunningList2.push(container);
       }
-
       return { ...state, runningList: newRunningList2 };
+    }
 
-    case types.REMOVE_CONTAINER:
+    case types.REMOVE_CONTAINER: {
       const removeContainerList: object[] = [];
       for (const container of state.stoppedList) {
         if (container.ID !== action.payload) {
@@ -66,20 +68,23 @@ export default function (state = containerState, action: PayloadAction<any>) {
         }
       }
       return { ...state, stoppedList: removeContainerList };
+    }
 
-    case types.ADD_STOPPED_CONTAINERS:
+    case types.ADD_STOPPED_CONTAINERS: {
       const newerStoppedList: object[] = state.stoppedList.slice();
       for (const container of action.payload) {
         newerStoppedList.push(container);
       }
       return { ...state, stoppedList: newerStoppedList };
+    }
 
-    case types.REFRESH_STOPPED_CONTAINERS:
+    case types.REFRESH_STOPPED_CONTAINERS: {
       const newStoppedList4: object[] = [];
       for (const container of action.payload) {
         newStoppedList4.push(container);
       }
       return { ...state, stoppedList: newStoppedList4 };
+    }
 
     default:
       return state;

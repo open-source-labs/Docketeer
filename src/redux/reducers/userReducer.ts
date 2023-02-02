@@ -1,5 +1,5 @@
-import * as types from "../constants/actionTypes";
-import {userReducerState } from '../../../types';
+import * as types from '../constants/actionTypes';
+import { userReducerState } from '../../../types';
 
 export default function (state = userReducerState, action: any) {
   switch (action.type) {

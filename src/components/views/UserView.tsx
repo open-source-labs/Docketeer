@@ -7,7 +7,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import * as actions from '../../redux/actions/actions';
 import * as helper from '../helper/commands';
 import * as history from '../helper/volumeHistoryHelper';
-// @ts-ignore
+// @ts-expect-error
 import Docketeer from '../../../assets/docketeer-title.png';
 
 // tab component imports
@@ -15,7 +15,7 @@ import Metrics from '../tabs/Metrics';
 import ImagesUser from '../tabs/ImagesUser';
 import Yml from '../tabs/Yml';
 import ContainersUser from '../tabs/ContainersUser';
-import Settings from '../tabs/Settings'; 
+import Settings from '../tabs/Settings';
 import VolumeHistory from '../tabs/VolumeHistory';
 import ProcessLogs from '../tabs/ProcessLogs';
 import ProcessLogsTable from '../display/ProcessLogsTable';
@@ -25,7 +25,7 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, NetworkObj, StateType  } from '../../../types';
+import { type ContainerObj, type StoppedContainerObj, type ImageObj, UserObj, type VolumeObj, type NetworkObj, type StateType } from '../../../types';
 
 // Container component that has all redux logic along with react router
 const UserView = () => {
@@ -48,7 +48,7 @@ const UserView = () => {
     dispatch(actions.stopRunningContainer(id));
   const updateSession = () => dispatch(actions.updateSession());
   const logoutUser = () => dispatch(actions.logoutUser());
-  const getVolumeList = (data: { Name: string }[]) => dispatch(actions.getVolumeList(data));
+  const getVolumeList = (data: Array<{ Name: string }>) => dispatch(actions.getVolumeList(data));
   const getVolumeContainersList = (data: VolumeObj[]) =>
     dispatch(actions.getVolumeContainersList(data));
 
@@ -111,7 +111,7 @@ const UserView = () => {
       helper.refreshImages(refreshImagesList);
     }, 5000);
     startNotificationRequester();
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, []);
 
   const selectedStyling = {
@@ -134,7 +134,7 @@ const UserView = () => {
               <Link
                 to='/app/'
                 style={selected === '/app/' ? selectedStyling : undefined}
-                onClick={() => setSelected('/app/')}
+                onClick={() => { setSelected('/app/'); }}
               >
                 <i className='fas fa-settings'></i> Settings
               </Link>
@@ -147,7 +147,7 @@ const UserView = () => {
                     ? selectedStyling
                     : undefined
                 }
-                onClick={() => setSelected(() => '/app/running')}
+                onClick={() => { setSelected(() => '/app/running'); }}
               >
                 <i className='fas fa-box-open'></i> Containers
               </Link>
@@ -158,7 +158,7 @@ const UserView = () => {
                 style={
                   selected === '/app/images' ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/app/images')}
+                onClick={() => { setSelected('/app/images'); }}
               >
                 <i className='fas fa-database'></i> Images
               </Link>
@@ -171,7 +171,7 @@ const UserView = () => {
                     ? selectedStyling
                     : undefined
                 }
-                onClick={() => setSelected('/app/metrics')}
+                onClick={() => { setSelected('/app/metrics'); }}
               >
                 <i className='fas fa-chart-pie'></i> Metrics
               </Link>
@@ -182,7 +182,7 @@ const UserView = () => {
                 style={
                   selected === '/app/yml' ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/app/yml')}
+                onClick={() => { setSelected('/app/yml'); }}
               >
                 <i className='fas fa-file-upload'></i> Docker Compose
               </Link>
@@ -193,7 +193,7 @@ const UserView = () => {
                 style={
                   selected === '/app/volume' ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/app/volume')}
+                onClick={() => { setSelected('/app/volume'); }}
               >
                 <i className='fas fa-volume-history'></i> Volume History
               </Link>
@@ -204,7 +204,7 @@ const UserView = () => {
                 style={
                   selected === '/app/logs' ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/app/logs')}
+                onClick={() => { setSelected('/app/logs'); }}
               >
                 <i className='fas fa-log'></i> Process Logs
               </Link>
@@ -212,14 +212,14 @@ const UserView = () => {
           </ul>
           <div>
             <button
-              style={{borderRadius: 5, marginBottom: 10}}
+              style={{ borderRadius: 5, marginBottom: 10 }}
               className='btn'
-              onClick={(e) => helper.handlePruneClick(e)}
+              onClick={(e) => { helper.handlePruneClick(e); }}
             >
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
+            <button style={{ borderRadius: 5, marginBottom: 10 }} className='btn' onClick={() => { handleLogout(); }}>
               Logout
             </button>
           </div>

@@ -4,10 +4,9 @@
  */
 import store from '../../renderer/store';
 import * as actions from '../../redux/actions/actions';
-import React from 'react';
+import type React from 'react';
 
 export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
-
   e.preventDefault();
   const username = (<HTMLInputElement>document.getElementById('signupUsername')).value;
   const password = (<HTMLInputElement>document.getElementById('signupPassword')).value;
@@ -84,11 +83,11 @@ export const createNewUser = (email: string, username: string, password: string,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      username: username,
-      password: password,
-      email: email,
-      phone: phone,
-      role_id: role_id
+      username,
+      password,
+      email,
+      phone,
+      role_id
     })
   })
     .then(() => {
@@ -102,7 +101,6 @@ export const createNewUser = (email: string, username: string, password: string,
 
       window.alert(`New user has been successfully created. \n\n
           An email with the user's credentials and login instructions has been sent to ${email}`);
-
     }).then(() => {
       getUpdatedUserList();
     })
@@ -111,9 +109,7 @@ export const createNewUser = (email: string, username: string, password: string,
     });
 };
 
-
 export const getUpdatedUserList = () => {
-
   fetch('http://localhost:3000/admin', {
     method: 'POST',
     headers: {
@@ -122,9 +118,9 @@ export const getUpdatedUserList = () => {
     body: JSON.stringify({
       // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
       // token: store.userInfo.token,
-    }),
+    })
   })
-    .then((response) => response.json())
+    .then(async (response) => await response.json())
     .then((data) => {
       updateUserList(data);
     })
@@ -139,7 +135,7 @@ export const updateUserList = (data: object[]) => {
 
 export const checkDbInit = () => {
   fetch('http://localhost:3000/db')
-    .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then(async (response) => await response.json())
+    .then((data) => { console.log(data); })
     .catch((err) => { console.log(err); });
 };

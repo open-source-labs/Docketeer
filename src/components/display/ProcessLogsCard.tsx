@@ -6,11 +6,10 @@
  * naming of states for both running and not running container lists.
  */
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import {LogsCardProps} from '../../../types';
-
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { type LogsCardProps } from '../../../types';
 
 const ProcessLogsCard = (props: LogsCardProps) => {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ const ProcessLogsCard = (props: LogsCardProps) => {
   return (
     <button
       className="btn-process"
-      onClick={() => navigate(`/app/logTable/${props.container.ID}`)}
+      onClick={() => { navigate(`/app/logTable/${props.container.ID}`); }}
     >
       <div className="box" key={`${props.status}Box-${props.index}`}>
         <div className="box-label">
@@ -37,7 +36,7 @@ const ProcessLogsCard = (props: LogsCardProps) => {
 ProcessLogsCard.propTypes = {
   container: PropTypes.object,
   index: PropTypes.number,
-  status: PropTypes.string,
+  status: PropTypes.string
 };
 
 export default ProcessLogsCard;

@@ -3,32 +3,42 @@ module.exports = {
     browser: true,
     commonjs: true,
     es2021: true,
-    node: true,
+    node: true
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'plugin:react/recommended',
+    'standard-with-typescript'
+  ],
+  overrides: [
+  ],
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
+    project: ['tsconfig.json'],
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: 'module'
   },
-  plugins: ['react'],
+  plugins: [
+    'react'
+  ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
-    indent: ['warn', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'no-unused-vars': ['off', { vars: 'local' }],
     'prefer-const': 'warn',
     quotes: ['warn', 'single'],
-    semi: ['warn', 'always'],
+    semi: 'off',
     'space-infix-ops': 'warn',
     'no-console': 'off',
     'no-restricted-syntax': [
       'error',
       {
         selector:
-          "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
-        message: 'Unexpected property on console object was called',
-      },
+          'CallExpression[callee.object.name=\'console\'][callee.property.name!=/^(log|warn|error|info|trace)$/]',
+        message: 'Unexpected property on console object was called'
+      }
     ],
     'spaced-comment': [
       'error',
@@ -36,14 +46,18 @@ module.exports = {
       {
         line: {
           markers: ['/'],
-          exceptions: ['-', '+'],
+          exceptions: ['-', '+']
         },
         block: {
           markers: ['!'],
           exceptions: ['*'],
-          balanced: true,
-        },
-      },
+          balanced: true
+        }
+      }
     ],
-  },
+
+    // ---- TYPESCRIPT ---- //
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/semi': ['warn', 'always']
+  }
 };

@@ -1,6 +1,6 @@
-import * as types from "../constants/actionTypes";
-import { PayloadAction } from "@reduxjs/toolkit";
-import {volumeState} from '../../../types';
+import * as types from '../constants/actionTypes';
+import { type PayloadAction } from '@reduxjs/toolkit';
+import { volumeState } from '../../../types';
 
 /**
  * @description Reducer for the list of containers running in each volume
@@ -12,17 +12,18 @@ import {volumeState} from '../../../types';
 
 export default function (state = volumeState, action: PayloadAction<any>) {
   switch (action.type) {
-    case types.GET_VOLUME_LIST:
+    case types.GET_VOLUME_LIST: {
       // merges arrays using spread operator
       const newVolumeList = [...state.arrayOfVolumeNames, ...action.payload];
       return {
         ...state,
-        arrayOfVolumeNames: newVolumeList,
+        arrayOfVolumeNames: newVolumeList
       };
+    }
 
-    case types.GET_VOLUME_CONTAINERS_LIST:
+    case types.GET_VOLUME_CONTAINERS_LIST: {
       const newVolumeContainersList = [...state.volumeContainersList];
-      if (newVolumeContainersList.length) {
+      if (newVolumeContainersList.length > 0) {
         // ensures no duplicate volumes
         for (let i = 0; i < newVolumeContainersList.length; i += 1) {
           if (newVolumeContainersList[i].vol_name === action.payload.vol_name) {
@@ -33,8 +34,9 @@ export default function (state = volumeState, action: PayloadAction<any>) {
       newVolumeContainersList.push(action.payload);
       return {
         ...state,
-        volumeContainersList: newVolumeContainersList,
+        volumeContainersList: newVolumeContainersList
       };
+    }
 
     default:
       return state;

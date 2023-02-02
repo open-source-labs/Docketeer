@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Metrics from '../src/components/tabs/Metrics';
-import {describe, expect, test, beforeEach, afterEach, jest} from '@jest/globals';
+import { describe, expect, test, beforeEach, afterEach, jest } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -25,8 +25,8 @@ const props = {
   ],
   threshold: [
     80.00, // state.session.cpu_threshold:
-    80.00, // state.session.mem_threshold: 
-  ],
+    80.00 // state.session.mem_threshold:
+  ]
 };
 
 fetchMock.enableMocks();
@@ -63,4 +63,4 @@ describe('dummy test', () => {
   test('dummy test', () => {
     expect(2 + 2).toBe(4);
   });
-});  
+});

@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, type MouseEvent } from 'react';
 import * as helper from '../helper/commands';
-import { ImagesProps } from '../../../types';
+import { type ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
- * 
+ *
  * @param {*} props
  */
 const Images = (props: ImagesProps) => {
@@ -20,16 +20,16 @@ const Images = (props: ImagesProps) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
-          <h3>{ele['reps']}</h3>
-          <p>{ele['tag']}</p>
+          <h3>{ele.reps}</h3>
+          <p>{ele.tag}</p>
         </div>
         <div className="stopped-info">
           <ul>
             <li>
-              <strong>ID: </strong>{ele['imgid']}
+              <strong>ID: </strong>{ele.imgid}
             </li>
             <li>
-              <strong>Size: </strong>{ele['size']}
+              <strong>Size: </strong>{ele.size}
             </li>
           </ul>
         </div>
@@ -53,7 +53,7 @@ const Images = (props: ImagesProps) => {
               }}
             ></input>
           </span>
-          <button className="run-btn" onClick={(e) => handleClick(e)}>
+          <button className="run-btn" onClick={(e) => { handleClick(e); }}>
             Pull
           </button>
         </div>

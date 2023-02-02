@@ -1,8 +1,8 @@
 /**
  * @module SignupRouter
- * @description Routes all requests to signup endpoint 
+ * @description Routes all requests to signup endpoint
  */
-import { Router, Request, Response } from 'express';
+import { Router, type Request, type Response } from 'express';
 import signupController from '../controllers/signupController';
 import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
@@ -12,14 +12,14 @@ import apiController from '../controllers/apiController';
 const router = Router();
 
 // only call middleware when system admin logs in
-router.get('/', 
-  userController.getAllUsers, 
+router.get('/',
+  userController.getAllUsers,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.users);
   }
 );
 
-router.post('/', 
+router.post('/',
   signupController.usernameCheck,
   signupController.passwordCheck,
   bcryptController.hashPassword,

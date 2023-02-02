@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 // TODO: the communication files seem to be unused, could improve functionality
 
-
 const emailEvent = (args: string[]) => {
   fetch('http://localhost:3000/api', {
     method: 'POST',
@@ -10,8 +9,8 @@ const emailEvent = (args: string[]) => {
     },
     body: JSON.stringify(args)
   })
-    .then((response) => {
-      return response.json();
+    .then(async (response) => {
+      return await response.json();
     })
     .then((data) => {
       console.log(data);
@@ -20,4 +19,3 @@ const emailEvent = (args: string[]) => {
       console.log(err);
     });
 };
-

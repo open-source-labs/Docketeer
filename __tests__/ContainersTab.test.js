@@ -1,6 +1,6 @@
 import React from 'react';
 import Containers from '../src/components/tabs/Containers';
-import {describe, beforeEach, expect, test, jest} from '@jest/globals';
+import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 import '@testing-library/jest-dom';
 import ToggleDisplay from '../src/components/display/ToggleDisplay';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -21,43 +21,40 @@ const props = {
   stoppedList: [
     {
       Names: 'zealous',
-      ID: 'c902ec744095', 
-      Image: '84c5f6e03bf0', 
-      RunningFor: '2 days ago',
+      ID: 'c902ec744095',
+      Image: '84c5f6e03bf0',
+      RunningFor: '2 days ago'
     }
   ],
-  container: {MemUsage:1},
+  container: { MemUsage: 1 },
   stop: jest.fn(),
   remove: jest.fn(),
   runStopped: jest.fn()
 };
 
-
 describe('Containers', () => {
-  
-  beforeEach(()=>{
+  beforeEach(() => {
     render(<Containers {...props} />);
   });
 
   describe('Running List containers', () => {
-
     test('Should have render correct amount of running containers', () => {
-      const runningContainers = screen.getByText('Running Containers', {exact:false});
+      const runningContainers = screen.getByText('Running Containers', { exact: false });
       const text = runningContainers.innerHTML;
       expect(text).toEqual(`Running Containers: ${props.runningList.length}`);
     });
 
-    test('Name of container should properly display', ()=>{
+    test('Name of container should properly display', () => {
       const h3 = screen.getAllByRole('heading', { level: 3 });
       const name = h3[0].innerHTML;
       expect(name).toEqual('blissful_matsumoto');
     });
 
-    test('Stop button is called', async () => {   
+    test('Stop button is called', async () => {
       const stopButton = document.querySelector('.stop-btn');
       await fireEvent.click(stopButton);
     });
-    
+
     test('Toggle Display button works', () => {
       render(<ToggleDisplay {...props}/>);
       const button = screen.getAllByRole('button');
@@ -69,9 +66,8 @@ describe('Containers', () => {
   });
 
   describe('Stopped List Containers', () => {
-
     test('Should have render correct amount of containers', () => {
-      const exitedContainers = screen.getByText('Exited Containers', {exact:false});
+      const exitedContainers = screen.getByText('Exited Containers', { exact: false });
       const text = exitedContainers.innerHTML;
       expect(text).toEqual(`Exited Containers: ${props.stoppedList.length}`);
     });
@@ -91,5 +87,4 @@ describe('Containers', () => {
       expect(removeButton).toBeCalled;
     });
   });
-}); 
-
+});

@@ -10,7 +10,9 @@
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
     "buildWeb": "webpack --config=./webpack.react.config.js",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -62,6 +64,7 @@
     "@types/os-utils": "^0.0.1",
     "@types/pg": "^8.6.5",
     "@types/react-csv": "^1.1.3",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
     "axios": "^1.0.0",
     "babel-loader": "^8.2.5",
     "bcryptjs": "^2.4.3",
@@ -73,6 +76,12 @@
     "electron": "^21.0.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-reloader": "^1.2.3",
+    "eslint": "^8.33.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
     "express": "^4.18.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -91,7 +100,7 @@
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "twilio": "^3.82.1",
-    "typescript": "^4.9.3",
+    "typescript": "^4.9.5",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"

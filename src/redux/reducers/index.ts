@@ -21,7 +21,7 @@ const reducers = combineReducers({
   session: sessionReducer,
   userList: userListReducer,
   volumeList: volumeHistoryReducer,
-  processLogs: processLogsReducer,
+  processLogs: processLogsReducer
 });
 
 export default reducers;

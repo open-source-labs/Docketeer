@@ -5,11 +5,11 @@ import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 import './ProcessLogsCard';
 
-import store from "../../renderer/store";
-import { DataGrid } from "@mui/x-data-grid";
-import { Checkbox, FormControlLabel, FormGroup, Button } from "@mui/material"; // use for container selection
-import { CSVLink } from "react-csv";
-import { ContainerType, RowsDataType } from "../../../types";
+import store from '../../renderer/store';
+import { DataGrid } from '@mui/x-data-grid';
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
+import { type ContainerType, type RowsDataType } from '../../../types';
 
 /**
  * Displays process logs as table
@@ -29,16 +29,15 @@ const ProcessLogsTable = () => {
   const id = containerID[containerID.length - 1];
 
   // access runningList from state - store has issue with runningList, ignore until updated
-  // @ts-ignore
+  // @ts-expect-error
   const runningList = store.getState().containersList.runningList;
 
   const [btnIdList, setBtnIdList] = useState([id]);
   const [rows, setRows] = useState([]);
 
   const [csvData, setCsvData] = useState([
-    ['container', 'type', 'time', 'message'],
+    ['container', 'type', 'time', 'message']
   ]);
-
 
   const [counter, setCounter] = useState(0);
   const { stdout, stderr } = store.getState().processLogs.containerLogs;
@@ -64,7 +63,7 @@ const ProcessLogsTable = () => {
     { field: 'container', headerName: 'Container', width: 150 },
     { field: 'type', headerName: 'Log Type', width: 120 },
     { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 550 },
+    { field: 'message', headerName: 'Message', width: 550 }
   ];
 
   const createContainerCheckboxes = (currId: string) => {
@@ -80,7 +79,7 @@ const ProcessLogsTable = () => {
                 id={runningList[i].ID}
                 name={runningList[i].Name}
                 defaultChecked={true}
-                onChange={(e) => handleCheck(e)}
+                onChange={(e) => { handleCheck(e); }}
               />
             }
             label={`${runningList[i].Name}`}
@@ -96,7 +95,7 @@ const ProcessLogsTable = () => {
                 id={runningList[i].ID}
                 name={runningList[i].Name}
                 defaultChecked={false}
-                onChange={(e) => handleCheck(e)}
+                onChange={(e) => { handleCheck(e); }}
               />
             }
             label={`${runningList[i].Name}`}
@@ -114,7 +113,7 @@ const ProcessLogsTable = () => {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const box = e.target;
     // if checkbox is changed to true add to button idList
-    if (box.checked === true) {
+    if (box.checked) {
       btnIdList.push(box.id);
       setBtnIdList(btnIdList);
     } else {
@@ -124,8 +123,6 @@ const ProcessLogsTable = () => {
     }
   };
 
-
-
   type CSVData = string[];
 
   // Populating the StdOut Table Data Using stdout.map
@@ -134,33 +131,33 @@ const ProcessLogsTable = () => {
     const newCSV: CSVData[] = [];
 
     if (stdout) {
-      stdout.forEach((log: { [k: string]: any; }) => {
+      stdout.forEach((log: Record<string, any>) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log.containerName
         );
         newRows.push({
           container: currCont.Name,
           type: 'stdout',
-          time: log['timeStamp'],
-          message: log['logMsg'],
-          id: Math.random() * 100,
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: Math.random() * 100
         });
-        newCSV.push([currCont.Name, 'stdout', log['timeStamp'], log['logMsg']]);
+        newCSV.push([currCont.Name, 'stdout', log.timeStamp, log.logMsg]);
       });
     }
     if (stderr) {
-      stderr.forEach((log: { [k: string]: any; }, index: any) => {
+      stderr.forEach((log: Record<string, any>, index: any) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log.containerName
         );
         newRows.push({
           container: currCont.Name,
           type: 'stderr',
-          time: log['timeStamp'],
-          message: log['logMsg'],
-          id: parseInt(index),
+          time: log.timeStamp,
+          message: log.logMsg,
+          id: parseInt(index)
         });
-        newCSV.push([currCont.Name, 'stderr', log['timeStamp'], log['logMsg']]);
+        newCSV.push([currCont.Name, 'stderr', log.timeStamp, log.logMsg]);
       });
 
       setRows(newRows as keyof typeof setRows);
@@ -231,7 +228,7 @@ const ProcessLogsTable = () => {
             <CSVLink
               style={{
                 textDecoration: 'none',
-                color: '#0064ff',
+                color: '#0064ff'
               }}
               data={csvData}
             >
@@ -252,8 +249,8 @@ const ProcessLogsTable = () => {
             getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
-                sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
-              },
+                sortModel: [{ field: 'time', sort: 'desc' }] // default sorts table by time
+              }
             }}
           />
         </div>

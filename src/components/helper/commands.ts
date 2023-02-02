@@ -1,11 +1,11 @@
-/* The below ts-noCheck comment was made because this file has not yet been completely converted to Typescript. 
+/* The below ts-noCheck comment was made because this file has not yet been completely converted to Typescript.
 The below comment removes all Typescript errors. Please remove this line of code to see what needs to be configured for Typescript compliance
 */
 // @ts-noCheck
 import parseContainerFormat from './parseContainerFormat';
 import {
   filterOneProperty,
-  listOfVolumeProperties,
+  listOfVolumeProperties
 } from './volumeHistoryHelper';
 import store from '../../renderer/store';
 import { makeArrayOfObjects } from './processLogHelper';
@@ -13,18 +13,15 @@ import * as child_process from 'child_process';
 import { PostAdd } from '@mui/icons-material';
 import { removeContainer } from '../../redux/actions/actions';
 
-
 const errorsCalled = {};
 
 const errorCheck = (key, error) => {
   if (!errorsCalled[key]) {
     errorsCalled[key] = error.message;
     alert(`Make sure Docker Desktop is running. \n\n ${error.message}`);
-  }
-  else {
+  } else {
     console.log(error.message);
   }
-  return;
 };
 
 /**
@@ -35,11 +32,11 @@ const errorCheck = (key, error) => {
 
 export const getHostStats = (refreshHostData) => {
   fetch('http://localhost:3000/command/getHost')
-    .then((res) => res.json())
+    .then(async (res) => await res.json())
     .then((data) => {
       refreshHostData(data);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -48,16 +45,15 @@ export const getHostStats = (refreshHostData) => {
  * @param {*} refreshRunningContainers
  */
 
-// moved existing "command" functions to backend '/command' 
+// moved existing "command" functions to backend '/command'
 export const refreshRunning = (refreshRunningContainers) => {
   fetch('http://localhost:3000/command/refreshRunning')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((runningContainers) => {
       refreshRunningContainers(runningContainers);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
-
 
 /**
  * Refreshes stopped containers
@@ -66,11 +62,11 @@ export const refreshRunning = (refreshRunningContainers) => {
  */
 export const refreshStopped = (refreshStoppedContainers) => {
   fetch('http://localhost:3000/command/refreshStopped')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((stoppedContainers) => {
       refreshStoppedContainers(stoppedContainers);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -80,11 +76,11 @@ export const refreshStopped = (refreshStoppedContainers) => {
  */
 export const refreshImages = (refreshImagesList) => {
   fetch('http://localhost:3000/command/refreshImages')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((imagesList) => {
       refreshImagesList(imagesList);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -95,12 +91,12 @@ export const refreshImages = (refreshImagesList) => {
  */
 export const remove = (containerID, removeContainer) => {
   fetch(`http://localhost:3000/command/removeContainer?id=${containerID}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       removeContainer(containerID);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -111,12 +107,12 @@ export const remove = (containerID, removeContainer) => {
  */
 export const stop = (id, refreshStoppedContainers) => {
   fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       refreshStoppedContainers(id);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -127,12 +123,12 @@ export const stop = (id, refreshStoppedContainers) => {
  */
 export const runStopped = (id, runStoppedContainerDispatcher) => {
   fetch(`http://localhost:3000/command/runStopped?id=${id}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       runStoppedContainerDispatcher(id);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -143,15 +139,17 @@ export const runStopped = (id, runStoppedContainerDispatcher) => {
  */
 export const runIm = (container, refreshRunningContainers) => {
   fetch('http://localhost:3000/command/runImage', {
-    method: 'post', headers: {
+    method: 'post',
+    headers: {
       'Content-Type': 'application/json'
-    }, body: JSON.stringify(container)
+    },
+    body: JSON.stringify(container)
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((newRunningList) => {
       refreshRunningContainers(newRunningList);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
   alert('Running container.');
 };
 
@@ -166,7 +164,7 @@ export const removeIm = (id, refreshImages, refreshImagesList) => {
   fetch(`http://localhost:3000/command/removeImage?id=${id}`)
     .then(() => {
       refreshImages(refreshImagesList)
-        .catch((err) => console.log(err));
+        .catch((err) => { console.log(err); });
     });
 };
 
@@ -178,12 +176,12 @@ export const removeIm = (id, refreshImages, refreshImagesList) => {
 
 export const handlePruneClick = (e) => {
   e.preventDefault();
-  fetch(`http://localhost:3000/command/dockerPrune`)
-    .then((message) => message.json())
+  fetch('http://localhost:3000/command/dockerPrune')
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -194,11 +192,11 @@ export const handlePruneClick = (e) => {
 
 export const pullImage = (repo) => {
   fetch(`http://localhost:3000/command/pullImage?repo=${repo}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -208,12 +206,12 @@ export const pullImage = (repo) => {
  */
 
 export const networkContainers = (getNetworkContainers) => {
-  fetch(`http://localhost:3000/command/networkContainers`)
-    .then((data) => data.json())
+  fetch('http://localhost:3000/command/networkContainers')
+    .then(async (data) => await data.json())
     .then((networkContainers) => {
       getNetworkContainers(networkContainers);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -226,11 +224,11 @@ export const networkContainers = (getNetworkContainers) => {
 
 export const inspectDockerContainer = (containerId) => {
   fetch(`http://localhost:3000/command/inspect?id=${containerId}`)
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((data) => {
       console.log(data);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -243,15 +241,17 @@ export const inspectDockerContainer = (containerId) => {
 
 export const dockerComposeUp = (getContainerStacks, filePath, ymlFileName) => {
   fetch('http://localhost:3000/command/composeUp', {
-    method: 'post', headers: {
+    method: 'post',
+    headers: {
       'Content-Type': 'application/json'
-    }, body: JSON.stringify({ filePath: filePath, ymlFileName: ymlFileName })
+    },
+    body: JSON.stringify({ filePath, ymlFileName })
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -262,11 +262,11 @@ export const dockerComposeUp = (getContainerStacks, filePath, ymlFileName) => {
 
 export const dockerComposeStacks = (getContainerStacks) => {
   fetch('http://localhost:3000/command/composeStacks')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -278,15 +278,17 @@ export const dockerComposeStacks = (getContainerStacks) => {
 
 export const dockerComposeDown = (getContainerStacks, filePath, ymlFileName) => {
   fetch('http://localhost:3000/command/composeDown', {
-    method: 'post', headers: {
+    method: 'post',
+    headers: {
       'Content-Type': 'application/json'
-    }, body: JSON.stringify({ filePath: filePath, ymlFileName: ymlFileName })
+    },
+    body: JSON.stringify({ filePath, ymlFileName })
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => { console.log(err); });
 };
 
 /**
@@ -318,7 +320,7 @@ export const writeToDb = () => {
         net: container.NetIO,
         block: container.BlockIO,
         pid: container.PIDs,
-        timestamp: 'current_timestamp',
+        timestamp: 'current_timestamp'
       };
     });
     if (stoppedContainers.length >= 1) {
@@ -332,18 +334,18 @@ export const writeToDb = () => {
           net: '0.00kB/0.00kB',
           block: '0.00kB/0.00kB',
           pid: '0',
-          timestamp: 'current_timestamp',
+          timestamp: 'current_timestamp'
         };
       });
     }
     fetch('http://localhost:3000/init/addMetrics', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        containers: containerParameters,
-      }),
+        containers: containerParameters
+      })
     }).catch((err) => {
       console.log(err);
     });
@@ -357,15 +359,15 @@ export const setDbSessionTimeZone = () => {
   fetch('http://localhost:3000/init/timezone', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      timezone: offsetTimeZoneInHours,
-    }),
+      timezone: offsetTimeZoneInHours
+    })
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((response) => {
-      return;
+
     })
     .catch((err) => {
       console.log(err);
@@ -376,11 +378,11 @@ export const getContainerGitUrl = async (container) => {
   const response = await fetch('http://localhost:3000/init/github', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      githubUrl: container,
-    }),
+      githubUrl: container
+    })
   });
   return await response.json();
 };
@@ -391,10 +393,9 @@ export const getContainerGitUrl = async (container) => {
  * @param {*} getVolumeList
  */
 
-
 export const getAllDockerVolumes = (getVolumeList) => {
   fetch('http://localhost:3000/command/allDockerVolumes')
-    .then((volumes) => volumes.json())
+    .then(async (volumes) => await volumes.json())
     .then((dockerVolumes) => {
       return getVolumeList(filterOneProperty(dockerVolumes, 'Name'));
     })
@@ -412,7 +413,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   fetch(`http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`)
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((volumeContainers) => {
       return getVolumeContainersList(listOfVolumeProperties(volumeName, volumeContainers)
       );
@@ -435,8 +436,7 @@ export const getLogs = async (optionsObj, getContainerLogsDispatcher) => {
     const response = await fetch('http://localhost:3000/command/allLogs',
       { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(optionsObj) });
     return await response.json();
-  }
-  catch {
+  } catch {
     console.log(err);
   }
   // fetch(`http://localhost:3000/command/allLogs?optionsObj=${optionsObj}`)

@@ -27,7 +27,7 @@ module.exports = {
       dns: false
     }
   },
-  entry:  '/src/renderer/index.tsx',
+  entry: '/src/renderer/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'),
     // Taking our group of files and bundle them into Docketeer.js
@@ -59,7 +59,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource'
       }
     ]
   },
@@ -81,6 +81,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html'
     }),
-    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
+    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
   ]
 };

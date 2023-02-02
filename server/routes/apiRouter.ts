@@ -3,7 +3,7 @@
  * @description Routes all requests to APIs
  */
 
-import { Router, Request, Response } from 'express';
+import { Router, type Request, type Response } from 'express';
 import apiController from '../controllers/apiController';
 
 const router = Router();
@@ -16,8 +16,8 @@ router.post(
   // userController.getOneUser,
   apiController.sendEmailAlert,
   (req: Request, res: Response) => {
-    return res.status(201).json('alert email sent to user')
-  },
+    return res.status(201).json('alert email sent to user');
+  }
 );
 
 export default router;

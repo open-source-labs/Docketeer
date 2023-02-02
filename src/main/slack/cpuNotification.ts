@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SLACK_WEBHOOK: any = process.env.SLACK_WEBHOOK;
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK || '';
 
 const cpuNotification = async function () {
   try {

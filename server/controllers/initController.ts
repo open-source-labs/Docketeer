@@ -22,7 +22,7 @@ const initController: InitController = {
         res.locals.error = error;
         res.locals.stderr = stderr;
         res.locals.stdout = stdout;
-        next();
+        return next();
       }
     );
   },
@@ -32,11 +32,11 @@ const initController: InitController = {
     console.log(parameter);
     db.query(`ALTER DATABASE postgres SET timezone TO ${parameter}`)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log(err);
-        if (err) { next(err); }
+        if (err) { return next(err); }
       });
   },
 
@@ -45,11 +45,11 @@ const initController: InitController = {
     db.query('SELECT github_url FROM containers where name = $1', parameter)
       .then((data: any) => {
         res.locals.url = data;
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log(err);
-        if (err) { next(err); }
+        if (err) { return next(err); }
       });
   },
 
@@ -65,10 +65,10 @@ const initController: InitController = {
         })
         .catch((err: ServerError) => {
           console.log(err);
-          if (err) { next(err); }
+          if (err) { return next(err); }
         });
     });
-    next();
+    return next();
   },
 
   getMetrics: async (req: Request, res: Response, next: NextFunction) => {
@@ -83,7 +83,7 @@ const initController: InitController = {
       await db.query(queryString, containerList)
         .then((data: any) => {
           res.locals.metrics = data;
-          next();
+          return next();
         });
     }
     // if there are more than one containers selected, this will activate
@@ -98,7 +98,7 @@ const initController: InitController = {
       await db.query(queryString, containerList)
         .then((data: any) => {
           res.locals.metrics = data;
-          next();
+          return next();
         });
     }
   }

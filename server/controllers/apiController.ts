@@ -56,10 +56,10 @@ const apiController: ApiController = {
     transporter
       .sendMail(mailDetails)
       .then((info: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in apiController sendEmailAlert: ${err}`,
           message: {
             err: 'An error occured creating new user in database. See apiController.sendEmailAlert.'
@@ -90,10 +90,10 @@ const apiController: ApiController = {
     transporter
       .sendMail(mailDetails)
       .then((info: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in apiController signupEmail: ${err}`,
           message: {
             err: 'An error occured creating new user in database. See apiController.signupEmail.'

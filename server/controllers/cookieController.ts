@@ -9,14 +9,14 @@ import { type CookieController, ServerError } from '../../types';
 const cookieController: CookieController = {
   // store the user id in a cookie
   setSSIDCookie: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     res.cookie('ssid', res.locals.user._id, { httpOnly: true });
-    next();
+    return next();
   },
   // set admin cookie for users with admin privileges
   setAdminCookie: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { role_id } = res.locals.user;
 
@@ -28,7 +28,7 @@ const cookieController: CookieController = {
       res.cookie('adminType', 'admin', { httpOnly: true });
       res.locals.cookie = 'admin';
     }
-    next();
+    return next();
   }
 };
 

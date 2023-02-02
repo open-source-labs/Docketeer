@@ -14,10 +14,10 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next(err);
+        return next(err);
       });
   },
 
@@ -30,10 +30,10 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next(err);
+        return next(err);
       });
   },
 
@@ -44,10 +44,10 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next(err);
+        return next(err);
       });
   },
 
@@ -73,11 +73,11 @@ const settingsController: SettingsController = {
         res.locals.memory = tempMemory;
         res.locals.cpu = tempCPU;
         res.locals.stopped = tempStopped;
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log('getNotificationSettings: ', err);
-        next(err);
+        return next(err);
       });
   },
 
@@ -95,11 +95,11 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log('addPhoneNumber: ', err);
-        next(err);
+        return next(err);
       });
   },
 
@@ -117,11 +117,11 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log('notificationFrequency: ', err);
-        next(err);
+        return next(err);
       });
   },
 
@@ -139,11 +139,11 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log('monitoringFrequency: ', err);
-        next(err);
+        return next(err);
       });
   },
 
@@ -156,11 +156,11 @@ const settingsController: SettingsController = {
     await db
       .query(queryString, parameters)
       .then((data: any) => {
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
         console.log('addGitLinks: ', err);
-        next(err);
+        return next(err);
       });
   }
 };

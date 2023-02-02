@@ -123,7 +123,7 @@ export const stop = (id, refreshStoppedContainers) => {
  */
 export const runStopped = (id, runStoppedContainerDispatcher) => {
   fetch(`http://localhost:3000/command/runStopped?id=${id}`)
-    .then(async (message) => await message.json())
+    .then((message) => message.json())
     .then((message) => {
       console.log({ message });
       runStoppedContainerDispatcher(id);
@@ -366,8 +366,7 @@ export const setDbSessionTimeZone = () => {
     })
   })
     .then((data) =>  data.json())
-    .then((response) => {
-    })
+    .then((response) => {})
     .catch((err) => {
       console.log(err);
     });

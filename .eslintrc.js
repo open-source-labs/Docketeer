@@ -5,20 +5,27 @@ module.exports = {
     es2021: true,
     node: true
   },
+  plugins: [
+    'react',
+    '@typescript-eslint'
+  ],
   extends: [
+    'eslint:recommended',
     'plugin:react/recommended',
-    'standard-with-typescript'
+    'plugin:@typescript-eslint/recommended'
+  ],
+  ignorePatterns: [
+    '.eslintrc.js',
+    '*.config.js',
+    'dist/*',
+    '__tests__/*'
   ],
   overrides: [
   ],
   parserOptions: {
-    project: ['tsconfig.json'],
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: [
-    'react'
-  ],
   settings: {
     react: {
       version: 'detect'
@@ -58,6 +65,7 @@ module.exports = {
 
     // ---- TYPESCRIPT ---- //
     '@typescript-eslint/explicit-function-return-type': 'off',
+    "@typescript-eslint/no-unused-vars": "error",
     '@typescript-eslint/semi': ['warn', 'always']
   }
 };

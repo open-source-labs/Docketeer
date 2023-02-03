@@ -17,10 +17,10 @@ const bcryptController: BcryptController = {
       .hash(password, saltRounds)
       .then((hash) => {
         res.locals.hash = hash;
-        next();
+        return next();
       })
       .catch((err) => {
-        next({
+        return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
             err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.'
@@ -33,7 +33,7 @@ const bcryptController: BcryptController = {
   hashNewPassword: async (req: Request, res: Response, next: NextFunction) => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
-      next(); return;
+      return next();
     }
     // else bCrypt the new password and move to next middleware
     const { newPassword } = req.body;
@@ -43,10 +43,10 @@ const bcryptController: BcryptController = {
       .hash(newPassword, saltRounds)
       .then((hash) => {
         res.locals.hash = hash;
-        next();
+        return next();
       })
       .catch((err) => {
-        next({
+        return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
             err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.'
@@ -74,10 +74,10 @@ const bcryptController: BcryptController = {
             res.locals.user.token,
             username
           ]);
-          next();
+          return next();
         })
         .catch((err) => {
-          next({
+          return next({
             log: `Error in bcryptController hashCookeis: ${err}`,
             message: {
               err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.'
@@ -85,7 +85,7 @@ const bcryptController: BcryptController = {
           });
         });
     } else {
-      next();
+      return next();
     }
   }
 };

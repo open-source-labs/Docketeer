@@ -11,7 +11,7 @@ import { type UserController, type ServerError } from '../../types';
 const userController: UserController = {
   // create new user
   createUser: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { username, email, phone, role_id } = req.body;
     const { hash } = res.locals;
@@ -38,10 +38,10 @@ const userController: UserController = {
       db.query(createUser, userDetails)
         .then((data: any) => {
           res.locals.user = data.rows[0];
-          next();
+          return next();
         })
         .catch((err: ServerError) => {
-          next({
+          return next({
             log: `Error in userController newUser: ${err}`,
             message: {
               err:
@@ -54,16 +54,16 @@ const userController: UserController = {
   // get all users (system admin)
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
-      next();
+      return next();
     } else {
       const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       db.query(allUsers)
         .then((response: any) => {
           res.locals.users = response.rows;
-          next();
+          return next();
         })
         .catch((err: ServerError) => {
-          next({
+          return next({
             log: `Error in userController getAllUsers: ${err}`,
             message: {
               err:
@@ -83,10 +83,10 @@ const userController: UserController = {
     db.query(oneUser)
       .then((response: any) => {
         res.locals.users = response.rows;
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController getOneUser: ${err}`,
           message: {
             err:
@@ -98,7 +98,7 @@ const userController: UserController = {
 
   // verify user exists and send back user info
   verifyUser: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { username, password } = req.body;
 
@@ -109,14 +109,14 @@ const userController: UserController = {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];
-          next();
+          return next();
         } else {
           res.locals.error = 'Incorrect username or password.';
           delete res.locals.user;
         }
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController checkUserExists: ${err}`,
           message: {
             err:
@@ -134,10 +134,10 @@ const userController: UserController = {
       .then((data: any) => {
         res.locals.sysAdmins = data.rowCount;
         res.locals.id = data.rows[0]._id;
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController switchUserRole: ${err}`,
           message: {
             err:
@@ -159,7 +159,7 @@ const userController: UserController = {
 
     if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
       res.locals.hasError = true;
-      next();
+      return next();
     } else {
       const query =
         'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
@@ -170,10 +170,10 @@ const userController: UserController = {
         .then((data: any) => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
-          next();
+          return next();
         })
         .catch((err: ServerError) => {
-          next({
+          return next({
             log: `Error in userController switchUserRole: ${err}`,
             message: {
               err:
@@ -189,7 +189,7 @@ const userController: UserController = {
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       res.locals.error =
         'Incorrect password. Please enter the correct password to update it.';
-      next(); return;
+      return next();
     }
     const { hash } = res.locals;
     const { username } = req.body;
@@ -203,10 +203,10 @@ const userController: UserController = {
     db.query(query, parameters)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController updatePassword: ${err}`,
           message: {
             err:
@@ -225,10 +225,10 @@ const userController: UserController = {
     db.query(query, parameters)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController updatePhone: ${err}`,
           message: {
             err:
@@ -247,10 +247,10 @@ const userController: UserController = {
     db.query(query, parameters)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController updateEmail: ${err}`,
           message: {
             err:

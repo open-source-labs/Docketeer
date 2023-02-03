@@ -18,13 +18,13 @@ const signupController: SignupController = {
       .then((data: any) => {
         if (data.rows[0]) {
           res.locals.error = 'Username already exists.';
-          next();
+          return next();
         } else {
-          next();
+          return next();
         }
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in signupController usernameCheck: ${err}`,
           message: {
             err:
@@ -36,15 +36,15 @@ const signupController: SignupController = {
 
   // verify password meets requirements
   passwordCheck: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { password } = req.body;
 
     if (password.length >= 6) {
-      next();
+      return next();
     } else {
       res.locals.error = 'Password must be at least 6 characters.';
-      next();
+      return next();
     }
   }
 };

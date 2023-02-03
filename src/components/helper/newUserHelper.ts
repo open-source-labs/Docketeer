@@ -120,7 +120,7 @@ export const getUpdatedUserList = () => {
       // token: store.userInfo.token,
     })
   })
-    .then(async (response) => await response.json())
+    .then((response) => response.json())
     .then((data) => {
       updateUserList(data);
     })
@@ -135,7 +135,7 @@ export const updateUserList = (data: object[]) => {
 
 export const checkDbInit = () => {
   fetch('http://localhost:3000/db')
-    .then(async (response) => await response.json())
+    .then((response) => response.json())
     .then((data) => { console.log(data); })
     .catch((err) => { console.log(err); });
 };

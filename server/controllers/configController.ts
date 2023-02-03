@@ -10,7 +10,7 @@ import { type ConfigController, type ServerError } from '../../types';
 const configController: ConfigController = {
 // update configuration thresholds
   configureThresholds: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
 
@@ -20,10 +20,10 @@ const configController: ConfigController = {
     db.query(inputThresholds, thresholdDetails)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in userController newUser: ${err}`,
           message: { err: 'An error occured creating new user in database. See userController .newUser.' }
         });
@@ -32,7 +32,7 @@ const configController: ConfigController = {
 
   // configure contact preference
   updateContactPref: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { contact_pref, _id } = req.body;
 
@@ -42,10 +42,10 @@ const configController: ConfigController = {
     db.query(inputPref, prefDetails)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in configController updateContactPref: ${err}`,
           message: { err: 'An error occured updating contact preferences in database. See configController .updateContactPref.' }
         });
@@ -54,7 +54,7 @@ const configController: ConfigController = {
 
   // configure CPU threshold
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { cpu_threshold, _id } = req.body;
 
@@ -64,10 +64,10 @@ const configController: ConfigController = {
     db.query(inputCPU, CPUDetails)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in configController updateCPUThreshold: ${err}`,
           message: { err: 'An error occured updating CPU threshold in database. See configController .updateCPUThreshold.' }
         });
@@ -76,7 +76,7 @@ const configController: ConfigController = {
 
   // configure memory threshold
   updateMemThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { mem_threshold, _id } = req.body;
 
@@ -86,10 +86,10 @@ const configController: ConfigController = {
     db.query(inputMem, memDetails)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in configController updateMemThreshold: ${err}`,
           message: { err: 'An error occured updating memory threshold in database. See configController .updateMemThreshold.' }
         });
@@ -98,7 +98,7 @@ const configController: ConfigController = {
 
   // configure preference to receive notification when a container stops running
   updateStopPref: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) { next(); return; }
+    if (res.locals.error) { return next(); }
 
     const { container_stops, _id } = req.body;
 
@@ -108,10 +108,10 @@ const configController: ConfigController = {
     db.query(inputStopPref, stopPrefDetails)
       .then((data: any) => {
         res.locals.user = data.rows[0];
-        next();
+        return next();
       })
       .catch((err: ServerError) => {
-        next({
+        return next({
           log: `Error in configController updateStopPref: ${err}`,
           message: { err: 'An error occured updating container stop preference in database. See configController .updateStopPref.' }
         });

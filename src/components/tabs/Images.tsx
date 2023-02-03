@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import * as helper from '../helper/commands';
-import { ContainerObj, imageObj, type ImagesProps } from '../../../types';
+import { type ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
@@ -24,8 +24,6 @@ const Images = (props: ImagesProps) => {
             existingRepo = true;
           }
         });
-        // ingore was used below because Typescript says the condition will never be true, but this is not an accurate error
-        // @ts-expect-error
         if (existingRepo) {
           alert('This image already exists!');
         } else {
@@ -38,8 +36,6 @@ const Images = (props: ImagesProps) => {
             existingRepo = true;
           }
         });
-        // ignore was used below because Typescript says the codition will never be true, but this is not an accurate error
-        // @ts-expect-error
         if (existingRepo) {
           alert('This image already exists!');
         } else {

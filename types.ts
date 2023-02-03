@@ -266,7 +266,7 @@ export interface StateType {
   notificationList: notificationList
   session: session
   volumeList: volumeList
-};
+}
 
 export interface RootState {
   session: {

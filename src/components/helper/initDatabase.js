@@ -2,8 +2,8 @@ export default () => {
   fetch('http://localhost:3000/init', {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
     .then((data) => data.json())
     .then((response) => {

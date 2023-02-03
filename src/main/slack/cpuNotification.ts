@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
 

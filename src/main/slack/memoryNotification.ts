@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
 
@@ -15,3 +15,4 @@ const memoryNotification = async function () {
 };
 
 export default memoryNotification;
+  

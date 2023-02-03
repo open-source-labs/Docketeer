@@ -6,7 +6,7 @@ import {
   makeArrayOfObjects,
   buildOptionsObj
 } from '../src/components/helper/processLogHelper.js';
-import { describe, beforeEach, afterEach, expect, test } from '@jest/globals';
+import {describe, beforeEach,afterEach, expect, test} from '@jest/globals';
 
 describe('makeArrayOfObjects', () => {
   test('returns a result array with appropriately constructed object elements', () => {
@@ -23,22 +23,23 @@ describe('makeArrayOfObjects', () => {
     expect(result[1].logMsg).toEqual('22#22: gracefully shutting down');
     expect(result[1].timeStamp).toBe('12/22/2022, 2:12:01 PM');
   });
-
+  
   // Can be addressed through TS
   test('each element in returned array is of type object', () => {
     const processLog = 'this is the timestamp\nthis is the log message\nthis is the second timestamp\nthis is the second log message';
     const result = makeArrayOfObjects(processLog);
     let output = false;
 
-    if (result.every((element) => typeof element === 'object')) {
+    if(result.every((element) => typeof element === 'object')){
       output = true;
     }
 
     expect(output).toEqual(true);
   });
 });
-
+  
 describe('buildOptionsObj', () => {
+
   let sinceButton;
   let tailButton;
   let sinceInput;
@@ -82,3 +83,4 @@ describe('buildOptionsObj', () => {
     expect(result.since).toEqual('72h10m3s');
   });
 });
+

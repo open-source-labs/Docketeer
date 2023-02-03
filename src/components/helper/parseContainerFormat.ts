@@ -1,4 +1,5 @@
 
+
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -10,7 +11,7 @@ const convert = (stdout: string) => {
   for (let i = 1; i < newArray.length - 1; i++) {
     let removedSpace = newArray[i].replace(/\s+/g, ' '); // remove all spaces and replace it to 1 space
     removedSpace = removedSpace.replace(/\s[/]\s/g, '/'); // remove all the space in between slash
-    const splittedArray = removedSpace.split(' ');
+    let splittedArray = removedSpace.split(' ');
     result.push(splittedArray);
   }
   return result;
@@ -25,7 +26,7 @@ const convert = (stdout: string) => {
 const convertArrToObj = (array: string[][], objArray: string[]) => {
   const result = [];
   for (let i = 0; i < array.length; i++) {
-    const containerObj: any = {};
+    let containerObj: any = {};
     for (let j = 0; j < array[i].length; j++) {
       containerObj[objArray[j]] = array[i][j];
     }
@@ -48,18 +49,18 @@ const convertArrToObj = (array: string[][], objArray: string[]) => {
  * @param {*} array
  */
 const convertToMetricsArr = (array: any[]) => {
-  const newArr = [];
+  let newArr = [];
   let cpuSum = 0;
   let memorySum = 0;
   let netArray: any = [0, 0];
-  const blockArray = [0, 0];
+  let blockArray = [0, 0];
   for (let i = 0; i < array.length; i++) {
-    const cpu = array[i].CPUPerc.replace(/([%])+/g, '');
+    let cpu = array[i]['CPUPerc'].replace(/([%])+/g, '');
     cpuSum += parseFloat(cpu);
-    const memory = array[i].MemPerc.replace(/([%])+/g, '');
+    let memory = array[i]['MemPerc'].replace(/([%])+/g, '');
     memorySum += parseFloat(memory);
-    const splittedNet = array[i].NetIO.split('/');
-    const netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));
+    let splittedNet = array[i]['NetIO'].split('/');
+    let netvalue = parseFloat(splittedNet[0].replace(/([A-z])+/g, ''));
     let netTotal;
     if (splittedNet[1].slice(-2) === 'kB') {
       netTotal = parseFloat(splittedNet[1].replace(/([A-z])+/g, ''));
@@ -68,9 +69,9 @@ const convertToMetricsArr = (array: any[]) => {
     }
     netArray[0] += netvalue;
     netArray[1] += netTotal;
-    const splittedBlock = array[i].BlockIO.split('/');
-    const blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ''));
-    const blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ''));
+    let splittedBlock = array[i]['BlockIO'].split('/');
+    let blockValue = parseFloat(splittedBlock[0].replace(/([A-z])+/g, ''));
+    let blockTotal = parseFloat(splittedBlock[1].replace(/([A-z])+/g, ''));
     blockArray[0] += blockValue;
     blockArray[1] += blockTotal;
   }
@@ -85,5 +86,5 @@ const convertToMetricsArr = (array: any[]) => {
 module.exports = {
   convert,
   convertArrToObj,
-  convertToMetricsArr
+  convertToMetricsArr,
 };

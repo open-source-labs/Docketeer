@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { type ContainerProps, type ContainerType, type ChartInfoType } from '../../../types';
+import { ContainerProps, ContainerType, ChartInfoType } from '../../../types';
 /**
  * Display all running and stopped containers
  *
@@ -60,24 +60,24 @@ const Containers = (props: ContainerProps) => {
             borderColor: 'rgba(0,0,0,0)',
             borderWidth: 1,
             data: [cpuData, memoryData],
-            barPercentage: 0.45
+            barPercentage: 0.45,
           },
           {
             stack,
             label: Math.random().toString(),
             backgroundColor: [
               'rgba(155, 198, 233, 1)',
-              'rgba(217, 252, 219, 1)'
+              'rgba(217, 252, 219, 1)',
             ],
             borderColor: 'rgba(0,0,0,0)',
             borderWidth: 1,
             data: [
               (100 - Number(cpuData)).toFixed(2),
-              (100 - Number(memoryData)).toFixed(2)
+              (100 - Number(memoryData)).toFixed(2),
             ],
-            barPercentage: 0.45
-          }
-        ]
+            barPercentage: 0.45,
+          },
+        ],
       };
 
       return (
@@ -115,9 +115,9 @@ const Containers = (props: ContainerProps) => {
                     plugins: { legend: { display: false } },
                     scales: {
                       y: {
-                        stacked: true
-                      }
-                    }
+                        stacked: true,
+                      },
+                    },
                   }}
                 />
               </div>
@@ -138,7 +138,7 @@ const Containers = (props: ContainerProps) => {
           Running Containers: {props.runningList.length}
         </h1>
       </div>
-      <div className="containers">{renderRunningList}</div>
+        <div className="containers">{renderRunningList}</div>
       <div className="header">
         <h1 className="tabTitle">
           Exited Containers: {props.stoppedList.length}

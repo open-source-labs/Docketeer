@@ -2,7 +2,7 @@
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import ToggleDisplay from '../display/ToggleDisplay';
-import { type ContainerProps, type ContainerType, type ChartInfoType } from '../../../types';
+import { ContainerProps, ContainerType, ChartInfoType } from '../../../types';
 /**
  * Display all running and stopped containers
  *
@@ -36,14 +36,15 @@ const Containers = (props: ContainerProps) => {
           <button
             data-testid='run-btn'
             className='run-btn'
-            onClick={() => { props.runStopped(container.ID, props.runStoppedContainer); }
+            onClick={() =>
+              props.runStopped(container['ID'], props.runStoppedContainer)
             }
           >
             RUN
           </button>
           <button
             className='remove-btn'
-            onClick={() => { props.remove(container.ID, props.removeContainer); }}
+            onClick={() => props.remove(container['ID'], props.removeContainer)}
           >
             REMOVE
           </button>
@@ -119,7 +120,7 @@ const Containers = (props: ContainerProps) => {
                     y: {
                       // stacked: true
                       stacked: false
-                    }
+                    },
                   }
                 }}
               />
@@ -130,7 +131,7 @@ const Containers = (props: ContainerProps) => {
         {/* <div className='box-button box-button-running'> */}
         <div className='stop-btn-box'>
           <button className='stop-btn'
-            onClick={() => { props.stop(container.ID, props.refreshStoppedContainers); }}
+            onClick={() => props.stop(container.ID, props.refreshStoppedContainers)}
           >
             STOP
           </button>

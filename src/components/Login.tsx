@@ -8,16 +8,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as actions from '../redux/actions/actions';
 
-// MUI Elements
+//MUI Elements
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { grey } from '@mui/material/colors';
 
-// @ts-expect-error
+
+// @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
 
 // import interface
-import { type UserInfo } from '../../types';
+import { UserInfo } from '../../types';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,32 +30,32 @@ const Login = () => {
   // callback function invoked when 'login' button is clicked
   const handleLogin = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // check that username and password are inputted
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
+    //check that username and password are inputted
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
 
     const username: string = (usernameInput as HTMLInputElement).value;
     const password: string = (passwordInput as HTMLInputElement).value;
     // clears input fields after login
-    (usernameInput as HTMLInputElement).value = '';
-    (passwordInput as HTMLInputElement).value = '';
+    (usernameInput as HTMLInputElement).value = "";
+    (passwordInput as HTMLInputElement).value = "";
 
     authenticateUser(username, password);
   };
 
   // callback function which will send request to endpoint http://localhost:3000/login and expect
   const authenticateUser = (username: string, password: string) => {
-    fetch('http://localhost:3000/login', {
-      method: 'POST',
+    fetch("http://localhost:3000/login", {
+      method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username,
-        password
+        username: username,
+        password: password
       })
     })
-      .then(async (response) => await response.json())
+      .then((response) => response.json())
       .then((data) => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
@@ -81,7 +83,7 @@ const Login = () => {
           <h1 className='tabTitle'>Login</h1>
         </div>
         <div className='settings-container inner-box'>
-          <form className='loginForm' onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => { handleLogin(e); }}>
+          <form className='loginForm' onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}>
             <TextField
               id='username'
               label='Username'
@@ -118,7 +120,7 @@ const Login = () => {
               size='small'
               role='register'
               className='register login-buttons'
-              onClick={() => { navigate('/userSignup'); }}
+              onClick={() => navigate('/userSignup')}
               sx={{
                 color: '#1976d2',
                 background: 'white',

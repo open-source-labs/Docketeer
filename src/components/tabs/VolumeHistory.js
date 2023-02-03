@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 /**
  * Render Volume History
- *
+ * 
  * @param {*} props
  */
 
@@ -18,13 +18,13 @@ const volumeHistory = (props) => {
         key={`vol-${i}`}
       >
         <strong>Container: </strong>
-        {container.Names}
+        {container['Names']}
         <br />
         <strong>Status: </strong>
-        {container.State}
+        {container['State']}
         <br />
         <strong>Runtime: </strong>
-        {container.Status}
+        {container['Status']}
       </div>
     );
   };

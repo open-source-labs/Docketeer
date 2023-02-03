@@ -2,7 +2,7 @@
 import { AnyAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
 import React from 'react';
 import ProcessLogsCard from '../display/ProcessLogsCard';
-import { type ContainerType } from '../../../types';
+import { ContainerType } from '../../../types';
 
 /**
  * Display all running and stopped containers. Each box can be selected to view process log tables.
@@ -19,9 +19,9 @@ const ProcessLogs = (props: any) => {
         index={index}
         container={container}
         status="Running"
-      />
-    );
-  });
+      />,
+    )
+  })
 
   const renderStoppedList: any[] = [];
   props.stoppedList.map((container: ContainerType, index: number) => {
@@ -31,9 +31,9 @@ const ProcessLogs = (props: any) => {
         index={index}
         container={container}
         status="Stopped"
-      />
-    );
-  });
+      />,
+    )
+  })
 
   return (
     <div className="renderContainers">
@@ -55,7 +55,7 @@ const ProcessLogs = (props: any) => {
 
       <div className="containers">{renderStoppedList}</div>
     </div>
-  );
-};
+  )
+}
 
-export default ProcessLogs;
+export default ProcessLogs

@@ -12,4 +12,4 @@ dist/
 security/
 .env
 
-coverage
+coverage/

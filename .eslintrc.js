@@ -14,7 +14,12 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended'
   ],
-  ignorePatterns: ['.eslintrc.js', '*.config.js'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    '*.config.js',
+    'dist/*',
+    '__tests__/*'
+  ],
   overrides: [
   ],
   parserOptions: {

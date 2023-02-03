@@ -55,7 +55,7 @@ const apiController: ApiController = {
 
     transporter
       .sendMail(mailDetails)
-      .then((info: any) => {
+      .then(() => {
         return next();
       })
       .catch((err: ServerError) => {
@@ -89,7 +89,7 @@ const apiController: ApiController = {
 
     transporter
       .sendMail(mailDetails)
-      .then((info: any) => {
+      .then(() => {
         return next();
       })
       .catch((err: ServerError) => {

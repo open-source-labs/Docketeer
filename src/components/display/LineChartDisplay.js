@@ -40,17 +40,17 @@ const LineChartDisplay = () => {
     dispatch(actions.buildTransmittedIO(data));
 
   // Grabbing the metrics data to be displayed on the charts
-  async function getContainerMetrics () {
+  async function getContainerMetrics() {
     const containerNamesArr = Object.keys(activeContainers);
     const response = await fetch('http://localhost:3000/init/getMetrics', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         containers: containerNamesArr,
-        time: timePeriod
-      })
+        time: timePeriod,
+      }),
     });
     return await response.json();
   }
@@ -58,33 +58,33 @@ const LineChartDisplay = () => {
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
     labels: axis,
-    datasets: memory
+    datasets: memory,
   };
   const cpuObj = {
     labels: axis,
-    datasets: cpu
+    datasets: cpu,
   };
   const writtenIOObj = {
     labels: axis,
-    datasets: writtenIO
+    datasets: writtenIO,
   };
   const readIOObj = {
     labels: axis,
-    datasets: readIO
+    datasets: readIO,
   };
   const receivedIOObj = {
     labels: axis,
-    datasets: receivedIO
+    datasets: receivedIO,
   };
   const transmittedIOObj = {
     labels: axis,
-    datasets: transmittedIO
+    datasets: transmittedIO,
   };
   // Not yet implemented but expecting to use for
   // countainer count metrics over many hosts
   const activeContainersCountObj = {
     labels: axis,
-    datasets: activeContainersCountArr
+    datasets: activeContainersCountArr,
   };
   const activeContainersCountArr = [];
 
@@ -115,7 +115,7 @@ const LineChartDisplay = () => {
         '#ffb3f2',
         '#facd60',
         '#679186',
-        '#ff9400'
+        '#ff9400',
       ];
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
@@ -130,8 +130,8 @@ const LineChartDisplay = () => {
         fill: true,
         borderColor: generateLineColor(
           containerName,
-          Object.keys(activeContainers)
-        )
+          Object.keys(activeContainers),
+        ),
       };
       return obj;
     };
@@ -143,9 +143,9 @@ const LineChartDisplay = () => {
         fill: false,
         backgroundColor: generateLineColor(
           containerName,
-          Object.keys(activeContainers)
+          Object.keys(activeContainers),
         ),
-        stack: stackID
+        stack: stackID,
       };
       return obj;
     };
@@ -165,7 +165,7 @@ const LineChartDisplay = () => {
     const containerMetrics = await getContainerMetrics();
     console.log(
       '🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics',
-      containerMetrics
+      containerMetrics,
     );
 
     const auxObj = {};
@@ -177,7 +177,7 @@ const LineChartDisplay = () => {
         writtenIO: buildBarGraphObj(container, 'Stack 1'),
         readIO: buildBarGraphObj(container),
         receivedIO: buildBarGraphObj(container), // added
-        transmittedIO: buildBarGraphObj(container, 'Stack 1') // added
+        transmittedIO: buildBarGraphObj(container, 'Stack 1'), // added
       };
     });
 
@@ -189,25 +189,25 @@ const LineChartDisplay = () => {
       const receivedAndTransmittedIO = dataPoint.net_io.split('/');
       auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''));
       auxObj[currentContainer].memory.data.push(
-        dataPoint.memory_pct.replace('%', '')
+        dataPoint.memory_pct.replace('%', ''),
       );
       auxObj[currentContainer].writtenIO.data.push(
-        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ''))
+        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, '')),
       );
       auxObj[currentContainer].readIO.data.push(
-        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
+        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, '')),
       );
       auxObj[currentContainer].receivedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, ''))
+        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, '')),
       );
       auxObj[currentContainer].transmittedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, ''))
+        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, '')),
       );
 
       // created_at Sample: 2023-01-23T15:47:27.640Z
       // key indicators "T" [10] and "." [20]
-      const date = dataPoint.created_at.slice(1, 10);
-      const time = dataPoint.created_at.slice(11, 16);
+      const date = dataPoint.created_at.slice(1,10);
+      const time = dataPoint.created_at.slice(11,16);
 
       const timeStamp = `${date} @ ${time}`;
       buildAxis(timeStamp);
@@ -258,7 +258,7 @@ const LineChartDisplay = () => {
       const url =
         urlObj.rows[0].github_url +
         new URLSearchParams({
-          since: `${date}`
+          since: `${date}`,
         });
       // need an actual url to test this, right now it can't connect
       const data = await fetch(url);
@@ -269,13 +269,13 @@ const LineChartDisplay = () => {
           time: commitData.commit.author.date,
           url: commitData.html_url,
           author: commitData.commit.author.name,
-          message: commitData.commit.message
+          message: commitData.commit.message,
         });
       });
     } else {
       ob[containerName].push({
         time: '',
-        url: 'Connect github repo in settings'
+        url: 'Connect github repo in settings',
       });
     }
     return ob;
@@ -285,7 +285,7 @@ const LineChartDisplay = () => {
     Promise.all(
       Object.keys(activeContainers).map((container) => {
         return fetchGitData(container);
-      })
+      }),
     ).then((data) => setGitUrls(data));
   };
   // populating the github commits into a MUI DataGrid
@@ -302,10 +302,10 @@ const LineChartDisplay = () => {
         <a target="_blank" rel="noreferrer" href={params.row.url}>
           {params.row.id}
         </a>
-      )
+      ),
     },
     { field: 'author', headerName: 'Author', width: 175 },
-    { field: 'message', headerName: 'Message', width: 525, align: 'left' }
+    { field: 'message', headerName: 'Message', width: 525, align: 'left' },
   ];
   const gitData = gitUrls.map((el, index) => {
     const name = Object.keys(el);
@@ -341,12 +341,12 @@ const LineChartDisplay = () => {
           .join('');
       }
       rows.push({
-        date,
-        time,
-        url,
-        author,
-        message,
-        id: `Github Commit #${index}`
+        date: date,
+        time: time,
+        url: url,
+        author: author,
+        message: message,
+        id: `Github Commit #${index}`,
       });
     });
     return (
@@ -360,8 +360,8 @@ const LineChartDisplay = () => {
             getRowHeight={() => 'auto'}
             initialState={{
               sorting: {
-                sortModel: [{ field: 'date', sort: 'asc' }]
-              }
+                sortModel: [{ field: 'date', sort: 'asc' }],
+              },
             }}
           />
         </div>
@@ -390,7 +390,7 @@ const LineChartDisplay = () => {
             />
           }
           label={containerNameKey}
-        />
+        />,
       );
     });
     runningListEl = result[0];
@@ -409,7 +409,7 @@ const LineChartDisplay = () => {
             />
           }
           label={containerNameKey}
-        />
+        />,
       );
     });
     stoppedListEl = result[1];
@@ -437,13 +437,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'CPU',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const memoryOptions = {
@@ -452,13 +452,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'MEMORY',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const writtenIOOptions = {
@@ -467,13 +467,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'IO BYTES WRITTEN BY CONTAINER',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
   const readIOOptions = {
     plugins: {
@@ -481,13 +481,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'IO BYTES READ BY CONTAINER',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const receivedIOOptions = {
@@ -496,13 +496,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'IO BYTES RECEIVED BY CONTAINER',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const transmittedIOOptions = {
@@ -511,13 +511,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'IO BYTES TRANSMITTED BY CONTAINER',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   const activeContainersCountOptions = {
@@ -526,13 +526,13 @@ const LineChartDisplay = () => {
         display: true,
         text: 'CONTAINER COUNT',
         font: { size: 18 },
-        position: 'top'
+        position: 'top',
       },
       tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' }
+      legend: { display: true, position: 'bottom' },
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
   selectList();
@@ -600,27 +600,25 @@ const LineChartDisplay = () => {
         >
           <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
           <div className="buttonDisplay">
-            {expanded['Line-Cpu-Display']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'Line-Cpu-Display': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() =>
-                    setExpanded({ ...expanded, 'Line-Cpu-Display': true })
-                  }
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['Line-Cpu-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* first chart - end */}
@@ -634,27 +632,25 @@ const LineChartDisplay = () => {
         >
           <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
           <div className="buttonDisplay">
-            {expanded['Line-Memory-Display']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'Line-Memory-Display': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() =>
-                    setExpanded({ ...expanded, 'Line-Memory-Display': true })
-                  }
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['Line-Memory-Display'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['Line-Memory-Display']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* second chart - end */}
@@ -670,27 +666,25 @@ const LineChartDisplay = () => {
             options={writtenIOOptions}
           />
           <div className="buttonDisplay">
-            {expanded['written-IO']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'written-IO': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() =>
-                    setExpanded({ ...expanded, 'written-IO': true })
-                  }
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['written-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['written-IO']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['written-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* third chart - end */}
@@ -703,25 +697,23 @@ const LineChartDisplay = () => {
         >
           <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
           <div className="buttonDisplay">
-            {expanded['read-IO']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'read-IO': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() => setExpanded({ ...expanded, 'read-IO': true })}
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['read-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['read-IO']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() => setExpanded({ ...expanded, ['read-IO']: true })}
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* fourth chart - end */}
@@ -738,27 +730,25 @@ const LineChartDisplay = () => {
             options={receivedIOOptions}
           />
           <div className="buttonDisplay">
-            {expanded['received-IO']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'received-IO': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() =>
-                    setExpanded({ ...expanded, 'received-IO': true })
-                  }
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['received-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['received-IO']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['received-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* fifth chart - end */}
@@ -777,27 +767,25 @@ const LineChartDisplay = () => {
             options={transmittedIOOptions}
           />
           <div className="buttonDisplay">
-            {expanded['transmitted-IO']
-              ? (
-                <button
-                  className="chart-btn"
-                  onClick={() => {
-                    setExpanded({ ...expanded, 'transmitted-IO': false });
-                  }}
-                >
-                  <i className="fas fa-compress"></i>
-                </button>
-              )
-              : (
-                <button
-                  className="chart-btn"
-                  onClick={() =>
-                    setExpanded({ ...expanded, 'transmitted-IO': true })
-                  }
-                >
-                  <i className="fas fa-expand"></i>
-                </button>
-              )}
+            {expanded['transmitted-IO'] ? (
+              <button
+                className="chart-btn"
+                onClick={() => {
+                  setExpanded({ ...expanded, ['transmitted-IO']: false });
+                }}
+              >
+                <i className="fas fa-compress"></i>
+              </button>
+            ) : (
+              <button
+                className="chart-btn"
+                onClick={() =>
+                  setExpanded({ ...expanded, ['transmitted-IO']: true })
+                }
+              >
+                <i className="fas fa-expand"></i>
+              </button>
+            )}
           </div>
         </div>
         {/* sixth chart - end */}

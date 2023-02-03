@@ -4,7 +4,7 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay';
 import { useSelector } from 'react-redux';
-import { type MetricsProps } from '../../../types';
+import {  MetricsProps } from '../../../types';
 
 /**
  * Display general metrics
@@ -14,20 +14,20 @@ import { type MetricsProps } from '../../../types';
 const Metrics = (props: MetricsProps) => {
   const fullRunningList = props.runningList;
   const hostStats = useSelector((state: any) => state.containersList.hostStats);
-  const cpuData = 100 - hostStats.cpuPerc;
-  const memoryData = 100 - hostStats.memPerc;
+  const cpuData = 100 - hostStats.cpuPerc; 
+  const memoryData = 100 - hostStats.memPerc; 
   const cpuThreshold = props.threshold[0];
   const memThreshold = props.threshold[1];
 
-  let cpuFails = 0;
-  let memFails = 0;
+  let cpuFails = 0
+  let memFails = 0
 
   // used to monitor threshold and fail counts
   for (const each of fullRunningList) {
-    const cpu = parseFloat(each.CPUPerc.replace(/([%])+/g, ''));
-    const memory = parseFloat(each.MemPerc.replace(/([%])+/g, ''));
-    if (cpu >= cpuThreshold) cpuFails++;
-    if (memory >= memThreshold) memFails++;
+    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''))
+    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''))
+    if (cpu >= cpuThreshold) cpuFails++
+    if (memory >= memThreshold) memFails++
   }
 
   const cpu = {
@@ -36,10 +36,10 @@ const Metrics = (props: MetricsProps) => {
       {
         label: 'CPU',
         backgroundColor: ['#4594ce', '#67f267'],
-        data: [cpuData, hostStats.cpuPerc]
-      }
-    ]
-  };
+        data: [cpuData, hostStats.cpuPerc],
+      },
+    ],
+  }
 
   const memory = {
     labels: [`Available: ${memoryData}%`, `Usage: ${hostStats.memPerc}%`],
@@ -47,10 +47,10 @@ const Metrics = (props: MetricsProps) => {
       {
         label: 'Memory',
         backgroundColor: ['#4594ce', '#67f267'],
-        data: [memoryData, hostStats.memPerc]
-      }
-    ]
-  };
+        data: [memoryData, hostStats.memPerc],
+      },
+    ],
+  }
 
   const memOptions = {
     responsive: true,
@@ -69,10 +69,10 @@ const Metrics = (props: MetricsProps) => {
           const percentage = (value * 100) / sum + '%';
           return percentage;
         },
-        color: '#fff'
-      }
-    }
-  };
+        color: '#fff',
+      },
+    },
+  }
 
   const cpuOptions = {
     responsive: true,
@@ -91,10 +91,10 @@ const Metrics = (props: MetricsProps) => {
           const percentage = (value * 100) / sum + '%';
           return percentage;
         },
-        color: '#fff'
-      }
-    }
-  };
+        color: '#fff',
+      },
+    },
+  }
 
   return (
     <div className="renderContainers">
@@ -179,7 +179,7 @@ const Metrics = (props: MetricsProps) => {
         for more information on these metrics
       </p> */}
     </div>
-  );
-};
+  )
+}
 
-export default Metrics;
+export default Metrics

@@ -2,13 +2,13 @@
  * @module AccountDisplay
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
 // Material UI Imports
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import SendIcon from '@mui/icons-material/Send';
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
 
 import {
   handlePasswordChange,
@@ -17,12 +17,12 @@ import {
   checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone
-} from '../helper/settingsHelper';
-import { type RootState } from '../../renderer/store';
+  checkPhone,
+} from "../helper/settingsHelper";
+import { RootState } from "../../renderer/store";
 
 const input = document.getElementById(
-  'update-phone-input'
+  "update-phone-input"
 ) as HTMLTextAreaElement | null;
 
 const AccountDisplay = () => {
@@ -63,11 +63,11 @@ const AccountDisplay = () => {
           <Button
             sx={{
               ml: 1,
-              width: 100
+              width: 100,
             }}
             size="medium"
             variant="contained"
-            onClick={() => { handleEmailUpdate(); }}
+            onClick={() => handleEmailUpdate()}
           >
             Update
           </Button>
@@ -88,11 +88,11 @@ const AccountDisplay = () => {
           <Button
             sx={{
               ml: 1,
-              width: 100
+              width: 100,
             }}
             size="medium"
             variant="contained"
-            onClick={() => { handlePhoneUpdate(); }}
+            onClick={() => handlePhoneUpdate()}
           >
             Update
           </Button>
@@ -145,12 +145,12 @@ const AccountDisplay = () => {
           <Button
             sx={{
               ml: 1,
-              width: 100
+              width: 100,
             }}
             size="medium"
             color="primary"
             variant="contained"
-            onClick={() => { handlePasswordChange(); }}
+            onClick={() => handlePasswordChange()}
             endIcon={<SendIcon />}
           >
             Submit

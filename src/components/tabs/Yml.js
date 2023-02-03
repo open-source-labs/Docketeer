@@ -29,6 +29,7 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
+
   useEffect(() => {
     // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
@@ -63,7 +64,7 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        // get yml file name from the filepath for composing up a new container network
+        // get yml file name from the filepath for composing up a new container network 
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
 

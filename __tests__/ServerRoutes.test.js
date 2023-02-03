@@ -2,6 +2,7 @@ import request from 'supertest';
 import response from 'supertest';
 import express from 'express';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
+const app = express();
 
 import accountRouter from '../server/routes/accountRouter';
 import adminRouter from '../server/routes/adminRouter';
@@ -13,11 +14,10 @@ import dbRouter from '../server/routes/dbRouter';
 import initRouter from '../server/routes/initRouter';
 import logoutRouter from '../server/routes/logoutRouter';
 import settingsRouter from '../server/routes/settingsRouter';
-const app = express();
 
 app.use('/test', (req, res) => {
   res.status(200).json({
-    success: true
+    success: true,
   });
 });
 
@@ -165,7 +165,7 @@ describe('Signup Route', () => {
         email: 'test@test.com',
         password: 'passwqw',
         phone: '+1555555555',
-        role_id: '1'
+        role_id: '1',
       })
       .set('Accept', 'application/json')
       .expect(201)

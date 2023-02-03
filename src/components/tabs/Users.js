@@ -1,15 +1,15 @@
-import React, { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import NewUserDisplay from '../display/NewUserDisplay';
-import * as actions from '../../redux/actions/actions';
+import React, { useState, useMemo } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Box, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
+import NewUserDisplay from '../display/NewUserDisplay'
+import * as actions from '../../redux/actions/actions'
 
 const UserTable = () => {
-  const userList = useSelector((state) => state.userList.userList);
-  const dispatch = useDispatch();
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
-  const [pageSize, setPageSize] = useState(5);
+  const userList = useSelector((state) => state.userList.userList)
+  const dispatch = useDispatch()
+  const updateUserRole = (data) => dispatch(actions.updateUserRole(data))
+  const [pageSize, setPageSize] = useState(5)
 
   // Create columns for table
   const columns = useMemo(() => [
@@ -24,7 +24,7 @@ const UserTable = () => {
       type: 'singleSelect',
       valueOptions: ['user', 'admin', 'system admin'],
       editable: true,
-      preProcessEditCellProps: (params) => handleRoleChange(params)
+      preProcessEditCellProps: (params) => handleRoleChange(params),
     },
 
     { field: 'email', headerName: 'Email', width: '200' },
@@ -35,52 +35,52 @@ const UserTable = () => {
 
     { field: 'mem_threshold', headerName: 'Memory', width: '100' },
 
-    { field: 'cpu_threshold', headerName: 'CPU', width: '100' }
-  ]);
+    { field: 'cpu_threshold', headerName: 'CPU', width: '100' },
+  ])
 
   const handleRoleChange = (event) => {
-    const id = event.id;
-    const role = event.props.value;
+    const id = event.id
+    const role = event.props.value
 
     return new Promise((resolve) => {
       // preProcessEditCellProps requires you to use a Promise/Resolve
       fetch('http://localhost:3000/admin/switch', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           _id: id,
-          role
-        })
+          role: role,
+        }),
       })
         .then((response) => response.json())
         .then((data) => {
           // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
-          const hasError = data;
+          const hasError = data
           if (data) {
-            console.log('no change');
+            console.log('no change')
             window.alert(
-              'Uh-oh! You\'re the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin.'
-            );
+              "Uh-oh! You're the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin.",
+            )
           } else {
             const payload = {
               _id: id,
-              role
-            };
-            updateUserRole(payload); // Updates local state
+              role,
+            }
+            updateUserRole(payload) // Updates local state
           }
-          event.props.value = role; // Set's the cell's props to the role that was passed in
+          event.props.value = role // Set's the cell's props to the role that was passed in
           resolve({
             ...event.props, // Send the resolve with the selected props.
-            error: hasError // If this is false, the value of the cell will not be updated. If it is true, it will be udpated
-          });
+            error: hasError, // If this is false, the value of the cell will not be updated. If it is true, it will be udpated
+          })
         })
         .catch((err) => {
-          console.log('Error in front end switching roles: ', err);
-        });
-    });
-  };
+          console.log('Error in front end switching roles: ', err)
+        })
+    })
+  }
 
   return (
     <div className="renderContainers">
@@ -92,7 +92,7 @@ const UserTable = () => {
         sx={{
           height: 450,
           background: 'white',
-          p: 2
+          p: 2,
         }}
       >
         <Typography variant="h6" sx={{ mt: 0, mb: 0, fontFamily: 'Lexend' }}>
@@ -105,7 +105,7 @@ const UserTable = () => {
             color: 'gray',
             fontFamily: 'Lexend',
             fontStyle: 'italic',
-            fontWeight: 'lighter'
+            fontWeight: 'lighter',
           }}
         >
           * Double click on the role to access the drop down menu
@@ -123,13 +123,13 @@ const UserTable = () => {
           getRowSpacing={(params) => ({
             // Sets spacing between rows
             top: params.isFirstVisible ? 0 : 5, // Sets spacing for top row to zero and 5 for everything else
-            bottom: params.isLastVisible ? 0 : 5
+            bottom: params.isLastVisible ? 0 : 5,
           })}
         />
       </Box>
       <NewUserDisplay />
     </div>
-  );
-};
+  )
+}
 
-export default UserTable;
+export default UserTable

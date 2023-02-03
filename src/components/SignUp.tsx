@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Material UI Imports
@@ -14,14 +14,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
+
 // Helper Functions
 import {
   checkDbInit,
   handleNewUser,
   checkPasswordLength,
   confirmPassword,
-  checkPhone
-} from './helper/newUserHelper';
+  checkPhone,
+} from "./helper/newUserHelper";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -31,13 +32,13 @@ const SignUp = () => {
     password: '',
     passwordConfirmation: '',
     phone: '',
-    showPassword: false
+    showPassword: false,
   });
 
   const handleClickShowPassword = () => {
     setValues({
       ...values,
-      showPassword: !values.showPassword
+      showPassword: !values.showPassword,
     });
   };
 

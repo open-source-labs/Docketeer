@@ -1,8 +1,8 @@
-/**
+/** 
  *  This Pool initializes the users database. This database is populated on startup, so no need to create tables. (schema2.sql)
  */
 import { Pool } from 'pg';
-import { type SqlQuery } from '../../types';
+import { SqlQuery } from '../../types';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,7 +16,7 @@ const cloudPool: Pool = new Pool({
 const db: SqlQuery = {
   query: (text, params, callback) => {
     console.log('Executed query...', text);
-    cloudPool.query(text, params, callback);
+    return cloudPool.query(text, params, callback);
   }
 };
 

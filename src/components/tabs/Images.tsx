@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import * as helper from '../helper/commands';
-import { type ImagesProps } from '../../../types';
+import { ContainerObj, imageObj, ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
- *
- * @param {*} props
+ * 
+ * @param {*} props 
  */
 const Images = (props: ImagesProps) => {
   const [repo, setRepo] = useState('');
@@ -14,7 +14,9 @@ const Images = (props: ImagesProps) => {
   const handleClick = () => {
     if (!repo) {
       alert('Please enter an image to pull!');
-    } else {
+      return;
+    }
+    else {
       let existingRepo = false;
       if (repo.includes(':')) {
         const splitRepo = repo.split(':');
@@ -22,25 +24,39 @@ const Images = (props: ImagesProps) => {
         props.imagesList.map((el) => {
           if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
             existingRepo = true;
+            return;
           }
         });
-        if (existingRepo) {
+        // ingore was used below because Typescript says the condition will never be true, but this is not an accurate error
+        // @ts-ignore 
+        if (existingRepo === true) {
           alert('This image already exists!');
-        } else {
+          return;
+        }
+        else {
           alert('Looking for image');
           helper.pullImage(repo);
+          return;
         }
-      } else {
+      }
+
+      else {
         props.imagesList.map((el) => {
           if (el.reps === repo && el.tag === 'latest') {
             existingRepo = true;
+            return;
           }
         });
-        if (existingRepo) {
+        // ignore was used below because Typescript says the codition will never be true, but this is not an accurate error
+        // @ts-ignore 
+        if (existingRepo === true) {
           alert('This image already exists!');
-        } else {
+          return;
+        }
+        else {
           alert('Looking for image');
           helper.pullImage(repo);
+          return;
         }
       }
     }
@@ -50,16 +66,16 @@ const Images = (props: ImagesProps) => {
     return (
       <div className="box" key={`imageBox${i}`}>
         <div className="box-label">
-          <h3>{ele.reps}</h3>
-          <p>{ele.tag}</p>
+          <h3>{ele['reps']}</h3>
+          <p>{ele['tag']}</p>
         </div>
         <div className="stopped-info">
           <ul>
             <li>
-              <strong>ID: </strong>{ele.imgid}
+              <strong>ID: </strong>{ele['imgid']}
             </li>
             <li>
-              <strong>Size: </strong>{ele.size}
+              <strong>Size: </strong>{ele['size']}
             </li>
           </ul>
         </div>
@@ -67,26 +83,24 @@ const Images = (props: ImagesProps) => {
           <button
             className="run-btn"
             // {props.runIm and props.removeIm could be converted to helper.runIm instead-- not sure why it is passed as props}
-            onClick={() => {
+            onClick={() =>
               props.runIm(
                 ele,
                 props.refreshRunningContainers
-              );
-            }
+              )
             }
           >
             RUN
           </button>
           <button
             className="remove-btn"
-            onClick={() => {
+            onClick={() =>
               props.removeIm(
-                ele.imgid,
+                ele['imgid'],
                 props.imagesList,
                 helper.refreshImages,
                 props.refreshImagesList
-              );
-            }
+              )
             }
           >
             REMOVE
@@ -112,7 +126,7 @@ const Images = (props: ImagesProps) => {
               setRepo(e.target.value);
             }}
           ></input>
-          <button className="etc-btn" name='pull' onClick={() => { handleClick(); }}>
+          <button className="etc-btn" name='pull' onClick={() => handleClick()}>
             PULL
           </button>
         </span>

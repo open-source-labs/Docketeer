@@ -5,7 +5,7 @@ import Images from '../src/components/tabs/Images';
 import {
   fireEvent,
   render,
-  screen
+  screen,
 } from '@testing-library/react';
 
 const props = {
@@ -14,15 +14,16 @@ const props = {
       imgid: '2718634043dc',
       size: '111 MB',
       reps: 'Redis',
-      tag: 16.4
-    }
+      tag: 16.4,
+    },
   ],
   runIm: jest.fn(),
   removeIm: jest.fn(),
-  onClick: jest.fn()
+  onClick: jest.fn(),
 };
 
 describe('Images', () => {
+
   beforeEach(() => {
     render(<Images {...props} />);
     screen.debug();
@@ -46,6 +47,7 @@ describe('Images', () => {
       expect(runButton).toBeCalled;
     });
   });
+
 
   describe('Remove button on click', () => {
     test('Fires remove button functionality', async () => {

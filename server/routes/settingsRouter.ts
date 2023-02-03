@@ -2,12 +2,12 @@
  * @module settingsRouter Router
  * @description Performs all of the settings functionality for adding/removing containers and notifications.
  */
-import { Router, type Request, type Response } from 'express';
+import { Router, Request, Response } from 'express';
 import settingsController from '../controllers/settingsController';
-
+  
 const router = Router();
 
-router.get('/',
+router.get('/', 
   settingsController.notificationSettings,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals);

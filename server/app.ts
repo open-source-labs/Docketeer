@@ -1,4 +1,4 @@
-import express, { type NextFunction, type Request, type Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 // import path from'path';
 import cors from 'cors';
 // import colors from'colors';
@@ -13,7 +13,7 @@ import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
 import settingsRouter from './routes/settingsRouter';
 import signupRouter from './routes/signupRouter';
-import { type ServerError } from '../types';
+import { ServerError } from '../types';
 
 const app = express();
 
@@ -45,7 +45,7 @@ app.use('/', (req: Request, res: Response) => {
     console.log('current url',url);
   */
   // for development purposes, so we don't have to reopen electron everytime
-  res.status(404).redirect('/');
+  return res.status(404).redirect('/');
 });
 
 app.get('/', (err: ServerError, req: Request, res: Response, next: NextFunction) => {

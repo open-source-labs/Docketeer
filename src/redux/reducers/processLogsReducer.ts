@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import { type PayloadAction } from '@reduxjs/toolkit';
+import * as types from "../constants/actionTypes";
+import { PayloadAction } from "@reduxjs/toolkit";
 import { logsState } from '../../../types';
 
 const processLogsReducer = (

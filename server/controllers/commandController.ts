@@ -2,8 +2,8 @@
  * @module initDatabase Controller
  * @description Contains middleware that creates and runs the local database
  */
-import { type Request, type Response, type NextFunction } from 'express';
-import { type CommandController, ServerError } from '../../types';
+import { Request, Response, NextFunction } from "express";
+import { CommandController, ServerError } from "../../types";
 import { exec } from 'child_process';
 import { net } from 'electron';
 import { constants } from 'fs/promises';
@@ -11,7 +11,7 @@ import { cpuUsage, freemem, totalmem, freememPercentage } from 'os-utils';
 
 // ==========================================================
 // Function: convert
-// Purpose:
+// Purpose: 
 // ==========================================================
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -42,7 +42,7 @@ const makeArrayOfObjects = (string: string, containerName: string) => {
     .trim()
     .split('\n')
     .map((element) => {
-      const obj: Record<string, any> = {};
+      const obj: { [k: string]: any; } = {};
       const logArray = element.split(' ');
       // extract timestamp
       if (logArray[0].endsWith('Z')) {
@@ -88,13 +88,13 @@ const fn = (num: number) => {
 // Function: promisifiedExec
 // Purpose: makes our command line functions to return Promise
 // ==========================================================
-const promisifiedExec = async (cmd: string) => {
-  return await new Promise((resolve, reject) => {
+const promisifiedExec = (cmd: string) => {
+  return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         reject(error);
       }
-      resolve(stdout || stderr);
+      resolve(stdout ? stdout : stderr);
     });
   });
 };
@@ -103,10 +103,10 @@ const promisifiedExec = async (cmd: string) => {
 // Function: promisifiedExecStdErr
 // Purpose: makes our command line functions to return Promise
 // ==========================================================
-const promisifiedExecStdErr = async (cmd: string) => {
-  return await new Promise((resolve, reject) => {
+const promisifiedExecStdErr = (cmd: string) => {
+  return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         reject(error);
       }
       resolve(stderr);
@@ -121,7 +121,7 @@ const promisifiedExecStdErr = async (cmd: string) => {
 const convertArrToObj = (array: any[], objArray: any[]) => {
   const result = [];
   for (let i = 0; i < array.length; i++) {
-    const containerObj: Record<string, any> = {};
+    const containerObj: { [k: string]: any; } = {};
     for (let j = 0; j < array[i].length; j++) {
       containerObj[objArray[j]] = array[i][j];
     }
@@ -143,7 +143,7 @@ const commandController: CommandController = {
       .slice(0, -1)
       .replaceAll(' ', '')}]`);
     res.locals.containers = dockerOutput;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -182,13 +182,13 @@ const commandController: CommandController = {
         MemUsage: `${fn((apiData.memory_stats.usage - apiData.memory_stats.stats.inactive_file) / 1048576)}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
         NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(apiData.networks.eth0.tx_bytes / 1000)}kB`,
         BlockIO: apiData.blkio_stats.io_service_bytes_recursive ? `${fn(apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000)}kB / ${fn(apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000)}kB` : '0kB / 0kB',
-        PIDs: `${apiData.pids_stats.current}`
+        PIDs: `${apiData.pids_stats.current}`,
         // add new data
       };
       apiDataList.push(container);
     }
     res.locals.apiData = apiDataList;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -198,11 +198,11 @@ const commandController: CommandController = {
   getHost: async (req: Request, res: Response, next: NextFunction) => {
     const hostData = {
       cpuPerc: 0,
-      memPerc: 0
+      memPerc: 0,
     };
 
-    const promisifyCpuUsage = async () => {
-      return await new Promise((resolve, reject) => {
+    const promisifyCpuUsage = () => {
+      return new Promise((resolve, reject) => {
         cpuUsage((data) => {
           resolve(data);
         });
@@ -217,7 +217,7 @@ const commandController: CommandController = {
 
     res.locals.hostData = hostData;
     // dispatch hostData
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -232,15 +232,15 @@ const commandController: CommandController = {
       .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
       .replace(/\s{2,}/g, ' ');
     exec(`docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         console.log(`${error.message}`);
-        return  next(error);
+        return next(error);
       }
       if (stderr) {
         console.log(`runIm stderr: ${stderr}`);
         return;
       }
-      next();
+      return next();
     });
   },
 
@@ -255,7 +255,7 @@ const commandController: CommandController = {
     const parsedDockerOutput = JSON.parse(`[${dockerOutput}]`);
 
     res.locals.stoppedContainers = parsedDockerOutput;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -287,7 +287,7 @@ const commandController: CommandController = {
     );
 
     res.locals.imagesList = convertedValue;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -296,9 +296,9 @@ const commandController: CommandController = {
   // ==========================================================
   remove: async (req: Request, res: Response, next: NextFunction) => {
     exec(`docker rm ${req.query.id}`, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         console.log(`${error.message}`);
-        next(error); return;
+        return next(error);
       }
       if (stderr) {
         console.log(`remove stderr: ${stderr}`);
@@ -307,7 +307,7 @@ const commandController: CommandController = {
       // container deleted move to refreshStopped method
       // res.locals.idRemoved = req.body;
       res.locals.idRemoved = { message: `Container with id ${req.query.id} deleted` };
-      next();
+      return next();
     });
   },
 
@@ -317,9 +317,9 @@ const commandController: CommandController = {
   // ==========================================================
   stopContainer: (req: Request, res: Response, next: NextFunction) => {
     exec(`docker stop ${req.query.id}`, (error, stderr, stdout) => {
-      if (error != null) {
+      if (error) {
         console.log(`${error.message}`);
-        next(error); return;
+        return next(error);
       }
       if (stderr) {
         console.log(`stop stderr: ${stderr}`);
@@ -327,7 +327,7 @@ const commandController: CommandController = {
       }
 
       res.locals.containerStopped = { message: `Stopped Container with id ${req.query.id} stopped` };
-      next();
+      return next();
     });
   },
 
@@ -337,9 +337,9 @@ const commandController: CommandController = {
   // ==========================================================
   runStopped: (req: Request, res: Response, next: NextFunction) => {
     exec(`docker start ${req.query.id}`, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         console.log(`${error.message}`);
-        next(error); return;
+        return next(error);
       }
       if (stderr) {
         console.log(`runStopped stderr: ${stderr}`);
@@ -353,33 +353,33 @@ const commandController: CommandController = {
 
   // ==========================================================
   // Middleware: removeImage
-  // Purpose: executes `docker rmi -f {id} command to remove a pulled image
+  // Purpose: executes `docker rmi -f {id} command to remove a pulled image 
   // ==========================================================
   removeImage: (req: Request, res: Response, next: NextFunction) => {
     exec(`docker rmi -f ${req.query.id}`, (error, stderr, stdout) => {
-      if (error != null) {
+      if (error) {
         console.log(`${error.message}` + '\nPlease stop running container first then remove.');
-        next(error); return;
+        return next(error);
       }
       if (stderr) {
         console.log(`removeIm stderr: ${stderr}`);
         return;
       }
-      next();
+      return next();
     });
   },
 
   // ==========================================================
   // Middleware: dockerPrune
-  // Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced)
+  // Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced) 
   // ==========================================================
   dockerPrune: (req: Request, res: Response, next: NextFunction) => {
     exec(
       'docker system prune --force',
       (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log(`${error.message}`);
-          return (error);
+          return next(error);
         }
         if (stderr) {
           console.log(`handlePruneClick stderr: ${stderr}`);
@@ -389,7 +389,7 @@ const commandController: CommandController = {
           message:
             'Remove all unused containers, networks, images (both dangling and unreferenced)'
         };
-        next();
+        return next();
       }
     );
   },
@@ -400,29 +400,29 @@ const commandController: CommandController = {
   // ==========================================================
   pullImage: (req: Request, res: Response, next: NextFunction) => {
     exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         console.log(`Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`);
-        next(error); return;
+        return next(error);
       }
       if (stderr) {
         console.log(`pullImage stderr: ${stderr}`);
       }
       res.locals.imgMessage = { message: `${req.query.repo} is currently being downloaded` };
-      next();
+      return next();
     });
   },
 
   // ==========================================================
   // Middleware: networkContainers
-  // Purpose: Display all containers network based on docker-compose
+  // Purpose: Display all containers network based on docker-compose 
   // when the application starts
   // ==========================================================
   networkContainers: (req: Request, res: Response, next: NextFunction) => {
     exec('docker network ls --format "{{json .}},"',
       (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log(`networkContainers error: ${error.message}`);
-          return (error);
+          return next(error);
         }
         if (stderr) {
           console.log(`networkContainers stderr: ${stderr}`);
@@ -434,12 +434,13 @@ const commandController: CommandController = {
           .slice(0, -1)
           .replaceAll(' ', '')}]`;
 
+
         // remove docker network defaults named: bridge, host, and none
         const networkContainers = JSON.parse(dockerOutput).filter(
           ({ Name }: any) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
-        next();
+        return next();
       }
     );
   },
@@ -452,9 +453,9 @@ const commandController: CommandController = {
     exec(
       `docker inspect ${req.query.id}`,
       (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log(`inspectDockerContainer error: ${error.message}`);
-          next(); return;
+          return next();
         }
         if (stderr) {
           console.log(`inspectDockerContainer stderr: ${stderr}`);
@@ -474,16 +475,16 @@ const commandController: CommandController = {
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml'
+      'compose.yaml',
     ]);
 
-    const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
-      ? `cd ${req.body.filePath} && docker compose up -d`
-      : `cd ${req.body.filePath} && docker compose -f ${req.body.ymlFileName} up -d`;
+    const cmd = nativeYmlFilenames.has(req.body.ymlFileName) ?
+      `cd ${req.body.filePath} && docker compose up -d` :
+      `cd ${req.body.filePath} && docker compose -f ${req.body.ymlFileName} up -d`;
 
     const result = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -493,9 +494,9 @@ const commandController: CommandController = {
   composeStacks: (req: Request, res: Response, next: NextFunction) => {
     exec('docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
       (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log(`dockerComposeStacks error: ${error.message}`);
-          next(error); return;
+          return next(error);
         }
         if (stderr) {
           console.log(`dockerComposeStacks stderr: ${stderr}`);
@@ -525,7 +526,7 @@ const commandController: CommandController = {
           });
         }
         res.locals.output = parseDockerOutput;
-        next();
+        return next();
       }
     );
   },
@@ -534,7 +535,7 @@ const commandController: CommandController = {
   // Middleware: composeDown
   // Purpose: composes down a container and network
   // Note: causes server to shut down because container is not properly
-  // stopped; button goes away when you leave the page because the
+  // stopped; button goes away when you leave the page because the 
   // file name and location are not in "docker networks" so it gets
   // erased from the state
   // ==========================================================
@@ -543,16 +544,16 @@ const commandController: CommandController = {
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
-      'compose.yaml'
+      'compose.yaml',
     ]);
 
-    const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
-      ? `cd ${req.body.filePath} && docker-compose down`
-      : `cd ${req.body.filePath} && docker-compose -f ${req.body.ymlFileName} down`;
+    const cmd = nativeYmlFilenames.has(req.body.ymlFileName) ?
+      `cd ${req.body.filePath} && docker-compose down` :
+      `cd ${req.body.filePath} && docker-compose -f ${req.body.ymlFileName} down`;
 
     const result = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
-    next();
+    return next();
   },
 
   // ==========================================================
@@ -562,9 +563,9 @@ const commandController: CommandController = {
   getAllDockerVolumes: async (req: Request, res: Response, next: NextFunction) => {
     exec('docker volume ls --format "{{json .}},"',
       (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log(`getAllDockerVolumes error: ${error.message}`);
-          next(error); return;
+          return next(error);
         }
         if (stderr) {
           console.log(`getAllDockerVolumes stderr: ${stderr}`);
@@ -575,10 +576,11 @@ const commandController: CommandController = {
           `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
         );
         res.locals.dockerVolumes = dockerOutput;
-        next();
+        return next();
       }
     );
   },
+
 
   // ==========================================================
   // Middleware: getVolumeContainers
@@ -586,7 +588,7 @@ const commandController: CommandController = {
   // ==========================================================
   getVolumeContainers: (req: Request, res: Response, next: NextFunction) => {
     exec(`docker ps -a --filter volume=${req.query.volumeName} --format "{{json .}},"`, (error, stdout, stderr) => {
-      if (error != null) {
+      if (error) {
         console.log(`getVolumeContainers error: ${error.message}`);
         return;
       }
@@ -596,7 +598,7 @@ const commandController: CommandController = {
       }
       const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
       res.locals.volumeContainers = dockerOutput;
-      next();
+      return next();
     });
   },
 
@@ -605,7 +607,8 @@ const commandController: CommandController = {
   // Purpose: runs docker ps filtering by volume name to get list of containers running in the specified volume
   // ==========================================================
   getLogs: (req: Request, res: Response, next: NextFunction) => {
-    const containerLogs: Record<string, any> = { stdout: [], stderr: [] };
+
+    const containerLogs: { [k: string]: any; } = { stdout: [], stderr: [] };
     const optionsObj = req.body;
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
@@ -620,20 +623,20 @@ const commandController: CommandController = {
       inputCommandString += `${optionsObj.containerIds[i]}`;
 
       exec(inputCommandString, (error, stdout, stderr) => {
-        if (error != null) {
+        if (error) {
           console.log('Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.');
-          next(error); return;
+          return next(error);
         }
         containerLogs.stdout = [
           ...containerLogs.stdout,
-          ...makeArrayOfObjects(stdout, optionsObj.containerIds[i])
+          ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
         ];
         containerLogs.stderr = [
           ...containerLogs.stderr,
-          ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])
+          ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
         ];
         res.locals.logs = containerLogs;
-        next();
+        return next();
       });
     }
   }

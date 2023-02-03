@@ -1,13 +1,13 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 import { sessionState } from '../../../types';
 
 export default function (state = sessionState, action: any) {
   switch (action.type) {
-  // Change isLoggedIn state variable depending on previous value
+    // Change isLoggedIn state variable depending on previous value
     case types.UPDATE_SESSION:
       return {
         ...state,
-        isLoggedIn: !state.isLoggedIn
+        isLoggedIn: !state.isLoggedIn,
       };
 
     // Upon successful sign-up or login, update session state with all user info
@@ -23,7 +23,7 @@ export default function (state = sessionState, action: any) {
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token
+        token,
       } = action.payload;
 
       return {
@@ -38,13 +38,13 @@ export default function (state = sessionState, action: any) {
         mem_threshold,
         cpu_threshold,
         container_stops,
-        token
+        token,
       };
 
     // after logging out, remove all user info from session state
     case types.LOGOUT_USER:
       return {
-        ...sessionState
+        ...sessionState,
       };
 
     default:

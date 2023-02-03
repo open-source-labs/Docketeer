@@ -83,5 +83,5 @@ export default function (state = containerState, action: PayloadAction<any>) {
 
     default:
       return state;
-  };
-};
+  }
+}

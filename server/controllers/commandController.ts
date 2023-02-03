@@ -348,7 +348,6 @@ const commandController: CommandController = {
 
       res.locals.containerRan = { message: `Running container with id ${req.query.id}` };
       return next();
-
     });
   },
 

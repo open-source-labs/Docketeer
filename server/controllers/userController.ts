@@ -41,7 +41,7 @@ const userController: UserController = {
           return next();
         })
         .catch((err: ServerError) => {
-          return next({
+          next({
             log: `Error in userController newUser: ${err}`,
             message: {
               err:
@@ -63,7 +63,7 @@ const userController: UserController = {
           return next();
         })
         .catch((err: ServerError) => {
-          return next({
+          next({
             log: `Error in userController getAllUsers: ${err}`,
             message: {
               err:
@@ -86,7 +86,7 @@ const userController: UserController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController getOneUser: ${err}`,
           message: {
             err:
@@ -116,7 +116,7 @@ const userController: UserController = {
         }
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController checkUserExists: ${err}`,
           message: {
             err:
@@ -137,7 +137,7 @@ const userController: UserController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController switchUserRole: ${err}`,
           message: {
             err:
@@ -173,7 +173,7 @@ const userController: UserController = {
           return next();
         })
         .catch((err: ServerError) => {
-          return next({
+          next({
             log: `Error in userController switchUserRole: ${err}`,
             message: {
               err:
@@ -206,7 +206,7 @@ const userController: UserController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController updatePassword: ${err}`,
           message: {
             err:
@@ -228,7 +228,7 @@ const userController: UserController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController updatePhone: ${err}`,
           message: {
             err:
@@ -250,7 +250,7 @@ const userController: UserController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in userController updateEmail: ${err}`,
           message: {
             err:

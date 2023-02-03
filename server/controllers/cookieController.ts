@@ -12,7 +12,7 @@ const cookieController: CookieController = {
     if (res.locals.error) { return next(); }
 
     res.cookie('ssid', res.locals.user._id, { httpOnly: true });
-    return next();
+    next();
   },
   // set admin cookie for users with admin privileges
   setAdminCookie: (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +28,7 @@ const cookieController: CookieController = {
       res.cookie('adminType', 'admin', { httpOnly: true });
       res.locals.cookie = 'admin';
     }
-    return next();
+    next();
   }
 };
 

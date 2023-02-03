@@ -24,7 +24,7 @@ const signupController: SignupController = {
         }
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in signupController usernameCheck: ${err}`,
           message: {
             err:

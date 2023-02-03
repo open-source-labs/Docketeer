@@ -143,7 +143,7 @@ const commandController: CommandController = {
       .slice(0, -1)
       .replaceAll(' ', '')}]`);
     res.locals.containers = dockerOutput;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -188,7 +188,7 @@ const commandController: CommandController = {
       apiDataList.push(container);
     }
     res.locals.apiData = apiDataList;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -217,7 +217,7 @@ const commandController: CommandController = {
 
     res.locals.hostData = hostData;
     // dispatch hostData
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -240,7 +240,7 @@ const commandController: CommandController = {
         console.log(`runIm stderr: ${stderr}`);
         return;
       }
-      return next();
+      next();
     });
   },
 
@@ -255,7 +255,7 @@ const commandController: CommandController = {
     const parsedDockerOutput = JSON.parse(`[${dockerOutput}]`);
 
     res.locals.stoppedContainers = parsedDockerOutput;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -287,7 +287,7 @@ const commandController: CommandController = {
     );
 
     res.locals.imagesList = convertedValue;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -298,7 +298,7 @@ const commandController: CommandController = {
     exec(`docker rm ${req.query.id}`, (error, stdout, stderr) => {
       if (error != null) {
         console.log(`${error.message}`);
-        return next(error);
+        next(error); return;
       }
       if (stderr) {
         console.log(`remove stderr: ${stderr}`);
@@ -307,7 +307,7 @@ const commandController: CommandController = {
       // container deleted move to refreshStopped method
       // res.locals.idRemoved = req.body;
       res.locals.idRemoved = { message: `Container with id ${req.query.id} deleted` };
-      return next();
+      next();
     });
   },
 
@@ -319,7 +319,7 @@ const commandController: CommandController = {
     exec(`docker stop ${req.query.id}`, (error, stderr, stdout) => {
       if (error != null) {
         console.log(`${error.message}`);
-        return next(error);
+        next(error); return;
       }
       if (stderr) {
         console.log(`stop stderr: ${stderr}`);
@@ -327,7 +327,7 @@ const commandController: CommandController = {
       }
 
       res.locals.containerStopped = { message: `Stopped Container with id ${req.query.id} stopped` };
-      return next();
+      next();
     });
   },
 
@@ -339,7 +339,7 @@ const commandController: CommandController = {
     exec(`docker start ${req.query.id}`, (error, stdout, stderr) => {
       if (error != null) {
         console.log(`${error.message}`);
-        return next(error);
+        next(error); return;
       }
       if (stderr) {
         console.log(`runStopped stderr: ${stderr}`);
@@ -359,13 +359,13 @@ const commandController: CommandController = {
     exec(`docker rmi -f ${req.query.id}`, (error, stderr, stdout) => {
       if (error != null) {
         console.log(`${error.message}` + '\nPlease stop running container first then remove.');
-        return next(error);
+        next(error); return;
       }
       if (stderr) {
         console.log(`removeIm stderr: ${stderr}`);
         return;
       }
-      return next();
+      next();
     });
   },
 
@@ -389,7 +389,7 @@ const commandController: CommandController = {
           message:
             'Remove all unused containers, networks, images (both dangling and unreferenced)'
         };
-        return next();
+        next();
       }
     );
   },
@@ -402,13 +402,13 @@ const commandController: CommandController = {
     exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
       if (error != null) {
         console.log(`Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`);
-        return next(error);
+        next(error); return;
       }
       if (stderr) {
         console.log(`pullImage stderr: ${stderr}`);
       }
       res.locals.imgMessage = { message: `${req.query.repo} is currently being downloaded` };
-      return next();
+      next();
     });
   },
 
@@ -439,7 +439,7 @@ const commandController: CommandController = {
           ({ Name }: any) => Name !== 'bridge' && Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
-        return next();
+        next();
       }
     );
   },
@@ -454,7 +454,7 @@ const commandController: CommandController = {
       (error, stdout, stderr) => {
         if (error != null) {
           console.log(`inspectDockerContainer error: ${error.message}`);
-          return next();
+          next(); return;
         }
         if (stderr) {
           console.log(`inspectDockerContainer stderr: ${stderr}`);
@@ -483,7 +483,7 @@ const commandController: CommandController = {
 
     const result = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -495,7 +495,7 @@ const commandController: CommandController = {
       (error, stdout, stderr) => {
         if (error != null) {
           console.log(`dockerComposeStacks error: ${error.message}`);
-          return next(error);
+          next(error); return;
         }
         if (stderr) {
           console.log(`dockerComposeStacks stderr: ${stderr}`);
@@ -525,7 +525,7 @@ const commandController: CommandController = {
           });
         }
         res.locals.output = parseDockerOutput;
-        return next();
+        next();
       }
     );
   },
@@ -552,7 +552,7 @@ const commandController: CommandController = {
 
     const result = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
-    return next();
+    next();
   },
 
   // ==========================================================
@@ -564,7 +564,7 @@ const commandController: CommandController = {
       (error, stdout, stderr) => {
         if (error != null) {
           console.log(`getAllDockerVolumes error: ${error.message}`);
-          return next(error);
+          next(error); return;
         }
         if (stderr) {
           console.log(`getAllDockerVolumes stderr: ${stderr}`);
@@ -575,7 +575,7 @@ const commandController: CommandController = {
           `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
         );
         res.locals.dockerVolumes = dockerOutput;
-        return next();
+        next();
       }
     );
   },
@@ -596,7 +596,7 @@ const commandController: CommandController = {
       }
       const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
       res.locals.volumeContainers = dockerOutput;
-      return next();
+      next();
     });
   },
 
@@ -622,7 +622,7 @@ const commandController: CommandController = {
       exec(inputCommandString, (error, stdout, stderr) => {
         if (error != null) {
           console.log('Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.');
-          return next(error);
+          next(error); return;
         }
         containerLogs.stdout = [
           ...containerLogs.stdout,
@@ -633,7 +633,7 @@ const commandController: CommandController = {
           ...makeArrayOfObjects(stderr, optionsObj.containerIds[i])
         ];
         res.locals.logs = containerLogs;
-        return next();
+        next();
       });
     }
   }

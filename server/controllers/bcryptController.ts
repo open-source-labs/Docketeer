@@ -17,10 +17,10 @@ const bcryptController: BcryptController = {
       .hash(password, saltRounds)
       .then((hash) => {
         res.locals.hash = hash;
-        return next();
+        next();
       })
       .catch((err) => {
-        return next({
+        next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
             err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.'
@@ -43,10 +43,10 @@ const bcryptController: BcryptController = {
       .hash(newPassword, saltRounds)
       .then((hash) => {
         res.locals.hash = hash;
-        return next();
+        next();
       })
       .catch((err) => {
-        return next({
+        next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
             err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.'
@@ -74,10 +74,10 @@ const bcryptController: BcryptController = {
             res.locals.user.token,
             username
           ]);
-          return next();
+          next();
         })
         .catch((err) => {
-          return next({
+          next({
             log: `Error in bcryptController hashCookeis: ${err}`,
             message: {
               err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.'
@@ -85,7 +85,7 @@ const bcryptController: BcryptController = {
           });
         });
     } else {
-      return next();
+      next();
     }
   }
 };

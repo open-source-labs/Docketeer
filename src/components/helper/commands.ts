@@ -32,7 +32,7 @@ const errorCheck = (key, error) => {
 
 export const getHostStats = (refreshHostData) => {
   fetch('http://localhost:3000/command/getHost')
-    .then((res) => res.json())
+    .then(async (res) => await res.json())
     .then((data) => {
       refreshHostData(data);
     })
@@ -48,7 +48,7 @@ export const getHostStats = (refreshHostData) => {
 // moved existing "command" functions to backend '/command'
 export const refreshRunning = (refreshRunningContainers) => {
   fetch('http://localhost:3000/command/refreshRunning')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((runningContainers) => {
       refreshRunningContainers(runningContainers);
     })
@@ -62,7 +62,7 @@ export const refreshRunning = (refreshRunningContainers) => {
  */
 export const refreshStopped = (refreshStoppedContainers) => {
   fetch('http://localhost:3000/command/refreshStopped')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((stoppedContainers) => {
       refreshStoppedContainers(stoppedContainers);
     })
@@ -76,7 +76,7 @@ export const refreshStopped = (refreshStoppedContainers) => {
  */
 export const refreshImages = (refreshImagesList) => {
   fetch('http://localhost:3000/command/refreshImages')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((imagesList) => {
       refreshImagesList(imagesList);
     })
@@ -91,7 +91,7 @@ export const refreshImages = (refreshImagesList) => {
  */
 export const remove = (containerID, removeContainer) => {
   fetch(`http://localhost:3000/command/removeContainer?id=${containerID}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       removeContainer(containerID);
@@ -107,7 +107,7 @@ export const remove = (containerID, removeContainer) => {
  */
 export const stop = (id, refreshStoppedContainers) => {
   fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       refreshStoppedContainers(id);
@@ -123,7 +123,7 @@ export const stop = (id, refreshStoppedContainers) => {
  */
 export const runStopped = (id, runStoppedContainerDispatcher) => {
   fetch(`http://localhost:3000/command/runStopped?id=${id}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
       runStoppedContainerDispatcher(id);
@@ -145,7 +145,7 @@ export const runIm = (container, refreshRunningContainers) => {
     },
     body: JSON.stringify(container)
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((newRunningList) => {
       refreshRunningContainers(newRunningList);
     })
@@ -192,7 +192,7 @@ export const handlePruneClick = (e) => {
 
 export const pullImage = (repo) => {
   fetch(`http://localhost:3000/command/pullImage?repo=${repo}`)
-    .then((message) => message.json())
+    .then(async (message) => await message.json())
     .then((message) => {
       console.log({ message });
     })
@@ -224,7 +224,7 @@ export const networkContainers = (getNetworkContainers) => {
 
 export const inspectDockerContainer = (containerId) => {
   fetch(`http://localhost:3000/command/inspect?id=${containerId}`)
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((data) => {
       console.log(data);
     })
@@ -247,7 +247,7 @@ export const dockerComposeUp = (getContainerStacks, filePath, ymlFileName) => {
     },
     body: JSON.stringify({ filePath, ymlFileName })
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
@@ -262,7 +262,7 @@ export const dockerComposeUp = (getContainerStacks, filePath, ymlFileName) => {
 
 export const dockerComposeStacks = (getContainerStacks) => {
   fetch('http://localhost:3000/command/composeStacks')
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
@@ -284,7 +284,7 @@ export const dockerComposeDown = (getContainerStacks, filePath, ymlFileName) => 
     },
     body: JSON.stringify({ filePath, ymlFileName })
   })
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((dockerOutput) => {
       getContainerStacks(dockerOutput);
     })
@@ -393,7 +393,7 @@ export const getContainerGitUrl = async (container) => {
 
 export const getAllDockerVolumes = (getVolumeList) => {
   fetch('http://localhost:3000/command/allDockerVolumes')
-    .then((volumes) => volumes.json())
+    .then(async (volumes) => await volumes.json())
     .then((dockerVolumes) => {
       return getVolumeList(filterOneProperty(dockerVolumes, 'Name'));
     })
@@ -411,7 +411,7 @@ export const getAllDockerVolumes = (getVolumeList) => {
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   fetch(`http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`)
-    .then((data) => data.json())
+    .then(async (data) => await data.json())
     .then((volumeContainers) => {
       return getVolumeContainersList(listOfVolumeProperties(volumeName, volumeContainers)
       );

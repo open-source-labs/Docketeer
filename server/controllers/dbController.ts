@@ -13,7 +13,7 @@ const dbController: DbController = {
   createRoles: (req: Request, res: Response, next: NextFunction) => {
     db.query('CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);')
       .then(() => {
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
         if (err) { return next(err); }
@@ -23,7 +23,7 @@ const dbController: DbController = {
   insertRoles: (req: Request, res: Response, next: NextFunction) => {
     db.query('INSERT INTO roles (role) VALUES (\'system admin\'); INSERT INTO roles (role) VALUES (\'admin\'); INSERT INTO roles (role) VALUES (\'user\');')
       .then(() => {
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
         if (err) { return next(err); }
@@ -33,7 +33,7 @@ const dbController: DbController = {
   createTable: (req: Request, res: Response, next: NextFunction) => {
     db.query('CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT \'user\', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);')
       .then(() => {
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
         if (err) { return next(err); }
@@ -49,7 +49,7 @@ const dbController: DbController = {
 
     db.query('INSERT INTO users (username, email, password, phone, role, role_id) VALUES (\'sysadmin\', $1, $2, $3, \'system admin\', \'1\') ON CONFLICT DO NOTHING;', parameters)
       .then(() => {
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
         if (err) { return next(err); }
@@ -63,10 +63,10 @@ const dbController: DbController = {
     bcrypt.hash('belugas', saltRounds)
       .then((hash) => {
         res.locals.password = hash;
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: { err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.' }
         });
@@ -83,7 +83,7 @@ const dbController: DbController = {
     db.query('UPDATE users SET token = null WHERE username=$1', [username])
       .then(() => {
         res.locals.logout = 'Successfully logged out.';
-        return next();
+        next();
       })
       .catch((err: ServerError) => {
         if (err) { return next(err); }

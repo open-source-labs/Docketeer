@@ -59,7 +59,7 @@ const apiController: ApiController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in apiController sendEmailAlert: ${err}`,
           message: {
             err: 'An error occured creating new user in database. See apiController.sendEmailAlert.'
@@ -93,7 +93,7 @@ const apiController: ApiController = {
         return next();
       })
       .catch((err: ServerError) => {
-        return next({
+        next({
           log: `Error in apiController signupEmail: ${err}`,
           message: {
             err: 'An error occured creating new user in database. See apiController.signupEmail.'

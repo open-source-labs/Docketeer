@@ -120,7 +120,7 @@ export const getUpdatedUserList = () => {
       // token: store.userInfo.token,
     })
   })
-    .then((response) => response.json())
+    .then(async (response) => await response.json())
     .then((data) => {
       updateUserList(data);
     })

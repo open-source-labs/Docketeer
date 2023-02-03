@@ -53,7 +53,7 @@ const Login = () => {
         password
       })
     })
-      .then((response) => response.json())
+      .then(async (response) => await response.json())
       .then((data) => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);

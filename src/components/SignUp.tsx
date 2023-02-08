@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // Material UI Imports
 import TextField from '@mui/material/TextField';
@@ -24,7 +23,6 @@ import {
 } from './helper/newUserHelper';
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const [values, setValues] = useState({
     email: '',
     username: '',

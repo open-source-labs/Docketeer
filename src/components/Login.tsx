@@ -2,49 +2,54 @@
  * @module Login
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
+
+// Import action creators
 import * as actions from '../redux/actions/actions';
 
-// MUI Elements
+// Import MaterialUI components
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { grey } from '@mui/material/colors';
 
+// Import docketeer logo
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
 
-// import interface
+// Import UserInfo interface (typescript)
 import { UserInfo } from '../../types';
 
 const Login = () => {
+  // Initializing navigate & dispatch using their respective hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const updateSession = () => dispatch(actions.updateSession());
   const updateUser = (userInfo: UserInfo) =>
     dispatch(actions.updateUser(userInfo));
 
-  // callback function invoked when 'login' button is clicked
+  // Login handler function
   const handleLogin = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>,
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    // check that username and password are inputted
+    // Select username and password input elements
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-
+    // Store the input field value into `username` and `password`
     const username: string = (usernameInput as HTMLInputElement).value;
     const password: string = (passwordInput as HTMLInputElement).value;
-    // clears input fields after login
+    // Clear form input fields after submission of the form
     (usernameInput as HTMLInputElement).value = '';
     (passwordInput as HTMLInputElement).value = '';
-
+    // Invoke authenticateUser
     authenticateUser(username, password);
   };
 
-  // callback function which will send request to endpoint http://localhost:3000/login and expect
+  // authenticateUser will send a post request to the server to verify user information
   const authenticateUser = (username: string, password: string) => {
     fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -61,16 +66,17 @@ const Login = () => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         } else {
-          // are the two below functions necessary?
-          updateSession(); // loggedIn = true
-          updateUser(data); // update user info in sessions reducer
-          navigate('/');
+          updateSession(); // Switch state `loggedIn` to true
+          updateUser(data); // Update user information in sessionsReducer
+          navigate('/'); // Navigate to root route
         }
       })
       .catch((err) => {
         console.log('Fetch: POST error to /login', err);
-        // created a pop window for wrong username/password
-        window.alert('Wrong Password or Username. Please try Again!');
+        // Alert user upon wrong username or password entry using an alert.
+        window.alert(
+          'Incorrect password and/or username. \n Please register or try again.'
+        );
       });
   };
 

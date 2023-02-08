@@ -1,12 +1,13 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../types';
 
 // Components
 import Login from '../components/Login';
-import Authentication from '../components/Authentication';
 import SignUp from '../components/SignUp';
-import RenderViews from '../components/RenderViews';
+import Home from '../components/Home';
 
 const theme = createTheme({
   typography: {
@@ -17,13 +18,21 @@ const theme = createTheme({
 });
 
 const App = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const session: any = useSelector(
+    (state: RootState) => state.session.isLoggedIn
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Routes>
+        <Route
+          path='/'
+          element={session ? <Navigate to='/home' /> : <Navigate to='/login' />}
+        />
         <Route path='/login' element={<Login />} />
-        <Route path='/' element={<Authentication />} />
         <Route path='/userSignup' element={<SignUp />} />
-        <Route path='/app/*' element={<RenderViews />} />
+        <Route path='/home/*' element={<Home />} />
       </Routes>
     </ThemeProvider>
   );

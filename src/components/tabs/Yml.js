@@ -29,7 +29,6 @@ const Yml = () => {
     dispatch(actions.getContainerStacks(data));
   const composeDown = (data) => dispatch(actions.composeDown(data));
 
-
   useEffect(() => {
     // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
@@ -64,7 +63,7 @@ const Yml = () => {
           setYmlFile(e.target.result);
         };
 
-        // get yml file name from the filepath for composing up a new container network 
+        // get yml file name from the filepath for composing up a new container network
         const ymlRegex = /\/docker-compose.*.yml/;
         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
 
@@ -102,7 +101,11 @@ const Yml = () => {
               <button
                 className='btn'
                 onClick={() => {
-                  helper.dockerComposeDown(getContainerStacks, container.FilePath, container.YmlFileName);
+                  helper.dockerComposeDown(
+                    getContainerStacks,
+                    container.FilePath,
+                    container.YmlFileName,
+                  );
                   setYmlFile('');
                   setFilePath('');
                   setYmlFileName('');
@@ -127,13 +130,18 @@ const Yml = () => {
           <div className='btn-compose-up'>
             Upload your Docker Compose file here to compose
             <div>
-              <button className="etc-btn" id="upload-btn">
+              <button className='etc-btn' id='upload-btn'>
                 <input hidden id='uploadFile' type='file' accept='.yml'></input>
                 UPLOAD FILE
               </button>
-              <button className="etc-btn"
+              <button
+                className='etc-btn'
                 onClick={() => {
-                  helper.dockerComposeUp(getContainerStacks, filePath, ymlFileName);
+                  helper.dockerComposeUp(
+                    getContainerStacks,
+                    filePath,
+                    ymlFileName,
+                  );
                   setYmlFile('');
                   setFilePath('');
                   setYmlFileName('');

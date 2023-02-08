@@ -4,7 +4,7 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay';
 import { useSelector } from 'react-redux';
-import {  MetricsProps } from '../../../types';
+import { MetricsProps } from '../../../types';
 
 /**
  * Display general metrics
@@ -14,20 +14,20 @@ import {  MetricsProps } from '../../../types';
 const Metrics = (props: MetricsProps) => {
   const fullRunningList = props.runningList;
   const hostStats = useSelector((state: any) => state.containersList.hostStats);
-  const cpuData = 100 - hostStats.cpuPerc; 
-  const memoryData = 100 - hostStats.memPerc; 
+  const cpuData = 100 - hostStats.cpuPerc;
+  const memoryData = 100 - hostStats.memPerc;
   const cpuThreshold = props.threshold[0];
   const memThreshold = props.threshold[1];
 
-  let cpuFails = 0
-  let memFails = 0
+  let cpuFails = 0;
+  let memFails = 0;
 
   // used to monitor threshold and fail counts
   for (const each of fullRunningList) {
-    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''))
-    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''))
-    if (cpu >= cpuThreshold) cpuFails++
-    if (memory >= memThreshold) memFails++
+    const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''));
+    const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''));
+    if (cpu >= cpuThreshold) cpuFails++;
+    if (memory >= memThreshold) memFails++;
   }
 
   const cpu = {
@@ -39,7 +39,7 @@ const Metrics = (props: MetricsProps) => {
         data: [cpuData, hostStats.cpuPerc],
       },
     ],
-  }
+  };
 
   const memory = {
     labels: [`Available: ${memoryData}%`, `Usage: ${hostStats.memPerc}%`],
@@ -50,7 +50,7 @@ const Metrics = (props: MetricsProps) => {
         data: [memoryData, hostStats.memPerc],
       },
     ],
-  }
+  };
 
   const memOptions = {
     responsive: true,
@@ -72,7 +72,7 @@ const Metrics = (props: MetricsProps) => {
         color: '#fff',
       },
     },
-  }
+  };
 
   const cpuOptions = {
     responsive: true,
@@ -94,76 +94,82 @@ const Metrics = (props: MetricsProps) => {
         color: '#fff',
       },
     },
-  }
+  };
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Metrics</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Metrics</h1>
       </div>
-      <div className="metric-section-title">
-        <h3 className="container-heading">Host Metrics</h3>
+      <div className='metric-section-title'>
+        <h3 className='container-heading'>Host Metrics</h3>
       </div>
-      <div className="aggregate-conatiner">
-        <div className="pieChart">
+      <div className='aggregate-conatiner'>
+        <div className='pieChart'>
           <Chart
-            key="pie-cpu"
-            type="pie"
+            key='pie-cpu'
+            type='pie'
             data={cpu}
             options={cpuOptions}
             width={2000}
             height={1300}
           />
-          <div className="legend-container">
-            <div className="legend-section">
-              <div className="avaliable-box"></div>
-              <p className="legend-text"> Available {Math.round(cpuData)}%</p>
+          <div className='legend-container'>
+            <div className='legend-section'>
+              <div className='avaliable-box'></div>
+              <p className='legend-text'> Available {Math.round(cpuData)}%</p>
             </div>
-            <div className="legend-section">
-              <div className="usage-box"></div>
-              <p className="legend-text"> Usage {Math.round(hostStats.cpuPerc)}%</p>
+            <div className='legend-section'>
+              <div className='usage-box'></div>
+              <p className='legend-text'>
+                {' '}
+                Usage {Math.round(hostStats.cpuPerc)}%
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="pieChart">
+        <div className='pieChart'>
           <Chart
-            key="pie-memory"
-            type="pie"
+            key='pie-memory'
+            type='pie'
             data={memory}
             options={memOptions}
             width={2000}
             height={1300}
           />
-          <div className="legend-container">
-            <div className="legend-section">
-              <div className="avaliable-box"></div>
-              <p className="legend-text">
+          <div className='legend-container'>
+            <div className='legend-section'>
+              <div className='avaliable-box'></div>
+              <p className='legend-text'>
                 {' '}
                 Available {Math.round(memoryData)}%
               </p>
             </div>
-            <div className="legend-section">
-              <div className="usage-box"></div>
-              <p className="legend-text"> Usage {Math.round(hostStats.memPerc)}%</p>
+            <div className='legend-section'>
+              <div className='usage-box'></div>
+              <p className='legend-text'>
+                {' '}
+                Usage {Math.round(hostStats.memPerc)}%
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="">
-          <div className="chart-container">
-            <h1 className="chart-title"># of Running Containers:</h1>
-            <p className="chart-number">{fullRunningList.length}</p>
+        <div className=''>
+          <div className='chart-container'>
+            <h1 className='chart-title'># of Running Containers:</h1>
+            <p className='chart-number'>{fullRunningList.length}</p>
           </div>
-          <div className="chart-container">
-            <h1 className="chart-title">CPU Fail Counts:</h1>
-            <h4 className="threshold">Threshold: {cpuThreshold}%</h4>
-            <p className="chart-number">{cpuFails}</p>
+          <div className='chart-container'>
+            <h1 className='chart-title'>CPU Fail Counts:</h1>
+            <h4 className='threshold'>Threshold: {cpuThreshold}%</h4>
+            <p className='chart-number'>{cpuFails}</p>
           </div>
-          <div className="chart-container">
-            <h1 className="chart-title">Memory Fail Counts:</h1>
-            <h4 className="threshold">Threshold: {memThreshold}%</h4>
-            <p className="chart-number">{memFails}</p>
+          <div className='chart-container'>
+            <h1 className='chart-title'>Memory Fail Counts:</h1>
+            <h4 className='threshold'>Threshold: {memThreshold}%</h4>
+            <p className='chart-number'>{memFails}</p>
           </div>
         </div>
       </div>
@@ -179,7 +185,7 @@ const Metrics = (props: MetricsProps) => {
         for more information on these metrics
       </p> */}
     </div>
-  )
-}
+  );
+};
 
-export default Metrics
+export default Metrics;

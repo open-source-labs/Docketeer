@@ -187,7 +187,9 @@ const LineChartDisplay = () => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
       const receivedAndTransmittedIO = dataPoint.net_io.split('/');
-      auxObj[currentContainer].cpu.data.push(dataPoint.cpu_pct.replace('%', ''));
+      auxObj[currentContainer].cpu.data.push(
+        dataPoint.cpu_pct.replace('%', ''),
+      );
       auxObj[currentContainer].memory.data.push(
         dataPoint.memory_pct.replace('%', ''),
       );
@@ -206,8 +208,8 @@ const LineChartDisplay = () => {
 
       // created_at Sample: 2023-01-23T15:47:27.640Z
       // key indicators "T" [10] and "." [20]
-      const date = dataPoint.created_at.slice(1,10);
-      const time = dataPoint.created_at.slice(11,16);
+      const date = dataPoint.created_at.slice(1, 10);
+      const time = dataPoint.created_at.slice(11, 16);
 
       const timeStamp = `${date} @ ${time}`;
       buildAxis(timeStamp);
@@ -299,7 +301,7 @@ const LineChartDisplay = () => {
       headerName: 'URL',
       width: 175,
       renderCell: (params) => (
-        <a target="_blank" rel="noreferrer" href={params.row.url}>
+        <a target='_blank' rel='noreferrer' href={params.row.url}>
           {params.row.id}
         </a>
       ),
@@ -350,11 +352,11 @@ const LineChartDisplay = () => {
       });
     });
     return (
-      <div key={index} className="gitHub-container">
+      <div key={index} className='gitHub-container'>
         <h2>{name}</h2>
-        <div className="ltTable" style={{ height: 600, width: '100%' }}>
+        <div className='ltTable' style={{ height: 600, width: '100%' }}>
           <DataGrid
-            key="DataGrid"
+            key='DataGrid'
             rows={rows}
             columns={columns}
             getRowHeight={() => 'auto'}
@@ -377,7 +379,9 @@ const LineChartDisplay = () => {
     // const completeContainerList = [...runningList, ...stoppedList];
 
     runningList.forEach((container, index) => {
-      const containerNameKey = container.Name ? container.Name : container.Names;
+      const containerNameKey = container.Name
+        ? container.Name
+        : container.Names;
       result[0].push(
         <FormControlLabel
           key={`formControl-${index}`}
@@ -385,7 +389,7 @@ const LineChartDisplay = () => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color="primary"
+              color='primary'
               inputProps={{ 'aria-label': containerNameKey }}
             />
           }
@@ -396,7 +400,9 @@ const LineChartDisplay = () => {
     runningListEl = result[0];
 
     stoppedList.forEach((container, index) => {
-      const containerNameKey = container.Name ? container.Name : container.Names;
+      const containerNameKey = container.Name
+        ? container.Name
+        : container.Names;
       result[1].push(
         <FormControlLabel
           key={`formControl-${index}`}
@@ -404,7 +410,7 @@ const LineChartDisplay = () => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color="primary"
+              color='primary'
               inputProps={{ 'aria-label': containerNameKey }}
             />
           }
@@ -543,39 +549,39 @@ const LineChartDisplay = () => {
 
   return (
     <div>
-      <div className="metric-section-title">
-        <h3 className="container-heading">Metrics Over Time</h3>
+      <div className='metric-section-title'>
+        <h3 className='container-heading'>Metrics Over Time</h3>
       </div>
-      <div className="metrics-options-form">
+      <div className='metrics-options-form'>
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
-          <input type="radio" id="1-hours" name="timePeriod" value="1"></input>
-          <label htmlFor="1-hours"> 1 hours</label>
+          <input type='radio' id='1-hours' name='timePeriod' value='1'></input>
+          <label htmlFor='1-hours'> 1 hours</label>
           <input
-            type="radio"
-            id="4-hours"
-            name="timePeriod"
-            value="4"
+            type='radio'
+            id='4-hours'
+            name='timePeriod'
+            value='4'
             defaultChecked
           ></input>
-          <label htmlFor="4-hours"> 4 hours</label>
+          <label htmlFor='4-hours'> 4 hours</label>
           <input
-            type="radio"
-            id="12-hours"
-            name="timePeriod"
-            value="12"
+            type='radio'
+            id='12-hours'
+            name='timePeriod'
+            value='12'
           ></input>
-          <label htmlFor="12-hours"> 12 hours</label>
+          <label htmlFor='12-hours'> 12 hours</label>
           <input
-            type="radio"
-            id="24-hours"
-            name="timePeriod"
-            value="24"
+            type='radio'
+            id='24-hours'
+            name='timePeriod'
+            value='24'
           ></input>
-          <label htmlFor="24-hours"> 24 hours</label>
+          <label htmlFor='24-hours'> 24 hours</label>
 
           <br />
           <div>
@@ -588,7 +594,7 @@ const LineChartDisplay = () => {
           </div>
         </form>
       </div>
-      <section className="metricCharts">
+      <section className='metricCharts'>
         {/* first chart - start */}
 
         <div
@@ -598,25 +604,25 @@ const LineChartDisplay = () => {
               : 'allCharts'
           }
         >
-          <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
-          <div className="buttonDisplay">
+          <Line key='Line-CPU' data={cpuObj} options={cpuOptions} />
+          <div className='buttonDisplay'>
             {expanded['Line-Cpu-Display'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['Line-Cpu-Display']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() =>
                   setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
                 }
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>
@@ -630,25 +636,25 @@ const LineChartDisplay = () => {
               : 'allCharts'
           }
         >
-          <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
-          <div className="buttonDisplay">
+          <Line key='Line-Memory' data={memoryObj} options={memoryOptions} />
+          <div className='buttonDisplay'>
             {expanded['Line-Memory-Display'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['Line-Memory-Display']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() =>
                   setExpanded({ ...expanded, ['Line-Memory-Display']: true })
                 }
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>
@@ -661,28 +667,28 @@ const LineChartDisplay = () => {
           }
         >
           <Bar
-            key="Bar-Written"
+            key='Bar-Written'
             data={writtenIOObj}
             options={writtenIOOptions}
           />
-          <div className="buttonDisplay">
+          <div className='buttonDisplay'>
             {expanded['written-IO'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['written-IO']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() =>
                   setExpanded({ ...expanded, ['written-IO']: true })
                 }
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>
@@ -695,23 +701,23 @@ const LineChartDisplay = () => {
             expanded['read-IO'] ? 'expanded-chart allCharts' : 'allCharts'
           }
         >
-          <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
-          <div className="buttonDisplay">
+          <Bar key='Bar-Read' data={readIOObj} options={readIOOptions} />
+          <div className='buttonDisplay'>
             {expanded['read-IO'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['read-IO']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => setExpanded({ ...expanded, ['read-IO']: true })}
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>
@@ -725,28 +731,28 @@ const LineChartDisplay = () => {
           }
         >
           <Bar
-            key="Bar-Read"
+            key='Bar-Read'
             data={receivedIOObj}
             options={receivedIOOptions}
           />
-          <div className="buttonDisplay">
+          <div className='buttonDisplay'>
             {expanded['received-IO'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['received-IO']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() =>
                   setExpanded({ ...expanded, ['received-IO']: true })
                 }
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>
@@ -762,28 +768,28 @@ const LineChartDisplay = () => {
           }
         >
           <Bar
-            key="Bar-Read"
+            key='Bar-Read'
             data={transmittedIOObj}
             options={transmittedIOOptions}
           />
-          <div className="buttonDisplay">
+          <div className='buttonDisplay'>
             {expanded['transmitted-IO'] ? (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() => {
                   setExpanded({ ...expanded, ['transmitted-IO']: false });
                 }}
               >
-                <i className="fas fa-compress"></i>
+                <i className='fas fa-compress'></i>
               </button>
             ) : (
               <button
-                className="chart-btn"
+                className='chart-btn'
                 onClick={() =>
                   setExpanded({ ...expanded, ['transmitted-IO']: true })
                 }
               >
-                <i className="fas fa-expand"></i>
+                <i className='fas fa-expand'></i>
               </button>
             )}
           </div>

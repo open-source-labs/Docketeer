@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { contextBridge, ipcRenderer } = require('electron');
 const child_process = require('child_process');
 const { exec } = require('node:child_process');
-const {cpuUsage, freemem, totalmem, freememPercentage} = require('os-utils');
+const { cpuUsage, freemem, totalmem, freememPercentage } = require('os-utils');
 
 const runCpuUsage = (callback) => {
   return cpuUsage(callback);
@@ -36,5 +37,5 @@ contextBridge.exposeInMainWorld('nodeMethod', {
   freememPercentage: freememPercentage,
   exec: exec,
   bool: true,
-  rendInvoke: (input1, input2) => ipcRenderer.invoke(input1, input2)
+  rendInvoke: (input1, input2) => ipcRenderer.invoke(input1, input2),
 });

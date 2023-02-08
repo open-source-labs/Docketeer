@@ -1,4 +1,4 @@
-import * as types from "../constants/actionTypes";
+import * as types from '../constants/actionTypes';
 import { sessionState } from '../../../types';
 
 export default function (state = sessionState, action: any) {

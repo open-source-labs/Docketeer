@@ -5,11 +5,11 @@ import { getLogs } from '../helper/commands';
 import * as actions from '../../redux/actions/actions';
 import './ProcessLogsCard';
 
-import store from "../../renderer/store";
-import { DataGrid } from "@mui/x-data-grid";
-import { Checkbox, FormControlLabel, FormGroup, Button } from "@mui/material"; // use for container selection
-import { CSVLink } from "react-csv";
-import { ContainerType, RowsDataType } from "../../../types";
+import store from '../../renderer/store';
+import { DataGrid } from '@mui/x-data-grid';
+import { Checkbox, FormControlLabel, FormGroup, Button } from '@mui/material'; // use for container selection
+import { CSVLink } from 'react-csv';
+import { ContainerType, RowsDataType } from '../../../types';
 
 /**
  * Displays process logs as table
@@ -38,7 +38,6 @@ const ProcessLogsTable = () => {
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
   ]);
-
 
   const [counter, setCounter] = useState(0);
   const { stdout, stderr } = store.getState().processLogs.containerLogs;
@@ -84,7 +83,7 @@ const ProcessLogsTable = () => {
               />
             }
             label={`${runningList[i].Name}`}
-          />
+          />,
         );
       } else {
         // by default all others should be unchecked
@@ -100,7 +99,7 @@ const ProcessLogsTable = () => {
               />
             }
             label={`${runningList[i].Name}`}
-          />
+          />,
         );
       }
     }
@@ -124,8 +123,6 @@ const ProcessLogsTable = () => {
     }
   };
 
-
-
   type CSVData = string[];
 
   // Populating the StdOut Table Data Using stdout.map
@@ -134,9 +131,9 @@ const ProcessLogsTable = () => {
     const newCSV: CSVData[] = [];
 
     if (stdout) {
-      stdout.forEach((log: { [k: string]: any; }) => {
+      stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log['containerName'],
         );
         newRows.push({
           container: currCont.Name,
@@ -149,9 +146,9 @@ const ProcessLogsTable = () => {
       });
     }
     if (stderr) {
-      stderr.forEach((log: { [k: string]: any; }, index: any) => {
+      stderr.forEach((log: { [k: string]: any }, index: any) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log['containerName'],
         );
         newRows.push({
           container: currCont.Name,
@@ -169,65 +166,55 @@ const ProcessLogsTable = () => {
   };
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Container Process Logs</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Container Process Logs</h1>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <form>
-          <div className="log-timeframe">
+          <div className='log-timeframe'>
             <h3>Time Frame:</h3>
             <input
               style={{ margin: 5 }}
-              type="radio"
-              id="sinceInput"
-              name="logOption"
+              type='radio'
+              id='sinceInput'
+              name='logOption'
             />
-            <label
-              style={{ margin: 5 }}
-              htmlFor="sinceInput"
-            >
+            <label style={{ margin: 5 }} htmlFor='sinceInput'>
               Since
             </label>
-            <input
-              type="text"
-              id="sinceText"
-            />
+            <input type='text' id='sinceText' />
             <br></br>
             <input
               style={{ margin: 5 }}
-              type="radio"
-              id="tailInput"
-              name="logOption"
+              type='radio'
+              id='tailInput'
+              name='logOption'
             />
-            <label
-              style={{ margin: 5 }}
-              htmlFor="tailInput"
-            >
+            <label style={{ margin: 5 }} htmlFor='tailInput'>
               Tail
             </label>
-            <input
-              style={{ marginLeft: 14 }}
-              type="text"
-              id="tailText"
-            />
+            <input style={{ marginLeft: 14 }} type='text' id='tailText' />
           </div>
           <br />
-          <div className="log-containers">
+          <div className='log-containers'>
             <h3>Running Containers:</h3>
             <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
               {containerSelectors} {/** Checkboxes for running containers */}
             </FormGroup>
           </div>
           <br />
-          <button className="etc-btn" id="getlogs-btn" type="button"
+          <button
+            className='etc-btn'
+            id='getlogs-btn'
+            type='button'
             onClick={() => {
               handleGetLogs(btnIdList);
             }}
           >
             GET LOGS
           </button>
-          <button className="etc-btn" type="button">
+          <button className='etc-btn' type='button'>
             <CSVLink
               style={{
                 textDecoration: 'none',
@@ -240,13 +227,13 @@ const ProcessLogsTable = () => {
           </button>
         </form>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <div
-          className="process-logs-container"
+          className='process-logs-container'
           style={{ height: 660, width: '100%' }}
         >
           <DataGrid
-            key="DataGrid"
+            key='DataGrid'
             rows={rows}
             columns={columns}
             getRowHeight={() => 'auto'}

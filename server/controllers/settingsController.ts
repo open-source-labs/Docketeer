@@ -9,7 +9,8 @@ import { SettingsController, ServerError } from '../../types';
 
 const settingsController: SettingsController = {
   addContainer: async (req: Request, res: Response, next: NextFunction) => {
-    const queryString = `INSERT INTO containers(id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING`;
+    const queryString =
+      'INSERT INTO containers(id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING';
     const parameters = [req.body.container, req.body.name];
     await db
       .query(queryString, parameters)
@@ -20,8 +21,12 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
-  addContainerSettings : async (req: Request, res: Response, next: NextFunction) => {
+
+  addContainerSettings: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const queryString = `INSERT INTO container_settings (container_id, notification_settings_id)  
       SELECT $1, id 
       FROM notification_settings 
@@ -36,8 +41,12 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
-  deleteContainerSettings: async (req: Request, res: Response, next: NextFunction) => {
+
+  deleteContainerSettings: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const queryString = `DELETE FROM container_settings
       WHERE container_id = $1 and notification_settings_id = (SELECT id FROM notification_settings where metric_name = $2)`;
     const parameters = [req.body.container, req.body.metric];
@@ -50,8 +59,12 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
-  notificationSettings: async (req: Request, res: Response, next: NextFunction) => {
+
+  notificationSettings: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const queryString = `SELECT cs.container_id, metric_name, triggering_value
       FROM container_settings cs
       INNER JOIN notification_settings ns ON cs.notification_settings_id = ns.id`;
@@ -80,7 +93,7 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
+
   addPhoneNumber: async (req: Request, res: Response, next: NextFunction) => {
     const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
       VALUES ($1, $2, $3, $4)
@@ -103,7 +116,11 @@ const settingsController: SettingsController = {
       });
   },
 
-  notificationFrequency: async (req: Request, res: Response, next: NextFunction) => {
+  notificationFrequency: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
       VALUES ($1, $2, $3, $4)
       ON CONFLICT ON CONSTRAINT unique_username
@@ -124,8 +141,12 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
-  monitoringFrequency: async (req: Request, res: Response, next: NextFunction) => {
+
+  monitoringFrequency: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const queryString = `INSERT INTO users (username, phone_number, notification_frequency, monitoring_frequency)
       VALUES ($1, $2, $3, $4)
       ON CONFLICT ON CONSTRAINT unique_username
@@ -146,7 +167,7 @@ const settingsController: SettingsController = {
         return next(err);
       });
   },
-  
+
   addGitLinks: async (req: Request, res: Response, next: NextFunction) => {
     const queryString = `INSERT INTO containers (id, name, github_url)
       VALUES ($1, $2, $3)
@@ -162,7 +183,7 @@ const settingsController: SettingsController = {
         console.log('addGitLinks: ', err);
         return next(err);
       });
-  }
+  },
 };
 
 export default settingsController;

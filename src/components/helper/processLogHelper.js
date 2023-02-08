@@ -8,7 +8,7 @@
 
 export const buildOptionsObj = (containerIDs) => {
   const optionsObj = {
-    containerIds: containerIDs
+    containerIds: containerIDs,
   };
 
   if (document.getElementById('sinceInput').checked) {

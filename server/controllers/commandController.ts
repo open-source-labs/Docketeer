@@ -2,8 +2,8 @@
  * @module initDatabase Controller
  * @description Contains middleware that creates and runs the local database
  */
-import { Request, Response, NextFunction } from "express";
-import { CommandController, ServerError } from "../../types";
+import { Request, Response, NextFunction } from 'express';
+import { CommandController, ServerError } from '../../types';
 import { exec } from 'child_process';
 import { net } from 'electron';
 import { constants } from 'fs/promises';

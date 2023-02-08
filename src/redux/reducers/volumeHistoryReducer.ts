@@ -1,6 +1,6 @@
-import * as types from "../constants/actionTypes";
-import { PayloadAction } from "@reduxjs/toolkit";
-import {volumeState} from '../../../types';
+import * as types from '../constants/actionTypes';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { volumeState } from '../../../types';
 
 /**
  * @description Reducer for the list of containers running in each volume

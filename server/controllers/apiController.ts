@@ -4,8 +4,8 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import nodemailer from "nodemailer";
-import email from "../../security/email";
+import nodemailer from 'nodemailer';
+import email from '../../security/email';
 import { ApiController, ServerError } from '../../types';
 
 // create transporter object to make sure these values are filled out in email.js
@@ -26,7 +26,7 @@ const apiController: ApiController = {
     const { email, containerName, time, date, stopped } = req.body;
     let emailBody;
 
-    if (stopped === "true") {
+    if (stopped === 'true') {
       emailBody = `
         <h2>Alert: ${containerName} has stopped!</h2>
         <h3>Container <b>${containerName}</b> stopped running at <b>${time}</b> on <b>${date}</b>.</h3>
@@ -47,9 +47,9 @@ const apiController: ApiController = {
     }
 
     const mailDetails = {
-      from: "team.docketeer@gmail.com",
+      from: 'team.docketeer@gmail.com',
       to: email,
-      subject: "Docketeer: Container Issue",
+      subject: 'Docketeer: Container Issue',
       html: `${emailBody}`,
     };
 
@@ -62,7 +62,7 @@ const apiController: ApiController = {
         return next({
           log: `Error in apiController sendEmailAlert: ${err}`,
           message: {
-            err: "An error occured creating new user in database. See apiController.sendEmailAlert.",
+            err: 'An error occured creating new user in database. See apiController.sendEmailAlert.',
           },
         });
       });
@@ -73,9 +73,9 @@ const apiController: ApiController = {
     const { email, username, password } = req.body;
 
     const mailDetails = {
-      from: "team.docketeer@gmail.com",
+      from: 'team.docketeer@gmail.com',
       to: email,
-      subject: "Docketeer: Account Details",
+      subject: 'Docketeer: Account Details',
       html: `
         <h1>Welcome to Docketeer</h1>
         <p>We are so excited to have you onboard!</p>
@@ -96,7 +96,7 @@ const apiController: ApiController = {
         return next({
           log: `Error in apiController signupEmail: ${err}`,
           message: {
-            err: "An error occured creating new user in database. See apiController.signupEmail.",
+            err: 'An error occured creating new user in database. See apiController.signupEmail.',
           },
         });
       });

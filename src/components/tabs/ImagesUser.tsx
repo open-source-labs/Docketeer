@@ -5,7 +5,7 @@ import { ImagesProps } from '../../../types';
 
 /**
  * Render Images of the user has
- * 
+ *
  * @param {*} props
  */
 const Images = (props: ImagesProps) => {
@@ -18,47 +18,50 @@ const Images = (props: ImagesProps) => {
 
   const renderImagesList = props.imagesList.map((ele, i) => {
     return (
-      <div className="box" key={`imageBox${i}`}>
-        <div className="box-label">
+      <div className='box' key={`imageBox${i}`}>
+        <div className='box-label'>
           <h3>{ele['reps']}</h3>
           <p>{ele['tag']}</p>
         </div>
-        <div className="stopped-info">
+        <div className='stopped-info'>
           <ul>
             <li>
-              <strong>ID: </strong>{ele['imgid']}
+              <strong>ID: </strong>
+              {ele['imgid']}
             </li>
             <li>
-              <strong>Size: </strong>{ele['size']}
+              <strong>Size: </strong>
+              {ele['size']}
             </li>
           </ul>
         </div>
-        <br/><br/>
+        <br />
+        <br />
       </div>
     );
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Images</h1>
-        <div className="runByButton">
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Images</h1>
+        <div className='runByButton'>
           <label>Enter Image Repo</label>
           <span>
             <input
-              type="text"
+              type='text'
               value={repo}
               onChange={(e) => {
                 setRepo(e.target.value);
               }}
             ></input>
           </span>
-          <button className="run-btn" onClick={(e) => handleClick(e)}>
+          <button className='run-btn' onClick={(e) => handleClick(e)}>
             Pull
           </button>
         </div>
       </div>
-      <div className="containers">{renderImagesList}</div>
+      <div className='containers'>{renderImagesList}</div>
     </div>
   );
 };

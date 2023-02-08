@@ -11,13 +11,12 @@ import RenderViews from '../components/RenderViews';
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: `"Lexend", "sans-serif"`
-    }
-  }
-})
+      fontFamily: '"Lexend", "sans-serif"',
+    },
+  },
+});
 
 const App = () => {
-
   return (
     <ThemeProvider theme={theme}>
       <Routes>

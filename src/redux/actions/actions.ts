@@ -1,9 +1,9 @@
-import * as types from "../constants/actionTypes";
+import * as types from '../constants/actionTypes';
 
 export const refreshHostData = (data: object) => ({
   type: types.REFRESH_HOST_DATA,
   payload: data,
-})
+});
 
 export const addRunningContainers = (data: object[]) => ({
   type: types.ADD_RUNNING_CONTAINERS,

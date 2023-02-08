@@ -24,7 +24,14 @@ import startNotificationRequester from '../helper/notificationsRequester';
 import initDatabase from '../helper/initDatabase';
 
 // Types and Interface
-import { ContainerObj, StoppedContainerObj, ImageObj, VolumeObj, NetworkObj, StateType  } from '../../../types';
+import {
+  ContainerObj,
+  StoppedContainerObj,
+  ImageObj,
+  VolumeObj,
+  NetworkObj,
+  StateType,
+} from '../../../types';
 
 // Container component that has all redux logic along with react router
 
@@ -37,7 +44,8 @@ const AdminView = () => {
     dispatch(actions.refreshRunningContainers(data));
   const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
     dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data: ImageObj[]) => dispatch(actions.refreshImages(data));
+  const refreshImagesList = (data: ImageObj[]) =>
+    dispatch(actions.refreshImages(data));
   // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
   const getNetworkContainers = (data: NetworkObj[]) =>
     dispatch(actions.getNetworkContainers(data));
@@ -50,35 +58,43 @@ const AdminView = () => {
   const updateSession = () => dispatch(actions.updateSession());
   // originally, this function have any parameters, but typescript through an error saying it was needed. Check this out later
   const logoutUser = () => dispatch(actions.logoutUser());
-  const getVolumeList = (data: { Name: string }[]) => dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data: VolumeObj[]) => dispatch(actions.getVolumeContainersList(data));
+  const getVolumeList = (data: { Name: string }[]) =>
+    dispatch(actions.getVolumeList(data));
+  const getVolumeContainersList = (data: VolumeObj[]) =>
+    dispatch(actions.getVolumeContainersList(data));
 
   // map state to props
-  const runningList = useSelector((state: StateType) => state.containersList.runningList);
-  const stoppedList = useSelector((state: StateType) => state.containersList.stoppedList);
+  const runningList = useSelector(
+    (state: StateType) => state.containersList.runningList,
+  );
+  const stoppedList = useSelector(
+    (state: StateType) => state.containersList.stoppedList,
+  );
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
-  const { mem_threshold, cpu_threshold } = useSelector((state: StateType) => state.session);
+  const { mem_threshold, cpu_threshold } = useSelector(
+    (state: StateType) => state.session,
+  );
   // const networkList = useSelector((state: StateType) => state.networkList.networkList);
 
   const arrayOfVolumeNames = useSelector(
-    (state: StateType) => state.volumeList.arrayOfVolumeNames
+    (state: StateType) => state.volumeList.arrayOfVolumeNames,
   );
   const volumeContainersList = useSelector(
-    (state: StateType) => state.volumeList.volumeContainersList
+    (state: StateType) => state.volumeList.volumeContainersList,
   );
 
   // map state to props
   const phoneNumber = useSelector(
-    (state: StateType) => state.notificationList.phoneNumber
+    (state: StateType) => state.notificationList.phoneNumber,
   );
   const memoryNotificationList = useSelector(
-    (state: StateType) => state.notificationList.memoryNotificationList
+    (state: StateType) => state.notificationList.memoryNotificationList,
   );
   const cpuNotificationList = useSelector(
-    (state: StateType) => state.notificationList.cpuNotificationList
+    (state: StateType) => state.notificationList.cpuNotificationList,
   );
   const stoppedNotificationList = useSelector(
-    (state: StateType) => state.notificationList.stoppedNotificationList
+    (state: StateType) => state.notificationList.stoppedNotificationList,
   );
 
   // declare a local state variable called selected, initialize to '/'
@@ -87,7 +103,7 @@ const AdminView = () => {
   const handleLogout = () => {
     updateSession();
     logoutUser();
-    navigate('/login');  
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -105,7 +121,7 @@ const AdminView = () => {
     history.volumeByName(
       helper.getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainersList
+      getVolumeContainersList,
     );
   }, [arrayOfVolumeNames]);
 
@@ -124,7 +140,7 @@ const AdminView = () => {
     background: '#e1e4e6',
     color: '#042331',
     borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px'
+    borderBottomRightRadius: '10px',
   };
 
   return (
@@ -139,9 +155,7 @@ const AdminView = () => {
             <li>
               <Link
                 to='/app/users/'
-                style={
-                  selected === '/app/users/' ? selectedStyling : undefined
-                }
+                style={selected === '/app/users/' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/users/')}
               >
                 <i className='fas fa-settings'></i> Settings
@@ -151,9 +165,7 @@ const AdminView = () => {
               <Link
                 to='/app/running'
                 style={
-                  selected === '/app/running'
-                    ? selectedStyling
-                    : undefined
+                  selected === '/app/running' ? selectedStyling : undefined
                 }
                 onClick={() => setSelected(() => '/app/running')}
               >
@@ -163,11 +175,7 @@ const AdminView = () => {
             <li>
               <Link
                 to='/app/images'
-                style={
-                  selected === '/app/images'
-                    ? selectedStyling
-                    : undefined
-                }
+                style={selected === '/app/images' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/images')}
               >
                 <i className='fas fa-database'></i> Images
@@ -177,9 +185,7 @@ const AdminView = () => {
               <Link
                 to='/app/metrics'
                 style={
-                  selected === '/app/metrics'
-                    ? selectedStyling
-                    : undefined
+                  selected === '/app/metrics' ? selectedStyling : undefined
                 }
                 onClick={() => setSelected('/app/metrics')}
               >
@@ -189,9 +195,7 @@ const AdminView = () => {
             <li>
               <Link
                 to='/app/yml'
-                style={
-                  selected === '/app/yml' ? selectedStyling : undefined
-                }
+                style={selected === '/app/yml' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/yml')}
               >
                 <i className='fas fa-file-upload'></i> Docker Compose
@@ -200,11 +204,7 @@ const AdminView = () => {
             <li>
               <Link
                 to='/app/volume'
-                style={
-                  selected === '/app/volume'
-                    ? selectedStyling
-                    : undefined
-                }
+                style={selected === '/app/volume' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/volume')}
               >
                 <i className='fas fa-volume-history'></i> Volume History
@@ -213,9 +213,7 @@ const AdminView = () => {
             <li>
               <Link
                 to='/app/logs'
-                style={
-                  selected === '/app/logs' ? selectedStyling : undefined
-                }
+                style={selected === '/app/logs' ? selectedStyling : undefined}
                 onClick={() => setSelected('/app/logs')}
               >
                 <i className='fas fa-log'></i> Process Logs
@@ -224,14 +222,18 @@ const AdminView = () => {
           </ul>
           <div>
             <button
-              style={{borderRadius: 5, marginBottom: 10}}
+              style={{ borderRadius: 5, marginBottom: 10 }}
               className='btn'
               onClick={(e) => helper.handlePruneClick(e)}
             >
               System Prune
             </button>
             <span> </span>
-            <button style={{borderRadius: 5, marginBottom: 10}} className='btn' onClick={() => handleLogout()}>
+            <button
+              style={{ borderRadius: 5, marginBottom: 10 }}
+              className='btn'
+              onClick={() => handleLogout()}
+            >
               Logout
             </button>
           </div>
@@ -250,7 +252,10 @@ const AdminView = () => {
         <Route
           path='/metrics'
           element={
-            <Metrics runningList={runningList} threshold={[cpu_threshold, mem_threshold]}/>
+            <Metrics
+              runningList={runningList}
+              threshold={[cpu_threshold, mem_threshold]}
+            />
           }
         />
         <Route
@@ -276,9 +281,9 @@ const AdminView = () => {
           path='/yml'
           element={
             <Yml
-            //the below properties for the Yml component were throwing errors. The Yml component file didn't seem to be using these so they have been marked out for now
-              // networkList={networkList}
-              // composeymlFiles={composeymlFiles}
+            // the below properties for the Yml component were throwing errors. The Yml component file didn't seem to be using these so they have been marked out for now
+            // networkList={networkList}
+            // composeymlFiles={composeymlFiles}
             />
           }
         />
@@ -335,5 +340,5 @@ const AdminView = () => {
     </div>
   );
 };
-//adding comment to commit
+// adding comment to commit
 export default AdminView;

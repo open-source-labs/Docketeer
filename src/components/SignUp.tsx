@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Material UI Imports
@@ -14,7 +14,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
-
 // Helper Functions
 import {
   checkDbInit,
@@ -22,7 +21,7 @@ import {
   checkPasswordLength,
   confirmPassword,
   checkPhone,
-} from "./helper/newUserHelper";
+} from './helper/newUserHelper';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -58,14 +57,13 @@ const SignUp = () => {
           }}
           sx={{ color: 'blue' }}
         >
-
           <TextField
             id='signupEmail'
             label='Email'
             variant='outlined'
             required
             sx={{
-              m: 1
+              m: 1,
             }}
           />
           <br />
@@ -76,36 +74,50 @@ const SignUp = () => {
             required
             inputProps={{ minLength: 4, maxLength: 16 }}
             sx={{
-              m: 1
+              m: 1,
             }}
           />
           <br />
 
-          <FormControl sx={{ m: 1, maxWidth: 215 }} variant="outlined">
-            <InputLabel htmlFor="signupPassword">Password</InputLabel>
+          <FormControl sx={{ m: 1, maxWidth: 215 }} variant='outlined'>
+            <InputLabel htmlFor='signupPassword'>Password</InputLabel>
             <OutlinedInput
-              id="signupPassword"
+              id='signupPassword'
               type={values.showPassword ? 'text' : 'password'}
               onChange={(e) => {
                 checkPasswordLength();
                 setValues({ ...values, password: e.target.value });
               }}
               endAdornment={
-                <InputAdornment position="end">
+                <InputAdornment position='end'>
                   <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label='toggle password visibility'
                     onClick={handleClickShowPassword}
-                    edge="end"
+                    edge='end'
                   >
                     {values.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
-              label="Password"
+              label='Password'
             />
           </FormControl>
-          {values.password && <PasswordStrengthBar style={{ maxWidth: '190px', color: 'red', marginLeft: 10 }} password={values.password} />}
-          <span id='password-length-alert' style={{ fontSize: 10, textAlign: 'left', maxWidth: 190, display: 'inline-block', marginLeft: 10 }}></span>
+          {values.password && (
+            <PasswordStrengthBar
+              style={{ maxWidth: '190px', color: 'red', marginLeft: 10 }}
+              password={values.password}
+            />
+          )}
+          <span
+            id='password-length-alert'
+            style={{
+              fontSize: 10,
+              textAlign: 'left',
+              maxWidth: 190,
+              display: 'inline-block',
+              marginLeft: 10,
+            }}
+          ></span>
 
           <br />
           <TextField
@@ -119,12 +131,32 @@ const SignUp = () => {
               confirmPassword();
             }}
             sx={{
-              m: 1
+              m: 1,
             }}
           />
           {/* This is sacrilege but I hardcoded this bar and made it hidden to keep the same formatting as above */}
-          {<PasswordStrengthBar style={{ maxWidth: '190px', color: 'red', marginBottom: -20, visibility: 'hidden', maxHeight: 0 }} />}
-          <span id='password-confirmation-alert' style={{ fontSize: 10, textAlign: 'left', maxWidth: 190, display: 'inline-block', marginLeft: 10, paddingTop: 15 }}></span>
+          {
+            <PasswordStrengthBar
+              style={{
+                maxWidth: '190px',
+                color: 'red',
+                marginBottom: -20,
+                visibility: 'hidden',
+                maxHeight: 0,
+              }}
+            />
+          }
+          <span
+            id='password-confirmation-alert'
+            style={{
+              fontSize: 10,
+              textAlign: 'left',
+              maxWidth: 190,
+              display: 'inline-block',
+              marginLeft: 10,
+              paddingTop: 15,
+            }}
+          ></span>
           <br />
           <TextField
             id='signupPhone'
@@ -132,19 +164,20 @@ const SignUp = () => {
             variant='outlined'
             required
             inputProps={{ maxLength: 12 }}
-
             onChange={() => {
-              const inputElement = (document.getElementById('signupPhone') as HTMLInputElement).value;
+              const inputElement = (
+                document.getElementById('signupPhone') as HTMLInputElement
+              ).value;
               checkPhone(inputElement);
             }}
             sx={{
-              m: 1
+              m: 1,
             }}
           />
           <br />
           <span id='phone-alert'></span>
           <br />
-          <div className="signup-btn">
+          <div className='signup-btn'>
             <Button
               variant='contained'
               size='medium'
@@ -152,7 +185,7 @@ const SignUp = () => {
                 history.back();
               }}
               sx={{
-                m: 1
+                m: 1,
               }}
             >
               Back
@@ -162,7 +195,7 @@ const SignUp = () => {
               size='medium'
               type='submit'
               sx={{
-                m: 1
+                m: 1,
               }}
             >
               Submit

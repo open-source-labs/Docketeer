@@ -23,7 +23,7 @@ app.use(cors());
 
 app.use('/test', (req: Request, res: Response) => {
   res.status(200).json({
-    success: true
+    success: true,
   });
 });
 
@@ -48,15 +48,18 @@ app.use('/', (req: Request, res: Response) => {
   return res.status(404).redirect('/');
 });
 
-app.get('/', (err: ServerError, req: Request, res: Response, next: NextFunction) => {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
-    message: { err: 'An error occured' }
-  };
-  const errorObj: ServerError = Object.assign(defaultErr, err);
-  return res.status(errorObj.status).json(errorObj.message);
-});
+app.get(
+  '/',
+  (err: ServerError, req: Request, res: Response, next: NextFunction) => {
+    const defaultErr = {
+      log: 'Express error handler caught unknown middleware error',
+      status: 500,
+      message: { err: 'An error occured' },
+    };
+    const errorObj: ServerError = Object.assign(defaultErr, err);
+    return res.status(errorObj.status).json(errorObj.message);
+  },
+);
 
 export default app;
 

@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   resolve: {
-    extensions: ['.tsx', '.ts', 'jsx', '.js']
+    extensions: ['.tsx', '.ts', 'jsx', '.js'],
   },
   devtool: 'inline-source-map',
   entry: './src/main/index.ts',
@@ -13,13 +13,13 @@ module.exports = {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
+          loader: 'babel-loader',
+        },
+      },
+    ],
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'DocketeerElectron.js'
-  }
+    filename: 'DocketeerElectron.js',
+  },
 };

@@ -161,7 +161,7 @@ const Settings = (props: SettingsProps) => {
             props.addPhoneNumber(mobileNumber);
             showVerificationInput = true;
             verifyMobileNumber();
-            let field = document.getElementById('textfield');
+            const field = document.getElementById('textfield');
             if (field) (field as HTMLInputElement).value = '';
           })
           .catch((err) => {
@@ -323,7 +323,7 @@ const Settings = (props: SettingsProps) => {
       })
         .then((data) => data.json())
         .then((response) => {
-          let field = document.getElementById('gittext');
+          const field = document.getElementById('gittext');
           if (field) (field as HTMLInputElement).value = '';
           return response;
         })
@@ -377,7 +377,7 @@ const Settings = (props: SettingsProps) => {
   };
 
   const handleCpuChange = (event: any) => {
-    let field = document.getElementById('cpu-threshold-input');
+    const field = document.getElementById('cpu-threshold-input');
     if (field) setCpuThreshold((field as HTMLInputElement).value);
   };
 
@@ -450,15 +450,15 @@ const Settings = (props: SettingsProps) => {
   };
 
   const handleMemChange = (event: any) => {
-    let field = document.getElementById('mem-threshold-input');
+    const field = document.getElementById('mem-threshold-input');
     if (field) setMemThreshold((field as HTMLInputElement).value);
   };
 
   const handleStoppedContainersChange = (event: any) => {
-    let ele = document.getElementById('stopped-containers-input');
+    const ele = document.getElementById('stopped-containers-input');
     if (ele) setStoppedContainers(
-      //let ele = document.getElementById('stopped-containers-input');
-     (ele as HTMLInputElement).checked
+      // let ele = document.getElementById('stopped-containers-input');
+      (ele as HTMLInputElement).checked
     );
   };
 

@@ -6,7 +6,7 @@ import { containerState } from '../../../types';
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
     case types.REFRESH_HOST_DATA:
-      const newHostStats: {[k: string]: number} = {};
+      const newHostStats: { [k: string]: number } = {};
       for (const type in action.payload) {
         newHostStats[type] = action.payload[type];
       }
@@ -30,7 +30,7 @@ export default function (state = containerState, action: PayloadAction<any>) {
       return {
         ...state,
         runningList: newestRunningList,
-        stoppedList: newStoppedList
+        stoppedList: newStoppedList,
       };
 
     case types.RUN_STOPPED_CONTAINER:
@@ -46,7 +46,7 @@ export default function (state = containerState, action: PayloadAction<any>) {
       return {
         ...state,
         runningList: runningListCopy,
-        stoppedList: newerStoppedContainer
+        stoppedList: newerStoppedContainer,
       };
 
     case types.REFRESH_RUNNING_CONTAINERS:

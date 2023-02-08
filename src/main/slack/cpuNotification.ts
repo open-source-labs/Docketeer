@@ -7,7 +7,7 @@ const cpuNotification = async function () {
     const payload = { text: 'The CPU threshold has been met or exceeded' };
     await axios.post(SLACK_WEBHOOK, {
       body: payload,
-      json: true
+      json: true,
     });
   } catch (err) {
     console.log('cpuNotification ERR: ', err);

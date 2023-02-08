@@ -24,14 +24,14 @@ module.exports = {
       os: false,
       url: false,
       buffer: false,
-      dns: false
-    }
+      dns: false,
+    },
   },
-  entry:  '/src/renderer/index.tsx',
+  entry: '/src/renderer/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'),
     // Taking our group of files and bundle them into Docketeer.js
-    filename: 'Docketeer.js'
+    filename: 'Docketeer.js',
   },
   target: ['electron-renderer', 'web'],
   devtool: 'inline-source-map',
@@ -44,28 +44,28 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
       {
         test: /\.(tsx|ts)$/,
         exclude: /node_modules/,
-        loader: 'ts-loader'
+        loader: 'ts-loader',
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      }
-    ]
+      },
+    ],
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, '/src/renderer')
+      directory: path.join(__dirname, '/src/renderer'),
     },
     historyApiFallback: true,
     compress: true,
@@ -73,14 +73,14 @@ module.exports = {
     port: 4000,
     proxy: {
       '/': {
-        target: 'http://localhost:3000/'
-      }
-    }
+        target: 'http://localhost:3000/',
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/renderer/index.html'
+      template: './src/renderer/index.html',
     }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
-  ]
+  ],
 };

@@ -5,31 +5,22 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: [
-    'react',
-    '@typescript-eslint'
-  ],
+  plugins: ['react', '@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
-  ignorePatterns: [
-    '.eslintrc.js',
-    '*.config.js',
-    'dist/*',
-    '__tests__/*'
-  ],
-  overrides: [
-  ],
+  ignorePatterns: ['.eslintrc.js', '*.config.js', 'dist/*', '__tests__/*'],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   rules: {
     indent: ['warn', 2],
@@ -65,7 +56,7 @@ module.exports = {
 
     // ---- TYPESCRIPT ---- //
     '@typescript-eslint/explicit-function-return-type': 'off',
-    "@typescript-eslint/no-unused-vars": "error",
-    '@typescript-eslint/semi': ['warn', 'always']
-  }
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/semi': ['warn', 'always'],
+  },
 };

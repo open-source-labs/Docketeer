@@ -2,10 +2,10 @@
  * @module Bcrypt Controller
  * @description Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
  */
-import db from "../models/cloudModel";
-import bcrypt from "bcryptjs";
-import { Request, Response, NextFunction } from "express";
-import { BcryptController } from "../../types";
+import db from '../models/cloudModel';
+import bcrypt from 'bcryptjs';
+import { Request, Response, NextFunction } from 'express';
+import { BcryptController } from '../../types';
 
 const bcryptController: BcryptController = {
   // Hash user password with bCrypt
@@ -23,7 +23,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
           },
         });
       });
@@ -32,7 +32,7 @@ const bcryptController: BcryptController = {
   // Hash new user password with bCrypt - User updated password
   hashNewPassword : async (req: Request, res: Response, next: NextFunction) => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (Object.prototype.hasOwnProperty.call(res.locals, "error")) {
+    if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       return next();
     }
     // else bCrypt the new password and move to next middleware
@@ -49,7 +49,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.',
           },
         });
       });
@@ -68,9 +68,9 @@ const bcryptController: BcryptController = {
         .then((hash) => {
           res.locals.user.token = hash;
           db.query(
-            "ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)"
+            'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
           );
-          db.query("UPDATE users SET token=$1 WHERE username=$2", [
+          db.query('UPDATE users SET token=$1 WHERE username=$2', [
             res.locals.user.token,
             username,
           ]);
@@ -80,10 +80,10 @@ const bcryptController: BcryptController = {
           return next({
             log: `Error in bcryptController hashCookeis: ${err}`,
             message: {
-              err: "An error occured creating hash with bcrypt. See bcryptController.hashCookies.",
+              err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
             },
           });
-        })
+        });
     } else {
       return next();
     }

@@ -30,7 +30,7 @@ import { ContainerObj, StoppedContainerObj, ImageObj, UserObj, VolumeObj, Networ
 
 // Container component that has all redux logic along with react router
 const SysAdmin = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const refreshHostData = (data: ContainerObj[]) =>
     dispatch(actions.refreshHostData(data));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -12,12 +12,10 @@ import '../components/css/running.css';
 import '../components/css/static.css';
 import App from './App';
 
-
-
 const rootNode = document.getElementById('root')!;
-const root = createRoot(rootNode)
+const root = createRoot(rootNode);
 root.render(
-  <Provider store={store} >
+  <Provider store={store}>
     {/* <React.StrictMode> */}
     <BrowserRouter>
       <Routes>
@@ -25,6 +23,5 @@ root.render(
       </Routes>
     </BrowserRouter>
     {/* </React.StrictMode> */}
-  </Provider>
+  </Provider>,
 );
-

@@ -7,7 +7,7 @@ const memoryNotification = async function () {
     const payload = { text: 'The Memory threshold has been met or exceeded' };
     await axios.post(SLACK_WEBHOOK, {
       body: payload,
-      json: true
+      json: true,
     });
   } catch (err) {
     console.log('memoryNotification ERR: ', err);
@@ -15,4 +15,3 @@ const memoryNotification = async function () {
 };
 
 export default memoryNotification;
-  

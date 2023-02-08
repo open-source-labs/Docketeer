@@ -12,16 +12,13 @@ const Containers = (props: ContainerProps) => {
   const renderStoppedList = props.stoppedList.map(
     (container: ContainerType, i: number) => {
       return (
-        <div
-          className="box"
-          key={`stoppedBox-${i}`}
-        >
-          <div className="box-label">
+        <div className='box' key={`stoppedBox-${i}`}>
+          <div className='box-label'>
             <h3>{container.Names}</h3>
             <p>ID: {container.ID}</p>
           </div>
 
-          <div className="stopped-info">
+          <div className='stopped-info'>
             <ul>
               <li>
                 <strong>Img: </strong> {container.Image}
@@ -38,16 +35,16 @@ const Containers = (props: ContainerProps) => {
           </div>
         </div>
       );
-    }
+    },
   );
 
   const renderRunningList = props.runningList.map(
     (container: ContainerType, i: number) => {
       const cpuData = parseFloat(
-        container.CPUPerc.substring(0, container.CPUPerc.length - 1)
+        container.CPUPerc.substring(0, container.CPUPerc.length - 1),
       ).toFixed(2);
       const memoryData = parseFloat(
-        container.MemPerc.substring(0, container.MemPerc.length - 1)
+        container.MemPerc.substring(0, container.MemPerc.length - 1),
       ).toFixed(2);
       const stack = 'stack';
       const chartInfo: ChartInfoType = {
@@ -81,34 +78,31 @@ const Containers = (props: ContainerProps) => {
       };
 
       return (
-        <div
-          className="box box-running"
-          key={`runningBox-${i}`}
-        >
-          <div className="box-label">
+        <div className='box box-running' key={`runningBox-${i}`}>
+          <div className='box-label'>
             <h3>{container.Name}</h3>
             <p>Img: {container.Image}</p>
             <p>ID: {container.ID}</p>
           </div>
-          <div className="box-info">
-            <div className="chart">
-              <div className="chart-label">
-                <div className="chart-label-container">
-                  <div className="cpuBox"></div>
+          <div className='box-info'>
+            <div className='chart'>
+              <div className='chart-label'>
+                <div className='chart-label-container'>
+                  <div className='cpuBox'></div>
                   <div>
-                    <span className="chart-label-text">{cpuData}%</span>
+                    <span className='chart-label-text'>{cpuData}%</span>
                   </div>
                 </div>
-                <div className="chart-label-container">
-                  <div className="memoryBox"></div>
+                <div className='chart-label-container'>
+                  <div className='memoryBox'></div>
                   <div>
-                    <span className="chart-label-text">{memoryData}%</span>
+                    <span className='chart-label-text'>{memoryData}%</span>
                   </div>
                 </div>
               </div>
-              <div className="chart-info">
+              <div className='chart-info'>
                 <Chart
-                  type="bar"
+                  type='bar'
                   data={chartInfo}
                   options={{
                     responsive: true,
@@ -128,23 +122,23 @@ const Containers = (props: ContainerProps) => {
           </div>
         </div>
       );
-    }
+    },
   );
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>
           Running Containers: {props.runningList.length}
         </h1>
       </div>
-        <div className="containers">{renderRunningList}</div>
-      <div className="header">
-        <h1 className="tabTitle">
+      <div className='containers'>{renderRunningList}</div>
+      <div className='header'>
+        <h1 className='tabTitle'>
           Exited Containers: {props.stoppedList.length}
         </h1>
       </div>
-      <div className="stopped-containers">{renderStoppedList}</div>
+      <div className='stopped-containers'>{renderStoppedList}</div>
     </div>
   );
 };

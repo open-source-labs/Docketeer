@@ -1,12 +1,12 @@
 # Postgres 15 was the latest functioning version as of 10/26/22
 
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     image: postgres:15
     container_name: docketeer-db
     ports:
-      - "5433:5432"
+      - '5433:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

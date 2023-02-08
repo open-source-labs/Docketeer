@@ -1,14 +1,13 @@
 import fetch from 'node-fetch';
 // TODO: the communication files seem to be unused, could improve functionality
 
-
 const emailEvent = (args: string[]) => {
   fetch('http://localhost:3000/api', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(args)
+    body: JSON.stringify(args),
   })
     .then((response) => {
       return response.json();
@@ -20,4 +19,3 @@ const emailEvent = (args: string[]) => {
       console.log(err);
     });
 };
-

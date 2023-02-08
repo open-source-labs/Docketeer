@@ -9,7 +9,7 @@ export default () => {
     .then((response) => {
       if (response.error !== null) {
         console.log(
-          `Make sure Docker Desktop is running. \n\n ${response.error}`
+          `Make sure Docker Desktop is running. \n\n ${response.error}`,
         );
         return;
       }

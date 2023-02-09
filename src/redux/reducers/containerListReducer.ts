@@ -1,7 +1,15 @@
 /* eslint-disable no-case-declarations */
 import { PayloadAction } from '@reduxjs/toolkit';
 import * as types from '../constants/actionTypes';
-import { containerState } from '../../../types';
+import { containerStateType } from '../../../types';
+
+const containerState: containerStateType = {
+  runningList: [],
+  stoppedList: [],
+  networkList: [],
+  composeStack: [],
+  hostStats: {},
+};
 
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {

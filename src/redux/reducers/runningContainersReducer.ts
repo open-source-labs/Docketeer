@@ -1,6 +1,14 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { containerState } from '../../../types';
+import { containerStateType } from '../../../types';
+
+const containerState: containerStateType = {
+  runningList: [],
+  stoppedList: [],
+  networkList: [],
+  composeStack: [],
+  hostStats: {},
+};
 
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {

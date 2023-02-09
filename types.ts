@@ -326,7 +326,7 @@ export interface UserInfo {
   token: string;
 }
 
-export interface stateType {
+export interface containerStateType {
   runningList: RunningListType[];
   stoppedList: StoppedListType[];
   networkList: any[];
@@ -334,63 +334,23 @@ export interface stateType {
   hostStats: { [k: string]: number };
 }
 
-export const containerState: stateType = {
-  runningList: [],
-  stoppedList: [],
-  networkList: [],
-  composeStack: [],
-  hostStats: {},
-};
+export interface graphDataType {
+  label: string;
+  data: any[];
+  fill: string;
+}
+// need to update this with proper var types
+export interface graphStateType {
+  graphAxis: any[];
+  graphMemory: graphDataType[];
+  graphCpu: graphDataType[];
+  graphWrittenIO: graphDataType[];
+  graphReadIO: graphDataType[];
+  graphReceivedIO: graphDataType[];
+  graphTransmittedIO: graphDataType[];
+}
 
-export const graphState = {
-  graphAxis: [],
-  graphMemory: [
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-  graphCpu: [
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-  graphWrittenIO: [
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-  graphReadIO: [
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-  graphReceivedIO: [
-    // received IO
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-  graphTransmittedIO: [
-    // transmitted IO
-    {
-      label: '',
-      data: [],
-      fill: '',
-    },
-  ],
-};
-
-interface imagesState {
+export interface imagesState {
   imagesList: any[];
 }
 

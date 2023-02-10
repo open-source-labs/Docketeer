@@ -1,6 +1,10 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { imageState } from '../../../types';
+import { imagesStateType } from '../../../types';
+
+const imageState: imagesStateType = {
+  imagesList: [],
+};
 
 export default function (state = imageState, action: PayloadAction<any>) {
   switch (action.type) {

@@ -1,6 +1,13 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { notificationState } from '../../../types';
+import { notificationStateType } from '../../../types';
+
+const notificationState: notificationStateType = {
+  phoneNumber: '',
+  memoryNotificationList: new Set(),
+  cpuNotificationList: new Set(),
+  stoppedNotificationList: new Set(),
+};
 
 export default function (
   state = notificationState,

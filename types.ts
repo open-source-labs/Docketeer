@@ -350,74 +350,64 @@ export interface graphStateType {
   graphTransmittedIO: graphDataType[];
 }
 
-export interface imagesState {
+// need to get type of imagesList later
+export interface imagesStateType {
   imagesList: any[];
 }
 
-export const imageState: imagesState = {
-  imagesList: [],
-};
+// need to get type of the sets later by seeing what data is in the notification lists
+export interface notificationStateType {
+  phoneNumber: string;
+  memoryNotificationList: Set<any>;
+  cpuNotificationList: Set<any>;
+  stoppedNotificationList: Set<any>;
+}
 
-export const notificationState = {
-  phoneNumber: '',
-  memoryNotificationList: new Set(),
-  cpuNotificationList: new Set(),
-  stoppedNotificationList: new Set(),
-};
+export interface containerLogsType {
+  stdoutLogs: any[];
+  stderrLogs: any[];
+}
+export interface logsStateType {
+  containerLogs: containerLogsType;
+}
 
-export const logsState = {
-  containerLogs: {
-    stdoutLogs: [],
-    stderrLogs: [],
-  },
-};
-
-export const sessionState = {
-  _id: '',
-  username: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
-  container_stops: '',
-  token: '',
-  isLoggedIn: false,
-  userList: [],
-};
-
-interface userType {
+export interface sessionStateType {
+  _id: string;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: string;
+  contact_pref: string;
+  mem_threshold: string;
+  cpu_threshold: string;
+  container_stops: string;
+  token: string;
+  isLoggedIn: boolean;
   userList: any[];
 }
 
-export const userState: userType = {
-  userList: [],
-};
+export interface userStateType {
+  userList: any[];
+}
 
-export const userReducerState = {
-  name: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
-  container_stops: false,
-  isSysAdmin: false,
-};
+export interface userReducerStateType {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: string;
+  contact_pref: string;
+  mem_threshold: string;
+  cpu_threshold: string;
+  container_stops: boolean;
+  isSysAdmin: boolean;
+}
 
-interface volumeType {
+export interface volumeStateType {
   arrayOfVolumeNames: any[];
   volumeContainersList: any[];
 }
-
-export const volumeState: volumeType = {
-  arrayOfVolumeNames: [],
-  volumeContainersList: [],
-};
 
 export interface auxObjType {
   container?: ContainerInterface;

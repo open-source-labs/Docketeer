@@ -22,21 +22,14 @@ const LineChartDisplay = () => {
   const [timePeriod, setTimePeriod] = useState('4');
   const [expanded, setExpanded] = useState({});
 
+  // Using destrcuting to assign graphs and containersList variables to useSelector hook.  
   const { graphs, containersList } = useSelector((state) => state);
 
+  // Desctructing list variables from containerList
   const { runningList, stoppedList } = containersList;
 
+  // Destcructing list variables from graphs
   const { graphMemory, graphCpu, graphWrittenIO, graphReadIO, graphReceivedIO, graphTransmittedIO, graphAxis } = graphs;
-
-  // const memory = useSelector((state) => state.graphs.graphMemory);
-  // const cpu = useSelector((state) => state.graphs.graphCpu);
-  // const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
-  // const readIO = useSelector((state) => state.graphs.graphReadIO);
-  // const receivedIO = useSelector((state) => state.graphs.graphReceivedIO);
-  // const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO);
-  // const axis = useSelector((state) => state.graphs.graphAxis);
-  // const runningList = useSelector((state) => state.containersList.runningList);
-  // const stoppedList = useSelector((state) => state.containersList.stoppedList);
 
   const dispatch = useDispatch();
   const buildAxis = (data) => dispatch(actions.buildAxis(data));

@@ -14,20 +14,22 @@ import { ReadableStreamBYOBRequest } from 'stream/web';
  * Displays linegraph and github metrics
  *
  */
+
+
 const LineChartDisplay = () => {
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
   const [expanded, setExpanded] = useState({});
-  const memory = useSelector((state) => state.graphs.graphMemory);
-  const cpu = useSelector((state) => state.graphs.graphCpu);
-  const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
-  const readIO = useSelector((state) => state.graphs.graphReadIO);
-  const receivedIO = useSelector((state) => state.graphs.graphReceivedIO);
-  const transmittedIO = useSelector((state) => state.graphs.graphTransmittedIO);
-  const axis = useSelector((state) => state.graphs.graphAxis);
-  const runningList = useSelector((state) => state.containersList.runningList);
-  const stoppedList = useSelector((state) => state.containersList.stoppedList);
+
+  // Using destrcuting to assign graphs and containersList variables to useSelector hook.  
+  const { graphs, containersList } = useSelector((state) => state);
+
+  // Desctructing list variables from containerList
+  const { runningList, stoppedList } = containersList;
+
+  // Destcructing list variables from graphs
+  const { graphMemory, graphCpu, graphWrittenIO, graphReadIO, graphReceivedIO, graphTransmittedIO, graphAxis } = graphs;
 
   const dispatch = useDispatch();
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
@@ -57,33 +59,33 @@ const LineChartDisplay = () => {
 
   // Auxilary Object which will be passed into Line component
   const memoryObj = {
-    labels: axis,
-    datasets: memory,
+    labels: graphAxis,
+    datasets: graphMemory,
   };
   const cpuObj = {
-    labels: axis,
-    datasets: cpu,
+    labels: graphAxis,
+    datasets: graphCpu,
   };
   const writtenIOObj = {
-    labels: axis,
-    datasets: writtenIO,
+    labels: graphAxis,
+    datasets: graphWrittenIO,
   };
   const readIOObj = {
-    labels: axis,
-    datasets: readIO,
+    labels: graphAxis,
+    datasets: graphReadIO,
   };
   const receivedIOObj = {
-    labels: axis,
-    datasets: receivedIO,
+    labels: graphAxis,
+    datasets: graphReceivedIO,
   };
   const transmittedIOObj = {
-    labels: axis,
-    datasets: transmittedIO,
+    labels: graphAxis,
+    datasets: graphTransmittedIO,
   };
   // Not yet implemented but expecting to use for
   // countainer count metrics over many hosts
   const activeContainersCountObj = {
-    labels: axis,
+    labels: graphAxis,
     datasets: activeContainersCountArr,
   };
   const activeContainersCountArr = [];

@@ -69,23 +69,39 @@ const Home = () => {
   const getVolumeContainersList = (data: VolumeObj) =>
     dispatch(actions.getVolumeContainersList(data));
 
-  // Getting each reducer's slice of state
-  const { containersList, images, session, volumeList, notificationList } =
-    useSelector((state: StateType) => state);
-  // Deconstructing particular state variables that we are utilizing from each slice of state
-  const { runningList, stoppedList } = containersList;
-  const { imagesList } = images;
-  const { arrayOfVolumeNames, volumeContainersList } = volumeList;
-  const { mem_threshold, cpu_threshold, username, token } = session;
-  const {
-    phoneNumber,
-    memoryNotificationList,
-    cpuNotificationList,
-    stoppedNotificationList,
-  } = notificationList;
+  // map state to props
+  const runningList = useSelector(
+    (state: StateType) => state.containersList.runningList
+  );
+  const stoppedList = useSelector(
+    (state: StateType) => state.containersList.stoppedList
+  );
+  const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const { mem_threshold, cpu_threshold } = useSelector(
+    (state: StateType) => state.session
+  );
+  // const networkList = useSelector((state: StateType) => state.networkList.networkList);
+  const userInfo = useSelector((state: StateType) => state.session); //* Feature only for SysAdmin
+  const arrayOfVolumeNames = useSelector(
+    (state: StateType) => state.volumeList.arrayOfVolumeNames
+  );
+  const volumeContainersList = useSelector(
+    (state: StateType) => state.volumeList.volumeContainersList
+  );
 
   // map state to props
-  // const networkList = useSelector((state: StateType) => state.networkList.networkList);
+  const phoneNumber = useSelector(
+    (state: StateType) => state.notificationList.phoneNumber
+  );
+  const memoryNotificationList = useSelector(
+    (state: StateType) => state.notificationList.memoryNotificationList
+  );
+  const cpuNotificationList = useSelector(
+    (state: StateType) => state.notificationList.cpuNotificationList
+  );
+  const stoppedNotificationList = useSelector(
+    (state: StateType) => state.notificationList.stoppedNotificationList
+  );
 
   // Local state for routers
   const [selected, setSelected] = useState('/');
@@ -99,7 +115,7 @@ const Home = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username,
+        username: userInfo.username,
       }),
     })
       .then((data) => data.json())
@@ -129,7 +145,7 @@ const Home = () => {
     history.volumeByName(
       helper.getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainersList,
+      getVolumeContainersList
     );
   }, [arrayOfVolumeNames]);
 
@@ -153,8 +169,8 @@ const Home = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        token,
-        username,
+        token: userInfo.token,
+        username: userInfo.username,
       }),
     })
       .then((response) => {

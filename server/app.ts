@@ -20,13 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Handling requests to `/test` endpoint...
-app.use('/test', (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-  });
-});
-
 // Defining routers...
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
@@ -56,7 +49,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  }
+  },
 );
 
 // Exporting app...

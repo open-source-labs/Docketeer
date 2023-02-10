@@ -1,6 +1,11 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { volumeState } from '../../../types';
+import { volumeStateType } from '../../../types';
+
+const volumeState: volumeStateType = {
+  arrayOfVolumeNames: [],
+  volumeContainersList: [],
+};
 
 /**
  * @description Reducer for the list of containers running in each volume

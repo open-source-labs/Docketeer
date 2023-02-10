@@ -1,5 +1,18 @@
 import * as types from '../constants/actionTypes';
-import { userReducerState } from '../../../types';
+import { userReducerStateType } from '../../../types';
+
+const userReducerState: userReducerStateType = {
+  name: '',
+  email: '',
+  phone: '',
+  role: '',
+  role_id: '',
+  contact_pref: '',
+  mem_threshold: '',
+  cpu_threshold: '',
+  container_stops: false,
+  isSysAdmin: false,
+};
 
 export default function (state = userReducerState, action: any) {
   switch (action.type) {

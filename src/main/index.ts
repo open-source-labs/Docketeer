@@ -40,7 +40,7 @@ function createMainWindow() {
         pathname: path.join(__dirname, '/index'),
         protocol: 'file:',
         slashes: true,
-      }),
+      })
     );
   }
   mainWindow.on('closed', () => {
@@ -79,7 +79,7 @@ electron.app.on('activate', function () {
  ** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.
  */
 
-// //? comment out lines 30-38 if dev tools is slowing app
+// // comment out lines 30-38 if dev tools is slowing app
 //   app.whenReady().then(() => {
 //     const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 //     const extensionsPlural = extensions.length > 0 ? 's' : '';

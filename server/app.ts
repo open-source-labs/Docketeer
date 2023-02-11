@@ -34,7 +34,9 @@ app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response) => {
-  return res.status(200).json('Loaded homepage');
+  return res
+    .status(404)
+    .send({ error: 'Unknown endpoint — please try again.' });
 });
 
 // Handling global errors...
@@ -49,7 +51,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  },
+  }
 );
 
 // Exporting app...

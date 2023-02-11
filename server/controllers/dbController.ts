@@ -12,7 +12,7 @@ import { DbController, ServerError } from '../../types';
 const dbController: DbController = {
   createRoles: (req: Request, res: Response, next: NextFunction) => {
     db.query(
-      'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);',
+      'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
     )
       .then(() => {
         return next();
@@ -24,7 +24,7 @@ const dbController: DbController = {
 
   insertRoles: (req: Request, res: Response, next: NextFunction) => {
     db.query(
-      "INSERT INTO roles (role) VALUES ('system admin'); INSERT INTO roles (role) VALUES ('admin'); INSERT INTO roles (role) VALUES ('user');",
+      "INSERT INTO roles (role) VALUES ('system admin'); INSERT INTO roles (role) VALUES ('admin'); INSERT INTO roles (role) VALUES ('user');"
     )
       .then(() => {
         return next();
@@ -36,7 +36,7 @@ const dbController: DbController = {
 
   createTable: (req: Request, res: Response, next: NextFunction) => {
     db.query(
-      "CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT 'user', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);",
+      "CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT 'user', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);"
     )
       .then(() => {
         return next();
@@ -61,7 +61,7 @@ const dbController: DbController = {
 
     db.query(
       "INSERT INTO users (username, email, password, phone, role, role_id) VALUES ('sysadmin', $1, $2, $3, 'system admin', '1') ON CONFLICT DO NOTHING;",
-      parameters,
+      parameters
     )
       .then(() => {
         return next();

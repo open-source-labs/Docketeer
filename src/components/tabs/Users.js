@@ -1,41 +1,40 @@
-import React, { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import NewUserDisplay from '../display/NewUserDisplay';
-import * as actions from '../../redux/actions/actions';
+import React, { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { Box, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import NewUserDisplay from "../display/NewUserDisplay";
+import useSurvey from "../helper/dispatch";
 
 const UserTable = () => {
   const userList = useSelector((state) => state.userList.userList);
-  const dispatch = useDispatch();
-  const updateUserRole = (data) => dispatch(actions.updateUserRole(data));
+  const { updateUserRole } = useSurvey();
   const [pageSize, setPageSize] = useState(5);
 
   // Create columns for table
   const columns = useMemo(() => [
-    { field: '_id', headerName: 'ID', width: '60' },
+    { field: "_id", headerName: "ID", width: "60" },
 
-    { field: 'username', headerName: 'User', width: '150' },
+    { field: "username", headerName: "User", width: "150" },
 
     {
-      field: 'role',
-      headerName: 'Role',
-      width: '150',
-      type: 'singleSelect',
-      valueOptions: ['user', 'admin', 'system admin'],
+      field: "role",
+      headerName: "Role",
+      width: "150",
+      type: "singleSelect",
+      valueOptions: ["user", "admin", "system admin"],
       editable: true,
       preProcessEditCellProps: (params) => handleRoleChange(params),
     },
 
-    { field: 'email', headerName: 'Email', width: '200' },
+    { field: "email", headerName: "Email", width: "200" },
 
-    { field: 'phone', headerName: 'Phone', width: '150' },
+    { field: "phone", headerName: "Phone", width: "150" },
 
-    { field: 'contact_pref', headerName: 'Contact Pref.', width: '100' },
+    { field: "contact_pref", headerName: "Contact Pref.", width: "100" },
 
-    { field: 'mem_threshold', headerName: 'Memory', width: '100' },
+    { field: "mem_threshold", headerName: "Memory", width: "100" },
 
-    { field: 'cpu_threshold', headerName: 'CPU', width: '100' },
+    { field: "cpu_threshold", headerName: "CPU", width: "100" },
   ]);
 
   const handleRoleChange = (event) => {
@@ -44,10 +43,10 @@ const UserTable = () => {
 
     return new Promise((resolve) => {
       // preProcessEditCellProps requires you to use a Promise/Resolve
-      fetch('http://localhost:3000/admin/switch', {
-        method: 'POST',
+      fetch("http://localhost:3000/admin/switch", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           _id: id,
@@ -59,9 +58,9 @@ const UserTable = () => {
           // Sets hasError to true/false based on API call. This will be true if the user tries to remove the last sysadmin
           const hasError = data;
           if (data) {
-            console.log('no change');
+            console.log("no change");
             window.alert(
-              "Uh-oh! You're the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin.",
+              "Uh-oh! You're the LAST sysadmin! Before reassigning yourself you need to assign a new sysadmin."
             );
           } else {
             const payload = {
@@ -77,41 +76,41 @@ const UserTable = () => {
           });
         })
         .catch((err) => {
-          console.log('Error in front end switching roles: ', err);
+          console.log("Error in front end switching roles: ", err);
         });
     });
   };
 
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Users</h1>
+    <div className="renderContainers">
+      <div className="header">
+        <h1 className="tabTitle">Users</h1>
       </div>
       <Box
-        className='users-container'
+        className="users-container"
         sx={{
           height: 450,
-          background: 'white',
+          background: "white",
           p: 2,
         }}
       >
-        <Typography variant='h6' sx={{ mt: 0, mb: 0, fontFamily: 'Lexend' }}>
+        <Typography variant="h6" sx={{ mt: 0, mb: 0, fontFamily: "Lexend" }}>
           Manage Users
         </Typography>
         <Typography
           sx={{
             mt: 0,
             mb: 1,
-            color: 'gray',
-            fontFamily: 'Lexend',
-            fontStyle: 'italic',
-            fontWeight: 'lighter',
+            color: "gray",
+            fontFamily: "Lexend",
+            fontStyle: "italic",
+            fontWeight: "lighter",
           }}
         >
           * Double click on the role to access the drop down menu
         </Typography>
         <DataGrid
-          className='user-table'
+          className="user-table"
           sx={{}}
           columns={columns}
           rows={userList}

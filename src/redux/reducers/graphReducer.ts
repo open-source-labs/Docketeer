@@ -1,6 +1,54 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { graphState } from '../../../types';
+import { graphStateType } from '../../../types';
+
+const graphState: graphStateType = {
+  graphAxis: [],
+  graphMemory: [
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+  graphCpu: [
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+  graphWrittenIO: [
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+  graphReadIO: [
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+  graphReceivedIO: [
+    // received IO
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+  graphTransmittedIO: [
+    // transmitted IO
+    {
+      label: '',
+      data: [],
+      fill: '',
+    },
+  ],
+};
 
 const graphReducer = (state = graphState, action: PayloadAction<any>) => {
   switch (action.type) {

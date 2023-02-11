@@ -1,6 +1,10 @@
 import * as types from '../constants/actionTypes';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { userState } from '../../../types';
+import { userStateType } from '../../../types';
+
+export const userState: userStateType = {
+  userList: [],
+};
 
 export default function (state = userState, action: PayloadAction<any>) {
   switch (action.type) {

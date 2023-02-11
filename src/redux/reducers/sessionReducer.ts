@@ -1,5 +1,21 @@
 import * as types from '../constants/actionTypes';
-import { sessionState } from '../../../types';
+import { sessionStateType } from '../../../types';
+
+const sessionState: sessionStateType = {
+  _id: '',
+  username: '',
+  email: '',
+  phone: '',
+  role: '',
+  role_id: '',
+  contact_pref: '',
+  mem_threshold: '',
+  cpu_threshold: '',
+  container_stops: '',
+  token: '',
+  isLoggedIn: false,
+  userList: [],
+};
 
 export default function (state = sessionState, action: any) {
   switch (action.type) {

@@ -17,7 +17,7 @@ const ProcessLogsCard = (props: LogsCardProps) => {
   return (
     <button
       className="btn-process"
-      onClick={() => navigate(`/app/logTable/${props.container.ID}`)}
+      onClick={() => navigate(`/home/logTable/${props.container.ID}`)}
     >
       <div className="box" key={`${props.status}Box-${props.index}`}>
         <div className="box-label">

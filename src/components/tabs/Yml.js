@@ -16,7 +16,7 @@ import useSurvey from "../helper/dispatch";
  **/
 
 const Yml = () => {
-  const composeStack = useSelector((state) => state.networkList.composeStack);
+  const { composeStack } = useSelector((state) => state.networkList);
 
   const [filePath, setFilePath] = useState("");
   const [ymlFile, setYmlFile] = useState("");

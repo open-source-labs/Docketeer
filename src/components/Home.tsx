@@ -1,118 +1,70 @@
-// module imports
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+// Module imports
+import React, { useEffect, useState } from "react";
+import { useSelector /* , useDispatch  */ } from "react-redux";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import useSurvey from "./helper/dispatch";
 
-// static imports
-import * as actions from '../redux/actions/actions';
-import * as helper from './helper/commands';
-import * as history from './helper/volumeHistoryHelper';
+// Static imports
+import * as helper from "./helper/commands";
+import * as history from "./helper/volumeHistoryHelper";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from '../../assets/docketeer-title.png';
+import Docketeer from "../../assets/docketeer-title.png";
 
-// tab component imports
-import Metrics from './tabs/Metrics';
-import Images from './tabs/Images';
-import Yml from './tabs/Yml';
-import Containers from './tabs/Containers';
-import Settings from './tabs/Settings';
-import UserList from './tabs/Users'; //* Feature only for SysAdmin
-import VolumeHistory from './tabs/VolumeHistory';
-import ProcessLogs from './tabs/ProcessLogs';
-import ProcessLogsTable from './display/ProcessLogsTable';
+// Tab component imports
+import Metrics from "./tabs/Metrics";
+import Images from "./tabs/Images";
+import Yml from "./tabs/Yml";
+import Containers from "./tabs/Containers";
+import Settings from "./tabs/Settings";
+import UserList from "./tabs/Users"; //* Feature only for SysAdmin
+import VolumeHistory from "./tabs/VolumeHistory";
+import ProcessLogs from "./tabs/ProcessLogs";
+import ProcessLogsTable from "./display/ProcessLogsTable";
 
-// helper function imports
-import startNotificationRequester from './helper/notificationsRequester';
-import initDatabase from './helper/initDatabase';
+// Helper function imports
+import startNotificationRequester from "./helper/notificationsRequester";
+import initDatabase from "./helper/initDatabase";
 
 // Types and Interface
-import {
-  ContainerObj,
-  StoppedContainerObj,
-  ImageObj,
-  UserObj,
-  VolumeObj,
-  NetworkObj,
-  StateType,
-} from '../../types';
+import { StateType } from "../../types";
 
 // Container component that has all redux logic along with react router
 const Home = () => {
+  // Initialize `navigate` & `dispatch` for use within Home component
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const refreshHostData = (data: ContainerObj[]) =>
-    dispatch(actions.refreshHostData(data));
-  // const addRunningContainers = (data: ContainerObj[]) =>
-  //   dispatch(actions.addRunningContainers(data));
-  const refreshRunningContainers = (data: ContainerObj[]) =>
-    dispatch(actions.refreshRunningContainers(data));
-  const refreshStoppedContainers = (data: StoppedContainerObj[]) =>
-    dispatch(actions.refreshStoppedContainers(data));
-  const refreshImagesList = (data: ImageObj[]) =>
-    dispatch(actions.refreshImages(data));
-  // const composeymlFiles = (data) => dispatch(actions.composeymlFiles(data));
-  const getNetworkContainers = (data: NetworkObj[]) =>
-    dispatch(actions.getNetworkContainers(data));
-  const removeContainer = (id: string) => dispatch(actions.removeContainer(id));
-  const runStoppedContainer = (id: string) =>
-    dispatch(actions.runStoppedContainer(id));
-  // const stopRunningContainer = (id: string) =>
-  //   dispatch(actions.stopRunningContainer(id));
-  const updateSession = () => dispatch(actions.updateSession());
-  const logoutUser = () => dispatch(actions.logoutUser());
-  const updateUserList = (data: UserObj[]) =>
-    dispatch(actions.updateUserList(data)); //* Feature only for SysAdmin
-  const getVolumeList = (data: { Name: string }[]) =>
-    dispatch(actions.getVolumeList(data));
-  const getVolumeContainersList = (data: VolumeObj) =>
-    dispatch(actions.getVolumeContainersList(data));
 
-  // map state to props
-  const runningList = useSelector(
-    (state: StateType) => state.containersList.runningList
-  );
-  const stoppedList = useSelector(
-    (state: StateType) => state.containersList.stoppedList
-  );
-  const imagesList = useSelector((state: StateType) => state.images.imagesList);
-  const { mem_threshold, cpu_threshold } = useSelector(
-    (state: StateType) => state.session
-  );
-  // const networkList = useSelector((state: StateType) => state.networkList.networkList);
-  const userInfo = useSelector((state: StateType) => state.session); //* Feature only for SysAdmin
-  const arrayOfVolumeNames = useSelector(
-    (state: StateType) => state.volumeList.arrayOfVolumeNames
-  );
-  const volumeContainersList = useSelector(
-    (state: StateType) => state.volumeList.volumeContainersList
-  );
+  // State access
+  const { session, volumeList } = useSelector((state: StateType) => state);
+  const userInfo = session;
+  const { arrayOfVolumeNames } = volumeList;
 
-  // map state to props
-  const phoneNumber = useSelector(
-    (state: StateType) => state.notificationList.phoneNumber
-  );
-  const memoryNotificationList = useSelector(
-    (state: StateType) => state.notificationList.memoryNotificationList
-  );
-  const cpuNotificationList = useSelector(
-    (state: StateType) => state.notificationList.cpuNotificationList
-  );
-  const stoppedNotificationList = useSelector(
-    (state: StateType) => state.notificationList.stoppedNotificationList
-  );
+  // Local state
+  const [selected, setSelected] = useState("/");
 
-  // Local state for routers
-  const [selected, setSelected] = useState('/');
+  // Deconstructs dispatch functions from useSurvey memo
+  const {
+    updateSession,
+    logoutUser,
+    refreshHostData,
+    refreshRunningContainers,
+    refreshStoppedContainers,
+    refreshImagesList,
+    updateUserList,
+    getVolumeContainersList,
+    getNetworkContainers,
+    getVolumeList,
+  } = useSurvey();
 
+  // Handles logout of client
   const handleLogout = () => {
     updateSession();
     logoutUser();
-    fetch('http://localhost:3000/logout', {
-      method: 'POST',
+    fetch("http://localhost:3000/logout", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: userInfo.username,
@@ -125,7 +77,7 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
-    navigate('/login');
+    navigate("/login");
   };
 
   // Initial refresh
@@ -141,6 +93,7 @@ const Home = () => {
     helper.getAllDockerVolumes(getVolumeList);
   }, []);
 
+  // Changes in arrayOfVolumeNames will run history.volumeByName
   useEffect(() => {
     history.volumeByName(
       helper.getVolumeContainers,
@@ -149,7 +102,7 @@ const Home = () => {
     );
   }, [arrayOfVolumeNames]);
 
-  // every 5 seconds invoke helper functions to refresh running, stopped and images, as well as notifications
+  // Invoke helper functions every 5 seconds to: refresh running/stopped containers/images & notifications
   useEffect(() => {
     const interval = setInterval(() => {
       helper.getHostStats(refreshHostData);
@@ -161,12 +114,12 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // * SysAdmin Unique useEffect
+  // Pertains to sysAdmin only
   useEffect(() => {
-    fetch('http://localhost:3000/admin', {
-      method: 'POST',
+    fetch("http://localhost:3000/admin", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         token: userInfo.token,
@@ -184,107 +137,107 @@ const Home = () => {
       });
   }, []);
 
+  // Define inline styling for navigation bar
   const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
+    background: "#e1e4e6",
+    color: "#042331",
+    borderTopRightRadius: "10px",
+    borderBottomRightRadius: "10px",
   };
 
   return (
-    <div className='container'>
-      {/* Navbar */}
-      <nav className='tab'>
-        <header id='title'>
+    <div className="container">
+      <nav className="tab">
+        <header id="title">
           <img src={Docketeer} width={220} />
         </header>
-        <div className='viewsAndButton'>
+        <div className="viewsAndButton">
           <ul>
             <li>
               <Link
-                to='/home/'
-                style={selected === '/home/' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/')}
+                to="/home/"
+                style={selected === "/home/" ? selectedStyling : undefined}
+                onClick={() => setSelected("/home/")}
               >
-                <i className='fas fa-settings'></i> Settings
+                <i className="fas fa-settings"></i> Settings
               </Link>
             </li>
             <li>
               <Link
-                to='/home/users'
-                style={selected === '/home/users' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/users')}
+                to="/home/users"
+                style={selected === "/home/users" ? selectedStyling : undefined}
+                onClick={() => setSelected("/home/users")}
               >
-                <i className='fas fa-users'></i> Users
+                <i className="fas fa-users"></i> Users
               </Link>
             </li>
             <li>
               <Link
-                to='/home/running'
+                to="/home/running"
                 style={
-                  selected === '/home/running' ? selectedStyling : undefined
+                  selected === "/home/running" ? selectedStyling : undefined
                 }
-                onClick={() => setSelected(() => '/home/running')}
+                onClick={() => setSelected(() => "/home/running")}
               >
-                <i className='fas fa-box-open'></i> Containers
+                <i className="fas fa-box-open"></i> Containers
               </Link>
             </li>
             <li>
               <Link
-                to='/home/images'
+                to="/home/images"
                 style={
-                  selected === '/home/images' ? selectedStyling : undefined
+                  selected === "/home/images" ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/home/images')}
+                onClick={() => setSelected("/home/images")}
               >
-                <i className='fas fa-database'></i> Images
+                <i className="fas fa-database"></i> Images
               </Link>
             </li>
             <li>
               <Link
-                to='/home/metrics'
+                to="/home/metrics"
                 style={
-                  selected === '/home/metrics' ? selectedStyling : undefined
+                  selected === "/home/metrics" ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/home/metrics')}
+                onClick={() => setSelected("/home/metrics")}
               >
-                <i className='fas fa-chart-pie'></i> Metrics
+                <i className="fas fa-chart-pie"></i> Metrics
               </Link>
             </li>
             <li>
               <Link
-                to='/home/yml'
-                style={selected === '/home/yml' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/yml')}
+                to="/home/yml"
+                style={selected === "/home/yml" ? selectedStyling : undefined}
+                onClick={() => setSelected("/home/yml")}
               >
-                <i className='fas fa-file-upload'></i> Docker Compose
+                <i className="fas fa-file-upload"></i> Docker Compose
               </Link>
             </li>
             <li>
               <Link
-                to='/home/volume'
+                to="/home/volume"
                 style={
-                  selected === '/home/volume' ? selectedStyling : undefined
+                  selected === "/home/volume" ? selectedStyling : undefined
                 }
-                onClick={() => setSelected('/home/volume')}
+                onClick={() => setSelected("/home/volume")}
               >
-                <i className='fas fa-volume-history'></i> Volume History
+                <i className="fas fa-volume-history"></i> Volume History
               </Link>
             </li>
             <li>
               <Link
-                to='/home/logs'
-                style={selected === '/home/logs' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/logs')}
+                to="/home/logs"
+                style={selected === "/home/logs" ? selectedStyling : undefined}
+                onClick={() => setSelected("/home/logs")}
               >
-                <i className='fas fa-log'></i> Process Logs
+                <i className="fas fa-log"></i> Process Logs
               </Link>
             </li>
           </ul>
           <div>
             <button
               style={{ borderRadius: 5, marginBottom: 10 }}
-              className='btn'
+              className="btn"
               onClick={(e) => helper.handlePruneClick(e)}
             >
               System Prune
@@ -292,7 +245,7 @@ const Home = () => {
             <span> </span>
             <button
               style={{ borderRadius: 5, marginBottom: 10 }}
-              className='btn'
+              className="btn"
               onClick={() => handleLogout()}
             >
               Logout
@@ -301,104 +254,15 @@ const Home = () => {
         </div>
       </nav>
       <Routes>
-        <Route
-          path='/volume'
-          element={
-            <VolumeHistory
-              arrayOfVolumeNames={arrayOfVolumeNames}
-              volumeContainersList={volumeContainersList}
-            />
-          }
-        />
-        <Route
-          path='/metrics'
-          element={
-            <Metrics
-              key={1}
-              runningList={runningList}
-              threshold={[cpu_threshold, mem_threshold]}
-            />
-          }
-        />
-        <Route path='/users' element={<UserList />} />
-        <Route
-          path='/logs'
-          element={
-            <ProcessLogs
-              key={1}
-              runIm={helper.runIm}
-              stop={helper.stop}
-              refreshStoppedContainers={refreshStoppedContainers}
-              runningList={runningList}
-              // addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          }
-        />
-        <Route path='/logTable/:containerId' element={<ProcessLogsTable />} />
-        <Route
-          path='/yml'
-          element={
-            <Yml
-            // networkList={networkList}
-            // composeymlFiles={composeymlFiles}
-            />
-          }
-        />
-        <Route
-          path='/images'
-          element={
-            <Images
-              runIm={helper.runIm}
-              removeIm={helper.removeIm}
-              refreshRunningContainers={refreshRunningContainers}
-              refreshImagesList={refreshImagesList}
-              imagesList={imagesList}
-              runningList={runningList}
-            />
-          }
-        />
-        <Route
-          path='/running'
-          element={
-            <Containers
-              runIm={helper.runIm}
-              stop={helper.stop}
-              refreshStoppedContainers={refreshStoppedContainers}
-              runningList={runningList}
-              // addRunningContainers={addRunningContainers}
-              // Stopped Containers
-              runStopped={helper.runStopped}
-              remove={helper.remove}
-              removeContainer={removeContainer}
-              runStoppedContainer={runStoppedContainer}
-              stoppedList={stoppedList}
-            />
-          }
-        />
-        <Route
-          path='/'
-          element={
-            <Settings
-              runningList={runningList}
-              stop={helper.stop}
-              refreshStoppedContainers={refreshStoppedContainers}
-              stoppedList={stoppedList}
-              runStopped={helper.runStopped}
-              refreshRunningContainers={refreshRunningContainers}
-              runStoppedContainer={runStoppedContainer}
-              phoneNumber={phoneNumber}
-              memoryNotificationList={memoryNotificationList}
-              cpuNotificationList={cpuNotificationList}
-              stoppedNotificationList={stoppedNotificationList}
-            />
-          }
-        />
+        <Route path="/volume" element={<VolumeHistory />} />
+        <Route path="/metrics" element={<Metrics key={1} />} />
+        <Route path="/users" element={<UserList />} />
+        <Route path="/logs" element={<ProcessLogs key={1} />} />
+        <Route path="/logTable/:containerId" element={<ProcessLogsTable />} />
+        <Route path="/yml" element={<Yml />} />
+        <Route path="/images" element={<Images />} />
+        <Route path="/running" element={<Containers />} />
+        <Route path="/" element={<Settings />} />
       </Routes>
     </div>
   );

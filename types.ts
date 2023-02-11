@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
@@ -35,25 +35,25 @@ export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   stop: (
     id: string,
-    refreshStoppedContainers: (data: StoppedContainerObj[]) => void,
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void,
+    callback_2: () => void
   ) => void;
   hostStats?: hostStats[];
 };
@@ -177,13 +177,13 @@ export interface ImagesProps {
   refreshImagesList: (data: imageObj[]) => void;
   runIm: (
     ele: imageObj,
-    refreshRunningContainers: (data: ContainerObj[]) => void,
+    refreshRunningContainers: (data: ContainerObj[]) => void
   ) => void;
   removeIm: (
     id: string,
     imagesList: imageObj[],
     callback_1: (callback: any) => void,
-    callback_2: (data: imageObj[]) => void,
+    callback_2: (data: imageObj[]) => void
   ) => void;
 }
 
@@ -268,7 +268,7 @@ interface session {
   contact_pref: string;
   mem_threshold: string;
   cpu_threshold: string;
-  container_stops: string;
+  container_stops: any;
   token: string;
   isLoggedIn: boolean;
   userList: any[];
@@ -346,46 +346,46 @@ export const graphState = {
   graphAxis: [],
   graphMemory: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphCpu: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphWrittenIO: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphReadIO: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphReceivedIO: [
     // received IO
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphTransmittedIO: [
     // transmitted IO
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
 };
@@ -399,7 +399,7 @@ export const imageState: imagesState = {
 };
 
 export const notificationState = {
-  phoneNumber: '',
+  phoneNumber: "",
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
@@ -413,17 +413,17 @@ export const logsState = {
 };
 
 export const sessionState = {
-  _id: '',
-  username: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
-  container_stops: '',
-  token: '',
+  _id: "",
+  username: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: "",
+  token: "",
   isLoggedIn: false,
   userList: [],
 };
@@ -437,14 +437,14 @@ export const userState: userType = {
 };
 
 export const userReducerState = {
-  name: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
   container_stops: false,
   isSysAdmin: false,
 };
@@ -555,7 +555,7 @@ export interface CommandController {
   inspectDockerContainer: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   composeUp: (req: Request, res: Response, next: NextFunction) => void;
   composeStacks: (req: Request, res: Response, next: NextFunction) => void;
@@ -563,12 +563,12 @@ export interface CommandController {
   getAllDockerVolumes: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   getVolumeContainers: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -581,7 +581,7 @@ export interface ConfigController {
   configureThresholds: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   updateContactPref: (req: Request, res: Response, next: NextFunction) => void;
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
@@ -597,7 +597,7 @@ export interface DbController {
   createAdminPassword: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -615,28 +615,28 @@ export interface SettingsController {
   addContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   deleteContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   notificationSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void;
   notificationFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   monitoringFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
 }

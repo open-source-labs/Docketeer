@@ -11,14 +11,17 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 import { ReadableStreamBYOBRequest } from 'stream/web';
 
 /**
- * Displays linegraph and github metrics
- *
+ * Displays line-graph & GitHub metrics
  */
+
 const LineChartDisplay = () => {
+  const dispatch = useDispatch();
+
   const [activeContainers, setActiveContainers] = useState({});
   const [gitUrls, setGitUrls] = useState([]);
   const [timePeriod, setTimePeriod] = useState('4');
   const [expanded, setExpanded] = useState({});
+
   const memory = useSelector((state) => state.graphs.graphMemory);
   const cpu = useSelector((state) => state.graphs.graphCpu);
   const writtenIO = useSelector((state) => state.graphs.graphWrittenIO);
@@ -29,7 +32,6 @@ const LineChartDisplay = () => {
   const runningList = useSelector((state) => state.containersList.runningList);
   const stoppedList = useSelector((state) => state.containersList.stoppedList);
 
-  const dispatch = useDispatch();
   const buildAxis = (data) => dispatch(actions.buildAxis(data));
   const buildMemory = (data) => dispatch(actions.buildMemory(data));
   const buildCpu = (data) => dispatch(actions.buildCpu(data));
@@ -55,7 +57,7 @@ const LineChartDisplay = () => {
     return await response.json();
   }
 
-  // Auxilary Object which will be passed into Line component
+  // Creating auxillary objects that will be passed into the Line component
   const memoryObj = {
     labels: axis,
     datasets: memory,
@@ -80,8 +82,9 @@ const LineChartDisplay = () => {
     labels: axis,
     datasets: transmittedIO,
   };
-  // Not yet implemented but expecting to use for
-  // countainer count metrics over many hosts
+
+  // This feature has not been implemented yet
+  // The expectation is that this will assist in conveying container count metrics over many hosts
   const activeContainersCountObj = {
     labels: axis,
     datasets: activeContainersCountArr,
@@ -101,7 +104,7 @@ const LineChartDisplay = () => {
     buildReceivedIO('clear');
     buildTransmittedIO('clear');
 
-    // if active containers is empty render the empty graphs
+    // If active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
       return;
     }
@@ -120,8 +123,8 @@ const LineChartDisplay = () => {
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
     };
-    // build function that will return formated object into necessary
-    // datastructure for chart.js line graphs
+
+    // Build function that will return formatted object into structure that chart.js requires
     const buildLineGraphObj = (containerName) => {
       const obj = {
         label: containerName,
@@ -130,12 +133,13 @@ const LineChartDisplay = () => {
         fill: true,
         borderColor: generateLineColor(
           containerName,
-          Object.keys(activeContainers),
+          Object.keys(activeContainers)
         ),
       };
       return obj;
     };
-    // Datastructure for Bargraph
+
+    // Data structure for bar-graph
     const buildBarGraphObj = (containerName, stackID = 'Stack 0') => {
       const obj = {
         label: containerName,
@@ -143,7 +147,7 @@ const LineChartDisplay = () => {
         fill: false,
         backgroundColor: generateLineColor(
           containerName,
-          Object.keys(activeContainers),
+          Object.keys(activeContainers)
         ),
         stack: stackID,
       };
@@ -165,7 +169,7 @@ const LineChartDisplay = () => {
     const containerMetrics = await getContainerMetrics();
     console.log(
       '🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics',
-      containerMetrics,
+      containerMetrics
     );
 
     const auxObj = {};
@@ -181,33 +185,33 @@ const LineChartDisplay = () => {
       };
     });
 
-    // iterate through each row from fetch and build Memory, CPU, Written/Read Block_IO objects [{}, {}, {}, {}]
-    // parse metrics received from DB, into a usable array
+    // Iterate through fetched row & build objects for: Memory, CPU, Written/Read Block_IO [{}, {}, {}, {}]
+    // Parse metrics received from database into a useable array
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
       const writtenReadIO = dataPoint.block_io.split('/');
       const receivedAndTransmittedIO = dataPoint.net_io.split('/');
       auxObj[currentContainer].cpu.data.push(
-        dataPoint.cpu_pct.replace('%', ''),
+        dataPoint.cpu_pct.replace('%', '')
       );
       auxObj[currentContainer].memory.data.push(
-        dataPoint.memory_pct.replace('%', ''),
+        dataPoint.memory_pct.replace('%', '')
       );
       auxObj[currentContainer].writtenIO.data.push(
-        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, '')),
+        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ''))
       );
       auxObj[currentContainer].readIO.data.push(
-        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, '')),
+        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
       );
       auxObj[currentContainer].receivedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, '')),
+        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, ''))
       );
       auxObj[currentContainer].transmittedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, '')),
+        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, ''))
       );
 
-      // created_at Sample: 2023-01-23T15:47:27.640Z
-      // key indicators "T" [10] and "." [20]
+      // `created_at` Sample: 2023-01-23T15:47:27.640Z
+      // Key indicators "T" [10] and "." [20]
       const date = dataPoint.created_at.slice(1, 10);
       const time = dataPoint.created_at.slice(11, 16);
 
@@ -223,7 +227,7 @@ const LineChartDisplay = () => {
       }
     });
 
-    // REFACTOR THIS BRUTE FORCE APROACH TO ADDING 0 DATAPOINTS TO ARRAY
+    // Refactor this brute force aproach to adding 0 datapoints to array
     Object.keys(auxObj).forEach((containerName) => {
       if (auxObj[containerName].memory.data.length < longest) {
         const lengthToAdd = longest - auxObj[containerName].memory.data.length;
@@ -245,52 +249,53 @@ const LineChartDisplay = () => {
     });
   };
 
-  // Fetching the data from github API and turning it into an object with keys of objects that contain the data of each container
-  const fetchGitData = async (containerName) => {
-    const ob = {};
-    ob[containerName] = [];
-    const time = Number(timePeriod);
-    // pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
-    let date = new Date(Date.parse(new Date()) - 2629746000);
-    date.setHours(date.getHours() - time);
-    date = date.toISOString();
-    const urlObj = await helper.getContainerGitUrl(containerName);
+  // // Fetching the data from github API & turning it into an object with keys of objects that contain the data of each container
+  // const fetchGitData = async (containerName) => {
+  //   const ob = {};
+  //   ob[containerName] = [];
+  //   const time = Number(timePeriod);
+  //   // Pulling the current time, and then setting it back to one month ago to check for github commit logs (2629746000 = 1 month)
+  //   let date = new Date(Date.parse(new Date()) - 2629746000);
+  //   date.setHours(date.getHours() - time);
+  //   date = date.toISOString();
+  //   const urlObj = await helper.getContainerGitUrl(containerName);
 
-    if (urlObj.rows.length) {
-      const url =
-        urlObj.rows[0].github_url +
-        new URLSearchParams({
-          since: `${date}`,
-        });
-      // need an actual url to test this, right now it can't connect
-      const data = await fetch(url);
-      const jsonData = await data.json();
+  //   if (urlObj.rows.length) {
+  //     const url =
+  //       urlObj.rows[0].github_url +
+  //       new URLSearchParams({
+  //         since: `${date}`,
+  //       });
 
-      jsonData.forEach((commitData) => {
-        ob[containerName].push({
-          time: commitData.commit.author.date,
-          url: commitData.html_url,
-          author: commitData.commit.author.name,
-          message: commitData.commit.message,
-        });
-      });
-    } else {
-      ob[containerName].push({
-        time: '',
-        url: 'Connect github repo in settings',
-      });
-    }
-    return ob;
-  };
+  //     // This will not connect right now as we need an actual URL to test this.
+  //     const data = await fetch(url);
+  //     const jsonData = await data.json();
 
-  const renderGitInfo = () => {
-    Promise.all(
-      Object.keys(activeContainers).map((container) => {
-        return fetchGitData(container);
-      }),
-    ).then((data) => setGitUrls(data));
-  };
-  // populating the github commits into a MUI DataGrid
+  //     jsonData.forEach((commitData) => {
+  //       ob[containerName].push({
+  //         time: commitData.commit.author.date,
+  //         url: commitData.html_url,
+  //         author: commitData.commit.author.name,
+  //         message: commitData.commit.message,
+  //       });
+  //     });
+  //   } else {
+  //     ob[containerName].push({
+  //       time: '',
+  //       url: 'Connect github repo in settings',
+  //     });
+  //   }
+  //   return ob;
+  // };
+
+  // const renderGitInfo = () => {
+  //   Promise.all(
+  //     Object.keys(activeContainers).map((container) => {
+  //       return fetchGitData(container);
+  //     })
+  //   ).then((data) => setGitUrls(data));
+  // };
+  // Populating the github commits into a MUI DataGrid
   // This should allow multiple tables be stacked if multiple containers are selected
 
   const columns = [
@@ -309,69 +314,70 @@ const LineChartDisplay = () => {
     { field: 'author', headerName: 'Author', width: 175 },
     { field: 'message', headerName: 'Message', width: 525, align: 'left' },
   ];
-  const gitData = gitUrls.map((el, index) => {
-    const name = Object.keys(el);
-    const rows = [];
-    el[name].forEach((ob, index) => {
-      let author = '';
-      let date = 'n/a';
-      let time = 'n/a';
-      let url = 'n/a';
-      let message = 'n/a';
-      if (ob.time.length) {
-        time = ob.time;
-        author = ob.author;
-        url = ob.url;
-        message = '';
-        if (ob.message) {
-          if (ob.message.includes('<')) {
-            for (let i = 0; i < ob.message.length; i++) {
-              if (ob.message[i] === '<') break;
-              message += ob.message[i];
-            }
-          } else {
-            message = ob.message;
-          }
-        }
 
-        time = time.split('T');
-        date = time[0];
-        time = time[1];
-        time = time
-          .split('')
-          .slice(0, time.length - 1)
-          .join('');
-      }
-      rows.push({
-        date: date,
-        time: time,
-        url: url,
-        author: author,
-        message: message,
-        id: `Github Commit #${index}`,
-      });
-    });
-    return (
-      <div key={index} className='gitHub-container'>
-        <h2>{name}</h2>
-        <div className='ltTable' style={{ height: 600, width: '100%' }}>
-          <DataGrid
-            key='DataGrid'
-            rows={rows}
-            columns={columns}
-            getRowHeight={() => 'auto'}
-            initialState={{
-              sorting: {
-                sortModel: [{ field: 'date', sort: 'asc' }],
-              },
-            }}
-          />
-        </div>
-      </div>
-    );
-  });
+  // const gitData = gitUrls.map((el, index) => {
+  //   const name = Object.keys(el);
+  //   const rows = [];
+  //   el[name].forEach((ob, index) => {
+  //     let author = '';
+  //     let date = 'n/a';
+  //     let time = 'n/a';
+  //     let url = 'n/a';
+  //     let message = 'n/a';
+  //     if (ob.time.length) {
+  //       time = ob.time;
+  //       author = ob.author;
+  //       url = ob.url;
+  //       message = '';
+  //       if (ob.message) {
+  //         if (ob.message.includes('<')) {
+  //           for (let i = 0; i < ob.message.length; i++) {
+  //             if (ob.message[i] === '<') break;
+  //             message += ob.message[i];
+  //           }
+  //         } else {
+  //           message = ob.message;
+  //         }
+  //       }
 
-  let currentList;
+  //       time = time.split('T');
+  //       date = time[0];
+  //       time = time[1];
+  //       time = time
+  //         .split('')
+  //         .slice(0, time.length - 1)
+  //         .join('');
+  //     }
+  //     rows.push({
+  //       date: date,
+  //       time: time,
+  //       url: url,
+  //       author: author,
+  //       message: message,
+  //       id: `Github Commit #${index}`,
+  //     });
+  //   });
+  //   return (
+  //     <div key={index} className='gitHub-container'>
+  //       <h2>{name}</h2>
+  //       <div className='ltTable' style={{ height: 600, width: '100%' }}>
+  //         <DataGrid
+  //           key='DataGrid'
+  //           rows={rows}
+  //           columns={columns}
+  //           getRowHeight={() => 'auto'}
+  //           initialState={{
+  //             sorting: {
+  //               sortModel: [{ field: 'date', sort: 'asc' }],
+  //             },
+  //           }}
+  //         />
+  //       </div>
+  //     </div>
+  //   );
+  // });
+
+  // let currentList;
   let runningListEl;
   let stoppedListEl;
   const selectList = () => {
@@ -394,7 +400,7 @@ const LineChartDisplay = () => {
             />
           }
           label={containerNameKey}
-        />,
+        />
       );
     });
     runningListEl = result[0];
@@ -415,7 +421,7 @@ const LineChartDisplay = () => {
             />
           }
           label={containerNameKey}
-        />,
+        />
       );
     });
     stoppedListEl = result[1];
@@ -427,7 +433,7 @@ const LineChartDisplay = () => {
       return;
     }
     const containerName = e.target.name;
-    // deep copy the state object
+    // Deep copy the state object
     const copyObj = JSON.parse(JSON.stringify(activeContainers));
     if (activeContainers[containerName]) {
       delete copyObj[containerName];
@@ -544,8 +550,8 @@ const LineChartDisplay = () => {
   selectList();
   useEffect(() => {
     formatData();
-    renderGitInfo();
-  }, [activeContainers, timePeriod]);
+    // renderGitInfo();
+  }, [activeContainers /* timePeriod */]);
 
   return (
     <div>

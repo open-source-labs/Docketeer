@@ -1,4 +1,4 @@
-/* The below ts-noCheck comment was made because this file has not yet been completely converted to Typescript. 
+/* The below ts-noCheck comment was made because this file has not yet been completely converted to Typescript.
 The below comment removes all Typescript errors. Please remove this line of code to see what needs to be configured for Typescript compliance
 */
 // @ts-noCheck
@@ -278,7 +278,7 @@ export const dockerComposeStacks = (getContainerStacks) => {
 export const dockerComposeDown = (
   getContainerStacks,
   filePath,
-  ymlFileName,
+  ymlFileName
 ) => {
   fetch('http://localhost:3000/command/composeDown', {
     method: 'post',
@@ -416,12 +416,12 @@ export const getAllDockerVolumes = (getVolumeList) => {
 
 export const getVolumeContainers = (volumeName, getVolumeContainersList) => {
   fetch(
-    `http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`,
+    `http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`
   )
     .then((data) => data.json())
     .then((volumeContainers) => {
       return getVolumeContainersList(
-        listOfVolumeProperties(volumeName, volumeContainers),
+        listOfVolumeProperties(volumeName, volumeContainers)
       );
     })
     .catch((err) => {

@@ -4,25 +4,31 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import LineChartDisplay from '../display/LineChartDisplay';
 import { useSelector } from 'react-redux';
-import { MetricsProps } from '../../../types';
 
 /**
  * Display general metrics
- *
- * @param {*} props
  */
-const Metrics = (props: MetricsProps) => {
-  const fullRunningList = props.runningList;
+const Metrics = () => {
+  const fullRunningList = useSelector(
+    (state: any) => state.containersList.runningList
+  );
+
+  const { mem_threshold, cpu_threshold } = useSelector(
+    (state: any) => state.session
+  );
+
+  const threshold = [mem_threshold, cpu_threshold];
+
   const hostStats = useSelector((state: any) => state.containersList.hostStats);
   const cpuData = 100 - hostStats.cpuPerc;
   const memoryData = 100 - hostStats.memPerc;
-  const cpuThreshold = props.threshold[0];
-  const memThreshold = props.threshold[1];
+  const cpuThreshold = threshold[1];
+  const memThreshold = threshold[0];
 
   let cpuFails = 0;
   let memFails = 0;
 
-  // used to monitor threshold and fail counts
+  // Used to monitor threshold & fail counts
   for (const each of fullRunningList) {
     const cpu = parseFloat(each['CPUPerc'].replace(/([%])+/g, ''));
     const memory = parseFloat(each['MemPerc'].replace(/([%])+/g, ''));

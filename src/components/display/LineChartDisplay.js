@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 // @ts-nocheck
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Line, Bar } from 'react-chartjs-2';
-import * as actions from '../../redux/actions/actions';
-import * as helper from '../helper/commands';
-import { DataGrid } from '@mui/x-data-grid';
-import { FormControlLabel, Checkbox } from '@mui/material';
-import { ReadableStreamBYOBRequest } from 'stream/web';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Line, Bar } from "react-chartjs-2";
+import * as actions from "../../redux/actions/actions";
+// import * as helper from '../helper/commands';
+// import { DataGrid } from '@mui/x-data-grid';
+import { FormControlLabel, Checkbox } from "@mui/material";
+// import { ReadableStreamBYOBRequest } from 'stream/web';
 
 /**
  * Displays line-graph & GitHub metrics
@@ -18,8 +18,8 @@ const LineChartDisplay = () => {
   const dispatch = useDispatch();
 
   const [activeContainers, setActiveContainers] = useState({});
-  const [gitUrls, setGitUrls] = useState([]);
-  const [timePeriod, setTimePeriod] = useState('4');
+  // const [gitUrls, setGitUrls] = useState([]);
+  const [timePeriod, setTimePeriod] = useState("4");
   const [expanded, setExpanded] = useState({});
 
   const memory = useSelector((state) => state.graphs.graphMemory);
@@ -44,10 +44,10 @@ const LineChartDisplay = () => {
   // Grabbing the metrics data to be displayed on the charts
   async function getContainerMetrics() {
     const containerNamesArr = Object.keys(activeContainers);
-    const response = await fetch('http://localhost:3000/init/getMetrics', {
-      method: 'POST',
+    const response = await fetch("http://localhost:3000/init/getMetrics", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         containers: containerNamesArr,
@@ -85,24 +85,24 @@ const LineChartDisplay = () => {
 
   // This feature has not been implemented yet
   // The expectation is that this will assist in conveying container count metrics over many hosts
-  const activeContainersCountObj = {
-    labels: axis,
-    datasets: activeContainersCountArr,
-  };
-  const activeContainersCountArr = [];
+  // const activeContainersCountObj = {
+  //   labels: axis,
+  //   datasets: activeContainersCountArr,
+  // };
+  // const activeContainersCountArr = [];
 
   /**
    * Resets all graph data in global store
    * Builds memory and cpu object for input into Line Components
    */
   const formatData = async () => {
-    buildMemory('clear');
-    buildCpu('clear');
-    buildAxis('clear');
-    buildWrittenIO('clear');
-    buildReadIO('clear');
-    buildReceivedIO('clear');
-    buildTransmittedIO('clear');
+    buildMemory("clear");
+    buildCpu("clear");
+    buildAxis("clear");
+    buildWrittenIO("clear");
+    buildReadIO("clear");
+    buildReceivedIO("clear");
+    buildTransmittedIO("clear");
 
     // If active containers is empty render the empty graphs
     if (!Object.keys(activeContainers).length) {
@@ -112,13 +112,13 @@ const LineChartDisplay = () => {
 
     const generateLineColor = (containerName, activeContainers) => {
       const colorOptions = [
-        '#e74645',
-        '#2a6fdb',
-        '#1ac0c6',
-        '#ffb3f2',
-        '#facd60',
-        '#679186',
-        '#ff9400',
+        "#e74645",
+        "#2a6fdb",
+        "#1ac0c6",
+        "#ffb3f2",
+        "#facd60",
+        "#679186",
+        "#ff9400",
       ];
       const idx = activeContainers.indexOf(containerName);
       return colorOptions[idx];
@@ -140,7 +140,7 @@ const LineChartDisplay = () => {
     };
 
     // Data structure for bar-graph
-    const buildBarGraphObj = (containerName, stackID = 'Stack 0') => {
+    const buildBarGraphObj = (containerName, stackID = "Stack 0") => {
       const obj = {
         label: containerName,
         data: [],
@@ -154,13 +154,13 @@ const LineChartDisplay = () => {
       return obj;
     };
 
-    buildMemory('clear');
-    buildCpu('clear');
-    buildAxis('clear');
-    buildWrittenIO('clear');
-    buildReadIO('clear');
-    buildReceivedIO('clear');
-    buildTransmittedIO('clear');
+    buildMemory("clear");
+    buildCpu("clear");
+    buildAxis("clear");
+    buildWrittenIO("clear");
+    buildReadIO("clear");
+    buildReceivedIO("clear");
+    buildTransmittedIO("clear");
 
     if (!Object.keys(activeContainers).length) {
       return;
@@ -168,7 +168,7 @@ const LineChartDisplay = () => {
 
     const containerMetrics = await getContainerMetrics();
     console.log(
-      '🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics',
+      "🚀 ~ file: LineChartDisplay.js:138 ~ formatData ~ containerMetrics",
       containerMetrics
     );
 
@@ -178,10 +178,10 @@ const LineChartDisplay = () => {
       auxObj[container] = {
         memory: buildLineGraphObj(container),
         cpu: buildLineGraphObj(container),
-        writtenIO: buildBarGraphObj(container, 'Stack 1'),
+        writtenIO: buildBarGraphObj(container, "Stack 1"),
         readIO: buildBarGraphObj(container),
         receivedIO: buildBarGraphObj(container), // added
-        transmittedIO: buildBarGraphObj(container, 'Stack 1'), // added
+        transmittedIO: buildBarGraphObj(container, "Stack 1"), // added
       };
     });
 
@@ -189,25 +189,25 @@ const LineChartDisplay = () => {
     // Parse metrics received from database into a useable array
     containerMetrics.rows.forEach((dataPoint) => {
       const currentContainer = dataPoint.container_name;
-      const writtenReadIO = dataPoint.block_io.split('/');
-      const receivedAndTransmittedIO = dataPoint.net_io.split('/');
+      const writtenReadIO = dataPoint.block_io.split("/");
+      const receivedAndTransmittedIO = dataPoint.net_io.split("/");
       auxObj[currentContainer].cpu.data.push(
-        dataPoint.cpu_pct.replace('%', '')
+        dataPoint.cpu_pct.replace("%", "")
       );
       auxObj[currentContainer].memory.data.push(
-        dataPoint.memory_pct.replace('%', '')
+        dataPoint.memory_pct.replace("%", "")
       );
       auxObj[currentContainer].writtenIO.data.push(
-        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ''))
+        parseFloat(writtenReadIO[0].replace(/([A-z])+/g, ""))
       );
       auxObj[currentContainer].readIO.data.push(
-        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ''))
+        parseFloat(writtenReadIO[1].replace(/([A-z])+/g, ""))
       );
       auxObj[currentContainer].receivedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, ''))
+        parseFloat(receivedAndTransmittedIO[0].replace(/([A-z])+/g, ""))
       );
       auxObj[currentContainer].transmittedIO.data.push(
-        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, ''))
+        parseFloat(receivedAndTransmittedIO[1].replace(/([A-z])+/g, ""))
       );
 
       // `created_at` Sample: 2023-01-23T15:47:27.640Z
@@ -232,12 +232,12 @@ const LineChartDisplay = () => {
       if (auxObj[containerName].memory.data.length < longest) {
         const lengthToAdd = longest - auxObj[containerName].memory.data.length;
         for (let i = 0; i < lengthToAdd; i += 1) {
-          auxObj[containerName].memory.data.unshift('0.00');
-          auxObj[containerName].cpu.data.unshift('0.00');
-          auxObj[containerName].writtenIO.data.unshift('0.00');
-          auxObj[containerName].readIO.data.unshift('0.00');
-          auxObj[containerName].receivedIO.data.unshift('0.00');
-          auxObj[containerName].transmittedIO.data.unshift('0.00');
+          auxObj[containerName].memory.data.unshift("0.00");
+          auxObj[containerName].cpu.data.unshift("0.00");
+          auxObj[containerName].writtenIO.data.unshift("0.00");
+          auxObj[containerName].readIO.data.unshift("0.00");
+          auxObj[containerName].receivedIO.data.unshift("0.00");
+          auxObj[containerName].transmittedIO.data.unshift("0.00");
         }
       }
       buildMemory([auxObj[containerName].memory]);
@@ -298,22 +298,22 @@ const LineChartDisplay = () => {
   // Populating the github commits into a MUI DataGrid
   // This should allow multiple tables be stacked if multiple containers are selected
 
-  const columns = [
-    { field: 'date', headerName: 'Date', width: 125 },
-    { field: 'time', headerName: 'Time', width: 100 },
-    {
-      field: 'url',
-      headerName: 'URL',
-      width: 175,
-      renderCell: (params) => (
-        <a target='_blank' rel='noreferrer' href={params.row.url}>
-          {params.row.id}
-        </a>
-      ),
-    },
-    { field: 'author', headerName: 'Author', width: 175 },
-    { field: 'message', headerName: 'Message', width: 525, align: 'left' },
-  ];
+  // const columns = [
+  //   { field: 'date', headerName: 'Date', width: 125 },
+  //   { field: 'time', headerName: 'Time', width: 100 },
+  //   {
+  //     field: 'url',
+  //     headerName: 'URL',
+  //     width: 175,
+  //     renderCell: (params) => (
+  //       <a target='_blank' rel='noreferrer' href={params.row.url}>
+  //         {params.row.id}
+  //       </a>
+  //     ),
+  //   },
+  //   { field: 'author', headerName: 'Author', width: 175 },
+  //   { field: 'message', headerName: 'Message', width: 525, align: 'left' },
+  // ];
 
   // const gitData = gitUrls.map((el, index) => {
   //   const name = Object.keys(el);
@@ -395,8 +395,8 @@ const LineChartDisplay = () => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color='primary'
-              inputProps={{ 'aria-label': containerNameKey }}
+              color="primary"
+              inputProps={{ "aria-label": containerNameKey }}
             />
           }
           label={containerNameKey}
@@ -416,8 +416,8 @@ const LineChartDisplay = () => {
             <Checkbox
               name={containerNameKey}
               value={containerNameKey}
-              color='primary'
-              inputProps={{ 'aria-label': containerNameKey }}
+              color="primary"
+              inputProps={{ "aria-label": containerNameKey }}
             />
           }
           label={containerNameKey}
@@ -428,7 +428,7 @@ const LineChartDisplay = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.type === 'radio') {
+    if (e.target.type === "radio") {
       setTimePeriod(e.target.value);
       return;
     }
@@ -447,12 +447,12 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'CPU',
+        text: "CPU",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -462,12 +462,12 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'MEMORY',
+        text: "MEMORY",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -477,12 +477,12 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES WRITTEN BY CONTAINER',
+        text: "IO BYTES WRITTEN BY CONTAINER",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -491,12 +491,12 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES READ BY CONTAINER',
+        text: "IO BYTES READ BY CONTAINER",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -506,12 +506,12 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES RECEIVED BY CONTAINER',
+        text: "IO BYTES RECEIVED BY CONTAINER",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -521,31 +521,31 @@ const LineChartDisplay = () => {
     plugins: {
       title: {
         display: true,
-        text: 'IO BYTES TRANSMITTED BY CONTAINER',
+        text: "IO BYTES TRANSMITTED BY CONTAINER",
         font: { size: 18 },
-        position: 'top',
+        position: "top",
       },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
+      tooltips: { enabled: true, mode: "index" },
+      legend: { display: true, position: "bottom" },
     },
     responsive: true,
     maintainAspectRatio: false,
   };
 
-  const activeContainersCountOptions = {
-    plugins: {
-      title: {
-        display: true,
-        text: 'CONTAINER COUNT',
-        font: { size: 18 },
-        position: 'top',
-      },
-      tooltips: { enabled: true, mode: 'index' },
-      legend: { display: true, position: 'bottom' },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-  };
+  // const activeContainersCountOptions = {
+  //   plugins: {
+  //     title: {
+  //       display: true,
+  //       text: 'CONTAINER COUNT',
+  //       font: { size: 18 },
+  //       position: 'top',
+  //     },
+  //     tooltips: { enabled: true, mode: 'index' },
+  //     legend: { display: true, position: 'bottom' },
+  //   },
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  // };
 
   selectList();
   useEffect(() => {
@@ -555,39 +555,39 @@ const LineChartDisplay = () => {
 
   return (
     <div>
-      <div className='metric-section-title'>
-        <h3 className='container-heading'>Metrics Over Time</h3>
+      <div className="metric-section-title">
+        <h3 className="container-heading">Metrics Over Time</h3>
       </div>
-      <div className='metrics-options-form'>
+      <div className="metrics-options-form">
         <form
           onChange={(e) => {
             handleChange(e);
           }}
         >
-          <input type='radio' id='1-hours' name='timePeriod' value='1'></input>
-          <label htmlFor='1-hours'> 1 hours</label>
+          <input type="radio" id="1-hours" name="timePeriod" value="1"></input>
+          <label htmlFor="1-hours"> 1 hours</label>
           <input
-            type='radio'
-            id='4-hours'
-            name='timePeriod'
-            value='4'
+            type="radio"
+            id="4-hours"
+            name="timePeriod"
+            value="4"
             defaultChecked
           ></input>
-          <label htmlFor='4-hours'> 4 hours</label>
+          <label htmlFor="4-hours"> 4 hours</label>
           <input
-            type='radio'
-            id='12-hours'
-            name='timePeriod'
-            value='12'
+            type="radio"
+            id="12-hours"
+            name="timePeriod"
+            value="12"
           ></input>
-          <label htmlFor='12-hours'> 12 hours</label>
+          <label htmlFor="12-hours"> 12 hours</label>
           <input
-            type='radio'
-            id='24-hours'
-            name='timePeriod'
-            value='24'
+            type="radio"
+            id="24-hours"
+            name="timePeriod"
+            value="24"
           ></input>
-          <label htmlFor='24-hours'> 24 hours</label>
+          <label htmlFor="24-hours"> 24 hours</label>
 
           <br />
           <div>
@@ -600,35 +600,35 @@ const LineChartDisplay = () => {
           </div>
         </form>
       </div>
-      <section className='metricCharts'>
+      <section className="metricCharts">
         {/* first chart - start */}
 
         <div
           className={
-            expanded['Line-Cpu-Display']
-              ? 'expanded-chart allCharts'
-              : 'allCharts'
+            expanded["Line-Cpu-Display"]
+              ? "expanded-chart allCharts"
+              : "allCharts"
           }
         >
-          <Line key='Line-CPU' data={cpuObj} options={cpuOptions} />
-          <div className='buttonDisplay'>
-            {expanded['Line-Cpu-Display'] ? (
+          <Line key="Line-CPU" data={cpuObj} options={cpuOptions} />
+          <div className="buttonDisplay">
+            {expanded["Line-Cpu-Display"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Cpu-Display']: false });
+                  setExpanded({ ...expanded, ["Line-Cpu-Display"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() =>
-                  setExpanded({ ...expanded, ['Line-Cpu-Display']: true })
+                  setExpanded({ ...expanded, ["Line-Cpu-Display"]: true })
                 }
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>
@@ -637,30 +637,30 @@ const LineChartDisplay = () => {
         {/* second chart - start */}
         <div
           className={
-            expanded['Line-Memory-Display']
-              ? 'expanded-chart allCharts'
-              : 'allCharts'
+            expanded["Line-Memory-Display"]
+              ? "expanded-chart allCharts"
+              : "allCharts"
           }
         >
-          <Line key='Line-Memory' data={memoryObj} options={memoryOptions} />
-          <div className='buttonDisplay'>
-            {expanded['Line-Memory-Display'] ? (
+          <Line key="Line-Memory" data={memoryObj} options={memoryOptions} />
+          <div className="buttonDisplay">
+            {expanded["Line-Memory-Display"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['Line-Memory-Display']: false });
+                  setExpanded({ ...expanded, ["Line-Memory-Display"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() =>
-                  setExpanded({ ...expanded, ['Line-Memory-Display']: true })
+                  setExpanded({ ...expanded, ["Line-Memory-Display"]: true })
                 }
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>
@@ -669,32 +669,32 @@ const LineChartDisplay = () => {
         {/* third chart - start */}
         <div
           className={
-            expanded['written-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+            expanded["written-IO"] ? "expanded-chart allCharts" : "allCharts"
           }
         >
           <Bar
-            key='Bar-Written'
+            key="Bar-Written"
             data={writtenIOObj}
             options={writtenIOOptions}
           />
-          <div className='buttonDisplay'>
-            {expanded['written-IO'] ? (
+          <div className="buttonDisplay">
+            {expanded["written-IO"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['written-IO']: false });
+                  setExpanded({ ...expanded, ["written-IO"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() =>
-                  setExpanded({ ...expanded, ['written-IO']: true })
+                  setExpanded({ ...expanded, ["written-IO"]: true })
                 }
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>
@@ -704,26 +704,26 @@ const LineChartDisplay = () => {
         {/* fourth chart - start */}
         <div
           className={
-            expanded['read-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+            expanded["read-IO"] ? "expanded-chart allCharts" : "allCharts"
           }
         >
-          <Bar key='Bar-Read' data={readIOObj} options={readIOOptions} />
-          <div className='buttonDisplay'>
-            {expanded['read-IO'] ? (
+          <Bar key="Bar-Read" data={readIOObj} options={readIOOptions} />
+          <div className="buttonDisplay">
+            {expanded["read-IO"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['read-IO']: false });
+                  setExpanded({ ...expanded, ["read-IO"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
-                onClick={() => setExpanded({ ...expanded, ['read-IO']: true })}
+                className="chart-btn"
+                onClick={() => setExpanded({ ...expanded, ["read-IO"]: true })}
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>
@@ -733,32 +733,32 @@ const LineChartDisplay = () => {
         {/* fifth chart - start */}
         <div
           className={
-            expanded['received-IO'] ? 'expanded-chart allCharts' : 'allCharts'
+            expanded["received-IO"] ? "expanded-chart allCharts" : "allCharts"
           }
         >
           <Bar
-            key='Bar-Read'
+            key="Bar-Read"
             data={receivedIOObj}
             options={receivedIOOptions}
           />
-          <div className='buttonDisplay'>
-            {expanded['received-IO'] ? (
+          <div className="buttonDisplay">
+            {expanded["received-IO"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['received-IO']: false });
+                  setExpanded({ ...expanded, ["received-IO"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() =>
-                  setExpanded({ ...expanded, ['received-IO']: true })
+                  setExpanded({ ...expanded, ["received-IO"]: true })
                 }
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>
@@ -768,34 +768,34 @@ const LineChartDisplay = () => {
         {/* sixth chart - start */}
         <div
           className={
-            expanded['transmitted-IO']
-              ? 'expanded-chart allCharts'
-              : 'allCharts'
+            expanded["transmitted-IO"]
+              ? "expanded-chart allCharts"
+              : "allCharts"
           }
         >
           <Bar
-            key='Bar-Read'
+            key="Bar-Read"
             data={transmittedIOObj}
             options={transmittedIOOptions}
           />
-          <div className='buttonDisplay'>
-            {expanded['transmitted-IO'] ? (
+          <div className="buttonDisplay">
+            {expanded["transmitted-IO"] ? (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() => {
-                  setExpanded({ ...expanded, ['transmitted-IO']: false });
+                  setExpanded({ ...expanded, ["transmitted-IO"]: false });
                 }}
               >
-                <i className='fas fa-compress'></i>
+                <i className="fas fa-compress"></i>
               </button>
             ) : (
               <button
-                className='chart-btn'
+                className="chart-btn"
                 onClick={() =>
-                  setExpanded({ ...expanded, ['transmitted-IO']: true })
+                  setExpanded({ ...expanded, ["transmitted-IO"]: true })
                 }
               >
-                <i className='fas fa-expand'></i>
+                <i className="fas fa-expand"></i>
               </button>
             )}
           </div>

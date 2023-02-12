@@ -6,17 +6,14 @@ import { ContainerType } from "../../../types";
 import { useSelector } from "react-redux";
 import { StateType } from "../../../types";
 
-/*
- * Display all running and stopped containers. Each box can be selected to view process log tables.
- */
+// Display all running and stopped containers. Each box can be selected to view process log tables.
 
 const ProcessLogs = () => {
-  const renderRunningList: any[] = [];
-
   const { runningList, stoppedList } = useSelector(
     (state: StateType) => state.containersList
   );
 
+  const renderRunningList: any[] = [];
   runningList.map((container: ContainerType, index: number) => {
     renderRunningList.push(
       <ProcessLogsCard

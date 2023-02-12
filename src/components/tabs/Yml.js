@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import * as helper from "../helper/commands";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import * as helper from '../helper/commands';
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
-import useSurvey from "../helper/dispatch";
+import useSurvey from '../helper/dispatch';
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
@@ -18,9 +18,9 @@ import useSurvey from "../helper/dispatch";
 const Yml = () => {
   const { composeStack } = useSelector((state) => state.networkList);
 
-  const [filePath, setFilePath] = useState("");
-  const [ymlFile, setYmlFile] = useState("");
-  const [ymlFileName, setYmlFileName] = useState(""); // ymlFileName is specifically for the dockerComposeUp helper fn
+  const [filePath, setFilePath] = useState('');
+  const [ymlFile, setYmlFile] = useState('');
+  const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
 
   const { composeDown, getContainerStacks } = useSurvey();
 
@@ -32,15 +32,15 @@ const Yml = () => {
     // upon page render, get list of currently running container networks
     helper.dockerComposeStacks(getContainerStacks);
 
-    const holder = document.getElementById("drag-file");
-    const uploadHolder = document.getElementById("uploadFile");
+    const holder = document.getElementById('drag-file');
+    const uploadHolder = document.getElementById('uploadFile');
 
     holder.ondragover = () => {
-      holder.style = "background-color: #EDEDED";
+      holder.style = 'background-color: #EDEDED';
       return false;
     };
     holder.ondragleave = () => {
-      holder.style = "background-color: white";
+      holder.style = 'background-color: white';
       return false;
     };
     holder.ondragend = () => {
@@ -51,7 +51,7 @@ const Yml = () => {
       e.preventDefault();
       if (
         e.target.files.length &&
-        e.target.files[0].type === "application/x-yaml"
+        e.target.files[0].type === 'application/x-yaml'
       ) {
         const ymlFile = e.target.files[0];
         const filePath = e.target.files[0].path;
@@ -64,9 +64,9 @@ const Yml = () => {
 
         // get yml file name from the filepath for composing up a new container network
         const ymlRegex = /\/docker-compose.*.yml/;
-        const ymlFileName = filePath.match(ymlRegex)[0].replace("/", "");
+        const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
 
-        const directoryPath = filePath.replace(ymlRegex, "");
+        const directoryPath = filePath.replace(ymlRegex, '');
         setFilePath(directoryPath);
         setYmlFileName(ymlFileName);
       }
@@ -105,9 +105,9 @@ const Yml = () => {
                     container.FilePath,
                     container.YmlFileName
                   );
-                  setYmlFile("");
-                  setFilePath("");
-                  setYmlFileName("");
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
                 }}
               >
                 Docker Compose Down
@@ -130,7 +130,7 @@ const Yml = () => {
             Upload your Docker Compose file here to compose
             <div>
               <button className="etc-btn" id="upload-btn">
-                <input hidden id="uploadFile" type="file" accept=".yml"></input>
+                <input  id="uploadFile" type="file"  accept=".yml"></input>
                 UPLOAD FILE
               </button>
               <button
@@ -141,9 +141,9 @@ const Yml = () => {
                     filePath,
                     ymlFileName
                   );
-                  setYmlFile("");
-                  setFilePath("");
-                  setYmlFileName("");
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
                 }}
               >
                 DOCKER COMPOSE UP
@@ -151,7 +151,7 @@ const Yml = () => {
             </div>
           </div>
           {ymlFile && (
-            <pre style={{ margin: "1rem 0rem" }}>
+            <pre style={{ margin: '1rem 0rem' }}>
               <code>{ymlFile}</code>
             </pre>
           )}

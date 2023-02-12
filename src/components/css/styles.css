@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -244,10 +244,6 @@ h4 {
   width: 100%;
 }
 
-.tab ul li:hover {
-  /* border-left: #e1e4e6 5px solid; */
-}
-
 .tab ul li a:hover {
   font-weight: 900;
   color: #ecfffe;
@@ -293,13 +289,11 @@ h4 {
   font-weight: bold;
   flex-direction: column;
   padding: 10px;
-  /* border-radius: 10px 10px 0 0; */
   justify-content: center;
   align-items: flex-start;
   background: #3c3d3da9;
   color: white;
   text-align: center;
-  /* border-radius: 10px 10px 0 0; */
   margin-bottom: 10px;
 }
 
@@ -326,7 +320,6 @@ h4 {
   font-size: 16px;
   color: white;
   text-align: start;
-  /* border-radius: 10px 10px 0 0; */
   margin-bottom: 10px;
   padding: 10px;
 }
@@ -497,11 +490,6 @@ h4 {
   line-height: 45px;
   border-radius: 10px 10px 0 0;
 }
-
-/* 
-#drag-file {
-  background-color: white;
-} */
 
 .modal-container {
   position: fixed;
@@ -783,7 +771,7 @@ h4 {
   margin-left: 1rem;
 }
 
-/* Login Screen Form Added 10/21/22 */
+/* Login Screen Form */
 .loginForm {
   margin: 8px;
   width: fit-content;

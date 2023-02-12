@@ -27,6 +27,14 @@ import {
   getContainerStacks,
   composeDown,
   updateUser,
+  buildAxis,
+  buildMemory,
+  buildCpu,
+  buildWrittenIO,
+  buildReadIO,
+  buildReceivedIO,
+  buildTransmittedIO,
+  getContainerLogs,
 } from "../../redux/actions/actions";
 
 import {
@@ -127,6 +135,32 @@ const useSurvey = () => {
       },
       composeDown(data: any) {
         dispatch(composeDown(data));
+      },
+      // Dispatch functions used in LineChartDisplay.tsx
+      buildAxis(data: any) {
+        dispatch(buildAxis(data));
+      },
+      buildMemory(data: any) {
+        dispatch(buildMemory(data));
+      },
+      buildCpu(data: any) {
+        dispatch(buildCpu(data));
+      },
+      buildWrittenIO(data: any) {
+        dispatch(buildWrittenIO(data));
+      },
+      buildReadIO(data: any) {
+        dispatch(buildReadIO(data));
+      },
+      buildReceivedIO(data: any) {
+        dispatch(buildReceivedIO(data));
+      },
+      buildTransmittedIO(data: any) {
+        dispatch(buildTransmittedIO(data));
+      },
+      // Dispatch functions used in ProcessLogsTable.tsx
+      getContainerLogsDispatcher(data: object[]) {
+        dispatch(getContainerLogs(data));
       },
     }),
     [dispatch]

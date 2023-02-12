@@ -1,15 +1,19 @@
+// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database
+// which is the metrics data, notifications preferences data, etc. being persisted
+// (for further details look into server / database)
+
 export default () => {
-  fetch('http://localhost:3000/init', {
-    method: 'GET',
+  fetch("http://localhost:3000/init", {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   })
     .then((data) => data.json())
     .then((response) => {
       if (response.error !== null) {
         console.log(
-          `Make sure Docker Desktop is running. \n\n ${response.error}`,
+          `Make sure Docker Desktop is running. \n\n ${response.error}`
         );
         return;
       }
@@ -25,7 +29,7 @@ export default () => {
     .then((data) => data.json())
     .then((response) => {
       if (response.error !== null) {
-        alert('Make sure Docker Desktop is running.');
+        alert("Make sure Docker Desktop is running.");
         return;
       }
       if (response.stderr) {
@@ -38,7 +42,3 @@ export default () => {
       console.log(err);
     });
 };
-
-// initDatabase is invoked upon login and composes the network consisting of a containerized SQL database
-// which is the metrics data, notifications preferences data, etc. being persisted
-// (for further details look into server / database)

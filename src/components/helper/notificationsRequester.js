@@ -1,8 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
-import store from '../../renderer/store';
-import * as categories from '../../redux/constants/notificationCategories';
-// import memoryNotification from '../../main/slack/memoryNotification.js';
-// import cpuNotification from '../../main/slack/cpuNotification.js';
+
+import store from "../../renderer/store";
+import * as categories from "../../redux/constants/notificationCategories";
 const sentNotifications = {};
 let state;
 
@@ -11,9 +10,9 @@ const RESEND_INTERVAL = 60; // seconds
 
 const getTargetStat = (containerObject, notificationSettingType) => {
   if (notificationSettingType === categories.MEMORY)
-    return parseFloat(containerObject.MemPerc.replace('%', ''));
+    return parseFloat(containerObject.MemPerc.replace("%", ""));
   if (notificationSettingType === categories.CPU)
-    return parseFloat(containerObject.CPUPerc.replace('%', ''));
+    return parseFloat(containerObject.CPUPerc.replace("%", ""));
   if (notificationSettingType === categories.STOPPED) return 1;
 };
 
@@ -22,29 +21,27 @@ const getContainerObject = (containerList, containerId) => {
     const containerObject = containerList[i];
     if (containerObject.ID === containerId) return containerObject;
   }
-  // container not present in container list (ex: running or stopped notificationList)
-  return undefined;
+  return undefined; // Container not present in container list (ex: running or stopped notificationList)
 };
 
 const isContainerInSentNotifications = (notificationType, containerId) => {
   if (sentNotifications[notificationType]) {
-    // return true if the notificationType key in sentNotification contains our containerId
+    // Return true if the notificationType key in sentNotification contains our containerId
     return Object.prototype.hasOwnProperty.call(
       sentNotifications[notificationType],
-      containerId,
+      containerId
     );
   }
-  // return false since container's notification category is not present
-  return false;
+  return false; // Return false since container's notification category is not present
 };
 
 const constructNotificationMessage = (
   notificationType,
   stat,
   triggeringValue,
-  containerId,
+  containerId
 ) => {
-  let message = '';
+  let message = "";
   switch (notificationType) {
     case categories.STOPPED:
       message = `Container with ID of ${containerId} has stopped`;
@@ -64,20 +61,20 @@ const constructNotificationMessage = (
   return message;
 };
 
-// this function will make a request that will trigger a notification
+// This function will make a request that will trigger a notification
 const sendNotification = async (
   notificationType,
   containerId,
   stat,
   triggeringValue,
-  containerObject,
+  containerObject
 ) => {
   // Pull the current state, note we do this within this function as opposed to accessing the global state variable in the file because contact preferences may have been updated since the initialization of state variable in the file.
   const currentState = store.getState();
   const contactPreference = currentState.session.contact_pref;
   const email = currentState.session.email;
   // If the user's contact preferences are set to phone
-  if (contactPreference === 'phone') {
+  if (contactPreference === "phone") {
     // Construct the message body which will be used to send a text
     const body = {
       mobileNumber: state.session.phone,
@@ -85,29 +82,28 @@ const sendNotification = async (
         notificationType,
         stat,
         triggeringValue,
-        containerId,
+        containerId
       ),
     };
 
     // On the ipcRenderer object (Inter-Process Communication), emit an event 'post-event' with the body
-    return await window.nodeMethod.rendInvoke('post-event', body);
+    return await window.nodeMethod.rendInvoke("post-event", body);
   }
 
   // Else if the user's contact preferences are set to email, or null (default to email)
-
   const date = new Date();
   const dateString = date.toLocaleDateString();
   const timeString = date.toLocaleTimeString();
   const type =
-    notificationType === 'CPU'
+    notificationType === "CPU"
       ? notificationType
       : notificationType.toLowerCase();
-  const stopped = type === 'stopped' ? 'true' : 'false';
+  const stopped = type === "stopped" ? "true" : "false";
 
   const body = {
     email,
     containerName:
-      stopped === 'true' ? containerObject.Names : containerObject.Name,
+      stopped === "true" ? containerObject.Names : containerObject.Name,
     time: timeString,
     date: dateString,
     stopped,
@@ -116,7 +112,7 @@ const sendNotification = async (
     threshold: triggeringValue,
   };
 
-  await window.nodeMethod.rendInvoke('email-event', body);
+  await window.nodeMethod.rendInvoke("email-event", body);
 };
 
 /**
@@ -137,55 +133,55 @@ const checkForNotifications = (
   notificationSettingsSet,
   notificationType,
   containerList,
-  triggeringValue,
+  triggeringValue
 ) => {
-  // scan notification settings
+  // Scan notification settings
   notificationSettingsSet.forEach((containerId) => {
-    // check container metrics if it is seen in either runningList or stoppedList
+    // Check container metrics if it is seen in either runningList or stoppedList
     const containerObject = getContainerObject(containerList, containerId);
 
     if (containerObject) {
-      // gets the stat/metric on the container that we want to test
+      // Gets the stat/metric on the container that we want to test
       const stat = getTargetStat(containerObject, notificationType);
-      // if the stat should trigger rule
+      // If the stat should trigger rule
       if (stat > triggeringValue) {
-        // if the container is in sentNotifications object
+        // If the container is in sentNotifications object
         if (isContainerInSentNotifications(notificationType, containerId)) {
-          // get the time from the sentNotifications object
+          // Get the time from the sentNotifications object
           const notificationLastSent = getLatestNotificationDateTime(
             notificationType,
-            containerId,
+            containerId
           );
-          // calculate time between now and last notification sent time
+          // Calculate time between now and last notification sent time
           const spentTime = Math.floor(
-            (Date.now() - notificationLastSent) / 1000,
+            (Date.now() - notificationLastSent) / 1000
           );
 
-          // check if enough time (RESEND_INTERVAL) has passed since laster notification sent.
+          // Check if enough time (RESEND_INTERVAL) has passed since laster notification sent.
           if (spentTime > RESEND_INTERVAL) {
-            // send nofication
+            // Send nofication
             sendNotification(
               notificationType,
               containerId,
               stat,
               triggeringValue,
-              containerObject,
+              containerObject
             );
             console.log(
               `** Notification SENT. ${notificationType} 
               containerId: ${containerId} 
               stat: ${stat} 
               triggeringValue: ${triggeringValue} 
-              spentTime: ${spentTime}`,
+              spentTime: ${spentTime}`
             );
-            console.log('sentNofications: ', sentNotifications);
+            console.log("sentNofications: ", sentNotifications);
 
-            // update date.now in object that stores sent notifications
+            // Update date.now in object that stores sent notifications
             sentNotifications[notificationType][containerId] = Date.now();
           } else {
             console.log(
               `** Resend Interval Not Met. ${notificationType} is at ${stat}.\n
-              Last sent notification time: ${notificationLastSent}`,
+              Last sent notification time: ${notificationLastSent}`
             );
           }
         } else {
@@ -196,18 +192,15 @@ const checkForNotifications = (
           } else {
             sentNotifications[notificationType] = { [containerId]: Date.now() };
           }
-          // memoryNotification();
-          // cpuNotification();
           console.log(
             `** Notification SENT. ${notificationType} 
             containerId: ${containerId} 
             stat: ${stat} 
-            triggeringValue: ${triggeringValue}`,
+            triggeringValue: ${triggeringValue}`
           );
         }
       } else {
-        // since metric is under threshold, remove container from sentNotifications if present
-        // this reset
+        // Since metric is under threshold, remove container from sentNotifications ... if present this reset
         if (isContainerInSentNotifications(notificationType, containerId)) {
           delete sentNotifications[notificationType][containerId];
         }
@@ -218,28 +211,27 @@ const checkForNotifications = (
 
 export default function start() {
   setInterval(() => {
-    // get current state
     state = store.getState();
-    // check if any containers register to memory notification exceed triggering memory value
+    // Check if any containers register to memory notification exceed triggering memory value
     checkForNotifications(
       state.notificationList.memoryNotificationList,
       categories.MEMORY,
       state.containersList.runningList,
-      state.session.mem_threshold, // triggering value
+      state.session.mem_threshold // triggering value
     );
-    // check if any containers register to cpu notification exceed triggering cpu value
+    // Check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
       state.notificationList.cpuNotificationList,
       categories.CPU,
       state.containersList.runningList,
-      state.session.cpu_threshold, // triggering value
+      state.session.cpu_threshold // triggering value
     );
-    // check if any containers register to stopped notification trigger notification
+    // Check if any containers register to stopped notification trigger notification
     checkForNotifications(
       state.notificationList.stoppedNotificationList,
       categories.STOPPED,
       state.containersList.stoppedList,
-      0, // triggering value
+      0 // Triggering value
     );
   }, 10000);
 }

@@ -23,30 +23,30 @@ export interface RunningListType {
   RunningFor: string;
 }
 
-// for more info review actions.ts file and Settings.ts
+// For more info ... review actions.ts file and Settings.ts
 export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   stopRunningContainer: (id: string) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   stop: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void,
+    callback_2: () => void
   ) => void;
 };
 

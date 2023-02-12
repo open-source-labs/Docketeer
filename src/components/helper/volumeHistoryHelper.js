@@ -1,6 +1,5 @@
 /**
  * Returns an array of object entries filtered by the key property
- *
  * @param {Array of Objects} input
  * @param {string} filterInput
  */
@@ -9,7 +8,7 @@ export const filterOneProperty = (input, filterInput) => {
 
   for (let i = 0; i < input.length; i++) {
     const filteredArr = Object.entries(input[i]).filter(
-      ([key, value]) => key === filterInput,
+      ([key, value]) => key === filterInput
     );
     filteredOutput.push(Object.fromEntries(filteredArr));
   }
@@ -19,7 +18,6 @@ export const filterOneProperty = (input, filterInput) => {
 
 /**
  * Performs a callback on input of arrays and return one string
- *
  * @param {command callback} getVolumeContainers
  * @param {Array} arrayOfVolumeNames
  * @param {dispatcher callback} getVolumeContainersList
@@ -27,11 +25,11 @@ export const filterOneProperty = (input, filterInput) => {
 export const volumeByName = (
   getVolumeContainers,
   arrayOfVolumeNames,
-  getVolumeContainersList,
+  getVolumeContainersList
 ) => {
   let volumeName;
   arrayOfVolumeNames.forEach((element) => {
-    volumeName = getVolumeContainers(element['Name'], getVolumeContainersList);
+    volumeName = getVolumeContainers(element["Name"], getVolumeContainersList);
   });
   return volumeName;
 };
@@ -65,15 +63,15 @@ export const listOfVolumeProperties = (volumeName, dockerOutput) => {
   };
   let containerProperties = {};
 
-  // list of containers
+  // List of containers
   for (let i = 0; i < dockerOutput.length; i++) {
     const container = dockerOutput[i];
 
-    // properties in each container
+    // Properties in each container
     for (const key in container) {
-      if (key === 'Names') containerProperties['Names'] = container['Names'];
-      if (key === 'State') containerProperties['State'] = container['State'];
-      if (key === 'Status') containerProperties['Status'] = container['Status'];
+      if (key === "Names") containerProperties["Names"] = container["Names"];
+      if (key === "State") containerProperties["State"] = container["State"];
+      if (key === "Status") containerProperties["Status"] = container["Status"];
     }
     volumeList.containers.push(containerProperties);
     containerProperties = {};

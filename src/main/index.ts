@@ -1,24 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const electron = require('electron');
+import electron from "electron";
+import path from "path";
+import url from "url";
 
-const path = require('path');
-const url = require('url');
-
-/*          Docketeer 7.0
- ** Next team can work on integrating Dev Tools
- */
+// import verifyCode from "./twilio/verifyCode";
+// import verifyMobileNumber from "./twilio/verifyMobile";
+// import postEvent from "./twilio/postEvent";
+// import emailEvent from "./email/emailEvent";
 
 const {
   default: installExtension,
   REDUX_DEVTOOLS,
-} = require('electron-devtools-installer');
+} = require("electron-devtools-installer");
 
-const verifyCode = require('./twilio/verifyCode');
-const verifyMobileNumber = require('./twilio/verifyMobile');
-const postEvent = require('./twilio/postEvent');
-const emailEvent = require('./email/emailEvent');
-
-// global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
+// Global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
 let mainWindow;
 
 function createMainWindow() {
@@ -26,35 +21,35 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, '../src/main/preload.js'),
+      preload: path.join(__dirname, "../src/main/preload.js"),
       sandbox: false,
     },
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:4000');
-    // mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV === "development") {
+    mainWindow.loadURL("http://localhost:4000");
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, '/index'),
-        protocol: 'file:',
+        pathname: path.join(__dirname, "/index"),
+        protocol: "file:",
         slashes: true,
       })
     );
   }
-  mainWindow.on('closed', () => {
+  mainWindow.on("closed", () => {
     mainWindow = null;
   });
 }
 
-electron.app.on('ready', createMainWindow);
+electron.app.on("ready", createMainWindow);
 
-electron.app.on('renderer-process-crashed', createMainWindow);
-// MacOS Specific function
-electron.app.on('window-all-closed', function () {
+electron.app.on("renderer-process-crashed", createMainWindow);
+
+// MacOS-specific function
+electron.app.on("window-all-closed", function () {
   // Common for application and their menu bar to stay active until use quits explicitly
-  if (process.platform !== 'darwin') {
+  if (process.platform !== "darwin") {
     electron.app.quit();
   }
 });
@@ -66,20 +61,15 @@ electron.app.on('window-all-closed', function () {
 electron.app.whenReady().then(() => {
   installExtension(REDUX_DEVTOOLS)
     .then((name: any) => console.log(`Added Extension:  ${name}`))
-    .catch((err: any) => console.log('An error occurred: ', err));
+    .catch((err: any) => console.log("An error occurred: ", err));
 });
 
-// MacOS Specific function
-electron.app.on('activate', function () {
+// MacOS-specific function
+electron.app.on("activate", function () {
   // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
   if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow();
 });
 
-/*               Docketeer 7.0
- ** This was old code from previous teams, we did not attempt to refactor and are unsure of if it even works.
- */
-
-// // comment out lines 30-38 if dev tools is slowing app
 //   app.whenReady().then(() => {
 //     const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
 //     const extensionsPlural = extensions.length > 0 ? 's' : '';
@@ -134,19 +124,17 @@ electron.app.on('activate', function () {
 //       .catch((err:string) => console.log('An error occurred: ', err));
 // });
 
-electron.ipcMain.handle('verify-number', async (_: any, args: any) => {
-  return await verifyMobileNumber(args);
-});
-
-electron.ipcMain.handle('verify-code', async (_: any, args: any) => {
-  return await verifyCode(args);
-});
-
-electron.ipcMain.handle('post-event', async (_: any, args: any) => {
-  const { mobileNumber, triggeringEvent } = args;
-  return await postEvent(mobileNumber, triggeringEvent);
-});
-
-electron.ipcMain.handle('email-event', async (_: any, args: any) => {
-  return await emailEvent(args);
-});
+// electron.ipcMain.handle("verify-number", async (_: any, args: any) => {
+//   return await verifyMobileNumber(args);
+// });
+//
+// electron.ipcMain.handle("verify-code", async (_: any, args: any) => {
+//   return await verifyCode(args);
+// });
+//
+// electron.ipcMain.handle("post-event", async (_: any, args: any) => {
+//   const { mobileNumber, triggeringEvent } = args;
+//   return await postEvent(mobileNumber, triggeringEvent);
+// });
+//
+// electron.ipcMain.handle("email-event", async (_: any, args: any) => {

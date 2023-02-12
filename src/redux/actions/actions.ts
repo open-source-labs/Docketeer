@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from "../constants/actionTypes";
 
 export const refreshHostData = (data: object) => ({
   type: types.REFRESH_HOST_DATA,
@@ -60,12 +60,10 @@ export const refreshImages = (data: object[]) => ({
   payload: data,
 });
 
-/* --------------- */
 type composeymlFilesStr = {
   type: string;
   payload: object[];
 };
-/* --------------- */
 
 export const composeymlFiles = (data: composeymlFilesStr) => ({
   type: types.COMPOSE_YML_FILES,
@@ -184,7 +182,7 @@ export const updateUser = (data: object) => ({
 
 export const logoutUser = () => ({
   type: types.LOGOUT_USER,
-  // payload: data
+  // Payload: data
 });
 
 export const updateUserList = (data: object[]) => ({
@@ -197,19 +195,19 @@ export const updateUserRole = (data: object[]) => ({
   payload: data,
 });
 
-// get volume
+// Get volume
 export const getVolumeList = (data: object[]) => ({
   type: types.GET_VOLUME_LIST,
   payload: data,
 });
 
-// get containers that live in volume
+// Get containers that live in volume
 export const getVolumeContainersList = (data: object) => ({
   type: types.GET_VOLUME_CONTAINERS_LIST,
   payload: data,
 });
 
-// get container logs
+// Get container logs
 export const getContainerLogs = (data: object[]) => ({
   type: types.GET_CONTAINER_LOGS,
   payload: data,

@@ -13,7 +13,7 @@ import useSurvey from "../helper/dispatch";
  */
 
 const Containers = () => {
-  const { runStoppedContainer, removeContainer, refreshStoppedContainers } =
+  const { runStoppedContainer, removeContainer, stopRunningContainer } =
     useSurvey();
 
   // Accessing helper functions through imported helper object
@@ -153,7 +153,7 @@ const Containers = () => {
           <div className="stop-btn-box">
             <button
               className="stop-btn"
-              onClick={() => stop(container.ID, refreshStoppedContainers)}
+              onClick={() => stop(container.ID, stopRunningContainer)}
             >
               STOP
             </button>

@@ -83,16 +83,16 @@ export const remove = (containerID, removeContainer) => {
  * @param {*} id
  * @param {*} refreshStoppedContainers
  */
-export const stop = (id, refreshStoppedContainers) => {
+
+export const stop = (id, stopRunningContainer) => {
   fetch(`http://localhost:3000/command/stopContainer?id=${id}`)
     .then((message) => message.json())
     .then((message) => {
       console.log({ message });
-      refreshStoppedContainers(id);
+      stopRunningContainer(id);
     })
     .catch((err) => console.log(err));
 };
-
 /**
  * Starts a stopped container in containers tab
  * @param {*} id

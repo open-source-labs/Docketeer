@@ -13,65 +13,66 @@ const containerState: containerStateType = {
 
 export default function (state = containerState, action: PayloadAction<any>) {
   switch (action.type) {
-    case types.GET_NETWORK_CONTAINERS:
-      const networkListCopy = state.networkList.slice();
-      const networkListState = [...networkListCopy, ...action.payload];
-      return { ...state, networkListState };
 
-    case types.GET_CONTAINER_STACKS:
-      const currentState: any = state.composeStack.slice();
-      const newState = action.payload;
+  case types.GET_NETWORK_CONTAINERS:
+    const networkListCopy = state.networkList.slice();
+    const networkListState = [...networkListCopy, ...action.payload];
+    return { ...state, networkListState };
 
-      // docketeer 5.0 used this code in lieu of lines 38-53 below:
-      //
-      // const comparer = (otherArray) => {
-      //   return (current) =>
-      //     otherArray.filter(
-      //       (other) => other.Name == current.Name && other.ID == current.ID
-      //     ).length == 0;
-      // };
+  case types.GET_CONTAINER_STACKS:
+    const currentState: any = state.composeStack.slice();
+    const newState = action.payload;
 
-      // const onlyInCurrentState = currentState.filter(comparer(newState));
-      // const onlyInNewState = newState.filter(comparer(currentState));
-      // currentState.push(...onlyInNewState);
+    // docketeer 5.0 used this code in lieu of lines 38-53 below:
+    //
+    // const comparer = (otherArray) => {
+    //   return (current) =>
+    //     otherArray.filter(
+    //       (other) => other.Name == current.Name && other.ID == current.ID
+    //     ).length == 0;
+    // };
 
-      // return { ...state, composeStack: currentState };
+    // const onlyInCurrentState = currentState.filter(comparer(newState));
+    // const onlyInNewState = newState.filter(comparer(currentState));
+    // currentState.push(...onlyInNewState);
 
-      // the previous team's code was broken. our new 6.0 code is broken as well but less so, more specifically on the process compose tab, only the most recently added network will have a compose-down button (all networks added via compose-up in Docketeer should have a compose down button)
+    // return { ...state, composeStack: currentState };
 
-      const composeStackUpdater = (arr1: [], arr2: [], output = []) => {
-        arr1.forEach((element) => {
-          if (JSON.stringify(arr2).includes(JSON.stringify(element))) {
-            output.push(element);
-          }
-        });
-        arr2.forEach((element) => {
-          if (!JSON.stringify(arr1).includes(JSON.stringify(element))) {
-            output.push(element);
-          }
-        });
-        return output;
-      };
+    // the previous team's code was broken. our new 6.0 code is broken as well but less so, more specifically on the process compose tab, only the most recently added network will have a compose-down button (all networks added via compose-up in Docketeer should have a compose down button)
 
-      const updatedState = composeStackUpdater(currentState, newState);
-      return { ...state, composeStack: updatedState };
+    const composeStackUpdater = (arr1: [], arr2: [], output = []) => {
+      arr1.forEach((element) => {
+        if (JSON.stringify(arr2).includes(JSON.stringify(element))) {
+          output.push(element);
+        }
+      });
+      arr2.forEach((element) => {
+        if (!JSON.stringify(arr1).includes(JSON.stringify(element))) {
+          output.push(element);
+        }
+      });
+      return output;
+    };
 
-    case types.COMPOSE_YML_FILES:
-      const newnetworkList = state.networkList.slice();
-      newnetworkList.push(action.payload[0]);
-      return { ...state, networkList: newnetworkList };
+    const updatedState = composeStackUpdater(currentState, newState);
+    return { ...state, composeStack: updatedState };
 
-    case types.COMPOSE_DOWN:
-      const prevState = state.composeStack.slice();
-      const filePath = action.payload;
+  case types.COMPOSE_YML_FILES:
+    const newnetworkList = [...state.networkList];
+    newnetworkList.push(action.payload[0]);
+    return { ...state, networkList: newnetworkList };
 
-      const removedStack = prevState.filter(
-        (container) => container.FilePath !== filePath,
-      );
+  case types.COMPOSE_DOWN:
+    const prevState = state.composeStack.slice();
+    const filePath = action.payload;
 
-      return { ...state, composeStack: removedStack };
+    const removedStack = prevState.filter(
+      (container) => container.FilePath !== filePath,
+    );
 
-    default:
-      return state;
+    return { ...state, composeStack: removedStack };
+
+  default:
+    return state;
   }
 }

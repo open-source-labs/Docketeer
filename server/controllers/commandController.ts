@@ -447,6 +447,7 @@ const commandController: CommandController = {
       res.locals.imgMessage = {
         message: `${req.query.repo} is currently being downloaded`,
       };
+      console.log("res.locals.imgMessage in pullImage", res.locals.imgMessage);
       return next();
     });
   },

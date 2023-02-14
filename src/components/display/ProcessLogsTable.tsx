@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { buildOptionsObj } from "../helper/processLogHelper";
-import { getLogs } from "../helper/commands";
+// import { getLogs } from "../helper/commands";
+import useHelper from "../helper/commands";
 import "./ProcessLogsCard";
 
 import useSurvey from "../helper/dispatch";
@@ -20,7 +21,6 @@ import { ContainerType, RowsDataType, StateType } from "../../../types";
 
 const ProcessLogsTable = () => {
   const { getContainerLogsDispatcher } = useSurvey();
-
   // Select the clicked container
   const urlString = window.location.href;
   const containerID = urlString.split("/");
@@ -31,6 +31,7 @@ const ProcessLogsTable = () => {
     (state: StateType) => state.containersList.runningList
   );
 
+  const { getLogs } = useHelper();
   const [btnIdList, setBtnIdList] = useState([id]);
   const [rows, setRows] = useState([]);
   const [csvData, setCsvData] = useState([
@@ -49,7 +50,7 @@ const ProcessLogsTable = () => {
     const optionsObj = buildOptionsObj(idList);
 
     // Using a promise as the process to pull the container logs takes a fair bit of time
-    const containerLogs = await getLogs(optionsObj, getContainerLogsDispatcher);
+    const containerLogs = await getLogs(optionsObj);
     getContainerLogsDispatcher(containerLogs);
     console.log("containerLogs", containerLogs);
     setCounter(counter + 1);

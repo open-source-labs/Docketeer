@@ -1,5 +1,20 @@
 import * as types from "../constants/actionTypes";
 
+export const getImages = (data: object[]) => ({
+  type: types.GET_IMAGES,
+  payload: data,
+});
+
+// export const runImage = (id: string) => ({
+//   type: types.RUN_IMAGE,
+//   payload: id,
+// });
+
+export const removeImage = (id: string) => ({
+  type: types.REMOVE_IMAGE,
+  payload: id,
+});
+
 export const refreshHostData = (data: object) => ({
   type: types.REFRESH_HOST_DATA,
   payload: data,
@@ -30,21 +45,6 @@ export const runStoppedContainer = (id: string) => ({
   payload: id,
 });
 
-export const getImages = (data: object[]) => ({
-  type: types.GET_IMAGES,
-  payload: data,
-});
-
-export const runImage = (id: string) => ({
-  type: types.RUN_IMAGE,
-  payload: id,
-});
-
-export const removeImage = (id: string) => ({
-  type: types.REMOVE_IMAGE,
-  payload: id,
-});
-
 export const refreshRunningContainers = (data: object[]) => ({
   type: types.REFRESH_RUNNING_CONTAINERS,
   payload: data,
@@ -60,10 +60,12 @@ export const refreshImages = (data: object[]) => ({
   payload: data,
 });
 
+/* --------------- */
 type composeymlFilesStr = {
   type: string;
   payload: object[];
 };
+/* --------------- */
 
 export const composeymlFiles = (data: composeymlFilesStr) => ({
   type: types.COMPOSE_YML_FILES,
@@ -85,10 +87,10 @@ export const composeDown = (data: object[]) => ({
   payload: data,
 });
 
-export const composeUp = (data: object[]) => ({
-  type: types.COMPOSE_UP,
-  payload: data,
-});
+// export const composeUp = (data: object[]) => ({
+//   type: types.COMPOSE_UP,
+//   payload: data,
+// });
 
 export const buildAxis = (data: string) => ({
   type: types.BUILD_AXIS,
@@ -182,7 +184,7 @@ export const updateUser = (data: object) => ({
 
 export const logoutUser = () => ({
   type: types.LOGOUT_USER,
-  // Payload: data
+  // payload: data
 });
 
 export const updateUserList = (data: object[]) => ({
@@ -195,19 +197,19 @@ export const updateUserRole = (data: object[]) => ({
   payload: data,
 });
 
-// Get volume
+// get volume
 export const getVolumeList = (data: object[]) => ({
   type: types.GET_VOLUME_LIST,
   payload: data,
 });
 
-// Get containers that live in volume
+// get containers that live in volume
 export const getVolumeContainersList = (data: object) => ({
   type: types.GET_VOLUME_CONTAINERS_LIST,
   payload: data,
 });
 
-// Get container logs
+// get container logs
 export const getContainerLogs = (data: object[]) => ({
   type: types.GET_CONTAINER_LOGS,
   payload: data,

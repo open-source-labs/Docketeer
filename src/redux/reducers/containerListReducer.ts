@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { PayloadAction } from '@reduxjs/toolkit';
-import * as types from '../constants/actionTypes';
-import { containerStateType } from '../../../types';
+import { PayloadAction } from "@reduxjs/toolkit";
+import * as types from "../constants/actionTypes";
+import { containerStateType } from "../../../types";
 
 const containerState: containerStateType = {
   runningList: [],

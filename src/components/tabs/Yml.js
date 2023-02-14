@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import * as helper from '../helper/commands';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+// import * as helper from "../helper/commands";
+import useHelper from "../helper/commands";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-
-import useSurvey from '../helper/dispatch';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
@@ -18,11 +17,12 @@ import useSurvey from '../helper/dispatch';
 const Yml = () => {
   const { composeStack } = useSelector((state) => state.networkList);
 
-  const [filePath, setFilePath] = useState('');
-  const [ymlFile, setYmlFile] = useState('');
-  const [ymlFileName, setYmlFileName] = useState(''); // ymlFileName is specifically for the dockerComposeUp helper fn
+  const [filePath, setFilePath] = useState("");
+  const [ymlFile, setYmlFile] = useState("");
+  const [ymlFileName, setYmlFileName] = useState("");
 
-  const { composeDown, getContainerStacks } = useSurvey();
+  const { dockerComposeStacks, dockerComposeUp, dockerComposeDown } =
+    useHelper();
 
   // const getContainerStacks = (data) =>
   //   dispatch(actions.getContainerStacks(data));
@@ -30,7 +30,7 @@ const Yml = () => {
 
   useEffect(() => {
     // upon page render, get list of currently running container networks
-    helper.dockerComposeStacks(getContainerStacks);
+    dockerComposeStacks();
 
     const holder = document.getElementById('drag-file');
     const uploadHolder = document.getElementById('uploadFile');
@@ -101,14 +101,10 @@ const Yml = () => {
               <button
                 className="btn"
                 onClick={() => {
-                  helper.dockerComposeDown(
-                    getContainerStacks,
-                    container.FilePath,
-                    container.YmlFileName
-                  );
-                  setYmlFile('');
-                  setFilePath('');
-                  setYmlFileName('');
+                  dockerComposeDown(container.FilePath, container.YmlFileName);
+                  setYmlFile("");
+                  setFilePath("");
+                  setYmlFileName("");
                 }}
               >
                 Docker Compose Down
@@ -137,14 +133,10 @@ const Yml = () => {
               <button
                 className="etc-btn"
                 onClick={() => {
-                  helper.dockerComposeUp(
-                    getContainerStacks,
-                    filePath,
-                    ymlFileName
-                  );
-                  setYmlFile('');
-                  setFilePath('');
-                  setYmlFileName('');
+                  dockerComposeUp(filePath, ymlFileName);
+                  setYmlFile("");
+                  setFilePath("");
+                  setYmlFileName("");
                 }}
               >
                 DOCKER COMPOSE UP

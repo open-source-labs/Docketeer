@@ -511,20 +511,22 @@ const commandController: CommandController = {
           .replaceAll(' ', '')}]`;
 
         const parseDockerOutput = JSON.parse(dockerOutput);
-
+        
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
+          
           const directoryNameArray = req.body.filePath.split('/');
-          const containerNetworkName =
-            directoryNameArray[directoryNameArray.length - 1].concat('_default');
-
+          // console.log(directoryNameArray);
+          // const containerNetworkName =
+          //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
           parseDockerOutput.forEach((obj: any) => {
-            if (containerNetworkName === obj.Name) {
+            if (obj.Name.includes(directoryNameArray[directoryNameArray.length - 1]) ) {
               obj.FilePath = req.body.filePath;
               obj.YmlFileName = req.body.ymlFileName;
             }
           });
         }
+        console.log(parseDockerOutput);
         res.locals.output = parseDockerOutput;
         return next();
       }

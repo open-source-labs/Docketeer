@@ -76,6 +76,7 @@ const Yml = () => {
   // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
+      
       return (
         <TableRow key={index}>
           <TableCell>

@@ -526,7 +526,6 @@ const commandController: CommandController = {
             }
           });
         }
-        console.log(parseDockerOutput);
         res.locals.output = parseDockerOutput;
         return next();
       }

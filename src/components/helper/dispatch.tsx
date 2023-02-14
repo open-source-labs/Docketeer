@@ -11,6 +11,7 @@ import {
   getVolumeList,
   getVolumeContainersList,
   refreshImages,
+  stopRunningContainer,
   runStoppedContainer,
   removeContainer,
   refreshStoppedContainers,
@@ -90,6 +91,9 @@ const useSurvey = () => {
       },
       removeContainer(id: string) {
         dispatch(removeContainer(id));
+      },
+      stopRunningContainer(id: string) {
+        dispatch(stopRunningContainer(id));
       },
       // Dispatch functions used in Images.tsx
       // Note: refreshImagesList, refreshRunningContainers (both already exported)

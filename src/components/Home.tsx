@@ -5,7 +5,8 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import useSurvey from "./helper/dispatch";
 
 // Static imports
-import * as helper from "./helper/commands";
+// import * as helper from "./helper/commands";
+import useHelper from "./helper/commands";
 import * as history from "./helper/volumeHistoryHelper";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,30 +33,30 @@ import { StateType } from "../../types";
 
 // Container component that has all redux logic along with react router
 const Home = () => {
-  // Initialize `navigate` & `dispatch` for use within Home component
   const navigate = useNavigate();
 
-  // State access
   const { session, volumeList } = useSelector((state: StateType) => state);
   const userInfo = session;
   const { arrayOfVolumeNames } = volumeList;
 
-  // Local state
+  const {
+    getHostStats,
+    refreshRunning,
+    refreshStopped,
+    refreshImages,
+    writeToDb,
+    networkContainers,
+    setDbSessionTimeZone,
+    getAllDockerVolumes,
+    handlePruneClick,
+    getVolumeContainers,
+  } = useHelper();
+
   const [selected, setSelected] = useState("/");
 
   // Deconstructs dispatch functions from useSurvey memo
-  const {
-    updateSession,
-    logoutUser,
-    refreshHostData,
-    refreshRunningContainers,
-    refreshStoppedContainers,
-    refreshImagesList,
-    updateUserList,
-    getVolumeContainersList,
-    getNetworkContainers,
-    getVolumeList,
-  } = useSurvey();
+  const { updateSession, logoutUser, updateUserList, getVolumeContainersList } =
+    useSurvey();
 
   // Handles logout of client
   const handleLogout = () => {
@@ -83,20 +84,20 @@ const Home = () => {
   // Initial refresh
   useEffect(() => {
     initDatabase();
-    helper.getHostStats(refreshHostData);
-    helper.refreshRunning(refreshRunningContainers);
-    helper.refreshStopped(refreshStoppedContainers);
-    helper.refreshImages(refreshImagesList);
-    helper.writeToDb();
-    helper.networkContainers(getNetworkContainers);
-    helper.setDbSessionTimeZone();
-    helper.getAllDockerVolumes(getVolumeList);
+    getHostStats();
+    refreshRunning();
+    refreshStopped();
+    refreshImages();
+    writeToDb();
+    networkContainers();
+    setDbSessionTimeZone();
+    getAllDockerVolumes();
   }, []);
 
   // Changes in arrayOfVolumeNames will run history.volumeByName
   useEffect(() => {
     history.volumeByName(
-      helper.getVolumeContainers,
+      getVolumeContainers,
       arrayOfVolumeNames,
       getVolumeContainersList
     );
@@ -105,10 +106,10 @@ const Home = () => {
   // Invoke helper functions every 5 seconds to: refresh running/stopped containers/images & notifications
   useEffect(() => {
     const interval = setInterval(() => {
-      helper.getHostStats(refreshHostData);
-      helper.refreshRunning(refreshRunningContainers);
-      helper.refreshStopped(refreshStoppedContainers);
-      helper.refreshImages(refreshImagesList);
+      getHostStats();
+      refreshRunning();
+      refreshStopped();
+      refreshImages();
     }, 5000);
     startNotificationRequester();
     return () => clearInterval(interval);
@@ -238,7 +239,7 @@ const Home = () => {
             <button
               style={{ borderRadius: 5, marginBottom: 10 }}
               className="btn"
-              onClick={(e) => helper.handlePruneClick(e)}
+              onClick={(e) => handlePruneClick(e)}
             >
               System Prune
             </button>

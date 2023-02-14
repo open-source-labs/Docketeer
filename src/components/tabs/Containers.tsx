@@ -3,21 +3,16 @@ import React from "react";
 import { Chart } from "react-chartjs-2";
 import ToggleDisplay from "../display/ToggleDisplay";
 import { ContainerType, ChartInfoType, StateType } from "../../../types";
-
-import * as helper from "../helper/commands";
 import { useSelector } from "react-redux";
-import useSurvey from "../helper/dispatch";
+// import * as helper from "../helper/commands";
+import useHelper from "../helper/commands";
 
 /*
  * Display all running and stopped containers
  */
 
 const Containers = () => {
-  const { runStoppedContainer, removeContainer, refreshStoppedContainers } =
-    useSurvey();
-
-  // Accessing helper functions through imported helper object
-  const { stop, remove, runStopped } = helper;
+  const { runStopped, remove, stop } = useHelper();
 
   // Accessing state
   const { runningList, stoppedList } = useSelector(
@@ -55,13 +50,13 @@ const Containers = () => {
             <button
               data-testid="run-btn"
               className="run-btn"
-              onClick={() => runStopped(container["ID"], runStoppedContainer)}
+              onClick={() => runStopped(container["ID"])}
             >
               RUN
             </button>
             <button
               className="remove-btn"
-              onClick={() => remove(container["ID"], removeContainer)}
+              onClick={() => remove(container["ID"])}
             >
               REMOVE
             </button>
@@ -151,10 +146,7 @@ const Containers = () => {
             <ToggleDisplay container={container} />
           </div>
           <div className="stop-btn-box">
-            <button
-              className="stop-btn"
-              onClick={() => stop(container.ID, refreshStoppedContainers)}
-            >
+            <button className="stop-btn" onClick={() => stop(container.ID)}>
               STOP
             </button>
           </div>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StateType } from "../../../types";
 
-import * as helper from "../helper/commands";
-import useSurvey from "../helper/dispatch";
+import useHelper from "../helper/commands";
+// import * as helper from "../helper/commands";
 import { useSelector } from "react-redux";
 
 /**
@@ -10,18 +10,10 @@ import { useSelector } from "react-redux";
  **/
 
 const Images = () => {
-  // const dispatch = useDispatch();
   const imagesList = useSelector((state: StateType) => state.images.imagesList);
   const [repo, setRepo] = useState("");
 
-  const { runIm, removeIm, pullImage, refreshImages } = helper;
-
-  const { refreshImagesList, refreshRunningContainers } = useSurvey();
-  // const refreshImagesList = (data: ImageObj[]) =>
-  //   dispatch(actions.refreshImages(data));
-  //
-  // const refreshRunningContainers = (data: ContainerObj[]) =>
-  //   dispatch(actions.refreshRunningContainers(data));
+  const { runIm, removeIm, pullImage } = useHelper();
 
   const handleClick = () => {
     if (!repo) {
@@ -89,18 +81,10 @@ const Images = () => {
           </ul>
         </div>
         <div className="stopped-button">
-          <button
-            className="run-btn"
-            onClick={() => runIm(ele, refreshRunningContainers)}
-          >
+          <button className="run-btn" onClick={() => runIm(ele)}>
             RUN
           </button>
-          <button
-            className="remove-btn"
-            onClick={() =>
-              removeIm(ele["imgid"], refreshImages, refreshImagesList)
-            }
-          >
+          <button className="remove-btn" onClick={() => removeIm(ele["imgid"])}>
             REMOVE
           </button>
         </div>

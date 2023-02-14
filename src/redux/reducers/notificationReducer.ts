@@ -1,9 +1,9 @@
-import * as types from '../constants/actionTypes';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { notificationStateType } from '../../../types';
+import * as types from "../constants/actionTypes";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { notificationStateType } from "../../../types";
 
 const notificationState: notificationStateType = {
-  phoneNumber: '',
+  phoneNumber: "",
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
@@ -11,7 +11,7 @@ const notificationState: notificationStateType = {
 
 export default function (
   state = notificationState,
-  action: PayloadAction<any>,
+  action: PayloadAction<any>
 ) {
   switch (action.type) {
     case types.ADD_PHONE_NUMBER:

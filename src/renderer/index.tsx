@@ -13,6 +13,7 @@ import "../components/css/static.css";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container!);
+
 root.render(
   <Provider store={store}>
     {/* <React.StrictMode> */}

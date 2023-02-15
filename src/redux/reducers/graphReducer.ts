@@ -1,121 +1,123 @@
-import * as types from '../constants/actionTypes';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { graphStateType } from '../../../types';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { graphStateType } from "../../../types";
 
-const graphState: graphStateType = {
+const initialState: graphStateType = {
   graphAxis: [],
   graphMemory: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphCpu: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphWrittenIO: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphReadIO: [
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphReceivedIO: [
-    // received IO
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
   graphTransmittedIO: [
-    // transmitted IO
     {
-      label: '',
+      label: "",
       data: [],
-      fill: '',
+      fill: "",
     },
   ],
 };
 
-const graphReducer = (state = graphState, action: PayloadAction<any>) => {
-  switch (action.type) {
-    case types.BUILD_AXIS: {
-      if (action.payload === 'clear') return { ...state, graphAxis: [] };
+export const graphSlice = createSlice({
+  name: "graphs",
+  initialState,
+  reducers: {
+    buildAxis: (state, action: PayloadAction<string>) => {
+      if (action.payload === "clear") {
+        state.graphAxis = [];
+      } else {
+        const formatted = action.payload.slice(4, 24);
 
-      // cuts day of week from begining and the timezone off the end.
-      const formatedDate = action.payload.toString().slice(4, 24);
-
-      // compare two string dates
-      if (
-        formatedDate > state.graphAxis[state.graphAxis.length - 1] ||
-        !state.graphAxis.length
-      ) {
-        const newAxis: any[] = state.graphAxis;
-        newAxis.push(formatedDate);
-        return { ...state, graphAxis: newAxis };
+        if (
+          formatted > state.graphAxis[state.graphAxis.length - 1] ||
+          !state.graphAxis.length
+        ) {
+          state.graphAxis.push(formatted);
+        }
       }
-      return { ...state };
-    }
+    },
+    buildMemory: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphMemory = [];
+      } else {
+        state.graphMemory.push(action.payload[0]);
+      }
+    },
+    buildCpu: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphCpu = [];
+      } else {
+        state.graphCpu.push(action.payload[0]);
+      }
+    },
+    buildWrittenIO: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphWrittenIO = [];
+      } else {
+        state.graphWrittenIO.push(action.payload[0]);
+      }
+    },
+    buildReadIO: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphReadIO = [];
+      } else {
+        state.graphReadIO.push(action.payload[0]);
+      }
+    },
+    buildReceivedIO: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphReceivedIO = [];
+      } else {
+        state.graphReceivedIO.push(action.payload[0]);
+      }
+    },
+    buildTransmittedIO: (state, action: PayloadAction<any>) => {
+      if (action.payload === "clear") {
+        state.graphTransmittedIO = [];
+      } else {
+        state.graphTransmittedIO.push(action.payload[0]);
+      }
+    },
+  },
+});
 
-    case types.BUILD_MEMORY: {
-      if (action.payload === 'clear') return { ...state, graphMemory: [] };
-      const newMemory = state.graphMemory.slice();
-      newMemory.push(action.payload[0]);
-      return { ...state, graphMemory: newMemory };
-    }
+export const {
+  buildAxis,
+  buildMemory,
+  buildCpu,
+  buildWrittenIO,
+  buildReadIO,
+  buildReceivedIO,
+  buildTransmittedIO,
+} = graphSlice.actions;
 
-    case types.BUILD_CPU: {
-      if (action.payload === 'clear') return { ...state, graphCpu: [] };
-      const newCpu = state.graphCpu.slice();
-      newCpu.push(action.payload[0]);
-      return { ...state, graphCpu: newCpu };
-    }
-
-    case types.BUILD_WRITTEN_IO: {
-      if (action.payload === 'clear') return { ...state, graphWrittenIO: [] };
-      const newWrittenIO = state.graphWrittenIO.slice();
-      newWrittenIO.push(action.payload[0]);
-      return { ...state, graphWrittenIO: newWrittenIO };
-    }
-
-    case types.BUILD_READ_IO: {
-      if (action.payload === 'clear') return { ...state, graphReadIO: [] };
-      const newReadIO = state.graphReadIO.slice();
-      newReadIO.push(action.payload[0]);
-      return { ...state, graphReadIO: newReadIO };
-    }
-    // reveived reducer
-    case types.BUILD_RECEIVED_IO: {
-      if (action.payload === 'clear') return { ...state, graphReceivedIO: [] };
-      const newReceivedIO = state.graphReceivedIO.slice();
-      newReceivedIO.push(action.payload[0]);
-      return { ...state, graphReceivedIO: newReceivedIO };
-    }
-    // transmitted reducer
-    case types.BUILD_TRANSMITTED_IO: {
-      if (action.payload === 'clear')
-        return { ...state, graphTransmittedIO: [] };
-      const newTransmittedIO = state.graphTransmittedIO.slice();
-      newTransmittedIO.push(action.payload[0]);
-      return { ...state, graphTransmittedIO: newTransmittedIO };
-    }
-
-    default:
-      return state;
-  }
-};
-
-export default graphReducer;
+export default graphSlice.reducer;

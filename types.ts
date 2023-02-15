@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
 export interface StoppedListType {
@@ -331,7 +331,8 @@ export interface containerStateType {
   stoppedList: StoppedListType[];
   networkList: any[];
   composeStack: any[];
-  hostStats: { [k: string]: number };
+  hostStats: unknown;
+  // hostStats: { [k: string]: number };
 }
 
 export interface graphDataType {

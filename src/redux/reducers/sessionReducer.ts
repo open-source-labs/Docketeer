@@ -1,69 +1,37 @@
-import * as types from '../constants/actionTypes';
-import { sessionStateType } from '../../../types';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { sessionStateType } from "../../../types";
 
-const sessionState: sessionStateType = {
-  _id: '',
-  username: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
-  mem_threshold: '',
-  cpu_threshold: '',
-  container_stops: '',
-  token: '',
+const initialState: sessionStateType = {
+  _id: "",
+  username: "",
+  email: "",
+  phone: "",
+  role: "",
+  role_id: "",
+  contact_pref: "",
+  mem_threshold: "",
+  cpu_threshold: "",
+  container_stops: "",
+  token: "",
   isLoggedIn: false,
   userList: [],
 };
 
-export default function (state = sessionState, action: any) {
-  switch (action.type) {
-    // Change isLoggedIn state variable depending on previous value
-    case types.UPDATE_SESSION:
-      return {
-        ...state,
-        isLoggedIn: !state.isLoggedIn,
-      };
-
-    // Upon successful sign-up or login, update session state with all user info
-    case types.UPDATE_USER:
-      const {
-        _id,
-        username,
-        email,
-        phone,
-        role,
-        role_id,
-        contact_pref,
-        mem_threshold,
-        cpu_threshold,
-        container_stops,
-        token,
-      } = action.payload;
-
-      return {
-        ...state,
-        _id,
-        username,
-        email,
-        phone,
-        role,
-        role_id,
-        contact_pref,
-        mem_threshold,
-        cpu_threshold,
-        container_stops,
-        token,
-      };
-
-    // after logging out, remove all user info from session state
-    case types.LOGOUT_USER:
-      return {
-        ...sessionState,
-      };
-
-    default:
+export const sessionSlice = createSlice({
+  name: "sessions",
+  initialState,
+  reducers: {
+    updateSession: (state) => {
+      state.isLoggedIn = !state.isLoggedIn;
+    },
+    updateUser: (state, action: PayloadAction<any>) => {
+      return { ...state, ...action.payload };
+    },
+    logoutUser: (state) => {
       return { ...state };
-  }
-}
+    },
+  },
+});
+
+export const { updateSession, updateUser, logoutUser } = sessionSlice.actions;
+export default sessionSlice.reducer;

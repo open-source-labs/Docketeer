@@ -17,10 +17,27 @@ export const composeSlice = createSlice({
       state.networkList.push([...action.payload]);
     },
     getContainerStacks: (state, action: PayloadAction<any>) => {
-      // Do this tomorrow
-      // It appears these groups were having trouble with implementing redux for compose.
-      // Let's consider this function from a high-level, make a plan, and adjust as necessary.
-      // Reference the file, `dockerComposeReducer.ts` to see additional information from prev. iterations.
+      const currentState: any = state.composeStack;
+
+      const composeStackUpdater = (
+        firstArray: [],
+        secondArray: [],
+        outputArray = []
+      ) => {
+        firstArray.forEach((element) => {
+          if (JSON.stringify(secondArray).includes(JSON.stringify(element))) {
+            outputArray.push(element);
+          }
+        });
+        secondArray.forEach((element) => {
+          if (!JSON.stringify(firstArray).includes(JSON.stringify(element))) {
+            outputArray.push(element);
+          }
+        });
+        return outputArray;
+      };
+
+      state.composeStack = composeStackUpdater(currentState, action.payload);
     },
     composeYml: (state, action: PayloadAction<any>) => {
       state.networkList.push(action.payload[0]);
@@ -38,4 +55,5 @@ export const {
   composeYml,
   composeDown,
 } = composeSlice.actions;
+
 export default composeSlice.reducer;

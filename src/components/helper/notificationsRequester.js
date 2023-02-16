@@ -1,10 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 
-import store from "../../renderer/store";
 import * as categories from "../../redux/constants/notificationCategories";
 const sentNotifications = {};
-let state;
-
 // The amount of seconds to wait before resend notification when container problem has not been addressed
 const RESEND_INTERVAL = 60; // seconds
 
@@ -63,6 +60,7 @@ const constructNotificationMessage = (
 
 // This function will make a request that will trigger a notification
 const sendNotification = async (
+  state,
   notificationType,
   containerId,
   stat,
@@ -70,14 +68,14 @@ const sendNotification = async (
   containerObject
 ) => {
   // Pull the current state, note we do this within this function as opposed to accessing the global state variable in the file because contact preferences may have been updated since the initialization of state variable in the file.
-  const currentState = store.getState();
-  const contactPreference = currentState.session.contact_pref;
-  const email = currentState.session.email;
+  const currentState = state;
+  const contactPreference = currentState.sessions.contact_pref;
+  const email = currentState.sessions.email;
   // If the user's contact preferences are set to phone
   if (contactPreference === "phone") {
     // Construct the message body which will be used to send a text
     const body = {
-      mobileNumber: state.session.phone,
+      mobileNumber: state.sessions.phone,
       triggeringEvent: constructNotificationMessage(
         notificationType,
         stat,
@@ -130,6 +128,7 @@ const getLatestNotificationDateTime = (notificationType, containerId) =>
  * @param {Array} containerList
  */
 const checkForNotifications = (
+  state,
   notificationSettingsSet,
   notificationType,
   containerList,
@@ -161,6 +160,7 @@ const checkForNotifications = (
           if (spentTime > RESEND_INTERVAL) {
             // Send nofication
             sendNotification(
+              state,
               notificationType,
               containerId,
               stat,
@@ -209,28 +209,31 @@ const checkForNotifications = (
   });
 };
 
-export default function start() {
+export default function start(state) {
   setInterval(() => {
-    state = store.getState();
+    // let state = useAppSelector((state) => state);
     // Check if any containers register to memory notification exceed triggering memory value
     checkForNotifications(
-      state.notificationList.memoryNotificationList,
+      state,
+      state.notifications.memoryNotificationList,
       categories.MEMORY,
-      state.containersList.runningList,
-      state.session.mem_threshold // triggering value
+      state.containers.runningList,
+      state.sessions.mem_threshold // triggering value
     );
     // Check if any containers register to cpu notification exceed triggering cpu value
     checkForNotifications(
-      state.notificationList.cpuNotificationList,
+      state,
+      state.notifications.cpuNotificationList,
       categories.CPU,
-      state.containersList.runningList,
-      state.session.cpu_threshold // triggering value
+      state.containers.runningList,
+      state.sessions.cpu_threshold // triggering value
     );
     // Check if any containers register to stopped notification trigger notification
     checkForNotifications(
-      state.notificationList.stoppedNotificationList,
+      state,
+      state.notifications.stoppedNotificationList,
       categories.STOPPED,
-      state.containersList.stoppedList,
+      state.containers.stoppedList,
       0 // Triggering value
     );
   }, 10000);

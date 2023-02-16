@@ -1,33 +1,25 @@
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { useMemo } from "react";
+import { useAppDispatch } from "../../redux/reducers/hooks";
+
+// Import redux toolkit action creators from individual reducer functions
+import {
+  getNetworkContainers,
+  getContainerStacks,
+  /* composeYml, */
+  composeDown,
+} from "../../redux/reducers/composeReducer";
 
 import {
   refreshHostData,
-  refreshRunningContainers,
-  getNetworkContainers,
-  updateSession,
-  logoutUser,
-  updateUserList,
-  getVolumeList,
-  getVolumeContainersList,
-  refreshImages,
   stopRunningContainer,
   runStoppedContainer,
+  refreshRunningContainers,
   removeContainer,
-  refreshStoppedContainers,
-  addNotificationFrequency,
-  addMonitoringFrequency,
-  addMemoryNotificationSetting,
-  addCpuNotificationSetting,
-  addStoppedNotificationSetting,
-  addPhoneNumber,
-  removeMemoryNotificationSetting,
-  removeCpuNotificationSetting,
-  removeStoppedNotificationSetting,
-  updateUserRole,
-  getContainerStacks,
-  composeDown,
-  updateUser,
+  refreshStoppedContainer,
+} from "../../redux/reducers/containerReducer";
+
+import {
   buildAxis,
   buildMemory,
   buildCpu,
@@ -35,8 +27,34 @@ import {
   buildReadIO,
   buildReceivedIO,
   buildTransmittedIO,
-  getContainerLogs,
-} from "../../redux/actions/actions";
+} from "../../redux/reducers/graphReducer";
+
+import { refreshImages } from "../../redux/reducers/imageReducer";
+
+import { getLogs } from "../../redux/reducers/logReducer";
+
+import {
+  addPhoneNumber,
+  addMemoryNotification,
+  addCpuNotification,
+  addStopNotification,
+  removeMemoryNotification,
+  removeCpuNotification,
+  removeStoppedNotification,
+} from "../../redux/reducers/notificationReducer";
+
+import {
+  updateSession,
+  updateUser,
+  logoutUser,
+} from "../../redux/reducers/sessionReducer";
+
+import { updateUsers, updateRoles } from "../../redux/reducers/userReducer";
+
+import {
+  getVolumes,
+  getVolumeContainerList,
+} from "../../redux/reducers/volumeReducer";
 
 import {
   ContainerObj as ContainerObj,
@@ -49,7 +67,7 @@ import {
 } from "../../../types";
 
 const useSurvey = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const actions = useMemo(
     () => ({
@@ -61,7 +79,7 @@ const useSurvey = () => {
         dispatch(refreshRunningContainers(data));
       },
       refreshStoppedContainers(data: StoppedContainerObj[]) {
-        dispatch(refreshStoppedContainers(data));
+        dispatch(refreshStoppedContainer(data));
       },
       refreshImagesList(data: ImageObj[]) {
         dispatch(refreshImages(data));
@@ -75,14 +93,14 @@ const useSurvey = () => {
       logoutUser() {
         dispatch(logoutUser());
       },
-      updateUserList(data: UserObj[]) {
-        dispatch(updateUserList(data));
+      updateUsers(data: UserObj[]) {
+        dispatch(updateUsers(data));
       },
-      getVolumeList(data: { Name: string }[]) {
-        dispatch(getVolumeList(data));
+      getVolumes(data: { Name: string }[]) {
+        dispatch(getVolumes(data));
       },
-      getVolumeContainersList(data: VolumeObj) {
-        dispatch(getVolumeContainersList(data));
+      getVolumeContainerList(data: VolumeObj) {
+        dispatch(getVolumeContainerList(data));
       },
       // Dispatch functions used in Containers.tsx
       // Note: refreshStoppedContainers (already exported)
@@ -105,33 +123,27 @@ const useSurvey = () => {
       updateUser(userInfo: UserInfo) {
         dispatch(updateUser(userInfo));
       },
-      addNotificationFrequency(data: any) {
-        dispatch(addNotificationFrequency(data));
+      addMemoryNotification(data: any) {
+        dispatch(addMemoryNotification(data));
       },
-      addMonitoringFrequency(data: any) {
-        dispatch(addMonitoringFrequency(data));
+      addCpuNotification(data: any) {
+        dispatch(addCpuNotification(data));
       },
-      addMemoryNotificationSetting(data: any) {
-        dispatch(addMemoryNotificationSetting(data));
+      addStopNotification(data: any) {
+        dispatch(addStopNotification(data));
       },
-      addCpuNotificationSetting(data: any) {
-        dispatch(addCpuNotificationSetting(data));
+      removeMemoryNotification(data: object[]) {
+        dispatch(removeMemoryNotification(data));
       },
-      addStoppedNotificationSetting(data: any) {
-        dispatch(addStoppedNotificationSetting(data));
+      removeCpuNotification(data: object[]) {
+        dispatch(removeCpuNotification(data));
       },
-      removeMemoryNotificationSetting(data: object[]) {
-        dispatch(removeMemoryNotificationSetting(data));
-      },
-      removeCpuNotificationSetting(data: object[]) {
-        dispatch(removeCpuNotificationSetting(data));
-      },
-      removeStoppedNotificationSetting(data: object[]) {
-        dispatch(removeStoppedNotificationSetting(data));
+      removeStoppedNotification(data: object[]) {
+        dispatch(removeStoppedNotification(data));
       },
       // Dispatch functions used in Users.tsx
-      updateUserRole(data: any) {
-        dispatch(updateUserRole(data));
+      updateRoles(data: any) {
+        dispatch(updateRoles(data));
       },
       // Dispatch functions used in Yml.tsx
       getContainerStacks(data: any) {
@@ -164,7 +176,7 @@ const useSurvey = () => {
       },
       // Dispatch functions used in ProcessLogsTable.tsx
       getContainerLogsDispatcher(data: object[]) {
-        dispatch(getContainerLogs(data));
+        dispatch(getLogs(data));
       },
     }),
     [dispatch]

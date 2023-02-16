@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/reducers/hooks";
 import { Line, Bar } from "react-chartjs-2";
 
 import { FormControlLabel, Checkbox } from "@mui/material";
@@ -19,10 +19,10 @@ const LineChartDisplay = () => {
   const [expanded, setExpanded] = useState({});
 
   // Using destructuring to assign graphs and containersList variables to useSelector hook.
-  const { graphs, containersList } = useSelector((state) => state);
+  const { graphs, containers } = useAppSelector((state) => state);
 
-  // Destructuring list variables from containerList
-  const { runningList, stoppedList } = containersList;
+  // Destructuring list variables from containers
+  const { runningList, stoppedList } = containers;
 
   // Destructuring list variables from graphs
   const {

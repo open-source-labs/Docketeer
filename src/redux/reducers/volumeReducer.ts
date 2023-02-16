@@ -21,11 +21,10 @@ export const volumeSlice = createSlice({
     getVolumes: (state, action: PayloadAction<any>) => {
       state.arrayOfVolumeNames.push(...action.payload);
     },
-    getVolumeContainers: (state, action: PayloadAction<any>) => {
+    getVolumeContainerList: (state, action: PayloadAction<any>) => {
       if (state.volumeContainersList.length) {
         state.volumeContainersList.forEach((volumeContainer) => {
           if (volumeContainer.vol_name === action.payload.vol_name) {
-            // If the volume already exists, return to ensure no duplicate volumes
             return state.volumeContainersList;
           }
         });
@@ -35,5 +34,5 @@ export const volumeSlice = createSlice({
   },
 });
 
-export const { getVolumes, getVolumeContainers } = volumeSlice.actions;
+export const { getVolumes, getVolumeContainerList } = volumeSlice.actions;
 export default volumeSlice.reducer;

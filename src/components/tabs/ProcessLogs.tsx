@@ -2,15 +2,13 @@
 import React from "react";
 import ProcessLogsCard from "../display/ProcessLogsCard";
 import { ContainerType } from "../../../types";
-
-import { useSelector } from "react-redux";
-import { StateType } from "../../../types";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 // Display all running and stopped containers. Each box can be selected to view process log tables.
 
 const ProcessLogs = () => {
-  const { runningList, stoppedList } = useSelector(
-    (state: StateType) => state.containersList
+  const { runningList, stoppedList } = useAppSelector(
+    (state) => state.containers
   );
 
   const renderRunningList: any[] = [];

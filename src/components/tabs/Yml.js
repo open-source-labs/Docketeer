@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-// import * as helper from "../helper/commands";
 import useHelper from "../helper/commands";
 
 import Table from "@mui/material/Table";
@@ -9,13 +7,14 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
  **/
 
 const Yml = () => {
-  const composeStack = useSelector((state) => state.networkList.composeStack);
+  const composeStack = useAppSelector((state) => state.composes.composeStack);
 
   const [filePath, setFilePath] = useState("");
   const [ymlFile, setYmlFile] = useState("");
@@ -29,7 +28,7 @@ const Yml = () => {
   // const composeDown = (data) => dispatch(actions.composeDown(data));
 
   useEffect(() => {
-    // upon page render, get list of currently running container networks
+    // Upon page render, get list of currently running container networks
     dockerComposeStacks();
 
     const holder = document.getElementById("drag-file");

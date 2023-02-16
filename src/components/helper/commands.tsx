@@ -7,6 +7,7 @@ import {
 import store from "../../renderer/store";
 import { useMemo } from "react";
 import useSurvey from "../helper/dispatch";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 const useHelper = () => {
   const dispatch = useSurvey();
@@ -191,11 +192,11 @@ const useHelper = () => {
       writeToDb() {
         const interval = 150000;
         setInterval(() => {
-          const state = store.getState();
+          const state = useAppSelector((state) => state);
 
-          const runningContainers = state.containersList.runningList;
+          const runningContainers = state.containers.runningList;
 
-          const stoppedContainers = state.containersList.stoppedList;
+          const stoppedContainers = state.containers.stoppedList;
 
           if (!runningContainers.length) return;
           const containerParameters = {};
@@ -277,11 +278,11 @@ const useHelper = () => {
       },
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
-        const { getVolumeList } = dispatch;
+        const { getVolumes } = dispatch;
         fetch("http://localhost:3000/command/allDockerVolumes")
           .then((volumes) => volumes.json())
           .then((dockerVolumes) => {
-            return getVolumeList(filterOneProperty(dockerVolumes, "Name"));
+            return getVolumes(filterOneProperty(dockerVolumes, "Name"));
           })
           .catch((err) => {
             console.log(err);
@@ -289,13 +290,13 @@ const useHelper = () => {
       },
       /* Docker command to retrieve the list of containers running in specified volume @param {string} volumeName */
       getVolumeContainers(volumeName) {
-        const { getVolumeContainersList } = dispatch;
+        const { getVolumeContainerList } = dispatch;
         fetch(
           `http://localhost:3000/command/volumeContainers?volumeName=${volumeName}`
         )
           .then((data) => data.json())
           .then((volumeContainers) => {
-            return getVolumeContainersList(
+            return getVolumeContainerList(
               listOfVolumeProperties(volumeName, volumeContainers)
             );
           })

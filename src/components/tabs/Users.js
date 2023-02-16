@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/reducers/hooks";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NewUserDisplay from "../display/NewUserDisplay";
 import useSurvey from "../helper/dispatch";
 
 const UserTable = () => {
-  const userList = useSelector((state) => state.userList.userList);
-  const { updateUserRole } = useSurvey();
+  const userList = useAppSelector((state) => state.users.userList);
+  const { updateRoles } = useSurvey();
   const [pageSize, setPageSize] = useState(5);
 
   // Create columns for table
@@ -67,7 +67,7 @@ const UserTable = () => {
               _id: id,
               role,
             };
-            updateUserRole(payload); // Updates local state
+            updateRoles(payload); // Updates local state
           }
           event.props.value = role; // Set's the cell's props to the role that was passed in
           resolve({

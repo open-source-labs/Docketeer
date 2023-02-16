@@ -1,15 +1,13 @@
 // Module imports
 import React, { useEffect, useState } from "react";
-import { useSelector /* , useDispatch  */ } from "react-redux";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import useSurvey from "./helper/dispatch";
+import { useAppSelector } from "../redux/reducers/hooks";
 
 // Static imports
-// import * as helper from "./helper/commands";
 import useHelper from "./helper/commands";
 import * as history from "./helper/volumeHistoryHelper";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from "../../assets/docketeer-title.png";
 
@@ -28,16 +26,13 @@ import ProcessLogsTable from "./display/ProcessLogsTable";
 import startNotificationRequester from "./helper/notificationsRequester";
 import initDatabase from "./helper/initDatabase";
 
-// Types and Interface
-import { StateType } from "../../types";
-
 // Container component that has all redux logic along with react router
 const Home = () => {
   const navigate = useNavigate();
 
-  const { session, volumeList } = useSelector((state: StateType) => state);
-  const userInfo = session;
-  const { arrayOfVolumeNames } = volumeList;
+  const { sessions, volumes } = useAppSelector((state) => state);
+  const userInfo = sessions;
+  const { arrayOfVolumeNames } = volumes;
 
   const {
     getHostStats,
@@ -55,7 +50,7 @@ const Home = () => {
   const [selected, setSelected] = useState("/");
 
   // Deconstructs dispatch functions from useSurvey memo
-  const { updateSession, logoutUser, updateUserList, getVolumeContainersList } =
+  const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
 
   // Handles logout of client
@@ -99,11 +94,14 @@ const Home = () => {
     history.volumeByName(
       getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainersList
+      getVolumeContainerList
     );
   }, [arrayOfVolumeNames]);
 
   // Invoke helper functions every 5 seconds to: refresh running/stopped containers/images & notifications
+
+  const state = useAppSelector((state) => state);
+
   useEffect(() => {
     const interval = setInterval(() => {
       getHostStats();
@@ -111,7 +109,7 @@ const Home = () => {
       refreshStopped();
       refreshImages();
     }, 5000);
-    startNotificationRequester();
+    startNotificationRequester(state);
     return () => clearInterval(interval);
   }, []);
 
@@ -131,7 +129,7 @@ const Home = () => {
         return response.json();
       })
       .then((data) => {
-        updateUserList(data);
+        updateUser(data);
       })
       .catch((err) => {
         console.log(err);

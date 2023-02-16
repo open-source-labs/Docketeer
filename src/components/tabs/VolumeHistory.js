@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useAppSelector } from "../../redux/reducers/hooks";
 /*
  * Render Volume History
  */
@@ -11,8 +10,8 @@ const VolumeHistory = () => {
   const [volumeList, setVolumeList] = useState("");
 
   // Access state
-  const volumeContainersList = useSelector(
-    (state) => state.volumeList.volumeContainersList
+  const volumeContainersList = useAppSelector(
+    (state) => state.volumes.volumeContainersList
   );
 
   // Helper function to render container details

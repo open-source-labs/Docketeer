@@ -2,9 +2,8 @@
 import React from "react";
 import { Chart } from "react-chartjs-2";
 import ToggleDisplay from "../display/ToggleDisplay";
-import { ContainerType, ChartInfoType, StateType } from "../../../types";
-import { useSelector } from "react-redux";
-// import * as helper from "../helper/commands";
+import { ContainerType, ChartInfoType } from "../../../types";
+import { useAppSelector } from "../../redux/reducers/hooks";
 import useHelper from "../helper/commands";
 
 /*
@@ -15,8 +14,8 @@ const Containers = () => {
   const { runStopped, remove, stop } = useHelper();
 
   // Accessing state
-  const { runningList, stoppedList } = useSelector(
-    (state: StateType) => state.containersList
+  const { runningList, stoppedList } = useAppSelector(
+    (state) => state.containers
   );
 
   // Helper rendering function for Container component

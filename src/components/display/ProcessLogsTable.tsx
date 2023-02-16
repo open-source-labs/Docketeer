@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { buildOptionsObj } from "../helper/processLogHelper";
-// import { getLogs } from "../helper/commands";
 import useHelper from "../helper/commands";
 import "./ProcessLogsCard";
-
 import useSurvey from "../helper/dispatch";
-import store from "../../renderer/store";
 import { DataGrid } from "@mui/x-data-grid";
-import { Checkbox, FormControlLabel, FormGroup, Button } from "@mui/material"; // use for container selection
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material"; // use for container selection
 import { CSVLink } from "react-csv";
-import { ContainerType, RowsDataType, StateType } from "../../../types";
+import { ContainerType, RowsDataType } from "../../../types";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 /**
  * Displays process logs as table
@@ -27,18 +24,18 @@ const ProcessLogsTable = () => {
   const id = containerID[containerID.length - 1];
 
   // Access runningList from state - store has issue with runningList, ignore until updated
-  const runningList = useSelector(
-    (state: StateType) => state.containersList.runningList
-  );
-
+  const runningList = useAppSelector((state) => state.containers.runningList);
   const { getLogs } = useHelper();
+
   const [btnIdList, setBtnIdList] = useState([id]);
   const [rows, setRows] = useState([]);
   const [csvData, setCsvData] = useState([
     ["container", "type", "time", "message"],
   ]);
   const [counter, setCounter] = useState(0);
-  const { stdout, stderr } = store.getState().processLogs.containerLogs;
+  const { stdoutLogs, stderrLogs } = useAppSelector(
+    (state) => state.logs.containerLogs
+  );
 
   // This will update the logs table after all logs have been pulled - there will be a lag before they render
   useEffect(() => {
@@ -129,34 +126,48 @@ const ProcessLogsTable = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    if (stdout) {
-      stdout.forEach((log: { [k: string]: any }) => {
+    if (stdoutLogs) {
+      stdoutLogs.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
-        newRows.push({
-          container: currCont.Name,
-          type: "stdout",
-          time: log["timeStamp"],
-          message: log["logMsg"],
-          id: Math.random() * 100,
-        });
-        newCSV.push([currCont.Name, "stdout", log["timeStamp"], log["logMsg"]]);
+        if (currCont) {
+          newRows.push({
+            container: currCont.Name,
+            type: "stdout",
+            time: log["timeStamp"],
+            message: log["logMsg"],
+            id: Math.random() * 100,
+          });
+          newCSV.push([
+            currCont.Name,
+            "stdout",
+            log["timeStamp"],
+            log["logMsg"],
+          ]);
+        }
       });
     }
-    if (stderr) {
-      stderr.forEach((log: { [k: string]: any }, index: any) => {
+    if (stderrLogs) {
+      stderrLogs.forEach((log: { [k: string]: any }, index: any) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log["containerName"]
         );
-        newRows.push({
-          container: currCont.Name,
-          type: "stderr",
-          time: log["timeStamp"],
-          message: log["logMsg"],
-          id: parseInt(index),
-        });
-        newCSV.push([currCont.Name, "stderr", log["timeStamp"], log["logMsg"]]);
+        if (currCont) {
+          newRows.push({
+            container: currCont.Name,
+            type: "stderr",
+            time: log["timeStamp"],
+            message: log["logMsg"],
+            id: parseInt(index),
+          });
+          newCSV.push([
+            currCont.Name,
+            "stderr",
+            log["timeStamp"],
+            log["logMsg"],
+          ]);
+        }
       });
 
       setRows(newRows as keyof typeof setRows);

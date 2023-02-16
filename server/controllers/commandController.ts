@@ -20,7 +20,7 @@ import { cpuUsage, freemem, totalmem, freememPercentage } from "os-utils";
  */
 const convert = (stdout: string) => {
   const newArray = stdout.split("\n");
-  const result = [];
+  const result: any[] = [];
   for (let i = 1; i < newArray.length - 1; i++) {
     let removedSpace = newArray[i].replace(/\s+/g, " "); // remove all spaces and replace it to 1 space
     removedSpace = removedSpace.replace(/\s[/]\s/g, "/"); // remove all the space in between slash
@@ -119,7 +119,7 @@ const promisifiedExecStdErr = (cmd: string) => {
 // Purpose: converts arr to obj
 // ==========================================================
 const convertArrToObj = (array: any[], objArray: any[]) => {
-  const result = [];
+  const result: any[] = [];
   for (let i = 0; i < array.length; i++) {
     const containerObj: { [k: string]: any } = {};
     for (let j = 0; j < array[i].length; j++) {
@@ -153,8 +153,8 @@ const commandController: CommandController = {
   // and sends bac
   // ==========================================================
   getApiData: async (req: Request, res: Response, next: NextFunction) => {
-    const apiDataList = [];
-    const requests = [];
+    const apiDataList: any[] = [];
+    const requests: any[] = [];
     // loop through list of containers and make curl request
     // res.locals.containers has list of containres
     const dockerOutput = res.locals.containers;
@@ -300,10 +300,10 @@ const commandController: CommandController = {
     const value = convert(result);
 
     const objArray = ["reps", "tag", "imgid", "size"];
-    const resultImages = [];
+    const resultImages: any[] = [];
 
     for (let i = 0; i < value.length; i++) {
-      const innerArray = [];
+      const innerArray: any[] = [];
       if (value[i][0] !== "<none>") {
         innerArray.push(value[i][0]);
         innerArray.push(value[i][1]);

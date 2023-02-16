@@ -3,7 +3,6 @@
  * @description Signup component that will be rendered in SysAdmin view, in Users tab, where sysadmin can create an account for new user in organization
  */
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 
 // Material UI Imports
 import TextField from "@mui/material/TextField";

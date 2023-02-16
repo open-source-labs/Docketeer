@@ -331,8 +331,8 @@ export interface containerStateType {
   stoppedList: StoppedListType[];
   networkList: any[];
   composeStack: any[];
-  hostStats: unknown;
   // hostStats: { [k: string]: number };
+  hostStats: any;
 }
 
 export interface graphDataType {
@@ -434,7 +434,7 @@ export interface LogsCardProps {
 }
 
 export interface RowsDataType {
-  container: string;
+  container: string | undefined;
   type: string;
   time: string;
   message: string;

@@ -21,6 +21,11 @@ const store = configureStore({
     volumes: volumeReducer,
     logs: logReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

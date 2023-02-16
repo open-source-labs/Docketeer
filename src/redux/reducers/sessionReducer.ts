@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { sessionStateType } from "../../../types";
+import { sessionStateType, UserInfo } from "../../../types";
 
 const initialState: sessionStateType = {
   _id: "",
@@ -24,11 +24,18 @@ export const sessionSlice = createSlice({
     updateSession: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
-    updateUser: (state, action: PayloadAction<any>) => {
-      return { ...state, ...action.payload };
+    updateUser: (state, action: PayloadAction<UserInfo>) => {
+      for (const info in action.payload) {
+        if (Object.hasOwnProperty.call(state, info)) {
+          state[info as keyof UserInfo] =
+            action.payload[info as keyof UserInfo];
+        }
+      }
+      // return { ...state, ...action.payload };
     },
     logoutUser: (state) => {
-      return { ...state };
+      return initialState;
+      // return { ...state };
     },
   },
 });

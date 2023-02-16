@@ -4,8 +4,8 @@
  */
 import React from "react";
 import { useAppDispatch } from "../../redux/reducers/hooks";
-import store from "../../renderer/store";
 import { updateUsers } from "../../redux/reducers/userReducer";
+import { UserInfo } from "../../../types";
 
 export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
   e.preventDefault();
@@ -149,7 +149,7 @@ export const getUpdatedUserList = () => {
     });
 };
 
-export const updateUserList = (data: object[]) => {
+export const updateUserList = (data: UserInfo[]) => {
   const dispatch = useAppDispatch();
   dispatch(updateUsers(data));
 };

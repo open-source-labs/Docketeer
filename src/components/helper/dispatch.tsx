@@ -93,7 +93,7 @@ const useSurvey = () => {
       logoutUser() {
         dispatch(logoutUser());
       },
-      updateUsers(data: UserObj[]) {
+      updateUsers(data: UserInfo[]) {
         dispatch(updateUsers(data));
       },
       getVolumes(data: { Name: string }[]) {

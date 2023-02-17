@@ -527,7 +527,7 @@ const commandController: CommandController = {
 
   // ==========================================================
   // Middleware: composeStacks
-  // Purpose: get a list of all current container networks, based on runnin containers
+  // Purpose: get a list of all current container networks, based on running containers
   // ==========================================================
   composeStacks: (req: Request, res: Response, next: NextFunction) => {
     exec(

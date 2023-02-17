@@ -1,6 +1,6 @@
 // import { useDispatch } from "react-redux";
-import { useMemo } from "react";
-import { useAppDispatch } from "../../redux/reducers/hooks";
+import { useMemo } from 'react';
+import { useAppDispatch } from '../../redux/reducers/hooks';
 
 // Import redux toolkit action creators from individual reducer functions
 import {
@@ -8,7 +8,7 @@ import {
   getContainerStacks,
   /* composeYml, */
   composeDown,
-} from "../../redux/reducers/composeReducer";
+} from '../../redux/reducers/composeReducer';
 
 import {
   refreshHostData,
@@ -17,7 +17,7 @@ import {
   refreshRunningContainers,
   removeContainer,
   refreshStoppedContainer,
-} from "../../redux/reducers/containerReducer";
+} from '../../redux/reducers/containerReducer';
 
 import {
   buildAxis,
@@ -27,11 +27,11 @@ import {
   buildReadIO,
   buildReceivedIO,
   buildTransmittedIO,
-} from "../../redux/reducers/graphReducer";
+} from '../../redux/reducers/graphReducer';
 
-import { refreshImages } from "../../redux/reducers/imageReducer";
+import { refreshImages } from '../../redux/reducers/imageReducer';
 
-import { getLogs } from "../../redux/reducers/logReducer";
+import { getLogs } from '../../redux/reducers/logReducer';
 
 import {
   addPhoneNumber,
@@ -41,30 +41,29 @@ import {
   removeMemoryNotification,
   removeCpuNotification,
   removeStoppedNotification,
-} from "../../redux/reducers/notificationReducer";
+} from '../../redux/reducers/notificationReducer';
 
 import {
   updateSession,
   updateUser,
   logoutUser,
-} from "../../redux/reducers/sessionReducer";
+} from '../../redux/reducers/sessionReducer';
 
-import { updateUsers, updateRoles } from "../../redux/reducers/userReducer";
+import { updateUsers, updateRoles } from '../../redux/reducers/userReducer';
 
 import {
   getVolumes,
-  getVolumeContainerList,
-} from "../../redux/reducers/volumeReducer";
+  getVolumeContainersList,
+} from '../../redux/reducers/volumeReducer';
 
 import {
-  ContainerObj as ContainerObj,
-  StoppedContainerObj as StoppedContainerObj,
-  ImageObj as ImageObj,
-  UserObj as UserObj,
-  VolumeObj as VolumeObj,
-  NetworkObj as NetworkObj,
-  UserInfo as UserInfo,
-} from "../../../types";
+  ContainerObj,
+  StoppedContainerObj,
+  ImageObj,
+  VolumeObj,
+  NetworkObj,
+  UserInfo,
+} from '../../../types';
 
 const useSurvey = () => {
   const dispatch = useAppDispatch();
@@ -100,7 +99,7 @@ const useSurvey = () => {
         dispatch(getVolumes(data));
       },
       getVolumeContainerList(data: VolumeObj) {
-        dispatch(getVolumeContainerList(data));
+        dispatch(getVolumeContainersList(data));
       },
       // Dispatch functions used in Containers.tsx
       // Note: refreshStoppedContainers (already exported)
@@ -179,7 +178,7 @@ const useSurvey = () => {
         dispatch(getLogs(data));
       },
     }),
-    [dispatch]
+    [dispatch],
   );
   return actions;
 };

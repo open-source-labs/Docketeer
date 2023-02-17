@@ -1,6 +1,41 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
+
+export interface UserInfo {
+  //removed password property on userInfo as it's not being used.
+  //changed id from number type to string type so see if that breaks anything
+  _id: string;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  //changed role_id from number to string check if that broke anything
+  role_id: string;
+  contact_pref: string;
+  //changed memthreshold from number to string to align with sessionState in sessions reducer. see if it broke something
+  mem_threshold: string;
+  //changed cpu threshold from number to string let's see what happens
+  cpu_threshold: string;
+  //changed container_stops from boolean to string so let's see what happens
+  container_stops: string;
+  token: string;
+}
+export interface sessionStateType {
+  _id: string;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  role_id: string;
+  contact_pref: string;
+  mem_threshold: string;
+  cpu_threshold: string;
+  container_stops: string;
+  token: string;
+  isLoggedIn: boolean;
+  userList: any[];
+}
 export interface StoppedListType {
   Names?: string;
   ID: string;
@@ -35,25 +70,25 @@ export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   stop: (
     id: string,
-    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void,
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void
+    callback_2: () => void,
   ) => void;
   hostStats?: hostStats[];
 };
@@ -135,20 +170,6 @@ export type SettingsProps = {
   stoppedNotificationList: any[];
 };
 
-export interface UserInfo {
-  _id: number;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: number;
-  contact_pref: string | null;
-  mem_threshold: number;
-  cpu_threshold: number;
-  container_stops: boolean;
-  token: string;
-}
-
 export interface ContainerObj {
   BlockIO: string;
   CPUPerc: string;
@@ -177,13 +198,13 @@ export interface ImagesProps {
   refreshImagesList: (data: imageObj[]) => void;
   runIm: (
     ele: imageObj,
-    refreshRunningContainers: (data: ContainerObj[]) => void
+    refreshRunningContainers: (data: ContainerObj[]) => void,
   ) => void;
   removeIm: (
     id: string,
     imagesList: imageObj[],
     callback_1: (callback: any) => void,
-    callback_2: (data: imageObj[]) => void
+    callback_2: (data: imageObj[]) => void,
   ) => void;
 }
 
@@ -227,21 +248,6 @@ export interface ImageObj {
   tag: string;
 }
 
-export interface UserObj {
-  contact_pref: null | string;
-  container_stops: true | false;
-  cpu_threshold: number;
-  email: string;
-  mem_threshold: number;
-  password: string;
-  phone: string;
-  role: string;
-  role_id: number;
-  token: string;
-  username: string;
-  _id: number;
-}
-
 export interface NetworkObj {
   CreatedAt: string;
   Driver: string;
@@ -256,22 +262,6 @@ export interface NetworkObj {
 export interface VolumeObj {
   vol_name: string;
   containers: object[];
-}
-
-interface session {
-  _id: string;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: any;
-  token: string;
-  isLoggedIn: boolean;
-  userList: any[];
 }
 
 // "any" has been used below since strict typing was used to define these props in the tabs types
@@ -301,7 +291,7 @@ export interface StateType {
   containersList: containersList;
   images: imagesList;
   notificationList: notificationList;
-  session: session;
+  session: sessionStateType;
   volumeList: volumeList;
 }
 
@@ -312,26 +302,11 @@ export interface RootState {
   };
 }
 
-export interface UserInfo {
-  _id: number;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: number;
-  contact_pref: string | null;
-  mem_threshold: number;
-  cpu_threshold: number;
-  container_stops: boolean;
-  token: string;
-}
-
 export interface containerStateType {
   runningList: RunningListType[];
   stoppedList: StoppedListType[];
   networkList: any[];
   composeStack: any[];
-  // hostStats: { [k: string]: number };
   hostStats: { [k: string]: number };
 }
 
@@ -370,22 +345,6 @@ export interface containerLogsType {
 }
 export interface logsStateType {
   containerLogs: containerLogsType;
-}
-
-export interface sessionStateType {
-  _id: string;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: string;
-  token: string;
-  isLoggedIn: boolean;
-  userList: any[];
 }
 
 export interface userStateType {
@@ -434,7 +393,7 @@ export interface LogsCardProps {
 }
 
 export interface RowsDataType {
-  container: string | undefined;
+  container: string;
   type: string;
   time: string;
   message: string;
@@ -443,20 +402,6 @@ export interface RowsDataType {
 
 export interface ToggleDisplayProps {
   container: RunningListType;
-}
-
-export interface UserInfo {
-  _id: number;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: number;
-  contact_pref: string | null;
-  mem_threshold: number;
-  cpu_threshold: number;
-  container_stops: boolean;
-  token: string;
 }
 
 // ==========================================================
@@ -506,7 +451,7 @@ export interface CommandController {
   inspectDockerContainer: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   composeUp: (req: Request, res: Response, next: NextFunction) => void;
   composeStacks: (req: Request, res: Response, next: NextFunction) => void;
@@ -514,12 +459,12 @@ export interface CommandController {
   getAllDockerVolumes: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   getVolumeContainers: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -532,7 +477,7 @@ export interface ConfigController {
   configureThresholds: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   updateContactPref: (req: Request, res: Response, next: NextFunction) => void;
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
@@ -548,7 +493,7 @@ export interface DbController {
   createAdminPassword: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -566,28 +511,28 @@ export interface SettingsController {
   addContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   deleteContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   notificationSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void;
   notificationFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   monitoringFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
 }

@@ -136,16 +136,16 @@ export type SettingsProps = {
 };
 
 export interface UserInfo {
-  _id: string;
+  _id: number;
   username: string;
   email: string;
   phone: string;
   role: string;
-  role_id: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
   token: string;
 }
 
@@ -313,16 +313,16 @@ export interface RootState {
 }
 
 export interface UserInfo {
-  _id: string;
+  _id: number;
   username: string;
   email: string;
   phone: string;
   role: string;
-  role_id: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
   token: string;
 }
 
@@ -332,7 +332,7 @@ export interface containerStateType {
   networkList: any[];
   composeStack: any[];
   // hostStats: { [k: string]: number };
-  hostStats: any;
+  hostStats: { [k: string]: number };
 }
 
 export interface graphDataType {
@@ -446,16 +446,16 @@ export interface ToggleDisplayProps {
 }
 
 export interface UserInfo {
-  _id: string;
+  _id: number;
   username: string;
   email: string;
   phone: string;
   role: string;
-  role_id: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: string;
+  role_id: number;
+  contact_pref: string | null;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
   token: string;
 }
 

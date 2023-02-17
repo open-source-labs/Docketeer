@@ -22,13 +22,6 @@ export const volumeSlice = createSlice({
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainerList: (state, action: PayloadAction<any>) => {
-      // if (
-      //   state.volumeContainersList.filter(
-      //     (container) => container.vol_name !== action.payload.vol_name
-      //   ).length === state.volumeContainersList.length
-      // ) {
-      //   state.arrayOfVolumeNames.push(action.payload);
-      // }
       if (state.volumeContainersList.length) {
         state.volumeContainersList.forEach((volumeContainer) => {
           if (volumeContainer.vol_name === action.payload.vol_name) {

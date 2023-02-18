@@ -20,8 +20,6 @@ router.get(
   commandController.getContainers,
   commandController.getApiData,
   (req: Request, res: Response) => {
-    console.log('res.locals.containers', res.locals.containers);
-    console.log('res.locals.apiData', res.locals.apiData);
     return res.status(200).json(res.locals.apiData);
   }
 );

@@ -189,7 +189,7 @@ const commandController: CommandController = {
             100
         )}%`,
         MemPerc: `${
-          apiData.memory_stats.stats.inactive_file
+          Object.keys(apiData.memory_stats).length === 0
             ? fn(
                 ((apiData.memory_stats.usage -
                   apiData.memory_stats.stats.inactive_file) /
@@ -199,7 +199,7 @@ const commandController: CommandController = {
             : 0
         }%`,
         MemUsage: `${
-          apiData.memory_stats.stats.inactive_file
+          Object.keys(apiData.memory_stats).length === 0
             ? fn(
                 (apiData.memory_stats.usage -
                   apiData.memory_stats.stats.inactive_file) /
@@ -260,7 +260,7 @@ const commandController: CommandController = {
   // Purpose: executes the docker run command with parameters and such
   // ==========================================================
   runImage: (req: Request, res: Response, next: NextFunction) => {
-    // list of running containers (docker ps)
+    // List of running containers (docker ps)
     const { imgid, reps, tag } = req.body;
     const containerId = Math.floor(Math.random() * 100);
     const filteredRepo = reps

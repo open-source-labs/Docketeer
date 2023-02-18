@@ -5,35 +5,29 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-// Import action creators
-import * as actions from '../redux/actions/actions';
-
-// Import MaterialUI components
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-// Import docketeer logo
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
 
 // Import UserInfo interface (typescript)
 import { UserInfo } from '../../types';
+import useSurvey from './helper/dispatch';
 
 const Login = () => {
   // Initializing navigate & dispatch using their respective hooks
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { updateUser, updateSession } = useSurvey();
 
-  const updateSession = () => dispatch(actions.updateSession());
-  const updateUser = (userInfo: UserInfo) =>
-    dispatch(actions.updateUser(userInfo));
+  const updateUserSession = () => updateSession();
+  const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
 
   // Login handler function
   const handleLogin = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
     // Select username and password input elements
@@ -57,8 +51,8 @@ const Login = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username,
-        password: password,
+        username,
+        password,
       }),
     })
       .then((response) => response.json())
@@ -66,8 +60,8 @@ const Login = () => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           window.alert(data.error);
         } else {
-          updateSession(); // Switch state `loggedIn` to true
-          updateUser(data); // Update user information in sessionsReducer
+          updateUserSession(); // Switch state `loggedIn` to true
+          updateUserInfo(data); // Update user information in sessionsReducer
           navigate('/'); // Navigate to root route
         }
       })
@@ -75,7 +69,7 @@ const Login = () => {
         console.log('Fetch: POST error to /login', err);
         // Alert user upon wrong username or password entry using an alert.
         window.alert(
-          'Incorrect password and/or username. \n Please register or try again.'
+          'Incorrect password and/or username. \n Please register or try again.',
         );
       });
   };
@@ -112,7 +106,6 @@ const Login = () => {
               size='medium'
               role='login'
               className='login-buttons'
-              onClick={() => handleLogin}
               sx={{
                 marginTop: 1,
                 marginBottom: 1,

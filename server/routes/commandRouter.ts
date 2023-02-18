@@ -3,9 +3,9 @@
  * @description Routes all requests to APIs
  */
 
-import { Router, Request, Response } from "express";
-import { RunningWithErrors } from "@mui/icons-material";
-import commandController from "../controllers/commandController";
+import { Router, Request, Response } from 'express';
+import { RunningWithErrors } from '@mui/icons-material';
+import commandController from '../controllers/commandController';
 
 const router = Router();
 
@@ -16,7 +16,7 @@ const router = Router();
 
 // Route for refreshing the running container list
 router.get(
-  "/refreshRunning",
+  '/refreshRunning',
   commandController.getContainers,
   commandController.getApiData,
   (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ router.get(
 
 // Route for fetching user host stats
 router.get(
-  "/getHost",
+  '/getHost',
   commandController.getHost,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.hostData);
@@ -35,7 +35,7 @@ router.get(
 
 // Route for adding a new running container to runningList state
 router.post(
-  "/runImage",
+  '/runImage',
   commandController.runImage,
   commandController.getContainers,
   commandController.getApiData,
@@ -46,7 +46,7 @@ router.post(
 
 // Route for refreshing stopped containers
 router.get(
-  "/refreshStopped",
+  '/refreshStopped',
   commandController.refreshStopped,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.stoppedContainers);
@@ -55,7 +55,7 @@ router.get(
 
 // Route to refresh list of images
 router.get(
-  "/refreshImages",
+  '/refreshImages',
   commandController.refreshImages,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.imagesList);
@@ -64,7 +64,7 @@ router.get(
 
 // Route to remove a stopped container
 router.get(
-  "/removeContainer",
+  '/removeContainer',
   commandController.remove,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.idRemoved);
@@ -73,7 +73,7 @@ router.get(
 
 // Route to stop a running container
 router.get(
-  "/stopContainer",
+  '/stopContainer',
   commandController.stopContainer,
   commandController.refreshStopped,
   (req: Request, res: Response) => {
@@ -83,7 +83,7 @@ router.get(
 
 // Route to run a stopped container
 router.get(
-  "/runStopped",
+  '/runStopped',
   commandController.runStopped,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.containerRan);
@@ -92,7 +92,7 @@ router.get(
 
 // Route to remove an image
 router.get(
-  "/removeImage",
+  '/removeImage',
   commandController.removeImage,
   (req: Request, res: Response) => {
     return res.status(200);
@@ -101,7 +101,7 @@ router.get(
 
 // Route for running the docker prune command
 router.get(
-  "/dockerPrune",
+  '/dockerPrune',
   commandController.dockerPrune,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.pruneMessage);
@@ -110,7 +110,7 @@ router.get(
 
 // Route to pull new images
 router.get(
-  "/pullImage",
+  '/pullImage',
   commandController.pullImage,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.imgMessage);
@@ -119,7 +119,7 @@ router.get(
 
 // Route to get network container list
 router.get(
-  "/networkContainers",
+  '/networkContainers',
   commandController.networkContainers,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.networkContainers);
@@ -128,7 +128,7 @@ router.get(
 
 // Route to inspect docker container
 router.get(
-  "/inspect",
+  '/inspect',
   commandController.inspectDockerContainer,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.inspectOut);
@@ -137,7 +137,7 @@ router.get(
 
 // Route to compose a docker file
 router.post(
-  "/composeUp",
+  '/composeUp',
   commandController.composeUp,
   commandController.composeStacks,
   (req: Request, res: Response) => {
@@ -147,7 +147,7 @@ router.post(
 
 // Route to compose DOWN a docker file
 router.post(
-  "/composeDown",
+  '/composeDown',
   commandController.composeDown,
   commandController.composeStacks,
   (req: Request, res: Response) => {
@@ -157,7 +157,7 @@ router.post(
 
 // Route to get list of container networks
 router.get(
-  "/composeStacks",
+  '/composeStacks',
   commandController.composeStacks,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.output);
@@ -166,7 +166,7 @@ router.get(
 
 // Route to get all Docker Volumes
 router.get(
-  "/allDockerVolumes",
+  '/allDockerVolumes',
   commandController.getAllDockerVolumes,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.dockerVolumes);
@@ -175,7 +175,7 @@ router.get(
 
 // Route to get all containers running in specified volume
 router.get(
-  "/volumeContainers",
+  '/volumeContainers',
   commandController.getVolumeContainers,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.volumeContainers);
@@ -184,7 +184,7 @@ router.get(
 
 // Route to get all container logs
 router.post(
-  "/allLogs",
+  '/allLogs',
   commandController.getLogs,
   (req: Request, res: Response) => {
     return res.status(201).json(res.locals.logs);

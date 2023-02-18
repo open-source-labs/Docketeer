@@ -4,7 +4,7 @@
  */
 const convert = (stdout: string) => {
   const newArray = stdout.split("\n");
-  const result = [];
+  const result: any[] = [];
   for (let i = 1; i < newArray.length - 1; i++) {
     let removedSpace = newArray[i].replace(/\s+/g, " "); // remove all spaces and replace it to 1 space
     removedSpace = removedSpace.replace(/\s[/]\s/g, "/"); // remove all the space in between slash
@@ -20,7 +20,7 @@ const convert = (stdout: string) => {
  * @param {*} objArray
  */
 const convertArrToObj = (array: string[][], objArray: string[]) => {
-  const result = [];
+  const result: any[] = [];
   for (let i = 0; i < array.length; i++) {
     const containerObj: any = {};
     for (let j = 0; j < array[i].length; j++) {
@@ -44,7 +44,7 @@ const convertArrToObj = (array: string[][], objArray: string[]) => {
  * @param {*} array
  */
 const convertToMetricsArr = (array: any[]) => {
-  const newArr = [];
+  const newArr: any[] = [];
   let cpuSum = 0;
   let memorySum = 0;
   let netArray: any = [0, 0];

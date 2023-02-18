@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { StateType } from "../../../types";
 
 import useHelper from "../helper/commands";
-// import * as helper from "../helper/commands";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 /**
  * Render Images of the user
  **/
 
 const Images = () => {
-  const imagesList = useSelector((state: StateType) => state.images.imagesList);
+  const imagesList = useAppSelector((state) => state.images.imagesList);
   const [repo, setRepo] = useState("");
 
   const { runIm, removeIm, pullImage } = useHelper();

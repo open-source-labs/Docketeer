@@ -3,13 +3,9 @@
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
 import React from "react";
-import { useSelector } from "react-redux";
-
-// Material UI Imports
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
-
 import {
   handlePasswordChange,
   confirmPassword,
@@ -19,14 +15,14 @@ import {
   handlePhoneUpdate,
   checkPhone,
 } from "../helper/settingsHelper";
-import { RootState } from "../../renderer/store";
+import { useAppSelector } from "../../redux/reducers/hooks";
 
 const input = document.getElementById(
   "update-phone-input"
 ) as HTMLTextAreaElement | null;
 
 const AccountDisplay = () => {
-  const session = useSelector((state: RootState) => state.session);
+  const session = useAppSelector((state) => state.sessions);
 
   return (
     <div>

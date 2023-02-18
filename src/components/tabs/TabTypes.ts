@@ -28,25 +28,25 @@ export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   stopRunningContainer: (id: string) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   stop: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void
+    callback_2: () => void,
   ) => void;
 };
 
@@ -121,17 +121,3 @@ export type SettingsProps = {
   cpuNotificationList: any[];
   stoppedNotificationList: any[];
 };
-
-export interface UserInfo {
-  _id: number;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  role_id: number;
-  contact_pref: string | null;
-  mem_threshold: number;
-  cpu_threshold: number;
-  container_stops: boolean;
-  token: string;
-}

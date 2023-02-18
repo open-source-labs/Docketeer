@@ -1,80 +1,61 @@
-import * as types from "../constants/actionTypes";
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { notificationStateType } from "../../../types";
 
-const notificationState: notificationStateType = {
+const initialState: notificationStateType = {
   phoneNumber: "",
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
 };
 
-export default function (
-  state = notificationState,
-  action: PayloadAction<any>
-) {
-  switch (action.type) {
-    case types.ADD_PHONE_NUMBER:
-      return {
-        ...state,
-        phoneNumber: action.payload,
-      };
-
-    case types.ADD_MEMORY_NOTIFICATION_SETTING:
-      const memoryNotificationList = new Set(action.payload);
-      return {
-        ...state,
-        memoryNotificationList,
-      };
-
-    case types.ADD_CPU_NOTIFICATION_SETTING:
-      const cpuNotificationList = new Set(action.payload);
-      return {
-        ...state,
-        cpuNotificationList,
-      };
-
-    case types.ADD_STOPPED_NOTIFICATION_SETTING:
-      const stoppedNotificationList = new Set(action.payload);
-      return {
-        ...state,
-        stoppedNotificationList,
-      };
-
-    case types.REMOVE_MEMORY_NOTIFICATION_SETTING:
-      const newMemoryNotificationList: any[] = [];
-      state.memoryNotificationList.forEach((containerId) => {
-        if (containerId !== action.payload)
-          newMemoryNotificationList.push(containerId);
+export const notificationSlice = createSlice({
+  name: "notifications",
+  initialState,
+  reducers: {
+    addPhoneNumber: (state, action: PayloadAction<string>) => {
+      state.phoneNumber = action.payload;
+    },
+    addMemoryNotification: (state, action: PayloadAction<any>) => {
+      state.memoryNotificationList = new Set(action.payload);
+    },
+    addCpuNotification: (state, action: PayloadAction<any>) => {
+      state.cpuNotificationList = new Set(action.payload);
+    },
+    addStopNotification: (state, action: PayloadAction<any>) => {
+      state.stoppedNotificationList = new Set(action.payload);
+    },
+    removeMemoryNotification: (state, action: PayloadAction<any>) => {
+      state.memoryNotificationList.forEach((container) => {
+        if (container === action.payload) {
+          state.memoryNotificationList.delete(container);
+        }
       });
-      return {
-        ...state,
-        memoryNotificationList: newMemoryNotificationList,
-      };
-
-    case types.REMOVE_CPU_NOTIFICATION_SETTING:
-      const newCpuNotificationList: any[] = [];
-      state.cpuNotificationList.forEach((containerId) => {
-        if (containerId !== action.payload)
-          newCpuNotificationList.push(containerId);
+    },
+    removeCpuNotification: (state, action: PayloadAction<any>) => {
+      state.cpuNotificationList.forEach((container) => {
+        if (container === action.payload) {
+          state.cpuNotificationList.delete(container);
+        }
       });
-      return {
-        ...state,
-        cpuNotificationList: newCpuNotificationList,
-      };
-
-    case types.REMOVE_STOPPED_NOTIFICATION_SETTING:
-      const newStoppedNotificationList: any[] = [];
-      state.stoppedNotificationList.forEach((containerId) => {
-        if (containerId !== action.payload)
-          newStoppedNotificationList.push(containerId);
+    },
+    removeStoppedNotification: (state, action: PayloadAction<any>) => {
+      state.stoppedNotificationList.forEach((container) => {
+        if (container === action.payload) {
+          state.stoppedNotificationList.delete(container);
+        }
       });
-      return {
-        ...state,
-        stoppedNotificationList: newStoppedNotificationList,
-      };
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-}
+export const {
+  addPhoneNumber,
+  addMemoryNotification,
+  addCpuNotification,
+  addStopNotification,
+  removeMemoryNotification,
+  removeCpuNotification,
+  removeStoppedNotification,
+} = notificationSlice.actions;
+
+export default notificationSlice.reducer;

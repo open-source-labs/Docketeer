@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-// import * as helper from "../helper/commands";
-import useHelper from "../helper/commands";
+import React, { useEffect, useState } from 'react';
+import useHelper from '../helper/commands';
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { useAppSelector } from '../../redux/reducers/hooks';
 
 /**
  * Displays all running docker-compose container networks; drag and drop or upload functionality
  **/
 
 const Yml = () => {
-  const { composeStack } = useSelector((state) => state.networkList);
+  const composeStack = useAppSelector((state) => state.composes.composeStack);
 
-  const [filePath, setFilePath] = useState("");
-  const [ymlFile, setYmlFile] = useState("");
-  const [ymlFileName, setYmlFileName] = useState("");
+  const [filePath, setFilePath] = useState('');
+  const [ymlFile, setYmlFile] = useState('');
+  const [ymlFileName, setYmlFileName] = useState('');
 
   const { dockerComposeStacks, dockerComposeUp, dockerComposeDown } =
     useHelper();
@@ -29,7 +28,7 @@ const Yml = () => {
   // const composeDown = (data) => dispatch(actions.composeDown(data));
 
   useEffect(() => {
-    // upon page render, get list of currently running container networks
+    // Upon page render, get list of currently running container networks
     dockerComposeStacks();
 
     const holder = document.getElementById('drag-file');
@@ -76,35 +75,34 @@ const Yml = () => {
   // creates table of running container networks
   const TableData = () => {
     return composeStack.map((container, index) => {
-      
       return (
         <TableRow key={index}>
           <TableCell>
-            <span className="container-name">{container.Name}</span>
+            <span className='container-name'>{container.Name}</span>
           </TableCell>
           <TableCell>
-            <span className="container-id">{container.ID}</span>
+            <span className='container-id'>{container.ID}</span>
           </TableCell>
           <TableCell>
-            <span className="container-drive">{container.Driver}</span>
+            <span className='container-drive'>{container.Driver}</span>
           </TableCell>
           <TableCell>
-            <span className="container-scope">{container.Scope}</span>
+            <span className='container-scope'>{container.Scope}</span>
           </TableCell>
           <TableCell>
-            <span className="container-createdAt">{container.CreatedAt}</span>
+            <span className='container-createdAt'>{container.CreatedAt}</span>
           </TableCell>
           {container.FilePath && container.YmlFileName && (
             // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
             // only the containers composed up from the application will have a compose down button
-            <TableCell className="btn-compose-up">
+            <TableCell className='btn-compose-up'>
               <button
-                className="btn"
+                className='btn'
                 onClick={() => {
                   dockerComposeDown(container.FilePath, container.YmlFileName);
-                  setYmlFile("");
-                  setFilePath("");
-                  setYmlFileName("");
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
                 }}
               >
                 Docker Compose Down
@@ -117,26 +115,26 @@ const Yml = () => {
   };
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Docker Compose</h1>
+    <div className='renderContainers'>
+      <div className='header'>
+        <h1 className='tabTitle'>Docker Compose</h1>
       </div>
-      <div className="settings-container">
-        <div id="drag-file">
-          <div className="btn-compose-up">
+      <div className='settings-container'>
+        <div id='drag-file'>
+          <div className='btn-compose-up'>
             Upload your Docker Compose file here to compose
             <div>
-              <button className="etc-btn" id="upload-btn">
-                <input  id="uploadFile" type="file"  accept=".yml"></input>
+              <button className='etc-btn' id='upload-btn'>
+                <input id='uploadFile' type='file' accept='.yml'></input>
                 UPLOAD FILE
               </button>
               <button
-                className="etc-btn"
+                className='etc-btn'
                 onClick={() => {
                   dockerComposeUp(filePath, ymlFileName);
-                  setYmlFile("");
-                  setFilePath("");
-                  setYmlFileName("");
+                  setYmlFile('');
+                  setFilePath('');
+                  setYmlFileName('');
                 }}
               >
                 DOCKER COMPOSE UP
@@ -151,7 +149,7 @@ const Yml = () => {
           <br />
         </div>
       </div>
-      <div className="settings-container">
+      <div className='settings-container'>
         <TableContainer>
           <Table>
             <TableHead>

@@ -4,7 +4,6 @@
  */
 
 import store from "../../renderer/store";
-import * as actions from "../../redux/actions/actions";
 
 export const handlePasswordChange = () => {
   const currentPassword = document.getElementById(

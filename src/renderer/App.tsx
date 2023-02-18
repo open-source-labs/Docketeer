@@ -1,8 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useSelector } from "react-redux";
-import { RootState } from "../../types";
+import { useAppSelector } from "../redux/reducers/hooks";
 
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
@@ -18,9 +17,7 @@ const theme = createTheme({
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const session: any = useSelector(
-    (state: RootState) => state.session.isLoggedIn
-  );
+  const session: any = useAppSelector((state) => state.sessions.isLoggedIn);
 
   return (
     <ThemeProvider theme={theme}>

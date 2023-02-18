@@ -2,9 +2,10 @@
  * @module newUserHelper
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
-import store from "../../renderer/store";
-import * as actions from "../../redux/actions/actions";
 import React from "react";
+import { useAppDispatch } from "../../redux/reducers/hooks";
+import { updateUsers } from "../../redux/reducers/userReducer";
+import { UserInfo } from "../../../types";
 
 export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
   e.preventDefault();
@@ -148,8 +149,9 @@ export const getUpdatedUserList = () => {
     });
 };
 
-export const updateUserList = (data: object[]) => {
-  store.dispatch(actions.updateUserList(data));
+export const updateUserList = (data: UserInfo[]) => {
+  const dispatch = useAppDispatch();
+  dispatch(updateUsers(data));
 };
 
 export const checkDbInit = () => {

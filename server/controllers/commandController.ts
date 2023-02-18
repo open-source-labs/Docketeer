@@ -535,7 +535,7 @@ const commandController: CommandController = {
 
   // ==========================================================
   // Middleware: composeStacks
-  // Purpose: get a list of all current container networks, based on runnin containers
+  // Purpose: get a list of all current container networks, based on running containers
   // ==========================================================
   composeStacks: (req: Request, res: Response, next: NextFunction) => {
     exec(
@@ -562,13 +562,15 @@ const commandController: CommandController = {
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
           const directoryNameArray = req.body.filePath.split('/');
-          const containerNetworkName =
-            directoryNameArray[directoryNameArray.length - 1].concat(
-              '_default'
-            );
-
+          // console.log(directoryNameArray);
+          // const containerNetworkName =
+          //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
           parseDockerOutput.forEach((obj: any) => {
-            if (containerNetworkName === obj.Name) {
+            if (
+              obj.Name.includes(
+                directoryNameArray[directoryNameArray.length - 1]
+              )
+            ) {
               obj.FilePath = req.body.filePath;
               obj.YmlFileName = req.body.ymlFileName;
             }

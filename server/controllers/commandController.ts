@@ -188,25 +188,17 @@ const commandController: CommandController = {
             apiData.cpu_stats.online_cpus *
             100
         )}%`,
-        MemPerc: `${
-          Object.keys(apiData.memory_stats).length === 0
-            ? fn(
-                ((apiData.memory_stats.usage -
-                  apiData.memory_stats.stats.inactive_file) /
-                  apiData.memory_stats.limit) *
-                  100
-              )
-            : 0
-        }%`,
-        MemUsage: `${
-          Object.keys(apiData.memory_stats).length === 0
-            ? fn(
-                (apiData.memory_stats.usage -
-                  apiData.memory_stats.stats.inactive_file) /
-                  1048576
-              )
-            : 0
-        }MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
+        MemPerc: `${fn(
+          ((apiData.memory_stats.usage -
+            apiData.memory_stats.stats.inactive_file) /
+            apiData.memory_stats.limit) *
+            100
+        )}%`,
+        MemUsage: `${fn(
+          (apiData.memory_stats.usage -
+            apiData.memory_stats.stats.inactive_file) /
+            1048576
+        )}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
         NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(
           apiData.networks.eth0.tx_bytes / 1000
         )}kB`,

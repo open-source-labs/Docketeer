@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { containerStateType } from "../../../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { containerStateType } from '../../../types';
 
 const initialState: containerStateType = {
   runningList: [],
@@ -10,10 +10,13 @@ const initialState: containerStateType = {
 };
 
 export const containerSlice = createSlice({
-  name: "containers",
+  name: 'containers',
   initialState,
   reducers: {
-    refreshHostData: (state, action: PayloadAction<object>) => {
+    refreshHostData: (
+      state,
+      action: PayloadAction<{ [k: string]: number }>
+    ) => {
       state.hostStats = action.payload;
     },
     stopRunningContainer: (state, action: PayloadAction<string>) => {

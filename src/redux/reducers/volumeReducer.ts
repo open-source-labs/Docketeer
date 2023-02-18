@@ -4,7 +4,7 @@ import { volumeStateType } from '../../../types';
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
  * @param {nested Objects} volumeContainersList Containers running under each volume
-//  */
+ */
 
 const initialState: volumeStateType = {
   arrayOfVolumeNames: [],
@@ -19,14 +19,14 @@ export const volumeSlice = createSlice({
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<any>) => {
-      //ensure the volume doesn't already exist before adding the new container to the list
-      if (
-        state.volumeContainersList.filter(
-          (container) => container.vol_name !== action.payload.vol_name,
-        ).length === state.volumeContainersList.length
-      ) {
-        state.arrayOfVolumeNames.push(action.payload);
+      if (state.volumeContainersList.length) {
+        state.volumeContainersList.forEach((volumeContainer) => {
+          if (volumeContainer.vol_name === action.payload.vol_name) {
+            return state.volumeContainersList;
+          }
+        });
       }
+      state.volumeContainersList.push(action.payload);
     },
   },
 });

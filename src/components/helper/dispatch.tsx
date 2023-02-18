@@ -1,6 +1,6 @@
 // import { useDispatch } from "react-redux";
-import { useMemo } from 'react';
-import { useAppDispatch } from '../../redux/reducers/hooks';
+import { useMemo } from "react";
+import { useAppDispatch } from "../../redux/reducers/hooks";
 
 // Import redux toolkit action creators from individual reducer functions
 import {
@@ -8,7 +8,7 @@ import {
   getContainerStacks,
   /* composeYml, */
   composeDown,
-} from '../../redux/reducers/composeReducer';
+} from "../../redux/reducers/composeReducer";
 
 import {
   refreshHostData,
@@ -17,7 +17,7 @@ import {
   refreshRunningContainers,
   removeContainer,
   refreshStoppedContainer,
-} from '../../redux/reducers/containerReducer';
+} from "../../redux/reducers/containerReducer";
 
 import {
   buildAxis,
@@ -27,11 +27,11 @@ import {
   buildReadIO,
   buildReceivedIO,
   buildTransmittedIO,
-} from '../../redux/reducers/graphReducer';
+} from "../../redux/reducers/graphReducer";
 
-import { refreshImages } from '../../redux/reducers/imageReducer';
+import { refreshImages } from "../../redux/reducers/imageReducer";
 
-import { getLogs } from '../../redux/reducers/logReducer';
+import { getLogs } from "../../redux/reducers/logReducer";
 
 import {
   addPhoneNumber,
@@ -41,20 +41,20 @@ import {
   removeMemoryNotification,
   removeCpuNotification,
   removeStoppedNotification,
-} from '../../redux/reducers/notificationReducer';
+} from "../../redux/reducers/notificationReducer";
 
 import {
   updateSession,
   updateUser,
   logoutUser,
-} from '../../redux/reducers/sessionReducer';
+} from "../../redux/reducers/sessionReducer";
 
-import { updateUsers, updateRoles } from '../../redux/reducers/userReducer';
+import { updateUsers, updateRoles } from "../../redux/reducers/userReducer";
 
 import {
   getVolumes,
   getVolumeContainersList,
-} from '../../redux/reducers/volumeReducer';
+} from "../../redux/reducers/volumeReducer";
 
 import {
   ContainerObj,
@@ -63,7 +63,7 @@ import {
   VolumeObj,
   NetworkObj,
   UserInfo,
-} from '../../../types';
+} from "../../../types";
 
 const useSurvey = () => {
   const dispatch = useAppDispatch();
@@ -71,7 +71,7 @@ const useSurvey = () => {
   const actions = useMemo(
     () => ({
       // Dispatch functions used in Home.tsx
-      refreshHostData(data: ContainerObj[]) {
+      refreshHostData(data: any) {
         dispatch(refreshHostData(data));
       },
       refreshRunningContainers(data: ContainerObj[]) {
@@ -178,7 +178,7 @@ const useSurvey = () => {
         dispatch(getLogs(data));
       },
     }),
-    [dispatch],
+    [dispatch]
   );
   return actions;
 };

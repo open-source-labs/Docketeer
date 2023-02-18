@@ -2,12 +2,12 @@
  * @module initDatabase Controller
  * @description Contains middleware that creates and runs the local database
  */
-import { Request, Response, NextFunction } from "express";
-import { CommandController, ServerError } from "../../types";
-import { exec } from "child_process";
-import { net } from "electron";
-import { constants } from "fs/promises";
-import { cpuUsage, freemem, totalmem, freememPercentage } from "os-utils";
+import { Request, Response, NextFunction } from 'express';
+import { CommandController, ServerError } from '../../types';
+import { exec } from 'child_process';
+import { net } from 'electron';
+import { constants } from 'fs/promises';
+import { cpuUsage, freemem, totalmem, freememPercentage } from 'os-utils';
 
 // ==========================================================
 // Function: convert
@@ -19,12 +19,12 @@ import { cpuUsage, freemem, totalmem, freememPercentage } from "os-utils";
  *  @param {*} stdout
  */
 const convert = (stdout: string) => {
-  const newArray = stdout.split("\n");
+  const newArray = stdout.split('\n');
   const result: any[] = [];
   for (let i = 1; i < newArray.length - 1; i++) {
-    let removedSpace = newArray[i].replace(/\s+/g, " "); // remove all spaces and replace it to 1 space
-    removedSpace = removedSpace.replace(/\s[/]\s/g, "/"); // remove all the space in between slash
-    const splittedArray = removedSpace.split(" ");
+    let removedSpace = newArray[i].replace(/\s+/g, ' '); // remove all spaces and replace it to 1 space
+    removedSpace = removedSpace.replace(/\s[/]\s/g, '/'); // remove all the space in between slash
+    const splittedArray = removedSpace.split(' ');
     result.push(splittedArray);
   }
   return result;
@@ -40,25 +40,25 @@ const convert = (stdout: string) => {
 const makeArrayOfObjects = (string: string, containerName: string) => {
   const arrayOfObjects = string
     .trim()
-    .split("\n")
+    .split('\n')
     .map((element) => {
       const obj: { [k: string]: any } = {};
-      const logArray = element.split(" ");
+      const logArray = element.split(' ');
       // extract timestamp
-      if (logArray[0].endsWith("Z")) {
+      if (logArray[0].endsWith('Z')) {
         const timeStamp: any = logArray.shift();
         // parse GMT string to be readable local date and time
         obj.timeStamp = new Date(Date.parse(timeStamp)).toLocaleString();
       }
       // parse remaining array to create readable message
-      let logMsg = logArray.join(" ");
+      let logMsg = logArray.join(' ');
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
-      const closingIndex = logMsg.indexOf("]");
+      const closingIndex = logMsg.indexOf(']');
       if (closingIndex >= 0) {
         logMsg = logMsg.slice(closingIndex + 1).trim();
       }
       // after removing [num/notice], some logs also have 'LOG:' before the actual msg
-      if (logMsg.slice(0, 4) === "LOG:") {
+      if (logMsg.slice(0, 4) === 'LOG:') {
         logMsg = logMsg.slice(4);
       }
       obj.logMsg = logMsg.trim();
@@ -67,7 +67,7 @@ const makeArrayOfObjects = (string: string, containerName: string) => {
     });
 
   // filter out empty messages
-  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== "");
+  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
   return arrayOfLogs;
 };
 
@@ -141,7 +141,7 @@ const commandController: CommandController = {
       'docker ps --format "{{json .}},"'
     );
     const dockerOutput = JSON.parse(
-      `[${result.trim().slice(0, -1).replaceAll(" ", "")}]`
+      `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
     res.locals.containers = dockerOutput;
     return next();
@@ -188,17 +188,25 @@ const commandController: CommandController = {
             apiData.cpu_stats.online_cpus *
             100
         )}%`,
-        MemPerc: `${fn(
-          ((apiData.memory_stats.usage -
-            apiData.memory_stats.stats.inactive_file) /
-            apiData.memory_stats.limit) *
-            100
-        )}%`,
-        MemUsage: `${fn(
-          (apiData.memory_stats.usage -
-            apiData.memory_stats.stats.inactive_file) /
-            1048576
-        )}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
+        MemPerc: `${
+          apiData.memory_stats.stats.inactive_file
+            ? fn(
+                ((apiData.memory_stats.usage -
+                  apiData.memory_stats.stats.inactive_file) /
+                  apiData.memory_stats.limit) *
+                  100
+              )
+            : 0
+        }%`,
+        MemUsage: `${
+          apiData.memory_stats.stats.inactive_file
+            ? fn(
+                (apiData.memory_stats.usage -
+                  apiData.memory_stats.stats.inactive_file) /
+                  1048576
+              )
+            : 0
+        }MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
         NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(
           apiData.networks.eth0.tx_bytes / 1000
         )}kB`,
@@ -208,7 +216,7 @@ const commandController: CommandController = {
             )}kB / ${fn(
               apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000
             )}kB`
-          : "0kB / 0kB",
+          : '0kB / 0kB',
         PIDs: `${apiData.pids_stats.current}`,
         // add new data
       };
@@ -256,8 +264,8 @@ const commandController: CommandController = {
     const { imgid, reps, tag } = req.body;
     const containerId = Math.floor(Math.random() * 100);
     const filteredRepo = reps
-      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, ".")
-      .replace(/\s{2,}/g, " ");
+      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
+      .replace(/\s{2,}/g, ' ');
     exec(
       `docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`,
       (error, stdout, stderr) => {
@@ -295,16 +303,16 @@ const commandController: CommandController = {
   // Purpose: executes the docker image command to get list of pulled images
   // ==========================================================
   refreshImages: async (req: Request, res: Response, next: NextFunction) => {
-    const result: any = await promisifiedExec("docker images");
+    const result: any = await promisifiedExec('docker images');
 
     const value = convert(result);
 
-    const objArray = ["reps", "tag", "imgid", "size"];
+    const objArray = ['reps', 'tag', 'imgid', 'size'];
     const resultImages: any[] = [];
 
     for (let i = 0; i < value.length; i++) {
       const innerArray: any[] = [];
-      if (value[i][0] !== "<none>") {
+      if (value[i][0] !== '<none>') {
         innerArray.push(value[i][0]);
         innerArray.push(value[i][1]);
         innerArray.push(value[i][2]);
@@ -395,7 +403,7 @@ const commandController: CommandController = {
       if (error) {
         console.log(
           `${error.message}` +
-            "\nPlease stop running container first then remove."
+            '\nPlease stop running container first then remove.'
         );
         return next(error);
       }
@@ -412,7 +420,7 @@ const commandController: CommandController = {
   // Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced)
   // ==========================================================
   dockerPrune: (req: Request, res: Response, next: NextFunction) => {
-    exec("docker system prune --force", (error, stdout, stderr) => {
+    exec('docker system prune --force', (error, stdout, stderr) => {
       if (error) {
         console.log(`${error.message}`);
         return next(error);
@@ -423,7 +431,7 @@ const commandController: CommandController = {
       }
       res.locals.pruneMessage = {
         message:
-          "Remove all unused containers, networks, images (both dangling and unreferenced)",
+          'Remove all unused containers, networks, images (both dangling and unreferenced)',
       };
       return next();
     });
@@ -447,7 +455,7 @@ const commandController: CommandController = {
       res.locals.imgMessage = {
         message: `${req.query.repo} is currently being downloaded`,
       };
-      console.log("res.locals.imgMessage in pullImage", res.locals.imgMessage);
+      console.log('res.locals.imgMessage in pullImage', res.locals.imgMessage);
       return next();
     });
   },
@@ -473,12 +481,12 @@ const commandController: CommandController = {
         const dockerOutput = `[${stdout
           .trim()
           .slice(0, -1)
-          .replaceAll(" ", "")}]`;
+          .replaceAll(' ', '')}]`;
 
         // remove docker network defaults named: bridge, host, and none
         const networkContainers = JSON.parse(dockerOutput).filter(
           ({ Name }: any) =>
-            Name !== "bridge" && Name !== "host" && Name !== "none"
+            Name !== 'bridge' && Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
         return next();
@@ -510,10 +518,10 @@ const commandController: CommandController = {
   // ==========================================================
   composeUp: async (req: Request, res: Response, next: NextFunction) => {
     const nativeYmlFilenames = new Set([
-      "docker-compose.yml",
-      "docker-compose.yaml",
-      "compose.yml",
-      "compose.yaml",
+      'docker-compose.yml',
+      'docker-compose.yaml',
+      'compose.yml',
+      'compose.yaml',
     ]);
 
     const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
@@ -547,16 +555,16 @@ const commandController: CommandController = {
         const dockerOutput = `[${stdout
           .trim()
           .slice(0, -1)
-          .replaceAll(" ", "")}]`;
+          .replaceAll(' ', '')}]`;
 
         const parseDockerOutput = JSON.parse(dockerOutput);
 
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
-          const directoryNameArray = req.body.filePath.split("/");
+          const directoryNameArray = req.body.filePath.split('/');
           const containerNetworkName =
             directoryNameArray[directoryNameArray.length - 1].concat(
-              "_default"
+              '_default'
             );
 
           parseDockerOutput.forEach((obj: any) => {
@@ -582,10 +590,10 @@ const commandController: CommandController = {
   // ==========================================================
   composeDown: async (req: Request, res: Response, next: NextFunction) => {
     const nativeYmlFilenames = new Set([
-      "docker-compose.yml",
-      "docker-compose.yaml",
-      "compose.yml",
-      "compose.yaml",
+      'docker-compose.yml',
+      'docker-compose.yaml',
+      'compose.yml',
+      'compose.yaml',
     ]);
 
     const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
@@ -617,7 +625,7 @@ const commandController: CommandController = {
       }
 
       const dockerOutput = JSON.parse(
-        `[${stdout.trim().slice(0, -1).replaceAll(" ", "")}]`
+        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
       );
       res.locals.dockerVolumes = dockerOutput;
       return next();
@@ -657,19 +665,19 @@ const commandController: CommandController = {
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = "docker logs --timestamps ";
+      let inputCommandString = 'docker logs --timestamps ';
       if (optionsObj.since) {
         inputCommandString += `--since ${optionsObj.since} `;
       }
       optionsObj.tail
         ? (inputCommandString += `--tail ${optionsObj.tail} `)
-        : (inputCommandString += "--tail 50 ");
+        : (inputCommandString += '--tail 50 ');
       inputCommandString += `${optionsObj.containerIds[i]}`;
 
       exec(inputCommandString, (error, stdout, stderr) => {
         if (error) {
           console.log(
-            "Please enter a valid rfc3339 date, Unix timestamp, or Go duration string."
+            'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.'
           );
           return next(error);
         }

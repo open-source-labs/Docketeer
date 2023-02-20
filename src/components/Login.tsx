@@ -27,7 +27,7 @@ const Login = () => {
 
   // Login handler function
   const handleLogin = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>,
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
     // Select username and password input elements
@@ -69,7 +69,7 @@ const Login = () => {
         console.log('Fetch: POST error to /login', err);
         // Alert user upon wrong username or password entry using an alert.
         window.alert(
-          'Incorrect password and/or username. \n Please register or try again.',
+          'Incorrect password and/or username. \n Please register or try again.'
         );
       });
   };
@@ -81,7 +81,7 @@ const Login = () => {
       </header>
       <div className='renderContainers login-container'>
         <div className='header'>
-          <h1 className='tabTitle'>Login</h1>
+          <h1 className='bg-red-800'>Login</h1>
         </div>
         <div className='settings-container inner-box'>
           <form

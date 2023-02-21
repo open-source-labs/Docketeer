@@ -47,8 +47,6 @@ const Home = () => {
     getVolumeContainers,
   } = useHelper();
 
-  const [selected, setSelected] = useState('/');
-
   // Deconstructs dispatch functions from useSurvey memo
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
@@ -94,7 +92,7 @@ const Home = () => {
     history.volumeByName(
       getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainerList,
+      getVolumeContainerList
     );
   }, [arrayOfVolumeNames]);
 
@@ -136,122 +134,98 @@ const Home = () => {
       });
   }, []);
 
-  // Define inline styling for navigation bar
-  const selectedStyling = {
-    background: '#e1e4e6',
-    color: '#042331',
-    borderTopRightRadius: '10px',
-    borderBottomRightRadius: '10px',
-  };
-
   return (
-    <div className='container'>
-      <nav className='tab'>
-        <header id='title'>
-          <img src={Docketeer} width={220} />
-        </header>
-        <div className='viewsAndButton'>
-          <ul>
-            <li>
-              <Link
-                to='/home/'
-                style={selected === '/home/' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/')}
+    <div>
+      <div className='navbar bg-neutral text-neutral-content p-2 m-2 rounded-lg'>
+        <div className='navbar-start'>
+          <div className='dropdown'>
+            <label tabIndex={0} className='btn btn-ghost btn-circle'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
               >
-                <i className='fas fa-settings'></i> Settings
-              </Link>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M4 6h16M4 12h8m-8 6h16'
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'
+            >
+              <li>
+                <Link to='/home/'>Settings</Link>
+              </li>
+
+              <li>
+                <Link to='/home/users'>Users</Link>
+              </li>
+              <li>
+                <Link to='/home/running'>Containers</Link>
+              </li>
+              <li>
+                <Link to='/home/images'>Images</Link>
+              </li>
+              <li>
+                <Link to='/home/metrics'>Metrics</Link>
+              </li>
+              <li>
+                <Link to='/home/yml'>Docker Compose</Link>
+              </li>
+              <li>
+                <Link to='/home/volume'>Volume History</Link>
+              </li>
+              <li>
+                <Link to='/home/logs'>Process Logs</Link>
+              </li>
+            </ul>
+          </div>
+          <a className='btn btn-ghost normal-case text-xl'>docketeer</a>
+        </div>
+        <div className='navbar-center text-md hidden xl:flex'>
+          <ul className='menu menu-horizontal px-1'>
+            <li>
+              <Link to='/home/'>Settings</Link>
+            </li>
+
+            <li>
+              <Link to='/home/users'>Users</Link>
             </li>
             <li>
-              <Link
-                to='/home/users'
-                style={selected === '/home/users' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/users')}
-              >
-                <i className='fas fa-users'></i> Users
-              </Link>
+              <Link to='/home/running'>Containers</Link>
             </li>
             <li>
-              <Link
-                to='/home/running'
-                style={
-                  selected === '/home/running' ? selectedStyling : undefined
-                }
-                onClick={() => setSelected(() => '/home/running')}
-              >
-                <i className='fas fa-box-open'></i> Containers
-              </Link>
+              <Link to='/home/images'>Images</Link>
             </li>
             <li>
-              <Link
-                to='/home/images'
-                style={
-                  selected === '/home/images' ? selectedStyling : undefined
-                }
-                onClick={() => setSelected('/home/images')}
-              >
-                <i className='fas fa-database'></i> Images
-              </Link>
+              <Link to='/home/metrics'>Metrics</Link>
             </li>
             <li>
-              <Link
-                to='/home/metrics'
-                style={
-                  selected === '/home/metrics' ? selectedStyling : undefined
-                }
-                onClick={() => setSelected('/home/metrics')}
-              >
-                <i className='fas fa-chart-pie'></i> Metrics
-              </Link>
+              <Link to='/home/yml'>Docker Compose</Link>
             </li>
             <li>
-              <Link
-                to='/home/yml'
-                style={selected === '/home/yml' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/yml')}
-              >
-                <i className='fas fa-file-upload'></i> Docker Compose
-              </Link>
+              <Link to='/home/volume'>Volume History</Link>
             </li>
             <li>
-              <Link
-                to='/home/volume'
-                style={
-                  selected === '/home/volume' ? selectedStyling : undefined
-                }
-                onClick={() => setSelected('/home/volume')}
-              >
-                <i className='fas fa-volume-history'></i> Volume History
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='/home/logs'
-                style={selected === '/home/logs' ? selectedStyling : undefined}
-                onClick={() => setSelected('/home/logs')}
-              >
-                <i className='fas fa-log'></i> Process Logs
-              </Link>
+              <Link to='/home/logs'>Process Logs</Link>
             </li>
           </ul>
-          <div>
-            <button
-              style={{ borderRadius: 5, marginBottom: 10 }}
-              className='btn'
-              onClick={(e) => handlePruneClick(e)}
-            >
-              System Prune
-            </button>
-            <span> </span>
-            <button
-              style={{ borderRadius: 5, marginBottom: 10 }}
-              className='btn'
-              onClick={() => handleLogout()}
-            >
-              Logout
-            </button>
-          </div>
         </div>
-      </nav>
+        <div className='navbar-end space-x-2'>
+          <a className='btn' onClick={(e) => handlePruneClick(e)}>
+            System Prune
+          </a>
+          <a className='btn' onClick={() => handleLogout()}>
+            Logout
+          </a>
+        </div>
+      </div>
       <Routes>
         <Route path='/volume' element={<VolumeHistory />} />
         <Route path='/metrics' element={<Metrics key={1} />} />

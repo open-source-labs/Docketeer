@@ -2,83 +2,66 @@
  * @module newUserHelper
  * @description Helper functions for creating a new user in the NewUserDisplay component
  */
-import React from "react";
-import { useAppDispatch } from "../../redux/reducers/hooks";
-import { updateUsers } from "../../redux/reducers/userReducer";
-import { UserInfo } from "../../../types";
+import React from 'react';
+import { useAppDispatch } from '../../redux/reducers/hooks';
+import { updateUsers } from '../../redux/reducers/userReducer';
+import { UserInfo } from '../../../types';
+import { log } from 'console';
 
-export const handleNewUser = (e: React.SyntheticEvent, roleID: string) => {
-  e.preventDefault();
-  const username = (<HTMLInputElement>document.getElementById("signupUsername"))
-    .value;
-  const password = (<HTMLInputElement>document.getElementById("signupPassword"))
-    .value;
-  const email = (<HTMLInputElement>document.getElementById("signupEmail"))
-    .value;
-  const phone = (<HTMLInputElement>document.getElementById("signupPhone"))
-    .value;
+export const handleNewUser = (
+  userInformation: any,
+  roleID: string,
+  setValues: any
+) => {
+  const { email, username, password, phone } = userInformation;
 
-  if (!checkPasswordLength()) {
-    window.alert("Warning: Password must be 6 characters or longer");
+  if (!checkPasswordLength(password)) {
+    window.alert('Warning: Password must be 6 characters or longer');
     return;
   }
-  if (!confirmPassword()) {
-    window.alert("Warning: Passwords do not match");
+  if (!confirmPassword(password, userInformation.passwordConfirmation)) {
+    window.alert('Warning: Passwords do not match');
     return;
   }
   if (!checkPhone(phone)) {
     window.alert(
-      "Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900"
+      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900'
     );
     return;
   }
 
-  createNewUser(email, username, password, phone, roleID);
+  createNewUser(email, username, password, phone, roleID, setValues);
 };
 
-export const confirmPassword = () => {
-  const password = (<HTMLInputElement>document.getElementById("signupPassword"))
-    .value;
-  const confirmationPassword = (<HTMLInputElement>(
-    document.getElementById("signupPasswordConfirmation")
-  )).value;
-  const passwordConfirmationAlert = <HTMLSpanElement>(
-    document.getElementById("password-confirmation-alert")
-  );
-
-  if (password !== confirmationPassword) {
-    passwordConfirmationAlert.innerHTML = "Warning: Passwords do not match";
-  } else {
-    passwordConfirmationAlert.innerHTML = "";
+export const confirmPassword = (
+  password: string,
+  passwordConfirmation: string
+) => {
+  if (password !== passwordConfirmation) {
+    window.alert('Warning: Passwords do not match');
+    return;
   }
-  return password === confirmationPassword;
+  return password === passwordConfirmation;
 };
 
-export const checkPasswordLength = () => {
-  const passwordLengthAlert = <HTMLSpanElement>(
-    document.getElementById("password-length-alert")
-  );
-  const password = (<HTMLInputElement>document.getElementById("signupPassword"))
-    .value;
+export const checkPasswordLength = (password: string) => {
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
-
   if (!regex.test(password) && password) {
-    passwordLengthAlert.innerHTML =
-      "\nWarning: Password must be 6 characters or longer \nand must include at least one number and one letter";
-  } else {
-    passwordLengthAlert.innerHTML = "";
+    window.alert(
+      'Warning: Password must be 6 characters or longer \nand must include at least one number and one letter'
+    );
+    return;
   }
   return password.length >= 6;
 };
 
 export const checkPhone = (phone: string) => {
   const regex = /[+][1][\d]{10}$/;
-  const phoneAlert = document.getElementById("phone-alert") as HTMLInputElement;
   if (phone.match(regex) === null) {
-    phoneAlert.innerHTML =
-      "Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900";
-  } else {
-    phoneAlert.innerHTML = "";
+    window.alert(
+      'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900'
+    );
+    return;
   }
   return phone.match(regex) !== null;
 };
@@ -88,12 +71,13 @@ export const createNewUser = (
   username: string,
   password: string,
   phone: string,
-  role_id: string
+  role_id: string,
+  setValues
 ) => {
-  fetch("http://localhost:3000/signup", {
-    method: "POST",
+  fetch('http://localhost:3000/signup', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       username: username,
@@ -104,22 +88,15 @@ export const createNewUser = (
     }),
   })
     .then(() => {
-      (<HTMLInputElement>document.getElementById("signupUsername")).value = "";
-      (<HTMLInputElement>document.getElementById("signupPassword")).value = "";
-      (<HTMLInputElement>(
-        document.getElementById("signupPasswordConfirmation")
-      )).value = "";
-      (<HTMLInputElement>document.getElementById("signupEmail")).value = "";
-      (<HTMLInputElement>document.getElementById("signupPhone")).value = "";
-      (<HTMLSpanElement>(
-        document.getElementById("password-length-alert")
-      )).innerHTML = "";
-      (<HTMLSpanElement>(
-        document.getElementById("password-confirmation-alert")
-      )).innerHTML = "";
-
-      window.alert(`New user has been successfully created. \n\n
-          An email with the user's credentials and login instructions has been sent to ${email}`);
+      setValues({
+        email: '',
+        username: '',
+        password: '',
+        passwordConfirmation: '',
+        phone: '',
+        showPassword: false,
+      });
+      window.alert(`New user has been successfully created.`);
     })
     .then(() => {
       getUpdatedUserList();
@@ -130,10 +107,10 @@ export const createNewUser = (
 };
 
 export const getUpdatedUserList = () => {
-  fetch("http://localhost:3000/admin", {
-    method: "POST",
+  fetch('http://localhost:3000/admin', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
@@ -142,10 +119,13 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      updateUserList(data);
+      console.log(
+        'Reminder: Fix `getUpdatedUserList` helper function to ensure newly added users get added to the list.'
+      );
+      // updateUserList(data);
     })
     .catch((err) => {
-      console.log("error in getUpdatedUserList: ", err);
+      console.log('error in getUpdatedUserList: ', err);
     });
 };
 
@@ -155,7 +135,7 @@ export const updateUserList = (data: UserInfo[]) => {
 };
 
 export const checkDbInit = () => {
-  fetch("http://localhost:3000/db")
+  fetch('http://localhost:3000/db')
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((err) => {

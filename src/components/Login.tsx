@@ -1,49 +1,32 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Docketeer from '../../assets/docketeer-title.png';
+import { UserInfo } from '../../types';
+import useSurvey from './helper/dispatch';
+
 /**
  * @module Login
  * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  */
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import Docketeer from '../../assets/docketeer-title.png';
-
-// Import UserInfo interface (typescript)
-import { UserInfo } from '../../types';
-import useSurvey from './helper/dispatch';
-
 const Login = () => {
-  // Initializing navigate & dispatch using their respective hooks
   const navigate = useNavigate();
   const { updateUser, updateSession } = useSurvey();
-
   const updateUserSession = () => updateSession();
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
 
-  // Login handler function
-  const handleLogin = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-    // Select username and password input elements
+  const handleLogin = () => {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-    // Store the input field value into `username` and `password`
     const username: string = (usernameInput as HTMLInputElement).value;
     const password: string = (passwordInput as HTMLInputElement).value;
-    // Clear form input fields after submission of the form
     (usernameInput as HTMLInputElement).value = '';
     (passwordInput as HTMLInputElement).value = '';
-    // Invoke authenticateUser
     authenticateUser(username, password);
   };
 
-  // authenticateUser will send a post request to the server to verify user information
   const authenticateUser = (username: string, password: string) => {
     fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -75,61 +58,41 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <header>
-        <img id='logo' src={Docketeer} width={300} />
-      </header>
-      <div className='renderContainers login-container'>
-        <div className='header'>
-          <h1 className='bg-red-800'>Login</h1>
-        </div>
-        <div className='settings-container inner-box'>
-          <form
-            className='loginForm'
-            onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => handleLogin(e)}
-          >
-            <TextField id='username' label='Username' variant='outlined' />
-            <br />
-            <br />
-            <TextField
-              id='password'
-              label='Password'
-              type='password'
-              variant='outlined'
-            />
-            <br />
-            {/* * Login Button * */}
-            <Button
-              variant='contained'
-              color='primary'
-              type='submit'
-              size='medium'
-              role='login'
-              className='login-buttons'
-              sx={{
-                marginTop: 1,
-                marginBottom: 1,
-              }}
-            >
-              Login
-            </Button>
-            <br />
-            <Button
-              variant='contained'
-              size='small'
-              role='register'
-              className='register login-buttons'
-              onClick={() => navigate('/userSignup')}
-              sx={{
-                color: '#1976d2',
-                background: 'white',
-                marginTop: 1,
-              }}
-            >
-              Register
-            </Button>
-            <br />
-          </form>
+    <div className='hero min-h-screen bg-base-200'>
+      <div className='hero-content flex-col lg:flex-row lg:space-x-20'>
+        <img src={Docketeer} alt='product-logo' className='max-w-sm' />
+        <div className='card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100'>
+          <div className='card-body'>
+            <div className='form-control'>
+              <input
+                type='text'
+                id='username'
+                placeholder='Username'
+                className='input input-bordered'
+              />
+            </div>
+            <div className='form-control'>
+              <input
+                type='password'
+                id='password'
+                placeholder='Password'
+                className='input input-bordered'
+              />
+              <label className='label'>
+                <a
+                  className='label-text-alt link link-hover'
+                  onClick={() => navigate('/userSignup')}
+                >
+                  New? Click here to register.
+                </a>
+              </label>
+            </div>
+            <div className='form-control mt-6'>
+              <button className='btn btn-primary' onClick={() => handleLogin()}>
+                Login
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

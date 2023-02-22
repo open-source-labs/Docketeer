@@ -10,11 +10,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.navbar {
-  max-width: 99%;
-}
-
-.menu {
-  font-size: 0.9rem;
-}

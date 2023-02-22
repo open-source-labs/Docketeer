@@ -136,7 +136,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className='navbar bg-neutral text-neutral-content p-2 m-2 rounded-lg'>
+      <div className='navbar bg-neutral text-neutral-content'>
         <div className='navbar-start'>
           <div className='dropdown'>
             <label tabIndex={0} className='btn btn-ghost btn-circle'>
@@ -184,43 +184,46 @@ const Home = () => {
               <li>
                 <Link to='/home/logs'>Process Logs</Link>
               </li>
+              <li>
+                <a onClick={(e) => handlePruneClick(e)}>System Prune</a>
+              </li>
             </ul>
           </div>
           <a className='btn btn-ghost normal-case text-xl'>docketeer</a>
         </div>
-        <div className='navbar-center text-md hidden xl:flex'>
-          <ul className='menu menu-horizontal px-1'>
+        <div className='navbar-center hidden xl:flex'>
+          <ul className='menu menu-horizontal px-1 text-xs'>
             <li>
-              <Link to='/home/'>Settings</Link>
+              <Link to='/home/'>SETTINGS</Link>
             </li>
 
             <li>
-              <Link to='/home/users'>Users</Link>
+              <Link to='/home/users'>USERS</Link>
             </li>
             <li>
-              <Link to='/home/running'>Containers</Link>
+              <Link to='/home/running'>CONTAINERS</Link>
             </li>
             <li>
-              <Link to='/home/images'>Images</Link>
+              <Link to='/home/images'>IMAGES</Link>
             </li>
             <li>
-              <Link to='/home/metrics'>Metrics</Link>
+              <Link to='/home/metrics'>METRICS</Link>
             </li>
             <li>
-              <Link to='/home/yml'>Docker Compose</Link>
+              <Link to='/home/yml'>DOCKER COMPOSE</Link>
             </li>
             <li>
-              <Link to='/home/volume'>Volume History</Link>
+              <Link to='/home/volume'>VOLUME HISTORY</Link>
             </li>
             <li>
-              <Link to='/home/logs'>Process Logs</Link>
+              <Link to='/home/logs'>PROCESS LOGS</Link>
+            </li>
+            <li>
+              <a onClick={(e) => handlePruneClick(e)}>SYSTEM PRUNE</a>
             </li>
           </ul>
         </div>
-        <div className='navbar-end space-x-2'>
-          <a className='btn' onClick={(e) => handlePruneClick(e)}>
-            System Prune
-          </a>
+        <div className='navbar-end'>
           <a className='btn' onClick={() => handleLogout()}>
             Logout
           </a>

@@ -493,9 +493,11 @@
 //               {/* Stopped containers have a .Names key. Running containers have a .Name key */}
 //             </span>
 //           </TableCell>
+//
 //           <TableCell>
 //             <span className='container-id'>{container.ID}</span>
 //           </TableCell>
+//
 //           <TableCell align='center'>
 //             <Checkbox
 //               onClick={(event: any) =>
@@ -512,6 +514,7 @@
 //               checked={isMemorySelected}
 //             />
 //           </TableCell>
+//
 //           <TableCell align='center'>
 //             <Checkbox
 //               onClick={(event: any) =>
@@ -528,6 +531,7 @@
 //               checked={isCpuSelected}
 //             />
 //           </TableCell>
+//
 //           <TableCell align='center'>
 //             <Checkbox
 //               onClick={(event: any) =>
@@ -544,6 +548,7 @@
 //               checked={isStoppedSelected}
 //             />
 //           </TableCell>
+//
 //           <TableCell align='center'>
 //             <TextField
 //               sx={{
@@ -567,6 +572,7 @@
 //               size='small'
 //             />
 //           </TableCell>
+//
 //           <TableCell>
 //             <Button
 //               sx={{

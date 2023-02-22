@@ -486,103 +486,104 @@ const Settings = () => {
       );
 
       return (
-        <TableRow key={i} id='settings-row'>
-          <TableCell>
-            <span className='container-name'>
-              {container.Names ? container.Names : container.Name}
-              {/* Stopped containers have a .Names key. Running containers have a .Name key */}
-            </span>
-          </TableCell>
-          <TableCell>
-            <span className='container-id'>{container.ID}</span>
-          </TableCell>
-          <TableCell align='center'>
-            <Checkbox
-              onClick={(event: any) =>
-                event.target.checked
-                  ? handleCheckSetting(
-                      container.ID,
-                      container.Name,
-                      categories.MEMORY
-                    )
-                  : handleUnCheckSetting(container.ID, categories.MEMORY)
-              }
-              role='checkbox'
-              key={container.ID}
-              checked={isMemorySelected}
-            />
-          </TableCell>
-          <TableCell align='center'>
-            <Checkbox
-              onClick={(event: any) =>
-                event.target.checked
-                  ? handleCheckSetting(
-                      container.ID,
-                      container.Name,
-                      categories.CPU
-                    )
-                  : handleUnCheckSetting(container.ID, categories.CPU)
-              }
-              role='checkbox'
-              key={container.ID}
-              checked={isCpuSelected}
-            />
-          </TableCell>
-          <TableCell align='center'>
-            <Checkbox
-              onClick={(event: any) =>
-                event.target.checked
-                  ? handleCheckSetting(
-                      container.ID,
-                      container.Names ? container.Names : container.Name, // Stopped containers have a .Names key. Running containers have a .Name key
-                      categories.STOPPED
-                    )
-                  : handleUnCheckSetting(container.ID, categories.STOPPED)
-              }
-              role='checkbox'
-              key={container.ID}
-              checked={isStoppedSelected}
-            />
-          </TableCell>
-          <TableCell align='center'>
-            <TextField
-              sx={{
-                ml: 5,
-                mb: 15,
-                width: 220,
-              }}
-              id='gittext'
-              label='Main repository url'
-              helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
-              variant='outlined'
-              onChange={(e) => {
-                (
-                  stateObject as Record<
-                    typeof container.ID,
-                    typeof container.ID
-                  >
-                )[container.ID] = e.target.value;
-                setTempGithubLink(stateObject);
-              }}
-              size='small'
-            />
-          </TableCell>
-          <TableCell>
-            <Button
-              sx={{
-                ml: 1,
-                width: 100,
-              }}
-              size='medium'
-              variant='contained'
-              name={container.Names ? container.Names : container.Name}
-              id={container.ID}
-              onClick={(e) => githubLink(e)}
-            >
-              Confirm
-            </Button>
-          </TableCell>
-        </TableRow>
+        <tbody>
+          <tr key={i} id='settings-row'>
+            <td>
+              <span className='container-name font-bold'>
+                {container.Names ? container.Names : container.Name}
+              </span>
+            </td>
+
+            <td>
+              <span className='container-id'>{container.ID}</span>
+            </td>
+
+            <td align='center'>
+              <input
+                type='checkbox'
+                checked={isMemorySelected}
+                className='checkbox'
+                onClick={(event: any) =>
+                  event.target.checked
+                    ? handleCheckSetting(
+                        container.ID,
+                        container.Name,
+                        categories.MEMORY
+                      )
+                    : handleUnCheckSetting(container.ID, categories.MEMORY)
+                }
+                key={container.ID}
+              />
+            </td>
+
+            <td align='center'>
+              <input
+                type='checkbox'
+                checked={isCpuSelected}
+                className='checkbox'
+                onClick={(event: any) =>
+                  event.target.checked
+                    ? handleCheckSetting(
+                        container.ID,
+                        container.Name,
+                        categories.CPU
+                      )
+                    : handleUnCheckSetting(container.ID, categories.CPU)
+                }
+                key={container.ID}
+              />
+            </td>
+
+            <td align='center'>
+              <input
+                type='checkbox'
+                checked={isStoppedSelected}
+                className='checkbox'
+                onClick={(event: any) =>
+                  event.target.checked
+                    ? handleCheckSetting(
+                        container.ID,
+                        container.Names ? container.Names : container.Name,
+                        categories.STOPPED
+                      )
+                    : handleUnCheckSetting(container.ID, categories.STOPPED)
+                }
+                key={container.ID}
+              />
+            </td>
+
+            <td>
+              <div className='form-control w-full max-w-xs'>
+                <input
+                  id='gittext'
+                  type='text'
+                  placeholder='Type here'
+                  className='input input-bordered w-full max-w-xs'
+                  onChange={(e) => {
+                    (
+                      stateObject as Record<
+                        typeof container.ID,
+                        typeof container.ID
+                      >
+                    )[container.ID] = e.target.value;
+                    setTempGithubLink(stateObject);
+                  }}
+                />
+              </div>
+            </td>
+
+            <td>
+              <button
+                className='btn'
+                name={container.Names ? container.Names : container.Name}
+                id={container.ID}
+                onClick={(e) => githubLink(e)}
+              >
+                Confirm
+              </button>
+            </td>
+          </tr>
+        </tbody>
       );
     }
   );
@@ -648,8 +649,8 @@ const Settings = () => {
         <div className='card-body text-left space-y-2'>
           <h2 className='card-title text-sm pb-2'>NOTIFICATION PREFERENCES</h2>
           <p className='text-sm'>
-            Allows you to (i) customize monitoring and notification frequency,
-            and (ii) define container conditions that will trigger
+            This panel allows you to (i) customize monitoring and notification
+            frequency, and (ii) define container conditions that will trigger
             notifications. When a container hits a threshold, an alert is sent
             via your preferred method of communication. Recommended values will
             be used by default.
@@ -776,6 +777,32 @@ const Settings = () => {
               This feature is currently in development. Please check back in
               later.
             </p>
+          </div>
+        </div>
+      </div>
+
+      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
+          <h2 className='card-title text-sm pb-2'>CONTAINER CONFIGURATION</h2>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <div className='overflow-x-auto'>
+              <table className='table w-full'>
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th className='text-xs'>CONTAINER NAME</th>
+                    <th className='text-xs'>CONTAINER ID</th>
+                    <th className='text-xs'>MEMORY {`>${mem_threshold}%`}</th>
+                    <th className='text-xs'>CPU {`>${cpu_threshold}%`}</th>
+                    <th className='text-xs'>CONTAINER STOPS</th>
+                    <th className='text-xs'>GITHUB REPOSITORY</th>
+                    <th className='text-xs'>APPLY SETTINGS</th>
+                  </tr>
+                </thead>
+                {renderAllContainersList}
+              </table>
+            </div>
           </div>
         </div>
       </div>

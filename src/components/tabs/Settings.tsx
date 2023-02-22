@@ -1,31 +1,31 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../redux/reducers/hooks";
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../../redux/reducers/hooks';
 
-import useSurvey from "../helper/dispatch";
-import * as categories from "../../redux/constants/notificationCategories";
+import useSurvey from '../helper/dispatch';
+import * as categories from '../../redux/constants/notificationCategories';
 
-import { WindowType, StateType } from "../../../types";
+import { WindowType, StateType } from '../../../types';
 
 // React Component Imports
-import AccountDisplay from "../display/AccountDisplay";
+import AccountDisplay from '../display/AccountDisplay';
 
 // Material UI Imports
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Radio from "@mui/material/Radio";
-import SendIcon from "@mui/icons-material/Send";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Radio from '@mui/material/Radio';
+import SendIcon from '@mui/icons-material/Send';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 // showVerificationInput is used for rendering the verification code component
 let showVerificationInput = false;
@@ -34,7 +34,7 @@ let isVerified = false;
 const Settings = () => {
   // Component local state (i.e. useState)
   // const dispatch = useDispatch();
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState('');
 
   const {
     addPhoneNumber,
@@ -60,10 +60,10 @@ const Settings = () => {
     containerName: string,
     metricName: string
   ) => {
-    fetch("http://localhost:3000/settings/insert", {
-      method: "POST",
+    fetch('http://localhost:3000/settings/insert', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         container: containerId,
@@ -83,10 +83,10 @@ const Settings = () => {
   // handle uncheck
   // remove container/metric from DB
   const handleUnCheckSetting = (containerId: string, metricName: string) => {
-    fetch("http://localhost:3000/settings/delete", {
-      method: "POST",
+    fetch('http://localhost:3000/settings/delete', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         container: containerId,
@@ -108,10 +108,10 @@ const Settings = () => {
 
   // updates state as to which boxes are checked
   const fetchNotificationSettings = async () => {
-    fetch("http://localhost:3000/settings/", {
-      method: "GET",
+    fetch('http://localhost:3000/settings/', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((data) => data.json())
@@ -129,7 +129,7 @@ const Settings = () => {
   let window: WindowType;
 
   const verifyMobileNumber = async () => {
-    await window.nodeMethod.rendInvoke("verify-number", mobileNumber);
+    await window.nodeMethod.rendInvoke('verify-number', mobileNumber);
   };
 
   // fetch on component mount only because of empty dependency array
@@ -141,19 +141,19 @@ const Settings = () => {
    * alerts if phone not entered on Test click
    */
   const handlePhoneNumberSubmit = () => {
-    if (!mobileNumber) alert("Please enter phone number");
+    if (!mobileNumber) alert('Please enter phone number');
     else {
       if (isNaN(Number(mobileNumber)))
-        alert("Please enter phone number in numerical format. ex: 123456789");
+        alert('Please enter phone number in numerical format. ex: 123456789');
       else {
         alert(`Phone: ${mobileNumber} is valid`);
-        fetch("http://localhost:3000/settings/phone", {
-          method: "POST",
+        fetch('http://localhost:3000/settings/phone', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            admin: "admin",
+            admin: 'admin',
             number: mobileNumber,
             digits: [5, 2],
           }),
@@ -163,11 +163,11 @@ const Settings = () => {
             addPhoneNumber(mobileNumber);
             showVerificationInput = true;
             verifyMobileNumber();
-            const field = document.getElementById("textfield");
-            if (field) (field as HTMLInputElement).value = "";
+            const field = document.getElementById('textfield');
+            if (field) (field as HTMLInputElement).value = '';
           })
           .catch((err) => {
-            console.log("handlePhoneNumberSubmit: ", err);
+            console.log('handlePhoneNumberSubmit: ', err);
           });
       }
     }
@@ -178,21 +178,21 @@ const Settings = () => {
   // 2. Make sure that it has the right format
   // 3. Send it to database
   // 4. Then update the state
-  const [tempNotifFreq, setTempNotifFreq] = useState("");
+  const [tempNotifFreq, setTempNotifFreq] = useState('');
 
   const notificationFrequency = () => {
     let frequency: string | number = 5;
     if (isNaN(Number(tempNotifFreq)))
-      alert("Please enter notification frequency in numerical format. ex: 15");
+      alert('Please enter notification frequency in numerical format. ex: 15');
     else {
       if (tempNotifFreq) frequency = tempNotifFreq;
-      fetch("http://localhost:3000/settings/notification", {
-        method: "POST",
+      fetch('http://localhost:3000/settings/notification', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: "admin",
+          user: 'admin',
           phoneNumber: undefined,
           notification: frequency,
           monitoring: undefined,
@@ -203,31 +203,31 @@ const Settings = () => {
           // This is not setup at all. The backend endpoint exists for settings/notification
           // The users table in our database does have a notification frequency attribute that can be updated
           // Disabling for now but we should discuss what this is at a high-level so we can implement the feature as it is intended
-          console.log("response", response);
+          console.log('response', response);
           // addNotificationFrequency(frequency);
-          setTempNotifFreq("");
+          setTempNotifFreq('');
         })
         .catch((err) => {
-          console.log("NoficationFrequency: ", err);
+          console.log('NoficationFrequency: ', err);
         });
     }
   };
 
-  const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState("");
+  const [tempMonitoringFrequency, setTempMonitoringFrequency] = useState('');
 
   const monitoringFrequency = () => {
     let frequency: string | number = 2;
     if (isNaN(Number(tempMonitoringFrequency)))
-      alert("Please enter monitoring frequency in numerical format. ex: 15");
+      alert('Please enter monitoring frequency in numerical format. ex: 15');
     else {
       if (tempMonitoringFrequency) frequency = tempMonitoringFrequency;
-      fetch("http://localhost:3000/settings/monitoring", {
-        method: "POST",
+      fetch('http://localhost:3000/settings/monitoring', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: "admin",
+          user: 'admin',
           phoneNumber: undefined,
           notification: undefined,
           monitoring: frequency,
@@ -238,18 +238,18 @@ const Settings = () => {
           // This is not setup at all. The backend endpoint exists for settings/notification
           // The users table in our database does have a notification frequency attribute that can be updated
           // Disabling for now but we should discuss what this is at a high-level so we can implement the feature as it is intended
-          console.log("response", response);
+          console.log('response', response);
           // addMonitoringFrequency(frequency);
-          setTempMonitoringFrequency("");
+          setTempMonitoringFrequency('');
         })
         .catch((err) => {
-          console.log("MonitoringFrequency: ", err);
+          console.log('MonitoringFrequency: ', err);
         });
     }
   };
 
   // Verification of the user-typed code (provided to use through SMS for secondary authentication)
-  const [formData, updateFormData] = useState("");
+  const [formData, updateFormData] = useState('');
   const handleChange = (value: string) => {
     updateFormData(value);
   };
@@ -260,12 +260,12 @@ const Settings = () => {
       mobileNumber: mobileNumber,
     };
 
-    const result = await window.nodeMethod.rendInvoke("verify-code", body);
+    const result = await window.nodeMethod.rendInvoke('verify-code', body);
 
-    if (result === "approved") {
+    if (result === 'approved') {
       showVerificationInput = false;
-      isVerified = result === "approved" ? true : false;
-    } else alert("Please try verification code again");
+      isVerified = result === 'approved' ? true : false;
+    } else alert('Please try verification code again');
   };
 
   /**
@@ -288,15 +288,15 @@ const Settings = () => {
   const stateObject = {};
   allContainersList.forEach((el) => {
     if (!stateObject[el.ID as keyof typeof tempGithubLink])
-      (stateObject as Record<typeof el.ID, typeof el.ID>)[el.ID] = "";
+      (stateObject as Record<typeof el.ID, typeof el.ID>)[el.ID] = '';
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
   const getData = () => {
-    fetch("http://localhost:3000/settings/gitcontainers", {
-      method: "GET",
+    fetch('http://localhost:3000/settings/gitcontainers', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((data) => data.json())
@@ -310,7 +310,7 @@ const Settings = () => {
 
   // Check if `githubLinks` are in the correct format, then, save them to database
   const githubLink = (event: any) => {
-    const example = "https://api.github.com";
+    const example = 'https://api.github.com';
     if (
       !tempGithubLink[event.target.id as keyof typeof tempGithubLink] ||
       (
@@ -318,16 +318,16 @@ const Settings = () => {
       )[event.target.id].slice(0, 22) != example
     )
       return alert(
-        "Please provide a link in accordance with provided example."
+        'Please provide a link in accordance with provided example.'
       );
-    if (!event.target.id) return alert("Please provide a container ID.");
+    if (!event.target.id) return alert('Please provide a container ID.');
     else {
       const github_url =
         tempGithubLink[event.target.id as keyof typeof tempGithubLink];
-      fetch("http://localhost:3000/settings/gitLinks", {
-        method: "POST",
+      fetch('http://localhost:3000/settings/gitLinks', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: event.target.id,
@@ -337,12 +337,12 @@ const Settings = () => {
       })
         .then((data) => data.json())
         .then((response) => {
-          const field = document.getElementById("gittext");
-          if (field) (field as HTMLInputElement).value = "";
+          const field = document.getElementById('gittext');
+          if (field) (field as HTMLInputElement).value = '';
           return response;
         })
         .catch((err) => {
-          console.log("githubLink: ", err);
+          console.log('githubLink: ', err);
         });
     }
   };
@@ -357,8 +357,8 @@ const Settings = () => {
   } = useAppSelector((state) => state.sessions);
 
   // Local state variables to hold cpuThreshold, memThreshold, stoppedContainers, however should move to Redux session state variables
-  const [cpuThreshold, setCpuThreshold] = useState("");
-  const [memThreshold, setMemThreshold] = useState("");
+  const [cpuThreshold, setCpuThreshold] = useState('');
+  const [memThreshold, setMemThreshold] = useState('');
   const [stoppedContainers, setStoppedContainers] = useState(container_stops);
   const [value, setValue] = useState(contact_pref);
   const { updateUser } = useSurvey();
@@ -371,10 +371,10 @@ const Settings = () => {
   };
 
   const handleRadioSubmit = (value: string) => {
-    fetch("http://localhost:3000/account/contact", {
-      method: "POST",
+    fetch('http://localhost:3000/account/contact', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
@@ -393,15 +393,15 @@ const Settings = () => {
   };
 
   const handleCpuChange = () => {
-    const field = document.getElementById("cpu-threshold-input");
+    const field = document.getElementById('cpu-threshold-input');
     if (field) setCpuThreshold((field as HTMLInputElement).value);
   };
 
   const handleCpuSubmit = (value: string) => {
-    fetch("http://localhost:3000/account/cpu", {
-      method: "POST",
+    fetch('http://localhost:3000/account/cpu', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
@@ -413,7 +413,7 @@ const Settings = () => {
       })
       .then((data) => {
         updateUser(data);
-        setCpuThreshold("");
+        setCpuThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -421,10 +421,10 @@ const Settings = () => {
   };
 
   const handleMemSubmit = (value: string) => {
-    fetch("http://localhost:3000/account/memory", {
-      method: "POST",
+    fetch('http://localhost:3000/account/memory', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
@@ -436,7 +436,7 @@ const Settings = () => {
       })
       .then((data) => {
         updateUser(data);
-        setMemThreshold("");
+        setMemThreshold('');
       })
       .catch((err) => {
         console.log(err);
@@ -444,10 +444,10 @@ const Settings = () => {
   };
 
   const handleStoppedContainersSubmit = (value: string) => {
-    fetch("http://localhost:3000/account/stops", {
-      method: "POST",
+    fetch('http://localhost:3000/account/stops', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         _id,
@@ -466,12 +466,12 @@ const Settings = () => {
   };
 
   const handleMemChange = () => {
-    const field = document.getElementById("mem-threshold-input");
+    const field = document.getElementById('mem-threshold-input');
     if (field) setMemThreshold((field as HTMLInputElement).value);
   };
 
   const handleStoppedContainersChange = () => {
-    const ele = document.getElementById("stopped-containers-input");
+    const ele = document.getElementById('stopped-containers-input');
     // if (ele) setStoppedContainers((ele as HTMLInputElement).checked);
     if (ele) setStoppedContainers((ele as HTMLInputElement).value);
   };
@@ -486,17 +486,17 @@ const Settings = () => {
       );
 
       return (
-        <TableRow key={i} id="settings-row">
+        <TableRow key={i} id='settings-row'>
           <TableCell>
-            <span className="container-name">
+            <span className='container-name'>
               {container.Names ? container.Names : container.Name}
               {/* Stopped containers have a .Names key. Running containers have a .Name key */}
             </span>
           </TableCell>
           <TableCell>
-            <span className="container-id">{container.ID}</span>
+            <span className='container-id'>{container.ID}</span>
           </TableCell>
-          <TableCell align="center">
+          <TableCell align='center'>
             <Checkbox
               onClick={(event: any) =>
                 event.target.checked
@@ -507,12 +507,12 @@ const Settings = () => {
                     )
                   : handleUnCheckSetting(container.ID, categories.MEMORY)
               }
-              role="checkbox"
+              role='checkbox'
               key={container.ID}
               checked={isMemorySelected}
             />
           </TableCell>
-          <TableCell align="center">
+          <TableCell align='center'>
             <Checkbox
               onClick={(event: any) =>
                 event.target.checked
@@ -523,12 +523,12 @@ const Settings = () => {
                     )
                   : handleUnCheckSetting(container.ID, categories.CPU)
               }
-              role="checkbox"
+              role='checkbox'
               key={container.ID}
               checked={isCpuSelected}
             />
           </TableCell>
-          <TableCell align="center">
+          <TableCell align='center'>
             <Checkbox
               onClick={(event: any) =>
                 event.target.checked
@@ -539,22 +539,22 @@ const Settings = () => {
                     )
                   : handleUnCheckSetting(container.ID, categories.STOPPED)
               }
-              role="checkbox"
+              role='checkbox'
               key={container.ID}
               checked={isStoppedSelected}
             />
           </TableCell>
-          <TableCell align="center">
+          <TableCell align='center'>
             <TextField
               sx={{
                 ml: 5,
                 mb: 15,
                 width: 220,
               }}
-              id="gittext"
-              label="Main repository url"
-              helperText="* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?"
-              variant="outlined"
+              id='gittext'
+              label='Main repository url'
+              helperText='* e.g.: https://api.github.com/repos/oslabs-beta/Docketeer/commits?'
+              variant='outlined'
               onChange={(e) => {
                 (
                   stateObject as Record<
@@ -564,7 +564,7 @@ const Settings = () => {
                 )[container.ID] = e.target.value;
                 setTempGithubLink(stateObject);
               }}
-              size="small"
+              size='small'
             />
           </TableCell>
           <TableCell>
@@ -573,8 +573,8 @@ const Settings = () => {
                 ml: 1,
                 width: 100,
               }}
-              size="medium"
-              variant="contained"
+              size='medium'
+              variant='contained'
               name={container.Names ? container.Names : container.Name}
               id={container.ID}
               onClick={(e) => githubLink(e)}
@@ -588,302 +588,196 @@ const Settings = () => {
   );
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Settings</h1>
-      </div>
-
-      {/* Account Display */}
+    <div className='space-y-5'>
+      <div className='h-3'></div>
       <AccountDisplay />
 
-      <div className="metric-section-title">
-        <h3>Communication</h3>
-      </div>
-      <div className="settings-container">
-        <p>
-          Allows you to (i) connect a mobile phone to your account, and (ii)
-          choose your preferred method of communication.
-        </p>
-        <br />
-        <p>1. Verify your mobile phone number on Twilio</p>
-        <br />
-        {/* First Form */}
-        <form className="settingsForm" autoComplete="off">
-          <div>
-            <TextField
-              required
-              id="textfield"
-              label={phone}
-              helperText="* use country code (+1)"
-              variant="outlined"
+      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
+          <h2 className='card-title text-sm pb-2'>COMMUNICATION</h2>
+          <p className='text-sm'>
+            This panel will allow you to connect a mobile phone to your account
+            and/or choose your preferred method of communication.
+          </p>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>
+                Enter phone number to enable Twilio
+              </span>
+            </label>
+            <input
+              type='text'
+              placeholder='+12224448888'
+              className='input input-bordered w-full max-w-xs'
               onChange={(e) => {
                 setMobileNumber(e.target.value);
                 isVerified = false;
               }}
-              size="small"
             />
-            {!isVerified ? (
-              <Button
-                sx={{
-                  ml: 1,
-                  width: 100,
-                }}
-                size="medium"
-                variant="contained"
-                onClick={() => handlePhoneNumberSubmit()}
-                endIcon={<SendIcon />}
-              >
-                Verify
-              </Button>
-            ) : (
-              <CheckCircleIcon fontSize="large" />
-            )}
+            <button className='btn btn-primary ml-7' onClick={handleSubmit}>
+              Enable
+            </button>
           </div>
-        </form>
-
-        {/* Verification Input */}
-        {showVerificationInput ? (
-          <form className="settingsForm" autoComplete="off">
-            <div className="verification-code">
-              <TextField
-                required
-                id="verification-code"
-                label="Verification code"
-                variant="outlined"
-                onChange={(e) => {
-                  handleChange(e.target.value);
-                }}
-                size="small"
-              />
-              <Button
-                sx={{
-                  ml: 1,
-                  width: 100,
-                }}
-                size="medium"
-                variant="contained"
-                onClick={handleSubmit}
-                endIcon={<SendIcon />}
+          <div className='divider py-8'></div>
+          <h2 className='card-title text-sm pb-2'>CONTACT PREFERENCES</h2>
+          <div className='items-center'>
+            <div className='input-group'>
+              <select className='select select-bordered'>
+                <option disabled selected>
+                  Choose preference
+                </option>
+                <option value='email' label='Email'>
+                  Email
+                </option>
+                <option value='phone' label='Phone'>
+                  Phone
+                </option>
+              </select>
+              <button
+                className='btn btn-primary ml-7'
+                onClick={() => handleRadioSubmit(value)}
               >
                 Submit
-              </Button>
+              </button>
             </div>
-          </form>
-        ) : null}
-
-        <p>2. Contact preference:</p>
-        <br />
-        <FormControl component="fieldset">
-          <RadioGroup
-            aria-label="Contact Preferences"
-            name="contact_pref"
-            value={value}
-            onChange={handleRadioChange}
-          >
-            <FormControlLabel value="email" control={<Radio />} label="Email" />
-            <FormControlLabel value="phone" control={<Radio />} label="Phone" />
-          </RadioGroup>
-          <br />
-          <Button
-            sx={{
-              ml: 1,
-              width: 100,
-            }}
-            size="medium"
-            variant="contained"
-            name="submit-contact-pref"
-            id="submit-contact-pref"
-            onClick={() => handleRadioSubmit(value)}
-          >
-            Submit
-          </Button>
-        </FormControl>
+          </div>
+        </div>
       </div>
-
-      <div className="metric-section-title">
-        <h3>Notification preferences</h3>
-      </div>
-      <div className="settings-container">
-        <p>
-          Allows you to (i) customize monitoring and notification frequency, and
-          (ii) define container conditions that will trigger notifications. When
-          a container hits a threshold, an alert is sent via your preferred
-          method of communication. Recommended values will be used by default.
-        </p>
-
-        <br />
-        <p>1. Setup / update notification criteria</p>
-        <br />
-        <div>
-          <form className="settingsForm" autoComplete="off">
-            <TextField
-              id="freqtext"
-              label="Notification frequency, min"
-              helperText="* 5 min is recommended"
-              variant="outlined"
+      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
+          <h2 className='card-title text-sm pb-2'>NOTIFICATION PREFERENCES</h2>
+          <p className='text-sm'>
+            Allows you to (i) customize monitoring and notification frequency,
+            and (ii) define container conditions that will trigger
+            notifications. When a container hits a threshold, an alert is sent
+            via your preferred method of communication. Recommended values will
+            be used by default.
+          </p>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <p>Update Notification Frequencie(s)</p>
+            <label className='label'>
+              <span className='label-text text-xs'>
+                (Suggested frequency: 5 minutes)
+              </span>
+            </label>
+            <input
+              type='text'
+              placeholder='frequency (minutes)'
+              className='input input-bordered w-full max-w-xs'
               value={tempNotifFreq}
               onChange={(e) => {
                 setTempNotifFreq(e.target.value);
               }}
-              size="small"
             />
-            <Button
-              sx={{
-                ml: 1,
-                width: 100,
-              }}
-              size="medium"
-              variant="contained"
+            <button
+              className='btn btn-primary ml-7'
               onClick={() => notificationFrequency()}
             >
               Confirm
-            </Button>
-          </form>
-        </div>
-
-        <div>
-          <form className="settingsForm" autoComplete="off">
-            <TextField
-              id="monitortext"
-              label="Monitoring frequency, min"
-              helperText="* 2 min is recommended"
-              variant="outlined"
+            </button>
+            <label className='label'>
+              <span className='label-text text-xs'>
+                (Suggested frequency: 2 minutes)
+              </span>
+            </label>
+            <input
+              type='text'
+              placeholder='frequency (minutes)'
+              className='input input-bordered w-full max-w-xs'
               value={tempMonitoringFrequency}
               onChange={(e) => {
                 setTempMonitoringFrequency(e.target.value);
               }}
-              size="small"
             />
-            <Button
-              sx={{
-                ml: 1,
-                width: 100,
-              }}
-              size="medium"
-              variant="contained"
+            <button
+              className='btn btn-primary ml-7'
               onClick={() => monitoringFrequency()}
             >
               Confirm
-            </Button>
-          </form>
-        </div>
-
-        <br />
-        <p>2. Configure notification thresholds</p>
-        <br />
-        <form autoComplete="off">
-          Current CPU Threshold: {`>${cpu_threshold}%`}
-          <div>
-            <TextField
-              required
-              id="cpu-threshold-input"
-              label="CPU Threshold"
-              helperText="* 80% CPU usage recommended"
-              variant="outlined"
+            </button>
+          </div>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <p>Configure Notification Thresholds</p>
+            <label className='label'>
+              <span className='label-text text-xs'>
+                Current CPU Threshold: {`>${cpu_threshold}%`}
+              </span>
+            </label>
+            <input
+              type='text'
+              placeholder='frequency (minutes)'
+              className='input input-bordered w-full max-w-xs'
               value={cpuThreshold}
               onChange={handleCpuChange}
-              size="small"
             />
-            <Button
-              sx={{
-                ml: 1,
-                width: 100,
-              }}
-              size="medium"
-              variant="contained"
+            <button
+              className='btn btn-primary ml-7'
               onClick={() => handleCpuSubmit(cpuThreshold)}
             >
               Confirm
-            </Button>
-            <br />
-            Current Memory Threshold: {`>${mem_threshold}%`}
-            <br />
-            <TextField
-              required
-              id="mem-threshold-input"
-              label="Memory Threshold"
-              helperText="* 80% memory recommended"
-              variant="outlined"
+            </button>
+            <label className='label'>
+              <span className='label-text text-xs'>
+                Current Memory Threshold: {`>${mem_threshold}%`}
+              </span>
+            </label>
+            <input
+              type='text'
+              placeholder='frequency (minutes)'
+              className='input input-bordered w-full max-w-xs'
               value={memThreshold}
               onChange={handleMemChange}
-              size="small"
             />
-            <Button
-              sx={{
-                ml: 1,
-                width: 100,
-              }}
-              size="medium"
-              variant="contained"
+            <button
+              className='btn btn-primary ml-7'
               onClick={() => handleMemSubmit(memThreshold)}
             >
               Confirm
-            </Button>
-            <br />
-            <br />
-            <p>3. Stopped containers:</p>
-            <FormControlLabel
-              value={true}
-              control={
-                <Checkbox
-                  id="stopped-containers-input"
-                  onChange={handleStoppedContainersChange}
-                />
-              }
-              label="Receive notification when a container stops"
-            />
+            </button>
           </div>
-          <Button
-            sx={{
-              ml: 1,
-              width: 100,
-            }}
-            size="medium"
-            variant="contained"
-            onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
-            endIcon={<SendIcon />}
-          >
-            Submit
-          </Button>
-        </form>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <p>Stopped Containers</p>
+            <label className='label cursor-pointer'>
+              <span className='label-text'>
+                Receive notification when a container stops
+              </span>
+              <input
+                id='stopped-containers-input'
+                type='checkbox'
+                checked
+                className='checkbox'
+                onChange={handleStoppedContainersChange}
+              />
+              <button
+                className='btn btn-primary'
+                onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
+              >
+                Submit
+              </button>
+            </label>
+          </div>
+        </div>
       </div>
 
-      <div className="metric-section-title">
-        <h3>GitHub commits</h3>
-      </div>
-      <div className="settings-container">
-        <p>
-          Allows you to get access to latest GitHub commits in your project
-          repository on "Metrics" tab for selected containers
-        </p>
-      </div>
-
-      <div className="metric-section-title">
-        <h3> Containers setting table</h3>
-        <p></p>
-      </div>
-
-      <div className="settings-container">
-        <div id="description" className="settingsDescription"></div>
-
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Container Name</TableCell>
-                <TableCell>Container ID</TableCell>
-                <TableCell align="center">
-                  Memory {`>${mem_threshold}%`}
-                </TableCell>
-                <TableCell align="center">CPU {`>${cpu_threshold}%`}</TableCell>
-                <TableCell align="center">Container Stops</TableCell>
-                <TableCell align="center">GitHub repository url</TableCell>
-                <TableCell align="center">Apply settings</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderAllContainersList}</TableBody>
-          </Table>
-        </TableContainer>
+      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
+          <h2 className='card-title text-sm pb-2'>GITHUB CONFIGURATION</h2>
+          <p className='text-sm'>
+            This panel allows you to get access to latest GitHub commits in your
+            project repository on "Metrics" tab for selected containers.
+          </p>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <p>
+              This feature is currently in development. Please check back in
+              later.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

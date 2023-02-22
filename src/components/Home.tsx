@@ -136,7 +136,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className='navbar bg-neutral text-neutral-content'>
+      <div className='navbar bg-neutral text-neutral-content rounded-lg'>
         <div className='navbar-start'>
           <div className='dropdown'>
             <label tabIndex={0} className='btn btn-ghost btn-circle'>

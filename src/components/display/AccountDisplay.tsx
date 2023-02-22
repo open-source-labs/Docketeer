@@ -2,156 +2,140 @@
  * @module AccountDisplay
  * @description Account Display for Settings tab, this will host any forms to update account details such as email, passwords, etc.
  */
-import React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
+import React from 'react';
+
 import {
   handlePasswordChange,
-  confirmPassword,
-  checkPasswordLength,
-  checkCurrentPassword,
+  // confirmPassword,
+  // checkPasswordLength,
+  // checkCurrentPassword,
   handleEmailUpdate,
   handlePhoneUpdate,
-  checkPhone,
-} from "../helper/settingsHelper";
-import { useAppSelector } from "../../redux/reducers/hooks";
+  // checkPhone,
+} from '../helper/settingsHelper';
+import { useAppSelector } from '../../redux/reducers/hooks';
 
-const input = document.getElementById(
-  "update-phone-input"
-) as HTMLTextAreaElement | null;
+// const input = document.getElementById(
+//   'update-phone-input'
+// ) as HTMLTextAreaElement | null;
 
 const AccountDisplay = () => {
   const session = useAppSelector((state) => state.sessions);
-
+  // NB: Reimplement user feedback when updating phone number (using callback function `checkPhone`)
+  // NB: Reimplement user feedback when updating password (using 3 callbacks i.e. `confirmPW, checkPassLength, confirmPassword `)
   return (
     <div>
-      <div className="metric-section-title">
-        <h3>Account Information</h3>
-      </div>
-      <div className="settings-container">
-        <p>View your account information.</p>
-        <br />
-        <strong>Email</strong>
-        <p>{session.email}</p>
-        <br />
-        <strong>Username</strong>
-        <p>{session.username}</p>
-        <br />
-        <strong>Phone</strong>
-        <p>{session.phone}</p>
-        <br />
-      </div>
-      <div className="metric-section-title">
-        <h3>Update Your Account</h3>
-      </div>
-      <div className="settings-container">
-        <p>1. Update your email address</p>
-        <br />
-        <form className="settingsForm" autoComplete="off">
-          <TextField
-            id="update-email-input"
-            label="Email"
-            helperText={session.email}
-            variant="outlined"
-            size="small"
-          />
-          <Button
-            sx={{
-              ml: 1,
-              width: 100,
-            }}
-            size="medium"
-            variant="contained"
-            onClick={() => handleEmailUpdate()}
-          >
-            Update
-          </Button>
-          <br />
-          <span id="update-email-alert"></span>
-        </form>
-        <p>2. Update your phone number</p>
-        <br />
-        <form className="settings" autoComplete="off">
-          <TextField
-            id="update-phone-input"
-            label="Phone Number"
-            helperText={session.phone}
-            onChange={() => checkPhone(input?.value)}
-            variant="outlined"
-            size="small"
-          />
-          <Button
-            sx={{
-              ml: 1,
-              width: 100,
-            }}
-            size="medium"
-            variant="contained"
-            onClick={() => handlePhoneUpdate()}
-          >
-            Update
-          </Button>
-          <br />
-          <span id="update-phone-alert"></span>
-        </form>
-        <p>3. Use the form below to update your password:</p>
-        <br />
-        <form className="settingsForm" autoComplete="off">
-          <p>Current Password</p>
-          <br />
-          <TextField
-            required
-            id="current-password-input"
-            label="Current Password"
-            variant="outlined"
-            type="password"
-            onChange={() => checkCurrentPassword()}
-            size="small"
-          />
-          <span id="current-password-alert"></span>
-          <br />
-          <p>New Password</p>
-          <br />
-          <TextField
-            required
-            id="new-password-input"
-            label="New Password"
-            variant="outlined"
-            type="password"
-            onChange={() => checkPasswordLength()}
-            size="small"
-          />
-          <span id="new-password-alert"></span>
-          <br />
-          <p>Confirm New Password</p>
-          <br />
-          <TextField
-            required
-            id="new-password-confirmation-input"
-            label="Confirm New Password"
-            variant="outlined"
-            type="password"
-            onChange={() => confirmPassword()}
-            size="small"
-          />
-          <span id="confirm-new-password-alert"></span>
-          <br />
-          <br />
-          <Button
-            sx={{
-              ml: 1,
-              width: 100,
-            }}
-            size="medium"
-            color="primary"
-            variant="contained"
-            onClick={() => handlePasswordChange()}
-            endIcon={<SendIcon />}
-          >
-            Submit
-          </Button>
-        </form>
+      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
+          <h2 className='card-title text-sm pb-2'>ACCOUNT INFORMATION</h2>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Email</span>
+            </label>
+            <input
+              type='text'
+              placeholder={session.email}
+              className='input input-bordered w-full max-w-xs'
+              disabled
+            />
+          </div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Username</span>
+            </label>
+            <input
+              type='text'
+              placeholder={session.username}
+              className='input input-bordered w-full max-w-xs'
+              disabled
+            />
+          </div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Phone</span>
+            </label>
+            <input
+              type='text'
+              placeholder={session.phone}
+              className='input input-bordered w-full max-w-xs'
+              disabled
+            />
+          </div>
+          <div className='divider py-8'></div>
+          <h2 className='card-title text-sm pb-2'>
+            UPDATE ACCOUNT INFORMATION
+          </h2>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Email</span>
+            </label>
+            <input
+              type='text'
+              placeholder={session.email}
+              className='input input-bordered w-full max-w-xs'
+            />
+            <button
+              className='btn btn-primary ml-7'
+              onClick={() => handleEmailUpdate()}
+            >
+              Update
+            </button>
+          </div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Phone</span>
+            </label>
+            <input
+              type='text'
+              placeholder={session.phone}
+              className='input input-bordered w-full max-w-xs'
+            />
+            <button
+              className='btn btn-primary ml-7'
+              onClick={() => handlePhoneUpdate()}
+            >
+              Update
+            </button>
+          </div>
+          <div className='divider py-8'></div>
+          <h2 className='card-title text-sm pb-2'>UPDATE PASSWORD</h2>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Current Password</span>
+            </label>
+            <input
+              type='password'
+              placeholder='Current Password'
+              className='input input-bordered w-full max-w-xs'
+            />
+          </div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>New Password</span>
+            </label>
+            <input
+              type='password'
+              placeholder='New Password'
+              className='input input-bordered w-full max-w-xs'
+            />
+          </div>
+          <div className='items-center'>
+            <label className='label'>
+              <span className='label-text text-xs'>Confirm Password</span>
+            </label>
+            <input
+              type='password'
+              placeholder='Confirm Password'
+              className='input input-bordered w-full max-w-xs'
+            />
+            <button
+              className='btn btn-primary ml-7'
+              onClick={() => handlePasswordChange()}
+            >
+              Update
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

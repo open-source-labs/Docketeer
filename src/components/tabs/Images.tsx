@@ -56,14 +56,18 @@ const Images = () => {
     }
   };
 
+  const handleError = (e: any) => {
+    e.target.src =
+      'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
+  };
+
   const renderImagesList = imagesList.map((image, i: number) => {
     return (
       <div className='card w-96 glass' key={i}>
         <figure className='pt-20'>
           <img
             src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
-            alt='https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png'
-            id='imageLogo'
+            onError={handleError}
           />
         </figure>
         <div className='card-body'>
@@ -91,11 +95,6 @@ const Images = () => {
       </div>
     );
   });
-
-  // const imageLogo = document.getElementById('imageLogo');
-  // imageLogo.addEventListener('error', () => {
-  //   imageLogo.src = `https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png`;
-  // });
 
   return (
     <>

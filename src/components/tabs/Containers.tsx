@@ -22,43 +22,19 @@ const Containers = () => {
   const renderStoppedList = stoppedList.map(
     (container: ContainerType, i: number) => {
       return (
-        <div className='box' key={`stoppedBox-${i}`}>
-          <div className='box-label'>
-            <h3>{container.Names}</h3>
-            {/* <p>Image: {container.Image}</p>
-          <p>ID: {container.ID}</p> */}
-          </div>
-
-          <div className='stopped-info'>
-            <ul>
-              <li>
-                <strong>Image: </strong>
-                {container.Image}
-              </li>
-              <li>
-                <strong>ID: </strong>
-                {container.ID}
-              </li>
-              <li>
-                <strong>Created: </strong>
-                {container.RunningFor}
-              </li>
-            </ul>
-          </div>
-          <div className='stopped-button'>
-            <button
-              data-testid='run-btn'
-              className='run-btn'
+        <div className='card w-96 glass' key={i}>
+          <div className='card-body'>
+            <h2 className='card-title'>{container.Names}</h2>
+            <div className='divider py-1'></div>
+            <p className='text-xs'>{container.Image}</p>
+            <p className='text-xs'>{container.ID}</p>
+            <p className='text-xs'>{container.RunningFor}</p>
+            <div
+              className='card-actions justify-end'
               onClick={() => runStopped(container['ID'])}
             >
-              RUN
-            </button>
-            <button
-              className='remove-btn'
-              onClick={() => remove(container['ID'])}
-            >
-              REMOVE
-            </button>
+              <button className='btn btn-primary'>RUN</button>
+            </div>
           </div>
         </div>
       );
@@ -155,17 +131,37 @@ const Containers = () => {
   );
 
   return (
-    <div title='renderContainers' className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Running Containers: {runningList.length}</h1>
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-wrap gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <div className='flex justify-between items-center'>
+              <h2 className='card-title text-sm'>RUNNING CONTAINERS</h2>
+              <div className='stats shadow'>
+                <div className='stat'>
+                  <div className='stat-title'>Count</div>
+                  <div className='stat-value'>{runningList.length}</div>
+                </div>
+              </div>
+            </div>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderStoppedList}
+            </div>
+          </div>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>STOPPED CONTAINERS</h2>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderStoppedList}
+            </div>
+          </div>
+        </div>
       </div>
-      <div className='containers'>{renderRunningList}</div>
-
-      <div className='header'>
-        <h1 className='tabTitle'>Exited Containers: {stoppedList.length}</h1>
-      </div>
-      <div className='stopped-containers'>{renderStoppedList}</div>
-    </div>
+    </>
   );
 };
 

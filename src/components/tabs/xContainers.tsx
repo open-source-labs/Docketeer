@@ -25,8 +25,8 @@
 //         <div className='box' key={`stoppedBox-${i}`}>
 //           <div className='box-label'>
 //             <h3>{container.Names}</h3>
-//             {/* <p>Image: {container.Image}</p>
-//           <p>ID: {container.ID}</p> */}
+//             <p>Image: {container.Image}</p>
+//           <p>ID: {container.ID}</p>
 //           </div>
 //
 //           <div className='stopped-info'>
@@ -49,7 +49,7 @@
 //             <button
 //               data-testid='run-btn'
 //               className='run-btn'
-//               onClick={() => runStopped(container['ID'])}
+//               onClick={e) => runStopped(container['ID'])}
 //             >
 //               RUN
 //             </button>

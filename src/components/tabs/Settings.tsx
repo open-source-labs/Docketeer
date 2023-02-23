@@ -5,35 +5,12 @@ import { useAppSelector } from '../../redux/reducers/hooks';
 import useSurvey from '../helper/dispatch';
 import * as categories from '../../redux/constants/notificationCategories';
 
-import { WindowType, StateType } from '../../../types';
+import { WindowType } from '../../../types';
 
 // React Component Imports
 import AccountDisplay from '../display/AccountDisplay';
 
-// Material UI Imports
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import Radio from '@mui/material/Radio';
-import SendIcon from '@mui/icons-material/Send';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-// showVerificationInput is used for rendering the verification code component
-let showVerificationInput = false;
-let isVerified = false;
-
 const Settings = () => {
-  // Component local state (i.e. useState)
-  // const dispatch = useDispatch();
   const [mobileNumber, setMobileNumber] = useState('');
 
   const {
@@ -140,44 +117,39 @@ const Settings = () => {
   /**
    * alerts if phone not entered on Test click
    */
-  const handlePhoneNumberSubmit = () => {
-    if (!mobileNumber) alert('Please enter phone number');
-    else {
-      if (isNaN(Number(mobileNumber)))
-        alert('Please enter phone number in numerical format. ex: 123456789');
-      else {
-        alert(`Phone: ${mobileNumber} is valid`);
-        fetch('http://localhost:3000/settings/phone', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            admin: 'admin',
-            number: mobileNumber,
-            digits: [5, 2],
-          }),
-        })
-          .then((data) => data.json())
-          .then((response) => {
-            addPhoneNumber(mobileNumber);
-            showVerificationInput = true;
-            verifyMobileNumber();
-            const field = document.getElementById('textfield');
-            if (field) (field as HTMLInputElement).value = '';
-          })
-          .catch((err) => {
-            console.log('handlePhoneNumberSubmit: ', err);
-          });
-      }
-    }
-  };
+  // const handlePhoneNumberSubmit = () => {
+  //   if (!mobileNumber) alert('Please enter phone number');
+  //   else {
+  //     if (isNaN(Number(mobileNumber)))
+  //       alert('Please enter phone number in numerical format. ex: 123456789');
+  //     else {
+  //       alert(`Phone: ${mobileNumber} is valid`);
+  //       fetch('http://localhost:3000/settings/phone', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           admin: 'admin',
+  //           number: mobileNumber,
+  //           digits: [5, 2],
+  //         }),
+  //       })
+  //         .then((data) => data.json())
+  //         .then((response) => {
+  //           addPhoneNumber(mobileNumber);
+  //           showVerificationInput = true;
+  //           verifyMobileNumber();
+  //           const field = document.getElementById('textfield');
+  //           if (field) (field as HTMLInputElement).value = '';
+  //         })
+  //         .catch((err) => {
+  //           console.log('handlePhoneNumberSubmit: ', err);
+  //         });
+  //     }
+  //   }
+  // };
 
-  // Saving User Inputs — Notification & Memory Cycle
-  // 1. Get data from the form
-  // 2. Make sure that it has the right format
-  // 3. Send it to database
-  // 4. Then update the state
   const [tempNotifFreq, setTempNotifFreq] = useState('');
 
   const notificationFrequency = () => {
@@ -249,23 +221,25 @@ const Settings = () => {
   };
 
   // Verification of the user-typed code (provided to use through SMS for secondary authentication)
-  const [formData, updateFormData] = useState('');
-  const handleChange = (value: string) => {
-    updateFormData(value);
-  };
+  // const [formData, updateFormData] = useState('');
 
-  const handleSubmit = async () => {
-    const body = {
-      code: formData,
-      mobileNumber: mobileNumber,
-    };
-
-    const result = await window.nodeMethod.rendInvoke('verify-code', body);
-
-    if (result === 'approved') {
-      showVerificationInput = false;
-      isVerified = result === 'approved' ? true : false;
-    } else alert('Please try verification code again');
+  // const handleChange = (value: string) => {
+  //   updateFormData(value);
+  // };
+  //
+  const handleSubmit = () => {
+    console.log('This feature has not been implemented yet.');
+    // const body = {
+    //   code: formData,
+    //   mobileNumber: mobileNumber,
+    // };
+    //
+    // const result = await window.nodeMethod.rendInvoke('verify-code', body);
+    //
+    // if (result === 'approved') {
+    //   showVerificationInput = false;
+    //   isVerified = result === 'approved' ? true : false;
+    // } else alert('Please try verification code again');
   };
 
   /**
@@ -292,19 +266,19 @@ const Settings = () => {
   });
 
   // 2. MAKE A DB REQUEST TO GET EXISTING DATA ABOUT GITHUB URL LINKS AND UPDATE THE STATE WITH THIS INFORMATION
-  const getData = () => {
-    fetch('http://localhost:3000/settings/gitcontainers', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((data) => data.json())
-      .then((response) => {
-        console.log(response);
-        return response;
-      });
-  };
+  // const getData = () => {
+  //   fetch('http://localhost:3000/settings/gitcontainers', {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //     .then((data) => data.json())
+  //     .then((response) => {
+  //       console.log(response);
+  //       return response;
+  //     });
+  // };
 
   const [tempGithubLink, setTempGithubLink] = useState(stateObject);
 
@@ -366,9 +340,9 @@ const Settings = () => {
   // const updateUser = (userInfo: UserInfo) =>
   //   dispatch(actions.updateUser(userInfo));
 
-  const handleRadioChange = (event: any) => {
-    setValue(event.target.value);
-  };
+  // const handleRadioChange = (event: any) => {
+  //   setValue(event.target.value);
+  // };
 
   const handleRadioSubmit = (value: string) => {
     fetch('http://localhost:3000/account/contact', {
@@ -486,8 +460,8 @@ const Settings = () => {
       );
 
       return (
-        <tbody>
-          <tr key={i} id='settings-row'>
+        <tbody key={i}>
+          <tr id='settings-row'>
             <td>
               <span className='container-name font-bold'>
                 {container.Names ? container.Names : container.Name}
@@ -503,7 +477,7 @@ const Settings = () => {
                 type='checkbox'
                 checked={isMemorySelected}
                 className='checkbox'
-                onClick={(event: any) =>
+                onChange={(event: any) =>
                   event.target.checked
                     ? handleCheckSetting(
                         container.ID,
@@ -521,7 +495,7 @@ const Settings = () => {
                 type='checkbox'
                 checked={isCpuSelected}
                 className='checkbox'
-                onClick={(event: any) =>
+                onChange={(event: any) =>
                   event.target.checked
                     ? handleCheckSetting(
                         container.ID,
@@ -539,7 +513,7 @@ const Settings = () => {
                 type='checkbox'
                 checked={isStoppedSelected}
                 className='checkbox'
-                onClick={(event: any) =>
+                onChange={(event: any) =>
                   event.target.checked
                     ? handleCheckSetting(
                         container.ID,
@@ -613,7 +587,6 @@ const Settings = () => {
               className='input input-bordered w-full max-w-xs'
               onChange={(e) => {
                 setMobileNumber(e.target.value);
-                isVerified = false;
               }}
             />
             <button className='btn btn-primary ml-7' onClick={handleSubmit}>
@@ -624,10 +597,10 @@ const Settings = () => {
           <h2 className='card-title text-sm pb-2'>CONTACT PREFERENCES</h2>
           <div className='items-center'>
             <div className='input-group'>
-              <select className='select select-bordered'>
-                <option disabled selected>
-                  Choose preference
-                </option>
+              <select
+                defaultValue='Choose preference'
+                className='select select-bordered'
+              >
                 <option value='email' label='Email'>
                   Email
                 </option>
@@ -636,7 +609,7 @@ const Settings = () => {
                 </option>
               </select>
               <button
-                className='btn btn-primary ml-7'
+                className='btn btn-primary'
                 onClick={() => handleRadioSubmit(value)}
               >
                 Submit
@@ -749,7 +722,6 @@ const Settings = () => {
               <input
                 id='stopped-containers-input'
                 type='checkbox'
-                checked
                 className='checkbox'
                 onChange={handleStoppedContainersChange}
               />

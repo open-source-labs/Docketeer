@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useAppSelector } from '../../redux/reducers/hooks';
 import { Box, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-// import NewUserDisplay from "../display/NewUserDisplay";
+import NewUserDisplay from '../display/NewUserDisplay';
 import useSurvey from '../helper/dispatch';
 
 const UserTable = () => {
@@ -126,7 +126,7 @@ const UserTable = () => {
           })}
         />
       </Box>
-      // <NewUserDisplay />
+      <NewUserDisplay />
     </div>
   );
 };

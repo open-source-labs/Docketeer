@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import { useAppSelector } from "../../redux/reducers/hooks";
+import React, { useState } from 'react';
+import { useAppSelector } from '../../redux/reducers/hooks';
 /*
  * Render Volume History
  */
 
 const VolumeHistory = () => {
-  const [volumeName, setVolumeName] = useState("");
-  const [volumeList, setVolumeList] = useState("");
+  const [volumeName, setVolumeName] = useState('');
+  const [volumeList, setVolumeList] = useState('');
 
   // Access state
   const volumeContainersList = useAppSelector(
@@ -17,39 +17,51 @@ const VolumeHistory = () => {
   // Helper function to render container details
   const containerDetails = (container, i) => {
     return (
-      <div className="volume-container-details" key={`vol-${i}`}>
+      <div className='volume-container-details' key={`vol-${i}`}>
         <strong>Container: </strong>
-        {container["Names"]}
+        {container['Names']}
         <br />
         <strong>Status: </strong>
-        {container["State"]}
+        {container['State']}
         <br />
         <strong>Runtime: </strong>
-        {container["Status"]}
+        {container['Status']}
       </div>
     );
   };
 
   // Helper function to render volume history
   const renderVolumeHistory = (volumeProps) =>
-    volumeProps.map((ele, i) => {
+    volumeProps.map((volume, i) => {
       const details = [];
 
-      ele.containers.length
-        ? ele.containers.forEach((el) => details.push(containerDetails(el, i)))
+      volume.containers.length
+        ? volume.containers.forEach((el) =>
+            details.push(containerDetails(el, i))
+          )
         : details.push(
-            <div className="volume-container-details" key={`index-${i}`}>
+            <div className='volume-container-details' key={`index-${i}`}>
               No container found in this volume
             </div>
           );
 
       return (
-        <div className="box" key={`vol_${i}`}>
-          <div className="volume-box-label">
-            <h3>{ele.vol_name}</h3>
+        <>
+          <div className='card w-96 glass' key={i}>
+            <div className='card-body'>
+              <h2 className='card-title'>{volume.vol_name}</h2>
+              <div className='divider py-1'></div>
+              <div className='flex flex-col space-y-1'>{details}</div>
+            </div>
           </div>
-          {details}
-        </div>
+
+          <div className='box' key={`vol_${i}`}>
+            <div className='volume-box-label'>
+              <h3>{ele.vol_name}</h3>
+            </div>
+            {details}
+          </div>
+        </>
       );
     });
 
@@ -66,28 +78,47 @@ const VolumeHistory = () => {
   };
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Volume History</h1>
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-col gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <div className='flex flex-col justify-between items-left'>
+              <h2 className='card-title text-sm'>VOLUME HISTORY</h2>
+              <div className='divider py-8'></div>
+              <div className='form-control'>
+                <div className='flex items-left input-group'>
+                  <input
+                    type='text'
+                    value={volumeName}
+                    placeholder='Search…'
+                    className='w-96 input input-bordered'
+                    onChange={(e) => {
+                      setVolumeName(e.target.value);
+                    }}
+                  />
+                  <button
+                    className='btn-primary btn-square font-bold text-primary-content text-xs'
+                    onClick={(e) => handleClick(e)}
+                  >
+                    FIND
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>AVAILABLE IMAGES</h2>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderList}
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="settings-container">
-        <label>Search Volume</label>
-        <span>
-          <input
-            className="input-box"
-            type="text"
-            value={volumeName}
-            onChange={(e) => {
-              setVolumeName(e.target.value);
-            }}
-          />
-          <button className="etc-btn" onClick={(e) => handleClick(e)}>
-            FIND
-          </button>
-        </span>
-      </div>
-      <div className="containers">{renderList}</div>
-    </div>
+    </>
   );
 };
 

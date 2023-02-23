@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import useHelper from "../helper/commands";
-import { useAppSelector } from "../../redux/reducers/hooks";
+import useHelper from '../helper/commands';
+import { useAppSelector } from '../../redux/reducers/hooks';
 
 /**
  * Render Images of the user
@@ -9,49 +9,46 @@ import { useAppSelector } from "../../redux/reducers/hooks";
 
 const Images = () => {
   const imagesList = useAppSelector((state) => state.images.imagesList);
-  const [repo, setRepo] = useState("");
+  const [repo, setRepo] = useState('');
 
   const { runIm, removeIm, pullImage } = useHelper();
 
   const handleClick = () => {
     if (!repo) {
-      alert("Please enter an image to pull!");
+      alert('Please enter an image to pull!');
       return;
     } else {
       let existingRepo = false;
-      if (repo.includes(":")) {
-        const splitRepo = repo.split(":");
-        // can't break out of a forEach, so opted to use map as temp solution
+      if (repo.includes(':')) {
+        const splitRepo = repo.split(':');
         imagesList.map((el) => {
           if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
             existingRepo = true;
             return;
           }
         });
-        // ingore was used below because Typescript says the condition will never be true, but this is not an accurate error
         // @ts-ignore
         if (existingRepo === true) {
-          alert("This image already exists!");
+          alert('This image already exists!');
           return;
         } else {
-          alert("Looking for image");
+          alert('Looking for image');
           pullImage(repo);
           return;
         }
       } else {
         imagesList.map((el) => {
-          if (el.reps === repo && el.tag === "latest") {
+          if (el.reps === repo && el.tag === 'latest') {
             existingRepo = true;
             return;
           }
         });
-        // ignore was used below because Typescript says the codition will never be true, but this is not an accurate error
         // @ts-ignore
         if (existingRepo === true) {
-          alert("This image already exists!");
+          alert('This image already exists!');
           return;
         } else {
-          alert("Looking for image");
+          alert('Looking for image');
           pullImage(repo);
           return;
         }
@@ -59,67 +56,88 @@ const Images = () => {
     }
   };
 
-  const renderImagesList = imagesList.map((ele, i: number) => {
+  const renderImagesList = imagesList.map((image, i: number) => {
     return (
-      <div className="box" key={`imageBox${i}`}>
-        <div className="box-label">
-          <h3>{ele["reps"]}</h3>
-          <p>{ele["tag"]}</p>
-        </div>
-        <div className="stopped-info">
-          <ul>
-            <li>
-              <strong>ID: </strong>
-              {ele["imgid"]}
-            </li>
-            <li>
-              <strong>Size: </strong>
-              {ele["size"]}
-            </li>
-          </ul>
-        </div>
-        <div className="stopped-button">
-          <button className="run-btn" onClick={() => runIm(ele)}>
-            RUN
-          </button>
-          <button className="remove-btn" onClick={() => removeIm(ele["imgid"])}>
-            REMOVE
-          </button>
+      <div className='card w-96 glass' key={i}>
+        <figure className='pt-20'>
+          <img
+            src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
+            alt='https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png'
+            id='imageLogo'
+          />
+        </figure>
+        <div className='card-body'>
+          <h2 className='card-title'>{image.reps}</h2>
+          <p className='text-xs'>{image.tag}</p>
+          <div className='divider py-1'></div>
+          <p className='text-xs'>{`Image ID: ${image.imgid}`}</p>
+          <p className='text-xs'>{`Image Size: ${image.size}`}</p>
+          <div className='divider py-2'></div>
+          <div className='card-actions justify-end'>
+            <button
+              className='btn bg-success text-success-content'
+              onClick={() => runIm(image)}
+            >
+              RUN
+            </button>
+            <button
+              className='btn bg-error text-error-content'
+              onClick={() => removeIm(image.imgid)}
+            >
+              REMOVE
+            </button>
+          </div>
         </div>
       </div>
     );
   });
 
+  // const imageLogo = document.getElementById('imageLogo');
+  // imageLogo.addEventListener('error', () => {
+  //   imageLogo.src = `https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png`;
+  // });
+
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Images</h1>
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-col gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <div className='flex flex-col justify-between items-left'>
+              <h2 className='card-title text-sm'>IMAGE REPOSITORY</h2>
+              <div className='divider py-8'></div>
+              <div className='form-control'>
+                <div className='flex items-left input-group'>
+                  <input
+                    type='text'
+                    placeholder='Search…'
+                    className='w-96 input input-bordered'
+                    onChange={(e) => {
+                      setRepo(e.target.value);
+                    }}
+                  />
+                  <button
+                    className='btn-primary w-20 text-center btn-square font-bold text-primary-content text-xs'
+                    onClick={() => handleClick()}
+                  >
+                    PULL
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>AVAILABLE IMAGES</h2>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderImagesList}
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="settings-container">
-        <label>
-          Enter Image Repository{" "}
-          <span style={{ fontSize: "10px" }}>
-            {" "}
-            (version defaults to latest)
-          </span>
-        </label>
-        <span>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="image:version"
-            value={repo}
-            onChange={(e) => {
-              setRepo(e.target.value);
-            }}
-          ></input>
-          <button className="etc-btn" name="pull" onClick={() => handleClick()}>
-            PULL
-          </button>
-        </span>
-      </div>
-      <div className="containers">{renderImagesList}</div>
-    </div>
+    </>
   );
 };
 

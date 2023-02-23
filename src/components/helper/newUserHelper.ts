@@ -96,7 +96,6 @@ export const createNewUser = (
         phone: '',
         showPassword: false,
       });
-      window.alert(`New user has been successfully created.`);
     })
     .then(() => {
       getUpdatedUserList();
@@ -119,10 +118,7 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(
-        'Reminder: Fix `getUpdatedUserList` helper function to ensure newly added users get added to the list.'
-      );
-      // updateUserList(data);
+      updateUserList(data);
     })
     .catch((err) => {
       console.log('error in getUpdatedUserList: ', err);

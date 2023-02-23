@@ -527,7 +527,7 @@ const Settings = () => {
             </td>
 
             <td>
-              <div className='form-control w-full max-w-xs'>
+              <div className='form-control space-y-2'>
                 <input
                   id='gittext'
                   type='text'
@@ -548,7 +548,7 @@ const Settings = () => {
 
             <td>
               <button
-                className='btn'
+                className='btn btn-primary w-full max-w-xs'
                 name={container.Names ? container.Names : container.Name}
                 id={container.ID}
                 onClick={(e) => githubLink(e)}
@@ -563,43 +563,50 @@ const Settings = () => {
   );
 
   return (
-    <div className='space-y-5'>
+    <>
       <div className='h-3'></div>
-      <AccountDisplay />
+      <div className='settingsFlex flex flex-wrap gap-2'>
+        <AccountDisplay />
 
-      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
-        <div className='card-body text-left space-y-2'>
-          <h2 className='card-title text-sm pb-2'>COMMUNICATION</h2>
-          <p className='text-sm'>
-            This panel will allow you to connect a mobile phone to your account
-            and/or choose your preferred method of communication.
-          </p>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <label className='label'>
-              <span className='label-text text-xs'>
-                Enter phone number to enable Twilio
-              </span>
-            </label>
-            <input
-              type='text'
-              placeholder='+12224448888'
-              className='input input-bordered w-full max-w-xs'
-              onChange={(e) => {
-                setMobileNumber(e.target.value);
-              }}
-            />
-            <button className='btn btn-primary ml-7' onClick={handleSubmit}>
-              Enable
-            </button>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-xs'>COMMUNICATION</h2>
+            <p className='text-xs w-full max-w-xs'>
+              This panel will allow you to connect a mobile phone to your
+              account and/or choose your preferred method of communication.
+            </p>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2'>
+              <label className='label'>
+                <span className='label-text text-xs'>
+                  Enter phone number to enable Twilio
+                </span>
+              </label>
+              <input
+                type='text'
+                placeholder='+12224448888'
+                className='input input-bordered w-full max-w-xs'
+                onChange={(e) => {
+                  setMobileNumber(e.target.value);
+                }}
+              />
+              <button
+                className='btn btn-primary w-full max-w-xs'
+                onClick={handleSubmit}
+              >
+                Enable
+              </button>
+            </div>
           </div>
-          <div className='divider py-8'></div>
-          <h2 className='card-title text-sm pb-2'>CONTACT PREFERENCES</h2>
-          <div className='items-center'>
-            <div className='input-group'>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm'>CONTACT PREFERENCES</h2>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2 text-left'>
               <select
                 defaultValue='Choose preference'
-                className='select select-bordered'
+                className='select select-bordered w-full max-w-xs'
               >
                 <option value='email' label='Email'>
                   Email
@@ -609,7 +616,7 @@ const Settings = () => {
                 </option>
               </select>
               <button
-                className='btn btn-primary'
+                className='btn btn-primary w-full max-w-xs'
                 onClick={() => handleRadioSubmit(value)}
               >
                 Submit
@@ -617,106 +624,113 @@ const Settings = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
-        <div className='card-body text-left space-y-2'>
-          <h2 className='card-title text-sm pb-2'>NOTIFICATION PREFERENCES</h2>
-          <p className='text-sm'>
-            This panel allows you to (i) customize monitoring and notification
-            frequency, and (ii) define container conditions that will trigger
-            notifications. When a container hits a threshold, an alert is sent
-            via your preferred method of communication. Recommended values will
-            be used by default.
-          </p>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <p>Update Notification Frequencie(s)</p>
-            <label className='label'>
-              <span className='label-text text-xs'>
-                (Suggested frequency: 5 minutes)
-              </span>
-            </label>
-            <input
-              type='text'
-              placeholder='frequency (minutes)'
-              className='input input-bordered w-full max-w-xs'
-              value={tempNotifFreq}
-              onChange={(e) => {
-                setTempNotifFreq(e.target.value);
-              }}
-            />
-            <button
-              className='btn btn-primary ml-7'
-              onClick={() => notificationFrequency()}
-            >
-              Confirm
-            </button>
-            <label className='label'>
-              <span className='label-text text-xs'>
-                (Suggested frequency: 2 minutes)
-              </span>
-            </label>
-            <input
-              type='text'
-              placeholder='frequency (minutes)'
-              className='input input-bordered w-full max-w-xs'
-              value={tempMonitoringFrequency}
-              onChange={(e) => {
-                setTempMonitoringFrequency(e.target.value);
-              }}
-            />
-            <button
-              className='btn btn-primary ml-7'
-              onClick={() => monitoringFrequency()}
-            >
-              Confirm
-            </button>
+
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm pb-2'>NOTIFICATION FREQUENCY</h2>
+            <p className='text-xs w-full max-w-s'>
+              This panel allows you to (i) customize monitoring and notification
+              frequency, and (ii) define container conditions that will trigger
+              notifications. When a container hits a threshold, an alert is sent
+              via your preferred method of communication. Recommended values
+              will be used by default.
+            </p>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2'>
+              <label className='label'>
+                <span className='label-text text-xs'>
+                  (Suggested frequency: 5 minutes)
+                </span>
+              </label>
+              <input
+                type='text'
+                placeholder='frequency (minutes)'
+                className='input input-bordered w-full max-w-xs'
+                value={tempNotifFreq}
+                onChange={(e) => {
+                  setTempNotifFreq(e.target.value);
+                }}
+              />
+              <button
+                className='btn btn-primary w-full max-w-xs'
+                onClick={() => notificationFrequency()}
+              >
+                Confirm
+              </button>
+              <label className='label'>
+                <span className='label-text text-xs'>
+                  (Suggested frequency: 2 minutes)
+                </span>
+              </label>
+              <input
+                type='text'
+                placeholder='frequency (minutes)'
+                className='input input-bordered w-full max-w-xs'
+                value={tempMonitoringFrequency}
+                onChange={(e) => {
+                  setTempMonitoringFrequency(e.target.value);
+                }}
+              />
+              <button
+                className='btn btn-primary w-full max-w-xs'
+                onClick={() => monitoringFrequency()}
+              >
+                Confirm
+              </button>
+            </div>
           </div>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <p>Configure Notification Thresholds</p>
-            <label className='label'>
-              <span className='label-text text-xs'>
-                Current CPU Threshold: {`>${cpu_threshold}%`}
-              </span>
-            </label>
-            <input
-              type='text'
-              placeholder='frequency (minutes)'
-              className='input input-bordered w-full max-w-xs'
-              value={cpuThreshold}
-              onChange={handleCpuChange}
-            />
-            <button
-              className='btn btn-primary ml-7'
-              onClick={() => handleCpuSubmit(cpuThreshold)}
-            >
-              Confirm
-            </button>
-            <label className='label'>
-              <span className='label-text text-xs'>
-                Current Memory Threshold: {`>${mem_threshold}%`}
-              </span>
-            </label>
-            <input
-              type='text'
-              placeholder='frequency (minutes)'
-              className='input input-bordered w-full max-w-xs'
-              value={memThreshold}
-              onChange={handleMemChange}
-            />
-            <button
-              className='btn btn-primary ml-7'
-              onClick={() => handleMemSubmit(memThreshold)}
-            >
-              Confirm
-            </button>
+        </div>
+
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm pb-2'>NOTIFICATION THRESHOLD</h2>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2'>
+              <label className='label'>
+                <span className='label-text text-xs'>
+                  Current CPU Threshold: {`>${cpu_threshold}%`}
+                </span>
+              </label>
+              <input
+                type='text'
+                placeholder='frequency (minutes)'
+                className='input input-bordered w-full max-w-xs'
+                value={cpuThreshold}
+                onChange={handleCpuChange}
+              />
+              <button
+                className='btn btn-primary w-full max-w-xs'
+                onClick={() => handleCpuSubmit(cpuThreshold)}
+              >
+                Confirm
+              </button>
+              <label className='label'>
+                <span className='label-text text-xs'>
+                  Current Memory Threshold: {`>${mem_threshold}%`}
+                </span>
+              </label>
+              <input
+                type='text'
+                placeholder='frequency (minutes)'
+                className='input input-bordered w-full max-w-xs'
+                value={memThreshold}
+                onChange={handleMemChange}
+              />
+              <button
+                className='btn btn-primary w-full max-w-xs'
+                onClick={() => handleMemSubmit(memThreshold)}
+              >
+                Confirm
+              </button>
+            </div>
           </div>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <p>Stopped Containers</p>
-            <label className='label cursor-pointer'>
-              <span className='label-text'>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm pb-2'>STOPPED CONTAINERS</h2>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2'>
+              <span className='label-text text-xs'>
                 Receive notification when a container stops
               </span>
               <input
@@ -726,59 +740,59 @@ const Settings = () => {
                 onChange={handleStoppedContainersChange}
               />
               <button
-                className='btn btn-primary'
+                className='btn btn-primary w-full max-w-xs'
                 onClick={() => handleStoppedContainersSubmit(stoppedContainers)}
               >
                 Submit
               </button>
-            </label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
-        <div className='card-body text-left space-y-2'>
-          <h2 className='card-title text-sm pb-2'>GITHUB CONFIGURATION</h2>
-          <p className='text-sm'>
-            This panel allows you to get access to latest GitHub commits in your
-            project repository on "Metrics" tab for selected containers.
-          </p>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <p>
-              This feature is currently in development. Please check back in
-              later.
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm pb-2'>GITHUB CONFIGURATION</h2>
+            <p className='text-xs w-full max-w-xs'>
+              This panel allows you to get access to latest GitHub commits in
+              your project repository on "Metrics" tab for selected containers.
             </p>
+            <div className='divider py-8'></div>
+            <div className='form-control space-y-2'>
+              <p className='text-xs w-full max-w-xs'>
+                This feature is currently in development. Please check back in
+                later.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
-        <div className='card-body text-left space-y-2'>
-          <h2 className='card-title text-sm pb-2'>CONTAINER CONFIGURATION</h2>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <div className='overflow-x-auto'>
-              <table className='table w-full'>
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th className='text-xs'>CONTAINER NAME</th>
-                    <th className='text-xs'>CONTAINER ID</th>
-                    <th className='text-xs'>MEMORY {`>${mem_threshold}%`}</th>
-                    <th className='text-xs'>CPU {`>${cpu_threshold}%`}</th>
-                    <th className='text-xs'>CONTAINER STOPS</th>
-                    <th className='text-xs'>GITHUB REPOSITORY</th>
-                    <th className='text-xs'>APPLY SETTINGS</th>
-                  </tr>
-                </thead>
-                {renderAllContainersList}
-              </table>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm pb-2'>CONTAINER CONFIGURATION</h2>
+            <div className='divider py-8'></div>
+            <div className='items-center'>
+              <div className='overflow-x-auto'>
+                <table className='table w-full'>
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th className='text-xs'>CONTAINER NAME</th>
+                      <th className='text-xs'>CONTAINER ID</th>
+                      <th className='text-xs'>MEMORY {`>${mem_threshold}%`}</th>
+                      <th className='text-xs'>CPU {`>${cpu_threshold}%`}</th>
+                      <th className='text-xs'>CONTAINER STOPS</th>
+                      <th className='text-xs'>GITHUB REPOSITORY</th>
+                      <th className='text-xs'>APPLY SETTINGS</th>
+                    </tr>
+                  </thead>
+                  {renderAllContainersList}
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

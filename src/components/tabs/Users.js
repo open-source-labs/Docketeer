@@ -7,6 +7,7 @@ import useSurvey from '../helper/dispatch';
 
 const UserTable = () => {
   const userList = useAppSelector((state) => state.users.userList);
+  console.log('userList', userList);
   const { updateRoles } = useSurvey();
   const [pageSize, setPageSize] = useState(5);
 
@@ -81,53 +82,54 @@ const UserTable = () => {
     });
   };
 
+  const renderUsers = userList.map((user, i) => {
+    return (
+      <tbody key={i}>
+        <tr>
+          <td>{user._id}</td>
+          <td>{user.username}</td>
+          <td>{user.role}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.contact_pref}</td>
+          <td>{user.mem_threshold}</td>
+          <td>{user.cpu_threshold}</td>
+        </tr>
+      </tbody>
+    );
+  });
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Users</h1>
+    <>
+      <div className='h-3'></div>
+      <div className='flex flex-col space-y-5 lg:flex-row lg:space-y-0 lg:space-x-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>USER MANAGEMENT</h2>
+            <div className='divider py-8'></div>
+            <div className='items-center'>
+              <div className='overflow-x-auto'>
+                <table className='table w-full'>
+                  <thead>
+                    <tr>
+                      <th className='text-xs'>ID</th>
+                      <th className='text-xs'>USER</th>
+                      <th className='text-xs'>ROLE</th>
+                      <th className='text-xs'>EMAIL</th>
+                      <th className='text-xs'>PHONE</th>
+                      <th className='text-xs'>CONTACT PREF.</th>
+                      <th className='text-xs'>MEMORY</th>
+                      <th className='text-xs'>CPU</th>
+                    </tr>
+                  </thead>
+                  {renderUsers}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <NewUserDisplay />
       </div>
-      <Box
-        className='users-container'
-        sx={{
-          height: 450,
-          background: 'white',
-          p: 2,
-        }}
-      >
-        <Typography variant='h6' sx={{ mt: 0, mb: 0, fontFamily: 'Lexend' }}>
-          Manage Users
-        </Typography>
-        <Typography
-          sx={{
-            mt: 0,
-            mb: 1,
-            color: 'gray',
-            fontFamily: 'Lexend',
-            fontStyle: 'italic',
-            fontWeight: 'lighter',
-          }}
-        >
-          * Double click on the role to access the drop down menu
-        </Typography>
-        <DataGrid
-          className='user-table'
-          sx={{}}
-          columns={columns}
-          rows={userList}
-          experimentalFeatures={{ preventCommitWhileValidating: true }} // This is needed for preProcessEditCellProp not not be called twice
-          getRowId={(row) => row._id}
-          rowsPerPageOptions={[5, 10, 20]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          getRowSpacing={(params) => ({
-            // Sets spacing between rows
-            top: params.isFirstVisible ? 0 : 5, // Sets spacing for top row to zero and 5 for everything else
-            bottom: params.isLastVisible ? 0 : 5,
-          })}
-        />
-      </Box>
-      <NewUserDisplay />
-    </div>
+    </>
   );
 };
 

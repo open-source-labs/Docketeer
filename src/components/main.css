@@ -14,3 +14,7 @@ body {
 body {
   margin: 1.25%;
 }
+
+.settingsFlex > * {
+  flex: 1 1 300px;
+}

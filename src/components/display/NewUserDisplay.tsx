@@ -4,22 +4,6 @@
  */
 import React, { useState } from 'react';
 
-// Material UI Imports
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-// import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-// import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import PasswordStrengthBar from 'react-password-strength-bar';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
 import {
   handleNewUser,
   // checkPasswordLength,
@@ -27,14 +11,8 @@ import {
   // checkPhone,
 } from '../helper/newUserHelper';
 
-// This will store the value from the user role
-let valueRole = '3';
-// Setting value of the RadioGroup MUI Component to the one selected by the user
-const handleSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-  valueRole = (event.target as HTMLInputElement).value;
-};
-
 const NewUserDisplay = () => {
+  const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState({
     email: '',
     username: '',
@@ -44,169 +22,119 @@ const NewUserDisplay = () => {
     showPassword: false,
   });
 
-  // const handleClickShowPassword = () => {
-  //   setValues({
-  //     ...values,
-  //     showPassword: !values.showPassword,
-  //   });
-  // };
-
   return (
-    <div style={{ background: '#E1E4E6' }}>
-      <div className='settings-container' style={{ marginTop: '80px' }}>
-        <div className='metric-section-title'>
-          <h3>Create a New User</h3>
-        </div>
-        <p>
+    <div className='card bg-neutral text-neutral-content rounded-lg flex-0'>
+      <div className='card-body text-left space-y-2'>
+        <h2 className='card-title text-sm'>CREATE NEW USER</h2>
+        <p className='text-xs w-full max-w-xs'>
           Create a new Docketeer account for an employee. Please confirm with
           the employee that their information is accurate before submitting.
         </p>
-        <br />
-        <p>
-          Note: For the password, please choose a random string of 6 characters,
-          numbers, and symbols. Upon account creation, the user will receive an
-          email with credentials and be able to update their password when
-          logging in.
-        </p>
-        <br />
-        <Box
-          className='settingsForm'
-          component='form'
-          autoComplete='off'
-          onSubmit={() => handleNewUser(values, valueRole, setValues)}
-          sx={{ color: 'blue' }}
-        >
-          <TextField
-            id='signupEmail'
-            label='Email'
-            variant='outlined'
-            required
-            sx={{
-              m: 1,
+        <div className='divider py-8'></div>
+        <div className='form-control'>
+          <input
+            type='text'
+            id='email'
+            placeholder='Email'
+            className='input input-bordered w-full max-w-xs'
+            onChange={(e) => {
+              setValues({ ...values, email: e.target.value });
             }}
           />
-          <br />
-          <TextField
-            id='signupUsername'
-            label='Username'
-            variant='outlined'
-            required
-            inputProps={{ minLength: 4, maxLength: 16 }}
-            sx={{
-              m: 1,
+        </div>
+        <div className='form-control'>
+          <input
+            type='text'
+            id='username'
+            placeholder='Username'
+            className='input input-bordered w-full max-w-xs'
+            onChange={(e) => {
+              setValues({ ...values, username: e.target.value });
             }}
           />
-          <br />
-
-          <FormControl sx={{ m: 1, maxWidth: 195 }} variant='outlined'>
-            <InputLabel htmlFor='signupPassword'>Password</InputLabel>
-            <OutlinedInput
-              id='signupPassword'
-              type={values.showPassword ? 'text' : 'password'}
-              onChange={(e) => {
-                setValues({ ...values, password: e.target.value });
-              }}
-              label='Password'
-            />
-          </FormControl>
-          {values.password && (
-            <PasswordStrengthBar
-              style={{ maxWidth: '190px', color: 'red', marginLeft: 10 }}
-              password={values.password}
-            />
-          )}
-          <span
-            id='password-length-alert'
-            style={{
-              fontSize: 10,
-              textAlign: 'left',
-              maxWidth: 190,
-              display: 'inline-block',
-              marginLeft: 10,
-            }}
-          ></span>
-
-          <br />
-          <TextField
-            id='signupPasswordConfirmation'
-            label='Confirm Password'
-            variant='outlined'
+        </div>
+        <div className='form-control'>
+          <input
             type='password'
-            required
+            id='password'
+            placeholder='Password'
+            className='input input-bordered w-full max-w-xs'
             onChange={(e) => {
-              setValues({ ...values, passwordConfirmation: e.target.value });
-            }}
-            sx={{
-              m: 1,
+              setValues({ ...values, password: e.target.value });
             }}
           />
-          <span
-            id='password-confirmation-alert'
-            style={{
-              fontSize: 10,
-              textAlign: 'left',
-              maxWidth: 190,
-              display: 'inline-block',
-              marginLeft: 10,
-              paddingTop: 15,
-            }}
-          ></span>
-          <br />
-          <TextField
-            id='signupPhone'
-            label='Phone'
-            variant='outlined'
-            required
+        </div>
+        <div className='form-control'>
+          <input
+            type='password'
+            id='confirm-password'
+            placeholder='Confirm'
+            className='input input-bordered w-full max-w-xs'
             onChange={(e) => {
-              setValues({ ...values, phone: e.target.value });
-            }}
-            sx={{
-              m: 1,
+              setValues({
+                ...values,
+                passwordConfirmation: e.target.value,
+              });
             }}
           />
-
-          <br />
-          <span id='phone-alert' style={{ marginLeft: 10 }}></span>
-          <br />
-          <FormControl>
-            <RadioGroup
-              id='new-user-role'
-              row
-              defaultValue='3'
-              onChange={handleSelect}
-              sx={{
-                m: 1,
-              }}
-            >
-              <FormControlLabel
-                value='1'
-                control={<Radio />}
-                label='System Admin'
-              ></FormControlLabel>
-              <FormControlLabel
-                value='2'
-                control={<Radio />}
-                label='Admin'
-              ></FormControlLabel>
-              <FormControlLabel
-                value='3'
-                control={<Radio />}
-                label='User'
-              ></FormControlLabel>
-            </RadioGroup>
-          </FormControl>
-          <br />
-          <Button
-            variant='contained'
-            size='medium'
-            type='submit'
-            sx={{
-              m: 1,
+        </div>
+        <div className='form-control'>
+          <input
+            type='phone'
+            id='phone'
+            placeholder='Phone number'
+            className='input input-bordered w-full max-w-xs'
+            onChange={(e) => {
+              setValues({
+                ...values,
+                phone: e.target.value,
+              });
+            }}
+          />
+        </div>
+        <div className='form-control'>
+          <label className='label cursor-pointer'>
+            <span className='label-text'>System Admin</span>
+            <input
+              type='radio'
+              name='radio-sys-admin'
+              className='radio primary radio-xs'
+              onChange={() => setValueRole('1')}
+            />
+          </label>
+        </div>
+        <div className='form-control'>
+          <label className='label cursor-pointer'>
+            <span className='label-text'>Admin</span>
+            <input
+              type='radio'
+              name='radio-admin'
+              className='radio primary radio-xs'
+              onChange={() => setValueRole('2')}
+            />
+          </label>
+        </div>
+        <div className='form-control'>
+          <label className='label cursor-pointer'>
+            <span className='label-text'>User</span>
+            <input
+              type='radio'
+              name='radio-user'
+              className='radio primary radio-xs'
+              onChange={() => setValueRole('3')}
+            />
+          </label>
+        </div>
+        <div className='form-control mt-6 flex space-y-2'>
+          <button
+            className='btn btn-primary w-full max-w-xs'
+            onClick={() => {
+              handleNewUser(values, valueRole, setValues);
             }}
           >
-            Submit
-          </Button>
-        </Box>
+            Create
+          </button>
+        </div>
       </div>
     </div>
   );

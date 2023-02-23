@@ -24,11 +24,12 @@ const AccountDisplay = () => {
   // NB: Reimplement user feedback when updating phone number (using callback function `checkPhone`)
   // NB: Reimplement user feedback when updating password (using 3 callbacks i.e. `confirmPW, checkPassLength, confirmPassword `)
   return (
-    <div>
-      <div className='card w-11/14 bg-neutral text-neutral-content rounded-lg'>
+    <>
+      <div className='card bg-neutral text-neutral-content rounded-lg'>
         <div className='card-body text-left space-y-2'>
           <h2 className='card-title text-sm pb-2'>ACCOUNT INFORMATION</h2>
-          <div className='items-center'>
+          <div className='divider py-8'></div>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Email</span>
             </label>
@@ -39,7 +40,7 @@ const AccountDisplay = () => {
               disabled
             />
           </div>
-          <div className='items-center'>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Username</span>
             </label>
@@ -50,7 +51,7 @@ const AccountDisplay = () => {
               disabled
             />
           </div>
-          <div className='items-center'>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Phone</span>
             </label>
@@ -61,11 +62,15 @@ const AccountDisplay = () => {
               disabled
             />
           </div>
-          <div className='divider py-8'></div>
+        </div>
+      </div>
+      <div className='card bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
           <h2 className='card-title text-sm pb-2'>
             UPDATE ACCOUNT INFORMATION
           </h2>
-          <div className='items-center'>
+          <div className='divider py-8'></div>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Email</span>
             </label>
@@ -75,13 +80,13 @@ const AccountDisplay = () => {
               className='input input-bordered w-full max-w-xs'
             />
             <button
-              className='btn btn-primary ml-7'
+              className='btn btn-primary w-full max-w-xs'
               onClick={() => handleEmailUpdate()}
             >
               Update
             </button>
           </div>
-          <div className='items-center'>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Phone</span>
             </label>
@@ -91,15 +96,20 @@ const AccountDisplay = () => {
               className='input input-bordered w-full max-w-xs'
             />
             <button
-              className='btn btn-primary ml-7'
+              className='btn btn-primary w-full max-w-xs'
               onClick={() => handlePhoneUpdate()}
             >
               Update
             </button>
           </div>
-          <div className='divider py-8'></div>
+        </div>
+      </div>
+
+      <div className='card bg-neutral text-neutral-content rounded-lg'>
+        <div className='card-body text-left space-y-2'>
           <h2 className='card-title text-sm pb-2'>UPDATE PASSWORD</h2>
-          <div className='items-center'>
+          <div className='divider py-8'></div>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Current Password</span>
             </label>
@@ -109,7 +119,7 @@ const AccountDisplay = () => {
               className='input input-bordered w-full max-w-xs'
             />
           </div>
-          <div className='items-center'>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>New Password</span>
             </label>
@@ -119,7 +129,7 @@ const AccountDisplay = () => {
               className='input input-bordered w-full max-w-xs'
             />
           </div>
-          <div className='items-center'>
+          <div className='form-control space-y-2'>
             <label className='label'>
               <span className='label-text text-xs'>Confirm Password</span>
             </label>
@@ -129,7 +139,7 @@ const AccountDisplay = () => {
               className='input input-bordered w-full max-w-xs'
             />
             <button
-              className='btn btn-primary ml-7'
+              className='btn btn-primary w-full max-w-xs'
               onClick={() => handlePasswordChange()}
             >
               Update
@@ -137,7 +147,7 @@ const AccountDisplay = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

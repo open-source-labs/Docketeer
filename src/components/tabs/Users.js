@@ -101,7 +101,7 @@ const UserTable = () => {
   return (
     <>
       <div className='h-3'></div>
-      <div className='flex flex-col space-y-5 lg:flex-row lg:space-y-0 lg:space-x-3'>
+      <div className='usersFlex flex flex-wrap gap-3'>
         <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
           <div className='card-body space-y-2'>
             <h2 className='card-title text-sm'>USER MANAGEMENT</h2>

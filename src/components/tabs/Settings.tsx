@@ -565,16 +565,16 @@ const Settings = () => {
   return (
     <>
       <div className='h-3'></div>
-      <div className='settingsFlex flex flex-wrap gap-2'>
+      <div className='settingsFlex flex flex-wrap gap-3'>
         <AccountDisplay />
 
         <div className='card bg-neutral text-neutral-content rounded-lg'>
           <div className='card-body text-left space-y-2'>
             <h2 className='card-title text-xs'>COMMUNICATION</h2>
-            <p className='text-xs w-full max-w-xs'>
+            <span className='text-xs w-full max-w-xs'>
               This panel will allow you to connect a mobile phone to your
               account and/or choose your preferred method of communication.
-            </p>
+            </span>
             <div className='divider py-8'></div>
             <div className='form-control space-y-2'>
               <label className='label'>
@@ -628,13 +628,13 @@ const Settings = () => {
         <div className='card bg-neutral text-neutral-content rounded-lg'>
           <div className='card-body text-left space-y-2'>
             <h2 className='card-title text-sm pb-2'>NOTIFICATION FREQUENCY</h2>
-            <p className='text-xs w-full max-w-s'>
+            <span className='text-xs w-full max-w-s'>
               This panel allows you to (i) customize monitoring and notification
               frequency, and (ii) define container conditions that will trigger
               notifications. When a container hits a threshold, an alert is sent
               via your preferred method of communication. Recommended values
               will be used by default.
-            </p>
+            </span>
             <div className='divider py-8'></div>
             <div className='form-control space-y-2'>
               <label className='label'>
@@ -752,16 +752,16 @@ const Settings = () => {
         <div className='card bg-neutral text-neutral-content rounded-lg'>
           <div className='card-body text-left space-y-2'>
             <h2 className='card-title text-sm pb-2'>GITHUB CONFIGURATION</h2>
-            <p className='text-xs w-full max-w-xs'>
+            <span className='text-xs w-full max-w-xs'>
               This panel allows you to get access to latest GitHub commits in
               your project repository on "Metrics" tab for selected containers.
-            </p>
+            </span>
             <div className='divider py-8'></div>
             <div className='form-control space-y-2'>
-              <p className='text-xs w-full max-w-xs'>
+              <span className='text-xs w-full max-w-xs'>
                 This feature is currently in development. Please check back in
                 later.
-              </p>
+              </span>
             </div>
           </div>
         </div>

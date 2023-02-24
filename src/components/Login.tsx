@@ -87,7 +87,7 @@ const Login = () => {
                 </a>
               </label>
             </div>
-            <div className='form-control mt-6'>
+            <div className='form-control mt-2'>
               <button className='btn btn-primary' onClick={() => handleLogin()}>
                 Login
               </button>

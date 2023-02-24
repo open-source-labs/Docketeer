@@ -27,11 +27,11 @@ const ProcessLogsTable = () => {
   const runningList = useAppSelector((state) => state.containers.runningList);
   const { getLogs } = useHelper();
 
-  const [btnIdList, setBtnIdList] = useState([id]);
-  const [rows, setRows] = useState([]);
+  const [btnIdList, setBtnIdList] = useState([id] as any[]);
+  const [rows, setRows] = useState([] as any[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
-  ]);
+  ] as any[]);
   const [counter, setCounter] = useState(0);
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
@@ -53,50 +53,43 @@ const ProcessLogsTable = () => {
     return containerLogs;
   };
 
-  const columns = [
-    { field: 'container', headerName: 'Container', width: 150 },
-    { field: 'type', headerName: 'Log Type', width: 120 },
-    { field: 'time', headerName: 'Timestamp', width: 200 },
-    { field: 'message', headerName: 'Message', width: 550 },
-  ];
-
   const createContainerCheckboxes = (currId: string) => {
     // Iterate through runningList &  create label/checkbox for each one
-    for (let i = 0; i < runningList.length; i++) {
+    runningList.forEach((container, i) => {
       // By default, clicked container should be checked
-      if (runningList[i].ID === currId) {
+      if (container.ID === currId) {
         containerSelectors.push(
-          <FormControlLabel
-            key={`FCL ${i}`}
-            control={
-              <Checkbox
-                id={runningList[i].ID}
-                name={runningList[i].Name}
-                defaultChecked={true}
+          <div className='form-control' key={i}>
+            <label className='label cursor-pointer'>
+              <span className='label-text'>{`${container.Name}`}</span>
+              <input
+                id={container.ID}
+                type='checkbox'
+                name={container.Name}
+                checked
+                className='checkbox checkbox-primary space-y-1 md:ml-2 md:space-y-0 md:space-x-1'
                 onChange={(e) => handleCheck(e)}
               />
-            }
-            label={`${runningList[i].Name}`}
-          />
+            </label>
+          </div>
         );
       } else {
         // By default, all others should be unchecked
         containerSelectors.push(
-          <FormControlLabel
-            key={`FCL ${i}`}
-            control={
-              <Checkbox
-                id={runningList[i].ID}
-                name={runningList[i].Name}
-                defaultChecked={false}
+          <div className='form-control' key={i}>
+            <label className='label cursor-pointer'>
+              <span className='label-text'>{`${container.Name}`}</span>
+              <input
+                type='checkbox'
+                name={container.ID}
+                className='checkbox checkbox-primary'
                 onChange={(e) => handleCheck(e)}
               />
-            }
-            label={`${runningList[i].Name}`}
-          />
+            </label>
+          </div>
         );
       }
-    }
+    });
   };
 
   // Create array to hold labels & boxes to render
@@ -168,94 +161,118 @@ const ProcessLogsTable = () => {
           ]);
         }
       });
-      console.log(newRows, 'setRows to newRows');
 
       setRows(newRows as keyof typeof setRows);
       setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };
 
+  const renderRows = rows.map((row, i) => {
+    return (
+      <tbody key={i}>
+        <tr>
+          <td>{row.container}</td>
+          <td>{row.type}</td>
+          <td>{row.time}</td>
+          <td>{row.message}</td>
+        </tr>
+      </tbody>
+    );
+  });
+
   return (
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Container Process Logs</h1>
-      </div>
-      <div className='settings-container'>
-        <form>
-          <div className='log-timeframe'>
-            <h3>Time Frame:</h3>
-            <input
-              style={{ margin: 5 }}
-              type='radio'
-              id='sinceInput'
-              name='logOption'
-            />
-            <label style={{ margin: 5 }} htmlFor='sinceInput'>
-              Since
-            </label>
-            <input type='text' id='sinceText' />
-            <br></br>
-            <input
-              style={{ margin: 5 }}
-              type='radio'
-              id='tailInput'
-              name='logOption'
-            />
-            <label style={{ margin: 5 }} htmlFor='tailInput'>
-              Tail
-            </label>
-            <input style={{ marginLeft: 14 }} type='text' id='tailText' />
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-wrap gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-0'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm'>RUNNING CONTAINER LIST</h2>
+            <p className='text-xs w-full max-w-xs'>
+              Please choose the running container(s) you would like to view
+              process logs for.
+            </p>
+            <div className='divider py-5'></div>
+            <div className='flex flex-wrap gap-1'>{containerSelectors}</div>
+            <div className='divider py-2'></div>
+            <div className='form-control'>
+              <button
+                className='btn btn-primary'
+                type='button'
+                id='getlogs-btn'
+                onClick={() => handleGetLogs(btnIdList)}
+              >
+                GET LOGS
+              </button>
+            </div>
+            <div className='form-control'>
+              <button className='btn btn-primary' type='button'>
+                <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
+              </button>
+            </div>
           </div>
-          <br />
-          <div className='log-containers'>
-            <h3>Running Containers:</h3>
-            <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
-              {containerSelectors} {/** Checkboxes for running containers */}
-            </FormGroup>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-0'>
+          <div className='card-body text-left space-y-2'>
+            <h2 className='card-title text-sm'>TIME FRAME SELECTION</h2>
+            <div className='divider py-8'></div>
+            <div className='form-control'>
+              <label className='label cursor-pointer flex justify-between'>
+                <input
+                  type='radio'
+                  name='logOption'
+                  id='sinceInput'
+                  className='radio primary radio-xs'
+                />
+                <span className='label-text font-bold text-xs'>SINCE</span>
+                <input
+                  type='text'
+                  id='sinceText'
+                  className='input input-bordered w-full max-w-xs'
+                />
+              </label>
+            </div>
+            <div className='form-control'>
+              <label className='label cursor-pointer'>
+                <input
+                  type='radio'
+                  name='logOption'
+                  id='tailInput'
+                  className='radio primary radio-xs'
+                />
+                <span className='label-text font-bold text-xs'>TAIL</span>
+                <input
+                  type='text'
+                  id='tailText'
+                  className='input input-bordered w-full max-w-xs'
+                />
+              </label>
+            </div>
           </div>
-          <br />
-          <button
-            className='etc-btn'
-            id='getlogs-btn'
-            type='button'
-            onClick={() => {
-              handleGetLogs(btnIdList);
-            }}
-          >
-            GET LOGS
-          </button>
-          <button className='etc-btn' type='button'>
-            <CSVLink
-              style={{
-                textDecoration: 'none',
-                color: '#0064ff',
-              }}
-              data={csvData}
-            >
-              DOWNLOAD TO CSV
-            </CSVLink>
-          </button>
-        </form>
-      </div>
-      <div className='settings-container'>
-        <div
-          className='process-logs-container'
-          style={{ height: 660, width: '100%' }}
-        >
-          <DataGrid
-            key='DataGrid'
-            rows={rows}
-            columns={columns}
-            getRowHeight={() => 'auto'}
-            initialState={{
-              sorting: {
-                sortModel: [{ field: 'time', sort: 'desc' }], // default sorts table by time
-              },
-            }}
-          />
         </div>
       </div>
-    </div>
+      <div className='py-1.5'></div>
+      <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+        <div className='card-body space-y-2'>
+          <h2 className='card-title text-sm'>CONTAINER PROCESS LOGS</h2>
+          <div className='divider py-8'></div>
+          <div className='items-center'>
+            <div className='overflow-x-auto'>
+              <table className='table max-w-full table-fixed'>
+                <thead>
+                  <tr>
+                    <th className='text-xs'>CONTAINER</th>
+                    <th className='text-xs'>LOG TYPE</th>
+                    <th className='text-xs'>TIMESTAMP</th>
+                    <th className='text-xs'>MESSAGE</th>
+                  </tr>
+                </thead>
+                {renderRows}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -48,7 +48,10 @@ const VolumeHistory = () => {
       return (
         <div className='card w-96 glass' key={i}>
           <div className='card-body'>
-            <h2 className='card-title'>{volume.vol_name}</h2>
+            <h2 className='card-title'>{`${volume.vol_name.substring(
+              0,
+              20
+            )}...`}</h2>
             <div className='divider py-1'></div>
             <div className='flex flex-col space-y-1'>{details}</div>
           </div>
@@ -75,7 +78,7 @@ const VolumeHistory = () => {
         <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
           <div className='card-body space-y-2'>
             <div className='flex flex-col justify-between items-left'>
-              <h2 className='card-title text-sm'>VOLUME HISTORY</h2>
+              <h2 className='card-title text-sm'>SEARCH VOLUME HISTORY</h2>
               <div className='divider py-8'></div>
               <div className='form-control'>
                 <div className='flex items-left input-group'>
@@ -89,7 +92,7 @@ const VolumeHistory = () => {
                     }}
                   />
                   <button
-                    className='btn-primary btn-square font-bold text-primary-content text-xs'
+                    className='btn-primary w-20 btn-square font-bold text-primary-content text-xs'
                     onClick={(e) => handleClick(e)}
                   >
                     FIND
@@ -101,7 +104,7 @@ const VolumeHistory = () => {
         </div>
         <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
           <div className='card-body space-y-2'>
-            <h2 className='card-title text-sm'>AVAILABLE IMAGES</h2>
+            <h2 className='card-title text-sm'>VOLUMES</h2>
             <div className='divider py-8'></div>
             <div className='containerFlex flex flex-wrap gap-3'>
               {renderList}

@@ -46,22 +46,13 @@ const VolumeHistory = () => {
           );
 
       return (
-        <>
-          <div className='card w-96 glass' key={i}>
-            <div className='card-body'>
-              <h2 className='card-title'>{volume.vol_name}</h2>
-              <div className='divider py-1'></div>
-              <div className='flex flex-col space-y-1'>{details}</div>
-            </div>
+        <div className='card w-96 glass' key={i}>
+          <div className='card-body'>
+            <h2 className='card-title'>{volume.vol_name}</h2>
+            <div className='divider py-1'></div>
+            <div className='flex flex-col space-y-1'>{details}</div>
           </div>
-
-          <div className='box' key={`vol_${i}`}>
-            <div className='volume-box-label'>
-              <h3>{ele.vol_name}</h3>
-            </div>
-            {details}
-          </div>
-        </>
+        </div>
       );
     });
 

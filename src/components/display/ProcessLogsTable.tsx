@@ -3,8 +3,6 @@ import { buildOptionsObj } from '../helper/processLogHelper';
 import useHelper from '../helper/commands';
 import './ProcessLogsCard';
 import useSurvey from '../helper/dispatch';
-import { DataGrid } from '@mui/x-data-grid';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'; // use for container selection
 import { CSVLink } from 'react-csv';
 import { ContainerType, RowsDataType } from '../../../types';
 import { useAppSelector } from '../../redux/reducers/hooks';
@@ -12,18 +10,14 @@ import { useAppSelector } from '../../redux/reducers/hooks';
 /**
  * Displays process logs as table
  * @module ProcessLogsTable
- * @description Container that displays all running and not running docker containers. Each box is wrapped by
- * a Router link.
- */
+ * @description This page provides process logs for all containers currently running. */
 
 const ProcessLogsTable = () => {
   const { getContainerLogsDispatcher } = useSurvey();
-  // Select the clicked container
   const urlString = window.location.href;
   const containerID = urlString.split('/');
   const id = containerID[containerID.length - 1];
 
-  // Access runningList from state - store has issue with runningList, ignore until updated
   const runningList = useAppSelector((state) => state.containers.runningList);
   const { getLogs } = useHelper();
 
@@ -37,26 +31,23 @@ const ProcessLogsTable = () => {
     (state) => state.logs.containerLogs
   );
 
-  // This will update the logs table after all logs have been pulled - there will be a lag before they render
+  // Create table when changes are detected in dependency list
   useEffect(() => {
     tableData();
   }, [counter, csvData.length]);
 
-  // Get logs button handler function. Grabs logs and updates component state
+  // Requests logs from server
   const handleGetLogs = async (idList: string[]) => {
     const optionsObj = buildOptionsObj(idList);
-
-    // Using a promise as the process to pull the container logs takes a fair bit of time
     const containerLogs = await getLogs(optionsObj);
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
     return containerLogs;
   };
 
+  // Create checkbox for running containers
   const createContainerCheckboxes = (currId: string) => {
-    // Iterate through runningList &  create label/checkbox for each one
     runningList.forEach((container, i) => {
-      // By default, clicked container should be checked
       if (container.ID === currId) {
         containerSelectors.push(
           <div className='form-control' key={i}>
@@ -74,7 +65,6 @@ const ProcessLogsTable = () => {
           </div>
         );
       } else {
-        // By default, all others should be unchecked
         containerSelectors.push(
           <div className='form-control' key={i}>
             <label className='label cursor-pointer'>
@@ -92,7 +82,7 @@ const ProcessLogsTable = () => {
     });
   };
 
-  // Create array to hold labels & boxes to render
+  // Helper function to hold array of checkboxes to render within returned JSX
   const containerSelectors: any[] = [];
   createContainerCheckboxes(id);
 
@@ -101,11 +91,9 @@ const ProcessLogsTable = () => {
     const box = e.target;
 
     if (box.checked === true) {
-      // If checkbox is changed to true => add to button idList
       btnIdList.push(box.id);
       setBtnIdList(btnIdList);
     } else {
-      // else remove from button idList
       const newIdList = btnIdList.filter((container) => container !== box.id);
       setBtnIdList(newIdList);
     }
@@ -113,7 +101,7 @@ const ProcessLogsTable = () => {
 
   type CSVData = string[];
 
-  // Populating the StdOut Table Data Using stdout.map
+  // Create table data to render, based on either stdout or stderr
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];

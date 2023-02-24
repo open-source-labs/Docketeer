@@ -25,6 +25,7 @@ import ProcessLogsTable from './display/ProcessLogsTable';
 // Helper function imports
 import startNotificationRequester from './helper/notificationsRequester';
 import initDatabase from './helper/initDatabase';
+import Alert from './Alert';
 
 // Container component that has all redux logic along with react router
 const Home = () => {
@@ -224,11 +225,15 @@ const Home = () => {
           </ul>
         </div>
         <div className='navbar-end'>
+          {userData.username && (
+            <span className='btn btn-primary btn-md lowercase font-bold text-sm'>{`${userData.username}`}</span>
+          )}
           <a className='btn' onClick={() => handleLogout()}>
             Logout
           </a>
         </div>
       </div>
+      <Alert />
       <Routes>
         <Route path='/volume' element={<VolumeHistory />} />
         <Route path='/metrics' element={<Metrics key={1} />} />

@@ -1,13 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import composeReducer from "../redux/reducers/composeReducer";
-import containerReducer from "../redux/reducers/containerReducer";
-import graphReducer from "../redux/reducers/graphReducer";
-import imageReducer from "../redux/reducers/imageReducer";
-import logReducer from "../redux/reducers/logReducer";
-import notificationReducer from "../redux/reducers/notificationReducer";
-import sessionReducer from "../redux/reducers/sessionReducer";
-import userReducer from "../redux/reducers/userReducer";
-import volumeReducer from "../redux/reducers/volumeReducer";
+import { configureStore } from '@reduxjs/toolkit';
+import alertReducer from '../redux/reducers/alertReducer';
+import composeReducer from '../redux/reducers/composeReducer';
+import containerReducer from '../redux/reducers/containerReducer';
+import graphReducer from '../redux/reducers/graphReducer';
+import imageReducer from '../redux/reducers/imageReducer';
+import logReducer from '../redux/reducers/logReducer';
+import notificationReducer from '../redux/reducers/notificationReducer';
+import sessionReducer from '../redux/reducers/sessionReducer';
+import userReducer from '../redux/reducers/userReducer';
+import volumeReducer from '../redux/reducers/volumeReducer';
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     users: userReducer,
     volumes: volumeReducer,
     logs: logReducer,
+    alerts: alertReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

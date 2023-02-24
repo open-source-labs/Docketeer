@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
 import { UserInfo } from '../../types';
+import { createAlert } from '../redux/reducers/alertReducer';
+import { useAppDispatch } from '../redux/reducers/hooks';
 import useSurvey from './helper/dispatch';
 
 /**
@@ -16,6 +18,7 @@ const Login = () => {
   const { updateUser, updateSession } = useSurvey();
   const updateUserSession = () => updateSession();
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
+  const dispatch = useAppDispatch();
 
   const handleLogin = () => {
     const usernameInput = document.getElementById('username');
@@ -41,10 +44,23 @@ const Login = () => {
       .then((response) => response.json())
       .then((data) => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-          window.alert(data.error);
+          dispatch(
+            createAlert(
+              `The username and/or password entered could not be authenticated. Please try again.`,
+              5,
+              'error'
+            )
+          );
         } else {
           updateUserSession(); // Switch state `loggedIn` to true
           updateUserInfo(data); // Update user information in sessionsReducer
+          dispatch(
+            createAlert(
+              `Welcome back to Docketeer, ${data.username}!`,
+              5,
+              'success'
+            )
+          );
           navigate('/'); // Navigate to root route
         }
       })

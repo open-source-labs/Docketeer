@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import ProcessLogsCard from "../display/ProcessLogsCard";
-import { ContainerType } from "../../../types";
-import { useAppSelector } from "../../redux/reducers/hooks";
+import React from 'react';
+import ProcessLogsCard from '../display/ProcessLogsCard';
+import { ContainerType } from '../../../types';
+import { useAppSelector } from '../../redux/reducers/hooks';
 
 // Display all running and stopped containers. Each box can be selected to view process log tables.
 
@@ -18,7 +18,7 @@ const ProcessLogs = () => {
         key={index}
         index={index}
         container={container}
-        status="Running"
+        status='Running'
       />
     );
   });
@@ -30,31 +30,51 @@ const ProcessLogs = () => {
         key={index}
         index={index}
         container={container}
-        status="Stopped"
+        status='Stopped'
       />
     );
   });
 
   return (
-    <div className="renderContainers">
-      <div className="header">
-        <h1 className="tabTitle">Process Logs</h1>
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-wrap gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <div className='flex justify-between items-center'>
+              <h2 className='card-title text-sm'>PROCESS LOGS</h2>
+              <div className='stats shadow'>
+                <div className='stat'>
+                  <div className='stat-title'>Count</div>
+                  <div className='stat-value'>{runningList.length}</div>
+                </div>
+              </div>
+            </div>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderRunningList}
+            </div>
+          </div>
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <div className='flex justify-between items-center'>
+              <h2 className='card-title text-sm'>STOPPED CONTAINERS</h2>
+              <div className='stats shadow'>
+                <div className='stat'>
+                  <div className='stat-title'>Count</div>
+                  <div className='stat-value'>{stoppedList.length}</div>
+                </div>
+              </div>
+            </div>
+            <div className='divider py-8'></div>
+            <div className='containerFlex flex flex-wrap gap-3'>
+              {renderStoppedList}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <h3 className="container-heading">
-        Running Containers: {runningList.length}
-      </h3>
-
-      <div className="containers">{renderRunningList}</div>
-
-      <br></br>
-
-      <h3 className="container-heading">
-        Stopped Containers: {stoppedList.length}
-      </h3>
-
-      <div className="containers">{renderStoppedList}</div>
-    </div>
+    </>
   );
 };
 

@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useHelper from '../helper/commands';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import { useAppSelector } from '../../redux/reducers/hooks';
 
 /**
@@ -76,106 +70,75 @@ const Yml = () => {
   const TableData = () => {
     return composeStack.map((container, index) => {
       return (
-        // <tbody key={i}>
-        //   <tr>
-        //     <td>{user._id}</td>
-        //     <td>{user.username}</td>
-        //     <td>{user.role}</td>
-        //     <td>{user.email}</td>
-        //     <td>{user.phone}</td>
-        //     <td>{user.contact_pref}</td>
-        //     <td>{user.mem_threshold}</td>
-        //     <td>{user.cpu_threshold}</td>
-        //   </tr>
-        // </tbody>
-
-        <TableRow key={index}>
-          <TableCell>
-            <span className='container-name'>{container.Name}</span>
-          </TableCell>
-          <TableCell>
-            <span className='container-id'>{container.ID}</span>
-          </TableCell>
-          <TableCell>
-            <span className='container-drive'>{container.Driver}</span>
-          </TableCell>
-          <TableCell>
-            <span className='container-scope'>{container.Scope}</span>
-          </TableCell>
-          <TableCell>
-            <span className='container-createdAt'>{container.CreatedAt}</span>
-          </TableCell>
-          {container.FilePath && container.YmlFileName && (
-            // container network will only have a filepath and ymlfilename property if it was composed-up through the application itself
-            // only the containers composed up from the application will have a compose down button
-            <TableCell className='btn-compose-up'>
-              <button
-                className='btn'
-                onClick={() => {
-                  dockerComposeDown(container.FilePath, container.YmlFileName);
-                  setYmlFile('');
-                  setFilePath('');
-                  setYmlFileName('');
-                }}
-              >
-                Docker Compose Down
-              </button>
-            </TableCell>
-          )}
-        </TableRow>
+        <tbody key={index}>
+          <tr>
+            <td>
+              <span className='container-name'>{container.Name}</span>
+            </td>
+            <td>
+              <span className='container-id'>{container.ID}</span>
+            </td>
+            <td>
+              <span className='container-drive'>{container.Driver}</span>
+            </td>
+            <td>
+              <span className='container-scope'>{container.Scope}</span>
+            </td>
+            <td>
+              <span className='container-createdAt'>{container.CreatedAt}</span>
+            </td>
+            {container.FilePath && container.YmlFileName && (
+              <td>
+                <button
+                  className='btn btn-primary'
+                  onClick={() => {
+                    dockerComposeDown(
+                      container.FilePath,
+                      container.YmlFileName
+                    );
+                    setYmlFile('');
+                    setFilePath('');
+                    setYmlFileName('');
+                  }}
+                >
+                  DOCKER COMPOSE DOWN
+                </button>
+              </td>
+            )}
+          </tr>
+        </tbody>
       );
     });
   };
 
   return (
-    // <>
-    //   <div className='h-3'></div>
-    //   <div className='usersFlex flex flex-wrap gap-3'>
-    //     <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
-    //       <div className='card-body space-y-2'>
-    //         <h2 className='card-title text-sm'>DOCKER COMPOSE</h2>
-    //         <p className='text-xs font-bold'>This area provides an interface to upload docker compose files to compose up and subsequently compose down.</p>
-    //         <div className='divider py-8'></div>
-    //         <div className='items-center'>
-    //           <div className='overflow-x-auto'>
-    //             <table className='table w-full'>
-    //               <thead>
-    //                 <tr>
-    //                   <th className='text-xs'>ID</th>
-    //                   <th className='text-xs'>USER</th>
-    //                   <th className='text-xs'>ROLE</th>
-    //                   <th className='text-xs'>EMAIL</th>
-    //                   <th className='text-xs'>PHONE</th>
-    //                   <th className='text-xs'>CONTACT PREF.</th>
-    //                   <th className='text-xs'>MEMORY</th>
-    //                   <th className='text-xs'>CPU</th>
-    //                 </tr>
-    //               </thead>
-    //               {renderUsers}
-    //             </table>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <NewUserDisplay />
-    //   </div>
-    // </>
-
-    <div className='renderContainers'>
-      <div className='header'>
-        <h1 className='tabTitle'>Docker Compose</h1>
-      </div>
-      <div className='settings-container'>
-        <div id='drag-file'>
-          <div className='btn-compose-up'>
-            Upload your Docker Compose file here to compose
-            <div>
-              <button className='etc-btn' id='upload-btn'>
-                <input id='uploadFile' type='file' accept='.yml'></input>
-                UPLOAD FILE
+    <>
+      <div className='h-3'></div>
+      <div className='usersFlex flex flex-wrap gap-3'>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>DOCKER COMPOSE</h2>
+            <p className='text-xs font-bold'>
+              This area provides an interface to upload docker compose files to
+              compose up and subsequently compose down.
+            </p>
+            <div className='divider py-4'></div>
+            <div id='drag-file' className='usersFlex flex flex-wrap gap-3'>
+              <input
+                type='file'
+                id='uploadFile'
+                accept='.yml'
+                className='file-input file-input-bordered file-input-primary w-full max-w-xs'
+              />
+              <div className='py-1'></div>
+              <button className='btn btn-primary' id='upload-btn'>
+                UPLOAD
               </button>
+            </div>
+            <div className='divider py-4'></div>
+            <div>
               <button
-                className='etc-btn'
+                className='btn btn-primary'
                 onClick={() => {
                   dockerComposeUp(filePath, ymlFileName);
                   setYmlFile('');
@@ -186,34 +149,37 @@ const Yml = () => {
                 DOCKER COMPOSE UP
               </button>
             </div>
+            {ymlFile && (
+              <pre style={{ margin: '1rem 0rem' }}>
+                <code>{ymlFile}</code>
+              </pre>
+            )}
           </div>
-          {ymlFile && (
-            <pre style={{ margin: '1rem 0rem' }}>
-              <code>{ymlFile}</code>
-            </pre>
-          )}
-          <br />
+        </div>
+        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>DOCKER COMPOSE</h2>
+            <div className='divider py-8'></div>
+            <div className='items-center'>
+              <div className='overflow-x-auto'>
+                <table className='table w-full'>
+                  <thead>
+                    <tr>
+                      <th className='text-xs'>NAME</th>
+                      <th className='text-xs'>CONTAINER ID</th>
+                      <th className='text-xs'>DRIVER</th>
+                      <th className='text-xs'>SCOPE</th>
+                      <th className='text-xs'>CREATED AT</th>
+                    </tr>
+                  </thead>
+                  <TableData />
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className='settings-container'>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Container ID</TableCell>
-                <TableCell>Driver</TableCell>
-                <TableCell>Scope</TableCell>
-                <TableCell>Created At</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableData />
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </div>
+    </>
   );
 };
 

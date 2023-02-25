@@ -42,7 +42,7 @@ const ProcessLogs = () => {
         <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
           <div className='card-body space-y-2'>
             <div className='flex justify-between items-center'>
-              <h2 className='card-title text-sm'>PROCESS LOGS</h2>
+              <h2 className='card-title text-sm'>RUNNING CONTAINERS</h2>
               <div className='stats shadow'>
                 <div className='stat'>
                   <div className='stat-title'>Count</div>

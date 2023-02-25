@@ -87,8 +87,8 @@ const Yml = () => {
             <td>
               <span className='container-createdAt'>{container.CreatedAt}</span>
             </td>
-            {container.FilePath && container.YmlFileName && (
-              <td>
+            <td className='min-w-1/4'>
+              {container.FilePath && container.YmlFileName && (
                 <button
                   className='btn btn-primary'
                   onClick={() => {
@@ -103,8 +103,8 @@ const Yml = () => {
                 >
                   DOCKER COMPOSE DOWN
                 </button>
-              </td>
-            )}
+              )}
+            </td>
           </tr>
         </tbody>
       );
@@ -128,7 +128,7 @@ const Yml = () => {
                 type='file'
                 id='uploadFile'
                 accept='.yml'
-                className='file-input file-input-bordered file-input-primary w-full max-w-xs'
+                className='file-input file-input-bordered file-input-primary w-full'
               />
               <div className='py-1'></div>
               <button className='btn btn-primary' id='upload-btn'>
@@ -170,6 +170,7 @@ const Yml = () => {
                       <th className='text-xs'>DRIVER</th>
                       <th className='text-xs'>SCOPE</th>
                       <th className='text-xs'>CREATED AT</th>
+                      <th className='text-xs'>COMPOSE ACTION</th>
                     </tr>
                   </thead>
                   <TableData />

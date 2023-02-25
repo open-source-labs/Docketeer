@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Chart } from 'react-chartjs-2';
-import ToggleDisplay from '../display/ToggleDisplay';
-import { ContainerType, ChartInfoType } from '../../../types';
+import { ContainerType } from '../../../types';
 import { useAppSelector } from '../../redux/reducers/hooks';
 import useHelper from '../helper/commands';
 
@@ -36,7 +34,7 @@ const Containers = () => {
               </button>
               <button
                 className='btn bg-error text-error-content'
-                onClick={() => runStopped(container['ID'])}
+                onClick={() => remove(container['ID'])}
               >
                 REMOVE
               </button>

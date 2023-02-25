@@ -26,3 +26,7 @@ body {
 .containerFlex > * {
   flex: 1 1 300px;
 }
+
+.metric-card {
+  height: 100vh;
+}

@@ -15,6 +15,7 @@ body {
 body {
   margin: 1%;
   overflow-y: scroll;
+  margin-bottom: 100px;
 }
 
 .settingsFlex {

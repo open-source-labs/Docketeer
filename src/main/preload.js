@@ -1,7 +1,7 @@
-const { contextBridge, ipcRenderer } = require("electron");
-const child_process = require("child_process");
-const { exec } = require("node:child_process");
-const { cpuUsage, freemem, totalmem, freememPercentage } = require("os-utils");
+const { contextBridge, ipcRenderer } = require('electron');
+const child_process = require('child_process');
+const { exec } = require('node:child_process');
+const { cpuUsage, freemem, totalmem, freememPercentage } = require('os-utils');
 
 const runCpuUsage = (callback) => {
   return cpuUsage(callback);
@@ -24,7 +24,7 @@ const runExec = (command, callback) => {
 };
 
 // Access in the renderer/react as window.childProcess.exec
-contextBridge.exposeInMainWorld("nodeMethod", {
+contextBridge.exposeInMainWorld('nodeMethod', {
   runCpuUsage: cpuUsage,
   runFreeMem: freemem,
   runTotalMem: totalmem,

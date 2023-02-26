@@ -1,15 +1,15 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { notificationStateType } from "../../../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { notificationStateType } from '../../types';
 
 const initialState: notificationStateType = {
-  phoneNumber: "",
+  phoneNumber: '',
   memoryNotificationList: new Set(),
   cpuNotificationList: new Set(),
   stoppedNotificationList: new Set(),
 };
 
 export const notificationSlice = createSlice({
-  name: "notifications",
+  name: 'notifications',
   initialState,
   reducers: {
     addPhoneNumber: (state, action: PayloadAction<string>) => {

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { containerStateType } from '../../../types';
+import { containerStateType } from '../../types';
 
 const initialState: containerStateType = {
   runningList: [],

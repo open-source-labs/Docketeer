@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-import { sessionStateType, UserInfo } from '../../../types';
+import { sessionStateType, UserInfo } from '../../types';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running

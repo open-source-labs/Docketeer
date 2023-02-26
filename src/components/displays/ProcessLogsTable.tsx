@@ -3,6 +3,7 @@ import { useAppSelector } from '../../reducers/hooks';
 
 import useHelper from '../helpers/commands';
 import useSurvey from '../helpers/dispatch';
+import { buildOptionsObj } from '../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 import { ContainerType, RowsDataType } from '../../../types';

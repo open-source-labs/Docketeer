@@ -1,58 +1,58 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { graphStateType } from "../../../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { graphStateType } from '../../types';
 
 const initialState: graphStateType = {
   graphAxis: [],
   graphMemory: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
   graphCpu: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
   graphWrittenIO: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
   graphReadIO: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
   graphReceivedIO: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
   graphTransmittedIO: [
     {
-      label: "",
+      label: '',
       data: [],
-      fill: "",
+      fill: '',
     },
   ],
 };
 
 export const graphSlice = createSlice({
-  name: "graphs",
+  name: 'graphs',
   initialState,
   reducers: {
     buildAxis: (state, action: PayloadAction<string>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphAxis = [];
       } else {
         const formatted = action.payload.slice(4, 24);
@@ -66,42 +66,42 @@ export const graphSlice = createSlice({
       }
     },
     buildMemory: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphMemory = [];
       } else {
         state.graphMemory.push(action.payload[0]);
       }
     },
     buildCpu: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphCpu = [];
       } else {
         state.graphCpu.push(action.payload[0]);
       }
     },
     buildWrittenIO: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphWrittenIO = [];
       } else {
         state.graphWrittenIO.push(action.payload[0]);
       }
     },
     buildReadIO: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphReadIO = [];
       } else {
         state.graphReadIO.push(action.payload[0]);
       }
     },
     buildReceivedIO: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphReceivedIO = [];
       } else {
         state.graphReceivedIO.push(action.payload[0]);
       }
     },
     buildTransmittedIO: (state, action: PayloadAction<any>) => {
-      if (action.payload === "clear") {
+      if (action.payload === 'clear') {
         state.graphTransmittedIO = [];
       } else {
         state.graphTransmittedIO.push(action.payload[0]);

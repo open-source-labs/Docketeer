@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { log } from 'console';
-import { logsStateType } from '../../../types';
+import { logsStateType } from '../../types';
 
 const initialState: logsStateType = {
   containerLogs: {

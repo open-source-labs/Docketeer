@@ -6,7 +6,7 @@ import Docketeer from '../../assets/docketeer-title.png';
 import { UserInfo } from '../../types';
 import { createAlert } from '../reducers/alertReducer';
 import { useAppDispatch } from '../reducers/hooks';
-import useSurvey from './helper/dispatch';
+import useSurvey from './helpers/dispatch';
 
 /**
  * @module Login

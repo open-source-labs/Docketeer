@@ -250,23 +250,24 @@ const ProcessLogsTable = () => {
           </div>
         </div>
       </div>
-      <div className='card bg-neutral text-neutral-content rounded-lg'>
-        <div className='card-body space-y-2'>
-          <h2 className='card-title text-sm'>CONTAINER PROCESS LOGS</h2>
-          <div className='divider py-8'></div>
-          <div className='items-center'>
-            <div className='overflow-x-auto'>
-              <table className='table max-w-full table-fixed'>
-                <thead>
-                  <tr>
-                    <th className='text-xs'>CONTAINER</th>
-                    <th className='text-xs'>LOG TYPE</th>
-                    <th className='text-xs'>TIMESTAMP</th>
-                    <th className='text-xs'>MESSAGE</th>
-                  </tr>
-                </thead>
-                {renderRows}
-              </table>
+      <div className='mb-250'>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
+          <div className='card-body space-y-2'>
+            <h2 className='card-title text-sm'>CONTAINER PROCESS LOGS</h2>
+            <div className='items-center'>
+              <div className='overflow-x-auto'>
+                <table className='table max-w-full table-fixed mb-20'>
+                  <thead>
+                    <tr>
+                      <th className='text-xs'>CONTAINER</th>
+                      <th className='text-xs'>LOG TYPE</th>
+                      <th className='text-xs'>TIMESTAMP</th>
+                      <th className='text-xs'>MESSAGE</th>
+                    </tr>
+                  </thead>
+                  {renderRows}
+                </table>
+              </div>
             </div>
           </div>
         </div>

@@ -12,10 +12,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  margin-bottom: 15px;
+}
+
 body {
   margin: 1%;
-  overflow-y: scroll;
-  margin-bottom: 100px;
+  margin-bottom: auto;
 }
 
 .settingsFlex {

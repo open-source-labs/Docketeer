@@ -17,7 +17,7 @@ router.post(
   apiController.sendEmailAlert,
   (req: Request, res: Response) => {
     return res.status(201).json('alert email sent to user');
-  },
+  }
 );
 
 export default router;

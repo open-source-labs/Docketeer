@@ -98,7 +98,6 @@ const useHelper = () => {
             refreshRunningContainers(newRunningList);
           })
           .catch((err) => console.log(err));
-        alert('Running container.');
       },
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {

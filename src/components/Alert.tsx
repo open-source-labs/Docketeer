@@ -1,13 +1,18 @@
 import React from 'react';
 import { useAppSelector } from '../reducers/hooks';
 
+/**
+ * @module | Alert.tsx
+ * @description | Manages alerts & prompts (i.e. Are you sure you want ...?)
+ **/
+
 const Alert = () => {
   const { alertList, promptList } = useAppSelector((state) => state.alerts);
 
   return (
     <>
       {alertList[1] === 'info' && (
-        <div className='alert alert-info shadow-lg rounded-none p-5 my-5'>
+        <div className='alert alert-info shadow-lg rounded-lg p-5 my-5'>
           <div>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -27,7 +32,7 @@ const Alert = () => {
         </div>
       )}
       {alertList[1] === 'success' && (
-        <div className='alert alert-success shadow-lg rounded-none p-5 my-5'>
+        <div className='alert alert-success shadow-lg rounded-lg p-5 my-5'>
           <div>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -47,7 +52,7 @@ const Alert = () => {
         </div>
       )}
       {alertList[1] === 'warning' && (
-        <div className='alert alert-warning shadow-lg rounded-none p-5 my-5'>
+        <div className='alert alert-warning shadow-lg rounded-lg p-5 my-5'>
           <div>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -67,7 +72,7 @@ const Alert = () => {
         </div>
       )}
       {alertList[1] === 'error' && (
-        <div className='alert alert-error shadow-lg rounded-none p-5 my-5'>
+        <div className='alert alert-error shadow-lg rounded-lg p-5 my-5'>
           <div>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -87,7 +92,7 @@ const Alert = () => {
         </div>
       )}
       {typeof promptList[0] === 'string' && (
-        <div className='alert shadow-lg p-5 my-5'>
+        <div className='alert shadow-lg p-5 my-5 rounded-lg'>
           <div>
             <svg
               xmlns='http://www.w3.org/2000/svg'

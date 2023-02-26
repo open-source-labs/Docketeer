@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../../reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
+import { createAlert } from '../../reducers/alertReducer';
 import useHelper from '../helpers/commands';
 import useSurvey from '../helpers/dispatch';
 import { buildOptionsObj } from '../helpers/logs';
@@ -15,6 +16,7 @@ import './ProcessLogsCard';
  **/
 
 const ProcessLogsTable = () => {
+  const dispatch = useAppDispatch();
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
 
@@ -174,7 +176,7 @@ const ProcessLogsTable = () => {
     <>
       <div className='h-3'></div>
       <div className='usersFlex flex flex-wrap gap-3'>
-        <div className='card bg-neutral text-neutral-content rounded-lg flex-0'>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
           <div className='card-body text-left space-y-2'>
             <h2 className='card-title text-sm'>RUNNING CONTAINER LIST</h2>
             <p className='text-xs w-full max-w-xs'>
@@ -183,13 +185,21 @@ const ProcessLogsTable = () => {
             </p>
             <div className='divider py-5'></div>
             <div className='flex flex-wrap gap-1'>{containerSelectors}</div>
-            <div className='divider py-2'></div>
             <div className='form-control'>
               <button
                 className='btn btn-primary'
                 type='button'
                 id='getlogs-btn'
-                onClick={() => handleGetLogs(btnIdList)}
+                onClick={() => {
+                  dispatch(
+                    createAlert(
+                      `Loading process log information...`,
+                      5,
+                      'success'
+                    )
+                  );
+                  handleGetLogs(btnIdList);
+                }}
               >
                 GET LOGS
               </button>
@@ -201,7 +211,7 @@ const ProcessLogsTable = () => {
             </div>
           </div>
         </div>
-        <div className='card bg-neutral text-neutral-content rounded-lg flex-0'>
+        <div className='card bg-neutral text-neutral-content rounded-lg'>
           <div className='card-body text-left space-y-2'>
             <h2 className='card-title text-sm'>TIME FRAME SELECTION</h2>
             <div className='divider py-8'></div>
@@ -240,8 +250,7 @@ const ProcessLogsTable = () => {
           </div>
         </div>
       </div>
-      <div className='py-1.5'></div>
-      <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
+      <div className='card bg-neutral text-neutral-content rounded-lg'>
         <div className='card-body space-y-2'>
           <h2 className='card-title text-sm'>CONTAINER PROCESS LOGS</h2>
           <div className='divider py-8'></div>

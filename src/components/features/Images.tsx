@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useHelper from '../helpers/commands';
-import { useAppSelector } from '../../reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
+import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 /**
  * @module | Images.tsx
@@ -10,12 +11,18 @@ import { useAppSelector } from '../../reducers/hooks';
 const Images = () => {
   const imagesList = useAppSelector((state) => state.images.imagesList);
   const [repo, setRepo] = useState('');
-
+  const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();
 
   const handleClick = () => {
     if (!repo) {
-      alert('Please enter an image to pull!');
+      dispatch(
+        createAlert(
+          `Please enter an image name prior to attempting to pull.`,
+          5,
+          'error'
+        )
+      );
       return;
     } else {
       let existingRepo = false;
@@ -29,13 +36,33 @@ const Images = () => {
         });
         // @ts-ignore
         if (existingRepo === true) {
-          alert(
-            'This image already exists within your Docketeer image collection.'
+          dispatch(
+            createAlert(
+              `This image already exists within your Docketeer image collection.`,
+              5,
+              'error'
+            )
           );
           return;
         } else {
-          alert('Searching for image...');
-          pullImage(repo);
+          dispatch(
+            createPrompt(
+              `Are you sure you want to pull ${repo}?`,
+              () => {
+                pullImage(repo);
+                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+              },
+              () => {
+                dispatch(
+                  createAlert(
+                    `The request to pull ${repo} has been cancelled.`,
+                    5,
+                    'warning'
+                  )
+                );
+              }
+            )
+          );
           return;
         }
       } else {
@@ -47,13 +74,33 @@ const Images = () => {
         });
         // @ts-ignore
         if (existingRepo === true) {
-          alert(
-            'This image already exists within your Docketeer image collection.'
+          dispatch(
+            createAlert(
+              `This image already exists within your Docketeer image collection.`,
+              5,
+              'error'
+            )
           );
           return;
         } else {
-          alert('Searching for image...');
-          pullImage(repo);
+          dispatch(
+            createPrompt(
+              `Are you sure you want to pull ${repo}?`,
+              () => {
+                pullImage(repo);
+                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+              },
+              () => {
+                dispatch(
+                  createAlert(
+                    `The request to pull ${repo} has been cancelled.`,
+                    5,
+                    'warning'
+                  )
+                );
+              }
+            )
+          );
           return;
         }
       }
@@ -84,13 +131,55 @@ const Images = () => {
           <div className='card-actions justify-end'>
             <button
               className='btn bg-success text-success-content'
-              onClick={() => runIm(image)}
+              onClick={() => {
+                dispatch(
+                  createPrompt(
+                    `Are you sure you want to run ${image.reps}?`,
+                    () => {
+                      runIm(image);
+                      dispatch(
+                        createAlert(`Running ${image.reps}...`, 5, 'success')
+                      );
+                    },
+                    () => {
+                      dispatch(
+                        createAlert(
+                          `The request to run ${image.reps} has been cancelled.`,
+                          5,
+                          'warning'
+                        )
+                      );
+                    }
+                  )
+                );
+              }}
             >
               RUN
             </button>
             <button
               className='btn bg-error text-error-content'
-              onClick={() => removeIm(image.imgid)}
+              onClick={() => {
+                dispatch(
+                  createPrompt(
+                    `Are you sure you want to remove ${image.reps}?`,
+                    () => {
+                      removeIm(image.imgid);
+                      dispatch(
+                        createAlert(`Removing ${image.reps}...`, 5, 'success')
+                      );
+                    },
+                    () => {
+                      dispatch(
+                        createAlert(
+                          `The request to remove ${image.reps} has been cancelled.`,
+                          5,
+                          'warning'
+                        )
+                      );
+                    }
+                  )
+                );
+              }}
             >
               REMOVE
             </button>

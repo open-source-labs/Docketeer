@@ -1,7 +1,8 @@
 /**
- * @module SignupRouter
- * @description Routes all requests to signup endpoint
- */
+ * @module | signupRouter.ts
+ * @description | Routes all requests to signup endpoint
+ **/
+
 import { Router, Request, Response } from 'express';
 import signupController from '../controllers/signupController';
 import bcryptController from '../controllers/bcryptController';

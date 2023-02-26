@@ -1,7 +1,7 @@
 /**
- * @module initDatabase Controller
- * @description Contains middleware that creates and runs the local database
- */
+ * @module | initController.ts
+ * @description | Contains middleware that creates and runs the local database
+ **/
 
 import db from '../database/psqlQuery';
 import { Request, Response, NextFunction } from 'express';

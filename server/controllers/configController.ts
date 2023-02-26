@@ -1,7 +1,7 @@
 /**
- * @module ConfigController
- * @description Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
- */
+ * @module | configController.ts
+ * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
+ **/
 
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';

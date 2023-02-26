@@ -9,9 +9,9 @@ import { useAppDispatch } from '../reducers/hooks';
 import useSurvey from './helpers/dispatch';
 
 /**
- * @module Login
- * @description Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
- */
+ * @module | Login
+ * @description | Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
+ **/
 
 const Login = () => {
   const navigate = useNavigate();

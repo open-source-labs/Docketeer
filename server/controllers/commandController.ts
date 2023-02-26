@@ -1,15 +1,12 @@
 /**
- * @module initDatabase Controller
- * @description Contains middleware that creates and runs the local database
- */
+ * @module | commandController.ts
+ * @description | Contains middleware that creates and runs the local database
+ **/
+
 import { Request, Response, NextFunction } from 'express';
 import { CommandController } from '../../types';
 import { exec } from 'child_process';
 
-// ==========================================================
-// Function: convert
-// Purpose:
-// ==========================================================
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *

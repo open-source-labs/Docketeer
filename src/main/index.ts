@@ -1,17 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import electron from "electron";
-import path from "path";
-import url from "url";
-
-// import verifyCode from "./twilio/verifyCode";
-// import verifyMobileNumber from "./twilio/verifyMobile";
-// import postEvent from "./twilio/postEvent";
-// import emailEvent from "./email/emailEvent";
+import electron from 'electron';
+import path from 'path';
+import url from 'url';
 
 const {
   default: installExtension,
   REDUX_DEVTOOLS,
-} = require("electron-devtools-installer");
+} = require('electron-devtools-installer');
 
 // Global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
 let mainWindow;
@@ -21,35 +16,35 @@ function createMainWindow() {
     width: 1300,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, "../src/main/preload.js"),
+      preload: path.join(__dirname, '../src/main/preload.js'),
       sandbox: false,
     },
   });
 
-  if (process.env.NODE_ENV === "development") {
-    mainWindow.loadURL("http://localhost:4000");
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('http://localhost:4000');
   } else {
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, "/index"),
-        protocol: "file:",
+        pathname: path.join(__dirname, '/index'),
+        protocol: 'file:',
         slashes: true,
       })
     );
   }
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     mainWindow = null;
   });
 }
 
-electron.app.on("ready", createMainWindow);
+electron.app.on('ready', createMainWindow);
 
-electron.app.on("renderer-process-crashed", createMainWindow);
+electron.app.on('renderer-process-crashed', createMainWindow);
 
 // MacOS-specific function
-electron.app.on("window-all-closed", function () {
+electron.app.on('window-all-closed', function () {
   // Common for application and their menu bar to stay active until use quits explicitly
-  if (process.platform !== "darwin") {
+  if (process.platform !== 'darwin') {
     electron.app.quit();
   }
 });
@@ -61,11 +56,11 @@ electron.app.on("window-all-closed", function () {
 electron.app.whenReady().then(() => {
   installExtension(REDUX_DEVTOOLS)
     .then((name: any) => console.log(`Added Extension:  ${name}`))
-    .catch((err: any) => console.log("An error occurred: ", err));
+    .catch((err: any) => console.log('An error occurred: ', err));
 });
 
 // MacOS-specific function
-electron.app.on("activate", function () {
+electron.app.on('activate', function () {
   // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
   if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow();
 });

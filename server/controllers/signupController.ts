@@ -1,7 +1,7 @@
 /**
- * @module Signup Controller
- * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
- */
+ * @module | signupController.ts
+ * @description | Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
+ **/
 
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';

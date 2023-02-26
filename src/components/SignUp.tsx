@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-
 import { checkDbInit, handleNewUser } from './helpers/newUserHelper';
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
+
+/**
+ * @module | SignUp
+ * @description | Facilitates registration of new users (admins) to Docketeer
+ **/
 
 const SignUp = () => {
   const [values, setValues] = useState({

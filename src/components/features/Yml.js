@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useHelper from '../helpers/commands';
-import { useAppSelector } from '../../reducers/hooks';
+import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
+import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 /**
  * @module | Yml.js
@@ -8,6 +9,7 @@ import { useAppSelector } from '../../reducers/hooks';
  **/
 
 const Yml = () => {
+  const dispatch = useAppDispatch();
   const composeStack = useAppSelector((state) => state.composes.composeStack);
 
   const [filePath, setFilePath] = useState('');
@@ -91,13 +93,36 @@ const Yml = () => {
                 <button
                   className='btn btn-primary'
                   onClick={() => {
-                    dockerComposeDown(
-                      container.FilePath,
-                      container.YmlFileName
+                    dispatch(
+                      createPrompt(
+                        `Are you sure you want to docker compose down ${container.FilePath} | ${container.YmlFileName}?`,
+                        () => {
+                          dockerComposeDown(
+                            container.FilePath,
+                            container.YmlFileName
+                          );
+                          setYmlFile('');
+                          setFilePath('');
+                          setYmlFileName('');
+                          dispatch(
+                            createAlert(
+                              `Running docker compose down...`,
+                              5,
+                              'success'
+                            )
+                          );
+                        },
+                        () => {
+                          dispatch(
+                            createAlert(
+                              `The request to run docker compose down has been cancelled.`,
+                              5,
+                              'warning'
+                            )
+                          );
+                        }
+                      )
                     );
-                    setYmlFile('');
-                    setFilePath('');
-                    setYmlFileName('');
                   }}
                 >
                   DOCKER COMPOSE DOWN
@@ -139,10 +164,33 @@ const Yml = () => {
               <button
                 className='btn btn-primary'
                 onClick={() => {
-                  dockerComposeUp(filePath, ymlFileName);
-                  setYmlFile('');
-                  setFilePath('');
-                  setYmlFileName('');
+                  dispatch(
+                    createPrompt(
+                      `Are you sure you want to run docker compose up on this file?`,
+                      () => {
+                        dockerComposeUp(filePath, ymlFileName);
+                        setYmlFile('');
+                        setFilePath('');
+                        setYmlFileName('');
+                        dispatch(
+                          createAlert(
+                            `Running docker compose up...`,
+                            5,
+                            'success'
+                          )
+                        );
+                      },
+                      () => {
+                        dispatch(
+                          createAlert(
+                            `The request to run docker compose up has been cancelled.`,
+                            5,
+                            'warning'
+                          )
+                        );
+                      }
+                    )
+                  );
                 }}
               >
                 DOCKER COMPOSE UP

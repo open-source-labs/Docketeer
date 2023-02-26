@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { ContainerType } from '../../../types';
-import { useAppSelector } from '../../redux/reducers/hooks';
+import { useAppSelector, useAppDispatch } from '../../redux/reducers/hooks';
 import useHelper from '../helper/commands';
+import { createAlert, createPrompt } from '../../redux/reducers/alertReducer';
 
 /*
  * Display all running and stopped containers
  */
 
 const Containers = () => {
+  const dispatch = useAppDispatch();
+
   const { runStopped, remove, stop } = useHelper();
 
   const { runningList, stoppedList } = useAppSelector(
@@ -28,13 +31,63 @@ const Containers = () => {
             <div className='card-actions justify-end'>
               <button
                 className='btn bg-success text-success-content'
-                onClick={() => runStopped(container['ID'])}
+                onClick={() => {
+                  dispatch(
+                    createPrompt(
+                      `Are you sure you want to run ${container.Names}?`,
+                      () => {
+                        runStopped(container['ID']);
+                        dispatch(
+                          createAlert(
+                            `Running ${container.Names}...`,
+                            5,
+                            'success'
+                          )
+                        );
+                      },
+                      () => {
+                        dispatch(
+                          createAlert(
+                            `The request to run ${container.Names} has been cancelled.`,
+                            5,
+                            'warning'
+                          )
+                        );
+                      }
+                    )
+                  );
+                }}
               >
                 RUN
               </button>
               <button
                 className='btn bg-error text-error-content'
-                onClick={() => remove(container['ID'])}
+                onClick={() => {
+                  dispatch(
+                    createPrompt(
+                      `Are you sure you want to remove ${container.Names}?`,
+                      () => {
+                        remove(container['ID']);
+                        dispatch(
+                          createAlert(
+                            `Removing ${container.Names}...`,
+                            5,
+                            'success'
+                          )
+                        );
+                      },
+                      () => {
+                        dispatch(
+                          createAlert(
+                            `The request to remove ${container.Names} has been cancelled.`,
+                            5,
+                            'warning'
+                          )
+                        );
+                      }
+                    )
+                  );
+                }}
               >
                 REMOVE
               </button>
@@ -58,7 +111,32 @@ const Containers = () => {
             <div className='card-actions justify-end'>
               <button
                 className='btn bg-error text-error-content'
-                onClick={() => stop(container.ID)}
+                onClick={() => {
+                  dispatch(
+                    createPrompt(
+                      `Are you sure you want to stop ${container.Name}?`,
+                      () => {
+                        stop(container.ID);
+                        dispatch(
+                          createAlert(
+                            `Stopping ${container.Name}...`,
+                            5,
+                            'error'
+                          )
+                        );
+                      },
+                      () => {
+                        dispatch(
+                          createAlert(
+                            `The request to stop ${container.Name} has been cancelled.`,
+                            5,
+                            'warning'
+                          )
+                        );
+                      }
+                    )
+                  );
+                }}
               >
                 STOP
               </button>

@@ -311,7 +311,7 @@ const Settings = () => {
       })
         .then((data) => data.json())
         .then((response) => {
-          const field = document.getElementById('gittext');
+          const field = document.querySelector('.gittext');
           if (field) (field as HTMLInputElement).value = '';
           return response;
         })
@@ -529,10 +529,9 @@ const Settings = () => {
             <td>
               <div className='form-control space-y-2'>
                 <input
-                  id='gittext'
                   type='text'
                   placeholder='Type here'
-                  className='input input-bordered w-full max-w-xs'
+                  className='input input-bordered w-full max-w-xs gittext'
                   onChange={(e) => {
                     (
                       stateObject as Record<

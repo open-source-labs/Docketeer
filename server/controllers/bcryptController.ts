@@ -2,7 +2,7 @@
  * @module Bcrypt Controller
  * @description Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
  */
-import db from '../models/cloudModel';
+import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
 import { BcryptController } from '../../types';
@@ -12,7 +12,7 @@ const bcryptController: BcryptController = {
   hashPassword: (req: Request, res: Response, next: NextFunction) => {
     const { password } = req.body;
     const saltRounds = 10;
-  
+
     bcrypt
       .hash(password, saltRounds)
       .then((hash) => {
@@ -28,9 +28,9 @@ const bcryptController: BcryptController = {
         });
       });
   },
-  
+
   // Hash new user password with bCrypt - User updated password
-  hashNewPassword : async (req: Request, res: Response, next: NextFunction) => {
+  hashNewPassword: async (req: Request, res: Response, next: NextFunction) => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       return next();
@@ -38,7 +38,7 @@ const bcryptController: BcryptController = {
     // else bCrypt the new password and move to next middleware
     const { newPassword } = req.body;
     const saltRounds = 10;
-  
+
     await bcrypt
       .hash(newPassword, saltRounds)
       .then((hash) => {
@@ -54,12 +54,12 @@ const bcryptController: BcryptController = {
         });
       });
   },
-  
+
   /**
    * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
    */
-  
-  hashCookie : (req: Request, res: Response, next: NextFunction) => {
+
+  hashCookie: (req: Request, res: Response, next: NextFunction) => {
     const { role_id, username } = res.locals.user;
     const saltRounds = 10;
     if (role_id === 1) {
@@ -87,8 +87,7 @@ const bcryptController: BcryptController = {
     } else {
       return next();
     }
-  }
+  },
 };
-
 
 export default bcryptController;

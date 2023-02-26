@@ -4,7 +4,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import db from '../models/cloudModel';
+import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import sysadmin from '../../security/sysadmin';
 import { DbController, ServerError } from '../../types';

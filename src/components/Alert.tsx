@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '../redux/reducers/hooks';
+import { useAppSelector } from '../reducers/hooks';
 
 const Alert = () => {
   const { alertList, promptList } = useAppSelector((state) => state.alerts);

@@ -4,7 +4,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import db from '../models/cloudModel';
+import db from '../database/cloudModel';
 import { SignupController, ServerError } from '../../types';
 
 const signupController: SignupController = {

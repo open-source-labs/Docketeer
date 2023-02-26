@@ -1,33 +1,29 @@
-// Module imports
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import useSurvey from './helper/dispatch';
-import { useAppSelector } from '../redux/reducers/hooks';
+import { useAppSelector } from '../reducers/hooks';
 
-// Static imports
-import useHelper from './helper/commands';
-import * as history from './helper/volumeHistoryHelper';
+// Importing helpers
+import useSurvey from './helpers/dispatch';
+import useHelper from './helpers/commands';
+import * as history from './helpers/volumeHistoryHelper';
+import initDatabase from './helpers/initDatabase';
 
-// @ts-ignore
-import Docketeer from '../../assets/docketeer-title.png';
-
-// Tab component imports
-import Metrics from './tabs/Metrics';
-import Images from './tabs/Images';
-import Yml from './tabs/Yml';
-import Containers from './tabs/Containers';
-import Settings from './tabs/Settings';
-import UserList from './tabs/Users'; //* Feature only for SysAdmin
-import VolumeHistory from './tabs/VolumeHistory';
-import ProcessLogs from './tabs/ProcessLogs';
-import ProcessLogsTable from './display/ProcessLogsTable';
-
-// Helper function imports
-import startNotificationRequester from './helper/notificationsRequester';
-import initDatabase from './helper/initDatabase';
+// Importing features
+import Metrics from './features/Metrics';
+import Images from './features/Images';
+import Yml from './features/Yml';
+import Containers from './features/Containers';
+import Settings from './features/Settings';
+import UserList from './features/Users';
+import VolumeHistory from './features/VolumeHistory';
+import ProcessLogs from './features/ProcessLogs';
+import ProcessLogsTable from './displays/ProcessLogsTable';
 import Alert from './Alert';
 
-// Container component that has all redux logic along with react router
+/**
+ * HOME (Routing, Re-rendering, etc.)
+ **/
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -36,7 +32,6 @@ const Home = () => {
   const { arrayOfVolumeNames } = volumes;
 
   const {
-    getHostStats,
     refreshRunning,
     refreshStopped,
     refreshImages,
@@ -48,11 +43,10 @@ const Home = () => {
     getVolumeContainers,
   } = useHelper();
 
-  // Deconstructs dispatch functions from useSurvey memo
+  // Deconstructs dispatch functions from custom hook
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
 
-  // Handles logout of client
   const handleLogout = () => {
     updateSession();
     logoutUser();
@@ -75,10 +69,8 @@ const Home = () => {
     navigate('/login');
   };
 
-  // Initial refresh
   useEffect(() => {
     initDatabase();
-    getHostStats();
     refreshRunning();
     refreshStopped();
     refreshImages();
@@ -97,18 +89,13 @@ const Home = () => {
     );
   }, [arrayOfVolumeNames]);
 
-  // Invoke helper functions every 5 seconds to: refresh running/stopped containers/images & notifications
-
-  const state = useAppSelector((state) => state);
-
+  // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {
     const interval = setInterval(() => {
-      getHostStats();
       refreshRunning();
       refreshStopped();
       refreshImages();
     }, 5000);
-    startNotificationRequester(state);
     return () => clearInterval(interval);
   }, []);
 

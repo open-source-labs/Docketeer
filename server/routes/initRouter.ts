@@ -7,7 +7,6 @@ import initController from '../controllers/initController';
 
 const router = Router();
 
-// Route handler: initializes the metrics database
 router.get('/', initController.initDatabase, (req: Request, res: Response) => {
   return res.status(200).json(res.locals);
 });
@@ -17,7 +16,7 @@ router.post(
   initController.timeZone,
   (req: Request, res: Response) => {
     return res.sendStatus(201);
-  },
+  }
 );
 
 router.post('/github', initController.gitUrl, (req: Request, res: Response) => {
@@ -29,7 +28,7 @@ router.post(
   initController.addMetrics,
   (req: Request, res: Response) => {
     return res.status(201).json({});
-  },
+  }
 );
 
 router.post(
@@ -37,7 +36,7 @@ router.post(
   initController.getMetrics,
   (req: Request, res: Response) => {
     return res.status(201).json(res.locals.metrics);
-  },
+  }
 );
 
 export default router;

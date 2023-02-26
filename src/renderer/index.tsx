@@ -5,12 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from './App';
-
 import '../components/main.css';
-// import "../components/css/styles.css";
-// import "../components/css/metric.css";
-// import "../components/css/running.css";
-// import "../components/css/static.css";
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container!);

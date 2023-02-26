@@ -4,7 +4,6 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { RunningWithErrors } from '@mui/icons-material';
 import commandController from '../controllers/commandController';
 
 const router = Router();

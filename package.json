@@ -8,8 +8,8 @@
   "main": "dist/DocketeerElectron.js",
   "scripts": {
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
-    "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development --hot\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
+    "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development --hot",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
     "buildWeb": "webpack --config=./webpack.react.config.js",
     "test": "jest --verbose",
     "lint": "eslint .",

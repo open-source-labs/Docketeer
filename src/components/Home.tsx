@@ -11,7 +11,6 @@ import Docketeer from '../../assets/docketeer-title2.png';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
 import * as history from './helpers/volumeHistoryHelper';
-import initDatabase from './helpers/initDatabase';
 
 // Importing features
 import Metrics from './features/Metrics';
@@ -77,13 +76,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    initDatabase();
     refreshRunning();
     refreshStopped();
     refreshImages();
     writeToDb();
     networkContainers();
-    setDbSessionTimeZone();
     getAllDockerVolumes();
   }, []);
 
@@ -92,7 +89,7 @@ const Home = () => {
     history.volumeByName(
       getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainerList
+      getVolumeContainerList,
     );
   }, [arrayOfVolumeNames]);
 
@@ -192,8 +189,8 @@ const Home = () => {
                               createAlert(
                                 `Performing system prune...`,
                                 5,
-                                'success'
-                              )
+                                'success',
+                              ),
                             );
                           },
                           () => {
@@ -201,11 +198,11 @@ const Home = () => {
                               createAlert(
                                 `The request to perform system prune has been cancelled.`,
                                 5,
-                                'warning'
-                              )
+                                'warning',
+                              ),
                             );
-                          }
-                        )
+                          },
+                        ),
                       );
                     }}
                   >
@@ -255,8 +252,8 @@ const Home = () => {
                             createAlert(
                               `Performing system prune...`,
                               5,
-                              'success'
-                            )
+                              'success',
+                            ),
                           );
                         },
                         () => {
@@ -264,11 +261,11 @@ const Home = () => {
                             createAlert(
                               `The request to perform system prune has been cancelled.`,
                               5,
-                              'warning'
-                            )
+                              'warning',
+                            ),
                           );
-                        }
-                      )
+                        },
+                      ),
                     );
                   }}
                 >
@@ -296,11 +293,11 @@ const Home = () => {
                         createAlert(
                           `The request to logout has been cancelled.`,
                           5,
-                          'warning'
-                        )
+                          'warning',
+                        ),
                       );
-                    }
-                  )
+                    },
+                  ),
                 );
               }}
             >

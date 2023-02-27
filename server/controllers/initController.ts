@@ -3,43 +3,12 @@
  * @description | Contains middleware that creates and runs the local database
  **/
 
-import db from '../database/psqlQuery';
+import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { InitController, ServerError } from '../../types';
 import path from 'path';
-import { exec } from 'child_process';
 
 const initController: InitController = {
-  initDatabase: (req: Request, res: Response, next: NextFunction) => {
-    const directory =
-      process.env.NODE_ENV === 'development'
-        ? path.resolve(__dirname, '../database')
-        : path.join(path.dirname(__dirname), 'database');
-
-    exec(
-      `cd ${directory} && docker compose up --no-recreate --wait -d`,
-      (error, stdout, stderr) => {
-        res.locals.error = error;
-        res.locals.stderr = stderr;
-        res.locals.stdout = stdout;
-        return next();
-      }
-    );
-  },
-
-  timeZone: (req: Request, res: Response, next: NextFunction) => {
-    const parameter = [req.body.timezone.toString()];
-    console.log(parameter);
-    db.query(`ALTER DATABASE postgres SET timezone TO ${parameter}`)
-      .then((data: any) => {
-        return next();
-      })
-      .catch((err: ServerError) => {
-        console.log(err);
-        if (err) return next(err);
-      });
-  },
-
   gitUrl: (req: Request, res: Response, next: NextFunction) => {
     const parameter = [req.body.githubUrl];
     db.query('SELECT github_url FROM containers where name = $1', parameter)

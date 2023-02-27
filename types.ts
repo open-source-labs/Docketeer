@@ -57,25 +57,25 @@ export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void,
   ) => void;
   stop: (
     id: string,
-    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void,
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void
+    callback_2: () => void,
   ) => void;
 };
 
@@ -171,13 +171,13 @@ export interface ImagesProps {
   refreshImagesList: (data: imageObj[]) => void;
   runIm: (
     ele: imageObj,
-    refreshRunningContainers: (data: ContainerObj[]) => void
+    refreshRunningContainers: (data: ContainerObj[]) => void,
   ) => void;
   removeIm: (
     id: string,
     imagesList: imageObj[],
     callback_1: (callback: any) => void,
-    callback_2: (data: imageObj[]) => void
+    callback_2: (data: imageObj[]) => void,
   ) => void;
 }
 
@@ -414,7 +414,7 @@ export interface CommandController {
   inspectDockerContainer: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   composeUp: (req: Request, res: Response, next: NextFunction) => void;
   composeStacks: (req: Request, res: Response, next: NextFunction) => void;
@@ -422,12 +422,12 @@ export interface CommandController {
   getAllDockerVolumes: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   getVolumeContainers: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -440,7 +440,7 @@ export interface ConfigController {
   configureThresholds: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   updateContactPref: (req: Request, res: Response, next: NextFunction) => void;
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
@@ -456,14 +456,12 @@ export interface DbController {
   createAdminPassword: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface InitController {
-  initDatabase: (req: Request, res: Response, next: NextFunction) => void;
-  timeZone: (req: Request, res: Response, next: NextFunction) => void;
   gitUrl: (req: Request, res: Response, next: NextFunction) => void;
   addMetrics: (req: Request, res: Response, next: NextFunction) => void;
   getMetrics: (req: Request, res: Response, next: NextFunction) => void;
@@ -474,28 +472,28 @@ export interface SettingsController {
   addContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   deleteContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   notificationSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void;
   notificationFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   monitoringFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
 }

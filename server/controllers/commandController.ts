@@ -1,18 +1,12 @@
 /**
- * @module initDatabase Controller
- * @description Contains middleware that creates and runs the local database
- */
-import { Request, Response, NextFunction } from 'express';
-import { CommandController, ServerError } from '../../types';
-import { exec } from 'child_process';
-import { net } from 'electron';
-import { constants } from 'fs/promises';
-import { cpuUsage, freemem, totalmem, freememPercentage } from 'os-utils';
+ * @module | commandController.ts
+ * @description | Contains middleware that creates and runs the local database
+ **/
 
-// ==========================================================
-// Function: convert
-// Purpose:
-// ==========================================================
+import { Request, Response, NextFunction } from 'express';
+import { CommandController } from '../../types';
+import { exec } from 'child_process';
+
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -144,106 +138,6 @@ const commandController: CommandController = {
       `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
     res.locals.containers = dockerOutput;
-    return next();
-  },
-
-  // ==========================================================
-  // Middleware: getApiData
-  // Purpose: pulls docker engine api info for EACH container
-  // and sends bac
-  // ==========================================================
-  getApiData: async (req: Request, res: Response, next: NextFunction) => {
-    const apiDataList: any[] = [];
-    const requests: any[] = [];
-    // loop through list of containers and make curl request
-    // res.locals.containers has list of containres
-    const dockerOutput = res.locals.containers;
-    // helper function to async the curl request to return the data for specified container
-    const getContainerDetails = async (containerId: string) => {
-      const result = await promisifiedExec(
-        `curl -v --unix-socket /var/run/docker.sock http://localhost/v1.41/containers/${containerId}/stats\?stream\=false`
-      );
-      return result;
-    };
-
-    for (const each of dockerOutput) {
-      // const containerData = getContainerDetails(each.ID);
-      requests.push(getContainerDetails(each.ID));
-    }
-
-    const promisedApi: any = await Promise.all(requests);
-
-    for (const each of promisedApi) {
-      const containerInfo = dockerOutput[promisedApi.indexOf(each)];
-      const apiData = JSON.parse(each);
-      const container = {
-        ID: containerInfo.ID,
-        Name: containerInfo.Names,
-        Image: containerInfo.Image,
-        CPUPerc: `${fn(
-          ((apiData.cpu_stats.cpu_usage.total_usage -
-            apiData.precpu_stats.cpu_usage.total_usage) /
-            (apiData.cpu_stats.system_cpu_usage -
-              apiData.precpu_stats.system_cpu_usage)) *
-            apiData.cpu_stats.online_cpus *
-            100
-        )}%`,
-        MemPerc: `${fn(
-          ((apiData.memory_stats.usage -
-            apiData.memory_stats.stats.inactive_file) /
-            apiData.memory_stats.limit) *
-            100
-        )}%`,
-        MemUsage: `${fn(
-          (apiData.memory_stats.usage -
-            apiData.memory_stats.stats.inactive_file) /
-            1048576
-        )}MiB / ${fn(apiData.memory_stats.limit / 1048576)}MiB`,
-        NetIO: `${fn(apiData.networks.eth0.rx_bytes / 1000)}kB / ${fn(
-          apiData.networks.eth0.tx_bytes / 1000
-        )}kB`,
-        BlockIO: apiData.blkio_stats.io_service_bytes_recursive
-          ? `${fn(
-              apiData.blkio_stats.io_service_bytes_recursive[0].value / 1000
-            )}kB / ${fn(
-              apiData.blkio_stats.io_service_bytes_recursive[1].value / 1000
-            )}kB`
-          : '0kB / 0kB',
-        PIDs: `${apiData.pids_stats.current}`,
-        // add new data
-      };
-      apiDataList.push(container);
-    }
-    res.locals.apiData = apiDataList;
-    return next();
-  },
-
-  // ==========================================================
-  // Middleware: getHost
-  // Purpose: pulls host statistics using the os-utils module
-  // ==========================================================
-  getHost: async (req: Request, res: Response, next: NextFunction) => {
-    const hostData = {
-      cpuPerc: 0,
-      memPerc: 0,
-    };
-
-    const promisifyCpuUsage = () => {
-      return new Promise((resolve, reject) => {
-        cpuUsage((data) => {
-          resolve(data);
-        });
-      });
-    };
-
-    const cpuPerc: any = await promisifyCpuUsage();
-    hostData.cpuPerc = fn(cpuPerc * 100);
-
-    const memPerc: number = (1 - freememPercentage()) * 100;
-    hostData.memPerc = fn(memPerc);
-
-    res.locals.hostData = hostData;
-    // dispatch hostData
     return next();
   },
 

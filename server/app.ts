@@ -11,7 +11,6 @@ import dbRouter from './routes/dbRouter';
 import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
-import settingsRouter from './routes/settingsRouter';
 import signupRouter from './routes/signupRouter';
 import { ServerError } from '../types';
 
@@ -29,7 +28,6 @@ app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
-app.use('/settings', settingsRouter);
 app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...

@@ -4,7 +4,6 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { RunningWithErrors } from '@mui/icons-material';
 import commandController from '../controllers/commandController';
 
 const router = Router();
@@ -18,18 +17,8 @@ const router = Router();
 router.get(
   '/refreshRunning',
   commandController.getContainers,
-  commandController.getApiData,
   (req: Request, res: Response) => {
-    return res.status(200).json(res.locals.apiData);
-  }
-);
-
-// Route for fetching user host stats
-router.get(
-  '/getHost',
-  commandController.getHost,
-  (req: Request, res: Response) => {
-    return res.status(200).json(res.locals.hostData);
+    return res.status(200).json(res.locals.containers);
   }
 );
 
@@ -38,9 +27,8 @@ router.post(
   '/runImage',
   commandController.runImage,
   commandController.getContainers,
-  commandController.getApiData,
   (req: Request, res: Response) => {
-    return res.status(201).json(res.locals.apiData);
+    return res.status(201).json(res.locals.containers);
   }
 );
 

@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const { isEmptyBindingElement } = require('typescript');
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -30,7 +29,6 @@ module.exports = {
   entry: '/src/renderer/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'),
-    // Taking our group of files and bundle them into Docketeer.js
     filename: 'Docketeer.js',
   },
   target: ['electron-renderer', 'web'],
@@ -44,7 +42,11 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
+            ],
           },
         },
       },
@@ -55,7 +57,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,

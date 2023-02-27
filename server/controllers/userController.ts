@@ -1,11 +1,11 @@
 /**
- * @module UserController
- * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
- */
+ * @module | userController.ts
+ * @description | Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
+ **/
+
 import { Request, Response, NextFunction } from 'express';
-import db from '../models/cloudModel';
+import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
 import { UserController, ServerError } from '../../types';
 
 const userController: UserController = {
@@ -122,7 +122,6 @@ const userController: UserController = {
       });
   },
 
-  // Checks database to ensure at least one person is SysAdmin - there should never be 0 sysAdmins.
   checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
     const query = 'SELECT * FROM users WHERE role_id = 1';
 

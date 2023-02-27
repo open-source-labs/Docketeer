@@ -44,25 +44,12 @@ export interface StoppedListType {
   Img: string;
   Created: string;
   name: string;
-  CPUPerc: string;
-  MemPerc: string;
 }
 export interface RunningListType {
-  BlockIO?: string;
+  Names?: string;
   ID: string;
-  CPUPerc: string;
-  MemPerc: string;
-  MemUsage?: string;
-  Name?: string;
-  NetIO?: string;
-  PIDs?: string;
   Image: string;
   RunningFor: string;
-}
-
-export interface hostStats {
-  cpuPerc: string;
-  memPerc: string;
 }
 
 // for more info review actions.ts file and Settings.ts
@@ -90,7 +77,6 @@ export type ContainerProps = {
     callback_1: () => void,
     callback_2: () => void
   ) => void;
-  hostStats?: hostStats[];
 };
 
 export type MetricsProps = {
@@ -100,23 +86,17 @@ export type MetricsProps = {
 
 // Stopped containers have a Names key and running containers have a Name key
 export type ContainerType = {
-  Name?: string;
   Names?: string;
   ID: string;
   Image: string;
   RunningFor: string;
-  CPUPerc: string;
-  MemPerc: string;
 };
 
 export type RunningContainerType = {
-  Name: string;
   Names?: string;
   ID: string;
   Image: string;
   RunningFor: string;
-  CPUPerc: string;
-  MemPerc: string;
 };
 
 export type ChartInfoType = {
@@ -171,15 +151,8 @@ export type SettingsProps = {
 };
 
 export interface ContainerObj {
-  BlockIO: string;
-  CPUPerc: string;
   Container: string;
   ID: string;
-  MemPerc: string;
-  MemUsage: string;
-  Name: string;
-  NetIO: string;
-  PIDs: string;
   Image?: string;
   RunningFor?: string;
 }
@@ -210,15 +183,9 @@ export interface ImagesProps {
 
 // for container's being run
 export interface ContainerObj {
-  BlockIO: string;
-  CPUPerc: string;
   Container: string;
   ID: string;
-  MemPerc: string;
-  MemUsage: string;
-  Name: string;
-  NetIO: string;
-  PIDs: string;
+  Names: string;
   Image?: string;
   RunningFor?: string;
 }
@@ -268,7 +235,6 @@ export interface VolumeObj {
 export interface containersList {
   runningList: any[];
   stoppedList: any[];
-  hostStats: string[];
 }
 
 interface imagesList {
@@ -307,7 +273,6 @@ export interface containerStateType {
   stoppedList: StoppedListType[];
   networkList: any[];
   composeStack: any[];
-  hostStats: { [k: string]: number };
 }
 
 export interface graphDataType {
@@ -436,8 +401,6 @@ export interface BcryptController {
 
 export interface CommandController {
   getContainers: (req: Request, res: Response, next: NextFunction) => void;
-  getApiData: (req: Request, res: Response, next: NextFunction) => void;
-  getHost: (req: Request, res: Response, next: NextFunction) => void;
   runImage: (req: Request, res: Response, next: NextFunction) => void;
   refreshStopped: (req: Request, res: Response, next: NextFunction) => void;
   refreshImages: (req: Request, res: Response, next: NextFunction) => void;

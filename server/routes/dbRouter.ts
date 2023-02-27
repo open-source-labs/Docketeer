@@ -13,11 +13,9 @@ router.get(
   dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,
-  // dbController.createAdminPassword,
-  // dbController.insertAdmin,
   (req: Request, res: Response) => {
     return res.status(200).json('Database initialized successfully');
-  },
+  }
 );
 
 export default router;

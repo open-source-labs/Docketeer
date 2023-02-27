@@ -1,10 +1,10 @@
 /**
- * @module Database Controller
- * @description Contains middleware that checks if the database has a user table and creates one if it doesn't
- */
+ * @module | dbController.ts
+ * @description | contains middleware that checks if the database has a user table and creates one if it doesn't
+ **/
 
 import { Request, Response, NextFunction } from 'express';
-import db from '../models/cloudModel';
+import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import sysadmin from '../../security/sysadmin';
 import { DbController, ServerError } from '../../types';

@@ -1,7 +1,7 @@
 /**
- * @module API Controller
- * @description Contains middleware that sends emails to user for container issues and signup information
- */
+ * @module | apiController.ts
+ * @description | contains middleware that sends emails to user for container issues and signup information
+ **/
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
@@ -20,8 +20,6 @@ const transporter = nodemailer.createTransport({
 });
 
 const apiController: ApiController = {
-
-  // sends notification email when container issue occurs
   sendEmailAlert: (req: Request, res: Response, next: NextFunction) => {
     const { email, containerName, time, date, stopped } = req.body;
     let emailBody;
@@ -100,7 +98,7 @@ const apiController: ApiController = {
           },
         });
       });
-  }
+  },
 };
 
 export default apiController;

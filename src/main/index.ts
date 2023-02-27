@@ -1,135 +1,114 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import electron from 'electron';
-import path from 'path';
-import url from 'url';
+const { app, BrowserWindow, Menu } = require('electron');
+const path = require('path');
 
-const {
-  default: installExtension,
-  REDUX_DEVTOOLS,
-} = require('electron-devtools-installer');
+const isMac = process.platform === 'darwin';
+const isDev = process.env.NODE_ENV !== 'production';
 
-// Global reference to mainWindow (necessary to prevent mainWindow from being garbage collected)
-let mainWindow;
+let win;
+// let aboutWin;
 
+// create "main" window
 function createMainWindow() {
-  mainWindow = new electron.BrowserWindow({
+  win = new BrowserWindow({
+    title: 'Docketeer',
     width: 1300,
     height: 800,
     webPreferences: {
+      // contextIsolation: true,
+      // nodeIntegration: true,
       preload: path.join(__dirname, '../src/main/preload.js'),
       sandbox: false,
     },
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:4000');
+  // dev vs prod config
+  if (isDev) {
+    win.webContents.openDevTools();
+    win.loadURL('http://localhost:4000');
   } else {
-    mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, '/index'),
-        protocol: 'file:',
-        slashes: true,
-      })
-    );
+    win.loadFile(path.join(__dirname, '../renderer/index.html'));
   }
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
 }
 
-electron.app.on('ready', createMainWindow);
+// create "about" window
+// function createAboutWindow() {
+//   aboutWin = new BrowserWindow({
+//     title: 'About Docketeer',
+//     width: 300,
+//     height: 300,
+//   });
+//
+//   aboutWin.loadFile(path.join(__dirname, '../renderer/about.html'));
+// }
 
-electron.app.on('renderer-process-crashed', createMainWindow);
+// defining app menu bar items/layout
+// const menu = [
+//   ...(isMac
+//     ? [
+//         {
+//           label: app.name,
+//           submenu: [
+//             {
+//               label: 'About',
+//               click: createAboutWindow,
+//             },
+//           ],
+//         },
+//       ]
+//     : []),
+//   {
+//     role: 'fileMenu',
+//   },
+//   ...(!isMac
+//     ? [
+//         {
+//           label: 'Help',
+//           submenu: [
+//             {
+//               label: 'About',
+//               click: createAboutWindow,
+//             },
+//           ],
+//         },
+//       ]
+//     : []),
+//   ...(isDev
+//     ? [
+//         {
+//           label: 'Developer',
+//           submenu: [
+//             { role: 'reload' },
+//             { role: 'forcereload' },
+//             { type: 'separator' },
+//             { role: 'toggledevtools' },
+//           ],
+//         },
+//       ]
+//     : []),
+// ];
 
-// MacOS-specific function
-electron.app.on('window-all-closed', function () {
-  // Common for application and their menu bar to stay active until use quits explicitly
-  if (process.platform !== 'darwin') {
-    electron.app.quit();
+// create window when app is ready
+app.on('ready', () => {
+  createMainWindow();
+
+  // implement menu
+  // const mainMenu = Menu.buildFromTemplate(menu);
+  // Menu.setApplicationMenu(mainMenu);
+
+  // remove win from memory on close
+  win.on('closed', () => (win = null));
+});
+
+// ensure that app is quit for mac users as the 'x' != quit
+app.on('window-all-closed', () => {
+  if (!isMac) {
+    app.quit();
   }
 });
 
-// ==========================================================
-// Function: Register a preload script so we know whenever a new renderer is created.
-// Purpose: when the new renderer is created, use the devtool-instaler installExtension function to locally REDUX_DEVTOOLS
-// ==========================================================
-electron.app.whenReady().then(() => {
-  installExtension(REDUX_DEVTOOLS)
-    .then((name: any) => console.log(`Added Extension:  ${name}`))
-    .catch((err: any) => console.log('An error occurred: ', err));
+// open a window if none are open
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createMainWindow();
+  }
 });
-
-// MacOS-specific function
-electron.app.on('activate', function () {
-  // Common to re-create a window in the app when the dock icon is clicked and there are no other windows open
-  if (electron.BrowserWindow.getAllWindows().length === 0) createMainWindow();
-});
-
-//   app.whenReady().then(() => {
-//     const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
-//     const extensionsPlural = extensions.length > 0 ? 's' : '';
-//     Promise.all(extensions.map(extension => installExtension(extension)))
-//       .then(names =>
-//         console.log(`[electron-extensions] Added DevTools Extension${extensionsPlural}: ${names.join(', ')}`))
-//       .catch(err =>
-//         console.log('[electron-extensions] An error occurred: ', err));
-//   });
-
-// mainWindow.webContents.on('did-frame-finish-load', () => {
-//   if (isDevelopment) {
-//     mainWindow.webContents.openDevTools();
-//     mainWindow.webContents.on('devtools-opened', () => {
-//       mainWindow.focus();
-//       setImmediate(() => {
-//         mainWindow.focus();
-//       });
-//   });
-// }});
-
-//   mainWindow.on('closed', () => {
-//     mainWindow = null;
-//   });
-
-//   return mainWindow;
-// }
-
-// app.whenReady().then(() => {
-//   // creates main browser mainWindow when electron is ready
-//   mainWindow = createMainWindow();
-
-//   app.on('activate', () => {
-//     // on macOS it is common to re-create a mainWindow even after all windows have been closed
-//     if (mainWindow === null) {
-//       mainWindow = createMainWindow();
-//     }
-//   });
-// });
-
-// quit application when all windows are closed
-// app.on('mainWindow-all-closed', () => {
-//   // on macOS it is common for applications to stay open until the user explicitly quits
-//   if (process.platform !== 'darwin') {
-//     app.quit();
-//   }
-
-// Boilerplate for electron devtools
-// electron.app.whenReady().then(() => {
-//   installExtension(REACT_DEVELOPER_TOOLS)
-//       .then((name:string) => console.log(`Added Extension:  ${name}`))
-//       .catch((err:string) => console.log('An error occurred: ', err));
-// });
-
-// electron.ipcMain.handle("verify-number", async (_: any, args: any) => {
-//   return await verifyMobileNumber(args);
-// });
-//
-// electron.ipcMain.handle("verify-code", async (_: any, args: any) => {
-//   return await verifyCode(args);
-// });
-//
-// electron.ipcMain.handle("post-event", async (_: any, args: any) => {
-//   const { mobileNumber, triggeringEvent } = args;
-//   return await postEvent(mobileNumber, triggeringEvent);
-// });
-//
-// electron.ipcMain.handle("email-event", async (_: any, args: any) => {

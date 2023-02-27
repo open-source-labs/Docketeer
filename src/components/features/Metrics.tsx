@@ -14,7 +14,7 @@ const Metrics = () => {
           <h2 className='card-title text-sm'>METRICS DASHBOARD</h2>
           <div className='divider py-4'></div>
           <iframe
-            src='http://localhost:2999/d/4dMaCsRZD/docketeer-feat-grafana-boom?orgId=1&refresh=10s&kiosk'
+            src='http://localhost:2999/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk'
             frameBorder='0'
             className='w-full h-full'
           ></iframe>

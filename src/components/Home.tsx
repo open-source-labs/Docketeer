@@ -214,7 +214,9 @@ const Home = () => {
                 </li>
               </ul>
             </div>
-            <a className='btn btn-ghost normal-case text-xl'>docketeer</a>
+            <Link to='/home/' className='btn btn-ghost normal-case text-xl'>
+              docketeer
+            </Link>
           </div>
           <div className='navbar-center hidden xl:flex'>
             <ul className='menu menu-horizontal px-1 text-xs'>

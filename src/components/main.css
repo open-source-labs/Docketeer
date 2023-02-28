@@ -29,7 +29,7 @@ body {
 }
 
 .usersFlex {
-  margin: 4.25rem 0;
+  margin: 4.25rem 0 1rem 0;
 }
 
 .usersFlex > * {

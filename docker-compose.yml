@@ -7,7 +7,7 @@ services:
     ports:
       - '${POSTGRES_PORT}:5432'
     volumes:
-      - ./imageConfigs/postgress/docketeerdb:/var/lib/postgresql/data/
+      - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
       POSTGRES_DB: ${POSTGRES_NAME}

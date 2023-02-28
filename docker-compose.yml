@@ -7,7 +7,7 @@ services:
     ports:
       - '${POSTGRES_PORT}:5432'
     volumes:
-      - ./docketeerdb:/var/lib/postgresql/data/
+      - ./imageConfigs/postgress/docketeerdb:/var/lib/postgresql/data/
 
     environment:
       POSTGRES_DB: ${POSTGRES_NAME}
@@ -66,7 +66,7 @@ services:
       - '2999:3000'
 
     volumes:
-      - ./grafana/data:/var/lib/grafana
+      - ./imageConfigs/grafana/data:/var/lib/grafana
 
     depends_on:
       - prometheus

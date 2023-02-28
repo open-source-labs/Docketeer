@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
     container_name: cadvisor
     ports:
       - '8080:8080'
@@ -69,11 +69,11 @@ services:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
 
     volumes:
-      - ./grafana/data:/var/lib/grafana
-      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ./grafana/plugins:/var/lib/grafana/plugins
+      - ./imageConfigs/grafana/data:/var/lib/grafana
+      - ./imageConfigs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./imageConfigs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
 
     depends_on:
       - prometheus

@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    environment:
+      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    volumes:
+      - ./docketeerdb:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro

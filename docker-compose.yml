@@ -1,14 +1,72 @@
 version: '3.8'
 services:
   db:
-    image: postgres:15
+    container_name: docketeerdb
+    image: docketeerx/postgres
     restart: always
     ports:
       - '${POSTGRES_PORT}:5432'
+    volumes:
+      - ./docketeerdb:/var/lib/postgresql/data/
+
     environment:
       POSTGRES_DB: ${POSTGRES_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    container_name: cadvisor
+    ports:
+      - '8080:8080'
+
     volumes:
-      - ./docketeerdb:/var/lib/postgresql/data/
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+    labels:
+      org_prometheus_starter: 'true'
+      org_prometheus_starter_path: '/metrics'
+
+  node-exporter:
+    image: docketeerx/nodeex
+    container_name: node-exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      #system info for linux machines
+      - /proc:/host/proc:ro
+      # also for linux
+      - /sys:/host/sys:ro
+      #root
+      - /:/rootfs:ro
+    depends_on:
+      - db
+
+  prometheus:
+    image: docketeerx/prometheus
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+
+    #can add volume here to persist the prometheus data.
+    depends_on:
+      - node-exporter
+    labels:
+      org_prometheus_starter: 'true'
+      org_prometheus_starter_port: '9090'
+      org_prometheus_starter_path: '/metrics'
+
+  grafana:
+    image: docketeerx/grafana
+    container_name: grafana
+    ports:
+      - '2999:3000'
+
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+
+    depends_on:
+      - prometheus

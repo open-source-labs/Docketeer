@@ -60,13 +60,20 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   grafana:
-    image: docketeerx/grafana
+    image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - '2999:3000'
+      - 2999:3000
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
 
     volumes:
-      - ./imageConfigs/grafana/data:/var/lib/grafana
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/plugins:/var/lib/grafana/plugins
 
     depends_on:
       - prometheus

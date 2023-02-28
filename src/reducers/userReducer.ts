@@ -5,7 +5,6 @@ const initialState: userStateType = {
   userList: [],
 };
 
-//Why aren't we using the database for this???
 export const userSlice = createSlice({
   name: 'users',
   initialState,

@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import { SqlQuery } from '../../types';
 
 const pool = new Pool({
-  host: 'localhost',
+  host: 'db',
   user: 'postgres',
   password: 'postgres',
   database: 'docketeer-db',

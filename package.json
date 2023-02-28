@@ -7,16 +7,14 @@
   "author": "Docketeer",
   "main": "dist/DocketeerElectron.js",
   "scripts": {
+    "start": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\"",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development --hot",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
     "buildWeb": "webpack --config=./webpack.react.config.js",
     "test": "jest --verbose",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",

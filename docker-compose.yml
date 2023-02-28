@@ -4,8 +4,6 @@ services:
     container_name: docketeerdb
     image: docketeerx/postgres
     restart: always
-    ports:
-      - '${POSTGRES_PORT}:5432'
     volumes:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
@@ -77,3 +75,11 @@ services:
 
     depends_on:
       - prometheus
+
+  docketeer:
+    image: docketeerx/docketeer
+    container_name: docketeer
+    ports:
+      - 5000:4000
+    depends_on:
+      - grafana

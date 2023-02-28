@@ -14,12 +14,9 @@ let mainMenu;
 function createMainWindow() {
   win = new BrowserWindow({
     title: 'Docketeer',
-    width: 1300,
-    height: 800,
+    width: 1500,
+    height: 1000,
     webPreferences: {
-      // contextIsolation: true,
-      // nodeIntegration: true,
-      preload: path.join(__dirname, '../src/main/preload.js'),
       sandbox: false,
     },
   });

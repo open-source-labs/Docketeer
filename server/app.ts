@@ -2,7 +2,22 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 const app = express();
 app.use(cors());
+const { exec } = require('child_process');
 
+exec(
+  'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
+  (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  }
+);
 // Importing routers...
 import accountRouter from './routes/accountRouter';
 import adminRouter from './routes/adminRouter';
@@ -18,7 +33,6 @@ import { ServerError } from '../types';
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Defining routers...
 app.use('/account', accountRouter);

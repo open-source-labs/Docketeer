@@ -11,7 +11,6 @@ import Docketeer from '../../assets/docketeer-title2.png';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
 import * as history from './helpers/volumeHistoryHelper';
-import initDatabase from './helpers/initDatabase';
 
 // Importing features
 import Metrics from './features/Metrics';
@@ -57,7 +56,7 @@ const Home = () => {
   const handleLogout = () => {
     updateSession();
     logoutUser();
-    fetch('http://localhost:3000/logout', {
+    fetch('/api/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,13 +76,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    initDatabase();
     refreshRunning();
     refreshStopped();
     refreshImages();
     writeToDb();
     networkContainers();
-    setDbSessionTimeZone();
     getAllDockerVolumes();
   }, []);
 
@@ -108,7 +105,7 @@ const Home = () => {
 
   // Pertains to sysAdmin only
   useEffect(() => {
-    fetch('http://localhost:3000/admin', {
+    fetch('/api/admin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

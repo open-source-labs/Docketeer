@@ -7,18 +7,6 @@ import initController from '../controllers/initController';
 
 const router = Router();
 
-router.get('/', initController.initDatabase, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals);
-});
-
-router.post(
-  '/timezone',
-  initController.timeZone,
-  (req: Request, res: Response) => {
-    return res.sendStatus(201);
-  }
-);
-
 router.post('/github', initController.gitUrl, (req: Request, res: Response) => {
   return res.status(201).json(res.locals.url);
 });
@@ -28,7 +16,7 @@ router.post(
   initController.addMetrics,
   (req: Request, res: Response) => {
     return res.status(201).json({});
-  }
+  },
 );
 
 router.post(
@@ -36,7 +24,7 @@ router.post(
   initController.getMetrics,
   (req: Request, res: Response) => {
     return res.status(201).json(res.locals.metrics);
-  }
+  },
 );
 
 export default router;

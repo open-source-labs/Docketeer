@@ -31,7 +31,7 @@ export const handlePasswordChange = () => {
 export const updatePassword = (password, newPassword) => {
   const state = store.getState();
   const username = state.session.username;
-  fetch('http://localhost:3000/account/password', {
+  fetch('/api/account/password', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export const handleEmailUpdate = () => {
 };
 
 export const updateEmail = (username, email) => {
-  fetch('http://localhost:3000/account/email', {
+  fetch('/api/account/email', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export const checkPhone = (phone) => {
 };
 
 export const updatePhone = (username, phone) => {
-  fetch('http://localhost:3000/account/phone', {
+  fetch('/api/account/phone', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

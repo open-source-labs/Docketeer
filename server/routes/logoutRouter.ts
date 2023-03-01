@@ -7,11 +7,8 @@ import dbController from '../controllers/dbController';
 
 const router = Router();
 
-router.post('/', 
-  dbController.removeToken, 
-  (req: Request, res: Response) => {
-    return res.status(201).json(res.locals.logout)
-  }
-);
+router.post('/', dbController.removeToken, (req: Request, res: Response) => {
+  return res.status(201).json(res.locals.logout);
+});
 
 export default router;

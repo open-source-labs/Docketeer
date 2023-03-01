@@ -13,3 +13,6 @@ security/
 .env
 
 coverage/
+
+out/
+docketeerdb

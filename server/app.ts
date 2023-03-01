@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 const app = express();
+app.use(cors());
 
 // Importing routers...
 import accountRouter from './routes/accountRouter';
@@ -17,7 +18,7 @@ import { ServerError } from '../types';
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
 
 // Defining routers...
 app.use('/account', accountRouter);

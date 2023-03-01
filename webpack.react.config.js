@@ -73,13 +73,21 @@ module.exports = {
     static: {
       directory: path.join(__dirname, '/src/renderer'),
     },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization',
+    },
     historyApiFallback: true,
     compress: true,
     hot: true,
     port: 4000,
     proxy: {
       '/': {
-        target: 'http://localhost:3000/',
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true,
       },
     },
   },

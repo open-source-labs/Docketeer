@@ -25,6 +25,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro
 
     labels:
       org_prometheus_starter: 'true'

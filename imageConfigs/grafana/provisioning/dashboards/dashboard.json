@@ -75,7 +75,7 @@
         "content": "<h1>CPU<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -150,7 +150,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -224,7 +224,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -302,7 +302,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -321,6 +321,58 @@
       "timeFrom": "10s",
       "transparent": true,
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 1,
+        "w": 1,
+        "x": 23,
+        "y": 3
+      },
+      "id": 77,
+      "options": {
+        "activeTheme": "Transparent",
+        "disableThemePicker": true,
+        "themes": [
+          {
+            "name": "Transparent",
+            "styles": [
+              {
+                "props": {
+                  "theme": "default"
+                },
+                "type": "basetheme"
+              },
+              {
+                "props": {
+                  "url": ""
+                },
+                "type": "bgimage"
+              },
+              {
+                "props": {
+                  "url": ""
+                },
+                "type": "url"
+              },
+              {
+                "props": {
+                  "text": "body, .panel-container, .dashboard-container, main { background-color: rgba(0,0,0,0)!important; }"
+                },
+                "type": "style"
+              }
+            ]
+          }
+        ]
+      },
+      "pluginVersion": "0.2.1",
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
     },
     {
       "datasource": {
@@ -374,7 +426,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -437,7 +489,7 @@
         "content": "<h1>Memory<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -498,7 +550,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -774,7 +826,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -945,7 +997,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.1",
       "targets": [
         {
           "datasource": {
@@ -1033,8 +1085,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-green",
@@ -1129,8 +1180,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1305,8 +1355,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
-                "value": null
+                "color": "purple"
               }
             ]
           },
@@ -1499,8 +1548,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-purple",
@@ -1561,8 +1609,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-purple",
@@ -1612,7 +1659,8 @@
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": ["system"],
   "templating": {
@@ -1648,6 +1696,6 @@
   "timezone": "browser",
   "title": "System",
   "uid": "h5LcytHGz",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

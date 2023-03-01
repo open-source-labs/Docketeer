@@ -52,7 +52,7 @@ const useHelper = () => {
       /* Removes stopped containers @param {*} containerID */
       remove(containerID) {
         const { removeContainer } = dispatch;
-        fetch(`/api/removeContainer?id=${containerID}`)
+        fetch(`/api/command/removeContainer?id=${containerID}`)
           .then((message) => message.json())
           .then((message) => {
             console.log({ message });

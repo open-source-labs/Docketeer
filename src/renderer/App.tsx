@@ -1,32 +1,24 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-// Components
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAppSelector } from '../reducers/hooks';
 import Login from '../components/Login';
-import Authentication from '../components/Authentication';
 import SignUp from '../components/SignUp';
-import RenderViews from '../components/RenderViews';
-
-const theme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: `"Lexend", "sans-serif"`
-    }
-  }
-})
+import Home from '../components/Home';
 
 const App = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const session: any = useAppSelector((state) => state.sessions.isLoggedIn);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/' element={<Authentication />} />
-        <Route path='/userSignup' element={<SignUp />} />
-        <Route path='/app/*' element={<RenderViews />} />
-      </Routes>
-    </ThemeProvider>
+    <Routes>
+      <Route
+        path='/'
+        element={session ? <Navigate to='/home' /> : <Navigate to='/login' />}
+      />
+      <Route path='/login' element={<Login />} />
+      <Route path='/userSignup' element={<SignUp />} />
+      <Route path='/home/*' element={<Home />} />
+    </Routes>
   );
 };
 

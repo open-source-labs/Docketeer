@@ -1,0 +1,34 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "community",
+  "signedByOrg": "yesoreyeram",
+  "signedByOrgName": "yesoreyeram",
+  "plugin": "yesoreyeram-boomtheme-panel",
+  "version": "0.2.1",
+  "time": 1638183406478,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "plugin.json": "3cca80c4a4b00d6f0ba083122c93bffcabbc0214f8d2ab0de5cf5fd5d39f623c",
+    "LICENSE": "fdfda05bef638fab9279028f7055f708da4f8345666be986d165f77a56733359",
+    "module.js": "386c7a29dbbfdb2d39c792dcc7f2e2899b1064cd53bb8b84cbb68acd106fc961",
+    "module.js.map": "ab026d64936d3003a2547f43f4d90cbdb120a89aa2fdf3b572ddee6f9eea270f",
+    "CHANGELOG.md": "48fa8cb8a12beb50d311408531bd5f93bd93421c0a3bea7ffa6b9cf872365eb1",
+    "README.md": "c094d43782a9248199cb5c4987b038b16d9f2b9a159cc37c6f6a49ce58a25706",
+    "module.js.LICENSE.txt": "2582591a065c8d0fcb9dba2d7d3c912ee1b771cfa7da20bea21519e64b2e052b",
+    "img/logo.png": "c78ee5c51cf0d20feda82bc8d453ee71f2083d1b36cb3b7726d4072430c6f4b6"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.1
+Comment: https://openpgpjs.org
+
+wqEEARMKAAYFAmGkse4ACgkQfk0ManCIZudqNgIJAYEitDNxAsQKN3OKEsfP
+L4pT7Th+QTzoyZldiZHlElFSUeCQ3UoV3QP9MVM28O84PLGgje+rEbe9G/fW
+1+noEcQ/AgdcSPnJD69sqSP5HLd4OzeBS9png1k0Cs5+fOuQa3jLilklLUA8
+M7hhMgOc2u5TnAeMYUO1+gVIakj7alPkF6z6NQ==
+=aDxj
+-----END PGP SIGNATURE-----

@@ -56,13 +56,13 @@ root
 
 ```js
 // .env
-TWILIO_NUMBER = "";
-TWILIO_ACCOUNT_SID = "";
-TWILIO_AUTH_TOKEN = "";
-SERVICE_SID = "";
-VERIFICATION_SERVICE_SID = "";
-SLACK_WEBHOOK = "";
-POSTGRES_URI = "";
+TWILIO_NUMBER = '';
+TWILIO_ACCOUNT_SID = '';
+TWILIO_AUTH_TOKEN = '';
+SERVICE_SID = '';
+VERIFICATION_SERVICE_SID = '';
+SLACK_WEBHOOK = '';
+POSTGRES_URI = '';
 ```
 
 5. Create a folder called `security` in the project's top-level directory. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
@@ -82,10 +82,10 @@ root
 ```js
 // email.js
 module.exports = {
-  host: "smtp.gmail.com",
+  host: 'smtp.gmail.com',
   port: 465,
-  username: "example@gmail.com",
-  password: "belugas",
+  username: 'example@gmail.com',
+  password: 'belugas',
 };
 ```
 
@@ -94,8 +94,8 @@ module.exports = {
 ```js
 // sysadmin.js
 module.exports = {
-  phone: "",
-  email: "",
+  phone: '',
+  email: '',
 };
 ```
 
@@ -115,11 +115,11 @@ For now, the sign up function will create a System Admin user.
 
 ```js
 // .env.js
-MY_PHONE_NUMBER = "your mobile number";
-TWILIO_ACCOUNT_SID = "code from your console";
-TWILIO_AUTH_TOKEN = "token from your console";
-SERVICE_SID = "code from notify service instance";
-VERIFICATION_SERVICE_SID = "code from verify service instance";
+MY_PHONE_NUMBER = 'your mobile number';
+TWILIO_ACCOUNT_SID = 'code from your console';
+TWILIO_AUTH_TOKEN = 'token from your console';
+SERVICE_SID = 'code from notify service instance';
+VERIFICATION_SERVICE_SID = 'code from verify service instance';
 ```
 
 4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.

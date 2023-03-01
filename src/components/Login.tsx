@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   const authenticateUser = (username: string, password: string) => {
-    fetch('http://localhost:3000/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

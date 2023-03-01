@@ -79,7 +79,7 @@ services:
   #     - prometheus
 
   docketeer:
-    image: docketeerx/docketeerxx
+    image: docketeerx/docketeer
     container_name: docketeer
     ports:
       - 4000:4000

@@ -56,7 +56,7 @@ const Home = () => {
   const handleLogout = () => {
     updateSession();
     logoutUser();
-    fetch('http://localhost:3000/logout', {
+    fetch('/api/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Home = () => {
     history.volumeByName(
       getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainerList,
+      getVolumeContainerList
     );
   }, [arrayOfVolumeNames]);
 
@@ -105,7 +105,7 @@ const Home = () => {
 
   // Pertains to sysAdmin only
   useEffect(() => {
-    fetch('http://localhost:3000/admin', {
+    fetch('/api/admin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -189,8 +189,8 @@ const Home = () => {
                               createAlert(
                                 `Performing system prune...`,
                                 5,
-                                'success',
-                              ),
+                                'success'
+                              )
                             );
                           },
                           () => {
@@ -198,11 +198,11 @@ const Home = () => {
                               createAlert(
                                 `The request to perform system prune has been cancelled.`,
                                 5,
-                                'warning',
-                              ),
+                                'warning'
+                              )
                             );
-                          },
-                        ),
+                          }
+                        )
                       );
                     }}
                   >
@@ -252,8 +252,8 @@ const Home = () => {
                             createAlert(
                               `Performing system prune...`,
                               5,
-                              'success',
-                            ),
+                              'success'
+                            )
                           );
                         },
                         () => {
@@ -261,11 +261,11 @@ const Home = () => {
                             createAlert(
                               `The request to perform system prune has been cancelled.`,
                               5,
-                              'warning',
-                            ),
+                              'warning'
+                            )
                           );
-                        },
-                      ),
+                        }
+                      )
                     );
                   }}
                 >
@@ -293,11 +293,11 @@ const Home = () => {
                         createAlert(
                           `The request to logout has been cancelled.`,
                           5,
-                          'warning',
-                        ),
+                          'warning'
+                        )
                       );
-                    },
-                  ),
+                    }
+                  )
                 );
               }}
             >

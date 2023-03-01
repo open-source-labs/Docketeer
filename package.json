@@ -1,5 +1,5 @@
 {
-  "name": "Docketeer",
+  "name": "docketeer",
   "productName": "Docketeer",
   "version": "10.0.0",
   "license": "MIT",
@@ -7,6 +7,7 @@
   "author": "Docketeer",
   "main": "dist/DocketeerElectron.js",
   "scripts": {
+    "start": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\"",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development --hot",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development\" \"nodemon server/server.ts\" \"npm run dev:electron\"",
@@ -23,7 +24,6 @@
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
-    "node": "^19.2.0",
     "os": "^0.1.2",
     "os-utils": "^0.0.14",
     "pg": "^8.8.0",

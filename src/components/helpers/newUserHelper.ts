@@ -11,7 +11,7 @@ import { UserInfo } from '../../../types';
 export const handleNewUser = (
   userInformation: any,
   roleID: string,
-  setValues: any
+  setValues: any,
 ) => {
   const { email, username, password, phone } = userInformation;
 
@@ -25,7 +25,7 @@ export const handleNewUser = (
   }
   if (!checkPhone(phone)) {
     window.alert(
-      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900'
+      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900',
     );
     return;
   }
@@ -35,7 +35,7 @@ export const handleNewUser = (
 
 export const confirmPassword = (
   password: string,
-  passwordConfirmation: string
+  passwordConfirmation: string,
 ) => {
   if (password !== passwordConfirmation) {
     window.alert('Warning: Passwords do not match');
@@ -48,7 +48,7 @@ export const checkPasswordLength = (password: string) => {
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
   if (!regex.test(password) && password) {
     window.alert(
-      'Warning: Password must be 6 characters or longer \nand must include at least one number and one letter'
+      'Warning: Password must be 6 characters or longer \nand must include at least one number and one letter',
     );
     return;
   }
@@ -59,7 +59,7 @@ export const checkPhone = (phone: string) => {
   const regex = /[+][1][\d]{10}$/;
   if (phone.match(regex) === null) {
     window.alert(
-      'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900'
+      'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900',
     );
     return;
   }
@@ -72,9 +72,9 @@ export const createNewUser = (
   password: string,
   phone: string,
   role_id: string,
-  setValues
+  setValues,
 ) => {
-  fetch('http://localhost:3000/signup', {
+  fetch('/api/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const createNewUser = (
 };
 
 export const getUpdatedUserList = () => {
-  fetch('http://localhost:3000/admin', {
+  fetch('/api/admin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export const updateUserList = (data: UserInfo[]) => {
 };
 
 export const checkDbInit = () => {
-  fetch('http://localhost:3000/db')
+  fetch('/api/db')
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((err) => {

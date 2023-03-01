@@ -1,22 +1,18 @@
-/**
- *  This Pool initializes the users database. This database is populated on startup, so no need to create tables. (schema2.sql)
- */
-import { Pool } from "pg";
-import { SqlQuery } from "../../types";
-import * as dotenv from "dotenv";
+import { Pool } from 'pg';
+import { SqlQuery } from '../../types';
 
-dotenv.config();
-
-const PG_URI = process.env.POSTGRES_URI;
-
-const cloudPool: Pool = new Pool({
-  connectionString: PG_URI,
+const pool = new Pool({
+  host: 'db',
+  user: 'postgres',
+  password: 'postgres',
+  database: 'docketeer-db',
+  port: 5432,
 });
 
 const db: SqlQuery = {
   query: (text, params, callback) => {
-    console.log("Executed query...", text);
-    return cloudPool.query(text, params, callback);
+    console.log('Executed Docketeer query...', text);
+    return pool.query(text, params, callback);
   },
 };
 

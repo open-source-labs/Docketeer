@@ -89,7 +89,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 ### Built With
 
-[![React][React.js]][React-url][![Typescript][TS.js]][TS-url][![Redux][Redux]][Redux-url][![Webpack][Webpack]][Webpack-url][![TailwindCSS][Tailwind]][Tailwind-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Grafana][Grafana]][Grafana-url][![Docker][Docker]][Docker-url]
+[![React][React.js]][React-url][![Typescript][TS.js]][TS-url][![Redux][Redux]][Redux-url][![Webpack][Webpack]][Webpack-url][![TailwindCSS][Tailwind]][Tailwind-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Grafana][Grafana]][Grafana-url][![Docker][Docker]][Docker-url][![Jest][Jest]][Jest-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

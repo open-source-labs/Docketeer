@@ -31,38 +31,25 @@ const userController: UserController = {
         role = 'user';
         break;
     }
-    console.log('the role ', role);
-
+    const secret = process.env.JWT_SECRET;
     try {
-      console.log('in try block');
       const createUser =
         'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
       const userDetails = [username, email, hash, phone, role, role_id];
-      console.log('USERDETAILS:', userDetails);
-
       if (username && hash) {
-        console.log('in user and hash');
         const makeUser = await db.query(createUser, userDetails);
-        console.log('after makeuser');
-        const newUser = await makeUser[0];
-        console.log(makeUser.rows[0], 'this is make0');
+        const newUser = await makeUser.rows[0];
         res.locals.user = newUser;
-        console.log('this is the role lol', role);
-        console.log('this is the role_id', role_id);
-        if (role === 'system admin' || role_id === '1') {
-          console.log('beginning of role check');
-          console.log(role, role_id, 'this is role and role id');
-          await jwt.sign({ newUser }, process.env.JWT_KEY, (err, token) => {
-            console.log(token);
-            console.log(process.env.JWT_KEY);
-            console.log('actually err', err);
-            res.locals.token = token;
-            //erase after testing
-            console.log(res.locals.token);
-            console.log('in jwt sign part');
-            return next();
-          });
-          console.log('after role check ');
+        const retrievedRole = newUser.role;
+        if (retrievedRole === 'system admin') {
+          await jwt.sign(
+            { retrievedRole: retrievedRole },
+            secret,
+            (err, token) => {
+              res.locals.token = token;
+              return next();
+            },
+          );
           return next();
         }
       }

@@ -6,6 +6,8 @@ import {
 } from '../../types';
 import { exec } from 'child_process';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -598,27 +600,30 @@ const commandController: CommandController = {
   checkAdmin: (req, res, next) => {
     const token = req.cookies.admin || null;
 
+    const secret = process.env.JWT_SECRET;
     if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-          // invalid token, clear the cookie and move on
+      jwt.verify(token, secret, (error, decoded) => {
+        if (error || decoded.retrievedRole !== 'system admin') {
           return next({
-            log: 'Unauthorized access',
+            log: 'Unauthorized access -- invalid permissions',
             status: 401,
             message: {
-              err: 'Unauthorized access',
+              err: 'Unauthorized access --invalid permissions',
+              error,
             },
           });
         }
+        return next();
       });
-      console.log('successfully checked the token');
-      return next();
     } else {
-      console.log('check admin else conditional hit');
-      return next();
+      return next({
+        log: 'Unauthorized access -- not logged in',
+        status: 401,
+        message: {
+          err: 'Unauthorized access -- not logged in',
+        },
+      });
     }
-
-    // valid token, set the user object on the request for further processing
   },
 };
 

@@ -7,12 +7,15 @@ import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { UserController, ServerError } from '../../types';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const userController: UserController = {
   // create new user
-  createUser: (req: Request, res: Response, next: NextFunction) => {
+  createUser: async (req: Request, res: Response, next: NextFunction) => {
+    console.log('beginning of createUser');
     if (res.locals.error) return next();
-
     const { username, email, phone, role_id } = req.body;
     const { hash } = res.locals;
     let role;
@@ -28,26 +31,48 @@ const userController: UserController = {
         role = 'user';
         break;
     }
+    console.log('the role ', role);
 
-    const createUser =
-      'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
-    const userDetails = [username, email, hash, phone, role, role_id];
-    console.log('USERDETAILS:', userDetails);
+    try {
+      console.log('in try block');
+      const createUser =
+        'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
+      const userDetails = [username, email, hash, phone, role, role_id];
+      console.log('USERDETAILS:', userDetails);
 
-    if (username && hash) {
-      db.query(createUser, userDetails)
-        .then((data: any) => {
-          res.locals.user = data.rows[0];
-          return next();
-        })
-        .catch((err: ServerError) => {
-          return next({
-            log: `Error in userController newUser: ${err}`,
-            message: {
-              err: 'An error occurred creating new user in database. See userController.newUser.',
-            },
+      if (username && hash) {
+        console.log('in user and hash');
+        const makeUser = await db.query(createUser, userDetails);
+        console.log('after makeuser');
+        const newUser = await makeUser[0];
+        console.log(makeUser.rows[0], 'this is make0');
+        res.locals.user = newUser;
+        console.log('this is the role lol', role);
+        console.log('this is the role_id', role_id);
+        if (role === 'system admin' || role_id === '1') {
+          console.log('beginning of role check');
+          console.log(role, role_id, 'this is role and role id');
+          await jwt.sign({ newUser }, process.env.JWT_KEY, (err, token) => {
+            console.log(token);
+            console.log(process.env.JWT_KEY);
+            console.log('actually err', err);
+            res.locals.token = token;
+            //erase after testing
+            console.log(res.locals.token);
+            console.log('in jwt sign part');
+            return next();
           });
-        });
+          console.log('after role check ');
+          return next();
+        }
+      }
+    } catch (err: unknown) {
+      return next({
+        log: `Error in userController newUser: ${err}`,
+        message: {
+          err: 'An error occurred creating new user in database. See userController.newUser.',
+        },
+      });
     }
   },
   // get all users (system admin)
@@ -121,60 +146,64 @@ const userController: UserController = {
       });
   },
 
-  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
-    const query = 'SELECT * FROM users WHERE role_id = 1';
+  //not currently in use
 
-    db.query(query)
-      .then((data: any) => {
-        res.locals.sysAdmins = data.rowCount;
-        res.locals.id = data.rows[0]._id;
-        return next();
-      })
-      .catch((err: ServerError) => {
-        return next({
-          log: `Error in userController switchUserRole: ${err}`,
-          message: {
-            err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.',
-          },
-        });
-      });
-  },
+  // checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
+  //   const query = 'SELECT * FROM users WHERE role_id = 1';
+
+  //   db.query(query)
+  //     .then((data: any) => {
+  //       res.locals.sysAdmins = data.rowCount;
+  //       res.locals.id = data.rows[0]._id;
+  //       return next();
+  //     })
+  //     .catch((err: ServerError) => {
+  //       return next({
+  //         log: `Error in userController switchUserRole: ${err}`,
+  //         message: {
+  //           err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.',
+  //         },
+  //       });
+  //     });
+  // },
+
+  //also not currently in use.
 
   // switches role of user upon designation by system admin
-  switchUserRole: (req: Request, res: Response, next: NextFunction) => {
-    const roleMap: { [k: string]: number } = {
-      'system admin': 1,
-      admin: 2,
-      user: 3,
-    };
+  // switchUserRole: (req: Request, res: Response, next: NextFunction) => {
+  //   const roleMap: { [k: string]: number } = {
+  //     'system admin': 1,
+  //     admin: 2,
+  //     user: 3,
+  //   };
 
-    const { _id, role } = req.body;
+  //   const { _id, role } = req.body;
 
-    if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
-      res.locals.hasError = true;
-      next();
-    } else {
-      const query =
-        'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+  //   if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
+  //     res.locals.hasError = true;
+  //     next();
+  //   } else {
+  //     const query =
+  //       'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
 
-      const parameters = [role, roleMap[role], _id];
+  //     const parameters = [role, roleMap[role], _id];
 
-      db.query(query, parameters)
-        .then((data: any) => {
-          res.locals.role = data.rows[0].role;
-          res.locals.hasError = false;
-          return next();
-        })
-        .catch((err: ServerError) => {
-          return next({
-            log: `Error in userController switchUserRole: ${err}`,
-            message: {
-              err: 'An error occurred while switching roles. See userController.switchUserRole.',
-            },
-          });
-        });
-    }
-  },
+  //     db.query(query, parameters)
+  //       .then((data: any) => {
+  //         res.locals.role = data.rows[0].role;
+  //         res.locals.hasError = false;
+  //         return next();
+  //       })
+  //       .catch((err: ServerError) => {
+  //         return next({
+  //           log: `Error in userController switchUserRole: ${err}`,
+  //           message: {
+  //             err: 'An error occurred while switching roles. See userController.switchUserRole.',
+  //           },
+  //         });
+  //       });
+  //   }
+  // },
 
   updatePassword: (req: Request, res: Response, next: NextFunction) => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered

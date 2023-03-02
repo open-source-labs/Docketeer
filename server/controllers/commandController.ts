@@ -6,6 +6,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { CommandController } from '../../types';
 import { exec } from 'child_process';
+import jwt from 'jsonwebtoken';
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -132,10 +133,10 @@ const commandController: CommandController = {
   getContainers: async (req: Request, res: Response, next: NextFunction) => {
     // grab list of containers and info using docker ps
     const result: any = await promisifiedExec(
-      'docker ps --format "{{json .}},"'
+      'docker ps --format "{{json .}},"',
     );
     const dockerOutput = JSON.parse(
-      `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
+      `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`,
     );
     res.locals.containers = dockerOutput;
     return next();
@@ -164,7 +165,7 @@ const commandController: CommandController = {
           return;
         }
         return next();
-      }
+      },
     );
   },
 
@@ -175,7 +176,7 @@ const commandController: CommandController = {
   refreshStopped: async (req: Request, res: Response, next: NextFunction) => {
     // run exec(docker ps -f "status=exited" --format "{{json .}},")
     const result: any = await promisifiedExec(
-      'docker ps -f "status=exited" --format "{{json .}},"'
+      'docker ps -f "status=exited" --format "{{json .}},"',
     );
     const dockerOutput = result.trim().slice(0, -1);
     const parsedDockerOutput = JSON.parse(`[${dockerOutput}]`);
@@ -289,7 +290,7 @@ const commandController: CommandController = {
       if (error) {
         console.log(
           `${error.message}` +
-            '\nPlease stop running container first then remove.'
+            '\nPlease stop running container first then remove.',
         );
         return next(error);
       }
@@ -331,7 +332,7 @@ const commandController: CommandController = {
     exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
       if (error) {
         console.log(
-          `Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`
+          `Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`,
         );
         return next(error);
       }
@@ -372,11 +373,11 @@ const commandController: CommandController = {
         // remove docker network defaults named: bridge, host, and none
         const networkContainers = JSON.parse(dockerOutput).filter(
           ({ Name }: any) =>
-            Name !== 'bridge' && Name !== 'host' && Name !== 'none'
+            Name !== 'bridge' && Name !== 'host' && Name !== 'none',
         );
         res.locals.networkContainers = networkContainers;
         return next();
-      }
+      },
     );
   },
 
@@ -454,7 +455,7 @@ const commandController: CommandController = {
           parseDockerOutput.forEach((obj: any) => {
             if (
               obj.Name.includes(
-                directoryNameArray[directoryNameArray.length - 1]
+                directoryNameArray[directoryNameArray.length - 1],
               )
             ) {
               obj.FilePath = req.body.filePath;
@@ -464,7 +465,7 @@ const commandController: CommandController = {
         }
         res.locals.output = parseDockerOutput;
         return next();
-      }
+      },
     );
   },
 
@@ -500,7 +501,7 @@ const commandController: CommandController = {
   getAllDockerVolumes: async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
       if (error) {
@@ -513,7 +514,7 @@ const commandController: CommandController = {
       }
 
       const dockerOutput = JSON.parse(
-        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
+        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`,
       );
       res.locals.dockerVolumes = dockerOutput;
       return next();
@@ -539,7 +540,7 @@ const commandController: CommandController = {
         const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
         res.locals.volumeContainers = dockerOutput;
         return next();
-      }
+      },
     );
   },
 
@@ -565,7 +566,7 @@ const commandController: CommandController = {
       exec(inputCommandString, (error, stdout, stderr) => {
         if (error) {
           console.log(
-            'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.'
+            'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.',
           );
           return next(error);
         }
@@ -581,6 +582,32 @@ const commandController: CommandController = {
         return next();
       });
     }
+  },
+
+  checkAdmin: (req, res, next) => {
+    const token = req.cookies.admin || null;
+
+    if (token) {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          // invalid token, clear the cookie and move on
+          return next({
+            log: 'Unauthorized access',
+            status: 401,
+            message: {
+              err: 'Unauthorized access',
+            },
+          });
+        }
+      });
+      console.log('successfully checked the token');
+      return next();
+    } else {
+      console.log('check admin else conditional hit');
+      return next();
+    }
+
+    // valid token, set the user object on the request for further processing
   },
 };
 

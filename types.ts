@@ -430,6 +430,7 @@ export interface CommandController {
     next: NextFunction,
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
+  checkAdmin: (req: Request, res: Response, next: NextFunction) => void;
 }
 export interface CookieController {
   setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void;
@@ -505,8 +506,8 @@ export interface UserController {
   getAllUsers: (req: Request, res: Response, next: NextFunction) => void;
   getOneUser: (req: Request, res: Response, next: NextFunction) => void;
   verifyUser: (req: Request, res: Response, next: NextFunction) => void;
-  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => void;
-  switchUserRole: (req: Request, res: Response, next: NextFunction) => void;
+  checkSysAdmin?: (req: Request, res: Response, next: NextFunction) => void;
+  switchUserRole?: (req: Request, res: Response, next: NextFunction) => void;
   updatePassword: (req: Request, res: Response, next: NextFunction) => void;
   updatePhone: (req: Request, res: Response, next: NextFunction) => void;
   updateEmail: (req: Request, res: Response, next: NextFunction) => void;

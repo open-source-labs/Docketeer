@@ -75,10 +75,9 @@ const userController: UserController = {
   // get information for one user
   getOneUser: (req: Request, res: Response, next: NextFunction) => {
     const { _id } = req.body;
+    const oneUser = `SELECT * FROM users WHERE _id = $1;`;
 
-    const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
-
-    db.query(oneUser)
+    db.query(oneUser, [_id])
       .then((response: any) => {
         res.locals.users = response.rows;
         return next();
@@ -99,9 +98,9 @@ const userController: UserController = {
 
     const { username, password } = req.body;
 
-    const getUser = `SELECT * FROM users WHERE username='${username}';`;
+    const getUser = `SELECT * FROM users WHERE username=$1;`;
 
-    db.query(getUser)
+    db.query(getUser, [username])
       .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {

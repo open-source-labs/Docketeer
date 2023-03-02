@@ -8,18 +8,9 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 // Note: we remove a token, though tokens are added in bcryptController.hashCookie and hashCookie mw is never used in any of our routes
 
-// ==========================================================
-// Route: /
-// Purpose: Removes token (sets token to null) after user logs out.
-// Note: tokens and cookies not currently implemented
-// ==========================================================
-router.post(
-  '/',
-  // dbController.removeToken,
-  // userController.removeCookie,
-  (req: Request, res: Response): Response => {
-    return res.status(201).json(res.locals);
-  }
-);
+router.post('/', (req: Request, res: Response) => {
+  res.clearCookie('admin', { httpOnly: true });
+  return res.status(201).json({ loggedOut: 'true' });
+});
 
 export default router;

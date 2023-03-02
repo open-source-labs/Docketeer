@@ -52,28 +52,25 @@ const dbController: DbController = {
         });
       });
   },
-  addToken: (req: Request, res: Response, next: NextFunction) => {
-    const { username, token }: { username: string, token: string } = req.body;
-    db.query('UPDATE users SET token=$1 WHERE username=$2', [token, username])
-      .then(() => {
-        res.locals.login = 'Successfully logged in.';
-        return next();
-      })
-      .catch((err: ServerError) => {
-        if (err) return next(err);
-      });
-  },
-  removeToken: (req: Request, res: Response, next: NextFunction) => {
-    const { username }: { username: string } = req.body;
-
-    db.query('UPDATE users SET token = null WHERE username=$1', [username])
-      .then(() => {
-        res.locals.logout = 'Successfully logged out.';
-        return next();
-      })
-      .catch((err: ServerError) => {
-        if (err) return next(err);
-      });
-  },
 };
 export default dbController;
+
+/**
+ * @description removes token from database
+ */
+
+//not being used but can be if you decide to store jwt in database in the future
+//   removeToken: (req: Request, res: Response, next: NextFunction) => {
+//     const { username } = req.body;
+
+//     db.query('UPDATE users SET token = null WHERE username=$1', [username])
+//       .then(() => {
+//         res.locals.logout = 'Successfully logged out.';
+//         res.clearCookie('admin');
+//         return next();
+//       })
+//       .catch((err: ServerError) => {
+//         if (err) return next(err);
+//       });
+//   },
+// };

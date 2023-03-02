@@ -406,7 +406,7 @@ export interface DbController {
     res: Response,
     next: NextFunction,
   ) => void;
-  removeToken: (req: Request, res: Response, next: NextFunction) => void;
+  removeToken?: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface InitController {

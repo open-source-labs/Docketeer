@@ -24,7 +24,6 @@ router.post(
   userController.createUser,
   apiController.signupEmail,
   (req: Request, res: Response) => {
-    console.log(res.locals.token, 'this is res locals token');
     if (res.locals.error) return res.status(201).json(res.locals.error);
     else if (res.locals.token) {
       res.cookie('admin', res.locals.token, { httpOnly: true });

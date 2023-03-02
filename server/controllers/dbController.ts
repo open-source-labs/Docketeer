@@ -54,23 +54,25 @@ const dbController: DbController = {
         });
       });
   },
-
-  /**
-   * @description removes token from database
-   */
-
-  removeToken: (req: Request, res: Response, next: NextFunction) => {
-    const { username } = req.body;
-
-    db.query('UPDATE users SET token = null WHERE username=$1', [username])
-      .then(() => {
-        res.locals.logout = 'Successfully logged out.';
-        return next();
-      })
-      .catch((err: ServerError) => {
-        if (err) return next(err);
-      });
-  },
 };
-
 export default dbController;
+
+/**
+ * @description removes token from database
+ */
+
+//not being used but can be if you decide to store jwt in database in the future
+//   removeToken: (req: Request, res: Response, next: NextFunction) => {
+//     const { username } = req.body;
+
+//     db.query('UPDATE users SET token = null WHERE username=$1', [username])
+//       .then(() => {
+//         res.locals.logout = 'Successfully logged out.';
+//         res.clearCookie('admin');
+//         return next();
+//       })
+//       .catch((err: ServerError) => {
+//         if (err) return next(err);
+//       });
+//   },
+// };

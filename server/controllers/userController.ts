@@ -86,11 +86,13 @@ const userController: UserController = {
     }
   },
 
-  getOneUser: (req: Request, res: Response, next: NextFunction): void => {
-    const { _id }: { _id: string } = req.body;
-    const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
-    db.query(oneUser)
-      .then((response: { rows: UserInfo[] }): void => {
+  // get information for one user
+  getOneUser: (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.body;
+    const oneUser = `SELECT * FROM users WHERE _id = $1;`;
+
+    db.query(oneUser, [_id])
+      .then((response: any) => {
         res.locals.users = response.rows;
         return next();
       })
@@ -104,14 +106,16 @@ const userController: UserController = {
       });
   },
 
-  verifyUser: (req: Request, res: Response, next: NextFunction): void => {
-    const { username, password }: { username: string; password: string } =
-      req.body;
-    // using username we create a query string to grab that user
-    const getUser = `SELECT * FROM users WHERE username='${username}';`;
-    //   using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
-    db.query(getUser)
-      .then(async (data: { rows: UserInfo[] }): Promise<void> => {
+  // verify user exists and send back user info
+  verifyUser: (req: Request, res: Response, next: NextFunction) => {
+    if (res.locals.error) return next();
+
+    const { username, password } = req.body;
+
+    const getUser = `SELECT * FROM users WHERE username=$1;`;
+
+    db.query(getUser, [username])
+      .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];

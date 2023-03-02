@@ -2,13 +2,13 @@
 import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { exec } from 'child_process';
-// import cookieParser from 'cookie-parser'; // for when cookies get implemented
-
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
+app.use(cookieParser());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(
@@ -23,7 +23,7 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  }
+  },
 );
 
 // Importing routers...
@@ -72,7 +72,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  }
+  },
 );
 
 // Exporting app...

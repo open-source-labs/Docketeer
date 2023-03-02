@@ -17,14 +17,15 @@ router.get(
   }
 );
 
-// Checks if client has sysadmin privilege. Switch user role from 'user' to 'admin' and vice-versa.
-router.post(
-  '/switch',
-  userController.checkSysAdmin,
-  userController.switchUserRole,
-  (req: Request, res: Response): Response => {
-    return res.status(201).json(res.locals.hasError);
-  }
-);
+// Route Handler: Checks if client has sysadmin privilege. Switch user role from 'user' to 'admin' and vice-versa.
+// this is not currently being used
+// router.post(
+//   '/switch',
+//   userController.checkSysAdmin,
+//   userController.switchUserRole,
+//   (req: Request, res: Response) => {
+//     return res.status(201).json(res.locals.hasError);
+//   },
+// );
 
 export default router;

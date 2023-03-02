@@ -347,109 +347,37 @@ export interface BcryptController {
 }
 
 export interface CommandController {
-  /**
-   * @description pulls running container info from docker ps command as a json object
-   */
-  getContainers: MiddleWareFunction;
-
-  /**
-   * @description executes the docker run command with parameters from body: reps, tag
-   * @note imgid is not used; may want it swapped with containerId in the exec?
-   */
-  runImage: MiddleWareFunction;
-
-  /**
-   * @description executes the docker ps command with status=exited flag to get list of stopped containers
-   */
-  refreshStopped: MiddleWareFunction;
-
-  /**
-   * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
-   */
-  refreshImages: MiddleWareFunction;
-
-  /**
-  * @description executes docker rm {containerId} command to remove a stopped container
-  * @note id is grabbed from req.query
-  */
-  remove: MiddleWareFunction;
-
-  /**
-   * @description executes docker stop {id} command to stop a running container
-   * @note id is grabbed from req.query
-   */
-  stopContainer: MiddleWareFunction;
-
-  /**
-   * @description executes docker start {id} command to run a stopped container
-   * @note id is grabbed from req.query
-   */
-  runStopped: MiddleWareFunction;
-
-  /**
-   * @description executes `docker rmi -f {id} command to remove a pulled image
-   * @note id is grabbed from req.query
-   */
-  removeImage: MiddleWareFunction;
-
-  /**
-   * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
-   */
-  dockerPrune: MiddleWareFunction;
-
-  /**
-   * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
-   * @note image's repo name grabbed from req.query
-   */
-  pullImage: MiddleWareFunction;
-
-  /**
-   * @description Display all containers network based on docker-compose in a json object; when the application starts
-   */
-  networkContainers: MiddleWareFunction;
-
-  /**
-   * @description inspects docker containers
-   * @note is not implemented right now
-   */
-  inspectDockerContainer: MiddleWareFunction;
-
-  /**
-   * @description compose up a network and container from an uploaded yml file
-   * @note file path is grabbed from req.body; IS NOT USED
-   */
-  composeUp: MiddleWareFunction;
-
-  /**
-   * @description get a list of all current container networks, based on running containers; passes the output to locals
-   * @note grabs file path and yml file name from req.body
-   */
-  composeStacks: MiddleWareFunction;
-
-  /**
-   * @description composes down a container and network
-   * @note (from v10): causes server to shut down because container is not properly
-  stopped; button goes away when you leave the page because the
-  file name and location are not in "docker networks" so it gets
-  erased from the state
-   */
-  composeDown: MiddleWareFunction;
-
-  /**
-   * @description retrieves the list of running volumes; passes the output to 'dockerVolumes' in locals
-   */
-  getAllDockerVolumes: MiddleWareFunction;
-
-  /**
-   * @description runs docker ps filtering by volume name to get list of containers running in the specified volume; passes output to 'volumeContainers' in locals
-   * @note grabs volume name from query
-   */
-  getVolumeContainers: MiddleWareFunction;
-
-  /**
-   * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
-   */
-  getLogs: MiddleWareFunction;
+  getContainers: (req: Request, res: Response, next: NextFunction) => void;
+  runImage: (req: Request, res: Response, next: NextFunction) => void;
+  refreshStopped: (req: Request, res: Response, next: NextFunction) => void;
+  refreshImages: (req: Request, res: Response, next: NextFunction) => void;
+  remove: (req: Request, res: Response, next: NextFunction) => void;
+  stopContainer: (req: Request, res: Response, next: NextFunction) => void;
+  runStopped: (req: Request, res: Response, next: NextFunction) => void;
+  removeImage: (req: Request, res: Response, next: NextFunction) => void;
+  dockerPrune: (req: Request, res: Response, next: NextFunction) => void;
+  pullImage: (req: Request, res: Response, next: NextFunction) => void;
+  networkContainers: (req: Request, res: Response, next: NextFunction) => void;
+  inspectDockerContainer: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => void;
+  composeUp: (req: Request, res: Response, next: NextFunction) => void;
+  composeStacks: (req: Request, res: Response, next: NextFunction) => void;
+  composeDown: (req: Request, res: Response, next: NextFunction) => void;
+  getAllDockerVolumes: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => void;
+  getVolumeContainers: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => void;
+  getLogs: (req: Request, res: Response, next: NextFunction) => void;
+  checkAdmin: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 // this is not used
@@ -548,72 +476,15 @@ export interface SignupController {
 }
 
 export interface UserController {
-  /**
-   * @description  Performs SQL query to insert a new user, hashing the password before it does, into "users" table and then RETURNS those values.
-   * @note Extract isername, password, and role ID from req.body
-   */
-  createUser: MiddleWareFunction;
-
-  /**
-   * @description  Gets all users; returned in an array
-   * @note Sorts them by ASCENDING order
-   */
-  getAllUsers: MiddleWareFunction;
-
-  /**
-   * @description  Gets a single user yser
-   * @note Uses destructuring for _id from req.body
-   */
-  getOneUser: MiddleWareFunction;
-
-  /**
-   * @description  verifies username/password are correct and sends back that user info; otherwise sends an error message
-   * @note Extract the username and password from req.body. Any errors get passed onto an error object.
-   */
-  verifyUser: MiddleWareFunction;
-
-  /**
-   * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
-   * @note System admin ID has a role_id of 1
-   */
-  checkSysAdmin: MiddleWareFunction;
-
-  /**
-   * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
-   * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
-   */
-  switchUserRole: MiddleWareFunction;
-
-  /**
-   * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
-   * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
-   */
-  updatePassword: MiddleWareFunction;
-
-  /**
-   * @description   updates the phone number of a user; column is 'phone'
-   */
-  updatePhone: MiddleWareFunction;
-
-  /**
-   * @description   updates the email of a user
-   */
-  updateEmail: MiddleWareFunction;
-
-  /**
-   * @description  adds a cookie to our user's browser to signify they are logged in
-   */
-  addCookie: MiddleWareFunction
-
-  /**
-   * @description  checks if user has a valid cookie
-   */
-  checkCookie: MiddleWareFunction
-
-  /**
-   * @description  removes our user's cookie
-   */
-  removeCookie: MiddleWareFunction
+  createUser: (req: Request, res: Response, next: NextFunction) => void;
+  getAllUsers: (req: Request, res: Response, next: NextFunction) => void;
+  getOneUser: (req: Request, res: Response, next: NextFunction) => void;
+  verifyUser: (req: Request, res: Response, next: NextFunction) => void;
+  checkSysAdmin?: (req: Request, res: Response, next: NextFunction) => void;
+  switchUserRole?: (req: Request, res: Response, next: NextFunction) => void;
+  updatePassword: (req: Request, res: Response, next: NextFunction) => void;
+  updatePhone: (req: Request, res: Response, next: NextFunction) => void;
+  updateEmail: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface ContainerNetworkObject {

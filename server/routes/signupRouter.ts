@@ -23,10 +23,17 @@ router.get(
 router.post(
   '/',
   userController.createUser,
-  (req: Request, res: Response): Response => {
-    if (res.locals.error) return res.status(201).json(res.locals);
-    return res.status(201).json('successfully added new user to database');
-  }
+  apiController.signupEmail,
+  (req: Request, res: Response) => {
+    console.log(res.locals.token, 'this is res locals token');
+    if (res.locals.error) return res.status(201).json(res.locals.error);
+    else if (res.locals.token) {
+      res.cookie('admin', res.locals.token, { httpOnly: true });
+      return res.status(201).json();
+    } else {
+      return res.status(200).json('Welcome new user!');
+    }
+  },
 );
 
 export default router;

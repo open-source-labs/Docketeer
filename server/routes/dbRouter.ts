@@ -8,14 +8,8 @@ import dbController from '../controllers/dbController';
 const router = Router();
 
 // Route handler: instantiates user and roles tables of database, adds role types
-router.get(
-  '/',
-  dbController.createRoles,
-  dbController.insertRoles,
-  dbController.createTable,
-  (req: Request, res: Response) => {
-    return res.status(200).json('Database initialized successfully');
-  }
-);
+router.get('/', dbController.insertRoles, (req: Request, res: Response) => {
+  return res.status(200).json('Database initialized successfully');
+});
 
 export default router;

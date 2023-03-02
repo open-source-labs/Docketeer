@@ -11,10 +11,10 @@ const signupController: SignupController = {
   // verify username is unique
   usernameCheck: (req: Request, res: Response, next: NextFunction) => {
     const { username } = req.body;
+    const params = [username];
+    const checkUsernameExists = 'SELECT * FROM users WHERE username = $1;';
 
-    const checkUsernameExists = `SELECT * FROM users WHERE username='${username}';`;
-
-    db.query(checkUsernameExists)
+    db.query(checkUsernameExists, params)
       .then((data: any) => {
         if (data.rows[0]) {
           res.locals.error = 'Username already exists.';

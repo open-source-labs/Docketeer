@@ -304,7 +304,7 @@ const useHelper = () => {
             body: JSON.stringify(optionsObj),
           });
           return await response.json();
-        } catch {
+        } catch (err) {
           console.log(err);
         }
       },

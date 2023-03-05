@@ -55,6 +55,10 @@ const useHelper = () => {
         fetch(`/api/command/removeContainer?id=${containerID}`)
           .then((message) => message.json())
           .then((message) => {
+            if (message.status === 401) {
+              window.alert(message.message.err);
+              throw new Error(message);
+            }
             console.log({ message });
             removeContainer(containerID);
           })
@@ -66,6 +70,10 @@ const useHelper = () => {
         fetch(`/api/command/stopContainer?id=${id}`)
           .then((message) => message.json())
           .then((message) => {
+            if (message.status === 401) {
+              window.alert(message.message.err);
+              throw new Error(message);
+            }
             console.log({ message });
             stopRunningContainer(id);
           })
@@ -75,7 +83,14 @@ const useHelper = () => {
       runStopped(id) {
         const { runStoppedContainer } = dispatch;
         fetch(`/api/command/runStopped?id=${id}`)
-          .then((message) => message.json())
+          .then((message) => {
+            console.log('this is the message', message);
+            if (message.status === 401) {
+              window.alert('Alert me');
+              throw new Error(message);
+            }
+            return message.json();
+          })
           .then((message) => {
             console.log({ message });
             runStoppedContainer(id);
@@ -94,6 +109,10 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((newRunningList) => {
+            if (newRunningList.status === 401) {
+              window.alert(newRunningList.message.err);
+              throw new Error(message);
+            }
             //With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
             refreshRunningContainers(newRunningList);
           })
@@ -102,9 +121,15 @@ const useHelper = () => {
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {
         const { refreshImages } = dispatch;
-        fetch(`/api/command/removeImage?id=${id}`).then(() => {
-          refreshImages().catch((err) => console.log(err));
-        });
+        fetch(`/api/command/removeImage?id=${id}`)
+          .then((data) => data.json())
+          .then((message) => {
+            if (message.status === 401) {
+              window.alert(message.message.err);
+              throw new Error(message);
+            }
+          });
+        refreshImages().catch((err) => console.log(err));
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
@@ -112,7 +137,10 @@ const useHelper = () => {
         fetch('/api/command/dockerPrune')
           .then((message) => message.json())
           .then((message) => {
-            console.log({ message });
+            if (message.status === 401) {
+              window.alert(message.message.err);
+              throw new Error(message);
+            }
           })
           .catch((err) => console.log(err));
       },
@@ -121,6 +149,10 @@ const useHelper = () => {
         fetch(`/api/command/pullImage?repo=${repo}`)
           .then((message) => message.json())
           .then((message) => {
+            if (message.status === 401) {
+              window.alert(message.message.err);
+              throw new Error(message);
+            }
             console.log({ message });
           })
           .catch((err) => console.log(err));
@@ -150,6 +182,10 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((dockerOutput) => {
+            if (dockerOutput.status === 401) {
+              window.alert(dockerOutput.message.err);
+              throw new Error(dockerOutput);
+            }
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));
@@ -160,6 +196,10 @@ const useHelper = () => {
         fetch('/api/command/composeStacks')
           .then((data) => data.json())
           .then((dockerOutput) => {
+            if (dockerOutput.status === 401) {
+              window.alert(dockerOutput.message.err);
+              throw new Error(dockerOutput);
+            }
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));
@@ -179,6 +219,10 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((dockerOutput) => {
+            if (dockerOutput.status === 401) {
+              window.alert(dockerOutput.message.err);
+              throw new Error(dockerOutput);
+            }
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));
@@ -288,7 +332,7 @@ const useHelper = () => {
           .then((data) => data.json())
           .then((volumeContainers) => {
             return getVolumeContainerList(
-              listOfVolumeProperties(volumeName, volumeContainers)
+              listOfVolumeProperties(volumeName, volumeContainers),
             );
           })
           .catch((err) => {
@@ -309,7 +353,7 @@ const useHelper = () => {
         }
       },
     }),
-    [dispatch]
+    [dispatch],
   );
   return actions;
 };

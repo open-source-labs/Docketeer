@@ -21,7 +21,9 @@ const commandController: CommandController = {
     const secret = process.env.JWT_SECRET;
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
+        console.log('before conditional in verify ');
         if (error || decoded.verifiedRole !== 'system admin') {
+          console.log('in verify', error || decoded.verifiedRole);
           return next({
             log: 'Unauthorized access -- invalid permissions',
             status: 401,
@@ -31,6 +33,7 @@ const commandController: CommandController = {
             },
           });
         }
+        console.log('before next');
         return next();
       });
     } else {

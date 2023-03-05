@@ -116,7 +116,6 @@ const userController: UserController = {
         res.locals.verifiedUser = verifiedUser;
         const verifiedRole = verifiedUser.role;
         if (verifiedRole === 'system admin') {
-          console.log(verifiedRole, 'this is verified role');
           await jwt.sign({ verifiedRole }, secret, (err, token) => {
             if (err) {
               return next({

@@ -410,23 +410,9 @@ export interface DbController {
 }
 
 export interface InitController {
-
-  /**
-   * @description Obtains github URL from containers name, and assigns it to 'parameter'
-   * @note 'url' property is set on res.locals upon success
-   */
-  gitUrl: MiddleWareFunction;
-
-  /**
-   * @description adds metrics to our metrics table of each individual container
-   */
-  addMetrics: MiddleWareFunction;
-
-  /**
-   * @description Obtains metrics data
-   * @note returns a promise with an object that has the data, located in 'rows'
-   */
-  getMetrics: MiddleWareFunction;
+  gitUrl?: (req: Request, res: Response, next: NextFunction) => void;
+  addMetrics: (req: Request, res: Response, next: NextFunction) => void;
+  getMetrics: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 // not used

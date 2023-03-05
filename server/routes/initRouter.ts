@@ -7,22 +7,6 @@ import initController from '../controllers/initController';
 
 const router = Router();
 
-// ==========================================================
-// Route: /github
-// Purpose: Grabs url of specified container
-// ==========================================================
-router.post(
-  '/github',
-  initController.gitUrl,
-  (req: Request, res: Response): Response => {
-    return res.status(201).json(res.locals.url);
-  }
-);
-
-// ==========================================================
-// Route: /addMetrics
-// Purpose: adds metrics to our metrics table of each individual container
-// ==========================================================
 router.post(
   '/addMetrics',
   initController.addMetrics,

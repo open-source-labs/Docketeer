@@ -5,6 +5,7 @@ import { UserController, ServerError } from '../../types';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
+const secret = process.env.JWT_SECRET;
 
 /**
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
@@ -13,8 +14,6 @@ const userController: UserController = {
 const userController: UserController = {
   // create new user
   createUser: async (req: Request, res: Response, next: NextFunction) => {
-    console.log('beginning of createUser');
-    if (res.locals.error) return next();
     const { username, email, phone, role_id } = req.body;
     const { hash } = res.locals;
     let role;
@@ -31,28 +30,15 @@ const userController: UserController = {
         role = 'user';
         break;
     }
-    const secret = process.env.JWT_SECRET;
     try {
       const createUser =
         'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
       const userDetails = [username, email, hash, phone, role, role_id];
-      if (username && hash) {
-        const makeUser = await db.query(createUser, userDetails);
-        const newUser = await makeUser.rows[0];
-        res.locals.user = newUser;
-        const retrievedRole = newUser.role;
-        if (retrievedRole === 'system admin') {
-          await jwt.sign(
-            { retrievedRole: retrievedRole },
-            secret,
-            (err, token) => {
-              res.locals.token = token;
-              return next();
-            },
-          );
-          return next();
-        }
-      }
+      if (!(username || hash)) return next();
+      const makeUser = await db.query(createUser, userDetails);
+      const newUser = await makeUser.rows[0];
+      res.locals.user = newUser;
+      return next();
     } catch (err: unknown) {
       return next({
         log: `Error in userController newUser: ${err}`,
@@ -118,11 +104,33 @@ const userController: UserController = {
     db.query(getUser, [username])
       .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
-        if (data.rows[0] && match) {
-          res.locals.user = data.rows[0];
-          return next();
-        } else {
-          res.locals.error = 'Incorrect username or password.';
+        console.log('match', match);
+        if (!(data.rows[0] || match)) {
+          return next({
+            log: `Error in userController's verifyUser method`,
+            status: 400,
+            message: {
+              err: 'Unable to verify user credentials.',
+            },
+          });
+        }
+        const verifiedUser = data.rows[0];
+        console.log('verified user', verifiedUser);
+        res.locals.verifiedUser = verifiedUser;
+        const verifiedRole = verifiedUser.role;
+        if (verifiedRole === 'system admin') {
+          console.log(verifiedRole, 'this is verified role');
+          await jwt.sign({ verifiedRole }, secret, (err, token) => {
+            if (err) {
+              return next({
+                log: 'Error in JWT sign in verifyUser',
+                status: 400,
+                message: { err: 'Unable to verify the User' },
+              });
+            }
+            res.locals.token = token;
+            return next();
+          });
         }
       })
       .catch((err: ServerError): void => {
@@ -135,86 +143,29 @@ const userController: UserController = {
       });
   },
 
-  //not currently in use
-
-  // checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
-  //   const query = 'SELECT * FROM users WHERE role_id = 1';
-
-  //   db.query(query)
-  //     .then((data: any) => {
-  //       res.locals.sysAdmins = data.rowCount;
-  //       res.locals.id = data.rows[0]._id;
-  //       return next();
-  //     })
-  //     .catch((err: ServerError) => {
-  //       return next({
-  //         log: `Error in userController switchUserRole: ${err}`,
-  //         message: {
-  //           err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.',
-  //         },
-  //       });
-  //     });
-  // },
-
-  //also not currently in use.
-
-  // switches role of user upon designation by system admin
-  // switchUserRole: (req: Request, res: Response, next: NextFunction) => {
-  //   const roleMap: { [k: string]: number } = {
-  //     'system admin': 1,
-  //     admin: 2,
-  //     user: 3,
-  //   };
-
-  //   const { _id, role } = req.body;
-
-  //   if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
-  //     res.locals.hasError = true;
-  //     next();
-  //   } else {
-  //     const query =
-  //       'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
-
-  //     const parameters = [role, roleMap[role], _id];
-
-  //     db.query(query, parameters)
-  //       .then((data: any) => {
-  //         res.locals.role = data.rows[0].role;
-  //         res.locals.hasError = false;
-  //         return next();
-  //       })
-  //       .catch((err: ServerError) => {
-  //         return next({
-  //           log: `Error in userController switchUserRole: ${err}`,
-  //           message: {
-  //             err: 'An error occurred while switching roles. See userController.switchUserRole.',
-  //           },
-  //         });
-  //       });
-  //   }
-  // },
-
-  updatePassword: (req: Request, res: Response, next: NextFunction): void => {
+  updatePassword: (req: Request, res: Response, next: NextFunction) => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (res.locals.error) {
+    if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       res.locals.error =
         'Incorrect password. Please enter the correct password to update it.';
       return next();
     }
-    const { newHashedPassword }: { newHashedPassword: string } = res.locals as {
-      newHashedPassword: string;
-    };
-    const { username }: { username: string } = req.body;
-    // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
+    const { hash } = res.locals;
+    const { username } = req.body;
+
+    // Note: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
+
     const query =
       'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
-    const parameters: string[] = [newHashedPassword, username];
+    const parameters = [hash, username];
+
     db.query(query, parameters)
-      .then((data: { rows: UserInfo[] }): void => {
+      .then((data: any) => {
         res.locals.user = data.rows[0];
+        delete res.locals.user.password;
         return next();
       })
-      .catch((err: ServerError): void => {
+      .catch((err: ServerError) => {
         return next({
           log: `Error in userController updatePassword: ${err}`,
           message: {
@@ -224,17 +175,19 @@ const userController: UserController = {
       });
   },
 
-  updatePhone: (req: Request, res: Response, next: NextFunction): void => {
-    const { username, phone }: { username: string; phone: number } = req.body;
+  updatePhone: (req: Request, res: Response, next: NextFunction) => {
+    const { username, phone } = req.body;
+
     const query =
       'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
-    const parameters: (string | number)[] = [phone, username];
+    const parameters = [phone, username];
+
     db.query(query, parameters)
-      .then((data: { rows: UserInfo[] }): void => {
+      .then((data: any) => {
         res.locals.user = data.rows[0];
         return next();
       })
-      .catch((err: ServerError): void => {
+      .catch((err: ServerError) => {
         return next({
           log: `Error in userController updatePhone: ${err}`,
           message: {
@@ -243,18 +196,20 @@ const userController: UserController = {
         });
       });
   },
-  
-  updateEmail: (req: Request, res: Response, next: NextFunction): void => {
-    const { username, email }: { username: string; email: string } = req.body;
+
+  updateEmail: (req: Request, res: Response, next: NextFunction) => {
+    const { username, email } = req.body;
+
     const query =
       'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
-    const parameters: string[] = [email, username];
+    const parameters = [email, username];
+
     db.query(query, parameters)
-      .then((data: { rows: UserInfo[] }): void => {
+      .then((data: any) => {
         res.locals.user = data.rows[0];
         return next();
       })
-      .catch((err: ServerError): void => {
+      .catch((err: ServerError) => {
         return next({
           log: `Error in userController updateEmail: ${err}`,
           message: {
@@ -263,41 +218,44 @@ const userController: UserController = {
         });
       });
   },
-
-  addCookie: (req: Request, res: Response, next: NextFunction): void => {
-    res.cookie('loggedIn', true);
-    return next();
-  },
-
-  checkCookie: (req: Request, res: Response, next: NextFunction): void => {
-    if (!req.cookies.loggedIn) res.locals.notSignedIn = true;
-    return next();
-  },
-
-  removeCookie: (req: Request, res: Response, next: NextFunction): void => {
-    console.log('abt to rmv cookie');
-    res.clearCookie('loggedIn');
-    console.log('cookied rmvd');
-    res.locals.loggedOut = true;
-    return next();
-  },
-
-  addCookie: (req: Request, res: Response, next: NextFunction): void => {
-    res.cookie('loggedIn', true);
-    return next();
-  },
-
-  checkCookie: (req: Request, res: Response, next: NextFunction): void => {
-    if (!req.cookies.loggedIn) res.locals.notSignedIn = true;
-    return next();
-  },
-
-  removeCookie: (req: Request, res: Response, next: NextFunction): void => {
-    console.log('abt to rmv cookie');
-    res.clearCookie('loggedIn');
-    console.log('cookied rmvd');
-    res.locals.loggedOut = true;
-    return next();
-  },
 };
+
 export default userController;
+
+//not currently in use.
+
+// switches role of user upon designation by system admin
+// switchUserRole: (req: Request, res: Response, next: NextFunction) => {
+//   const roleMap: { [k: string]: number } = {
+//     'system admin': 1,
+//     admin: 2,
+//     user: 3,
+//   };
+
+//   const { _id, role } = req.body;
+
+//   if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
+//     res.locals.hasError = true;
+//     next();
+//   } else {
+//     const query =
+//       'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+
+//     const parameters = [role, roleMap[role], _id];
+
+//     db.query(query, parameters)
+//       .then((data: any) => {
+//         res.locals.role = data.rows[0].role;
+//         res.locals.hasError = false;
+//         return next();
+//       })
+//       .catch((err: ServerError) => {
+//         return next({
+//           log: `Error in userController switchUserRole: ${err}`,
+//           message: {
+//             err: 'An error occurred while switching roles. See userController.switchUserRole.',
+//           },
+//         });
+//       });
+//   }
+// },

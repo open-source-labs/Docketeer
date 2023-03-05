@@ -15,8 +15,11 @@ const signupController: SignupController = {
     db.query(checkUsernameExists, params)
       .then((data: any) => {
         if (data.rows[0]) {
-          res.locals.error = 'Username already exists.';
-          return next();
+          return next({
+            log: 'Error in checkUsername',
+            status: 409,
+            message: 'Username already exists',
+          });
         } else {
           return next();
         }
@@ -24,19 +27,23 @@ const signupController: SignupController = {
       .catch((err: ServerError): void => {
         return next({
           log: `Error in signupController usernameCheck: ${err}`,
+          status: 409,
           message: {
             err: 'An error occured while checking if username exists. See signupController.usernameCheck.',
           },
         });
       });
   },
-  passwordCheck: (req: Request, res: Response, next: NextFunction): void => {
-    if (res.locals.error) return next();
-    const { password }: { password: string } = req.body;
-    if (password.length >= 6) {
-      return next();
+
+  // verify password meets requirements
+  passwordCheck: (req: Request, res: Response, next: NextFunction) => {
+    const { password } = req.body;
+    if (!(password.length >= 6)) {
+      return next({
+        status: 400,
+        message: 'Password length too short',
+      });
     } else {
-      res.locals.error = 'Password must be at least 6 characters.';
       return next();
     }
   },

@@ -7,7 +7,6 @@ import { Router, Request, Response } from 'express';
 import signupController from '../controllers/signupController';
 import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
-import apiController from '../controllers/apiController';
 
 const router = Router();
 
@@ -22,14 +21,12 @@ router.post(
   signupController.passwordCheck,
   bcryptController.hashPassword,
   userController.createUser,
-  apiController.signupEmail,
   (req: Request, res: Response) => {
-    if (res.locals.error) return res.status(201).json(res.locals.error);
-    else if (res.locals.token) {
+    if (res.locals.token) {
       res.cookie('admin', res.locals.token, { httpOnly: true });
-      return res.status(201).json();
+      return res.status(201).json(res.locals.newUser);
     } else {
-      return res.status(200).json('Welcome new user!');
+      return res.status(200).json(res.locals.newUser);
     }
   },
 );

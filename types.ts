@@ -460,7 +460,7 @@ export interface DbController {
 }
 
 export interface InitController {
-  gitUrl: (req: Request, res: Response, next: NextFunction) => void;
+  gitUrl?: (req: Request, res: Response, next: NextFunction) => void;
   addMetrics: (req: Request, res: Response, next: NextFunction) => void;
   getMetrics: (req: Request, res: Response, next: NextFunction) => void;
 }

@@ -7,10 +7,6 @@ import initController from '../controllers/initController';
 
 const router = Router();
 
-router.post('/github', initController.gitUrl, (req: Request, res: Response) => {
-  return res.status(201).json(res.locals.url);
-});
-
 router.post(
   '/addMetrics',
   initController.addMetrics,

@@ -53,12 +53,15 @@ const useHelper = () => {
       remove(containerID) {
         const { removeContainer } = dispatch;
         fetch(`/api/command/removeContainer?id=${containerID}`)
-          .then((message) => message.json())
           .then((message) => {
             if (message.status === 401) {
-              window.alert(message.message.err);
+              window.alert('Invalid permissions');
               throw new Error(message);
+            } else {
+              return message.json();
             }
+          })
+          .then((message) => {
             console.log({ message });
             removeContainer(containerID);
           })
@@ -68,12 +71,15 @@ const useHelper = () => {
       stop(id) {
         const { stopRunningContainer } = dispatch;
         fetch(`/api/command/stopContainer?id=${id}`)
-          .then((message) => message.json())
           .then((message) => {
             if (message.status === 401) {
-              window.alert(message.message.err);
+              window.alert('Invalid permissions');
               throw new Error(message);
+            } else {
+              return message.json();
             }
+          })
+          .then((message) => {
             console.log({ message });
             stopRunningContainer(id);
           })
@@ -84,9 +90,8 @@ const useHelper = () => {
         const { runStoppedContainer } = dispatch;
         fetch(`/api/command/runStopped?id=${id}`)
           .then((message) => {
-            console.log('this is the message', message);
             if (message.status === 401) {
-              window.alert('Alert me');
+              window.alert('Invalid permissions');
               throw new Error(message);
             }
             return message.json();
@@ -107,38 +112,44 @@ const useHelper = () => {
           },
           body: JSON.stringify(container),
         })
-          .then((data) => data.json())
-          .then((newRunningList) => {
-            if (newRunningList.status === 401) {
-              window.alert(newRunningList.message.err);
+          .then((data) => {
+            if (data.status === 401) {
+              window.alert('Invalid permissions');
               throw new Error(message);
+            } else {
+              return data.json();
             }
-            //With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
+          })
+          .then((newRunningList) => {
             refreshRunningContainers(newRunningList);
           })
+
+          //With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
+
           .catch((err) => console.log(err));
       },
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {
         const { refreshImages } = dispatch;
         fetch(`/api/command/removeImage?id=${id}`)
-          .then((data) => data.json())
-          .then((message) => {
-            if (message.status === 401) {
-              window.alert(message.message.err);
+          .then((data) => {
+            if (data.status === 401) {
+              window.alert('Invalid permissions');
               throw new Error(message);
             }
-          });
-        refreshImages().catch((err) => console.log(err));
+          })
+          .then(() => {
+            refreshImages();
+          })
+          .catch((err) => console.log(err));
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
         fetch('/api/command/dockerPrune')
-          .then((message) => message.json())
           .then((message) => {
             if (message.status === 401) {
-              window.alert(message.message.err);
+              window.alert('Invalid permissions');
               throw new Error(message);
             }
           })
@@ -147,12 +158,15 @@ const useHelper = () => {
       /* Pulls image based on the repo you select @param {*} repo */
       pullImage(repo) {
         fetch(`/api/command/pullImage?repo=${repo}`)
-          .then((message) => message.json())
           .then((message) => {
             if (message.status === 401) {
-              window.alert(message.message.err);
+              window.alert('Invalid permissions');
               throw new Error(message);
+            } else {
+              return message.json();
             }
+          })
+          .then((message) => {
             console.log({ message });
           })
           .catch((err) => console.log(err));
@@ -180,12 +194,15 @@ const useHelper = () => {
             ymlFileName: ymlFileName,
           }),
         })
-          .then((data) => data.json())
-          .then((dockerOutput) => {
-            if (dockerOutput.status === 401) {
-              window.alert(dockerOutput.message.err);
-              throw new Error(dockerOutput);
+          .then((data) => {
+            if (data.status === 401) {
+              window.alert('Invalid permissions');
+              throw new Error(message);
+            } else {
+              return data.json();
             }
+          })
+          .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));
@@ -194,12 +211,15 @@ const useHelper = () => {
       dockerComposeStacks() {
         const { getContainerStacks } = dispatch;
         fetch('/api/command/composeStacks')
-          .then((data) => data.json())
-          .then((dockerOutput) => {
-            if (dockerOutput.status === 401) {
-              window.alert(dockerOutput.message.err);
-              throw new Error(dockerOutput);
+          .then((data) => {
+            if (data.status === 401) {
+              window.alert('Invalid permissions');
+              throw new Error(message);
+            } else {
+              return data.json();
             }
+          })
+          .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));
@@ -217,12 +237,15 @@ const useHelper = () => {
             ymlFileName: ymlFileName,
           }),
         })
-          .then((data) => data.json())
-          .then((dockerOutput) => {
-            if (dockerOutput.status === 401) {
-              window.alert(dockerOutput.message.err);
-              throw new Error(dockerOutput);
+          .then((data) => {
+            if (data.status === 401) {
+              window.alert('Invalid permissions');
+              throw new Error(message);
+            } else {
+              return data.json();
             }
+          })
+          .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
           .catch((err) => console.log(err));

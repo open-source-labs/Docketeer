@@ -7,9 +7,8 @@ import { Request, Response, NextFunction } from 'express';
 import { CommandController } from '../../types';
 import { exec } from 'child_process';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
-
+import { JWT_SECRET } from '../../config.js';
+const secret = JWT_SECRET;
 //Helper functions beneath
 const commandController: CommandController = {
   // ==========================================================
@@ -18,12 +17,9 @@ const commandController: CommandController = {
   checkAdmin: (req, res, next) => {
     const token = req.cookies.admin || null;
 
-    const secret = process.env.JWT_SECRET;
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
-        console.log('before conditional in verify ');
         if (error || decoded.verifiedRole !== 'system admin') {
-          console.log('in verify', error || decoded.verifiedRole);
           return next({
             log: 'Unauthorized access -- invalid permissions',
             status: 401,
@@ -33,7 +29,6 @@ const commandController: CommandController = {
             },
           });
         }
-        console.log('before next');
         return next();
       });
     } else {

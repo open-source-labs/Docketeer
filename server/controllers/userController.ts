@@ -8,9 +8,8 @@ import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { UserController, ServerError } from '../../types';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
-const secret = process.env.JWT_SECRET;
+import { JWT_SECRET } from '../../config.js';
+const secret = JWT_SECRET;
 
 const userController: UserController = {
   // create new user
@@ -101,7 +100,6 @@ const userController: UserController = {
     db.query(getUser, [username])
       .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
-        console.log('match', match);
         if (!(data.rows[0] || match)) {
           return next({
             log: `Error in userController's verifyUser method`,

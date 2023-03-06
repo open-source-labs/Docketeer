@@ -11,7 +11,7 @@ const router = Router();
 router.post('/', userController.verifyUser, (req: Request, res: Response) => {
   if (res.locals.token) {
     res.cookie('admin', res.locals.token, { httpOnly: true });
-    return res.status(201).json('Welcome back Mr. Admin');
+    return res.status(201).json(res.locals.verifiedUser);
   }
   return res.status(201).json(res.locals.verifiedUser);
 });

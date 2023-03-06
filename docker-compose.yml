@@ -10,9 +10,9 @@ services:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: docketeer-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -56,7 +56,6 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
     volumes:
       - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
@@ -103,17 +102,3 @@ services:
     #   - my-network
     # depends_on:
     #   - grafana
-
-    environment:
-      POSTGRES_USER: 'postgres'
-    depends_on:
-      - db
-
-# networks:
-#   my-network:
-#     driver: bridge
-#     driver_opts:
-#       com.docker.network.bridge.name: my-bridge
-#       com.docker.network.bridge.enable_icc: "true"
-#       subnet: "172.16.238.0/24"
-#       gateway: "172.16.238.1"

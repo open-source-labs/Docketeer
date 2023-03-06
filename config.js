@@ -1,23 +1,18 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const POSTGRES_HOST = process.env.POSTGRES_HOST
-  ? process.env.POSTGRES_HOST
-  : 'localhost';
-export const POSTGRES_NAME = process.env.POSTGRES_NAME
-  ? process.env.POSTGRES_NAME
+export const POSTGRES_NAME = process.env.DB_NAME
+  ? process.env.DB_CONTAINER_NAME
   : 'docketeer-db';
-export const POSTGRES_PORT = process.env.POSTGRES_PORT
-  ? Number(process.env.POSTGRES_PORT)
-  : 5432;
-export const POSTGRES_USER = process.env.POSTGRES_USER
-  ? process.env.POSTGRES_USER
+
+export const POSTGRES_USER = process.env.DB_USER
+  ? process.env.DB_USER
   : 'postgres';
-export const POSTGRES_PASS = process.env.POSTGRES_PASS
-  ? process.env.POSTGRES_PASS
+export const POSTGRES_PASS = process.env.DB_PASS
+  ? process.env.DB_PASS
   : 'postgres';
-export const POSTGRES_SERVICE = process.env.POSTGRES_NAME
-  ? process.env.POSTGRES_NAME
+export const POSTGRES_SERVICE = process.env.DB_SERVICE_NAME
+  ? process.env.DB_SERVICE_NAME
   : 'db';
 export const JWT_SECRET = process.env.JWT_SECRET
   ? process.env.JWT_SECRET

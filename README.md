@@ -1,190 +1,197 @@
-<!-- A brief description of your project, what it is used for and how does life get
-awesome when someone starts to use it.
-- Note and briefly describe any key concepts (technical, philosophical, or both) important to the user’s understanding.
-- Link to any supplementary blog posts or project main pages.
-- State if it is out-of-the-box user-friendly, so it’s clear to the user.
-- List its most useful/innovative/noteworthy features.
-- State its goals/what problem(s) it solves. -->
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
-<!-- To help keep this READme organized, use two line breaks for each ## -->
+<a name="readme-top"></a>
 
-#
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 
-# [Docketeer](https://www.docketeer.org/) &middot; ![Github](https://img.shields.io/github/repo-size/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/github/license/open-source-labs/Docketeer) ![GitHub](https://img.shields.io/badge/PRs-welcome-orange) ![GitHub](https://img.shields.io/github/last-commit/open-source-labs/Docketeer)
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/open-source-labs/Docketeer">
+    <img src="assets/docketeer-title.png" alt="Logo" width="325" height="auto">
+  </a>
+  <br />
+  <br />
+  <img src="assets/demo.gif" alt="Logo" width="fit" height="auto">
+   <br /> 
+   <br /> 
+  <p align="center">
+  Docketeer is a developer-friendly application that provides a single interface for both container management & metric visualization.  
+    <br />
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/open-source-labs/Docketeer">View Demo</a>
+    ·
+    <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/open-source-labs/Docketeer/issues">Request Feature</a>
+  </p>
+</div>
+
+<br />
+<!-- TABLE OF CONTENTS -->
+
+<br />
 
 ## Table of Contents
 
-- [About](#about)
-- [Installation](#installation)
-- [Features](#features)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [Show your support](#Show-your-support)
+  <ol>
+      <br />
+    <li>
+      <a href="#about-the-project">About Docketeer</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#authors">Authors</a></li>
+  </ol>
 
-#
+<!-- ABOUT THE PROJECT -->
+<br />
 
-![logo](assets/docketeer-title2.png)
+## About The Project
 
-## About
+<br />
+  <div align="center">
+    <img src="assets/finalabout.jpg" alt="Logo" width="fit" height="auto">
+  </div>
+<br />
 
-Managing Docker images, containers and networks from the command line while also trying to monitor crucial metrics can be tedious and counterintuitive. To make this process more developer-friendly, we created Docketeer: a container management platform for Docker.
+Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containarized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
-## Installation
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-1. **Fork** and **clone** this [repository](https://github.com/open-source-labs/Docketeer.git) to your machine.
+### Built With
 
-```
+[![React][React.js]][React-url][![Typescript][TS.js]][TS-url][![Redux][Redux]][Redux-url][![Webpack][Webpack]][Webpack-url][![TailwindCSS][Tailwind]][Tailwind-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Grafana][Grafana]][Grafana-url][![Docker][Docker]][Docker-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
+
+## Getting Started
+
+The local configuration for Docketeer was setup to be as simple as possible for the end-user. Follow the steps below to get started with Docketeer.
+
+<br />
+
+#### STEP 1 — Clone the repository
+
+```sh
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-2. Navigate to the project directory and install dependencies.
+<br />
 
-```
-npm install
-```
+#### STEP 2 — Setup environment variables
 
-3. Create a `.env` file in the project's top-level directory.
-
-```
-root
-  ├─ .env
-  ├─ server
-  └─ src
-```
-
-4. In the .env file, configure the following environment variables for Twilio API, Slack Webhook, and Postgres URI. Refer to [Twilio](#-Twilio) setup section below. The Postgres URI is the only field that is required, others are optional. Create your own database to house user information and insert your URI in this file.
+<p>Create a .env file at the top level of the project directory with the following contents:</p>
 
 ```js
-// .env
-TWILIO_NUMBER = '';
-TWILIO_ACCOUNT_SID = '';
-TWILIO_AUTH_TOKEN = '';
-SERVICE_SID = '';
-VERIFICATION_SERVICE_SID = '';
-SLACK_WEBHOOK = '';
-POSTGRES_URI = '';
+# .env
+POSTGRES_PORT=5432
+POSTGRES_NAME=docketeer-db
+POSTGRES_USER=postgres
+POSTGRES_PASS=postgres
 ```
 
-5. Create a folder called `security` in the project's top-level directory. Inside of the `security` folder, create two files `email.js` and `sysadmin.js`. These files will store variables related to the email notification service and system admin setup respectively.
+<br />
 
-```
-root
-  ├─ security
-      ├─ email.js
-      └─ sysadmin.js
-  ├─ server
-  └─ src
+#### STEP 3 — Docker compose up
+
+```sh
+docker compose up
 ```
 
-6. In the `email.js` file, input your organization's email credentials within the username and password properties. This email address will be used to send email notifications. The file is already in the `.gitignore` file.
-   Important: Do not change the host and port values unless you are using a different email provider.
+<br />
 
-```js
-// email.js
-module.exports = {
-  host: 'smtp.gmail.com',
-  port: 465,
-  username: 'example@gmail.com',
-  password: 'belugas',
-};
+#### STEP 4 — Navigate to localhost:4000 to sign-up & login!
+
+```sh
+http://localhost:4000/
 ```
 
-7. In the `sysadmin.js` file, input information for the system admin account. If no information is input, the email and phone number for the system admin will be set to default values. These values can always be changed in the system admin's Settings tab.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-```js
-// sysadmin.js
-module.exports = {
-  phone: '',
-  email: '',
-};
-```
+<!-- USAGE EXAMPLES -->
 
-You are all set! Now just enter the following command to start up Docketeer!
+## Usage
 
-```
-npm run dev
-```
+Coming soon...
 
-For now, the sign up function will create a System Admin user.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Twilio setup
+<!-- ROADMAP -->
 
-1. Follow documents found [here](https://www.twilio.com/docs/node/install) to download the helper library.
-2. In order to manage Twilio SMS notifications follow the [step plan](https://www.twilio.com/docs/notify/quickstart/sms#messagingservice).
-3. Store your (i) Twilio number, (ii) Account Sid, (iii) Auth Token from twilio.com/console, (iv) SERVICE_SID, (v) verification service SID in a newly created .env file in the Docketeer folder in the following format:
+## Roadmap
 
-```js
-// .env.js
-MY_PHONE_NUMBER = 'your mobile number';
-TWILIO_ACCOUNT_SID = 'code from your console';
-TWILIO_AUTH_TOKEN = 'token from your console';
-SERVICE_SID = 'code from notify service instance';
-VERIFICATION_SERVICE_SID = 'code from verify service instance';
-```
+- [ ] Server-side integration of dockerode
+- [ ] Continued efforts to implement static typechecking using TypeScript throughout source code
+- [ ] Create additional tests to validate existing client-side & server-side functionality
+  - [ ] Unit tests
+  - [ ] Integration tests
+  - [ ] End-to-end tests
 
-4. Verification service was created [here](https://www.twilio.com/console/verify/services); code length and serviceSID can be taken from your Twilio account console.
-5. All historical messages from the Twilio account can be found [here](https://www.twilio.com/console/sms/logs).
+See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
-<!-- > Getting started with Docketeer is easy: visit [docketeer.org](https://www.docketeer.org/) and download the Docketeer desktop app. Drag and drop the .dmg file that you downloaded into your Applications folder to install it. Before you run the application, make sure Docker itself is running. -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Features
-
-### ➮ System Wide Notifications
-
-Docketeer offers monitoring support for teams by incorporating sms, email and slack notification as well as configurable options based on a container's memory or cpu usage.
-
-### ➮ Viewing
-
-You can view a list of running and exited containers, available images, volume history, and docker-compose files stored locally.
-
-### ➮ Live Metrics
-
-Users have real-time access to the total amount of resources (CPU, memory usage) that your containers are using and total block IO bytes by image over specific time periods.
-![alt text](assets/metrics.gif)
-
-### ➮ Uploading
-
-Within the Image and Docker Compose tab, you pull images from DockerHub by providing `repo:version` or uploading a `.yml` file.
-
-### ➮ Process Logs
-
-View process logs from any number of running or stopped containers. The table is both exportable and sortable by any parameter. You can filter logs by specifying the number of logs that you wish to receive (tail) as well as time (since). Process logs will help you analyze and debug problems faster by offering insights into what went wrong.
-
-![alt text](assets/logs.gif)
-
-<br> For a full demo of Docketeer's features, visit [docketeer.org](https://www.docketeer.org/demo).
-
-<!-- ## Development 🛠
-All ideas and contributions to the project are welcome. To run the app in development mode, clone our repo to your local machine and execute the following commands:
-```
-npm run dev
-``` -->
-
-## Testing
-
-To conduct tests on the codebase, clone our repo to your local machine and execute the following commands in the terminal:
-
-```
-npm run test
-```
-
-## Troubleshoot
-
-#### **Cannot connect to the Docker daemon**
-
-⤷ Make sure that you have Docker running!
-
-#### **Working with WSL**
-
-⤷ Users may need to install a third-party App to run electron. A helpful article can be found [here](https://techcommunity.microsoft.com/t5/windows-dev-appconsult/running-wsl-gui-apps-on-windows-10/ba-p/1493242).
+<!-- CONTRIBUTING -->
 
 ## Contributing
 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repository and create a pull request. You can also simply open an issue describing your contribution.
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Checkout Development (`git checkout development`)
+3. Create your Feature Branch (`git checkout -b feature/NewFeatureName`)
+4. Commit your Changes (`git commit -m 'Add some NewFeatureMessage'`)
+5. Push to the Branch (`git push origin feature/NewFeatureName`)
+6. Open a Pull Request (from `feature/NewFeatureName` to `development`)
+7. Create an issue on GitHub (as mentioned above!)
+
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
-### Authors
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Most recent contributors please add your name to the BOTTOM of the list -->
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Authors
 
 - Dan Lin [@DanLin91](https://github.com/DanLin91) | [Linkedin](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) | [Linkedin](https://www.linkedin.com/in/kadirgund/)
@@ -227,11 +234,45 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 - Garima Bhatia [@GarimaB06](https://github.com/GarimaB06) | [LinkedIn](https://www.linkedin.com/in/garimab06/)
 - Nathan Cho [@nathanycho](https://github.com/nathanycho) | [LinkedIn](https://www.linkedin.com/in/nathanycho/)
 - Jonathan Wong [@WongJonathann](https://github.com/WongJonathann) | [LinkedIn](https://www.linkedin.com/in/jon-wong-00/)
+- Dillon H. Patel [@d-hp](https://github.com/d-hp)
+- Alex Schmidt [@RedAfronNinja](https://github.com/RedAfronNinja) | [LinkedIn](https://www.linkedin.com/in/alex-schmidt-44b27413b/)
+- Edward Kenny [@EdwardKenny](https://github.com/EdwardKenny) | [LinkedIn](https://www.linkedin.com/in/edward-kenny-8949b8136/)
+- Kennan Budnik [@kobudnik](https://github.com/kobudnik) | [LinkedIn](https://www.linkedin.com/in/kobudnik/)
 
-### License
-
-Docketeer is [MIT Licensed](https://github.com/open-source-labs/Docketeer/blob/master/LICENSE)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+[contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
+[contributors-url]: https://github.com/open-source-labs/Docketeer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/open-source-labs/Docketeer.svg?style=for-the-badge
+[forks-url]: https://github.com/open-source-labs/Docketeer/network/members
+[stars-shield]: https://img.shields.io/github/stars/open-source-labs/Docketeer.svg?style=for-the-badge
+[stars-url]: https://github.com/open-source-labs/Docketeer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/open-source-labs/Docketeer.svg?style=for-the-badge
+[issues-url]: https://github.com/open-source-labs/Docketeer/issues
+[license-shield]: https://img.shields.io/github/license/open-source-labs/Docketeer.svg?style=for-the-badge
+[license-url]: https://github.com/open-source-labs/Docketeer/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: images/screenshot.png
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[TS.js]: https://img.shields.io/badge/TypeScript-000000?style=for-the-badge&logo=typescript&logoColor=white
+[TS-url]: https://www.typescriptlang.org/
+[Grafana]: https://img.shields.io/badge/Grafana-35495E?style=for-the-badge&logo=grafana&logoColor=4FC08D
+[Grafana-url]: https://grafana.com/
+[Tailwind]: https://img.shields.io/badge/TailwindCSS-DD0031?style=for-the-badge&logo=tailwindcss&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Node.js]: https://img.shields.io/badge/Node-4A4A55?style=for-the-badge&logo=nodedotjs&logoColor=FF3E00
+[Node-url]: https://nodejs.org/en/
+[Express]: https://img.shields.io/badge/Express-FF2D20?style=for-the-badge&logo=express&logoColor=FF3E00
+[Express-url]: https://expressjs.com/
+[Redux]: https://img.shields.io/badge/RTK-563D7C?style=for-the-badge&logo=redux&logoColor=white
+[Redux-url]: https://redux.js.org/
+[Webpack]: https://img.shields.io/badge/Webpack-0769AD?style=for-the-badge&logo=webpack&logoColor=white
+[Webpack-url]: https://webpack.js.org/guides/getting-started/
+[Docker]: https://img.shields.io/badge/Docker-0769AD?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/

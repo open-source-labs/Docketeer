@@ -27,7 +27,7 @@
   "graphTooltip": 1,
   "id": 1,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "collapsed": false,
@@ -75,7 +75,7 @@
         "content": "<h1>CPU<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -150,7 +150,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -213,7 +213,7 @@
       "links": [],
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -224,7 +224,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -302,7 +302,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -415,7 +415,7 @@
       "id": 70,
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "vertical",
         "reduceOptions": {
@@ -426,7 +426,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -489,7 +489,7 @@
         "content": "<h1>Memory<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -550,7 +550,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -826,7 +826,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -997,7 +997,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
@@ -1085,7 +1085,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-green",
@@ -1180,7 +1181,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1279,6 +1281,7 @@
           "step": 1
         }
       ],
+      "timeFrom": "12h",
       "title": "I/O ",
       "transparent": true,
       "type": "timeseries"
@@ -1355,7 +1358,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple"
+                "color": "purple",
+                "value": null
               }
             ]
           },
@@ -1504,6 +1508,7 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": "1h",
       "timeRegions": [],
       "tooltip": {
         "msResolution": true,
@@ -1520,12 +1525,14 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:41",
           "format": "bps",
           "logBase": 1,
           "min": 0,
           "show": true
         },
         {
+          "$$hashKey": "object:42",
           "format": "short",
           "logBase": 1,
           "show": false
@@ -1540,6 +1547,40 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 78,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h3>Transmit Bytes<h3>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 1,
@@ -1548,7 +1589,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-purple",
@@ -1564,7 +1606,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 57
       },
       "id": 72,
       "options": {
@@ -1587,14 +1629,50 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "sum(rate(container_network_transmit_bytes_total{image!=\"\"}[1m])) by (name)",
           "interval": "",
           "legendFormat": "{{ name }}",
+          "range": true,
           "refId": "A"
         }
       ],
       "transparent": true,
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 61
+      },
+      "id": 79,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h3>Bytes Received<h3>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "text"
     },
     {
       "datasource": {
@@ -1609,7 +1687,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-purple",
@@ -1625,7 +1704,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 63
       },
       "id": 71,
       "options": {
@@ -1660,7 +1739,7 @@
   ],
   "refresh": "10s",
   "revision": 1,
-  "schemaVersion": 38,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": ["system"],
   "templating": {
@@ -1696,6 +1775,6 @@
   "timezone": "browser",
   "title": "System",
   "uid": "h5LcytHGz",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

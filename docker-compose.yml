@@ -10,9 +10,9 @@ services:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: docketeer-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -51,7 +51,6 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
     volumes:
       - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
@@ -87,8 +86,3 @@ services:
       - 4000:4000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-    environment:
-      POSTGRES_USER: 'postgres'
-    depends_on:
-      - db

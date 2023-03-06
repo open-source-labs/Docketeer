@@ -61,3 +61,8 @@ INSERT INTO notification_settings (metric_name, triggering_value) VALUES
 ('memory', 80),
 ('cpu', 80),
 ('stopped', 0);
+
+INSERT INTO roles (role) VALUES 
+  ('system admin'),
+  ('admin'),
+  ('user');

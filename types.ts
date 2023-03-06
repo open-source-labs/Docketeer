@@ -430,6 +430,7 @@ export interface CommandController {
     next: NextFunction,
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
+  checkAdmin: (req: Request, res: Response, next: NextFunction) => void;
 }
 export interface CookieController {
   setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void;
@@ -449,20 +450,17 @@ export interface ConfigController {
 }
 
 export interface DbController {
-  createRoles: (req: Request, res: Response, next: NextFunction) => void;
-  insertRoles: (req: Request, res: Response, next: NextFunction) => void;
-  createTable: (req: Request, res: Response, next: NextFunction) => void;
   insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
   createAdminPassword: (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => void;
-  removeToken: (req: Request, res: Response, next: NextFunction) => void;
+  removeToken?: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface InitController {
-  gitUrl: (req: Request, res: Response, next: NextFunction) => void;
+  gitUrl?: (req: Request, res: Response, next: NextFunction) => void;
   addMetrics: (req: Request, res: Response, next: NextFunction) => void;
   getMetrics: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -508,8 +506,8 @@ export interface UserController {
   getAllUsers: (req: Request, res: Response, next: NextFunction) => void;
   getOneUser: (req: Request, res: Response, next: NextFunction) => void;
   verifyUser: (req: Request, res: Response, next: NextFunction) => void;
-  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => void;
-  switchUserRole: (req: Request, res: Response, next: NextFunction) => void;
+  checkSysAdmin?: (req: Request, res: Response, next: NextFunction) => void;
+  switchUserRole?: (req: Request, res: Response, next: NextFunction) => void;
   updatePassword: (req: Request, res: Response, next: NextFunction) => void;
   updatePhone: (req: Request, res: Response, next: NextFunction) => void;
   updateEmail: (req: Request, res: Response, next: NextFunction) => void;

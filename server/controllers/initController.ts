@@ -9,19 +9,6 @@ import { InitController, ServerError } from '../../types';
 import path from 'path';
 
 const initController: InitController = {
-  gitUrl: (req: Request, res: Response, next: NextFunction) => {
-    const parameter = [req.body.githubUrl];
-    db.query('SELECT github_url FROM containers where name = $1', parameter)
-      .then((data: any) => {
-        res.locals.url = data;
-        return next();
-      })
-      .catch((err: ServerError) => {
-        console.log(err);
-        if (err) return next(err);
-      });
-  },
-
   // inserting the metrics pulled from the running containers and stopped containers from Docker into the Database
   addMetrics: (req: Request, res: Response, next: NextFunction) => {
     const containers = Object.keys(req.body.containers);
@@ -70,6 +57,19 @@ const initController: InitController = {
       });
     }
   },
+
+  // gitUrl: (req: Request, res: Response, next: NextFunction) => {
+  //   const parameter = [req.body.githubUrl];
+  //   db.query('SELECT github_url FROM containers where name = $1', parameter)
+  //     .then((data: any) => {
+  //       res.locals.url = data;
+  //       return next();
+  //     })
+  //     .catch((err: ServerError) => {
+  //       console.log(err);
+  //       if (err) return next(err);
+  //     });
+  // },
 };
 
 export default initController;

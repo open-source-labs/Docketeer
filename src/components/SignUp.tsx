@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { checkDbInit, handleNewUser } from './helpers/newUserHelper';
+import { handleNewUser } from './helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
@@ -90,7 +90,6 @@ const SignUp = () => {
               <button
                 className='btn btn-primary'
                 onClick={() => {
-                  checkDbInit();
                   handleNewUser(values, '1', setValues);
                 }}
               >

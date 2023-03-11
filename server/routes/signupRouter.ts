@@ -25,8 +25,8 @@ router.get("/", userController.getAllUsers, (req: Request, res: Response) => {
 
 router.post(
   "/",
-  signupController.usernameCheck,
-  signupController.passwordCheck,
+  // signupController.usernameCheck,
+  // signupController.passwordCheck,
   bcryptController.hashPassword,
   userController.createUser,
   apiController.signupEmail,

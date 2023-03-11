@@ -2,21 +2,21 @@
  * @module | configController.ts
  * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
  **/
-
+// TODO controller is never referenced
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { ConfigController, ServerError } from '../../types';
 
 const configController: ConfigController = {
   // update configuration thresholds
-  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
+  configureThresholds: (req: Request, res: Response, next: NextFunction): void => {
     if (res.locals.error) return next();
 
-    const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } =
-      req.body;
+    const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
 
     const inputThresholds =
       'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
+    
     const thresholdDetails = [
       contact_pref,
       mem_threshold,

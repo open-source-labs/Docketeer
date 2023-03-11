@@ -1,5 +1,5 @@
-import React from "react";
-import { useAppSelector } from "../reducers/hooks";
+import React from 'react';
+import { useAppSelector } from '../reducers/hooks';
 
 /**
  * @module | Alert.tsx
@@ -16,7 +16,7 @@ const Alert = () => {
 
   return (
     <>
-      {alertList[1] === "info" && (
+      {alertList[1] === 'info' && (
         <div className="alert alert-info shadow-lg rounded-lg p-5 my-5">
           <div>
             <svg
@@ -36,7 +36,7 @@ const Alert = () => {
           </div>
         </div>
       )}
-      {alertList[1] === "success" && (
+      {alertList[1] === 'success' && (
         <div className="alert alert-success shadow-lg rounded-lg p-5 my-5">
           <div>
             <svg
@@ -56,7 +56,7 @@ const Alert = () => {
           </div>
         </div>
       )}
-      {alertList[1] === "warning" && (
+      {alertList[1] === 'warning' && (
         <div className="alert alert-warning shadow-lg rounded-lg p-5 my-5">
           <div>
             <svg
@@ -76,7 +76,7 @@ const Alert = () => {
           </div>
         </div>
       )}
-      {alertList[1] === "error" && (
+      {alertList[1] === 'error' && (
         <div className="alert alert-error shadow-lg rounded-lg p-5 my-5">
           <div>
             <svg
@@ -96,7 +96,7 @@ const Alert = () => {
           </div>
         </div>
       )}
-      {typeof promptList[0] === "string" && (
+      {typeof promptList[0] === 'string' && (
         <div className="alert shadow-lg p-5 my-5 rounded-lg">
           <div>
             <svg

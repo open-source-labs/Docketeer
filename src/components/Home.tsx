@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../reducers/hooks";
-import { createAlert, createPrompt } from "../reducers/alertReducer";
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../reducers/hooks';
+import { createAlert, createPrompt } from '../reducers/alertReducer';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from "../../assets/docketeer-title2.png";
+import Docketeer from '../../assets/docketeer-title2.png';
 
 // Importing helpers
-import useSurvey from "./helpers/dispatch";
-import useHelper from "./helpers/commands";
-import * as history from "./helpers/volumeHistoryHelper";
+import useSurvey from './helpers/dispatch';
+import useHelper from './helpers/commands';
+import * as history from './helpers/volumeHistoryHelper';
 
 // Importing features
-import Metrics from "./features/Metrics";
-import Images from "./features/Images";
-import Yml from "./features/Yml";
-import Containers from "./features/Containers";
-import Settings from "./features/Settings";
-import UserList from "./features/Users";
-import VolumeHistory from "./features/VolumeHistory";
-import ProcessLogs from "./features/ProcessLogs";
-import ProcessLogsTable from "./displays/ProcessLogsTable";
-import Alert from "./Alert";
+import Metrics from './features/Metrics';
+import Images from './features/Images';
+import Yml from './features/Yml';
+import Containers from './features/Containers';
+import Settings from './features/Settings';
+import UserList from './features/Users';
+import VolumeHistory from './features/VolumeHistory';
+import ProcessLogs from './features/ProcessLogs';
+import ProcessLogsTable from './displays/ProcessLogsTable';
+import Alert from './Alert';
 
 /**
  * @module | Home.tsx
@@ -53,14 +53,15 @@ const Home = () => {
   // Deconstructs dispatch functions from custom hook
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
-
+  
+  
   const handleLogout = () => {
     updateSession();
     logoutUser();
-    fetch("/api/logout", {
-      method: "POST",
+    fetch('/api/logout', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: userData.username,
@@ -73,7 +74,7 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
-    navigate("/login");
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -106,10 +107,10 @@ const Home = () => {
 
   // Pertains to sysAdmin only
   useEffect(() => {
-    fetch("/api/admin", {
-      method: "POST",
+    fetch('/api/admin', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         token: userData.token,
@@ -192,7 +193,7 @@ const Home = () => {
                               createAlert(
                                 `Performing system prune...`,
                                 5,
-                                "success"
+                                'success'
                               )
                             );
                           },
@@ -202,7 +203,7 @@ const Home = () => {
                               createAlert(
                                 `The request to perform system prune has been cancelled.`,
                                 5,
-                                "warning"
+                                'warning'
                               )
                             );
                           }
@@ -260,7 +261,7 @@ const Home = () => {
                             createAlert(
                               `Performing system prune...`,
                               5,
-                              "success"
+                              'success'
                             )
                           );
                         },
@@ -270,7 +271,7 @@ const Home = () => {
                             createAlert(
                               `The request to perform system prune has been cancelled.`,
                               5,
-                              "warning"
+                              'warning'
                             )
                           );
                         }
@@ -297,7 +298,7 @@ const Home = () => {
                     // handleAccept (second argument in createPrompt)
                     () => {
                       handleLogout();
-                      dispatch(createAlert(`Logging out...`, 5, "success"));
+                      dispatch(createAlert(`Logging out...`, 5, 'success'));
                     },
                     // handleDeny (third argument in createPrompt)
                     () => {
@@ -305,7 +306,7 @@ const Home = () => {
                         createAlert(
                           `The request to logout has been cancelled.`,
                           5,
-                          "warning"
+                          'warning'
                         )
                       );
                     }

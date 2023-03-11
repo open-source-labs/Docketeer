@@ -1,12 +1,12 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from "../../assets/docketeer-title.png";
-import { UserInfo } from "../../types";
-import { createAlert } from "../reducers/alertReducer";
-import { useAppDispatch } from "../reducers/hooks";
-import useSurvey from "./helpers/dispatch";
+import Docketeer from '../../assets/docketeer-title.png';
+import { UserInfo } from '../../types';
+import { createAlert } from '../reducers/alertReducer';
+import { useAppDispatch } from '../reducers/hooks';
+import useSurvey from './helpers/dispatch';
 
 /**
  * @module | Login
@@ -21,24 +21,23 @@ const Login = () => {
   const dispatch = useAppDispatch();
 
   const handleLogin = () => {
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
     // grab the input values
-    // TODO understand 'as' on a deeper lvl
     const username: string = (usernameInput as HTMLInputElement).value;
     const password: string = (passwordInput as HTMLInputElement).value;
     // clear the inputs
-    (usernameInput as HTMLInputElement).value = "";
-    (passwordInput as HTMLInputElement).value = "";
+    (usernameInput as HTMLInputElement).value = '';
+    (passwordInput as HTMLInputElement).value = '';
     authenticateUser(username, password);
   };
 
   // send a fetch request to the backend to login
-  const authenticateUser = (username: string, password: string) => {
-    fetch("/api/login", {
-      method: "POST",
+  const authenticateUser = (username, password) => {
+    fetch('/api/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username,
@@ -49,14 +48,14 @@ const Login = () => {
       // TODO: show data expected to be received
       .then((data) => {
         // TODO: remove conditional? Seems to not be doing anything. Unsuccessful login attempts don't return an error.
-        console.log("log in fetch request: ", { data });
+        console.log('log in fetch request: ', { data });
         // if error send dispatch to create alert
-        if (Object.prototype.hasOwnProperty.call(data, "error")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           dispatch(
             createAlert(
               `The username and/or password entered could not be authenticated. Please try again.`,
               5,
-              "error"
+              'error'
             )
           );
         } else {
@@ -66,17 +65,17 @@ const Login = () => {
             createAlert(
               `Welcome back to Docketeer, ${data.username}!`,
               5,
-              "success"
+              'success'
             )
           );
-          navigate("/"); // Navigate to root route
+          navigate('/'); // Navigate to root route
         }
       })
       .catch((err) => {
-        console.log("Fetch: POST error to /login", err);
+        console.log('Fetch: POST error to /login', err);
         // Alert user upon wrong username or password entry using an alert.
         window.alert(
-          "Incorrect password and/or username. \n Please register or try again."
+          'Incorrect password and/or username. \n Please register or try again.'
         );
       });
   };
@@ -105,7 +104,7 @@ const Login = () => {
               <label className="label">
                 <a
                   className="label-text-alt link link-hover"
-                  onClick={() => navigate("/userSignup")}
+                  onClick={() => navigate('/userSignup')}
                 >
                   HELLO.
                 </a>

@@ -51,6 +51,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@tsconfig/recommended": "^1.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",
     "@types/jest": "^29.2.3",

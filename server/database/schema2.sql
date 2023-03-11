@@ -2,7 +2,7 @@
 * @module Cloud Database Schema
 * @description Schema for elephantSQL cloud database that contains user/role information
 */
-
+--  TODO does it make sense to have this file or our dbController? Name schema appropriately!
 CREATE TABLE IF NOT EXISTS roles (
   _id SERIAL NOT NULL,
   role VARCHAR (255) NOT NULL,

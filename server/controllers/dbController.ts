@@ -3,16 +3,21 @@
  * @description | contains middleware that checks if the database has a user table and creates one if it doesn't
  **/
 
-import { Request, Response, NextFunction } from 'express';
-import db from '../database/cloudModel';
-import bcrypt from 'bcryptjs';
-import sysadmin from '../../security/sysadmin';
-import { DbController, ServerError } from '../../types';
-
+import { Request, Response, NextFunction } from "express";
+import db from "../database/cloudModel";
+import bcrypt from "bcryptjs";
+import sysadmin from "../../security/sysadmin";
+import { DbController, ServerError } from "../../types";
+// TODO seems to have the exact functionality of schema2 in the database folder
 const dbController: DbController = {
+  // ==========================================================
+  // Middleware: createRoles
+  // Purpose: creates a table, roles, and gives it 2 columns: _id and role, _id is the primary key, oids false to optimize performance
+  // ==========================================================
+
   createRoles: (req: Request, res: Response, next: NextFunction) => {
     db.query(
-      'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
+      "CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);"
     )
       .then(() => {
         return next();
@@ -22,7 +27,13 @@ const dbController: DbController = {
       });
   },
 
+  // ==========================================================
+  // Middleware: insertRoles
+  // Purpose: inserts 3 rows to roles: sys admin, admin, user; they have unique ids 1,2,3
+  // ==========================================================
+
   insertRoles: (req: Request, res: Response, next: NextFunction) => {
+    console.log("yo");
     db.query(
       "INSERT INTO roles (role) VALUES ('system admin'); INSERT INTO roles (role) VALUES ('admin'); INSERT INTO roles (role) VALUES ('user');"
     )
@@ -33,6 +44,11 @@ const dbController: DbController = {
         if (err) return next(err);
       });
   },
+
+  // ==========================================================
+  // Middleware: createTable
+  // Purpose: creates a NEW table with user and container info
+  // ==========================================================
 
   createTable: (req: Request, res: Response, next: NextFunction) => {
     db.query(
@@ -49,12 +65,12 @@ const dbController: DbController = {
   insertAdmin: (req: Request, res: Response, next: NextFunction) => {
     const { password } = res.locals;
     const email =
-      sysadmin.email === null || sysadmin.email === ''
-        ? 'sysadmin@email.com'
+      sysadmin.email === null || sysadmin.email === ""
+        ? "sysadmin@email.com"
         : sysadmin.email;
     const phone =
-      sysadmin.phone === null || sysadmin.phone === ''
-        ? '+15013456789'
+      sysadmin.phone === null || sysadmin.phone === ""
+        ? "+15013456789"
         : sysadmin.email;
 
     const parameters = [email, password, phone];
@@ -76,7 +92,7 @@ const dbController: DbController = {
 
     // make a file called systemAdmin.js, make it have admin details such as password, email, phone number, and add to gitignore
     bcrypt
-      .hash('belugas', saltRounds)
+      .hash("belugas", saltRounds)
       .then((hash) => {
         res.locals.password = hash;
         return next();
@@ -85,7 +101,7 @@ const dbController: DbController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
+            err: "An error occured creating hash with bcrypt. See bcryptController.hashPassword.",
           },
         });
       });
@@ -94,13 +110,20 @@ const dbController: DbController = {
   /**
    * @description removes token from database
    */
+  // TODO when was token given?
+
+  // ==========================================================
+  // Middleware: removeToken
+  // Purpose: Removes token (sets token to null) after user logs out.
+  // TODO: No addToken/initiation of token to user exists.
+  // ==========================================================
 
   removeToken: (req: Request, res: Response, next: NextFunction) => {
     const { username } = req.body;
 
-    db.query('UPDATE users SET token = null WHERE username=$1', [username])
+    db.query("UPDATE users SET token = null WHERE username=$1", [username])
       .then(() => {
-        res.locals.logout = 'Successfully logged out.';
+        res.locals.logout = "Successfully logged out.";
         return next();
       })
       .catch((err: ServerError) => {

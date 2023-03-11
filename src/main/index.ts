@@ -1,19 +1,19 @@
-import { MenuItemConstructorOptions } from 'electron';
+import { MenuItemConstructorOptions } from "electron";
 
-const { app, BrowserWindow, shell, Menu } = require('electron');
-const path = require('path');
+const { app, BrowserWindow, shell, Menu } = require("electron");
+const path = require("path");
 
-const isMac = process.platform === 'darwin';
-const isDev = process.env.NODE_ENV !== 'production';
+const isMac = process.platform === "darwin";
+const isDev = process.env.NODE_ENV !== "production";
 
 let win;
 let aboutWin;
 let mainMenu;
-
+// TODO: maybe delete this page?
 // create "main" window
 function createMainWindow() {
   win = new BrowserWindow({
-    title: 'Docketeer',
+    title: "Docketeer",
     width: 1500,
     height: 1000,
     webPreferences: {
@@ -22,15 +22,15 @@ function createMainWindow() {
   });
 
   // makes <a href=''> links clickeable within the electron window
-  win.webContents.on('will-navigate', handleRedirect);
-  win.webContents.on('new-window', handleRedirect);
+  win.webContents.on("will-navigate", handleRedirect);
+  win.webContents.on("new-window", handleRedirect);
 
   // dev vs prod config
   if (isDev) {
     win.webContents.openDevTools();
-    win.loadURL('http://localhost:4000');
+    win.loadURL("http://localhost:4000");
   } else {
-    win.loadFile(path.join(__dirname, './DocketeerElectron.js'));
+    win.loadFile(path.join(__dirname, "./DocketeerElectron.js"));
   }
 }
 
@@ -38,23 +38,23 @@ function createMainWindow() {
 const handleRedirect = (e, url) => {
   if (url != win.webContents.getURL()) {
     e.preventDefault();
-    require('electron').shell.openExternal(url);
+    require("electron").shell.openExternal(url);
   }
 };
 
 // create "about" window
 function createAboutWindow() {
   aboutWin = new BrowserWindow({
-    title: 'About Docketeer',
+    title: "About Docketeer",
     width: 300,
     height: 300,
   });
 
   // dev vs prod config
   if (isDev) {
-    aboutWin.loadFile(path.join(__dirname, '../src/renderer/about.html'));
+    aboutWin.loadFile(path.join(__dirname, "../src/renderer/about.html"));
   } else {
-    aboutWin.loadFile(path.join(__dirname, './DocketeerElectron.js'));
+    aboutWin.loadFile(path.join(__dirname, "./DocketeerElectron.js"));
   }
 }
 
@@ -66,7 +66,7 @@ const menu = Menu.buildFromTemplate([
           label: app.name,
           submenu: [
             {
-              label: 'About',
+              label: "About",
               click: createAboutWindow,
             },
           ],
@@ -74,15 +74,15 @@ const menu = Menu.buildFromTemplate([
       ]
     : []) as MenuItemConstructorOptions[]),
   {
-    role: 'fileMenu',
+    role: "fileMenu",
   },
   ...((!isMac
     ? [
         {
-          label: 'Help',
+          label: "Help",
           submenu: [
             {
-              label: 'About',
+              label: "About",
               click: createAboutWindow,
             },
           ],
@@ -92,12 +92,12 @@ const menu = Menu.buildFromTemplate([
   ...((isDev
     ? [
         {
-          label: 'Developer',
+          label: "Developer",
           submenu: [
-            { role: 'reload' },
-            { role: 'forceReload' },
-            { type: 'separator' },
-            { role: 'toggleDevTools' },
+            { role: "reload" },
+            { role: "forceReload" },
+            { type: "separator" },
+            { role: "toggleDevTools" },
           ],
         },
       ]
@@ -105,25 +105,25 @@ const menu = Menu.buildFromTemplate([
 ]);
 
 // create window when app is ready
-app.on('ready', () => {
+app.on("ready", () => {
   createMainWindow();
 
   // implement menu
   Menu.setApplicationMenu(menu);
 
   // remove win from memory on close
-  win.on('closed', () => (win = null));
+  win.on("closed", () => (win = null));
 });
 
 // ensure that app is quit for mac users as the 'x' != quit
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
   if (!isMac) {
     app.quit();
   }
 });
 
 // open a window if none are open
-app.on('activate', () => {
+app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow();
   }

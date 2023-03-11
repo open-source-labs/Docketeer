@@ -3,29 +3,29 @@
  * @description | Contains helper functions for creating new users
  **/
 
-import React from 'react';
-import { useAppDispatch } from '../../reducers/hooks';
-import { updateUsers } from '../../reducers/userReducer';
-import { UserInfo } from '../../../types';
+import React from "react";
+import { useAppDispatch } from "../../reducers/hooks";
+import { updateUsers } from "../../reducers/userReducer";
+import { UserInfo } from "../../../types";
 
 export const handleNewUser = (
   userInformation: any,
   roleID: string,
-  setValues: any,
+  setValues: any
 ) => {
   const { email, username, password, phone } = userInformation;
 
   if (!checkPasswordLength(password)) {
-    window.alert('Warning: Password must be 6 characters or longer');
+    window.alert("Warning: Password must be 6 characters or longer");
     return;
   }
   if (!confirmPassword(password, userInformation.passwordConfirmation)) {
-    window.alert('Warning: Passwords do not match');
+    window.alert("Warning: Passwords do not match");
     return;
   }
   if (!checkPhone(phone)) {
     window.alert(
-      'Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900',
+      "Warning: Please enter a valid phone number with country code (+1) in the following format:\n\n+12345678900"
     );
     return;
   }
@@ -35,20 +35,20 @@ export const handleNewUser = (
 
 export const confirmPassword = (
   password: string,
-  passwordConfirmation: string,
+  passwordConfirmation: string
 ) => {
   if (password !== passwordConfirmation) {
-    window.alert('Warning: Passwords do not match');
+    window.alert("Warning: Passwords do not match");
     return;
   }
   return password === passwordConfirmation;
 };
-
+// TODO: remove this alert or the one on the backend
 export const checkPasswordLength = (password: string) => {
   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
   if (!regex.test(password) && password) {
     window.alert(
-      'Warning: Password must be 6 characters or longer \nand must include at least one number and one letter',
+      "Warning: Password must be 6 characters or longer \nand must include at least one number and one letter"
     );
     return;
   }
@@ -59,7 +59,7 @@ export const checkPhone = (phone: string) => {
   const regex = /[+][1][\d]{10}$/;
   if (phone.match(regex) === null) {
     window.alert(
-      'Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900',
+      "Warning: Please enter valid phone number with country code (+1).\nExample: 12345678900"
     );
     return;
   }
@@ -72,12 +72,12 @@ export const createNewUser = (
   password: string,
   phone: string,
   role_id: string,
-  setValues,
+  setValues
 ) => {
-  fetch('/api/signup', {
-    method: 'POST',
+  fetch("/api/signup", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       username: username,
@@ -89,11 +89,11 @@ export const createNewUser = (
   })
     .then(() => {
       setValues({
-        email: '',
-        username: '',
-        password: '',
-        passwordConfirmation: '',
-        phone: '',
+        email: "",
+        username: "",
+        password: "",
+        passwordConfirmation: "",
+        phone: "",
         showPassword: false,
       });
     })
@@ -106,10 +106,10 @@ export const createNewUser = (
 };
 
 export const getUpdatedUserList = () => {
-  fetch('/api/admin', {
-    method: 'POST',
+  fetch("/api/admin", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
@@ -121,7 +121,7 @@ export const getUpdatedUserList = () => {
       updateUserList(data);
     })
     .catch((err) => {
-      console.log('error in getUpdatedUserList: ', err);
+      console.log("error in getUpdatedUserList: ", err);
     });
 };
 
@@ -131,7 +131,7 @@ export const updateUserList = (data: UserInfo[]) => {
 };
 
 export const checkDbInit = () => {
-  fetch('/api/db')
+  fetch("/api/db")
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((err) => {

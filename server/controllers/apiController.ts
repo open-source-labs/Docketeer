@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
 const apiController: ApiController = {
   // ==========================================================
   // Middleware: sendEmailAlert
-  // Purpose: 
+  // Purpose:
   // ==========================================================
   sendEmailAlert: (req: Request, res: Response, next: NextFunction) => {
     const { email, containerName, time, date, stopped } = req.body;

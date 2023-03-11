@@ -31,7 +31,7 @@ const apiController: ApiController = {
   // ==========================================================
   sendEmailAlert: (req: Request, res: Response, next: NextFunction) => {
     const { email, containerName, time, date, stopped } = req.body;
-    let emailBody;
+    let emailBody: string;
 
     if (stopped === "true") {
       emailBody = `

@@ -16,7 +16,7 @@ const bcryptController: BcryptController = {
 
   hashPassword: (req: Request, res: Response, next: NextFunction) => {
     const { password } = req.body;
-    const saltRounds = 10;
+    const saltRounds: number = 10;
 
     bcrypt
       .hash(password, saltRounds)
@@ -40,7 +40,7 @@ const bcryptController: BcryptController = {
   // Middleware: hashNewPassword
   // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
   // ==========================================================
-  hashNewPassword: async (req: Request, res: Response, next: NextFunction) => {
+  hashNewPassword: async (req: Request, res: Response, next: NextFunction): void => {
     // TODO is Object.prototype necessary?
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (Object.prototype.hasOwnProperty.call(res.locals, "error")) {
@@ -48,15 +48,15 @@ const bcryptController: BcryptController = {
     }
     // else bCrypt the new password and move to next middleware
     const { newPassword } = req.body;
-    const saltRounds = 10;
+    const saltRounds: number = 10;
     // TODO rename hash to newHashedPassword
     await bcrypt
       .hash(newPassword, saltRounds)
-      .then((hash) => {
+      .then((hash: string): void => {
         res.locals.hash = hash;
         return next();
       })
-      .catch((err) => {
+      .catch((err: Error): void => {
         return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
@@ -70,13 +70,13 @@ const bcryptController: BcryptController = {
    * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
    */
 
-  hashCookie: (req: Request, res: Response, next: NextFunction) => {
+  hashCookie: (req: Request, res: Response, next: NextFunction): void => {
     const { role_id, username } = res.locals.user;
-    const saltRounds = 10;
+    const saltRounds: number = 10;
     if (role_id === 1) {
       bcrypt
         .hash(res.locals.cookie, saltRounds)
-        .then((hash) => {
+        .then((hash: string): void => {
           res.locals.user.token = hash;
           db.query(
             "ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)"
@@ -87,7 +87,7 @@ const bcryptController: BcryptController = {
           ]);
           return next();
         })
-        .catch((err) => {
+        .catch((err: Error): void => {
           return next({
             log: `Error in bcryptController hashCookeis: ${err}`,
             message: {

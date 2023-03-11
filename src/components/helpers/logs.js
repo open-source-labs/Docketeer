@@ -11,11 +11,13 @@ export const buildOptionsObj = (containerIDs) => {
     containerIds: containerIDs,
   };
 
-  if (document.getElementById('sinceInput').checked) {
-    const sinceValue = document.getElementById('sinceText').value;
+  console.log("optionsObj", optionsObj);
+
+  if (document.getElementById("sinceInput").checked) {
+    const sinceValue = document.getElementById("sinceText").value;
     optionsObj.since = sinceValue;
-  } else if (document.getElementById('tailInput').checked) {
-    const tailValue = document.getElementById('tailText').value;
+  } else if (document.getElementById("tailInput").checked) {
+    const tailValue = document.getElementById("tailText").value;
     optionsObj.tail = tailValue;
   }
   return optionsObj;
@@ -30,25 +32,25 @@ export const buildOptionsObj = (containerIDs) => {
 export const makeArrayOfObjects = (string, containerName) => {
   const arrayOfObjects = string
     .trim()
-    .split('\n')
+    .split("\n")
     .map((element) => {
       const obj = {};
-      const logArray = element.split(' ');
+      const logArray = element.split(" ");
       // extract timestamp
-      if (logArray[0].endsWith('Z')) {
+      if (logArray[0].endsWith("Z")) {
         const timeStamp = logArray.shift();
         // parse GMT string to be readable local date and time
         obj.timeStamp = new Date(Date.parse(timeStamp)).toLocaleString();
       }
       // parse remaining array to create readable message
-      let logMsg = logArray.join(' ');
+      let logMsg = logArray.join(" ");
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
-      const closingIndex = logMsg.indexOf(']');
+      const closingIndex = logMsg.indexOf("]");
       if (closingIndex >= 0) {
         logMsg = logMsg.slice(closingIndex + 1).trim();
       }
       // after removing [num/notice], some logs also have 'LOG:' before the actual msg
-      if (logMsg.slice(0, 4) === 'LOG:') {
+      if (logMsg.slice(0, 4) === "LOG:") {
         logMsg = logMsg.slice(4);
       }
       obj.logMsg = logMsg.trim();
@@ -57,6 +59,6 @@ export const makeArrayOfObjects = (string, containerName) => {
     });
 
   // filter out empty messages
-  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
+  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== "");
   return arrayOfLogs;
 };

@@ -2,10 +2,10 @@
 import {
   filterOneProperty,
   listOfVolumeProperties,
-} from './volumeHistoryHelper';
-import { useMemo } from 'react';
-import useSurvey from '../helpers/dispatch';
-import { useAppSelector } from '../../reducers/hooks';
+} from "./volumeHistoryHelper";
+import { useMemo } from "react";
+import useSurvey from "../helpers/dispatch";
+import { useAppSelector } from "../../reducers/hooks";
 
 /**
  * @module | commands.tsx
@@ -22,7 +22,7 @@ const useHelper = () => {
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
-        fetch('/api/command/refreshRunning')
+        fetch("/api/command/refreshRunning")
           .then((data) => data.json())
           .then((runningContainers) => {
             refreshRunningContainers(runningContainers);
@@ -32,7 +32,7 @@ const useHelper = () => {
       /* Refreshes stopped containers */
       refreshStopped() {
         const { refreshStoppedContainers } = dispatch;
-        fetch('/api/command/refreshStopped')
+        fetch("/api/command/refreshStopped")
           .then((data) => data.json())
           .then((stoppedContainers) => {
             refreshStoppedContainers(stoppedContainers);
@@ -42,7 +42,7 @@ const useHelper = () => {
       /* Refreshes images */
       refreshImages() {
         const { refreshImagesList } = dispatch;
-        fetch('/api/command/refreshImages')
+        fetch("/api/command/refreshImages")
           .then((data) => data.json())
           .then((imagesList) => {
             refreshImagesList(imagesList);
@@ -85,10 +85,10 @@ const useHelper = () => {
       /* Runs an image from the pulled images list in image tab @param {*} container */
       runIm(container) {
         const { refreshRunningContainers } = dispatch;
-        fetch('/api/command/runImage', {
-          method: 'post',
+        fetch("/api/command/runImage", {
+          method: "post",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(container),
         })
@@ -109,7 +109,7 @@ const useHelper = () => {
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        fetch('/api/command/dockerPrune')
+        fetch("/api/command/dockerPrune")
           .then((message) => message.json())
           .then((message) => {
             console.log({ message });
@@ -128,7 +128,7 @@ const useHelper = () => {
       /* Display all containers network based on docker-compose when the application starts */
       networkContainers() {
         const { getNetworkContainers } = dispatch;
-        fetch('/api/command/networkContainers')
+        fetch("/api/command/networkContainers")
           .then((data) => data.json())
           .then((networkContainers) => {
             getNetworkContainers(networkContainers);
@@ -138,10 +138,10 @@ const useHelper = () => {
       /* Compose up a docker container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeUp(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeUp', {
-          method: 'post',
+        fetch("/api/command/composeUp", {
+          method: "post",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             filePath: filePath,
@@ -157,7 +157,7 @@ const useHelper = () => {
       /* Get list of running container networks */
       dockerComposeStacks() {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeStacks')
+        fetch("/api/command/composeStacks")
           .then((data) => data.json())
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
@@ -167,10 +167,10 @@ const useHelper = () => {
       /* Compose down selected container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeDown(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeDown', {
-          method: 'post',
+        fetch("/api/command/composeDown", {
+          method: "post",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             filePath: filePath,
@@ -205,7 +205,7 @@ const useHelper = () => {
               net: container.NetIO,
               block: container.BlockIO,
               pid: container.PIDs,
-              timestamp: 'current_timestamp',
+              timestamp: "current_timestamp",
             };
           });
           if (stoppedContainers.length >= 1) {
@@ -213,20 +213,20 @@ const useHelper = () => {
               containerParameters[container.Names] = {
                 ID: container.ID,
                 names: container.Names,
-                cpu: '0.00%',
-                mem: '0.00%',
-                memuse: '0.00MiB/0.00MiB',
-                net: '0.00kB/0.00kB',
-                block: '0.00kB/0.00kB',
-                pid: '0',
-                timestamp: 'current_timestamp',
+                cpu: "0.00%",
+                mem: "0.00%",
+                memuse: "0.00MiB/0.00MiB",
+                net: "0.00kB/0.00kB",
+                block: "0.00kB/0.00kB",
+                pid: "0",
+                timestamp: "current_timestamp",
               };
             });
           }
-          fetch('/api/init/addMetrics', {
-            method: 'POST',
+          fetch("/api/init/addMetrics", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               containers: containerParameters,
@@ -240,10 +240,10 @@ const useHelper = () => {
         const currentTime = new Date();
         const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
 
-        fetch('/api/init/timezone', {
-          method: 'POST',
+        fetch("/api/init/timezone", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             timezone: offsetTimeZoneInHours,
@@ -258,10 +258,10 @@ const useHelper = () => {
           });
       },
       async getContainerGitUrl(container) {
-        const response = await fetch('/api/init/github', {
-          method: 'POST',
+        const response = await fetch("/api/init/github", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             githubUrl: container,
@@ -272,10 +272,12 @@ const useHelper = () => {
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;
-        fetch('/api/command/allDockerVolumes')
+        fetch("/api/command/allDockerVolumes")
           .then((volumes) => volumes.json())
           .then((dockerVolumes) => {
-            return getVolumes(filterOneProperty(dockerVolumes, 'Name'));
+            // TODO add a console.log to see what the volumes data looks like
+            console.log("DV", dockerVolumes);
+            return getVolumes(filterOneProperty(dockerVolumes, "Name"));
           })
           .catch((err) => {
             console.log(err);
@@ -287,6 +289,7 @@ const useHelper = () => {
         fetch(`/api/command/volumeContainers?volumeName=${volumeName}`)
           .then((data) => data.json())
           .then((volumeContainers) => {
+            // console.log("VC", volumeContainers);
             return getVolumeContainerList(
               listOfVolumeProperties(volumeName, volumeContainers)
             );
@@ -298,9 +301,9 @@ const useHelper = () => {
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {
-          const response = await fetch('/api/command/allLogs', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/command/allLogs", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(optionsObj),
           });
           return await response.json();

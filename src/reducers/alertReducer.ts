@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { useAppDispatch } from './hooks';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useAppDispatch } from "./hooks";
 
 const initialState: any = {
   alertList: [],
@@ -7,9 +7,10 @@ const initialState: any = {
 };
 
 const alertSlice = createSlice({
-  name: 'alerts',
+  name: "alerts",
   initialState,
   reducers: {
+    // TODO: any typing in TS
     setAlert: (state, action: PayloadAction<any>) => {
       state.alertList = [action.payload.alert, action.payload.type];
     },
@@ -28,6 +29,7 @@ export const { setAlert, setPrompt } = alertSlice.actions;
 // let timeoutId = null;
 let timeoutId: any;
 
+// TODO specify TS types
 export const createAlert = (alert: any, time: any, type: any) => {
   return (useAppDispatch) => {
     useAppDispatch(setAlert({ alert, type }));
@@ -40,9 +42,11 @@ export const createAlert = (alert: any, time: any, type: any) => {
     timeoutId = setTimeout(() => {
       useAppDispatch(setAlert([]));
     }, time * 1000);
+    console.log({ timeoutId });
   };
 };
 
+// TODO specify TS types
 export const createPrompt = (
   prompt: any = null,
   handleAccept: any,

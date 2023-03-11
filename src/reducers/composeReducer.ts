@@ -1,7 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { containerStateType } from '../../types';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { containerStateType } from "../../types";
 
 const initialState: containerStateType = {
+  // ? why is runningList & stoppedList here
   runningList: [],
   stoppedList: [],
   networkList: [],
@@ -9,9 +10,10 @@ const initialState: containerStateType = {
 };
 
 export const composeSlice = createSlice({
-  name: 'composes',
+  name: "composes",
   initialState,
   reducers: {
+    // ! doesn't seem like getNetworkContainers is being used anywhere
     getNetworkContainers: (state, action: PayloadAction<any>) => {
       state.networkList.push([...action.payload]);
     },
@@ -19,7 +21,11 @@ export const composeSlice = createSlice({
       const currentState: any = state.composeStack;
 
       const composeStackUpdater = (
+        // TODO: rename arrays to be more readable. Consider moving this function elsewhere for easier readability. Redo the stringifying down below in variables at the top of the function to improve readability. Rename output array to new compose stack array
+        // ? are the two forEaches redundant?
+        // current state is first array
         firstArray: [],
+        // action payload is second array (new stack?)
         secondArray: [],
         outputArray = []
       ) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../reducers/hooks';
 import { createAlert, createPrompt } from '../reducers/alertReducer';
@@ -44,7 +44,8 @@ const Home = () => {
     refreshImages,
     writeToDb,
     networkContainers,
-    setDbSessionTimeZone,
+    // below function never called
+    // setDbSessionTimeZone,
     getAllDockerVolumes,
     handlePruneClick,
     getVolumeContainers,
@@ -53,8 +54,8 @@ const Home = () => {
   // Deconstructs dispatch functions from custom hook
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
-  
-  
+
+
   const handleLogout = () => {
     updateSession();
     logoutUser();
@@ -185,13 +186,13 @@ const Home = () => {
                       dispatch(
                         createPrompt(
                           // prompt (first argument in createPrompt)
-                          `Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).`,
+                          'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
                           // handleAccept (second argument in createPrompt)
                           () => {
                             handlePruneClick(e);
                             dispatch(
                               createAlert(
-                                `Performing system prune...`,
+                                'Performing system prune...',
                                 5,
                                 'success'
                               )
@@ -201,7 +202,7 @@ const Home = () => {
                           () => {
                             dispatch(
                               createAlert(
-                                `The request to perform system prune has been cancelled.`,
+                                'The request to perform system prune has been cancelled.',
                                 5,
                                 'warning'
                               )
@@ -253,13 +254,13 @@ const Home = () => {
                     dispatch(
                       // prompt (first argument in createPrompt)
                       createPrompt(
-                        `Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).`,
+                        'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
                         // handleAccept (second argument in createPrompt)
                         () => {
                           handlePruneClick(e);
                           dispatch(
                             createAlert(
-                              `Performing system prune...`,
+                              'Performing system prune...',
                               5,
                               'success'
                             )
@@ -269,7 +270,7 @@ const Home = () => {
                         () => {
                           dispatch(
                             createAlert(
-                              `The request to perform system prune has been cancelled.`,
+                              'The request to perform system prune has been cancelled.',
                               5,
                               'warning'
                             )
@@ -294,17 +295,17 @@ const Home = () => {
                 dispatch(
                   createPrompt(
                     // prompt (first argument in createPrompt)
-                    `Are you sure you want to log out of Docketeer?`,
+                    'Are you sure you want to log out of Docketeer?',
                     // handleAccept (second argument in createPrompt)
                     () => {
                       handleLogout();
-                      dispatch(createAlert(`Logging out...`, 5, 'success'));
+                      dispatch(createAlert('Logging out...', 5, 'success'));
                     },
                     // handleDeny (third argument in createPrompt)
                     () => {
                       dispatch(
                         createAlert(
-                          `The request to logout has been cancelled.`,
+                          'The request to logout has been cancelled.',
                           5,
                           'warning'
                         )
@@ -369,8 +370,8 @@ const Home = () => {
               width="24"
               height="24"
               xmlns="http://www.w3.org/2000/svg"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               className="fill-current"
             >
               <path d="M22.288 21h-20.576c-.945 0-1.712-.767-1.712-1.712v-13.576c0-.945.767-1.712 1.712-1.712h20.576c.945 0 1.712.767 1.712 1.712v13.576c0 .945-.767 1.712-1.712 1.712zm-10.288-6.086l-9.342-6.483-.02 11.569h18.684v-11.569l-9.322 6.483zm8.869-9.914h-17.789l8.92 6.229s6.252-4.406 8.869-6.229z" />

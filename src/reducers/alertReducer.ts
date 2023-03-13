@@ -55,7 +55,8 @@ export const { setAlert, setPrompt } = alertSlice.actions;
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const createAlert = (alert: string, time: number, type: string) => {
-  return (useAppDispatch) => {
+  // TODO: revisit typing of payloadAction
+  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setAlert({ alert, type }));
     useAppDispatch(
       // sending null to clear the prompt

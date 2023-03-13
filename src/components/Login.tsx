@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -20,20 +20,18 @@ const Login = () => {
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
   const dispatch = useAppDispatch();
 
-  const handleLogin = () => {
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    // grab the input values
-    const username: string = (usernameInput as HTMLInputElement).value;
-    const password: string = (passwordInput as HTMLInputElement).value;
-    // clear the inputs
-    (usernameInput as HTMLInputElement).value = '';
-    (passwordInput as HTMLInputElement).value = '';
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
+    // prevent default form submission action
+    e.preventDefault();
+    // authenticate user
     authenticateUser(username, password);
   };
 
   // send a fetch request to the backend to login
-  const authenticateUser = (username, password) => {
+  const authenticateUser = (username: string, password: string): void => {
     fetch('/api/login', {
       method: 'POST',
       headers: {
@@ -53,7 +51,7 @@ const Login = () => {
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
           dispatch(
             createAlert(
-              `The username and/or password entered could not be authenticated. Please try again.`,
+              'The username and/or password entered could not be authenticated. Please try again.',
               5,
               'error'
             )
@@ -85,37 +83,39 @@ const Login = () => {
       <div className="hero-content flex-col lg:flex-row lg:space-x-20">
         <img src={Docketeer} alt="product-logo" className="max-w-sm" />
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <div className="card-body">
+          <form className="card-body" onSubmit={(e) => handleLogin(e)}>
             <div className="form-control">
               <input
+                className="input input-bordered"
                 type="text"
                 id="username"
                 placeholder="Username"
-                className="input input-bordered"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div className="form-control">
               <input
+                className="input input-bordered"
                 type="password"
                 id="password"
+                value={password}
                 placeholder="Password"
-                className="input input-bordered"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <label className="label">
                 <a
                   className="label-text-alt link link-hover"
                   onClick={() => navigate('/userSignup')}
                 >
-                  HELLO.
+                  New User? Click here to register.
                 </a>
               </label>
             </div>
             <div className="form-control mt-2">
-              <button className="btn btn-primary" onClick={() => handleLogin()}>
-                PLEASE WORK
-              </button>
+              <button className="btn btn-primary">Login</button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

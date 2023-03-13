@@ -304,7 +304,7 @@ export interface graphStateType {
 
 // need to get type of imagesList later
 export interface imagesStateType {
-  imagesList: any[];
+  imagesList: imageObj[];
 }
 
 // need to get type of the sets later by seeing what data is in the notification lists

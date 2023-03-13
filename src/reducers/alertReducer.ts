@@ -55,7 +55,7 @@ export const { setAlert, setPrompt } = alertSlice.actions;
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const createAlert = (alert: string, time: number, type: string) => {
-  // TODO: revisit typing of payloadAction
+  // TODO: revisit typing of payloadAction. Should it be more specific?
   return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setAlert({ alert, type }));
     useAppDispatch(
@@ -80,7 +80,7 @@ export const createPrompt = (
   handleAccept: () => void,
   handleDeny: () => void
 ) => {
-  return (useAppDispatch) => {
+  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setPrompt({ prompt, handleAccept, handleDeny }));
   };
 };

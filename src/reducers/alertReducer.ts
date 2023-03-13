@@ -1,20 +1,45 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useAppDispatch } from "./hooks";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line
+import { useAppDispatch } from './hooks';
+import { AlertStateType } from '../../types';
+// interface AlertState {
+//   alertList: string[];
+//   promptList:
+//     | [prompt: string, handleAccept: () => void, handleDeny: () => void]
+//     | [];
+// }
 
-const initialState: any = {
+// TODO: redo prompts to be component based
+
+const initialState: AlertStateType = {
   alertList: [],
   promptList: [],
 };
 
 const alertSlice = createSlice({
-  name: "alerts",
+  name: 'alerts',
   initialState,
   reducers: {
-    // TODO: any typing in TS
-    setAlert: (state, action: PayloadAction<any>) => {
+    setAlert: (
+      state,
+      action: PayloadAction<{ alert: string; type: string }>
+    ) => {
+      console.log('setAlert payloadAction', action.payload);
       state.alertList = [action.payload.alert, action.payload.type];
     },
-    setPrompt: (state, action: PayloadAction<any>) => {
+    setPrompt: (
+      state,
+      action: PayloadAction<{
+        prompt: string;
+        handleAccept: () => void;
+        handleDeny: () => void;
+      }>
+    ) => {
+      console.log('setPrompt payloadAction', action.payload);
+      if (action.payload.handleAccept === null) {
+        state.promptList = [];
+      }
+
       state.promptList = [
         action.payload.prompt,
         action.payload.handleAccept,
@@ -27,30 +52,32 @@ const alertSlice = createSlice({
 export const { setAlert, setPrompt } = alertSlice.actions;
 
 // let timeoutId = null;
-let timeoutId: any;
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-// TODO specify TS types
-export const createAlert = (alert: any, time: any, type: any) => {
+export const createAlert = (alert: string, time: number, type: string) => {
   return (useAppDispatch) => {
     useAppDispatch(setAlert({ alert, type }));
-    useAppDispatch(setPrompt([]));
+    useAppDispatch(
+      // sending null to clear the prompt
+      setPrompt({ prompt: null, handleAccept: null, handleDeny: null })
+    );
 
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
-      useAppDispatch(setAlert([]));
+      // sending null to clear the alert
+      useAppDispatch(setAlert({ alert: null, type: null }));
     }, time * 1000);
     console.log({ timeoutId });
   };
 };
 
-// TODO specify TS types
 export const createPrompt = (
-  prompt: any = null,
-  handleAccept: any,
-  handleDeny: any
+  prompt: string = null,
+  handleAccept: () => void,
+  handleDeny: () => void
 ) => {
   return (useAppDispatch) => {
     useAppDispatch(setPrompt({ prompt, handleAccept, handleDeny }));

@@ -94,7 +94,7 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((newRunningList) => {
-            //With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
+            // With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
             refreshRunningContainers(newRunningList);
           })
           .catch((err) => console.log(err));
@@ -251,6 +251,8 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((response) => {
+            // TODO: why is any not erroring here?
+            console.log(response);
             return;
           })
           .catch((err) => {

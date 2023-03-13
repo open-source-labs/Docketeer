@@ -26,7 +26,7 @@ export const sessionSlice = createSlice({
   name: 'sessions',
   initialState,
   reducers: {
-    //This doesn't utilize a payload (see calling of updateSession in Login.tsx)
+    // This doesn't utilize a payload (see calling of updateSession in Login.tsx)
     updateSession: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },

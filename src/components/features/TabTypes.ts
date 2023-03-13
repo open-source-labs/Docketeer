@@ -99,7 +99,7 @@ export type SettingsProps = {
   addMemoryNotificationSetting: (data: any) => void;
   addCpuNotificationSetting: (data: any) => void;
   addStoppedNotificationSetting: (data: any) => void;
-  addPhoneNumber: (data: any) => void;
+  addPhoneNumber: (data: string) => void;
   addNotificationFrequency: (data: any) => void;
   runningList: any[];
   stop?: (id: any, callback: any) => void;

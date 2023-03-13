@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { volumeStateType } from "../../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { volumeStateType } from '../../types';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
@@ -12,7 +12,7 @@ const initialState: volumeStateType = {
 };
 
 export const volumeSlice = createSlice({
-  name: "volumes",
+  name: 'volumes',
   initialState,
   reducers: {
     // ! first time: action = page render(useEffect())
@@ -23,11 +23,8 @@ export const volumeSlice = createSlice({
       // TODO change this if statement, doesn't seem to matter
       // ? if statement does nothing, does this solve an edge case?
       // if the state is not empty (state would only be empty at render)
-      console.log("state.vcl: ", state.volumeContainersList);
       if (state.volumeContainersList.length) {
         state.volumeContainersList.forEach((volumeContainer) => {
-          console.log("vc: ", volumeContainer.vol_name);
-          console.log("ap: ", action.payload.vol_name);
           if (volumeContainer.vol_name === action.payload.vol_name) {
             return state.volumeContainersList;
           }

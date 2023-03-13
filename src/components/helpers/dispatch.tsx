@@ -114,7 +114,7 @@ const useSurvey = () => {
       // Note: refreshImagesList, refreshRunningContainers (both already exported)
       // Dispatch functions used in Settings.tsx
       // Note: removeMemory..., removeCpu..., and removeStopped... were previously declared in Settings but not used
-      addPhoneNumber(data: any) {
+      addPhoneNumber(data: string) {
         dispatch(addPhoneNumber(data));
       },
       updateUser(userInfo: UserInfo) {

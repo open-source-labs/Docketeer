@@ -9,16 +9,16 @@ import '../components/main.css';
 // TODO setup redux persist & configure it
 
 const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container!);
+const root = ReactDOM.createRoot(container);
 
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/*" element={<App />} />
+      </Routes>
+    </BrowserRouter>
+    {/* </React.StrictMode> */}
   </Provider>
 );

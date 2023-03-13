@@ -34,7 +34,7 @@ export interface sessionStateType {
   container_stops: string;
   token: string;
   isLoggedIn: boolean;
-  userList: any[];
+  // userList: any[];
 }
 export interface StoppedListType {
   Names?: string;
@@ -324,7 +324,7 @@ export interface logsStateType {
 }
 
 export interface userStateType {
-  userList: any[];
+  userList: UserInfo[];
 }
 
 export interface userReducerStateType {

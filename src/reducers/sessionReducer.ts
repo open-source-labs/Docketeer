@@ -19,7 +19,7 @@ const initialState: sessionStateType = {
   container_stops: '',
   token: '',
   isLoggedIn: false,
-  userList: [],
+  // userList: [],
 };
 
 export const sessionSlice = createSlice({

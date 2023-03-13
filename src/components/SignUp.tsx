@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
  * @module | SignUp
  * @description | Facilitates registration of new users (admins) to Docketeer
  **/
-type Values = {
+type SignUpValues = {
   username: string;
   password: string;
   passwordConfirmation: string;
@@ -17,7 +17,7 @@ type Values = {
 };
 
 const SignUp = () => {
-  const [values, setValues] = useState<Values>({
+  const [values, setValues] = useState<SignUpValues>({
     username: '',
     password: '',
     passwordConfirmation: '',

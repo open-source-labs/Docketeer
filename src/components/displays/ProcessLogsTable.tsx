@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../reducers/hooks";
+import React, { useEffect, useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
-import { createAlert } from "../../reducers/alertReducer";
-import useHelper from "../helpers/commands";
-import useSurvey from "../helpers/dispatch";
-import { buildOptionsObj } from "../helpers/logs";
+import { createAlert } from '../../reducers/alertReducer';
+import useHelper from '../helpers/commands';
+import useSurvey from '../helpers/dispatch';
+import { buildOptionsObj } from '../helpers/logs';
 
-import { CSVLink } from "react-csv";
-import { ContainerType, RowsDataType } from "../../../types";
-import "./ProcessLogsCard";
+import { CSVLink } from 'react-csv';
+import { ContainerType, RowsDataType } from '../../../types';
+import './ProcessLogsCard';
 
 /**
  * @module | ProcessLogsTable.tsx
@@ -21,10 +21,10 @@ const ProcessLogsTable = () => {
   const { getLogs } = useHelper();
 
   const urlString = window.location.href;
-  console.log({urlString})
-  const containerID = urlString.split("/");
+  console.log({urlString});
+  const containerID = urlString.split('/');
   console.log({containerID});
-  
+
   const id = containerID[containerID.length - 1];
 
   const runningList = useAppSelector((state) => state.containers.runningList);
@@ -36,7 +36,7 @@ const ProcessLogsTable = () => {
   const [btnIdList, setBtnIdList] = useState([id] as any[]);
   const [rows, setRows] = useState([] as any[]);
   const [csvData, setCsvData] = useState([
-    ["container", "type", "time", "message"],
+    ['container', 'type', 'time', 'message'],
   ] as any[]);
   const [counter, setCounter] = useState(0);
 
@@ -118,21 +118,21 @@ const ProcessLogsTable = () => {
     if (stdout) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log['containerName']
         );
         if (currCont) {
           newRows.push({
             container: currCont.Names,
-            type: "stdout",
-            time: log["timeStamp"],
-            message: log["logMsg"],
+            type: 'stdout',
+            time: log['timeStamp'],
+            message: log['logMsg'],
             id: Math.random() * 100,
           });
           newCSV.push([
             currCont.Names,
-            "stdout",
-            log["timeStamp"],
-            log["logMsg"],
+            'stdout',
+            log['timeStamp'],
+            log['logMsg'],
           ]);
         }
       });
@@ -140,27 +140,27 @@ const ProcessLogsTable = () => {
     if (stderr) {
       stderr.forEach((log: { [k: string]: any }, index: any) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log["containerName"]
+          (el: ContainerType) => el.ID === log['containerName']
         );
         if (currCont) {
           newRows.push({
             container: currCont.Names,
-            type: "stderr",
-            time: log["timeStamp"],
-            message: log["logMsg"],
+            type: 'stderr',
+            time: log['timeStamp'],
+            message: log['logMsg'],
             id: parseInt(index),
           });
           newCSV.push([
             currCont.Names,
-            "stderr",
-            log["timeStamp"],
-            log["logMsg"],
+            'stderr',
+            log['timeStamp'],
+            log['logMsg'],
           ]);
         }
       });
 
       setRows(newRows as keyof typeof setRows);
-      setCsvData([["container", "type", "time", "message"], ...newCSV]);
+      setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };
 
@@ -198,9 +198,9 @@ const ProcessLogsTable = () => {
                 onClick={() => {
                   dispatch(
                     createAlert(
-                      `Loading process log information...`,
+                      'Loading process log information...',
                       5,
-                      "success"
+                      'success'
                     )
                   );
                   handleGetLogs(btnIdList);

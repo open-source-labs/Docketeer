@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { checkDbInit, handleNewUser } from './helpers/newUserHelper';
+// import { checkDbInit, handleNewUser } from './helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';

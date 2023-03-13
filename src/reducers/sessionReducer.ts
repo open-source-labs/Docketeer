@@ -39,7 +39,8 @@ export const sessionSlice = createSlice({
       }
     },
     logoutUser: (state) => {
-      return initialState;
+      state = initialState;
+      return state;
     },
   },
 });

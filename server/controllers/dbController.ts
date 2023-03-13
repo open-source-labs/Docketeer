@@ -12,7 +12,7 @@ import { DbController, ServerError } from "../../types";
 const dbController: DbController = {
   // ==========================================================
   // Middleware: createRoles
-  // Purpose: creates a table, roles, and gives it 2 columns: _id and role, _id is the primary key, oids false to optimize performance
+  // Purpose: creates a table named roles, with THREE columns. _id (serial #), role(string representing role), and primary key, which is the _id.
   // ==========================================================
 
   createRoles: (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,8 @@ const dbController: DbController = {
   // ==========================================================
 
   insertRoles: (req: Request, res: Response, next: NextFunction) => {
-    console.log("yo");
+ 
+    //
     db.query(
       "INSERT INTO roles (role) VALUES ('system admin'); INSERT INTO roles (role) VALUES ('admin'); INSERT INTO roles (role) VALUES ('user');"
     )
@@ -110,7 +111,7 @@ const dbController: DbController = {
   /**
    * @description removes token from database
    */
-  // TODO when was token given?
+  // TODO when was token given? haskCookie, never used
 
   // ==========================================================
   // Middleware: removeToken

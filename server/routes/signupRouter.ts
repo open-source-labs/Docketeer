@@ -22,10 +22,10 @@ router.get("/", userController.getAllUsers, (req: Request, res: Response) => {
 // Route: /
 // Purpose: Verifies fields during sign up process are correct/checked against criteria
 // ==========================================================
-
+// TODO is usernameCheck necessary?
 router.post(
   "/",
-  // signupController.usernameCheck,
+  signupController.usernameCheck,
   // signupController.passwordCheck,
   bcryptController.hashPassword,
   userController.createUser,

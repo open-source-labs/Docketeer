@@ -195,7 +195,7 @@ const userController: UserController = {
     if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
       res.locals.hasError = true;
       next();
-      // otherwise we update the users role (found user from id given in body) to role sent in body; we 
+      // otherwise we update the users role (found user from id given in body) to role sent in body; we
     } else {
       const query =
         "UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;";

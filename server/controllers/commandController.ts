@@ -35,13 +35,13 @@ const convert = (stdout: string): string[][] => {
  */
 const makeArrayOfObjects = (string: string, containerName: string): object => {
   // Creates an array from the input string of logs
-  const arrayOfObjects = string
+  const arrayOfObjects: object[] = string
     .trim()
     .split('\n')
     // mutates the array of logs to be more readable
-    .map((element: string): [] => {
+    .map((element: string): object => {
       // TODO type declaration
-      const obj: { [k: string]: any } = {};
+      const obj: { [k: string]: string } = {};
       const logArray = element.split(' ');
       // extract timestamp
 

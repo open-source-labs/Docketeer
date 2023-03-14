@@ -3,16 +3,16 @@
  * @description | contains middleware that sends emails to user for container issues and signup information
  **/
 
-import { Request, Response, NextFunction } from "express";
-import nodemailer from "nodemailer";
+import { Request, Response, NextFunction } from 'express';
+import nodemailer from 'nodemailer';
 // TODO security is in gitignore; my need to optimize nodemailer, implement "service"
-import email from "../../security/email";
-import { ApiController, ServerError } from "../../types";
+import email from '../../security/email';
+import { ApiController, ServerError } from '../../types';
 
 // ==========================================================
 // Function: transporter
 // Purpose: create transporter object to make sure these values are filled out in email.js
-//TODO make sure we have "service" key on our transporter obj to specify gmail, etc.
+// TODO make sure we have "service" key on our transporter obj to specify gmail, etc.
 // ==========================================================
 const transporter = nodemailer.createTransport({
   host: email.host,
@@ -33,7 +33,7 @@ const apiController: ApiController = {
     const { email, containerName, time, date, stopped } = req.body;
     let emailBody: string;
 
-    if (stopped === "true") {
+    if (stopped === 'true') {
       emailBody = `
         <h2>Alert: ${containerName} has stopped!</h2>
         <h3>Container <b>${containerName}</b> stopped running at <b>${time}</b> on <b>${date}</b>.</h3>
@@ -54,9 +54,9 @@ const apiController: ApiController = {
     }
 
     const mailDetails = {
-      from: "team.docketeer@gmail.com",
+      from: 'team.docketeer@gmail.com',
       to: email,
-      subject: "Docketeer: Container Issue",
+      subject: 'Docketeer: Container Issue',
       html: `${emailBody}`,
     };
 
@@ -69,7 +69,7 @@ const apiController: ApiController = {
         return next({
           log: `Error in apiController sendEmailAlert: ${err}`,
           message: {
-            err: "An error occured creating new user in database. See apiController.sendEmailAlert.",
+            err: 'An error occured creating new user in database. See apiController.sendEmailAlert.',
           },
         });
       });
@@ -83,12 +83,12 @@ const apiController: ApiController = {
   signupEmail: (req: Request, res: Response, next: NextFunction) => {
     const { email, username, password } = req.body;
 
-    //create an email description and boilerplate with mailDetails
+    // create an email description and boilerplate with mailDetails
 
     const mailDetails = {
-      from: "team.docketeer@gmail.com",
+      from: 'team.docketeer@gmail.com',
       to: email,
-      subject: "Docketeer: Account Details",
+      subject: 'Docketeer: Account Details',
       html: `
         <h1>Welcome to Docketeer</h1>
         <p>We are so excited to have you onboard!</p>
@@ -101,10 +101,10 @@ const apiController: ApiController = {
     };
     // TODO may need to configure transport; add services?
 
-    //create transporter with Nodemailer to send email.
+    // create transporter with Nodemailer to send email.
     transporter
 
-      //.sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
 
       .sendMail(mailDetails)
       .then((info: any) => {
@@ -114,7 +114,7 @@ const apiController: ApiController = {
         return next({
           log: `Error in apiController signupEmail: ${err}`,
           message: {
-            err: "An error occured creating new user in database. See apiController.signupEmail.",
+            err: 'An error occured creating new user in database. See apiController.signupEmail.',
           },
         });
       });

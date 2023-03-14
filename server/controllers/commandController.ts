@@ -4,9 +4,13 @@
  **/
 
 import { Request, Response, NextFunction } from 'express';
-import { CommandController } from '../../types';
+import {
+  CommandController,
+  logObject,
+  composeStacksDockerObject,
+} from '../../types';
 import { exec } from 'child_process';
-
+// TODO inconsitent use of async vs then
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -14,7 +18,7 @@ import { exec } from 'child_process';
  */
 const convert = (stdout: string): string[][] => {
   const newArray = stdout.split('\n');
-  
+
   const result: string[][] = [];
   for (let i = 1; i < newArray.length - 1; i++) {
     let removedSpace: string = newArray[i].replace(/\s+/g, ' '); // remove all spaces and replace it to 1 space
@@ -33,28 +37,34 @@ const convert = (stdout: string): string[][] => {
  * @param {string} containerId
  * @returns {object} optionsObj
  */
-const makeArrayOfObjects = (string: string, containerName: string): object => {
+const makeArrayOfObjects = (
+  string: string,
+  containerName: string
+): logObject[] => {
   // Creates an array from the input string of logs
-  const arrayOfObjects: object[] = string
+  const arrayOfObjects: logObject[] = string
     .trim()
     .split('\n')
     // mutates the array of logs to be more readable
-    .map((element: string): object => {
-      // TODO type declaration
-      const obj: { [k: string]: string } = {};
+    .map((element: string): logObject => {
+      const obj: logObject = {
+        timeStamp: '',
+        logMsg: '',
+        containerName: '',
+      };
       const logArray = element.split(' ');
       // extract timestamp
 
-      // TODO type declaration
+      // TODO timestamp cant only be string but if set to string | undefined ln 51 trips out; figure reason
       if (logArray[0].endsWith('Z')) {
-        const timeStamp: any = logArray.shift();
+        const timeStamp: string | undefined = logArray.shift();
         // parse GMT string to be readable local date and time
-        obj.timeStamp = new Date(Date.parse(timeStamp)).toLocaleString();
+        obj.timeStamp = new Date(Date.parse(timeStamp || '')).toLocaleString();
       }
       // parse remaining array to create readable message
-      let logMsg = logArray.join(' ');
+      let logMsg: string = logArray.join(' ');
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
-      const closingIndex = logMsg.indexOf(']');
+      const closingIndex: number = logMsg.indexOf(']');
       if (closingIndex >= 0) {
         logMsg = logMsg.slice(closingIndex + 1).trim();
       }
@@ -68,10 +78,13 @@ const makeArrayOfObjects = (string: string, containerName: string): object => {
     });
 
   // filter out empty messages
-  const arrayOfLogs = arrayOfObjects.filter((obj) => obj.logMsg !== '');
+  const arrayOfLogs: logObject[] = arrayOfObjects.filter(
+    (obj: logObject): boolean => obj.logMsg !== ''
+  );
   return arrayOfLogs;
 };
 
+// TODO: is this used?
 // ==========================================================
 // Function: fn
 // Purpose: formats our numbers to round to 2 decimal places
@@ -81,17 +94,17 @@ const makeArrayOfObjects = (string: string, containerName: string): object => {
  *
  *  @param {*} num
  */
-const fn = (num: number) => {
+const fn = (num: number): number => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-
+// TODO the next two mwfs below dont practice dry; type alias?
 // ==========================================================
 // Function: promisifiedExec
 // Purpose: makes our command line functions to return Promise
 // ==========================================================
-const promisifiedExec = (cmd: string) => {
-  return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
+const promisifiedExec = (cmd: string): Promise<string> => {
+  return new Promise((resolve: (result: string) => void, reject: (error: Error) => void) => {
+    exec(cmd, (error: Error | null, stdout: string, stderr: string) => {
       if (error) {
         reject(error);
       }
@@ -102,28 +115,29 @@ const promisifiedExec = (cmd: string) => {
 
 // ==========================================================
 // Function: promisifiedExecStdErr
-// Purpose: makes our command line functions to return Promise
+// Purpose: makes our command line functions to return Promise with std err
 // ==========================================================
-const promisifiedExecStdErr = (cmd: string) => {
-  return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(stderr);
-    });
-  });
+const promisifiedExecStdErr = (cmd: string): Promise<string> => {
+  return new Promise(
+    (resolve: (result: string) => void, reject: (error: Error) => void) => {
+      exec(cmd, (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(stderr);
+      });
+    }
+  );
 };
 
 // ==========================================================
 // Function: convertArrToObj
 // Purpose: converts arr to obj
 // ==========================================================
-// TODO type declaration
-const convertArrToObj = (array: any[], objArray: any[]) => {
-  const result: any[] = [];
+const convertArrToObj = (array: string[][], objArray: string[]): object[] => {
+  const result: object[] = [];
   for (let i = 0; i < array.length; i++) {
-    const containerObj: { [k: string]: any } = {};
+    const containerObj: { [k: string]: string } = {};
     for (let j = 0; j < array[i].length; j++) {
       containerObj[objArray[j]] = array[i][j];
     }
@@ -137,14 +151,17 @@ const commandController: CommandController = {
   // Middleware: getContainers
   // Purpose: pulls running container info from docker ps command
   // ==========================================================
-  getContainers: async (req: Request, res: Response, next: NextFunction) => {
+  getContainers: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     // grab list of containers and info using docker ps
-    // TODO type declaration
 
-    const result: any = await promisifiedExec(
+    const result: string = await promisifiedExec(
       'docker ps --format "{{json .}},"'
     );
-    const dockerOutput = JSON.parse(
+    const dockerOutput: string[] = JSON.parse(
       `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
     res.locals.containers = dockerOutput;
@@ -155,16 +172,17 @@ const commandController: CommandController = {
   // Middleware: runImage
   // Purpose: executes the docker run command with parameters and such
   // ==========================================================
-  runImage: (req: Request, res: Response, next: NextFunction) => {
+  runImage: (req: Request, res: Response, next: NextFunction): void => {
+    // TODO imgid ln 171?
     // List of running containers (docker ps)
     const { imgid, reps, tag } = req.body;
-    const containerId = Math.floor(Math.random() * 100);
-    const filteredRepo = reps
+    const containerId: number = Math.floor(Math.random() * 100);
+    const filteredRepo: string = reps
       .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.') // TODO shorten regex filter
       .replace(/\s{2,}/g, ' ');
     exec(
       `docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`,
-      (error, stdout, stderr) => {
+      (error: Error | null, stdout: string, stderr: string): void => {
         if (error) {
           console.log(`${error.message}`);
           return next(error);
@@ -182,14 +200,17 @@ const commandController: CommandController = {
   // Middleware: refreshStopped
   // Purpose: executes the docker ps command with status=exited flag to get list of stopped containers
   // ==========================================================
-  refreshStopped: async (req: Request, res: Response, next: NextFunction) => {
+  refreshStopped: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     // run exec(docker ps -f "status=exited" --format "{{json .}},")
-    // TODO any
-    const result: any = await promisifiedExec(
+    const result: string = await promisifiedExec(
       'docker ps -f "status=exited" --format "{{json .}},"'
     );
-    const dockerOutput = result.trim().slice(0, -1);
-    const parsedDockerOutput = JSON.parse(`[${dockerOutput}]`);
+    const dockerOutput: string = result.trim().slice(0, -1);
+    const parsedDockerOutput: string[] = JSON.parse(`[${dockerOutput}]`);
 
     res.locals.stoppedContainers = parsedDockerOutput;
     return next();
@@ -199,17 +220,21 @@ const commandController: CommandController = {
   // Middleware: refreshImgaes
   // Purpose: executes the docker image command to get list of pulled images
   // ==========================================================
-  refreshImages: async (req: Request, res: Response, next: NextFunction) => {
+  refreshImages: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     // TODO any
-    const result: any = await promisifiedExec('docker images');
-
-    const value = convert(result);
-
-    const objArray = ['reps', 'tag', 'imgid', 'size'];
-    const resultImages: any[] = [];
+    const result: string = await promisifiedExec('docker images');
+    // make an arr of subarrays containing strings
+    const value: string[][] = convert(result);
+    // TODO why is this called objArr?
+    const objArray: string[] = ['reps', 'tag', 'imgid', 'size'];
+    const resultImages: string[][] = [];
 
     for (let i = 0; i < value.length; i++) {
-      const innerArray: any[] = [];
+      const innerArray: string[] = [];
       if (value[i][0] !== '<none>') {
         innerArray.push(value[i][0]);
         innerArray.push(value[i][1]);
@@ -219,7 +244,7 @@ const commandController: CommandController = {
       }
     }
 
-    const convertedValue = convertArrToObj(resultImages, objArray);
+    const convertedValue: object[] = convertArrToObj(resultImages, objArray);
 
     res.locals.imagesList = convertedValue;
     return next();
@@ -229,133 +254,158 @@ const commandController: CommandController = {
   // Middleware: remove
   // Purpose: executes docker rm {containerId} command to remove a stopped container
   // ==========================================================
-  remove: async (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker rm ${req.query.id}`, (error, stdout, stderr) => {
-      if (error) {
-        console.log(`${error.message}`);
-        return next(error);
+  remove: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    exec(
+      `docker rm ${req.query.id}`,
+      (error: Error | null, stdout: string, stderr: string): void => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`remove stderr: ${stderr}`);
+          return;
+        }
+        // container deleted move to refreshStopped method
+        // res.locals.idRemoved = req.body;
+        res.locals.idRemoved = {
+          message: `Container with id ${req.query.id} deleted`,
+        };
+        return next();
       }
-      if (stderr) {
-        console.log(`remove stderr: ${stderr}`);
-        return;
-      }
-      // container deleted move to refreshStopped method
-      // res.locals.idRemoved = req.body;
-      res.locals.idRemoved = {
-        message: `Container with id ${req.query.id} deleted`,
-      };
-      return next();
-    });
+    );
   },
 
   // ==========================================================
   // Middleware: stopContainer
   // Purpose: executes docker stop {id} command to stop a running container
   // ==========================================================
-  stopContainer: (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker stop ${req.query.id}`, (error, stderr, stdout) => {
-      if (error) {
-        console.log(`${error.message}`);
-        return next(error);
-      }
-      if (stderr) {
-        console.log(`stop stderr: ${stderr}`);
-        return;
-      }
+  stopContainer: (req: Request, res: Response, next: NextFunction): void => {
+    exec(
+      `docker stop ${req.query.id}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`stop stderr: ${stderr}`);
+          return;
+        }
 
-      res.locals.containerStopped = {
-        message: `Stopped Container with id ${req.query.id} stopped`,
-      };
-      return next();
-    });
+        res.locals.containerStopped = {
+          message: `Stopped Container with id ${req.query.id} stopped`,
+        };
+        return next();
+      }
+    );
   },
 
   // ==========================================================
   // Middleware: runStopped
   // Purpose: executes docker start {id} command to run a stopped container
   // ==========================================================
-  runStopped: (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker start ${req.query.id}`, (error, stdout, stderr) => {
-      if (error) {
-        console.log(`${error.message}`);
-        return next(error);
-      }
-      if (stderr) {
-        console.log(`runStopped stderr: ${stderr}`);
-        return;
-      }
+  runStopped: (req: Request, res: Response, next: NextFunction): void => {
+    exec(
+      `docker start ${req.query.id}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`runStopped stderr: ${stderr}`);
+          return;
+        }
 
-      res.locals.containerRan = {
-        message: `Running container with id ${req.query.id}`,
-      };
-      return next();
-    });
+        res.locals.containerRan = {
+          message: `Running container with id ${req.query.id}`,
+        };
+        return next();
+      }
+    );
   },
 
   // ==========================================================
   // Middleware: removeImage
   // Purpose: executes `docker rmi -f {id} command to remove a pulled image
   // ==========================================================
-  removeImage: (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker rmi -f ${req.query.id}`, (error, stderr, stdout) => {
-      if (error) {
-        console.log(
-          `${error.message}` +
-            '\nPlease stop running container first then remove.'
-        );
-        return next(error);
+  removeImage: (req: Request, res: Response, next: NextFunction): void => {
+    exec(
+      `docker rmi -f ${req.query.id}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(
+            `${error.message}` +
+              '\nPlease stop running container first then remove.'
+          );
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`removeIm stderr: ${stderr}`);
+          return;
+        }
+        return next();
       }
-      if (stderr) {
-        console.log(`removeIm stderr: ${stderr}`);
-        return;
-      }
-      return next();
-    });
+    );
   },
 
   // ==========================================================
   // Middleware: dockerPrune
   // Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced)
   // ==========================================================
-  dockerPrune: (req: Request, res: Response, next: NextFunction) => {
-    exec('docker system prune --force', (error, stdout, stderr) => {
-      if (error) {
-        console.log(`${error.message}`);
-        return next(error);
+  dockerPrune: (req: Request, res: Response, next: NextFunction): void => {
+    exec(
+      'docker system prune --force',
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`handlePruneClick stderr: ${stderr}`);
+          return;
+        }
+        res.locals.pruneMessage = {
+          message:
+            'Remove all unused containers, networks, images (both dangling and unreferenced)',
+        };
+        return next();
       }
-      if (stderr) {
-        console.log(`handlePruneClick stderr: ${stderr}`);
-        return;
-      }
-      res.locals.pruneMessage = {
-        message:
-          'Remove all unused containers, networks, images (both dangling and unreferenced)',
-      };
-      return next();
-    });
+    );
   },
 
   // ==========================================================
   // Middleware: pullImage
   // Purpose: executes docker pull {repo} command to pull a new image
   // ==========================================================
-  pullImage: (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker pull ${req.query.repo}`, (error, stdout, stderr) => {
-      if (error) {
+  pullImage: (req: Request, res: Response, next: NextFunction): void => {
+    exec(
+      `docker pull ${req.query.repo}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(
+            `Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`
+          );
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`pullImage stderr: ${stderr}`);
+        }
+        res.locals.imgMessage = {
+          message: `${req.query.repo} is currently being downloaded`,
+        };
         console.log(
-          `Image repo '${req.query.repo}' seems to not exist, or may be a private repo.`
+          'res.locals.imgMessage in pullImage',
+          res.locals.imgMessage
         );
-        return next(error);
+        return next();
       }
-      if (stderr) {
-        console.log(`pullImage stderr: ${stderr}`);
-      }
-      res.locals.imgMessage = {
-        message: `${req.query.repo} is currently being downloaded`,
-      };
-      console.log('res.locals.imgMessage in pullImage', res.locals.imgMessage);
-      return next();
-    });
+    );
   },
 
   // ==========================================================
@@ -363,10 +413,14 @@ const commandController: CommandController = {
   // Purpose: Display all containers network based on docker-compose
   // when the application starts
   // ==========================================================
-  networkContainers: (req: Request, res: Response, next: NextFunction) => {
+  networkContainers: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
     exec(
       'docker network ls --format "{{json .}},"',
-      (error, stdout, stderr) => {
+      (error: Error | null, stdout: string, stderr: string): void => {
         if (error) {
           console.log(`networkContainers error: ${error.message}`);
           return next(error);
@@ -381,10 +435,17 @@ const commandController: CommandController = {
           .slice(0, -1)
           .replaceAll(' ', '')}]`;
 
+        type NetworkContainer = {
+          Name: string;
+          ID: string;
+          Driver: string;
+        };
+
         // remove docker network defaults named: bridge, host, and none
-        const networkContainers = JSON.parse(dockerOutput).filter(
-          // TODO any
-          ({ Name }: any) =>
+        const networkContainers: NetworkContainer[] = JSON.parse(
+          dockerOutput
+        ).filter(
+          ({ Name }: { Name: string }) =>
             Name !== 'bridge' && Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
@@ -397,37 +458,48 @@ const commandController: CommandController = {
   // Middleware: inspectDockerContainer
   // Purpose: inspects docker containers; is not implemented right now
   // ==========================================================
-  inspectDockerContainer: (req: Request, res: Response, next: NextFunction) => {
-    exec(`docker inspect ${req.query.id}`, (error, stdout, stderr) => {
-      if (error) {
-        console.log(`inspectDockerContainer error: ${error.message}`);
-        return next();
+  inspectDockerContainer: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    exec(
+      `docker inspect ${req.query.id}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`inspectDockerContainer error: ${error.message}`);
+          return next();
+        }
+        if (stderr) {
+          console.log(`inspectDockerContainer stderr: ${stderr}`);
+          return;
+        }
+        res.locals.inspectOut = stdout;
       }
-      if (stderr) {
-        console.log(`inspectDockerContainer stderr: ${stderr}`);
-        return;
-      }
-      res.locals.inspectOut = stdout;
-    });
+    );
   },
 
   // ==========================================================
   // Middleware: composeUp
   // Purpose: compose up a network and container from an uploaded yml file
   // ==========================================================
-  composeUp: async (req: Request, res: Response, next: NextFunction) => {
-    const nativeYmlFilenames = new Set([
+  composeUp: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const nativeYmlFilenames: Set<string> = new Set([
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
       'compose.yaml',
     ]);
 
-    const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
+    const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
       ? `cd ${req.body.filePath} && docker compose up -d`
       : `cd ${req.body.filePath} && docker compose -f ${req.body.ymlFileName} up -d`;
 
-    const result = await promisifiedExecStdErr(cmd);
+    const result: string | Error = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
     return next();
   },
@@ -436,10 +508,10 @@ const commandController: CommandController = {
   // Middleware: composeStacks
   // Purpose: get a list of all current container networks, based on running containers
   // ==========================================================
-  composeStacks: (req: Request, res: Response, next: NextFunction) => {
+  composeStacks: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
-      (error, stdout, stderr) => {
+      (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
           console.log(`dockerComposeStacks error: ${error.message}`);
           return next(error);
@@ -460,12 +532,11 @@ const commandController: CommandController = {
         // TODO take a moment to see if we can figure why we update the filePath and ymlFileName in our object
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
-          const directoryNameArray = req.body.filePath.split('/');
+          const directoryNameArray: string[] = req.body.filePath.split('/');
           // console.log(directoryNameArray);
           // const containerNetworkName =
           //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
-          // TODO any
-          parseDockerOutput.forEach((obj: any) => {
+          parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
             if (
               obj.Name.includes(
                 directoryNameArray[directoryNameArray.length - 1]
@@ -491,19 +562,23 @@ const commandController: CommandController = {
   // file name and location are not in "docker networks" so it gets
   // erased from the state
   // ==========================================================
-  composeDown: async (req: Request, res: Response, next: NextFunction) => {
-    const nativeYmlFilenames = new Set([
+  composeDown: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const nativeYmlFilenames: Set<string> = new Set([
       'docker-compose.yml',
       'docker-compose.yaml',
       'compose.yml',
       'compose.yaml',
     ]);
 
-    const cmd = nativeYmlFilenames.has(req.body.ymlFileName)
+    const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
       ? `cd ${req.body.filePath} && docker-compose down`
       : `cd ${req.body.filePath} && docker-compose -f ${req.body.ymlFileName} down`;
 
-    const result = await promisifiedExecStdErr(cmd);
+    const result: string | Error = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
     return next();
   },
@@ -516,23 +591,27 @@ const commandController: CommandController = {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => {
-    exec('docker volume ls --format "{{json .}},"', (error, stdout, stderr) => {
-      if (error) {
-        console.log(`getAllDockerVolumes error: ${error.message}`);
-        return next(error);
-      }
-      if (stderr) {
-        console.log(`getAllDockerVolumes stderr: ${stderr}`);
-        return;
-      }
+  ): Promise<void> => {
+    exec(
+      'docker volume ls --format "{{json .}},"',
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`getAllDockerVolumes error: ${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`getAllDockerVolumes stderr: ${stderr}`);
+          return;
+        }
 
-      const dockerOutput = JSON.parse(
-        `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
-      );
-      res.locals.dockerVolumes = dockerOutput;
-      return next();
-    });
+        // TODO define shape of dockeroutput with interface
+        const dockerOutput: object = JSON.parse(
+          `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
+        );
+        res.locals.dockerVolumes = dockerOutput;
+        return next();
+      }
+    );
   },
 
   // ==========================================================
@@ -542,7 +621,7 @@ const commandController: CommandController = {
   getVolumeContainers: (req: Request, res: Response, next: NextFunction) => {
     exec(
       `docker ps -a --filter volume=${req.query.volumeName} --format "{{json .}},"`,
-      (error, stdout, stderr) => {
+      (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
           console.log(`getVolumeContainers error: ${error.message}`);
           return;
@@ -551,7 +630,9 @@ const commandController: CommandController = {
           console.log(`getVolumeContainers stderr: ${stderr}`);
           return;
         }
-        const dockerOutput = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
+        const dockerOutput: object = JSON.parse(
+          `[${stdout.trim().slice(0, -1)}]`
+        );
         res.locals.volumeContainers = dockerOutput;
         return next();
       }
@@ -564,12 +645,15 @@ const commandController: CommandController = {
   // ==========================================================
   getLogs: (req: Request, res: Response, next: NextFunction) => {
     // TODO any
-    const containerLogs: { [k: string]: any } = { stdout: [], stderr: [] };
-    const optionsObj = req.body;
+    const containerLogs: { [k: string]: logObject[] } = {
+      stdout: [],
+      stderr: [],
+    };
+    const optionsObj: { [k: string]: string[] } = req.body;
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs --timestamps ';
+      let inputCommandString = 'docker logs --timestamps';
       if (optionsObj.since) {
         inputCommandString += `--since ${optionsObj.since} `;
       }
@@ -578,25 +662,29 @@ const commandController: CommandController = {
         : (inputCommandString += '--tail 50 ');
       inputCommandString += `${optionsObj.containerIds[i]}`;
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
-      exec(inputCommandString, (error, stdout, stderr) => {
-        if (error) {
-          console.log(
-            'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string.'
-          );
-          return next(error);
+      exec(
+        inputCommandString,
+        (error: Error | null, stdout: string, stderr: string) => {
+          if (error) {
+            console.log(
+              'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
+            );
+            return next(error);
+          }
+          // update containerLogs properties to include what was received in stdout/stderr
+          containerLogs.stdout = [
+            // TODO is the next line needed?
+            ...containerLogs.stdout,
+            ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
+          ];
+          containerLogs.stderr = [
+            ...containerLogs.stderr,
+            ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
+          ];
+          res.locals.logs = containerLogs;
+          return next();
         }
-        // update containerLogs properties to include what was received in stdout/stderr
-        containerLogs.stdout = [
-          ...containerLogs.stdout,
-          ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
-        ];
-        containerLogs.stderr = [
-          ...containerLogs.stderr,
-          ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
-        ];
-        res.locals.logs = containerLogs;
-        return next();
-      });
+      );
     }
   },
 };

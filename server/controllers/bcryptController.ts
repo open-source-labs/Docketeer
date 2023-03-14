@@ -48,7 +48,7 @@ const bcryptController: BcryptController = {
       return next();
     }
     // else bCrypt the new password and move to next middleware
-    const { newPassword } = req.body;
+    const { newPassword }: { newPassword: string } = req.body;
     const saltRounds = 10;
     // TODO rename hash to newHashedPassword
     await bcrypt

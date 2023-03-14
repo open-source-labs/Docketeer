@@ -50,7 +50,7 @@ const useHelper = () => {
           .catch((err) => console.log(err));
       },
       /* Removes stopped containers @param {*} containerID */
-      remove(containerID) {
+      remove(containerID: string) {
         const { removeContainer } = dispatch;
         fetch(`/api/command/removeContainer?id=${containerID}`)
           .then((message) => message.json())
@@ -72,7 +72,7 @@ const useHelper = () => {
           .catch((err) => console.log(err));
       },
       /* Starts a stopped container in containers tab @param {*} id */
-      runStopped(id) {
+      runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
         fetch(`/api/command/runStopped?id=${id}`)
           .then((message) => message.json())

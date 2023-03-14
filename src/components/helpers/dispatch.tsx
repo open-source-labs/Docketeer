@@ -54,14 +54,16 @@ import {
 } from '../../reducers/volumeReducer';
 
 import {
-  ContainerObj,
-  StoppedContainerObj,
+  // ContainerObj,
+  // StoppedContainerObj,
   ImageObj,
   VolumeObj,
   NetworkObj,
   UserInfo,
   containerLogsType,
   ArrayOfVolumeNames,
+  RunningListType,
+  StoppedListType,
 } from '../../../types';
 
 /**
@@ -75,10 +77,10 @@ const useSurvey = () => {
   const actions = useMemo(
     () => ({
       // Dispatch functions used in Home.tsx
-      refreshRunningContainers(data: ContainerObj[]) {
+      refreshRunningContainers(data: RunningListType[]) {
         dispatch(refreshRunningContainers(data));
       },
-      refreshStoppedContainers(data: StoppedContainerObj[]) {
+      refreshStoppedContainers(data: StoppedListType[]) {
         dispatch(refreshStoppedContainer(data));
       },
       refreshImagesList(data: ImageObj[]) {

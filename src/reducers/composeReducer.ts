@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { containerStateType } from "../../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { containerStateType } from '../../types';
 
 const initialState: containerStateType = {
   // ? why is runningList & stoppedList here
@@ -10,7 +10,7 @@ const initialState: containerStateType = {
 };
 
 export const composeSlice = createSlice({
-  name: "composes",
+  name: 'composes',
   initialState,
   reducers: {
     // ! doesn't seem like getNetworkContainers is being used anywhere

@@ -13,6 +13,7 @@ export const filterOneProperty = (input, filterInput) => {
     // create an arr (filteredArr)
     // assign it to a filtered object that only have the key/value pair that matches filter input
     const filteredArr = Object.entries(input[i]).filter(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([key, value]) => key === filterInput
     );
     // push the filtered arr to outputArr

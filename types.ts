@@ -52,6 +52,17 @@ export interface RunningListType {
   RunningFor: string;
 }
 
+/*
+
+
+export interface ContainerObj {
+  Container: string;
+  ID: string;
+  Image?: string;
+  RunningFor?: string;
+}
+*/
+
 // for more info review actions.ts file and Settings.ts
 export type ContainerProps = {
   stoppedList: StoppedListType[];

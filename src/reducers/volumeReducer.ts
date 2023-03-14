@@ -41,19 +41,6 @@ export const volumeSlice = createSlice({
       //   });
       // }
       state.volumeContainersList.push(action.payload);
-
-      // if (
-      //   state.volumeContainersList.some(
-      //     (volumeContainer) =>
-      //       volumeContainer.vol_name === action.payload.vol_name
-      //   )
-      // ) {
-      //   return state.volumeContainersList;
-      // } else state.volumeContainersList.push(action.payload);
-
-      // if !state.volumeContainersList.includes(action.payload.vol_name) {
-      //   state.volumeContainersList.push(action.payload)
-      // }
     },
   },
 });

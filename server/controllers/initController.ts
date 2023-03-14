@@ -5,7 +5,7 @@
 
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
-import { InitController, ServerError } from '../../types';
+import { InitController, ServerError, MetricsQuery } from '../../types';
 import path from 'path';
 
 const initController: InitController = {
@@ -15,14 +15,14 @@ const initController: InitController = {
   // Middleware: gitUrl
   // Purpose: grabs githubUrl of container given in body, and stores data under res.locals.url (gitUrl registry)
   // ==========================================================
-  gitUrl: (req: Request, res: Response, next: NextFunction) => {
+  gitUrl: (req: Request, res: Response, next: NextFunction): void => {
     const parameter: string[] = [req.body.githubUrl];
     db.query('SELECT github_url FROM containers where name = $1', parameter)
-      .then((data: string[]) => {
+      .then((data: string[]): void => {
         res.locals.url = data;
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         console.log(err);
         if (err) return next(err);
       });
@@ -34,7 +34,7 @@ const initController: InitController = {
   // change containers variable to containersArray
   // ==========================================================
 
-  addMetrics: (req: Request, res: Response, next: NextFunction) => {
+  addMetrics: (req: Request, res: Response, next: NextFunction): void => {
     // TODO naming seems misleading; containersArr; should ID be caps(not so consequential)
 
     // Return an array of containers, to be used with .forEach method for grabbing ID, names, cpu, mem, memuse, net, block, pid.
@@ -43,7 +43,7 @@ const initController: InitController = {
     const containers: string[] = Object.keys(req.body.containers);
     const queryString =
       'INSERT INTO metrics (container_id, container_name, cpu_pct, memory_pct, memory_usage, net_io, block_io, pid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
-    containers.forEach((container: string) => {
+    containers.forEach((container: string): void => {
       const {
         ID,
         names,
@@ -73,9 +73,8 @@ const initController: InitController = {
         block,
         pid,
       ];
-      // TODO this then does nothing, delete?
       db.query(queryString, parameters)
-        .then(() => {})
+        // TODO .then(() => {})
         .catch((err: ServerError) => {
           console.log(err);
           if (err) return next(err);
@@ -89,7 +88,7 @@ const initController: InitController = {
   // Purpose: Get metrics from metrics table
   // ==========================================================
 
-  getMetrics: async (req: Request, res: Response, next: NextFunction) => {
+  getMetrics: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const timePeriod: string = req.body.time;
     // TODO can this be const?
     let queryString = 'SELECT * FROM metrics WHERE (container_name = $1 ';
@@ -105,7 +104,8 @@ const initController: InitController = {
     // if only one checkbox is clicked, this will run
     if (containerList.length === 1) {
       queryString += ')' + queryStringEnd;
-      await db.query(queryString, containerList).then((data: any) => {
+      // TODO added MetricsQuery type alias
+      await db.query(queryString, containerList).then((data: MetricsQuery): void => {
         res.locals.metrics = data;
         return next();
       });

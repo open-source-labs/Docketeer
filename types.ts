@@ -535,3 +535,16 @@ export interface ContainerNetworkObject {
   FilePath?: string;
   YmlFileName?: string;
 }
+
+export interface MetricsQuery {
+  id: number;
+  container_id: string;
+  container_name: string;
+  cpu_pct: string;
+  memory_pct: string;
+  memory_usage: string;
+  net_io: string;
+  block_io: string;
+  pid: string;
+  created_at: Date;
+}

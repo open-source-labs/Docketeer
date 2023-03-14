@@ -15,7 +15,7 @@ const dbController: DbController = {
   // Purpose: creates a table, roles, and gives it 2 columns: _id and role, _id is the primary key, oids false to optimize performance
   // ==========================================================
 
-  createRoles: (req: Request, res: Response, next: NextFunction) => {
+  createRoles: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
       'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
     )
@@ -32,7 +32,7 @@ const dbController: DbController = {
   // Purpose: inserts 3 rows to roles: sys admin, admin, user; they have unique ids 1,2,3
   // ==========================================================
 
-  insertRoles: (req: Request, res: Response, next: NextFunction) => {
+  insertRoles: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
       'INSERT INTO roles (role) VALUES (\'system admin\'); INSERT INTO roles (role) VALUES (\'admin\'); INSERT INTO roles (role) VALUES (\'user\');'
     )
@@ -49,10 +49,11 @@ const dbController: DbController = {
   // Purpose: creates a NEW table with user and container info
   // ==========================================================
 
-  createTable: (req: Request, res: Response, next: NextFunction) => {
+  createTable: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
       'CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT \'user\', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);'
     )
+      // TODO is this then necessary?
       .then(() => {
         return next();
       })

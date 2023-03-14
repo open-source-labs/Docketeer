@@ -9,7 +9,7 @@ import { ConfigController, ServerError } from '../../types';
 
 const configController: ConfigController = {
   // update configuration thresholds
-  configureThresholds: (req: Request, res: Response, next: NextFunction): void => {
+  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.error) return next();
 
     const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
@@ -41,7 +41,7 @@ const configController: ConfigController = {
   },
 
   // configure contact preference
-  updateContactPref: (req: Request, res: Response, next: NextFunction) => {
+  updateContactPref: (req: Request, res: Response, next: NextFunction): void => {
     if (res.locals.error) return next();
 
     const { contact_pref, _id } = req.body;

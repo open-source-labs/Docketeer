@@ -14,19 +14,19 @@ const bcryptController: BcryptController = {
   // Purpose: hashes user password with bCrypt into SQL database input
   // ==========================================================
 
-  hashPassword: (req: Request, res: Response, next: NextFunction) => {
-    const { password } = req.body;
+  hashPassword: (req: Request, res: Response, next: NextFunction): void => {
+    const { password }: { password: string } = req.body;
     const saltRounds = 10;
 
     bcrypt
       .hash(password, saltRounds)
 
-      .then((hash) => {
+      .then((hash: string): void => {
         // change hash parameter within our anonymous method to something more relevant, AKA hashPassword
         res.locals.hash = hash;
         return next();
       })
-      .catch((err) => {
+      .catch((err: Error): void => {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
@@ -40,7 +40,8 @@ const bcryptController: BcryptController = {
   // Middleware: hashNewPassword
   // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
   // ==========================================================
-  hashNewPassword: async (req: Request, res: Response, next: NextFunction) => {
+  // return type is Promise<void> signifying we return a promise w a void value; in this case the invocation of next()
+  hashNewPassword: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     // TODO is Object.prototype necessary?
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
@@ -71,7 +72,7 @@ const bcryptController: BcryptController = {
    */
 
   hashCookie: (req: Request, res: Response, next: NextFunction): void => {
-    const { role_id, username } = res.locals.user;
+    const { role_id, username }: { role_id: number, username: string } = res.locals.user;
     const saltRounds = 10;
     if (role_id === 1) {
       bcrypt

@@ -57,25 +57,25 @@ export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
   refreshStoppedContainers: (data: StoppedContainerObj[]) => void;
   remove: (
     id: string,
-    runStoppedContainerDispatcher: (id: string) => void,
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   stop: (
     id: string,
-    refreshStoppedContainers: (data: StoppedContainerObj[]) => void,
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
   ) => void;
   runningList: RunningListType[];
   runIm: (
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void,
+    callback_2: () => void
   ) => void;
 };
 
@@ -171,13 +171,13 @@ export interface ImagesProps {
   refreshImagesList: (data: imageObj[]) => void;
   runIm: (
     ele: imageObj,
-    refreshRunningContainers: (data: ContainerObj[]) => void,
+    refreshRunningContainers: (data: ContainerObj[]) => void
   ) => void;
   removeIm: (
     id: string,
     imagesList: imageObj[],
     callback_1: (callback: any) => void,
-    callback_2: (data: imageObj[]) => void,
+    callback_2: (data: imageObj[]) => void
   ) => void;
 }
 
@@ -229,6 +229,18 @@ export interface NetworkObj {
 export interface VolumeObj {
   vol_name: string;
   containers: object[];
+}
+
+export interface logObject {
+  timeStamp: string;
+  logMsg: string;
+  containerName: string;
+}
+
+export interface composeStacksDockerObject {
+  Name: string[];
+  FilePath: string;
+  YmlFileName: string;
 }
 
 // "any" has been used below since strict typing was used to define these props in the tabs types
@@ -414,7 +426,7 @@ export interface CommandController {
   inspectDockerContainer: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   composeUp: (req: Request, res: Response, next: NextFunction) => void;
   composeStacks: (req: Request, res: Response, next: NextFunction) => void;
@@ -422,12 +434,12 @@ export interface CommandController {
   getAllDockerVolumes: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   getVolumeContainers: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   getLogs: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -440,7 +452,7 @@ export interface ConfigController {
   configureThresholds: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   updateContactPref: (req: Request, res: Response, next: NextFunction) => void;
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
@@ -452,11 +464,11 @@ export interface DbController {
   createRoles: (req: Request, res: Response, next: NextFunction) => void;
   insertRoles: (req: Request, res: Response, next: NextFunction) => void;
   createTable: (req: Request, res: Response, next: NextFunction) => void;
-  insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
+  // TODO insertAdmin: (req: Request, res: Response, next: NextFunction) => void; // not used
   createAdminPassword: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -472,28 +484,28 @@ export interface SettingsController {
   addContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   deleteContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   notificationSettings: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void;
   notificationFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   monitoringFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -513,4 +525,46 @@ export interface UserController {
   updatePassword: (req: Request, res: Response, next: NextFunction) => void;
   updatePhone: (req: Request, res: Response, next: NextFunction) => void;
   updateEmail: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+export interface ContainerNetworkObject {
+  Name: string;
+  Id: string;
+  CreatedAt: string;
+  Labels: Record<string, string>;
+  FilePath?: string;
+  YmlFileName?: string;
+}
+
+export interface MetricsQuery {
+  id: number;
+  container_id: string;
+  container_name: string;
+  cpu_pct: string;
+  memory_pct: string;
+  memory_usage: string;
+  net_io: string;
+  block_io: string;
+  pid: string;
+  created_at: Date;
+}
+
+export interface UsersQuery {
+  id: number;
+  username: string;
+  phone: string;
+  email: string;
+  password: string;
+  role: string;
+  role_id: number;
+  contact_pref: string;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
+}
+
+export interface GlobalErrorObject {
+  log: string;
+  status: number;
+  message: { err: string };
 }

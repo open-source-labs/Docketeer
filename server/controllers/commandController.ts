@@ -103,14 +103,16 @@ const fn = (num: number): number => {
 // Purpose: makes our command line functions to return Promise
 // ==========================================================
 const promisifiedExec = (cmd: string): Promise<string> => {
-  return new Promise((resolve: (result: string) => void, reject: (error: Error) => void) => {
-    exec(cmd, (error: Error | null, stdout: string, stderr: string) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(stdout ? stdout : stderr);
-    });
-  });
+  return new Promise(
+    (resolve: (result: string) => void, reject: (error: Error) => void) => {
+      exec(cmd, (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(stdout ? stdout : stderr);
+      });
+    }
+  );
 };
 
 // ==========================================================
@@ -169,7 +171,7 @@ const commandController: CommandController = {
   },
 
   // ==========================================================
-  // Middleware: runImage
+  // Middleware: runImage;
   // Purpose: executes the docker run command with parameters and such
   // ==========================================================
   runImage: (req: Request, res: Response, next: NextFunction): void => {

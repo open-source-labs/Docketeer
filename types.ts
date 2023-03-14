@@ -562,3 +562,9 @@ export interface UsersQuery {
   cpu_threshold: number;
   container_stops: boolean;
 }
+
+export interface GlobalErrorObject {
+  log: string;
+  status: number;
+  message: { err: string };
+}

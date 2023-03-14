@@ -14,8 +14,12 @@ const router = Router();
 // TODO: No addToken/initiation of token to user exists.
 // ==========================================================
 
-router.post('/', dbController.removeToken, (req: Request, res: Response) => {
-  return res.status(201).json(res.locals.logout);
-});
+router.post(
+  '/',
+  dbController.removeToken,
+  (req: Request, res: Response): Response => {
+    return res.status(201).json(res.locals.logout);
+  }
+);
 
 export default router;

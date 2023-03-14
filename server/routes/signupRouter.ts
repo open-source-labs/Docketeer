@@ -12,9 +12,13 @@ import apiController from '../controllers/apiController';
 const router = Router();
 
 // Only trigger this endpoint when sysAdmin logs in; gets all users
-router.get('/', userController.getAllUsers, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals.users);
-});
+router.get(
+  '/',
+  userController.getAllUsers,
+  (req: Request, res: Response): Response => {
+    return res.status(200).json(res.locals.users);
+  }
+);
 
 // TODO could we combine username and password checks?
 
@@ -30,7 +34,7 @@ router.post(
   bcryptController.hashPassword,
   userController.createUser,
   apiController.signupEmail,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     if (res.locals.error) return res.status(201).json(res.locals);
     return res.status(201).json('successfully added new user to database');
   }

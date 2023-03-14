@@ -97,7 +97,7 @@ const dbController: DbController = {
         res.locals.password = hash;
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {

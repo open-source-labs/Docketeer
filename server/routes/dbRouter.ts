@@ -19,7 +19,7 @@ router.get(
   dbController.createRoles,
   dbController.insertRoles,
   dbController.createTable,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json('Database initialized successfully');
   }
 );

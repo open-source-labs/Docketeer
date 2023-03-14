@@ -1,9 +1,10 @@
 // import/prep for our server and type declarations
-import express, { NextFunction, Request, Response } from 'express';
-import { ServerError } from '../types';
+// TODO deleted the importation of NextFunction due to it not being used in our global error handler(where it was prior)
+import express, { Request, Response } from 'express';
+import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 // TODO do we change exec's importation syntax?
-const { exec } = require('child_process');
+import { exec } from 'child_process';
 const app = express();
 
 // allow requests from other domains
@@ -13,7 +14,7 @@ app.use(cors());
 // TODO consider adjusting this to be accurate; commented out seems to change nothing
 exec(
   'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
-  (error, stdout, stderr) => {
+  (error: Error | null, stdout: string, stderr: string): void => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -54,7 +55,7 @@ app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...
-app.use('/', (req: Request, res: Response) => {
+app.use('/', (req: Request, res: Response): Response => {
   return res
     .status(404)
     .send({ error: 'Unknown endpoint — please try again.' });
@@ -64,8 +65,8 @@ app.use('/', (req: Request, res: Response) => {
 app.get(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (err: ServerError, req: Request, res: Response, next: NextFunction) => {
-    const defaultErr = {
+  (err: ServerError, req: Request, res: Response): Response => {
+    const defaultErr: GlobalErrorObject = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,
       message: { err: 'An error occured' },

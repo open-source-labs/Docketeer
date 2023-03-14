@@ -15,7 +15,7 @@ router.post(
   // ? may need depending on what info is sent over in request body
   // userController.getOneUser,
   apiController.sendEmailAlert,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json('alert email sent to user');
   }
 );

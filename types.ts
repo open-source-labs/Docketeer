@@ -315,10 +315,17 @@ export interface notificationStateType {
   stoppedNotificationList: Set<any>;
 }
 
-export interface containerLogsType {
-  stdout: any[];
-  stderr: any[];
+export interface stdType {
+  containerName: string;
+  logMsg: string;
+  timestamp: string;
 }
+
+export interface containerLogsType {
+  stdout: stdType[];
+  stderr: stdType[];
+}
+
 export interface logsStateType {
   containerLogs: containerLogsType;
 }

@@ -60,6 +60,7 @@ import {
   VolumeObj,
   NetworkObj,
   UserInfo,
+  containerLogsType,
 } from '../../../types';
 
 /**
@@ -172,7 +173,7 @@ const useSurvey = () => {
         dispatch(buildTransmittedIO(data));
       },
       // Dispatch functions used in ProcessLogsTable.tsx
-      getContainerLogsDispatcher(data: object[]) {
+      getContainerLogsDispatcher(data: containerLogsType) {
         dispatch(getLogs(data));
       },
     }),

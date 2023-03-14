@@ -21,9 +21,9 @@ const ProcessLogsTable = () => {
   const { getLogs } = useHelper();
 
   const urlString = window.location.href;
-  console.log({urlString});
+  console.log({ urlString });
   const containerID = urlString.split('/');
-  console.log({containerID});
+  console.log({ containerID });
 
   const id = containerID[containerID.length - 1];
 
@@ -49,6 +49,7 @@ const ProcessLogsTable = () => {
   const handleGetLogs = async (idList: string[]) => {
     const optionsObj = buildOptionsObj(idList);
     const containerLogs = await getLogs(optionsObj);
+    console.log({ containerLogs });
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
     return containerLogs;

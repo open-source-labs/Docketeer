@@ -61,6 +61,7 @@ import {
   NetworkObj,
   UserInfo,
   containerLogsType,
+  ArrayOfVolumeNames,
 } from '../../../types';
 
 /**
@@ -95,7 +96,7 @@ const useSurvey = () => {
       updateUsers(data: UserInfo[]) {
         dispatch(updateUsers(data));
       },
-      getVolumes(data: { Name: string }[]) {
+      getVolumes(data: ArrayOfVolumeNames) {
         dispatch(getVolumes(data));
       },
       getVolumeContainerList(data: VolumeObj) {

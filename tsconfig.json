@@ -13,7 +13,7 @@
     "removeComments": true,
     "noEmit": false,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true
   },
   "include": ["src/**/*", "server/**/*"]

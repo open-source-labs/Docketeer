@@ -226,6 +226,7 @@ export interface NetworkObj {
   Scope: string;
 }
 
+// TODO: define the type for the containers array
 export interface VolumeObj {
   vol_name: string;
   containers: object[];
@@ -352,9 +353,11 @@ export interface userReducerStateType {
 }
 
 export interface volumeStateType {
-  arrayOfVolumeNames: any[];
-  volumeContainersList: any[];
+  arrayOfVolumeNames: ArrayOfVolumeNames;
+  volumeContainersList: VolumeObj[];
 }
+
+export type ArrayOfVolumeNames = { Name: string }[];
 
 export interface auxObjType {
   container?: ContainerInterface;

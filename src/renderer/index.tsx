@@ -8,8 +8,9 @@ import App from './App';
 import '../components/main.css';
 // TODO setup redux persist & configure it
 
-const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
+// const container = document.getElementById('root');
+const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+// const ReactDOM.createRoot
 
 root.render(
   <Provider store={store}>

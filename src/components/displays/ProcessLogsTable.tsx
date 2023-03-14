@@ -15,6 +15,19 @@ import './ProcessLogsCard';
  * @description | Provides process logs for running containers & configuration options to filter process logs
  **/
 
+/*
+
+containerName
+: 
+"10180290ca31"
+logMsg
+: 
+"logger=context userId=0 orgId=1 uname= t=2023-03-13T21:50:10.802144512Z level=info msg=\"Request Completed\" method=POST path=/api/ds/query status=400 remote_addr=192.168.112.1 time_ms=249 duration=249.137435ms size=244 referer=\"http://localhost:2999/d/h5LcytHGz/system?kiosk=&orgId=1&refresh=10s\" handler=/api/ds/query"
+timeStamp
+: 
+"3/13/2023, 9:50:10 PM"
+*/
+
 const ProcessLogsTable = () => {
   const dispatch = useAppDispatch();
   const { getContainerLogsDispatcher } = useSurvey();

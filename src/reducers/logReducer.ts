@@ -35,22 +35,13 @@ export const logSlice = createSlice({
   initialState,
   reducers: {
     getLogs: (state, action: PayloadAction<containerLogsType>) => {
-      const dummyState = JSON.parse(JSON.stringify(state));
       // console.log('action.payload[0]:', action.payload[0]);
       console.log('action.payload: ', action.payload);
       // console.log(
       //   'state.containerLogs - before: ',
       //   current(state.containerLogs)
       // );
-      console.log(
-        'dummyState.containerLogs - before: ',
-        dummyState.containerLogs
-      );
-      dummyState.containerLogs = action.payload;
-      console.log(
-        'dummyState.containerLogs - after: ',
-        dummyState.containerLogs
-      );
+
       state.containerLogs = action.payload;
       // console.log(
       //   'state.containerLogs - after: ',

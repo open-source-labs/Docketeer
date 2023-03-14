@@ -258,10 +258,14 @@ interface notificationList {
 }
 
 export interface AlertStateType {
-  alertList: string[];
+  alertList: (string | null)[];
   promptList:
-    | [prompt: string, handleAccept: () => void, handleDeny: () => void]
-    | [];
+    | [
+        prompt: string | null,
+        handleAccept: (() => void) | null,
+        handleDeny: (() => void) | null
+      ]
+    | null[];
 }
 
 export interface StateType {

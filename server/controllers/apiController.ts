@@ -99,7 +99,7 @@ const apiController: ApiController = {
         <p>Warmest regards,</p>
         <p>Team Docketeer</p>`,
     };
-    // TODO may need to configure transport; add services?
+    // TODO may need to configure transport; add services? a property for transport
 
     // create transporter with Nodemailer to send email.
     transporter

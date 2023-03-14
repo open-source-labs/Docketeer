@@ -2,8 +2,8 @@
  * @module initRouter Router
  * @description Initializes the Docketeer local database
  */
-import { Router, Request, Response } from "express";
-import initController from "../controllers/initController";
+import { Router, Request, Response } from 'express';
+import initController from '../controllers/initController';
 
 const router = Router();
 // TODO make sure to check what we are sending in the body, is it the name? or githuburl?
@@ -13,9 +13,13 @@ const router = Router();
 // Purpose: Grabs url of specified container
 // ==========================================================
 
-router.post("/github", initController.gitUrl, (req: Request, res: Response) => {
-  return res.status(201).json(res.locals.url);
-});
+router.post(
+  '/github',
+  initController.gitUrl,
+  (req: Request, res: Response): Response => {
+    return res.status(201).json(res.locals.url);
+  }
+);
 
 // ==========================================================
 // Route: /addMetrics
@@ -23,9 +27,9 @@ router.post("/github", initController.gitUrl, (req: Request, res: Response) => {
 // ==========================================================
 
 router.post(
-  "/addMetrics",
+  '/addMetrics',
   initController.addMetrics,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json({});
   }
 );
@@ -37,9 +41,9 @@ router.post(
 // ==========================================================
 
 router.post(
-  "/getMetrics",
+  '/getMetrics',
   initController.getMetrics,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.metrics);
   }
 );

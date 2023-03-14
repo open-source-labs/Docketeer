@@ -14,7 +14,7 @@ router.post(
   userController.verifyUser,
   bcryptController.hashNewPassword,
   userController.updatePassword,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     // TODO should we be returning res.locals only here?
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(201).json('Successfully updated your password.');
@@ -25,7 +25,7 @@ router.post(
 router.post(
   '/phone',
   userController.updatePhone,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.user);
   }
 );
@@ -34,7 +34,7 @@ router.post(
 router.post(
   '/email',
   userController.updateEmail,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.user);
   }
 );

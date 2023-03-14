@@ -464,7 +464,7 @@ export interface DbController {
   createRoles: (req: Request, res: Response, next: NextFunction) => void;
   insertRoles: (req: Request, res: Response, next: NextFunction) => void;
   createTable: (req: Request, res: Response, next: NextFunction) => void;
-  insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
+  // TODO insertAdmin: (req: Request, res: Response, next: NextFunction) => void; // not used
   createAdminPassword: (
     req: Request,
     res: Response,

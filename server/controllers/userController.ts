@@ -2,11 +2,10 @@
  * @module | userController.ts
  * @description | Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  **/
-// TODO ANY types throughout this file; use ctrl + f
-import { Request, Response, NextFunction } from "express";
-import db from "../database/cloudModel";
-import bcrypt from "bcryptjs";
-import { UserController, ServerError } from "../../types";
+import { Request, Response, NextFunction } from 'express';
+import db from '../database/cloudModel';
+import bcrypt from 'bcryptjs';
+import { UserController, ServerError } from '../../types';
 
 const userController: UserController = {
   // ==========================================================
@@ -17,39 +16,49 @@ const userController: UserController = {
   createUser: (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.error) return next();
 
-    const { username, email, phone, role_id } = req.body;
-    //retrieve hashed password from res locals
-
-    const { hash } = res.locals;
-    let role;
+    const {
+      username,
+      email,
+      phone,
+      role_id,
+    }: { username: string; email: string; phone: string; role_id: string } =
+      req.body;
+    // retrieve hashed password from res locals
+    // here as is used to tell typescript res.locals will have a has property equal to a string
+    const { hash }: { hash: string } = res.locals as { hash: string };
+    let role: string;
 
     switch (role_id) {
-      case "1":
-        role = "system admin";
-        break;
-      case "2":
-        role = "admin";
-        break;
-      case "3":
-        role = "user";
-        break;
+    case '1':
+      role = 'system admin';
+      break;
+    case '2':
+      role = 'admin';
+      break;
+    case '3':
+      role = 'user';
+      break;
+    default:
+      role = '';
     }
     // ==========================================================
     // Function: createUser
     // Purpose:  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
     // ==========================================================
     const createUser =
-      "INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;";
+      'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
 
-    //create an array, userDetails, to hold values from our createUser SQL query placeholders.
-    const userDetails = [username, email, hash, phone, role, role_id];
-    console.log("USERDETAILS:", userDetails);
+    // create an array, userDetails, to hold values from our createUser SQL query placeholders.
 
-    //check if username and hashed password exist
+    // TODO ROLE ID//REASSIGN TYPESCRIPT TYPE
+    const userDetails: string[] = [username, email, hash, phone, role, role_id];
+    console.log('USERDETAILS:', userDetails);
+
+    // check if username and hashed password exist
     if (username && hash) {
       db.query(createUser, userDetails)
         .then((data: any) => {
-          //data.rows[0] is the newly inserted record from our createUser SQL query
+          // data.rows[0] is the newly inserted record from our createUser SQL query
           res.locals.user = data.rows[0];
           return next();
         })
@@ -57,7 +66,7 @@ const userController: UserController = {
           return next({
             log: `Error in userController newUser: ${err}`,
             message: {
-              err: "An error occurred creating new user in database. See userController.newUser.",
+              err: 'An error occurred creating new user in database. See userController.newUser.',
             },
           });
         });
@@ -69,11 +78,11 @@ const userController: UserController = {
   // ==========================================================
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
     // TODO is Object.prototype necessary here?
-    if (Object.prototype.hasOwnProperty.call(res.locals, "error")) {
+    if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       return next();
     } else {
       // TODO should this be returned ORDER'ed by name instead?
-      const allUsers = "SELECT * FROM users ORDER BY _id ASC;";
+      const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       // TODO any
       db.query(allUsers)
         .then((response: any) => {
@@ -84,7 +93,7 @@ const userController: UserController = {
           return next({
             log: `Error in userController getAllUsers: ${err}`,
             message: {
-              err: "An error occurred retrieving all users from database. See userController.getAllUsers.",
+              err: 'An error occurred retrieving all users from database. See userController.getAllUsers.',
             },
           });
         });
@@ -93,7 +102,7 @@ const userController: UserController = {
 
   // get information for one user
   getOneUser: (req: Request, res: Response, next: NextFunction) => {
-    const { _id } = req.body;
+    const { _id }: { _id: string } = req.body;
 
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
@@ -106,7 +115,7 @@ const userController: UserController = {
         return next({
           log: `Error in userController getOneUser: ${err}`,
           message: {
-            err: "An error occurred retrieving user from database. See userController.getOneUser.",
+            err: 'An error occurred retrieving user from database. See userController.getOneUser.',
           },
         });
       });
@@ -120,7 +129,8 @@ const userController: UserController = {
     // TODO checks if locals has error; is this necessary?
     if (res.locals.error) return next();
 
-    const { username, password } = req.body;
+    const { username, password }: { username: string; password: string } =
+      req.body;
 
     // using username we create a query string to grab that user
     const getUser = `SELECT * FROM users WHERE username='${username}';`;
@@ -134,7 +144,7 @@ const userController: UserController = {
           res.locals.user = data.rows[0];
           return next();
         } else {
-          res.locals.error = "Incorrect username or password.";
+          res.locals.error = 'Incorrect username or password.';
           // TODO do we need to delete user here?
           delete res.locals.user;
         }
@@ -144,7 +154,7 @@ const userController: UserController = {
         return next({
           log: `Error in userController checkUserExists: ${err}`,
           message: {
-            err: "An error occurred while checking if username exists. See userController.checkUserExists.",
+            err: 'An error occurred while checking if username exists. See userController.checkUserExists.',
           },
         });
       });
@@ -156,7 +166,7 @@ const userController: UserController = {
   // ==========================================================
   // TODO named checkSysAdmin but does NOT check if you are a sysAdmin; simply gives rowCount of systemAdmins to locals
   checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
-    const query = "SELECT * FROM users WHERE role_id = 1";
+    const query = 'SELECT * FROM users WHERE role_id = 1';
 
     db.query(query)
       // TODO any
@@ -170,7 +180,7 @@ const userController: UserController = {
         return next({
           log: `Error in userController switchUserRole: ${err}`,
           message: {
-            err: "An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.",
+            err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.',
           },
         });
       });
@@ -183,12 +193,12 @@ const userController: UserController = {
   switchUserRole: (req: Request, res: Response, next: NextFunction) => {
     // ? creates an object that contains roles is this necessary?
     const roleMap: { [k: string]: number } = {
-      "system admin": 1,
+      'system admin': 1,
       admin: 2,
       user: 3,
     };
 
-    const { _id, role } = req.body;
+    const { _id, role }: { _id: string; role: string } = req.body;
     // checks if there is only 1 sysAdmin and if their _id is equal to id sent in body; adds hasError prop to locals if so
     // TODO loosely equal? isnt best practice to return the invocation of next
     // TODO also this is faulty logic, determines if number of sysAdmins is 1 and if body given in id is equal to that sysAdmins id; why does this result in adding an error prop?
@@ -198,12 +208,12 @@ const userController: UserController = {
       // otherwise we update the users role (found user from id given in body) to role sent in body; we
     } else {
       const query =
-        "UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;";
+        'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
 
       const parameters = [role, roleMap[role], _id];
-      // we will return the role user got updated to
+      // we will return the role that the user was updated to
       db.query(query, parameters)
-        // TODO any
+        // TODO may need to make type alias for 'data' received from queries
         .then((data: any) => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
@@ -213,7 +223,7 @@ const userController: UserController = {
           return next({
             log: `Error in userController switchUserRole: ${err}`,
             message: {
-              err: "An error occurred while switching roles. See userController.switchUserRole.",
+              err: 'An error occurred while switching roles. See userController.switchUserRole.',
             },
           });
         });
@@ -227,19 +237,19 @@ const userController: UserController = {
   updatePassword: (req: Request, res: Response, next: NextFunction) => {
     // TODO is Object.prototype necessary?
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (Object.prototype.hasOwnProperty.call(res.locals, "error")) {
+    if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       res.locals.error =
-        "Incorrect password. Please enter the correct password to update it.";
+        'Incorrect password. Please enter the correct password to update it.';
       return next();
     }
-    const { hash } = res.locals;
-    const { username } = req.body;
+    const { hash }: { hash: string } = res.locals as { hash: string };
+    const { username }: { username: string } = req.body;
 
     // TODO: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
     // define a querystring to update password of our user and return the affected columns
     const query =
-      "UPDATE users SET password = $1 WHERE username = $2 RETURNING *;";
-    const parameters = [hash, username];
+      'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
+    const parameters: string[] = [hash, username];
     // TODO any
     db.query(query, parameters)
       .then((data: any) => {
@@ -250,22 +260,22 @@ const userController: UserController = {
         return next({
           log: `Error in userController updatePassword: ${err}`,
           message: {
-            err: "An error occurred while checking if username exists. See userController.updatePassword.",
+            err: 'An error occurred while checking if username exists. See userController.updatePassword.',
           },
         });
       });
   },
 
-  //TODO is this working?
+  // TODO is this working?
   // ==========================================================
   // Middleware: updatePhone
   // Purpose: updates the phone number of a user; column is 'phone'
   // ==========================================================
   updatePhone: (req: Request, res: Response, next: NextFunction) => {
-    const { username, phone } = req.body;
+    const { username, phone }: { username: string; phone: number } = req.body;
 
     const query =
-      "UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;";
+      'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
     const parameters = [phone, username];
     // TODO any
     db.query(query, parameters)
@@ -277,7 +287,7 @@ const userController: UserController = {
         return next({
           log: `Error in userController updatePhone: ${err}`,
           message: {
-            err: "An error occurred while checking if username exists. See userController.updatePhone.",
+            err: 'An error occurred while checking if username exists. See userController.updatePhone.',
           },
         });
       });
@@ -289,11 +299,11 @@ const userController: UserController = {
   // Purpose: updates the email of a user
   // ==========================================================
   updateEmail: (req: Request, res: Response, next: NextFunction) => {
-    const { username, email } = req.body;
+    const { username, email }: { username: string; email: string } = req.body;
 
     const query =
-      "UPDATE users SET email = $1 WHERE username = $2 RETURNING *;";
-    const parameters = [email, username];
+      'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
+    const parameters: string[] = [email, username];
     // TODO any
     db.query(query, parameters)
       .then((data: any) => {
@@ -304,7 +314,7 @@ const userController: UserController = {
         return next({
           log: `Error in userController updateEmail: ${err}`,
           message: {
-            err: "An error occurred while checking if username exists. See userController.updateEmail.",
+            err: 'An error occurred while checking if username exists. See userController.updateEmail.',
           },
         });
       });

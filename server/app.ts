@@ -64,7 +64,7 @@ app.use('/', (req: Request, res: Response) => {
 app.get(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (err: ServerError, req: Request, res: Response, next: NextFunction): void => {
+  (err: ServerError, req: Request, res: Response, next: NextFunction) => {
     const defaultErr = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,

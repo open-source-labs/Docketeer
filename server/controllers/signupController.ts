@@ -5,7 +5,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
-import { SignupController, ServerError } from '../../types';
+import { SignupController, ServerError, UsersQuery } from '../../types';
 
 const signupController: SignupController = {
   // ==========================================================
@@ -13,7 +13,7 @@ const signupController: SignupController = {
   // Purpose: Verifies fields during sign up process are correct/checked against criteria - fields CANNOT be empty. Username must be unique.
   // ==========================================================
 
-  usernameCheck: (req: Request, res: Response, next: NextFunction) => {
+  usernameCheck: (req: Request, res: Response, next: NextFunction): void => {
     const { username }: { username: string } = req.body;
 
     // SQL query to check if username already exists in datebase, not unique.
@@ -21,9 +21,8 @@ const signupController: SignupController = {
 
     // TODO data is any typed; schema has unique constraint on username, does this code make sense?
     db.query(checkUsernameExists)
-      .then((data: any) => {
+      .then((data: { rows: UsersQuery[] }): void => {
         // if row 0 or username already exists, throw error
-
         if (data.rows[0]) {
           res.locals.error = 'Username already exists.';
           return next();
@@ -31,7 +30,7 @@ const signupController: SignupController = {
           return next();
         }
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in signupController usernameCheck: ${err}`,
           message: {
@@ -47,7 +46,7 @@ const signupController: SignupController = {
   // Purpose: Verifies password meets requirements
   // ==========================================================
 
-  passwordCheck: (req: Request, res: Response, next: NextFunction) => {
+  passwordCheck: (req: Request, res: Response, next: NextFunction): void => {
     if (res.locals.error) return next();
 
     const { password }: { password: string } = req.body;

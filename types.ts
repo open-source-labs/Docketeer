@@ -548,3 +548,17 @@ export interface MetricsQuery {
   pid: string;
   created_at: Date;
 }
+
+export interface UsersQuery {
+  id: number;
+  username: string;
+  phone: string;
+  email: string;
+  password: string;
+  role: string;
+  role_id: number;
+  contact_pref: string;
+  mem_threshold: number;
+  cpu_threshold: number;
+  container_stops: boolean;
+}

@@ -5,7 +5,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { UserController, ServerError } from '../../types';
+import { UserController, ServerError, UsersQuery } from '../../types';
 
 const userController: UserController = {
   // ==========================================================
@@ -13,7 +13,7 @@ const userController: UserController = {
   // Purpose:  Checks for error, and creates a user based on switch statement to check against role_id for system admin, admin, user
   // ==========================================================
 
-  createUser: (req: Request, res: Response, next: NextFunction) => {
+  createUser: (req: Request, res: Response, next: NextFunction): void => {
     if (res.locals.error) return next();
 
     const {
@@ -57,12 +57,12 @@ const userController: UserController = {
     // check if username and hashed password exist
     if (username && hash) {
       db.query(createUser, userDetails)
-        .then((data: any) => {
+        .then((data: { rows: UsersQuery[] }): void => {
           // data.rows[0] is the newly inserted record from our createUser SQL query
           res.locals.user = data.rows[0];
           return next();
         })
-        .catch((err: ServerError) => {
+        .catch((err: ServerError): void => {
           return next({
             log: `Error in userController newUser: ${err}`,
             message: {
@@ -76,7 +76,7 @@ const userController: UserController = {
   // Middleware: getAllUsers
   // Purpose: gets all users; returned in an array
   // ==========================================================
-  getAllUsers: (req: Request, res: Response, next: NextFunction) => {
+  getAllUsers: (req: Request, res: Response, next: NextFunction): void => {
     // TODO is Object.prototype necessary here?
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
       return next();
@@ -85,11 +85,11 @@ const userController: UserController = {
       const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       // TODO any
       db.query(allUsers)
-        .then((response: any) => {
+        .then((response: { rows: UsersQuery[] }): void => {
           res.locals.users = response.rows;
           return next();
         })
-        .catch((err: ServerError) => {
+        .catch((err: ServerError): void => {
           return next({
             log: `Error in userController getAllUsers: ${err}`,
             message: {
@@ -101,17 +101,17 @@ const userController: UserController = {
   },
 
   // get information for one user
-  getOneUser: (req: Request, res: Response, next: NextFunction) => {
+  getOneUser: (req: Request, res: Response, next: NextFunction): void => {
     const { _id }: { _id: string } = req.body;
 
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
     db.query(oneUser)
-      .then((response: any) => {
+      .then((response: { rows: UsersQuery[] }): void => {
         res.locals.users = response.rows;
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in userController getOneUser: ${err}`,
           message: {
@@ -125,7 +125,7 @@ const userController: UserController = {
   // Middleware: verifyUser
   // Purpose: verifies username/password are correct and sends back that user info; otherwise sends an error message
   // ==========================================================
-  verifyUser: (req: Request, res: Response, next: NextFunction) => {
+  verifyUser: (req: Request, res: Response, next: NextFunction): void => {
     // TODO checks if locals has error; is this necessary?
     if (res.locals.error) return next();
 
@@ -138,7 +138,7 @@ const userController: UserController = {
     // TODO Don't use async with then chaining; also data is any typed
     // using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser)
-      .then(async (data: any) => {
+      .then(async (data: { rows: UsersQuery[] }): Promise<void> => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];
@@ -150,7 +150,7 @@ const userController: UserController = {
         }
       })
       // TODO determine what this catches, in mongoDB it would catch when the schema is broken
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in userController checkUserExists: ${err}`,
           message: {
@@ -165,7 +165,7 @@ const userController: UserController = {
   // Purpose: grabs all users that have a role of system admin and adds rowCount and id of the users to locals
   // ==========================================================
   // TODO named checkSysAdmin but does NOT check if you are a sysAdmin; simply gives rowCount of systemAdmins to locals
-  checkSysAdmin: (req: Request, res: Response, next: NextFunction) => {
+  checkSysAdmin: (req: Request, res: Response, next: NextFunction): void => {
     const query = 'SELECT * FROM users WHERE role_id = 1';
 
     db.query(query)
@@ -190,7 +190,7 @@ const userController: UserController = {
   // Middleware: switchUserRole
   // Purpose: switches role of user upon designation by system admin; must be provided id of user and role
   // ==========================================================
-  switchUserRole: (req: Request, res: Response, next: NextFunction) => {
+  switchUserRole: (req: Request, res: Response, next: NextFunction): void => {
     // ? creates an object that contains roles is this necessary?
     const roleMap: { [k: string]: number } = {
       'system admin': 1,
@@ -214,12 +214,12 @@ const userController: UserController = {
       // we will return the role that the user was updated to
       db.query(query, parameters)
         // TODO may need to make type alias for 'data' received from queries
-        .then((data: any) => {
+        .then((data: { rows: UsersQuery[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
         })
-        .catch((err: ServerError) => {
+        .catch((err: ServerError): void => {
           return next({
             log: `Error in userController switchUserRole: ${err}`,
             message: {
@@ -234,7 +234,7 @@ const userController: UserController = {
   // Middleware: updatePassword
   // Purpose: checks for error prop in locals; if none, updates password and adds user with updated pw to locals
   // ==========================================================
-  updatePassword: (req: Request, res: Response, next: NextFunction) => {
+  updatePassword: (req: Request, res: Response, next: NextFunction): void => {
     // TODO is Object.prototype necessary?
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
@@ -252,11 +252,11 @@ const userController: UserController = {
     const parameters: string[] = [hash, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: any) => {
+      .then((data: { rows: UsersQuery[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in userController updatePassword: ${err}`,
           message: {
@@ -271,19 +271,19 @@ const userController: UserController = {
   // Middleware: updatePhone
   // Purpose: updates the phone number of a user; column is 'phone'
   // ==========================================================
-  updatePhone: (req: Request, res: Response, next: NextFunction) => {
+  updatePhone: (req: Request, res: Response, next: NextFunction): void => {
     const { username, phone }: { username: string; phone: number } = req.body;
 
     const query =
       'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
-    const parameters = [phone, username];
+    const parameters: (string | number)[] = [phone, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: any) => {
+      .then((data: { rows: UsersQuery[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in userController updatePhone: ${err}`,
           message: {
@@ -298,7 +298,7 @@ const userController: UserController = {
   // Middleware: updateEmail
   // Purpose: updates the email of a user
   // ==========================================================
-  updateEmail: (req: Request, res: Response, next: NextFunction) => {
+  updateEmail: (req: Request, res: Response, next: NextFunction): void => {
     const { username, email }: { username: string; email: string } = req.body;
 
     const query =
@@ -306,11 +306,11 @@ const userController: UserController = {
     const parameters: string[] = [email, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: any) => {
+      .then((data: { rows: UsersQuery[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in userController updateEmail: ${err}`,
           message: {

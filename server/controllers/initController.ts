@@ -6,7 +6,7 @@
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { InitController, ServerError, MetricsQuery } from '../../types';
-import path from 'path';
+// TODO never used: import path from 'path';
 
 const initController: InitController = {
   // TODO any; body prop is misleading; should be name; rename parameter?
@@ -104,24 +104,24 @@ const initController: InitController = {
     // if only one checkbox is clicked, this will run
     if (containerList.length === 1) {
       queryString += ')' + queryStringEnd;
-      // TODO added MetricsQuery type alias
-      await db.query(queryString, containerList).then((data: MetricsQuery): void => {
+      // TODO added MetricsQuery type alias but doesn't seem correct
+      await db.query(queryString, containerList).then((data: { rows: MetricsQuery[] }): void => {
         res.locals.metrics = data;
         return next();
       });
     }
 
     // if there are more than one containers selected, this will activate
-    // TODO: container is never read
+    // TODO: elements are never read, basically a for loop for iterating the mength of container list sliced, also ln 118-119 not efficient code
     else {
-      containerList.slice(1).forEach((container: any) => {
+      containerList.slice(1).forEach(() => {
         let additionalParameter = `OR container_name = $${count + 1} `;
         count++;
         if (count >= containerList.length) additionalParameter += ')';
         queryString += additionalParameter;
       });
       queryString += queryStringEnd;
-      await db.query(queryString, containerList).then((data: any) => {
+      await db.query(queryString, containerList).then((data: { rows: MetricsQuery[] }) => {
         res.locals.metrics = data;
         return next();
       });

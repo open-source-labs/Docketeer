@@ -104,7 +104,7 @@ const apiController: ApiController = {
     // create transporter with Nodemailer to send email.
     transporter
 
-    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+      // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
 
       .sendMail(mailDetails)
       .then((info: any) => {

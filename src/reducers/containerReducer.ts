@@ -1,5 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { containerStateType } from '../../types';
+import {
+  containerStateType,
+  RunningListType,
+  StoppedListType,
+} from '../../types';
 
 const initialState: containerStateType = {
   runningList: [],
@@ -13,18 +17,25 @@ export const containerSlice = createSlice({
   initialState,
   reducers: {
     stopRunningContainer: (state, action: PayloadAction<string>) => {
+      console.log('action.payload', action.payload);
       state.runningList.filter((container) => container.ID !== action.payload);
     },
     runStoppedContainer: (state, action: PayloadAction<string>) => {
       state.stoppedList.filter((container) => container.ID !== action.payload);
     },
-    refreshRunningContainers: (state, action: PayloadAction<any>) => {
+    refreshRunningContainers: (
+      state,
+      action: PayloadAction<RunningListType[]>
+    ) => {
       state.runningList = action.payload;
     },
-    removeContainer: (state, action: PayloadAction<any>) => {
+    removeContainer: (state, action: PayloadAction<string>) => {
       state.stoppedList.filter((container) => container.ID !== action.payload);
     },
-    refreshStoppedContainer: (state, action: PayloadAction<any>) => {
+    refreshStoppedContainer: (
+      state,
+      action: PayloadAction<StoppedListType[]>
+    ) => {
       state.stoppedList = action.payload;
     },
   },

@@ -50,7 +50,7 @@ const useHelper = () => {
           .catch((err) => console.log(err));
       },
       /* Removes stopped containers @param {*} containerID */
-      remove(containerID) {
+      remove(containerID: string) {
         const { removeContainer } = dispatch;
         fetch(`/api/command/removeContainer?id=${containerID}`)
           .then((message) => message.json())
@@ -72,7 +72,7 @@ const useHelper = () => {
           .catch((err) => console.log(err));
       },
       /* Starts a stopped container in containers tab @param {*} id */
-      runStopped(id) {
+      runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
         fetch(`/api/command/runStopped?id=${id}`)
           .then((message) => message.json())
@@ -94,7 +94,7 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((newRunningList) => {
-            //With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
+            // With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
             refreshRunningContainers(newRunningList);
           })
           .catch((err) => console.log(err));
@@ -251,6 +251,8 @@ const useHelper = () => {
         })
           .then((data) => data.json())
           .then((response) => {
+            // TODO: why is any not erroring here?
+            console.log(response);
             return;
           })
           .catch((err) => {

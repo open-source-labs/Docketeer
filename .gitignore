@@ -9,7 +9,6 @@ yarn.lock
 src/database/docketeerdb
 server/database/docketeerdb
 dist/
-security/
 .env
 
 coverage/

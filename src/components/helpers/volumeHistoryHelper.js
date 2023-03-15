@@ -13,6 +13,7 @@ export const filterOneProperty = (input, filterInput) => {
     // create an arr (filteredArr)
     // assign it to a filtered object that only have the key/value pair that matches filter input
     const filteredArr = Object.entries(input[i]).filter(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([key, value]) => key === filterInput
     );
     // push the filtered arr to outputArr
@@ -35,11 +36,11 @@ export const volumeByName = (
   getVolumeContainersList
 ) => {
   let volumeName;
-  console.log("arrOfVolNames", arrayOfVolumeNames);
+  // console.log("arrOfVolNames", arrayOfVolumeNames);
   arrayOfVolumeNames.forEach((element) => {
-    console.log("element: ", element);
-    volumeName = getVolumeContainers(element["Name"], getVolumeContainersList);
-    console.log("volumeName: ", volumeName);
+    // console.log("element: ", element);
+    volumeName = getVolumeContainers(element['Name'], getVolumeContainersList);
+    // console.log("volumeName: ", volumeName);
   });
   return volumeName;
 };
@@ -61,9 +62,9 @@ export const listOfVolumeProperties = (volumeName, dockerOutput) => {
     const container = dockerOutput[i];
 
     for (const key in container) {
-      if (key === "Names") containerProperties["Names"] = container["Names"];
-      if (key === "State") containerProperties["State"] = container["State"];
-      if (key === "Status") containerProperties["Status"] = container["Status"];
+      if (key === 'Names') containerProperties['Names'] = container['Names'];
+      if (key === 'State') containerProperties['State'] = container['State'];
+      if (key === 'Status') containerProperties['Status'] = container['Status'];
     }
     volumeList.containers.push(containerProperties);
     containerProperties = {};

@@ -36,7 +36,6 @@ const Home = () => {
   const { sessions, volumes } = useAppSelector((state) => state);
   const userData = sessions;
   const { arrayOfVolumeNames } = volumes;
-  console.log({ arrayOfVolumeNames });
 
   const {
     refreshRunning,
@@ -55,8 +54,7 @@ const Home = () => {
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
 
-
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     updateSession();
     logoutUser();
     fetch('/api/logout', {

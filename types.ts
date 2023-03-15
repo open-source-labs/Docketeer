@@ -34,7 +34,7 @@ export interface sessionStateType {
   container_stops: string;
   token: string;
   isLoggedIn: boolean;
-  userList: any[];
+  // userList: any[];
 }
 export interface StoppedListType {
   Names?: string;
@@ -52,11 +52,23 @@ export interface RunningListType {
   RunningFor: string;
 }
 
+/*
+
+
+export interface ContainerObj {
+  Container: string;
+  ID: string;
+  Image?: string;
+  RunningFor?: string;
+}
+*/
+
 // for more info review actions.ts file and Settings.ts
 export type ContainerProps = {
   stoppedList: StoppedListType[];
   runStopped: (
     id: string,
+    runStoppedContainerDispatcher: (id: string) => void
     runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runStoppedContainer: (id: string) => void;
@@ -65,9 +77,11 @@ export type ContainerProps = {
   remove: (
     id: string,
     runStoppedContainerDispatcher: (id: string) => void
+    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   stop: (
     id: string,
+    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
     refreshStoppedContainers: (data: StoppedContainerObj[]) => void
   ) => void;
   runningList: RunningListType[];
@@ -75,6 +89,7 @@ export type ContainerProps = {
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
+    callback_2: () => void
     callback_2: () => void
   ) => void;
 };
@@ -226,6 +241,7 @@ export interface NetworkObj {
   Scope: string;
 }
 
+// TODO: define the type for the containers array
 export interface VolumeObj {
   vol_name: string;
   containers: object[];
@@ -263,6 +279,17 @@ interface notificationList {
   memoryNotificationList: any[];
   cpuNotificationList: any[];
   stoppedNotificationList: any[];
+}
+
+export interface AlertStateType {
+  alertList: (string | null)[];
+  promptList:
+    | [
+        prompt: string | null,
+        handleAccept: (() => void) | null,
+        handleDeny: (() => void) | null
+      ]
+    | null[];
 }
 
 export interface StateType {
@@ -305,7 +332,7 @@ export interface graphStateType {
 
 // need to get type of imagesList later
 export interface imagesStateType {
-  imagesList: any[];
+  imagesList: imageObj[];
 }
 
 // need to get type of the sets later by seeing what data is in the notification lists
@@ -316,16 +343,23 @@ export interface notificationStateType {
   stoppedNotificationList: Set<any>;
 }
 
-export interface containerLogsType {
-  stdout: any[];
-  stderr: any[];
+export interface stdType {
+  containerName: string;
+  logMsg: string;
+  timestamp: string;
 }
+
+export interface containerLogsType {
+  stdout: stdType[];
+  stderr: stdType[];
+}
+
 export interface logsStateType {
   containerLogs: containerLogsType;
 }
 
 export interface userStateType {
-  userList: any[];
+  userList: UserInfo[];
 }
 
 export interface userReducerStateType {
@@ -342,9 +376,11 @@ export interface userReducerStateType {
 }
 
 export interface volumeStateType {
-  arrayOfVolumeNames: any[];
-  volumeContainersList: any[];
+  arrayOfVolumeNames: ArrayOfVolumeNames;
+  volumeContainersList: VolumeObj[];
 }
+
+export type ArrayOfVolumeNames = { Name: string }[];
 
 export interface auxObjType {
   container?: ContainerInterface;

@@ -54,12 +54,16 @@ import {
 } from '../../reducers/volumeReducer';
 
 import {
-  ContainerObj,
-  StoppedContainerObj,
+  // ContainerObj,
+  // StoppedContainerObj,
   ImageObj,
   VolumeObj,
   NetworkObj,
   UserInfo,
+  containerLogsType,
+  ArrayOfVolumeNames,
+  RunningListType,
+  StoppedListType,
 } from '../../../types';
 
 /**
@@ -73,10 +77,10 @@ const useSurvey = () => {
   const actions = useMemo(
     () => ({
       // Dispatch functions used in Home.tsx
-      refreshRunningContainers(data: ContainerObj[]) {
+      refreshRunningContainers(data: RunningListType[]) {
         dispatch(refreshRunningContainers(data));
       },
-      refreshStoppedContainers(data: StoppedContainerObj[]) {
+      refreshStoppedContainers(data: StoppedListType[]) {
         dispatch(refreshStoppedContainer(data));
       },
       refreshImagesList(data: ImageObj[]) {
@@ -94,7 +98,7 @@ const useSurvey = () => {
       updateUsers(data: UserInfo[]) {
         dispatch(updateUsers(data));
       },
-      getVolumes(data: { Name: string }[]) {
+      getVolumes(data: ArrayOfVolumeNames) {
         dispatch(getVolumes(data));
       },
       getVolumeContainerList(data: VolumeObj) {
@@ -114,7 +118,7 @@ const useSurvey = () => {
       // Note: refreshImagesList, refreshRunningContainers (both already exported)
       // Dispatch functions used in Settings.tsx
       // Note: removeMemory..., removeCpu..., and removeStopped... were previously declared in Settings but not used
-      addPhoneNumber(data: any) {
+      addPhoneNumber(data: string) {
         dispatch(addPhoneNumber(data));
       },
       updateUser(userInfo: UserInfo) {
@@ -172,7 +176,7 @@ const useSurvey = () => {
         dispatch(buildTransmittedIO(data));
       },
       // Dispatch functions used in ProcessLogsTable.tsx
-      getContainerLogsDispatcher(data: object[]) {
+      getContainerLogsDispatcher(data: containerLogsType) {
         dispatch(getLogs(data));
       },
     }),

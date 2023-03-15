@@ -1,20 +1,50 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useAppDispatch } from "./hooks";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line
+import { useAppDispatch } from './hooks';
+import { AlertStateType } from '../../types';
 
-const initialState: any = {
+/*
+export interface AlertStateType {
+  alertList: string[] | null;
+  promptList:
+    | [prompt: string, handleAccept: () => void, handleDeny: () => void]
+    | []
+    | null;
+}
+*/
+
+// TODO: redo prompts to be component based
+
+const initialState: AlertStateType = {
   alertList: [],
   promptList: [],
 };
 
 const alertSlice = createSlice({
-  name: "alerts",
+  name: 'alerts',
   initialState,
   reducers: {
-    // TODO: any typing in TS
-    setAlert: (state, action: PayloadAction<any>) => {
+    setAlert: (
+      state,
+      action: PayloadAction<{ alert: string | null; type: string | null }>
+    ) => {
+      console.log('setAlert payloadAction', action.payload);
       state.alertList = [action.payload.alert, action.payload.type];
     },
-    setPrompt: (state, action: PayloadAction<any>) => {
+    // TODO: turn alertlist type into an object when refactoring to all for easier typing
+    setPrompt: (
+      state,
+      action: PayloadAction<{
+        prompt: string | null;
+        handleAccept: (() => void) | null;
+        handleDeny: (() => void) | null;
+      }>
+    ) => {
+      console.log('setPrompt payloadAction', action.payload);
+      if (action.payload.handleAccept === null) {
+        state.promptList = [];
+      }
+
       state.promptList = [
         action.payload.prompt,
         action.payload.handleAccept,
@@ -27,32 +57,39 @@ const alertSlice = createSlice({
 export const { setAlert, setPrompt } = alertSlice.actions;
 
 // let timeoutId = null;
-let timeoutId: any;
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-// TODO specify TS types
-export const createAlert = (alert: any, time: any, type: any) => {
-  return (useAppDispatch) => {
+export const createAlert = (
+  alert: string | null,
+  time: number,
+  type: string
+) => {
+  // TODO: revisit typing of payloadAction. Should it be more specific?
+  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setAlert({ alert, type }));
-    useAppDispatch(setPrompt([]));
+    useAppDispatch(
+      // sending null to clear the prompt
+      setPrompt({ prompt: null, handleAccept: null, handleDeny: null })
+    );
 
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
-      useAppDispatch(setAlert([]));
+      // sending null to clear the alert
+      useAppDispatch(setAlert({ alert: null, type: null }));
     }, time * 1000);
     console.log({ timeoutId });
   };
 };
 
-// TODO specify TS types
 export const createPrompt = (
-  prompt: any = null,
-  handleAccept: any,
-  handleDeny: any
+  prompt: string | null,
+  handleAccept: (() => void) | null,
+  handleDeny: (() => void) | null
 ) => {
-  return (useAppDispatch) => {
+  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setPrompt({ prompt, handleAccept, handleDeny }));
   };
 };

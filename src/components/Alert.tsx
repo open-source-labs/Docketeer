@@ -117,13 +117,13 @@ const Alert = () => {
           <div className="flex-none">
             <button
               className="btn btn-sm btn-ghost"
-              onClick={() => promptList[2]()}
+              onClick={() => promptList[2]?.()}
             >
               Deny
             </button>
             <button
               className="btn btn-sm btn-primary"
-              onClick={() => promptList[1]()}
+              onClick={() => promptList[1]?.()}
             >
               Accept
             </button>

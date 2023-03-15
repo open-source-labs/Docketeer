@@ -118,6 +118,7 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log('data in getUpdatedUserList: ', data);
       updateUserList(data);
     })
     .catch((err) => {

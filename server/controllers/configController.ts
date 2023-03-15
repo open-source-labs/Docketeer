@@ -12,11 +12,12 @@ const configController: ConfigController = {
   configureThresholds: (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.error) return next();
 
-    const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } = req.body;
+    const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } =
+      req.body;
 
     const inputThresholds =
       'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
-    
+
     const thresholdDetails = [
       contact_pref,
       mem_threshold,
@@ -41,7 +42,11 @@ const configController: ConfigController = {
   },
 
   // configure contact preference
-  updateContactPref: (req: Request, res: Response, next: NextFunction): void => {
+  updateContactPref: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
     if (res.locals.error) return next();
 
     const { contact_pref, _id } = req.body;

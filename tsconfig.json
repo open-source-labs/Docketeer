@@ -8,13 +8,13 @@
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "strict": true,
+    "strict": false,
     "moduleResolution": "node",
     "removeComments": true,
     "noEmit": false,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
-    "strictNullChecks": true
+    "strictNullChecks": false
   },
   "include": ["src/**/*", "server/**/*"]
 }

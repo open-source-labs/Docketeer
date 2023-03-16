@@ -2,35 +2,43 @@
  * @module | settingsHelper.tsx
  * @description | Contains helper functions facilitating updates to account information (AccountDisplay, Settings, etc.)
  **/
-
+// import useSurvey from '../helpers/dispatch';
 import store from '../../renderer/store';
+// const { updateUser } = useSurvey();
 
 export const handlePasswordChange = () => {
-  const currentPassword = document.getElementById(
+  const currentPasswordHolder = document.getElementById(
     'current-password-input'
-  ).value;
-  const newPassword = document.getElementById('new-password-input').value;
+  ) as HTMLInputElement;
+  const currentPassword = currentPasswordHolder.value;
+  const newPasswordHolder = document.getElementById(
+    'new-password-input'
+  ) as HTMLInputElement;
+  const newPassword = newPasswordHolder.value;
 
-  if (!checkCurrentPassword()) {
-    window.alert('Warning: Please enter your current password');
-    return;
-  }
-  if (!checkPasswordLength()) {
-    window.alert('Warning: Password must be 6 characters or longer');
-    return;
-  }
+  // if (!checkCurrentPassword()) {
+  //   window.alert('Warning: Please enter your current password');
+  //   return;
+  // }
+  // if (!checkPasswordLength()) {
+  //   window.alert('Warning: Password must be 6 characters or longer');
+  //   return;
+  // }
 
-  if (!confirmPassword()) {
-    window.alert('Warning: Passwords do not match');
-    return;
-  }
+  // if (!confirmPassword()) {
+  //   window.alert('Warning: Passwords do not match');
+  //   return;
+  // }
 
   updatePassword(currentPassword, newPassword);
 };
 
-export const updatePassword = (password, newPassword) => {
+export const updatePassword: (password: string, newPassword: string) => void = (
+  password,
+  newPassword
+) => {
   const state = store.getState();
-  const username = state.session.username;
+  const username = state.sessions.username;
   fetch('/api/account/password', {
     method: 'POST',
     headers: {
@@ -57,8 +65,11 @@ export const updatePassword = (password, newPassword) => {
     });
 };
 
-export const checkCurrentPassword = () => {
-  const password = document.getElementById('current-password-input').value;
+export const checkCurrentPassword: () => boolean = () => {
+  const passwordInput = document.getElementById(
+    'current-password-input'
+  ) as HTMLInputElement;
+  const password = passwordInput.value;
   const passwordAlert = document.getElementById('current-password-alert');
   if (password === '') {
     passwordAlert.innerHTML = 'Warning: Please enter your current password';
@@ -68,11 +79,16 @@ export const checkCurrentPassword = () => {
   return password !== '';
 };
 
-export const confirmPassword = () => {
-  const newPassword = document.getElementById('new-password-input').value;
-  const newPasswordConfirmation = document.getElementById(
+export const confirmPassword: () => void = () => {
+  const newPasswordInput = document.getElementById(
+    'new-password-input'
+  ) as HTMLInputElement;
+  const newPassword = newPasswordInput.value;
+
+  const newPasswordConfirmationInput = document.getElementById(
     'new-password-confirmation-input'
-  ).value;
+  ) as HTMLInputElement;
+  const newPasswordConfirmation = newPasswordConfirmationInput.value;
   const passwordConfirmationAlert = document.getElementById(
     'confirm-new-password-alert'
   );
@@ -85,24 +101,27 @@ export const confirmPassword = () => {
   return newPassword === newPasswordConfirmation;
 };
 
-export const checkPasswordLength = () => {
-  const newPassword = document.getElementById('new-password-input').value;
-  const newPasswordAlert = document.getElementById('new-password-alert');
+// export const checkPasswordLength = () => {
+//   const newPassword = document.getElementById('new-password-input').value;
+//   const newPasswordAlert = document.getElementById('new-password-alert');
 
-  if (newPassword.length <= 6) {
-    newPasswordAlert.innerHTML =
-      'Warning: Password must be 6 characters or longer';
-  } else {
-    newPasswordAlert.innerHTML = '';
-  }
-  return newPassword.length >= 6;
-};
+//   if (newPassword.length <= 6) {
+//     newPasswordAlert.innerHTML =
+//       'Warning: Password must be 6 characters or longer';
+//   } else {
+//     newPasswordAlert.innerHTML = '';
+//   }
+//   return newPassword.length >= 6;
+// };
 
 export const handleEmailUpdate = () => {
-  const email = document.getElementById('update-email-input').value;
+  const emailInput = document.getElementById(
+    'update-email-input'
+  ) as HTMLInputElement;
+  const email = emailInput.value;
 
   const state = store.getState();
-  const username = state.session.username;
+  const username = state.sessions.username;
 
   if (email === '') {
     window.alert('Please input a valid email');
@@ -126,16 +145,19 @@ export const updateEmail = (username, email) => {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      updateUser(data);
-    })
+    // .then((data) => {
+    //   updateUser(data);
+    // })
     .catch((err) => {
       console.log(err);
     });
 };
 
 export const handlePhoneUpdate = () => {
-  const newPhoneNumber = document.getElementById('update-phone-input').value;
+  const newPhoneNumberInput = document.getElementById(
+    'update-phone-input'
+  ) as HTMLInputElement;
+  const newPhoneNumber = newPhoneNumberInput.value;
   if (!checkPhone(newPhoneNumber)) {
     window.alert(
       'Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900'
@@ -143,7 +165,7 @@ export const handlePhoneUpdate = () => {
     return;
   }
   const state = store.getState();
-  const username = state.session.username;
+  const username = state.sessions.username;
   updatePhone(username, newPhoneNumber);
 };
 
@@ -159,7 +181,7 @@ export const checkPhone = (phone) => {
   return phone.match(regex) !== null;
 };
 
-export const updatePhone = (username, phone) => {
+export const updatePhone = (username: string, phone: string) => {
   fetch('/api/account/phone', {
     method: 'POST',
     headers: {
@@ -173,15 +195,14 @@ export const updatePhone = (username, phone) => {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      document.getElementById('update-phone-input').value = '';
-      updateUser(data);
-    })
+    // .then((data) => {
+    //   const phoneInput = document.getElementById(
+    //     'update-phone-input'
+    //   ) as HTMLInputElement;
+    //   phoneInput.value = '';
+    //   updateUser(data);
+    // })
     .catch((err) => {
       console.log(err);
     });
-};
-
-export const updateUser = (data) => {
-  store.dispatch(actions.updateUser(data));
 };

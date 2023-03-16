@@ -25,10 +25,10 @@ logMsg
 "logger=context userId=0 orgId=1 uname= t=2023-03-13T21:50:10.802144512Z level=info msg=\"Request Completed\" method=POST path=/api/ds/query status=400 remote_addr=192.168.112.1 time_ms=249 duration=249.137435ms size=244 referer=\"http://localhost:2999/d/h5LcytHGz/system?kiosk=&orgId=1&refresh=10s\" handler=/api/ds/query"
 timeStamp
 : 
-"3/13/2023, 9:50:10 PM"
+"3/13/2023, 9:50:10PM"
 */
 
-const ProcessLogsTable = () => {
+const ProcessLogsTable = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
@@ -46,7 +46,7 @@ const ProcessLogsTable = () => {
   );
 
   // btnIdList = boxes that are checked
-  const [btnIdList, setBtnIdList] = useState([id] as any[]);
+  const [btnIdList, setBtnIdList] = useState<string[]>([id]);
   const [rows, setRows] = useState([] as any[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],

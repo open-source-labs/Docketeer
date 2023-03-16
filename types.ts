@@ -2,16 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 
 // Refer to the Settings Tab for more information on stoppedList and runningList
 
-export interface UserInfo {
+export interface UserBase {
+  username: string;
+  password: string;
+  // changed role_id from number to string check if that broke anything (from previous group)
+  role_id: string;
+}
+
+export interface UserInfo extends UserBase {
   // removed password property on userInfo as it's not being used.
   // changed id from number type to string type so see if that breaks anything
   _id: string;
-  username: string;
   email: string;
   phone: string;
   role: string;
-  // changed role_id from number to string check if that broke anything
-  role_id: string;
+
   contact_pref: string;
   // changed memthreshold from number to string to align with sessionState in sessions reducer. see if it broke something
   mem_threshold: string;
@@ -69,7 +74,6 @@ export type ContainerProps = {
   runStopped: (
     id: string,
     runStoppedContainerDispatcher: (id: string) => void
-    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   runStoppedContainer: (id: string) => void;
   removeContainer: (id: string) => void;
@@ -77,11 +81,9 @@ export type ContainerProps = {
   remove: (
     id: string,
     runStoppedContainerDispatcher: (id: string) => void
-    runStoppedContainerDispatcher: (id: string) => void
   ) => void;
   stop: (
     id: string,
-    refreshStoppedContainers: (data: StoppedContainerObj[]) => void
     refreshStoppedContainers: (data: StoppedContainerObj[]) => void
   ) => void;
   runningList: RunningListType[];
@@ -89,7 +91,6 @@ export type ContainerProps = {
     id: ContainerType,
     runningList: RunningListType,
     callback_1: () => void,
-    callback_2: () => void
     callback_2: () => void
   ) => void;
 };
@@ -165,12 +166,12 @@ export type SettingsProps = {
   stoppedNotificationList: any[];
 };
 
-export interface ContainerObj {
-  Container: string;
-  ID: string;
-  Image?: string;
-  RunningFor?: string;
-}
+// export interface ContainerObj {
+//   Container: string;
+//   ID: string;
+//   Image?: string;
+//   RunningFor?: string;
+// }
 
 export interface imageObj {
   reps: string;
@@ -585,7 +586,7 @@ export interface MetricsQuery {
   created_at: Date;
 }
 
-export interface UsersQuery {
+export interface User {
   id: number;
   username: string;
   phone: string;

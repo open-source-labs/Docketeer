@@ -15,7 +15,7 @@ import * as history from './helpers/volumeHistoryHelper';
 // Importing features
 import Metrics from './features/Metrics';
 import Images from './features/Images';
-import Yml from './features/Yml';
+// import Yml from './features/Yml';
 import Containers from './features/Containers';
 import Settings from './features/Settings';
 import UserList from './features/Users';
@@ -29,7 +29,7 @@ import Alert from './Alert';
  * @description | Handles client-side routing, pre-rendering of data, refreshing of data, etc...
  **/
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -54,28 +54,6 @@ const Home = () => {
   const { updateSession, logoutUser, updateUser, getVolumeContainerList } =
     useSurvey();
 
-  const handleLogout = (): void => {
-    updateSession();
-    logoutUser();
-    fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: userData.username,
-      }),
-    })
-      .then((data) => data.json())
-      .then((response) => {
-        return console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    navigate('/login');
-  };
-
   useEffect(() => {
     refreshRunning();
     refreshStopped();
@@ -83,6 +61,7 @@ const Home = () => {
     writeToDb();
     networkContainers();
     getAllDockerVolumes();
+    setAdminToken();
   }, []);
 
   // Changes in arrayOfVolumeNames will run history.volumeByName
@@ -105,27 +84,101 @@ const Home = () => {
   }, []);
 
   // Pertains to sysAdmin only
-  useEffect(() => {
-    fetch('/api/admin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: userData.token,
-        username: userData.username,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        updateUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
+  // TODO: double check what this is doing and name appropriately
+  const setAdminToken = async (): Promise<void> => {
+    try {
+      const response = await fetch('/api/admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: userData.token,
+          username: userData.username,
+        }),
       });
-  }, []);
+      const parsedData = await response.json();
+
+      updateUser(parsedData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logOut = async (): Promise<void> => {
+    updateSession();
+    logoutUser();
+
+    // what is this try block doing?
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: userData.username,
+        }),
+      });
+      const parsedData = await response.json();
+      console.log(parsedData);
+      navigate('/login');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const systemPrune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    {
+      dispatch(
+        createPrompt(
+          // prompt (first argument in createPrompt)
+          'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
+          // handleAccept (second argument in createPrompt)
+          () => {
+            handlePruneClick(e);
+            dispatch(createAlert('Performing system prune...', 5, 'success'));
+          },
+          // handleDeny (third argument in createPrompt)
+          () => {
+            dispatch(
+              createAlert(
+                'The request to perform system prune has been cancelled.',
+                5,
+                'warning'
+              )
+            );
+          }
+        )
+      );
+    }
+  };
+
+  const handleLogOut = () => {
+    {
+      dispatch(
+        createPrompt(
+          // prompt (first argument in createPrompt)
+          'Are you sure you want to log out of Docketeer?',
+          // handleAccept (second argument in createPrompt)
+          () => {
+            logOut();
+            dispatch(createAlert('Logging out...', 5, 'success'));
+          },
+          // handleDeny (third argument in createPrompt)
+          () => {
+            dispatch(
+              createAlert(
+                'The request to logout has been cancelled.',
+                5,
+                'warning'
+              )
+            );
+          }
+        )
+      );
+    }
+  };
 
   return (
     <>
@@ -179,39 +232,7 @@ const Home = () => {
                   <Link to="/home/logs">Process Logs</Link>
                 </li>
                 <li>
-                  <a
-                    onClick={(e) => {
-                      dispatch(
-                        createPrompt(
-                          // prompt (first argument in createPrompt)
-                          'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
-                          // handleAccept (second argument in createPrompt)
-                          () => {
-                            handlePruneClick(e);
-                            dispatch(
-                              createAlert(
-                                'Performing system prune...',
-                                5,
-                                'success'
-                              )
-                            );
-                          },
-                          // handleDeny (third argument in createPrompt)
-                          () => {
-                            dispatch(
-                              createAlert(
-                                'The request to perform system prune has been cancelled.',
-                                5,
-                                'warning'
-                              )
-                            );
-                          }
-                        )
-                      );
-                    }}
-                  >
-                    System Prune
-                  </a>
+                  <a onClick={(e) => systemPrune(e)}>System Prune</a>
                 </li>
               </ul>
             </div>
@@ -247,39 +268,7 @@ const Home = () => {
                 <Link to="/home/logs">PROCESS LOGS</Link>
               </li>
               <li>
-                <a
-                  onClick={(e) => {
-                    dispatch(
-                      // prompt (first argument in createPrompt)
-                      createPrompt(
-                        'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
-                        // handleAccept (second argument in createPrompt)
-                        () => {
-                          handlePruneClick(e);
-                          dispatch(
-                            createAlert(
-                              'Performing system prune...',
-                              5,
-                              'success'
-                            )
-                          );
-                        },
-                        // handleDeny (third argument in createPrompt)
-                        () => {
-                          dispatch(
-                            createAlert(
-                              'The request to perform system prune has been cancelled.',
-                              5,
-                              'warning'
-                            )
-                          );
-                        }
-                      )
-                    );
-                  }}
-                >
-                  SYSTEM PRUNE
-                </a>
+                <a onClick={(e) => systemPrune(e)}>SYSTEM PRUNE</a>
               </li>
             </ul>
           </div>
@@ -287,32 +276,7 @@ const Home = () => {
             {userData.username && (
               <span className="btn btn-primary btn-md lowercase font-bold text-sm">{`${userData.username}`}</span>
             )}
-            <a
-              className="btn"
-              onClick={() => {
-                dispatch(
-                  createPrompt(
-                    // prompt (first argument in createPrompt)
-                    'Are you sure you want to log out of Docketeer?',
-                    // handleAccept (second argument in createPrompt)
-                    () => {
-                      handleLogout();
-                      dispatch(createAlert('Logging out...', 5, 'success'));
-                    },
-                    // handleDeny (third argument in createPrompt)
-                    () => {
-                      dispatch(
-                        createAlert(
-                          'The request to logout has been cancelled.',
-                          5,
-                          'warning'
-                        )
-                      );
-                    }
-                  )
-                );
-              }}
-            >
+            <a className="btn" onClick={() => handleLogOut()}>
               Logout
             </a>
           </div>
@@ -325,7 +289,7 @@ const Home = () => {
         <Route path="/users" element={<UserList />} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
         <Route path="/logTable/:containerId" element={<ProcessLogsTable />} />
-        <Route path="/yml" element={<Yml />} />
+        {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/images" element={<Images />} />
         <Route path="/running" element={<Containers />} />
         <Route path="/" element={<Settings />} />

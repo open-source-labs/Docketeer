@@ -11,7 +11,7 @@ import { useAppSelector } from '../../reducers/hooks';
  * @description | Provides account management features (i.e. modification of password, username, phone-number)
  **/
 
-const AccountDisplay = (): JSX.Element => {
+const AccountDisplay = () => {
   const session = useAppSelector((state) => state.sessions);
   return (
     <>

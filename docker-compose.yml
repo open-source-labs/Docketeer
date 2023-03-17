@@ -5,14 +5,14 @@ services:
     image: docketeerx/postgres
     restart: always
     ports:
-      - '${POSTGRES_PORT}:5432'
+      - 5432:5432
     volumes:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: ${POSTGRES_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -51,8 +51,8 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
-    #can add volume here to persist the prometheus data.
+    volumes:
+      - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
       - node-exporter
     labels:
@@ -86,5 +86,3 @@ services:
       - 4000:4000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    # depends_on:
-    #   - grafana

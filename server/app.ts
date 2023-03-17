@@ -1,8 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { exec } from 'child_process';
 const app = express();
 app.use(cors());
-const { exec } = require('child_process');
+app.use(cookieParser());
 
 exec(
   'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
@@ -16,7 +18,7 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  }
+  },
 );
 // Importing routers...
 import accountRouter from './routes/accountRouter';
@@ -64,7 +66,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  }
+  },
 );
 
 // Exporting app...

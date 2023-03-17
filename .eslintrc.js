@@ -10,6 +10,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
   ],
   ignorePatterns: ['.eslintrc.js', '*.config.js', 'dist/*', '__tests__/*'],
   overrides: [],

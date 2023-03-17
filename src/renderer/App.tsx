@@ -7,17 +7,20 @@ import Home from '../components/Home';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const session: any = useAppSelector((state) => state.sessions.isLoggedIn);
+  const session: boolean = useAppSelector((state) => state.sessions.isLoggedIn);
 
   return (
     <Routes>
-      <Route
-        path='/'
-        element={session ? <Navigate to='/home' /> : <Navigate to='/login' />}
-      />
-      <Route path='/login' element={<Login />} />
-      <Route path='/userSignup' element={<SignUp />} />
-      <Route path='/home/*' element={<Home />} />
+      <>
+        {console.log({ session })}
+        <Route
+          path="/"
+          element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
+        />
+      </>
+      <Route path="/login" element={<Login />} />
+      <Route path="/userSignup" element={<SignUp />} />
+      <Route path="/home/*" element={<Home />} />
     </Routes>
   );
 };

@@ -5,7 +5,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { UserController, ServerError, UsersQuery } from '../../types';
+import { UserController, ServerError, User } from '../../types';
 
 const userController: UserController = {
   // ==========================================================
@@ -13,63 +13,75 @@ const userController: UserController = {
   // Purpose:  Checks for error, and creates a user based on switch statement to check against role_id for system admin, admin, user
   // ==========================================================
 
-  createUser: (req: Request, res: Response, next: NextFunction): void => {
-    if (res.locals.error) return next();
+  // createUser will also function to hash the user password
 
-    const {
-      username,
-      email,
-      phone,
-      role_id,
-    }: { username: string; email: string; phone: string; role_id: string } =
-      req.body;
-    // retrieve hashed password from res locals
-    // here as is used to tell typescript res.locals will have a has property equal to a string
-    const { hash }: { hash: string } = res.locals as { hash: string };
-    let role: string;
+  createUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      // ? what is this doing? Is it necessary?
+      if (res.locals.error) throw Error;
 
-    switch (role_id) {
-    case '1':
-      role = 'system admin';
-      break;
-    case '2':
-      role = 'admin';
-      break;
-    case '3':
-      role = 'user';
-      break;
-    default:
-      role = '';
-    }
-    // ==========================================================
-    // Function: createUser
-    // Purpose:  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
-    // ==========================================================
-    const createUser =
-      'INSERT INTO users (username, email, password, phone, role, role_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;';
+      const {
+        username,
+        password,
+        role_id,
+      }: { username: string; password: string; role_id: string } = req.body;
+      // hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    // create an array, userDetails, to hold values from our createUser SQL query placeholders.
+      let role: string;
 
-    // TODO ROLE ID//REASSIGN TYPESCRIPT TYPE
-    const userDetails: string[] = [username, email, hash, phone, role, role_id];
-    console.log('USERDETAILS:', userDetails);
+      // TODO: this seems unnecessary. Just pass in the role from the frontend instead of a number
+      switch (role_id) {
+        case '1':
+          role = 'system admin';
+          break;
+        case '2':
+          role = 'admin';
+          break;
+        case '3':
+          role = 'user';
+          break;
+        default:
+          role = '';
+      }
+      // ==========================================================
+      // Function: createUser
+      // Purpose:  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
+      // ==========================================================
+      const createUser =
+        'INSERT INTO users (username, password, role, role_id) VALUES ($1, $2, $3, $4) RETURNING *;';
 
-    // check if username and hashed password exist
-    if (username && hash) {
-      db.query(createUser, userDetails)
-        .then((data: { rows: UsersQuery[] }): void => {
-          // data.rows[0] is the newly inserted record from our createUser SQL query
-          res.locals.user = data.rows[0];
-          return next();
-        })
-        .catch((err: ServerError): void => {
-          return next({
-            log: `Error in userController newUser: ${err}`,
-            message: {
-              err: 'An error occurred creating new user in database. See userController.newUser.',
-            },
-          });
-        });
+      // create an array, userDetails, to hold values from our createUser SQL query placeholders.
+
+      // TODO ROLE ID//REASSIGN TYPESCRIPT TYPE
+      const userDetails: string[] = [username, hashedPassword, role, role_id];
+      console.log('USERDETAILS:', userDetails);
+
+      const createdUser = await db.query(createUser, userDetails);
+
+      console.log('createdUser: ', createdUser);
+
+      res.locals.user = createdUser.rows[0];
+
+      return next();
+
+      // {
+      //   log: `Error in userController newUser: ${err}`,
+      //   message: {
+      //     err: 'An error occurred creating new user in database. See userController.newUser.',
+      //   },
+      // }
+    } catch (err: unknown) {
+      return next({
+        log: `Error in userController newUser: ${err}`,
+        message: {
+          err: 'An error occurred creating new user in database. See userController.newUser.',
+        },
+      });
     }
   },
   // ==========================================================
@@ -85,7 +97,7 @@ const userController: UserController = {
       const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       // TODO any
       db.query(allUsers)
-        .then((response: { rows: UsersQuery[] }): void => {
+        .then((response: { rows: User[] }): void => {
           res.locals.users = response.rows;
           return next();
         })
@@ -107,7 +119,7 @@ const userController: UserController = {
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
     db.query(oneUser)
-      .then((response: { rows: UsersQuery[] }): void => {
+      .then((response: { rows: User[] }): void => {
         res.locals.users = response.rows;
         return next();
       })
@@ -138,7 +150,7 @@ const userController: UserController = {
     // TODO Don't use async with then chaining; also data is any typed
     // using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser)
-      .then(async (data: { rows: UsersQuery[] }): Promise<void> => {
+      .then(async (data: { rows: User[] }): Promise<void> => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];
@@ -214,7 +226,7 @@ const userController: UserController = {
       // we will return the role that the user was updated to
       db.query(query, parameters)
         // TODO may need to make type alias for 'data' received from queries
-        .then((data: { rows: UsersQuery[] }): void => {
+        .then((data: { rows: User[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
@@ -252,7 +264,7 @@ const userController: UserController = {
     const parameters: string[] = [hash, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: UsersQuery[] }): void => {
+      .then((data: { rows: User[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -279,7 +291,7 @@ const userController: UserController = {
     const parameters: (string | number)[] = [phone, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: UsersQuery[] }): void => {
+      .then((data: { rows: User[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -306,7 +318,7 @@ const userController: UserController = {
     const parameters: string[] = [email, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: UsersQuery[] }): void => {
+      .then((data: { rows: User[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })

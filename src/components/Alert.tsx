@@ -7,7 +7,7 @@ import { useAppSelector } from '../reducers/hooks';
  **/
 
 // TODO: make an alert for logging in, maybe piggyback off of line 39
-const Alert = () => {
+const Alert = (): JSX.Element => {
   // useApp is pulling state from the alert reducer
   // state.alerts is used to access the alert reducer
   // alertList = [time, Redux type] : object

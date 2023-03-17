@@ -122,10 +122,10 @@ const Home = (): JSX.Element => {
       });
       const parsedData = await response.json();
       console.log(parsedData);
-      navigate('/login');
     } catch (err) {
       console.log(err);
     }
+    navigate('/login');
   };
 
   const systemPrune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {

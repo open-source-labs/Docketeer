@@ -75,7 +75,7 @@
         "content": "<h1>CPU<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -150,7 +150,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -213,7 +213,7 @@
       "links": [],
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -224,7 +224,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -302,7 +302,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -415,7 +415,7 @@
       "id": 70,
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "vertical",
         "reduceOptions": {
@@ -426,7 +426,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -489,7 +489,7 @@
         "content": "<h1>Memory<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -550,7 +550,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -826,7 +826,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -997,7 +997,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.1",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1059,7 +1059,7 @@
         "content": "<h1>Disk<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1085,7 +1085,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-green",
@@ -1117,7 +1118,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1180,7 +1181,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1329,7 +1331,7 @@
         "content": "<h1>Network<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1355,7 +1357,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple"
+                "color": "purple",
+                "value": null
               }
             ]
           },
@@ -1384,7 +1387,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1467,7 +1470,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1540,6 +1543,40 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 78,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h3>Transmitted<h3>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 1,
@@ -1548,7 +1585,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-purple",
@@ -1564,7 +1602,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 57
       },
       "id": 72,
       "options": {
@@ -1580,7 +1618,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1601,6 +1639,40 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 61
+      },
+      "id": 79,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<h3>Received<h3>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 1,
@@ -1609,7 +1681,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)"
+                "color": "rgb(128, 128, 128)",
+                "value": null
               },
               {
                 "color": "dark-purple",
@@ -1625,7 +1698,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 63
       },
       "id": 71,
       "options": {
@@ -1641,7 +1714,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {

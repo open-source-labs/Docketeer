@@ -7,8 +7,9 @@ import dbController from '../controllers/dbController';
 
 const router = Router();
 
-router.post('/', dbController.removeToken, (req: Request, res: Response) => {
-  return res.status(201).json(res.locals.logout);
+router.post('/', (req: Request, res: Response) => {
+  res.clearCookie('admin', { httpOnly: true });
+  return res.status(201).json({ loggedOut: 'true' });
 });
 
 export default router;

@@ -8,6 +8,8 @@ import { Request, Response, NextFunction } from 'express';
 import { ConfigController, ServerError } from '../../types';
 
 const configController: ConfigController = {
+  // *** I don't believe any of these are currently in use ***
+
   // update configuration thresholds
   configureThresholds: (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.error) return next();

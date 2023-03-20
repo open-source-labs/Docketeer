@@ -27,7 +27,7 @@
   "graphTooltip": 1,
   "id": 1,
   "links": [],
-  "liveNow": true,
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -75,7 +75,7 @@
         "content": "<h1>CPU<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -150,7 +150,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -224,7 +224,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -302,7 +302,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -426,7 +426,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -489,7 +489,7 @@
         "content": "<h1>Memory<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -550,7 +550,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -826,7 +826,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -997,7 +997,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1059,7 +1059,7 @@
         "content": "<h1>Disk<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1118,7 +1118,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1281,7 +1281,6 @@
           "step": 1
         }
       ],
-      "timeFrom": "12h",
       "title": "I/O ",
       "transparent": true,
       "type": "timeseries"
@@ -1332,7 +1331,7 @@
         "content": "<h1>Network<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1388,7 +1387,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1471,7 +1470,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1508,7 +1507,6 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "1h",
       "timeRegions": [],
       "tooltip": {
         "msResolution": true,
@@ -1525,14 +1523,12 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:41",
           "format": "bps",
           "logBase": 1,
           "min": 0,
           "show": true
         },
         {
-          "$$hashKey": "object:42",
           "format": "short",
           "logBase": 1,
           "show": false
@@ -1560,10 +1556,10 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h3>Transmit Bytes<h3>",
+        "content": "<h3>Transmitted<h3>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1622,18 +1618,16 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "code",
           "expr": "sum(rate(container_network_transmit_bytes_total{image!=\"\"}[1m])) by (name)",
           "interval": "",
           "legendFormat": "{{ name }}",
-          "range": true,
           "refId": "A"
         }
       ],
@@ -1658,10 +1652,10 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<h3>Bytes Received<h3>",
+        "content": "<h3>Received<h3>",
         "mode": "html"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1720,7 +1714,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -1739,7 +1733,7 @@
   ],
   "refresh": "10s",
   "revision": 1,
-  "schemaVersion": 37,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": ["system"],
   "templating": {

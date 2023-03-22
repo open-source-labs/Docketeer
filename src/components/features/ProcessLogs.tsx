@@ -8,69 +8,66 @@ import { useAppSelector } from '../../reducers/hooks';
  * @description | Provides process logs for running containers & additional configuration options
  **/
 
-const ProcessLogs = () => {
+const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
 
-  const renderRunningList: any[] = [];
-  runningList.map((container: ContainerType, index: number) => {
-    renderRunningList.push(
+  const renderRunningList = runningList.map(
+    (container: ContainerType, index: number): JSX.Element => (
       <ProcessLogsCard
         key={index}
         index={index}
         container={container}
-        status='Running'
+        status="Running"
       />
-    );
-  });
+    )
+  );
 
-  const renderStoppedList: any[] = [];
-  stoppedList.map((container: ContainerType, index: number) => {
-    renderStoppedList.push(
+  const renderStoppedList = stoppedList.map(
+    (container: ContainerType, index: number): JSX.Element => (
       <ProcessLogsCard
         key={index}
         index={index}
         container={container}
-        status='Stopped'
+        status="Stopped"
       />
-    );
-  });
+    )
+  );
 
   return (
     <>
-      <div className='h-3'></div>
-      <div className='usersFlex flex flex-wrap gap-3'>
-        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
-          <div className='card-body space-y-2'>
-            <div className='flex justify-between items-center'>
-              <h2 className='card-title text-sm'>RUNNING CONTAINERS</h2>
-              <div className='stats shadow'>
-                <div className='stat'>
-                  <div className='stat-title'>Count</div>
-                  <div className='stat-value'>{runningList.length}</div>
+      <div className="h-3"></div>
+      <div className="usersFlex flex flex-wrap gap-3">
+        <div className="card bg-neutral text-neutral-content rounded-lg flex-1">
+          <div className="card-body space-y-2">
+            <div className="flex justify-between items-center">
+              <h2 className="card-title text-sm">RUNNING CONTAINERS</h2>
+              <div className="stats shadow">
+                <div className="stat">
+                  <div className="stat-title">Count</div>
+                  <div className="stat-value">{runningList.length}</div>
                 </div>
               </div>
             </div>
-            <div className='divider py-8'></div>
-            <div className='containerFlex flex flex-wrap gap-3'>
+            <div className="divider py-8"></div>
+            <div className="containerFlex flex flex-wrap gap-3">
               {renderRunningList}
             </div>
           </div>
         </div>
-        <div className='card bg-neutral text-neutral-content rounded-lg flex-1'>
-          <div className='card-body space-y-2'>
-            <div className='flex justify-between items-center'>
-              <h2 className='card-title text-sm'>STOPPED CONTAINERS</h2>
-              <div className='stats shadow'>
-                <div className='stat'>
-                  <div className='stat-title'>Count</div>
-                  <div className='stat-value'>{stoppedList.length}</div>
+        <div className="card bg-neutral text-neutral-content rounded-lg flex-1">
+          <div className="card-body space-y-2">
+            <div className="flex justify-between items-center">
+              <h2 className="card-title text-sm">STOPPED CONTAINERS</h2>
+              <div className="stats shadow">
+                <div className="stat">
+                  <div className="stat-title">Count</div>
+                  <div className="stat-value">{stoppedList.length}</div>
                 </div>
               </div>
             </div>
-            <div className='divider py-8'></div>
-            <div className='containerFlex flex flex-wrap gap-3'>
+            <div className="divider py-8 flex flex-wrap gap-3">
               {renderStoppedList}
             </div>
           </div>

@@ -1,6 +1,7 @@
 // import/prep for our server and type declarations
 // TODO deleted the importation of NextFunction due to it not being used in our global error handler(where it was prior)
 import express, { Request, Response } from 'express';
+// import type { ErrorRequestHandler } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 // TODO do we change exec's importation syntax?
@@ -11,7 +12,7 @@ const app = express();
 app.use(cors());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
-// TODO consider adjusting this to be accurate; commented out seems to change nothing
+// TODO take a look, this caught an error w docker daemon
 exec(
   'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
   (error: Error | null, stdout: string, stderr: string): void => {
@@ -60,6 +61,10 @@ app.use('/', (req: Request, res: Response): Response => {
     .status(404)
     .send({ error: 'Unknown endpoint — please try again.' });
 });
+
+// const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
+
+// app.use(errorHandler);
 
 // Handling global errors...
 app.get(

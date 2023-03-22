@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { checkDbInit, handleNewUser } from './helpers/newUserHelper';
+import { createNewUser, checkDbInit } from './helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../assets/docketeer-title.png';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router';
  * @module | SignUp
  * @description | Facilitates registration of new users (admins) to Docketeer
  **/
+// todo: move to types file
 type SignUpValues = {
   username: string;
   password: string;
@@ -16,8 +17,8 @@ type SignUpValues = {
   showPassword: boolean;
 };
 
-const SignUp = () => {
-  const [values, setValues] = useState<SignUpValues>({
+const SignUp = (): JSX.Element => {
+  const [signUpValues, setSignUpValues] = useState<SignUpValues>({
     username: '',
     password: '',
     passwordConfirmation: '',
@@ -25,12 +26,22 @@ const SignUp = () => {
   });
   const navigate = useNavigate();
 
-  function handleClick(): void {
-    // TODO: add validation for username, password, and password confirmation once backend has functionality
+  function handleClick(e: React.FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+
     // TODO: make pop up for successful sign up
-    // checkDbInit();
-    // handleNewUser(values, '1', setValues);
-    setValues({
+
+    // check that passwords match
+    if (signUpValues.password !== signUpValues.passwordConfirmation) {
+      window.alert('Passwords do not match');
+      return;
+    }
+
+    checkDbInit();
+    // createNewUser
+    createNewUser(signUpValues.username, signUpValues.password, '1');
+
+    setSignUpValues({
       username: '',
       password: '',
       passwordConfirmation: '',
@@ -50,8 +61,7 @@ const SignUp = () => {
           <form
             className="card-body"
             onSubmit={(e) => {
-              e.preventDefault();
-              handleClick();
+              handleClick(e);
             }}
           >
             {/* <div className="form-control">
@@ -71,10 +81,13 @@ const SignUp = () => {
                 type="text"
                 id="username"
                 required={true}
-                value={values.username}
+                value={signUpValues.username}
                 placeholder="Username"
                 onChange={(e) => {
-                  setValues({ ...values, username: e.target.value });
+                  setSignUpValues({
+                    ...signUpValues,
+                    username: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -82,13 +95,16 @@ const SignUp = () => {
               <input
                 className="input input-bordered"
                 type="password"
-                value={values.password}
+                value={signUpValues.password}
                 required={true}
                 minLength={6}
                 id="password"
                 placeholder="Password"
                 onChange={(e) => {
-                  setValues({ ...values, password: e.target.value });
+                  setSignUpValues({
+                    ...signUpValues,
+                    password: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -96,14 +112,14 @@ const SignUp = () => {
               <input
                 className="input input-bordered"
                 type="password"
-                value={values.passwordConfirmation}
+                value={signUpValues.passwordConfirmation}
                 required={true}
                 minLength={6}
                 id="confirm-password"
                 placeholder="Confirm Password"
                 onChange={(e) => {
-                  setValues({
-                    ...values,
+                  setSignUpValues({
+                    ...signUpValues,
                     passwordConfirmation: e.target.value,
                   });
                 }}

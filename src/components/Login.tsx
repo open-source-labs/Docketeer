@@ -13,7 +13,7 @@ import useSurvey from './helpers/dispatch';
  * @description | Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
  **/
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const navigate = useNavigate();
   const { updateUser, updateSession } = useSurvey();
   const updateUserSession = () => updateSession();
@@ -31,51 +31,64 @@ const Login = () => {
   };
 
   // send a fetch request to the backend to login
-  const authenticateUser = (username: string, password: string): void => {
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    })
-      .then((response) => response.json())
-      // TODO: show data expected to be received
-      .then((data) => {
-        // TODO: remove conditional? Seems to not be doing anything. Unsuccessful login attempts don't return an error.
-        console.log('log in fetch request: ', { data });
-        // if error send dispatch to create alert
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-          dispatch(
-            createAlert(
-              'The username and/or password entered could not be authenticated. Please try again.',
-              5,
-              'error'
-            )
-          );
-        } else {
-          updateUserSession(); // Switch state `loggedIn` to true
-          updateUserInfo(data); // Update user information in sessionsReducer
-          dispatch(
-            createAlert(
-              `Welcome back to Docketeer, ${data.username}!`,
-              5,
-              'success'
-            )
-          );
-          navigate('/'); // Navigate to root route
-        }
-      })
-      .catch((err) => {
-        console.log('Fetch: POST error to /login', err);
-        // Alert user upon wrong username or password entry using an alert.
-        window.alert(
-          'Incorrect password and/or username. \n Please register or try again.'
-        );
+  const authenticateUser = async (
+    username: string,
+    password: string
+  ): Promise<void> => {
+    try {
+      // login user with fetch request
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       });
+
+      if (response.status === 401) {
+        throw new Error('Unauthorized');
+      }
+
+      // parse the response
+      const parsedResponse = await response.json();
+
+      // TODO: show data expected to be received
+      console.log('parsedResponse: ', parsedResponse);
+
+      // Switch state `loggedIn` to true
+      updateUserSession();
+      // Update user information in sessionsReducer
+      updateUserInfo(parsedResponse);
+      // create alert to notify user that they have successfully logged in
+      dispatch(
+        createAlert(
+          `Welcome back to Docketeer, ${parsedResponse.username}!`,
+          5,
+          'success'
+        )
+      );
+      // Navigate to root route
+      navigate('/');
+    } catch (err) {
+      console.log('Fetch: POST error to /login', err);
+      // Alert user upon wrong username or password entry using an alert.
+      window.alert(
+        'Incorrect password and/or username. \n Please register or try again.'
+      );
+      // if error send dispatch to create alert
+      // if (Object.prototype.hasOwnProperty.call(parsedResponse, 'error')) {
+      //   dispatch(
+      //     createAlert(
+      //       'The username and/or password entered could not be authenticated. Please try again.',
+      //       5,
+      //       'error'
+      //     )
+      //   );
+      // }
+    }
   };
 
   return (

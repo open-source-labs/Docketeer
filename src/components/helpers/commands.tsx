@@ -23,37 +23,37 @@ const useHelper = () => {
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
         fetch('/api/command/refreshRunning')
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((runningContainers) => {
             refreshRunningContainers(runningContainers);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Refreshes stopped containers */
       refreshStopped() {
         const { refreshStoppedContainers } = dispatch;
         fetch('/api/command/refreshStopped')
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((stoppedContainers) => {
             refreshStoppedContainers(stoppedContainers);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Refreshes images */
       refreshImages() {
         const { refreshImagesList } = dispatch;
         fetch('/api/command/refreshImages')
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((imagesList) => {
             refreshImagesList(imagesList);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
         fetch(`/api/command/removeContainer?id=${containerID}`)
-          .then((message) => message.json())
+          .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
             removeContainer(containerID);
@@ -64,23 +64,23 @@ const useHelper = () => {
       stop(id) {
         const { stopRunningContainer } = dispatch;
         fetch(`/api/command/stopContainer?id=${id}`)
-          .then((message) => message.json())
+          .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
             stopRunningContainer(id);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Starts a stopped container in containers tab @param {*} id */
       runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
         fetch(`/api/command/runStopped?id=${id}`)
-          .then((message) => message.json())
+          .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
             runStoppedContainer(id);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Runs an image from the pulled images list in image tab @param {*} container */
       runIm(container) {
@@ -92,48 +92,48 @@ const useHelper = () => {
           },
           body: JSON.stringify(container),
         })
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((newRunningList) => {
             // With the deletion of getApiData from /runImage endpoint — the client is now given res.locals.containers rather than res.locals.apiData — ensure that this is fine anywhere where runningList is extracted from the containerReducer
             refreshRunningContainers(newRunningList);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {
         const { refreshImages } = dispatch;
         fetch(`/api/command/removeImage?id=${id}`).then(() => {
-          refreshImages().catch((err) => console.log(err));
+          refreshImages().catch((err: Error): void => console.log(err));
         });
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
         fetch('/api/command/dockerPrune')
-          .then((message) => message.json())
+          .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Pulls image based on the repo you select @param {*} repo */
       pullImage(repo) {
         fetch(`/api/command/pullImage?repo=${repo}`)
-          .then((message) => message.json())
+          .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Display all containers network based on docker-compose when the application starts */
       networkContainers() {
         const { getNetworkContainers } = dispatch;
         fetch('/api/command/networkContainers')
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((networkContainers) => {
             getNetworkContainers(networkContainers);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Compose up a docker container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeUp(filePath, ymlFileName) {
@@ -148,21 +148,21 @@ const useHelper = () => {
             ymlFileName: ymlFileName,
           }),
         })
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Get list of running container networks */
       dockerComposeStacks() {
         const { getContainerStacks } = dispatch;
         fetch('/api/command/composeStacks')
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Compose down selected container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeDown(filePath, ymlFileName) {
@@ -177,11 +177,11 @@ const useHelper = () => {
             ymlFileName: ymlFileName,
           }),
         })
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
-          .catch((err) => console.log(err));
+          .catch((err: Error): void => console.log(err));
       },
       /* Writes metric stats into database */
       writeToDb() {
@@ -192,9 +192,9 @@ const useHelper = () => {
           const stoppedContainers = state.containers.stoppedList;
 
           if (!runningContainers.length) return;
-          const containerParameters = {};
+          const containerParameters: object = {};
 
-          runningContainers.forEach((container) => {
+          runningContainers.forEach((container: RunningListType) => {
             containerParameters[container.Name] = {
               ID: container.ID,
               names: container.Name,
@@ -229,9 +229,9 @@ const useHelper = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              containers: containerParameters,
+              containers: (object = containerParameters),
             }),
-          }).catch((err) => {
+          }).catch((err: Error): void => {
             console.log(err);
           });
         }, interval);
@@ -249,18 +249,18 @@ const useHelper = () => {
             timezone: offsetTimeZoneInHours,
           }),
         })
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((response) => {
             // TODO: why is any not erroring here?
             console.log(response);
             return;
           })
-          .catch((err) => {
+          .catch((err: Error): void => {
             console.log(err);
           });
       },
       async getContainerGitUrl(container) {
-        const response = await fetch('/api/init/github', {
+        const response: Response = await fetch('/api/init/github', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -275,11 +275,11 @@ const useHelper = () => {
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;
         fetch('/api/command/allDockerVolumes')
-          .then((volumes) => volumes.json())
+          .then((volumes: Response) => volumes.json())
           .then((dockerVolumes) => {
             return getVolumes(filterOneProperty(dockerVolumes, 'Name'));
           })
-          .catch((err) => {
+          .catch((err: Error): void => {
             console.log(err);
           });
       },
@@ -287,20 +287,20 @@ const useHelper = () => {
       getVolumeContainers(volumeName) {
         const { getVolumeContainerList } = dispatch;
         fetch(`/api/command/volumeContainers?volumeName=${volumeName}`)
-          .then((data) => data.json())
+          .then((data: Response) => data.json())
           .then((volumeContainers) => {
             return getVolumeContainerList(
               listOfVolumeProperties(volumeName, volumeContainers)
             );
           })
-          .catch((err) => {
+          .catch((err: Error): void => {
             console.log(err);
           });
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {
-          const response = await fetch('/api/command/allLogs', {
+          const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),

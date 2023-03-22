@@ -11,6 +11,8 @@ import '../components/main.css';
 // const container = document.getElementById('root');
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 // const ReactDOM.createRoot
+// const container = document.getElementById('root');
+// const root = ReactDOM.createRoot(container as Element);
 
 root.render(
   <Provider store={store}>

@@ -4,7 +4,7 @@
  **/
 
 import { Router, Request, Response } from 'express';
-import signupController from '../controllers/signupController';
+// import signupController from '../controllers/signupController';
 import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
 import apiController from '../controllers/apiController';
@@ -20,20 +20,15 @@ router.get(
   }
 );
 
-// TODO could we combine username and password checks?
-
 // ==========================================================
 // Route: /
-// Purpose: Verifies fields during sign up process are correct/checked against criteria
+// Purpose: Hashes password and inserts user to db
 // ==========================================================
-// TODO is usernameCheck necessary?
+
 router.post(
   '/',
-  signupController.usernameCheck,
-  signupController.passwordCheck,
-  bcryptController.hashPassword,
+  // createUser will have functionality that hashes the password before we add user to the db
   userController.createUser,
-  apiController.signupEmail,
   (req: Request, res: Response): Response => {
     if (res.locals.error) return res.status(201).json(res.locals);
     return res.status(201).json('successfully added new user to database');

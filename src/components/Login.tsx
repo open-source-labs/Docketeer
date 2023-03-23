@@ -121,7 +121,7 @@ const Login = (): JSX.Element => {
                   className="label-text-alt link link-hover"
                   onClick={() => navigate('/userSignup')}
                 >
-                  New User? Click here to register.
+                  HELLLOOOOOO.
                 </a>
               </label>
             </div>

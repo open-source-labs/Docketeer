@@ -9,6 +9,10 @@
   "scripts": {
     "start": "concurrently \"nodemon server/server.ts\" \"vite dev\" --host 0.0.0.0",
     "dev": "concurrently \"nodemon server/server.ts\" \"vite dev\" --host 0.0.0.0",
+    "docker-up": "docker-compose -f docker-compose.yml up",
+    "docker-down": "docker-compose -f docker-compose.yml down",
+    "docker-dev-up": "docker-compose -f docker-compose-dev.yml up",
+    "docker-dev-down": "docker-compose -f docker-compose-dev.yml down",
     "build": "vite build",
     "test": "jest --verbose",
     "lint": "eslint .",

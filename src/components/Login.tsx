@@ -121,7 +121,7 @@ const Login = (): JSX.Element => {
                   className="label-text-alt link link-hover"
                   onClick={() => navigate('/userSignup')}
                 >
-                  racism rules -MA
+                  racism rules -MA. I hate non mexicans.
                 </a>
               </label>
             </div>

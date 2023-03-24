@@ -32,7 +32,7 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   node-exporter:
-    image: docketeerx/nodeex
+    image: docketeerxi/nodeex
     container_name: node-exporter
     ports:
       - '9100:9100'
@@ -47,7 +47,7 @@ services:
       - db
 
   prometheus:
-    image: docketeerx/prometheus
+    image: docketeerxi/prometheus
     container_name: prometheus
     ports:
       - '9090:9090'

@@ -1,0 +1,41 @@
+.input {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: color(white, tan);
+  background-color: color(darks, darker);
+}
+
+.button1 {
+  font-size: 1.25rem;
+  color: color(white, tan);
+  background-color: color(blue, dark);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.button2 {
+  font-size: 1.25rem;
+  color: color(blue, light);
+  background-color: transparent;
+  border: 2px solid color(blue, light);
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+}

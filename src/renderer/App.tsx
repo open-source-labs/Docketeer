@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from '../reducers/hooks';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
-import Home from '../components/Home';
+import Login from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
+import Home from '../components/Home/Home';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

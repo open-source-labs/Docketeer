@@ -12,6 +12,12 @@ export default defineConfig({
     }),
   ],
   css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/components/_variables.scss";`,
+        includePaths: ['node_modules'],
+      },
+    },
     postcss,
   },
   resolve: {

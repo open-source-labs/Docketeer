@@ -1,8 +1,9 @@
 /* ./components/main.css */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+}
 
 html,
 body {
@@ -10,47 +11,42 @@ body {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-$base-color: #7a0d43;
-
-html {
-  margin-bottom: 15px;
-}
-
-body {
-  margin: 1%;
-  margin-bottom: auto;
-  color: $base-color;
-}
-
-.settingsFlex {
-  margin: 4.25rem 0;
-}
-.settingsFlex > * {
-  flex: 1 1 300px;
-}
-
-.usersFlex {
-  margin: 4.25rem 0 1rem 0;
-}
-
-.usersFlex > * {
-  flex: 1 1 300px;
-}
-
-.containerFlex {
-  margin: 4.25rem 0;
-}
-
-.containerFlex > * {
-  flex: 1 1 300px;
-}
-
-.metric-card {
   height: 100vh;
-  margin: 4.25rem 0;
+  width: 100vw;
+  background-color: color(darks, base);
 }
+
+// html {
+//   margin-bottom: 15px;
+// }
+
+// .settingsFlex {
+//   margin: 4.25rem 0;
+// }
+// .settingsFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .usersFlex {
+//   margin: 4.25rem 0 1rem 0;
+// }
+
+// .usersFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .containerFlex {
+//   margin: 4.25rem 0;
+// }
+
+// .containerFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .metric-card {
+//   height: 100vh;
+//   margin: 4.25rem 0;
+// }
 
 .alert {
   max-width: 98%;

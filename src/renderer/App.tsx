@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from '../reducers/hooks';
-import Login from '../components/Login';
+import Login from '../components/Login/Login';
 import SignUp from '../components/SignUp';
 import Home from '../components/Home';
 

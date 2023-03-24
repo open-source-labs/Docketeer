@@ -1,9 +1,21 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from '../reducers/hooks';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
-import Home from '../components/Home';
+import Login from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
+import Home from '../components/Home/Home';
+
+// Importing features
+import Metrics from '../components/features/Metrics';
+import Images from '../components/features/Images';
+// import Yml from './features/Yml';
+import Containers from '../components/features/Containers';
+import Settings from '../components/features/Settings';
+import UserList from '../components/features/Users';
+import VolumeHistory from '../components/features/VolumeHistory';
+import ProcessLogs from '../components/features/ProcessLogs';
+import ProcessLogsTable from '../components/displays/ProcessLogsTable';
+import SharedLayout from '../components/SharedLayout/SharedLayout';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,16 +23,24 @@ const App = () => {
 
   return (
     <Routes>
-      <>
-        {console.log({ session })}
-        <Route
-          path="/"
-          element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
-        />
-      </>
+      <Route
+        path="/"
+        element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/userSignup" element={<SignUp />} />
-      <Route path="/home/*" element={<Home />} />
+      <Route path="/home" element={<SharedLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/home/volume" element={<VolumeHistory />} />
+        <Route path="/home/metrics" element={<Metrics key={1} />} />
+        <Route path="/home/users" element={<UserList />} />
+        <Route path="/home/logs" element={<ProcessLogs key={1} />} />
+        <Route path="/home/logTable/:containerId" element={<ProcessLogsTable />} />
+        {/* <Route path="/yml" element={<Yml />} /> */}
+        <Route path="/home/images" element={<Images />} />
+        <Route path="/home/running" element={<Containers />} />
+        <Route path="/home/" element={<Settings />} />
+      </Route>
     </Routes>
   );
 };

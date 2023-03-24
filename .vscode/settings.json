@@ -7,5 +7,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.acceptSuggestionOnEnter": "off",
+  "editor.acceptSuggestionOnEnter": "off"
 }

@@ -16,5 +16,5 @@
     "noImplicitAny": false,
     "strictNullChecks": false
   },
-  "include": ["src/**/*", "server/**/*"]
+  "include": ["src/**/*", "server/**/*", "global.d.ts"]
 }

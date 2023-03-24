@@ -285,17 +285,6 @@ const Home = (): JSX.Element => {
         </div>
         <Alert />
       </div>
-      <Routes>
-        <Route path="/volume" element={<VolumeHistory />} />
-        <Route path="/metrics" element={<Metrics key={1} />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/logs" element={<ProcessLogs key={1} />} />
-        <Route path="/logTable/:containerId" element={<ProcessLogsTable />} />
-        {/* <Route path="/yml" element={<Yml />} /> */}
-        <Route path="/images" element={<Images />} />
-        <Route path="/running" element={<Containers />} />
-        <Route path="/" element={<Settings />} />
-      </Routes>
       <footer className="footer items-center p-4 bg-neutral text-neutral-content fixed bottom-0 inset-x-0 z-50">
         <div className="items-center grid-flow-col">
           <a href="https://www.docketeer.org/demo">

@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../reducers/hooks';
-import { createAlert, createPrompt } from '../reducers/alertReducer';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
+import { createAlert, createPrompt } from '../../reducers/alertReducer';
+import styles from './Home.module.scss';
+import globalStyles from '../global.module.scss';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from '../../assets/docketeer-title2.png';
+import Docketeer from '../../../assets/docketeer-title2.png';
 
 // Importing helpers
-import useSurvey from './helpers/dispatch';
-import useHelper from './helpers/commands';
-import * as history from './helpers/volumeHistoryHelper';
+import useSurvey from '../helpers/dispatch';
+import useHelper from '../helpers/commands';
+import * as history from '../helpers/volumeHistoryHelper';
 
 // Importing features
-import Metrics from './features/Metrics';
-import Images from './features/Images';
+import Metrics from '../features/Metrics';
+import Images from '../features/Images';
 // import Yml from './features/Yml';
-import Containers from './features/Containers';
-import Settings from './features/Settings';
-import UserList from './features/Users';
-import VolumeHistory from './features/VolumeHistory';
-import ProcessLogs from './features/ProcessLogs';
-import ProcessLogsTable from './displays/ProcessLogsTable';
-import Alert from './Alert';
+import Containers from '../features/Containers';
+import Settings from '../features/Settings';
+import UserList from '../features/Users';
+import VolumeHistory from '../features/VolumeHistory';
+import ProcessLogs from '../features/ProcessLogs';
+import ProcessLogsTable from '../displays/ProcessLogsTable';
+import Alert from '../Alert';
 
 /**
  * @module | Home.tsx
@@ -182,7 +184,7 @@ const Home = (): JSX.Element => {
 
   return (
     <>
-      <div className="inset-x-0 fixed top-0 z-50">
+      <div className={styles.wrapper}>
         <div className="navbar bg-neutral text-neutral-content p-4">
           <div className="navbar-start">
             <div className="dropdown">

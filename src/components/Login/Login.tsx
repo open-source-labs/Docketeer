@@ -99,32 +99,31 @@ const Login = (): JSX.Element => {
       <img src={Docketeer}
         alt="product-logo"
         className={styles.logo} />
-        <div className={styles.formHolder} >
-          <form onSubmit={(e) => handleLogin(e)}>
-            <input
-              className={globalStyles.input}
-              type="text"
-              id="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              className={globalStyles.input}
-              type="password"
-              id="password"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+      <div className={styles.formHolder} >
+        <form onSubmit={(e) => handleLogin(e)}>
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            id="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div className={styles.buttonHolder}>
-
             <button className={globalStyles.button1}>
               Login
             </button>
             <button className={globalStyles.button2}
               onClick={() => navigate('/userSignup')}
-              >
+            >
               racism rules -MA. I hate non mexicans.
             </button>
           </div>

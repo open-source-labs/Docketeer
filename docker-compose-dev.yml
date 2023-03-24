@@ -1,0 +1,95 @@
+version: '3.8'
+services:
+  db:
+    container_name: docketeerdb
+    image: docketeerxi/postgres
+    restart: always
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    container_name: cadvisor
+    ports:
+      - '8080:8080'
+
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro
+
+    labels:
+      org_prometheus_starter: 'true'
+      org_prometheus_starter_path: '/metrics'
+
+  node-exporter:
+    image: docketeerx/nodeex
+    container_name: node-exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      #system info for linux machines
+      - /proc:/host/proc:ro
+      # also for linux
+      - /sys:/host/sys:ro
+      #root
+      - /:/rootfs:ro
+    depends_on:
+      - db
+
+  prometheus:
+    image: docketeerx/prometheus
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+
+    #can add volume here to persist the prometheus data.
+    depends_on:
+      - node-exporter
+    labels:
+      org_prometheus_starter: 'true'
+      org_prometheus_starter_port: '9090'
+      org_prometheus_starter_path: '/metrics'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 2999:3000
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+
+    volumes:
+      - ./imageConfigs/grafana/data:/var/lib/grafana
+      - ./imageConfigs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./imageConfigs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
+
+    depends_on:
+      - prometheus
+  dev:
+    image: docketeerxi/docketeer-dev
+    container_name: docketeer-dev
+    build:
+      dockerfile: dockerfile-dev
+    ports:
+      - 4000:4000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/app
+      - node_modules:/app/node_modules
+    command: npm run dev
+
+volumes:
+  node_modules:

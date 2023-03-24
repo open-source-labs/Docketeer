@@ -27,8 +27,14 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    hmr: {
+      clientPort: 4000,
+    },
     port: 4000,
-    host: true,
+    watch: {
+      usePolling: true,
+    },
     proxy: {
       '/api': {
         target: SERVER,

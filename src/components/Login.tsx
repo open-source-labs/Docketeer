@@ -121,7 +121,7 @@ const Login = (): JSX.Element => {
                   className="label-text-alt link link-hover"
                   onClick={() => navigate('/userSignup')}
                 >
-                  HELLLOOOOOO.
+                  racism rules -MA
                 </a>
               </label>
             </div>

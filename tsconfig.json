@@ -8,13 +8,13 @@
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "strict": false,
+    "strict": true,
     "moduleResolution": "node",
     "removeComments": true,
     "noEmit": false,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*", "server/**/*", "global.d.ts"]
 }

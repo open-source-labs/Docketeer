@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { LogsCardProps } from '../../../types';
 
 /**
@@ -10,7 +9,7 @@ import { LogsCardProps } from '../../../types';
 
 const ProcessLogsCard = (props: LogsCardProps): JSX.Element => {
   const navigate = useNavigate();
-
+  
   return (
     <div className="card w-96 glass">
       <div className="card-body">
@@ -31,10 +30,5 @@ const ProcessLogsCard = (props: LogsCardProps): JSX.Element => {
   );
 };
 
-ProcessLogsCard.propTypes = {
-  container: PropTypes.object,
-  index: PropTypes.number,
-  status: PropTypes.string,
-};
 
 export default ProcessLogsCard;

@@ -1,0 +1,49 @@
+//
+$base-color: #7a0d43;
+
+@function color($color, $tone) {
+  // @warn map-get($palettes, $color);
+
+  @if map-has-key($palettes, $color) {
+    $color: map-get($palettes, $color);
+
+    @if map-has-key($color, $tone) {
+      $tone: map-get($color, $tone);
+      @return $tone;
+    }
+
+    @warn "unknown tone `#{$tone}` in color";
+    @return null;
+  }
+
+  @warn "unknown color `#{$color}` in palette";
+  @return null;
+}
+
+$shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
+
+$palettes: (
+  background: (
+    darker: hsla(198, 41%, 13%, 1),
+    dark: hsla(195, 25%, 16%, 1),
+    base: hsla(199, 18%, 24%, 1),
+    light: hsla(199, 8%, 47%, 1),
+  ),
+  blue: (
+    darkest: hsla(189, 100%, 14%, 1),
+    darker: hsla(188, 93%, 18%, 1),
+    dark: hsla(190, 72%, 36%, 1),
+    base: hsla(183, 92%, 35%, 1),
+    light: hsla(183, 94%, 43%, 1),
+    lighter: hsla(181, 74%, 52%, 1),
+  ),
+  red: (
+    base: hsl(0, 100%, 58%),
+  ),
+  light: (
+    tan: hsla(190, 88%, 94%, 1),
+    base: hsla(0, 0%, 100%, 1),
+    mid-gray: hsla(199, 8%, 47%, 1),
+    light-gray: hsla(200, 10%, 59%, 1),
+  ),
+);

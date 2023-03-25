@@ -1,0 +1,22 @@
+.wrapper {
+  width: 70%;
+  margin: 0 15%;
+}
+
+.tableHolder {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  th {
+    width: 4rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: color(light, light-gray);
+    // background-color: color(light, light-gray);
+  }
+}
+
+h2 {
+  color: color(light, base);
+}

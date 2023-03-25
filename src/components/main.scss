@@ -1,11 +1,12 @@
 /* ./components/main.css */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+}
 
-html,
 body {
+  padding-top: 80px;
   font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +50,9 @@ body {
 
 .metric-card {
   height: 100vh;
-  margin: 4.25rem 0;
+  width: 100vw;
+  background-color: color(background, darker);
+  color: color(light, base);
 }
 
 .alert {
@@ -58,3 +61,35 @@ body {
   margin: auto;
   margin-top: 5px;
 }
+
+// html {
+//   margin-bottom: 15px;
+// }
+
+// .settingsFlex {
+//   margin: 4.25rem 0;
+// }
+// .settingsFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .usersFlex {
+//   margin: 4.25rem 0 1rem 0;
+// }
+
+// .usersFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .containerFlex {
+//   margin: 4.25rem 0;
+// }
+
+// .containerFlex > * {
+//   flex: 1 1 300px;
+// }
+
+// .metric-card {
+//   height: 100vh;
+//   margin: 4.25rem 0;
+// }

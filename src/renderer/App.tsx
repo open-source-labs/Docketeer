@@ -9,7 +9,7 @@ import Home from '../components/Home/Home';
 import Metrics from '../components/features/Metrics';
 import Images from '../components/features/Images';
 // import Yml from './features/Yml';
-import Containers from '../components/features/Containers';
+import Containers from '../components/Containers/Containers';
 import Settings from '../components/features/Settings';
 import Users from '../components/Users/Users';
 import VolumeHistory from '../components/features/VolumeHistory';

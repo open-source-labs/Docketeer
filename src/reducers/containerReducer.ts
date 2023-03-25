@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   containerStateType,
-  RunningListType,
+  ContainerType,
   StoppedListType,
 } from '../../types';
 
@@ -25,7 +25,7 @@ export const containerSlice = createSlice({
     },
     refreshRunningContainers: (
       state,
-      action: PayloadAction<RunningListType[]>
+      action: PayloadAction<ContainerType[]>
     ) => {
       state.runningList = action.payload;
     },

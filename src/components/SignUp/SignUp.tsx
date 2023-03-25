@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
+import styles from './SignUp.module.scss';
+import globalStyles from '../global.module.scss';
 import { createNewUser, checkDbInit } from '../helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
-//
-import { useNavigate } from 'react-router';
-import styles from './SignUp.module.scss';
-import globalStyles from '../global.module.scss';
+import { SignUpValues } from '../../../types';
+
 
 /**
  * @module | SignUp
  * @description | Facilitates registration of new users (admins) to Docketeer
  **/
-// todo: move to types file
-type SignUpValues = {
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-  showPassword: boolean;
-};
+
 
 const SignUp = (): JSX.Element => {
   const [signUpValues, setSignUpValues] = useState<SignUpValues>({
@@ -40,9 +35,9 @@ const SignUp = (): JSX.Element => {
       return;
     }
 
+    // checDbInit() is a function that checks if the database has been initialized
     checkDbInit();
-    // createNewUser
-    createNewUser(signUpValues.username, signUpValues.password, '1');
+    createNewUser(signUpValues.username, signUpValues.password, 1);
 
     setSignUpValues({
       username: '',
@@ -57,59 +52,57 @@ const SignUp = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <img src={Docketeer} alt="product-logo"
-      className={styles.logo}
+        className={styles.logo}
       />
-      {/* TODO: change to onSubmit, also link back to login */}
-      {/*  TODO: create alert for successful sign up */}
       <div className={styles.formHolder}>
         <form
           onSubmit={(e) => {
             handleClick(e);
           }}
         >
-        <input
-          className={globalStyles.input}
-          type="text"
-          id="username"
-          required={true}
-          value={signUpValues.username}
-          placeholder="Username"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              username: e.target.value,
-            });
-          }}
-        />
-        <input
-          className={globalStyles.input}
-          type="password"
-          value={signUpValues.password}
-          required={true}
-          minLength={6}
-          id="password"
-          placeholder="Password"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              password: e.target.value,
-            });
-          }}
-        />
-        <input
-          className={globalStyles.input}
-          type="password"
-          value={signUpValues.passwordConfirmation}
-          required={true}
-          minLength={6}
-          id="confirm-password"
-          placeholder="Confirm Password"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              passwordConfirmation: e.target.value,
-            });
-          }}
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="username"
+            required={true}
+            value={signUpValues.username}
+            placeholder="Username"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                username: e.target.value,
+              });
+            }}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            value={signUpValues.password}
+            required={true}
+            minLength={6}
+            id="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                password: e.target.value,
+              });
+            }}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            value={signUpValues.passwordConfirmation}
+            required={true}
+            minLength={6}
+            id="confirm-password"
+            placeholder="Confirm Password"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                passwordConfirmation: e.target.value,
+              });
+            }}
           />
           <div className={styles.buttonHolder}>
             <button className={globalStyles.button1}>Create User</button>
@@ -118,7 +111,7 @@ const SignUp = (): JSX.Element => {
               onClick={() => {
                 history.back();
               }}
-              >
+            >
               Back
             </button>
           </div>

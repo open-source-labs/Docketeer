@@ -67,7 +67,7 @@ export const checkPhone = (phone: string) => {
 export const createNewUser = (
   username: string,
   password: string,
-  role_id: string
+  role_id: number
 ) => {
   fetch('/api/signup', {
     method: 'POST',
@@ -114,6 +114,8 @@ export const getUpdatedUserList = () => {
 //   dispatch(updateUsers(data));
 // };
 
+
+// * the data coming back from the server is a string that says 'Database initialized successfully!'
 export const checkDbInit = () => {
   fetch('/api/db')
     .then((response) => response.json())

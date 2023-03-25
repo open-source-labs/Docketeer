@@ -1,14 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { sessionStateType, UserInfo } from '../../types';
+import { SessionStateType, UserInfo } from '../../types';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
  * @param {nested Objects} volumeContainersList Containers running under each volume
 //  */
 
-const initialState: sessionStateType = {
+const initialState: SessionStateType = {
   _id: '',
   username: '',
+  password: '',
   email: '',
   phone: '',
   role: '',

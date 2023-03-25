@@ -8,7 +8,6 @@ import { buildOptionsObj } from '../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 import { ContainerType, RowsDataType } from '../../../types';
-import './ProcessLogsCard';
 
 /**
  * @module | ProcessLogsTable.tsx

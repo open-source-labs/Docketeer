@@ -6,7 +6,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   CommandController,
-  logObject,
+  LogObject,
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
@@ -40,14 +40,14 @@ const convert = (stdout: string): string[][] => {
 const makeArrayOfObjects = (
   string: string,
   containerName: string
-): logObject[] => {
+): LogObject[] => {
   // Creates an array from the input string of logs
-  const arrayOfObjects: logObject[] = string
+  const arrayOfObjects: LogObject[] = string
     .trim()
     .split('\n')
     // mutates the array of logs to be more readable
-    .map((element: string): logObject => {
-      const obj: logObject = {
+    .map((element: string): LogObject => {
+      const obj: LogObject = {
         timeStamp: '',
         logMsg: '',
         containerName: '',
@@ -78,8 +78,8 @@ const makeArrayOfObjects = (
     });
 
   // filter out empty messages
-  const arrayOfLogs: logObject[] = arrayOfObjects.filter(
-    (obj: logObject): boolean => obj.logMsg !== ''
+  const arrayOfLogs: LogObject[] = arrayOfObjects.filter(
+    (obj: LogObject): boolean => obj.logMsg !== ''
   );
   return arrayOfLogs;
 };
@@ -645,7 +645,7 @@ const commandController: CommandController = {
   // ==========================================================
   getLogs: (req: Request, res: Response, next: NextFunction) => {
     // TODO any
-    const containerLogs: { [k: string]: logObject[] } = {
+    const containerLogs: { [k: string]: LogObject[] } = {
       stdout: [],
       stderr: [],
     };

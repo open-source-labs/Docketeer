@@ -8,11 +8,8 @@ import App from './App';
 import '../components/main.scss';
 // TODO setup redux persist & configure it
 
-// const container = document.getElementById('root');
+
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
-// const ReactDOM.createRoot
-// const container = document.getElementById('root');
-// const root = ReactDOM.createRoot(container as Element);
 
 root.render(
   <Provider store={store}>

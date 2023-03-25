@@ -3,7 +3,7 @@ import { useAppSelector } from '../../reducers/hooks';
 import { UserInfo } from '../../../types';
 import { createNewUser } from '../helpers/newUserHelper';
 
-import styles from './Users.modules.scss';
+import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 
 // import globalStyles from '../global.module.scss';
@@ -45,7 +45,7 @@ const UserTable = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <h2 >USER MANAGEMENT</h2>
-      <div >
+      <div className={styles.tableHolder} >
         <table >
           <thead>
             <tr>
@@ -65,8 +65,7 @@ const UserTable = (): JSX.Element => {
 
       <h2 >CREATE NEW USER</h2>
       <p >
-          Create a new Docketeer account for an employee. Please confirm with
-          the employee that their information is accurate before submitting.
+        Create a new Docketeer account for an employee. Please confirm with the employee that their information is accurate before submitting.
       </p>
 
       <form
@@ -150,7 +149,6 @@ const UserTable = (): JSX.Element => {
           Create
         </button>
       </form>
-
     </div>
   );
 };

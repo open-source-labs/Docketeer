@@ -5,6 +5,8 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
+import styles from './Containers.module.scss';
+
 /**
  * @module | Containers.tsx
  * @description | Provides information and management over both running & stopped Docker containers
@@ -141,7 +143,7 @@ const Containers = (): JSX.Element => {
   );
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className="h-3"></div>
       <div className="usersFlex flex flex-wrap gap-3">
         <div className="card bg-neutral text-neutral-content rounded-lg flex-1">
@@ -179,7 +181,7 @@ const Containers = (): JSX.Element => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

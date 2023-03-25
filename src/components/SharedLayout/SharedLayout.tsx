@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
+
+// Importing helpers
+import useSurvey from '../helpers/dispatch';
+import useHelper from '../helpers/commands';
+import * as history from '../helpers/volumeHistoryHelper';
 
 import Alert from '../Alert';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -10,20 +15,13 @@ import Docketeer from '../../../assets/docketeer-title2.png';
 import styles from './SharedLayout.module.scss';
 import globalStyles from '../global.module.scss';
 
-// Importing helpers
-import useHelper from '../helpers/commands';
-import useSurvey from '../helpers/dispatch';
+const activeStyle = 'background - color: color(background, darker);';
 
-const activeStyle = styles.active;
-
-function SharedLayout() {
+function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { handlePruneClick } = useHelper();
-
-  const { sessions } = useAppSelector((state) => state);
-  const userData = sessions;
 
   const { updateSession, logoutUser } = useSurvey();
 
@@ -102,55 +100,126 @@ function SharedLayout() {
     }
   };
 
+  const { sessions, volumes } = useAppSelector((state) => state);
+  const userData = sessions;
+  const { arrayOfVolumeNames } = volumes;
+
+  const {
+    refreshRunning,
+    refreshStopped,
+    refreshImages,
+    writeToDb,
+    networkContainers,
+    // below function never called
+    // setDbSessionTimeZone,
+    getAllDockerVolumes,
+    getVolumeContainers,
+  } = useHelper();
+
+  // Deconstructs dispatch functions from custom hook
+  const { updateUser, getVolumeContainerList } =
+    useSurvey();
+
+  useEffect(() => {
+    refreshRunning();
+    refreshStopped();
+    refreshImages();
+    writeToDb();
+    networkContainers();
+    getAllDockerVolumes();
+    setAdminToken();
+  }, []);
+
+  // Changes in arrayOfVolumeNames will run history.volumeByName
+  useEffect(() => {
+    history.volumeByName(
+      getVolumeContainers,
+      arrayOfVolumeNames,
+      getVolumeContainerList
+    );
+  }, [arrayOfVolumeNames]);
+
+  // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshRunning();
+      refreshStopped();
+      refreshImages();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Pertains to sysAdmin only
+  // TODO: double check what this is doing and name appropriately
+  const setAdminToken = async (): Promise<void> => {
+    try {
+      const response = await fetch('/api/admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: userData.token,
+          username: userData.username,
+        }),
+      });
+      const parsedData = await response.json();
+
+      updateUser(parsedData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
-      <nav>
-        <ul className={styles.navBar}>
+      <nav className={styles.navBar}>
+        <ul className={styles.innerNav}>
           <li>
             <NavLink
-              className={activeStyle}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/">
               Home
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/users">
               Users
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? activeStyle : styles.navButton)}
               to="/home/running">
               Containers
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/images">
               Images
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/metrics">
               Metrics
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/yml">
               Docker Compose
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={styles.navButton}
+              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
               to="/home/volume">
               Volume History
             </NavLink>

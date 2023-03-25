@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useAppSelector } from '../../reducers/hooks';
+import { UserInfo } from '../../../types';
 import { createNewUser } from '../helpers/newUserHelper';
+
+import styles from './Users.modules.scss';
 import globalStyles from '../global.module.scss';
 
+// import globalStyles from '../global.module.scss';
+
 /**
- * @module | NewUserDisplay.tsx
- * @description | Provides registration/sign-up features
+ * @module | Users.js
+ * @description | Provides admin ability to view & add users to grant them read-only access to the Docketeer interface
  **/
-// TODO: change useState to redux? Actually I think it's appropriate for forms to do it this way
-const NewUserDisplay = (): JSX.Element => {
+
+const UserTable = (): JSX.Element => {
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState({
     username: '',
@@ -16,13 +22,53 @@ const NewUserDisplay = (): JSX.Element => {
     showPassword: false,
   });
 
+
+  const userList = useAppSelector((state) => state.users.userList);
+
+  const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
+    return (
+      <tbody key={i}>
+        <tr>
+          <td>{user._id}</td>
+          <td>{user.username}</td>
+          <td>{user.role}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.contact_pref}</td>
+          <td>{user.mem_threshold}</td>
+          <td>{user.cpu_threshold}</td>
+        </tr>
+      </tbody>
+    );
+  });
+
   return (
-    <div >
+    <div className={styles.wrapper}>
+      <h2 >USER MANAGEMENT</h2>
+      <div >
+        <table >
+          <thead>
+            <tr>
+              <th >ID</th>
+              <th >USER</th>
+              <th >ROLE</th>
+              <th >EMAIL</th>
+              <th >PHONE</th>
+              <th >CONTACT PREF.</th>
+              <th >MEMORY</th>
+              <th >CPU</th>
+            </tr>
+          </thead>
+          {renderUsers}
+        </table>
+      </div>
+
       <h2 >CREATE NEW USER</h2>
       <p >
           Create a new Docketeer account for an employee. Please confirm with
           the employee that their information is accurate before submitting.
       </p>
+
       <form
         onSubmit={(e) => {
           (e.preventDefault);
@@ -109,4 +155,4 @@ const NewUserDisplay = (): JSX.Element => {
   );
 };
 
-export default NewUserDisplay;
+export default UserTable;

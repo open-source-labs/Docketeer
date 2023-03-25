@@ -10,6 +10,29 @@
   background-color: color(darks, darker);
 }
 
+.radioForm{
+  display: flex;
+  align-items: start;
+}
+
+.radioForm[type="radio"]{
+  display: grid;
+  place-content: center;
+}
+
+.radioForm::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+}
+
+
+
+
 .button1 {
   font-size: 1.25rem;
   color: color(white, tan);

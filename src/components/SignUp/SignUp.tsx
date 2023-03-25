@@ -57,7 +57,7 @@ const SignUp = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <img src={Docketeer} alt="product-logo"
-      className={styles.logo}
+        className={styles.logo}
       />
       {/* TODO: change to onSubmit, also link back to login */}
       {/*  TODO: create alert for successful sign up */}
@@ -67,49 +67,49 @@ const SignUp = (): JSX.Element => {
             handleClick(e);
           }}
         >
-        <input
-          className={globalStyles.input}
-          type="text"
-          id="username"
-          required={true}
-          value={signUpValues.username}
-          placeholder="Username"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              username: e.target.value,
-            });
-          }}
-        />
-        <input
-          className={globalStyles.input}
-          type="password"
-          value={signUpValues.password}
-          required={true}
-          minLength={6}
-          id="password"
-          placeholder="Password"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              password: e.target.value,
-            });
-          }}
-        />
-        <input
-          className={globalStyles.input}
-          type="password"
-          value={signUpValues.passwordConfirmation}
-          required={true}
-          minLength={6}
-          id="confirm-password"
-          placeholder="Confirm Password"
-          onChange={(e) => {
-            setSignUpValues({
-              ...signUpValues,
-              passwordConfirmation: e.target.value,
-            });
-          }}
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="username"
+            required={true}
+            value={signUpValues.username}
+            placeholder="Username"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                username: e.target.value,
+              });
+            }}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            value={signUpValues.password}
+            required={true}
+            minLength={6}
+            id="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                password: e.target.value,
+              });
+            }}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            value={signUpValues.passwordConfirmation}
+            required={true}
+            minLength={6}
+            id="confirm-password"
+            placeholder="Confirm Password"
+            onChange={(e) => {
+              setSignUpValues({
+                ...signUpValues,
+                passwordConfirmation: e.target.value,
+              });
+            }}
           />
           <div className={styles.buttonHolder}>
             <button className={globalStyles.button1}>Create User</button>
@@ -118,7 +118,7 @@ const SignUp = (): JSX.Element => {
               onClick={() => {
                 history.back();
               }}
-              >
+            >
               Back
             </button>
           </div>

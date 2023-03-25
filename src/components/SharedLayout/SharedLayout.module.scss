@@ -1,0 +1,49 @@
+.wrapper {
+
+}
+
+.navButton {
+
+}
+
+.navBar {
+  display: flex;
+  margin-top: 1rem;
+  li {
+    list-style: none;
+    margin: 1 1rem;
+    a {
+      text-decoration: none;
+      color: color(white, tan);
+      font-size: 1rem;
+      font-weight: 600;
+      &:hover {
+        color: color(primary, base);
+      }
+    }
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 10vh;
+  background-color: color(darks, base);
+}
+
+.footerLogo {
+
+}
+
+.footerIcons {
+  display: flex;
+  justify-content: space-around;
+
+  a {
+    padding: .5rem;
+  }
+}

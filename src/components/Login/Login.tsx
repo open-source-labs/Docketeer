@@ -124,7 +124,7 @@ const Login = (): JSX.Element => {
             <button className={globalStyles.button2}
               onClick={() => navigate('/userSignup')}
             >
-              racism rules -MA. I hate non mexicans.
+              Sign Up
             </button>
           </div>
         </form>

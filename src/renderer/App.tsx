@@ -7,7 +7,7 @@ import Home from '../components/Home/Home';
 
 // Importing features
 import Metrics from '../components/features/Metrics';
-import Images from '../components/features/Images';
+import Images from '../components/Images/Images';
 // import Yml from './features/Yml';
 import Containers from '../components/Containers/Containers';
 import Settings from '../components/features/Settings';

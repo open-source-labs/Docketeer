@@ -63,3 +63,16 @@
     transform: scale(1.1);
   }
 }
+
+.buttonSmall {
+  background-color: color(background, darker);
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  color: color(light, base);
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  onhover: {
+    background-color: green;
+  }
+}

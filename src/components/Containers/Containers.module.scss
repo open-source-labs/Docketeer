@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.listHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.containerList {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+}
+
+.container {
+  background-color: red;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+}

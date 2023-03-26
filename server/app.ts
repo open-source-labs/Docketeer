@@ -43,8 +43,6 @@ import signupRouter from './routes/signupRouter';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api")
-
 // Defining routers...
 // TODO: understand what the hell these routes are doing; think of getAllDockerVolumes fetch('/api/command/allDockerVolumes')
 app.use('/account', accountRouter);

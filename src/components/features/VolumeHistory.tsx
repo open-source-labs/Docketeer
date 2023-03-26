@@ -2,7 +2,8 @@
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
-import { VolumeObj } from '../../../types';
+import { VolumeObj, VolumeContainerObj } from '../../../types';
+
 
 /**
  * @module | VolumeHistory.js
@@ -24,7 +25,7 @@ const VolumeHistory = (): JSX.Element => {
   );
 
   // TODO container needs a more specific type
-  const containerDetails = (container: object, i: number): JSX.Element => {
+  const containerDetails = (container: VolumeContainerObj, i: number): JSX.Element => {
     // TODO change bracket notation to dot notation ?
     {
       console.log('what is this', container);
@@ -58,13 +59,13 @@ const VolumeHistory = (): JSX.Element => {
 
       volume.containers.length
         ? volume.containers.forEach((el) =>
-            details.push(containerDetails(el, i))
-          )
+          details.push(containerDetails(el, i))
+        )
         : details.push(
-            <div className="volume-container-details" key={`index-${i}`}>
+          <div className="volume-container-details" key={`index-${i}`}>
               No container found in this volume
-            </div>
-          );
+          </div>
+        );
 
       return (
         <div className="card w-96 glass" key={i}>
@@ -83,13 +84,15 @@ const VolumeHistory = (): JSX.Element => {
   // Initializes the volume history tab to be the list of volumes
   let renderList = renderVolumeHistory(volumeContainersList);
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
     const result = volumeList.filter((vol) =>
       vol['Names'].includes(volumeName)
     );
 
     setVolumeList(result);
+    console.log('volumeList', volumeList);
     renderList = renderVolumeHistory(volumeList);
   };
 

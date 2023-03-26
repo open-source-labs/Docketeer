@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { UserInfo } from '../../../types';
 import { createNewUser } from '../helpers/newUserHelper';
-
 import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
-
-// import globalStyles from '../global.module.scss';
+import { SignUpValues } from '../../../types';
 
 /**
  * @module | Users.js
@@ -15,7 +13,7 @@ import globalStyles from '../global.module.scss';
 
 const UserTable = (): JSX.Element => {
   const [valueRole, setValueRole] = useState('3');
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<SignUpValues>({
     username: '',
     password: '',
     passwordConfirmation: '',

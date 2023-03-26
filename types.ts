@@ -18,6 +18,7 @@ interface User extends UserBase {
   role_id: string;
 }
 
+// ? not used anymore?
 export interface SignUpValues extends UserBase {
   passwordConfirmation: string;
   showPassword: boolean;
@@ -176,10 +177,15 @@ export interface LogsStateType {
 // ==============================================
 // VOLUME TYPES
 // ==============================================
-// TODO: define the type for the containers array
+export interface VolumeContainerObj {
+  Names: string;
+  State?: string | undefined;
+  Status?: string | undefined;
+}
+
 export interface VolumeObj {
   vol_name: string;
-  containers: object[];
+  containers: VolumeContainerObj[];
 }
 
 export interface VolumeNameObj {

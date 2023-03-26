@@ -1,0 +1,10 @@
+.wrapper {
+  display: flex;
+  width: 70%;
+  margin: 0 15%;
+}
+
+.cardHolder {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+}

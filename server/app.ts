@@ -1,18 +1,16 @@
 // import/prep for our server and type declarations
-// TODO deleted the importation of NextFunction due to it not being used in our global error handler(where it was prior)
 import express, { Request, Response } from 'express';
 // import type { ErrorRequestHandler } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
-// TODO do we change exec's importation syntax?
 import { exec } from 'child_process';
+
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
-// TODO take a look, this caught an error w docker daemon
 exec(
   'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
   (error: Error | null, stdout: string, stderr: string): void => {
@@ -44,7 +42,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Defining routers...
-// TODO: understand what the hell these routes are doing; think of getAllDockerVolumes fetch('/api/command/allDockerVolumes')
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
 app.use('/api', apiRouter);

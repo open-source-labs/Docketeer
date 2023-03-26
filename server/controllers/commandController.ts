@@ -10,7 +10,7 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
-// TODO inconsitent use of async vs then
+
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -54,8 +54,6 @@ const makeArrayOfObjects = (
       };
       const logArray = element.split(' ');
       // extract timestamp
-
-      // TODO timestamp cant only be string but if set to string | undefined ln 51 trips out; figure reason
       if (logArray[0].endsWith('Z')) {
         const timeStamp: string | undefined = logArray.shift();
         // parse GMT string to be readable local date and time
@@ -97,7 +95,7 @@ const makeArrayOfObjects = (
 const fn = (num: number): number => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-// TODO the next two mwfs below dont practice dry; type alias?
+
 // ==========================================================
 // Function: promisifiedExec
 // Purpose: makes our command line functions to return Promise
@@ -134,12 +132,12 @@ const promisifiedExecStdErr = (cmd: string): Promise<string> => {
 // Function: convertArrToObj
 // Purpose: converts arr to obj
 // ==========================================================
-const convertArrToObj = (array: string[][], objArray: string[]): object[] => {
+const convertArrToObj = (array: string[][], imgPropsArray: string[]): object[] => {
   const result: object[] = [];
   for (let i = 0; i < array.length; i++) {
     const containerObj: { [k: string]: string } = {};
     for (let j = 0; j < array[i].length; j++) {
-      containerObj[objArray[j]] = array[i][j];
+      containerObj[imgPropsArray[j]] = array[i][j];
     }
     result.push(containerObj);
   }
@@ -178,7 +176,7 @@ const commandController: CommandController = {
     const { imgid, reps, tag } = req.body;
     const containerId: number = Math.floor(Math.random() * 100);
     const filteredRepo: string = reps
-      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.') // TODO shorten regex filter
+      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
       .replace(/\s{2,}/g, ' ');
     exec(
       `docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`,
@@ -225,12 +223,11 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    // TODO any
     const result: string = await promisifiedExec('docker images');
     // make an arr of subarrays containing strings
     const value: string[][] = convert(result);
-    // TODO why is this called objArr?
-    const objArray: string[] = ['reps', 'tag', 'imgid', 'size'];
+    // Image properties: reps -> repository, tag -> img label, imgid -> image ID, size -> size of the img in bytes
+    const imgPropsArray: string[] = ['reps', 'tag', 'imgid', 'size'];
     const resultImages: string[][] = [];
 
     for (let i = 0; i < value.length; i++) {
@@ -244,7 +241,7 @@ const commandController: CommandController = {
       }
     }
 
-    const convertedValue: object[] = convertArrToObj(resultImages, objArray);
+    const convertedValue: object[] = convertArrToObj(resultImages, imgPropsArray);
 
     res.locals.imagesList = convertedValue;
     return next();
@@ -531,10 +528,10 @@ const commandController: CommandController = {
           .replaceAll(' ', '')}]`;
 
         const parseDockerOutput = JSON.parse(dockerOutput);
-        // TODO take a moment to see if we can figure why we update the filePath and ymlFileName in our object
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
           const directoryNameArray: string[] = req.body.filePath.split('/');
+          // TODO delete these comments?
           // console.log(directoryNameArray);
           // const containerNetworkName =
           //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
@@ -558,11 +555,10 @@ const commandController: CommandController = {
   // ==========================================================
   // Middleware: composeDown
   // Purpose: composes down a container and network
-  // TODO
-  // Note: causes server to shut down because container is not properly
-  // stopped; button goes away when you leave the page because the
-  // file name and location are not in "docker networks" so it gets
-  // erased from the state
+  /* TODO Note from v10: causes server to shut down because container is not properly
+  stopped; button goes away when you leave the page because the
+  file name and location are not in "docker networks" so it gets
+  erased from the state */
   // ==========================================================
   composeDown: async (
     req: Request,
@@ -606,7 +602,6 @@ const commandController: CommandController = {
           return;
         }
 
-        // TODO define shape of dockeroutput with interface
         const dockerOutput: object = JSON.parse(
           `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
         );
@@ -640,14 +635,12 @@ const commandController: CommandController = {
       }
     );
   },
-  // TODO revise description?
   // ==========================================================
   // Middleware: getLogs
   // Purpose: runs docker ps filtering by volume name to get list of containers running in the specified volume
   // ==========================================================
   getLogs: (req: Request, res: Response, next: NextFunction) => {
-    // TODO any
-    const containerLogs: { [k: string]: LogObject[] } = {
+    const containerLogs: { [k: string]: logObject[] } = {
       stdout: [],
       stderr: [],
     };

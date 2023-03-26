@@ -41,24 +41,23 @@ const bcryptController: BcryptController = {
   // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
   // ==========================================================
   // return type is Promise<void> signifying we return a promise w a void value; in this case the invocation of next()
-  hashNewPassword: async (
+  hashNewPassword: (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
-    // TODO is Object.prototype necessary?
+  ): void => {
+    // TODO check if new password works changed: Object.prototype.hasOwnProperty.call(res.locals, "error") to what is now on ln 51
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (Object.prototype.hasOwnProperty.call(res.locals, "error")) {
+    if (res.locals.error) {
       return next();
     }
     // else bCrypt the new password and move to next middleware
     const { newPassword }: { newPassword: string } = req.body;
     const saltRounds = 10;
-    // TODO rename hash to newHashedPassword
-    await bcrypt
+    bcrypt
       .hash(newPassword, saltRounds)
       .then((hash: string): void => {
-        res.locals.hash = hash;
+        res.locals.newHashedPassword = hash;
         return next();
       })
       .catch((err: Error): void => {

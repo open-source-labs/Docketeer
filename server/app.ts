@@ -43,6 +43,8 @@ import signupRouter from './routes/signupRouter';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api")
+
 // Defining routers...
 // TODO: understand what the hell these routes are doing; think of getAllDockerVolumes fetch('/api/command/allDockerVolumes')
 app.use('/account', accountRouter);
@@ -59,11 +61,11 @@ app.use('/signup', signupRouter);
 app.use('/', (req: Request, res: Response): Response => {
   return res
     .status(404)
-    .send({ error: 'Unknown endpoint — please try again.' });
+    .send({ error: 'Unknown endpoint YES HIT ROUTE please try again.' });
 });
 
 // const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
-
+console.log(69)
 // app.use(errorHandler);
 
 // Handling global errors...

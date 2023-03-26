@@ -187,7 +187,7 @@ interface volumeList {
   volumeContainersList: any[];
 }
 
-export type ArrayOfVolumeNames = { Name: string }[];
+export interface ArrayOfVolumeNames {Name: string}[];
 
 // "any" has been used below since strict typing was used to define these props in the tabs types
 export interface containersList {
@@ -510,7 +510,7 @@ export type SqlQuery = {
   query: (text: string, params?: any | any[], callback?: any) => void | any;
 };
 
-// ==========================================================
+// // ==========================================================
 // Controller Types
 // ==========================================================
 export interface ApiController {

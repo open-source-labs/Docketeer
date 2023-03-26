@@ -59,11 +59,11 @@ app.use('/signup', signupRouter);
 app.use('/', (req: Request, res: Response): Response => {
   return res
     .status(404)
-    .send({ error: 'Unknown endpoint — please try again.' });
+    .send({ error: 'Unknown endpoint YES HIT ROUTE please try again.' });
 });
 
 // const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
-
+console.log(69)
 // app.use(errorHandler);
 
 // Handling global errors...

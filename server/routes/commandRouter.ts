@@ -78,6 +78,7 @@ router.get(
     return res.status(200).json(res.locals.containerRan);
   }
 );
+
 // Route to remove an image
 router.delete(
   '/removeImage',

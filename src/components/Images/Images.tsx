@@ -169,33 +169,29 @@ const Images = (): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <div>
-        <h2>IMAGE REPOSITORY</h2>
-        <div>
-          <input
-            className={globalStyles.input}
-            type="text"
-            placeholder="Search…"
-            onChange={(e) => {
-              setRepo(e.target.value);
-            }}
-          />
-          <button
-            className={globalStyles.button1}
-            onClick={() => handleClick()}
-          >
-            PULL
-          </button>
-        </div>
+      <div className={styles.imageSearchHolder}>
+        <h1>Image Repository</h1>
+        <input
+          className={globalStyles.input}
+          type="text"
+          placeholder="Search…"
+          onChange={(e) => {
+            setRepo(e.target.value);
+          }}
+        />
+        <button className={globalStyles.button1} onClick={() => handleClick()}>
+          PULL
+        </button>
       </div>
       <div>
-        <h2>AVAILABLE IMAGES</h2>
+        <h1>Available Images</h1>
         <div className={styles.imageHolder}>
           {imagesList.map((image, i: number) => {
             return (
-              <div key={i} className={styles.image}>
+              <div key={i} className={globalStyles.card}>
                 <figure>
                   <img
+                    className={styles.image}
                     src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
                     onError={handleError}
                   />

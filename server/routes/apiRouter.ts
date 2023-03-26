@@ -11,7 +11,7 @@ const router = Router();
 // Sends email notification to user/Sends fetch request from frontend when event emitter finds container issue
 router.post(
   '/',
-  // TODO
+  // TODO delete this middleware?
   // ? may need depending on what info is sent over in request body
   // userController.getOneUser,
   apiController.sendEmailAlert,

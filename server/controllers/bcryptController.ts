@@ -3,17 +3,33 @@
  * @description | Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
  **/
 
-import db from "../database/cloudModel";
-import bcrypt from "bcryptjs";
-import { Request, Response, NextFunction } from "express";
-import { BcryptController } from "../../types";
+import db from '../database/cloudModel';
+import bcrypt from 'bcryptjs';
+import { Request, Response, NextFunction } from 'express';
+import { BcryptController } from '../../types';
 
-const bcryptController: BcryptController = {
-  // ==========================================================
-  // Middleware: hashPassword
-  // Purpose: hashes user password with bCrypt into SQL database input
-  // ==========================================================
+interface bcryptMethods {
+  /**
+   * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
+   */
+  hashPassword,
 
+  /**
+   * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
+   */
+  hashNewPassword,
+
+  /**
+   * @description uses roleID and username from users in locals to update user's token with cookie(after being hashed) adds token to user prop in locals
+   */
+  hashCookie
+}
+
+/**
+ * @description A controller to handle hashing of passwords and cookies
+ */
+const bcryptController: BcryptController & bcryptMethods = {
+  
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
     const saltRounds = 10;
@@ -30,7 +46,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
           },
         });
       });
@@ -64,15 +80,11 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.',
           },
         });
       });
   },
-
-  /**
-   * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
-   */
 
   hashCookie: (req: Request, res: Response, next: NextFunction): void => {
     const { role_id, username }: { role_id: number; username: string } =
@@ -84,9 +96,9 @@ const bcryptController: BcryptController = {
         .then((hash: string): void => {
           res.locals.user.token = hash;
           db.query(
-            "ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)"
+            'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
           );
-          db.query("UPDATE users SET token=$1 WHERE username=$2", [
+          db.query('UPDATE users SET token=$1 WHERE username=$2', [
             res.locals.user.token,
             username,
           ]);
@@ -96,7 +108,7 @@ const bcryptController: BcryptController = {
           return next({
             log: `Error in bcryptController hashCookeis: ${err}`,
             message: {
-              err: "An error occured creating hash with bcrypt. See bcryptController.hashCookies.",
+              err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
             },
           });
         });

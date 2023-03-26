@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createNewUser } from '../helpers/newUserHelper';
+import globalStyles from '../global.module.scss';
 
 /**
  * @module | NewUserDisplay.tsx
@@ -16,119 +17,94 @@ const NewUserDisplay = (): JSX.Element => {
   });
 
   return (
-    <div className="card bg-neutral text-neutral-content rounded-lg flex-0">
-      <div className="card-body text-left space-y-2">
-        <h2 className="card-title text-sm">CREATE NEW USER</h2>
-        <p className="text-xs w-full max-w-xs">
+    <div >
+      <h2 >CREATE NEW USER</h2>
+      <p >
           Create a new Docketeer account for an employee. Please confirm with
           the employee that their information is accurate before submitting.
-        </p>
-        <div className="divider py-8"></div>
-        {/* <div className="form-control">
+      </p>
+      <form
+        onSubmit={(e) => {
+          (e.preventDefault);
+          createNewUser(values.username, values.password, valueRole);
+        }}
+      >
+
+        <input
+          className={globalStyles.input}
+          type="text"
+          id="username"
+          placeholder="Username"
+          onChange={(e) => {
+            setValues({ ...values, username: e.target.value });
+          }}
+        />
+        <input
+          className={globalStyles.input}
+          type="password"
+          id="password"
+          placeholder="Password"
+          onChange={(e) => {
+            setValues({ ...values, password: e.target.value });
+          }}
+        />
+        <input
+          className={globalStyles.input}
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm"
+          onChange={(e) => {
+            setValues({
+              ...values,
+              passwordConfirmation: e.target.value,
+            });
+          }}
+        />
+        <fieldset className={globalStyles.radioForm}>
+          <legend>Set Permissions</legend>
+
           <input
-            type="text"
-            id="email"
-            placeholder="Email"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => {
-              setValues({ ...values, email: e.target.value });
-            }}
+            type="radio"
+            name="set-permissions"
+            id='set-sys-admin'
+            value='1'
+            checked={valueRole === '1'}
+            onChange={(event) => setValueRole(event.target.value)}
           />
-        </div> */}
-        <div className="form-control">
-          <input
-            type="text"
-            id="username"
-            placeholder="Username"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => {
-              setValues({ ...values, username: e.target.value });
-            }}
-          />
-        </div>
-        <div className="form-control">
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => {
-              setValues({ ...values, password: e.target.value });
-            }}
-          />
-        </div>
-        <div className="form-control">
-          <input
-            type="password"
-            id="confirm-password"
-            placeholder="Confirm"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => {
-              setValues({
-                ...values,
-                passwordConfirmation: e.target.value,
-              });
-            }}
-          />
-        </div>
-        {/* <div className="form-control">
-          <input
-            type="phone"
-            id="phone"
-            placeholder="Phone number"
-            className="input input-bordered w-full max-w-xs"
-            onChange={(e) => {
-              setValues({
-                ...values,
-                phone: e.target.value,
-              });
-            }}
-          />
-        </div> */}
-        <div className="form-control">
-          <label className="label cursor-pointer">
-            <span className="label-text">System Admin</span>
-            <input
-              type="radio"
-              name="radio-sys-admin"
-              className="radio primary radio-xs"
-              onChange={() => setValueRole('1')}
-            />
+          <label htmlFor='set-sys-admin'>
+            System Admin
           </label>
-        </div>
-        <div className="form-control">
-          <label className="label cursor-pointer">
-            <span className="label-text">Admin</span>
-            <input
-              type="radio"
-              name="radio-admin"
-              className="radio primary radio-xs"
-              onChange={() => setValueRole('2')}
-            />
-          </label>
-        </div>
-        <div className="form-control">
-          <label className="label cursor-pointer">
-            <span className="label-text">User</span>
-            <input
-              type="radio"
-              name="radio-user"
-              className="radio primary radio-xs"
-              onChange={() => setValueRole('3')}
-            />
-          </label>
-        </div>
-        <div className="form-control mt-6 flex space-y-2">
-          <button
-            className="btn btn-primary w-full max-w-xs"
-            onClick={() => {
-              createNewUser(values.username, values.password, valueRole);
-            }}
-          >
-            Create
-          </button>
-        </div>
-      </div>
+
+          <input
+            type="radio"
+            name="set-permissions"
+            id='set-admin'
+            value='2'
+            checked={valueRole === '2'}
+            onChange={(event) => setValueRole(event.target.value)}
+          />
+          <label htmlFor='set-admin'>Admin</label>
+
+          <input
+            className={globalStyles.radioButton}
+            type="radio"
+            name="set-permissions"
+            id='set-user'
+            value='3'
+            checked={valueRole === '3'}
+            onChange={(event) => setValueRole(event.target.value)}
+          />
+          <label htmlFor='set-user'>User</label>
+        </fieldset>
+
+
+        <button
+          className={globalStyles.button1}
+          type="submit">
+          Create
+        </button>
+      </form>
+
     </div>
   );
 };

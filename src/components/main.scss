@@ -5,15 +5,24 @@
   padding: 0;
 }
 
-html,
+
 body {
+  padding-top: 80px;
   font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
-  background-color: color(darks, base);
+  background-color: color(background, darker);
+  color: color(light, base);
+}
+
+.alert {
+  max-width: 98%;
+  opacity: 92.5%;
+  margin: auto;
+  margin-top: 5px;
 }
 
 // html {
@@ -47,10 +56,3 @@ body {
 //   height: 100vh;
 //   margin: 4.25rem 0;
 // }
-
-.alert {
-  max-width: 98%;
-  opacity: 92.5%;
-  margin: auto;
-  margin-top: 5px;
-}

@@ -6,7 +6,7 @@ import { Router, Request, Response } from 'express';
 import dbController from '../controllers/dbController';
 
 const router = Router();
-// TODO this needs to be weighed against schema2 in the database folder to see if this file is necessary
+// TODO Detele? this needs to be weighed against schema2 in the database folder to see if this file is necessary
 
 // ==========================================================
 // Route: /

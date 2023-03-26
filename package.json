@@ -31,6 +31,7 @@
     "os": "^0.1.2",
     "os-utils": "^0.0.14",
     "pg": "^8.8.0",
+    "prettier": "^2.8.7",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-error-overlay": "^6.0.11",

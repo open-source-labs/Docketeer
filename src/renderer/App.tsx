@@ -9,9 +9,9 @@ import Home from '../components/Home/Home';
 import Metrics from '../components/features/Metrics';
 import Images from '../components/features/Images';
 // import Yml from './features/Yml';
-import Containers from '../components/features/Containers';
+import Containers from '../components/Containers/Containers';
 import Settings from '../components/features/Settings';
-import UserList from '../components/features/Users';
+import Users from '../components/Users/Users';
 import VolumeHistory from '../components/features/VolumeHistory';
 import ProcessLogs from '../components/features/ProcessLogs';
 import ProcessLogsTable from '../components/displays/ProcessLogsTable';
@@ -33,7 +33,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/home/volume" element={<VolumeHistory />} />
         <Route path="/home/metrics" element={<Metrics key={1} />} />
-        <Route path="/home/users" element={<UserList />} />
+        <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
         <Route path="/home/logTable/:containerId" element={<ProcessLogsTable />} />
         {/* <Route path="/yml" element={<Yml />} /> */}

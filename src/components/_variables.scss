@@ -20,14 +20,18 @@ $base-color: #7a0d43;
   @return null;
 }
 
+$shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
+
 $palettes: (
-  darks: (
-    darker: hsla(203, 16%, 20%, 1),
-    base: hsla(190, 60%, 17%, 1),
-    light: hsla(188, 47%, 36%, 1),
+  background: (
+    darker: hsla(198, 41%, 13%, 1),
+    dark: hsla(195, 25%, 16%, 1),
+    base: hsla(199, 18%, 24%, 1),
+    light: hsla(199, 8%, 47%, 1),
   ),
   blue: (
-    darker: hsla(189, 100%, 14%, 1),
+    darkest: hsla(189, 100%, 14%, 1),
+    darker: hsla(188, 93%, 18%, 1),
     dark: hsla(190, 72%, 36%, 1),
     base: hsla(183, 92%, 35%, 1),
     light: hsla(183, 94%, 43%, 1),
@@ -36,8 +40,10 @@ $palettes: (
   red: (
     base: hsl(0, 100%, 58%),
   ),
-  white: (
+  light: (
     tan: hsla(190, 88%, 94%, 1),
     base: hsla(0, 0%, 100%, 1),
+    mid-gray: hsla(199, 8%, 47%, 1),
+    light-gray: hsla(200, 10%, 59%, 1),
   ),
 );

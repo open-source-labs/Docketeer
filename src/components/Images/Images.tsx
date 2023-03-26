@@ -4,6 +4,9 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import { imageObj } from '../../../types';
 
+import styles from './Images.module.scss';
+import globalStyles from '../global.module.scss';
+
 /**
  * @module | Images.tsx
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
@@ -162,82 +165,67 @@ const Images = (): JSX.Element => {
     }
   };
 
-  const renderImagesList = imagesList.map((image, i: number) => {
-    return (
-      <div className="card w-96 glass" key={i}>
-        <figure className="pt-20">
-          <img
-            src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
-            onError={handleError}
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{image.reps}</h2>
-          <p className="text-xs">{image.tag}</p>
-          <div className="divider py-1"></div>
-          <p className="text-xs">{`Image ID: ${image.imgid}`}</p>
-          <p className="text-xs">{`Image Size: ${image.size}`}</p>
-          <div className="divider py-2"></div>
-          <div className="card-actions justify-end">
-            <button
-              className="btn bg-success text-success-content"
-              onClick={() => runImage(image)}
-            >
-              RUN
-            </button>
-            <button
-              className="btn bg-error text-error-content"
-              onClick={() => removeImage(image)}
-            >
-              REMOVE
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  });
+  // const renderImagesList = ;
 
   return (
-    <>
-      <div className="h-3"></div>
-      <div className="usersFlex flex flex-col gap-3">
-        <div className="card bg-neutral text-neutral-content rounded-lg flex-1">
-          <div className="card-body space-y-2">
-            <div className="flex flex-col justify-between items-left">
-              <h2 className="card-title text-sm">IMAGE REPOSITORY</h2>
-              <div className="divider py-8"></div>
-              <div className="form-control">
-                <div className="flex items-left input-group">
-                  <input
-                    type="text"
-                    placeholder="Search…"
-                    className="w-96 input input-bordered"
-                    onChange={(e) => {
-                      setRepo(e.target.value);
-                    }}
-                  />
-                  <button
-                    className="btn-primary w-20 text-center btn-square font-bold text-primary-content text-xs"
-                    onClick={() => handleClick()}
-                  >
-                    PULL
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card bg-neutral text-neutral-content rounded-lg flex-1">
-          <div className="card-body space-y-2">
-            <h2 className="card-title text-sm">AVAILABLE IMAGES</h2>
-            <div className="divider py-8"></div>
-            <div className="containerFlex flex flex-wrap gap-3">
-              {renderImagesList}
-            </div>
-          </div>
+    <div className={styles.wrapper}>
+      <div>
+        <h2>IMAGE REPOSITORY</h2>
+        <div>
+          <input
+            className={globalStyles.input}
+            type="text"
+            placeholder="Search…"
+            onChange={(e) => {
+              setRepo(e.target.value);
+            }}
+          />
+          <button
+            className={globalStyles.button1}
+            onClick={() => handleClick()}
+          >
+            PULL
+          </button>
         </div>
       </div>
-    </>
+      <div>
+        <h2>AVAILABLE IMAGES</h2>
+        <div className={styles.imageHolder}>
+          {imagesList.map((image, i: number) => {
+            return (
+              <div key={i} className={styles.image}>
+                <figure>
+                  <img
+                    src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
+                    onError={handleError}
+                  />
+                </figure>
+                <div>
+                  <h2>{image.reps}</h2>
+                  <p>{image.tag}</p>
+                  <p>{`Image ID: ${image.imgid}`}</p>
+                  <p>{`Image Size: ${image.size}`}</p>
+                  <div>
+                    <button
+                      className={globalStyles.buttonSmall}
+                      onClick={() => runImage(image)}
+                    >
+                      RUN
+                    </button>
+                    <button
+                      className={globalStyles.buttonSmall}
+                      onClick={() => removeImage(image)}
+                    >
+                      REMOVE
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

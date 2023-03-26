@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 import useHelper from '../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import { imageObj } from '../../../types';
+import { ImageObj } from '../../../types';
 
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
@@ -119,7 +119,7 @@ const Images = (): JSX.Element => {
       'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
   };
 
-  const runImage = (image: imageObj) => {
+  const runImage = (image: ImageObj) => {
     {
       dispatch(
         createPrompt(
@@ -142,7 +142,7 @@ const Images = (): JSX.Element => {
     }
   };
 
-  const removeImage = (image: imageObj) => {
+  const removeImage = (image: ImageObj) => {
     {
       dispatch(
         createPrompt(

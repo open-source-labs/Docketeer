@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit';
-import { ArrayOfVolumeNames, volumeStateType, VolumeObj } from '../../types';
+import { VolumeStateType, VolumeObj, VolumeNameObj } from '../../types';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
  * @param {nested Objects} volumeContainersList Containers running under each volume
  */
 
-const initialState: volumeStateType = {
+const initialState: VolumeStateType = {
   arrayOfVolumeNames: [],
   volumeContainersList: [],
 };
@@ -16,7 +16,8 @@ export const volumeSlice = createSlice({
   initialState,
   reducers: {
     // ! first time: action = page render(useEffect())
-    getVolumes: (state, action: PayloadAction<ArrayOfVolumeNames>) => {
+    getVolumes: (state, action: PayloadAction<VolumeNameObj[]>) => {
+      console.log('arrayOfVolumeNames', action.payload);
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {

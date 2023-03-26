@@ -4,17 +4,17 @@
     "module": "commonjs",
     "jsx": "react",
     "esModuleInterop": true,
-    "lib": ["dom", "es2015", "es2016", "es2017", "es2021"],
+    "lib": ["dom", "es2021"],
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "strict": false,
+    "strict": true,
     "moduleResolution": "node",
     "removeComments": true,
     "noEmit": false,
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*", "server/**/*", "global.d.ts"]
 }

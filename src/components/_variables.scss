@@ -1,23 +1,14 @@
 //
 $base-color: #7a0d43;
 
-@function color($color, $tone) {
-  // @warn map-get($palettes, $color);
+h1 {
+  font-size: 2.5rem;
+}
 
-  @if map-has-key($palettes, $color) {
-    $color: map-get($palettes, $color);
-
-    @if map-has-key($color, $tone) {
-      $tone: map-get($color, $tone);
-      @return $tone;
-    }
-
-    @warn "unknown tone `#{$tone}` in color";
-    @return null;
+@media (max-width: 550px) {
+  h1 {
+    font-size: 1.75rem;
   }
-
-  @warn "unknown color `#{$color}` in palette";
-  @return null;
 }
 
 $shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
@@ -28,6 +19,7 @@ $palettes: (
     dark: hsla(195, 25%, 16%, 1),
     base: hsla(199, 18%, 24%, 1),
     light: hsla(199, 8%, 47%, 1),
+    light-transparent: hsla(199, 8%, 47%, .25),
   ),
   blue: (
     darkest: hsla(189, 100%, 14%, 1),
@@ -47,3 +39,22 @@ $palettes: (
     light-gray: hsla(200, 10%, 59%, 1),
   ),
 );
+
+@function color($color, $tone) {
+  // @warn map-get($palettes, $color);
+
+  @if map-has-key($palettes, $color) {
+    $color: map-get($palettes, $color);
+
+    @if map-has-key($color, $tone) {
+      $tone: map-get($color, $tone);
+      @return $tone;
+    }
+
+    @warn "unknown tone `#{$tone}` in color";
+    @return null;
+  }
+
+  @warn "unknown color `#{$color}` in palette";
+  @return null;
+}

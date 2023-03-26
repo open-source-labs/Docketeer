@@ -18,25 +18,14 @@ const ProcessLogs = (): JSX.Element => {
 
   // const renderRunningList = ;
 
-  const renderStoppedList = stoppedList.map(
-    (container: ContainerType, index: number): JSX.Element => (
-      <ProcessLogsCard
-        key={index}
-        index={index}
-        container={container}
-        status="Stopped"
-      />
-    )
-  );
+  // const renderStoppedList = ;
 
   return (
     <div className={styles.wrapper}>
       <div>
         <div>
-          <div>
-            <h2>RUNNING CONTAINERS</h2>
-            <div>Count: {runningList.length}</div>
-          </div>
+          <h2>RUNNING CONTAINERS</h2>
+          <div>Count: {runningList.length}</div>
           <div className={styles.cardHolder}>
             {runningList.map(
               (container: ContainerType, index: number): JSX.Element => (
@@ -59,7 +48,18 @@ const ProcessLogs = (): JSX.Element => {
                 <div>{stoppedList.length}</div>
               </div>
             </div>
-            <div className={styles.cardHolder}>{renderStoppedList}</div>
+            <div className={styles.cardHolder}>
+              {stoppedList.map(
+                (container: ContainerType, index: number): JSX.Element => (
+                  <ProcessLogsCard
+                    key={index}
+                    index={index}
+                    container={container}
+                    status="Stopped"
+                  />
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -11,18 +11,31 @@
   box-shadow: $shadow;
 }
 
-.radioForm{
+.card {
+  background: color(background, light-transparent);
+  box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin: 1rem;
+  padding: 0.25rem 0.5rem;
+  max-width: 20vw;
+  min-width: 12rem;
+}
+
+.radioForm {
   display: flex;
   align-items: start;
 }
 
-.radioForm[type="radio"]{
+.radioForm[type='radio'] {
   display: grid;
   place-content: center;
 }
 
 .radioForm::before {
-  content: "";
+  content: '';
   width: 1em;
   height: 1em;
   border-radius: 50%;
@@ -30,9 +43,6 @@
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em var(--form-control-color);
 }
-
-
-
 
 .button1 {
   font-size: 1.25rem;
@@ -69,10 +79,6 @@
   padding: 0.25rem;
   font-size: 0.75rem;
   color: color(light, base);
-  border-radius: 0.5rem;
-  margin: 0.5rem;
+  border-radius: 0.25rem;
   cursor: pointer;
-  onhover: {
-    background-color: green;
-  }
 }

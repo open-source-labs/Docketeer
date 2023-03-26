@@ -15,7 +15,7 @@ const ProcessLogsCard = (props: LogsCardProps): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.card}>
+    <div className={globalStyles.card}>
       <div className={styles.test}>
         <h2>{props.container.Names}</h2>
         <p>Container ID: {props.container.ID}</p>

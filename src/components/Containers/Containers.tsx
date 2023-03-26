@@ -93,13 +93,13 @@ const Containers = (): JSX.Element => {
         <div className={styles.containerList}>
           {runningList.map((container: ContainerType, i: number) => {
             return (
-              <div key={i} className={styles.container}>
+              <div key={i} className={globalStyles.card}>
                 <div>
                   <h2>{container.Names}</h2>
                   <div></div>
-                  <p>{container.Image}</p>
-                  <p>{container.ID}</p>
-                  <p>{container.RunningFor}</p>
+                  <p>Image: {container.Image}</p>
+                  <p>ID: {container.ID}</p>
+                  <p>Running for: {container.RunningFor}</p>
                   <div>
                     <button
                       className={globalStyles.buttonSmall}
@@ -120,12 +120,12 @@ const Containers = (): JSX.Element => {
         <div className={styles.containerList}>
           {stoppedList.map((container: ContainerType, i: number) => {
             return (
-              <div key={i} className={styles.container}>
+              <div key={i} className={globalStyles.card}>
                 <div>
                   <h2>{container.Names}</h2>
-                  <p>{container.Image}</p>
-                  <p>{container.ID}</p>
-                  <p>{container.RunningFor}</p>
+                  <p>Image: {container.Image}</p>
+                  <p>ID: {container.ID}</p>
+                  <p>Running for: {container.RunningFor}</p>
                   <div>
                     <button
                       className={globalStyles.buttonSmall}

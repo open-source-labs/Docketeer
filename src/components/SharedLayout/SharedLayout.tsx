@@ -120,6 +120,8 @@ function SharedLayout(): JSX.Element {
   const { updateUser, getVolumeContainerList } =
     useSurvey();
 
+
+
   useEffect(() => {
     refreshRunning();
     refreshStopped();
@@ -128,6 +130,7 @@ function SharedLayout(): JSX.Element {
     networkContainers();
     getAllDockerVolumes();
     setAdminToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Changes in arrayOfVolumeNames will run history.volumeByName
@@ -137,6 +140,7 @@ function SharedLayout(): JSX.Element {
       arrayOfVolumeNames,
       getVolumeContainerList
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
 
   // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
@@ -147,6 +151,7 @@ function SharedLayout(): JSX.Element {
       refreshImages();
     }, 5000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Pertains to sysAdmin only
@@ -244,7 +249,7 @@ function SharedLayout(): JSX.Element {
             )}
             <a className={globalStyles.navButton}
               onClick={() => handleLogOut()}>
-          Logout
+              Logout
             </a>
           </li>
         </ul>
@@ -252,6 +257,7 @@ function SharedLayout(): JSX.Element {
       <Alert />
 
       <Outlet />
+
       <footer className={styles.footer}>
         <div className={styles.footerLogo}>
           <a href="https://www.docketeer.org/demo">

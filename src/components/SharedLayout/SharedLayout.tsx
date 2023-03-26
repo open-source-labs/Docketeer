@@ -8,7 +8,7 @@ import useSurvey from '../helpers/dispatch';
 import useHelper from '../helpers/commands';
 import * as history from '../helpers/volumeHistoryHelper';
 
-import Alert from '../Alert';
+import Alert from '../Alert/Alert';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title2.png';
@@ -117,10 +117,7 @@ function SharedLayout(): JSX.Element {
   } = useHelper();
 
   // Deconstructs dispatch functions from custom hook
-  const { updateUser, getVolumeContainerList } =
-    useSurvey();
-
-
+  const { updateUser, getVolumeContainerList } = useSurvey();
 
   useEffect(() => {
     refreshRunning();
@@ -182,64 +179,81 @@ function SharedLayout(): JSX.Element {
         <ul className={styles.innerNav}>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/"
+            >
               Home
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/users">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/users"
+            >
               Users
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? activeStyle : styles.navButton)}
-              to="/home/running">
+              className={({ isActive }) =>
+                isActive ? activeStyle : styles.navButton
+              }
+              to="/home/running"
+            >
               Containers
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/images">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/images"
+            >
               Images
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/metrics">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/metrics"
+            >
               Metrics
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/yml">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/yml"
+            >
               Docker Compose
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({ isActive }) => (isActive ? styles.active : styles.navButton)}
-              to="/home/volume">
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/volume"
+            >
               Volume History
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className={styles.navButton}
-              to="/home/logs">
+            <NavLink className={styles.navButton} to="/home/logs">
               Process Logs
             </NavLink>
           </li>
           <li>
-            <a
-              className={styles.navButton}
-              onClick={(e) => systemPrune(e)}>
+            <a className={styles.navButton} onClick={(e) => systemPrune(e)}>
               System Prune
             </a>
           </li>
@@ -247,8 +261,10 @@ function SharedLayout(): JSX.Element {
             {userData.username && (
               <span className="btn btn-primary btn-md lowercase font-bold text-sm">{`${userData.username}`}</span>
             )}
-            <a className={globalStyles.navButton}
-              onClick={() => handleLogOut()}>
+            <a
+              className={globalStyles.navButton}
+              onClick={() => handleLogOut()}
+            >
               Logout
             </a>
           </li>

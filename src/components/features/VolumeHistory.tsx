@@ -58,13 +58,13 @@ const VolumeHistory = (): JSX.Element => {
 
       volume.containers.length
         ? volume.containers.forEach((el) =>
-            details.push(containerDetails(el, i))
-          )
+          details.push(containerDetails(el, i))
+        )
         : details.push(
-            <div className="volume-container-details" key={`index-${i}`}>
+          <div className="volume-container-details" key={`index-${i}`}>
               No container found in this volume
-            </div>
-          );
+          </div>
+        );
 
       return (
         <div className="card w-96 glass" key={i}>

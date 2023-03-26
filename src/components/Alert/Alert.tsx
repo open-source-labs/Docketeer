@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '../reducers/hooks';
+import { useAppSelector } from '../../reducers/hooks';
 
 /**
  * @module | Alert.tsx

@@ -1,10 +1,46 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
   width: 70%;
   margin: 0 15%;
 }
-
-.cardHolder {
+.runningContainersHolder {
+  display: flex;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.runningList {
   display: grid;
   grid-template: 1fr 1fr / 1fr 1fr;
+  margin-bottom: 1rem;
+}
+.runningButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.runningLeft {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 1rem;
+  p {
+    margin-top: 1rem;
+  }
+}
+
+.runningRight {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.logsHolder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 3rem;
 }

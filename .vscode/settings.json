@@ -3,7 +3,5 @@
   "editor.tabSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.jsxSingleQuote": true,
-  "prettier.bracketSameLine": true,
-  "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "off"
 }

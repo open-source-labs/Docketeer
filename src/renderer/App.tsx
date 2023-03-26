@@ -14,7 +14,7 @@ import Settings from '../components/features/Settings';
 import Users from '../components/Users/Users';
 import VolumeHistory from '../components/features/VolumeHistory';
 import ProcessLogs from '../components/ProcessLogs/ProcessLogs';
-import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
+// import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
 import SharedLayout from '../components/SharedLayout/SharedLayout';
 
 const App = () => {
@@ -35,10 +35,10 @@ const App = () => {
         <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
-        <Route
+        {/* <Route
           path="/home/logTable/:containerId"
           element={<ProcessLogsTable />}
-        />
+        /> */}
         {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />

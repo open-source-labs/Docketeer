@@ -17,6 +17,7 @@ export const volumeSlice = createSlice({
   reducers: {
     // ! first time: action = page render(useEffect())
     getVolumes: (state, action: PayloadAction<VolumeNameObj[]>) => {
+      console.log('arrayOfVolumeNames', action.payload);
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {

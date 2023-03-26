@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
+import styles from './SignUp.module.scss';
+import globalStyles from '../global.module.scss';
 import { createNewUser, checkDbInit } from '../helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
-//
-import { useNavigate } from 'react-router';
-import styles from './SignUp.module.scss';
-import globalStyles from '../global.module.scss';
+import { SignUpValues } from '../../../types';
+
 
 /**
  * @module | SignUp
  * @description | Facilitates registration of new users (admins) to Docketeer
  **/
-// todo: move to types file
-type SignUpValues = {
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-  showPassword: boolean;
-};
+
 
 const SignUp = (): JSX.Element => {
   const [signUpValues, setSignUpValues] = useState<SignUpValues>({
@@ -40,8 +35,8 @@ const SignUp = (): JSX.Element => {
       return;
     }
 
+    // checDbInit() is a function that checks if the database has been initialized
     checkDbInit();
-    // createNewUser
     createNewUser(signUpValues.username, signUpValues.password, '1');
 
     setSignUpValues({
@@ -59,8 +54,6 @@ const SignUp = (): JSX.Element => {
       <img src={Docketeer} alt="product-logo"
         className={styles.logo}
       />
-      {/* TODO: change to onSubmit, also link back to login */}
-      {/*  TODO: create alert for successful sign up */}
       <div className={styles.formHolder}>
         <form
           onSubmit={(e) => {

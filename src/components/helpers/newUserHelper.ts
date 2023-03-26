@@ -64,6 +64,7 @@ export const checkPhone = (phone: string) => {
   return phone.match(regex) !== null;
 };
 
+// * changed role_id to string, may need to change back if assignment function is changed
 export const createNewUser = (
   username: string,
   password: string,

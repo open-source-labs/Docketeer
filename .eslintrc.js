@@ -56,7 +56,7 @@ module.exports = {
     ],
 
     // ---- TYPESCRIPT ---- //
-    // '@typescript-eslint/no-explicit-any': ['error'],
+    '@typescript-eslint/no-explicit-any': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/semi': ['warn', 'always'],

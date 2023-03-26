@@ -5,7 +5,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { UserController, ServerError, User } from '../../types';
+import { UserController, ServerError, UserInfo } from '../../types';
 
 const userController: UserController = {
   // ==========================================================
@@ -36,17 +36,17 @@ const userController: UserController = {
 
       // TODO: this seems unnecessary. Just pass in the role from the frontend instead of a number
       switch (role_id) {
-        case '1':
-          role = 'system admin';
-          break;
-        case '2':
-          role = 'admin';
-          break;
-        case '3':
-          role = 'user';
-          break;
-        default:
-          role = '';
+      case '1':
+        role = 'system admin';
+        break;
+      case '2':
+        role = 'admin';
+        break;
+      case '3':
+        role = 'user';
+        break;
+      default:
+        role = '';
       }
       // ==========================================================
       // Function: createUser
@@ -97,7 +97,7 @@ const userController: UserController = {
       const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       // TODO any
       db.query(allUsers)
-        .then((response: { rows: User[] }): void => {
+        .then((response: { rows: UserInfo[] }): void => {
           res.locals.users = response.rows;
           return next();
         })
@@ -119,7 +119,7 @@ const userController: UserController = {
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
     db.query(oneUser)
-      .then((response: { rows: User[] }): void => {
+      .then((response: { rows: UserInfo[] }): void => {
         res.locals.users = response.rows;
         return next();
       })
@@ -150,7 +150,7 @@ const userController: UserController = {
     // TODO Don't use async with then chaining; also data is any typed
     // using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser)
-      .then(async (data: { rows: User[] }): Promise<void> => {
+      .then(async (data: { rows: UserInfo[] }): Promise<void> => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];
@@ -226,7 +226,7 @@ const userController: UserController = {
       // we will return the role that the user was updated to
       db.query(query, parameters)
         // TODO may need to make type alias for 'data' received from queries
-        .then((data: { rows: User[] }): void => {
+        .then((data: { rows: UserInfo[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
@@ -264,7 +264,7 @@ const userController: UserController = {
     const parameters: string[] = [hash, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -291,7 +291,7 @@ const userController: UserController = {
     const parameters: (string | number)[] = [phone, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -318,7 +318,7 @@ const userController: UserController = {
     const parameters: string[] = [email, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })

@@ -60,9 +60,9 @@ import {
   VolumeObj,
   NetworkObj,
   UserInfo,
-  containerLogsType,
-  ArrayOfVolumeNames,
-  RunningListType,
+  ContainerLogsType,
+  VolumeNameObj,
+  ContainerType,
   StoppedListType,
 } from '../../../types';
 
@@ -77,7 +77,7 @@ const useSurvey = () => {
   const actions = useMemo(
     () => ({
       // Dispatch functions used in Home.tsx
-      refreshRunningContainers(data: RunningListType[]) {
+      refreshRunningContainers(data: ContainerType[]) {
         dispatch(refreshRunningContainers(data));
       },
       refreshStoppedContainers(data: StoppedListType[]) {
@@ -98,7 +98,7 @@ const useSurvey = () => {
       updateUsers(data: UserInfo[]) {
         dispatch(updateUsers(data));
       },
-      getVolumes(data: ArrayOfVolumeNames) {
+      getVolumes(data: VolumeNameObj[]) {
         dispatch(getVolumes(data));
       },
       getVolumeContainerList(data: VolumeObj) {
@@ -176,7 +176,7 @@ const useSurvey = () => {
         dispatch(buildTransmittedIO(data));
       },
       // Dispatch functions used in ProcessLogsTable.tsx
-      getContainerLogsDispatcher(data: containerLogsType) {
+      getContainerLogsDispatcher(data: ContainerLogsType) {
         dispatch(getLogs(data));
       },
     }),

@@ -97,7 +97,7 @@ const userController: UserController = {
       const allUsers = 'SELECT * FROM users ORDER BY _id ASC;';
       // TODO any
       db.query(allUsers)
-        .then((response: { rows: User[] }): void => {
+        .then((response: { rows: UserInfo[] }): void => {
           res.locals.users = response.rows;
           return next();
         })
@@ -119,7 +119,7 @@ const userController: UserController = {
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
 
     db.query(oneUser)
-      .then((response: { rows: User[] }): void => {
+      .then((response: { rows: UserInfo[] }): void => {
         res.locals.users = response.rows;
         return next();
       })
@@ -226,7 +226,7 @@ const userController: UserController = {
       // we will return the role that the user was updated to
       db.query(query, parameters)
         // TODO may need to make type alias for 'data' received from queries
-        .then((data: { rows: User[] }): void => {
+        .then((data: { rows: UserInfo[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
@@ -264,7 +264,7 @@ const userController: UserController = {
     const parameters: string[] = [hash, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -291,7 +291,7 @@ const userController: UserController = {
     const parameters: (string | number)[] = [phone, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -318,7 +318,7 @@ const userController: UserController = {
     const parameters: string[] = [email, username];
     // TODO any
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })

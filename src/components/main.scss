@@ -11,14 +11,26 @@
   box-sizing: border-box;
 }
 
+html {
+  // font-size: 1.5vw;
+}
+
+button {
+  font-size: 0.75vw;
+}
+
 h1,
 h2,
 h3 {
   font-family: 'Bai Jamjuree', sans-serif;
 }
 
+h1 {
+  font-size: 2.5rem;
+}
+
 body {
-  padding-top: 80px;
+  padding-top: 60px;
   font-family: 'Bai Jamjuree', sans-serif;
   // font-family: 'Quicksand', sans-serif;
   // font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
@@ -38,11 +50,10 @@ body {
   margin-top: 5px;
 }
 
-h1 {
-  font-size: 2.5rem;
-}
-
 @media (max-width: 550px) {
+  html {
+    font-size: 16px;
+  }
   h1 {
     font-size: 1.75rem;
   }

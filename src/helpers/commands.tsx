@@ -4,8 +4,8 @@ import {
   listOfVolumeProperties,
 } from './volumeHistoryHelper';
 import { useMemo } from 'react';
-import useSurvey from '../helpers/dispatch';
-import { useAppSelector } from '../../reducers/hooks';
+import useSurvey from './dispatch';
+import { useAppSelector } from '../reducers/hooks';
 
 /**
  * @module | commands.tsx

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createNewUser } from '../helpers/newUserHelper';
+import { createNewUser } from '../../helpers/newUserHelper';
 import globalStyles from '../global.module.scss';
 
 /**
@@ -17,19 +17,18 @@ const NewUserDisplay = (): JSX.Element => {
   });
 
   return (
-    <div >
-      <h2 >CREATE NEW USER</h2>
-      <p >
-          Create a new Docketeer account for an employee. Please confirm with
-          the employee that their information is accurate before submitting.
+    <div>
+      <h2>CREATE NEW USER</h2>
+      <p>
+        Create a new Docketeer account for an employee. Please confirm with the
+        employee that their information is accurate before submitting.
       </p>
       <form
         onSubmit={(e) => {
-          (e.preventDefault);
+          e.preventDefault;
           createNewUser(values.username, values.password, valueRole);
         }}
       >
-
         <input
           className={globalStyles.input}
           type="text"
@@ -66,45 +65,39 @@ const NewUserDisplay = (): JSX.Element => {
           <input
             type="radio"
             name="set-permissions"
-            id='set-sys-admin'
-            value='1'
+            id="set-sys-admin"
+            value="1"
             checked={valueRole === '1'}
             onChange={(event) => setValueRole(event.target.value)}
           />
-          <label htmlFor='set-sys-admin'>
-            System Admin
-          </label>
+          <label htmlFor="set-sys-admin">System Admin</label>
 
           <input
             type="radio"
             name="set-permissions"
-            id='set-admin'
-            value='2'
+            id="set-admin"
+            value="2"
             checked={valueRole === '2'}
             onChange={(event) => setValueRole(event.target.value)}
           />
-          <label htmlFor='set-admin'>Admin</label>
+          <label htmlFor="set-admin">Admin</label>
 
           <input
             className={globalStyles.radioButton}
             type="radio"
             name="set-permissions"
-            id='set-user'
-            value='3'
+            id="set-user"
+            value="3"
             checked={valueRole === '3'}
             onChange={(event) => setValueRole(event.target.value)}
           />
-          <label htmlFor='set-user'>User</label>
+          <label htmlFor="set-user">User</label>
         </fieldset>
 
-
-        <button
-          className={globalStyles.button1}
-          type="submit">
+        <button className={globalStyles.button1} type="submit">
           Create
         </button>
       </form>
-
     </div>
   );
 };

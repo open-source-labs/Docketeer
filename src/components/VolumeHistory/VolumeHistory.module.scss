@@ -1,9 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  margin: 0 15%;
-
+  margin: 5px 2rem;
   input {
     width: 25%;
   }
@@ -19,7 +17,8 @@
 }
 
 .card {
-  height: 18vh;
+  min-height: 5rem;
+  min-width: 8rem;
   // padding: 1rem;
 }
 

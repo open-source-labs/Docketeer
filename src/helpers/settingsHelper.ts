@@ -3,7 +3,7 @@
  * @description | Contains helper functions facilitating updates to account information (AccountDisplay, Settings, etc.)
  **/
 // import useSurvey from '../helpers/dispatch';
-import store from '../../renderer/store';
+import store from '../components/renderer/store';
 // const { updateUser } = useSurvey();
 
 export const handlePasswordChange = () => {

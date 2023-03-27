@@ -4,18 +4,18 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 // Importing helpers
-import useSurvey from '../helpers/dispatch';
-import useHelper from '../helpers/commands';
-import * as history from '../helpers/volumeHistoryHelper';
+import useSurvey from '../../helpers/dispatch';
+import useHelper from '../../helpers/commands';
+import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../Alert/Alert';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title2.png';
 import styles from './SharedLayout.module.scss';
-import globalStyles from '../global.module.scss';
+// import globalStyles from '../global.module.scss';
 
-const activeStyle = 'background - color: color(background, darker);';
+// const activeStyle = 'background - color: color(background, darker);';
 
 function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
@@ -139,7 +139,6 @@ function SharedLayout(): JSX.Element {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
-
 
   // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {

@@ -5,9 +5,9 @@ import { ContainerType, RowsDataType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
 import { createAlert } from '../../reducers/alertReducer';
-import useHelper from '../helpers/commands';
-import useSurvey from '../helpers/dispatch';
-import { buildOptionsObj } from '../helpers/logs';
+import useHelper from '../../helpers/commands';
+import useSurvey from '../../helpers/dispatch';
+import { buildOptionsObj } from '../../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 

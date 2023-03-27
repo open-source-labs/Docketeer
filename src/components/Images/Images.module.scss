@@ -1,8 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  margin: 0 15%;
+  margin: 5px 2rem;
 }
 
 .imageSearchHolder {
@@ -20,6 +19,8 @@
 
 .imageHolder {
   display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }
 

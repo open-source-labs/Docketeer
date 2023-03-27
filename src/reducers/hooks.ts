@@ -1,6 +1,6 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 // Import the types exported from our store.ts
-import type { RootState, AppDispatch } from '../renderer/store';
+import type { RootState, AppDispatch } from '../components/renderer/store';
 
 // Export the typed version of useSelector & useDispatch
 // useAppSelector grabs the part of state that we want

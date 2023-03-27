@@ -1,21 +1,21 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAppSelector } from '../reducers/hooks';
-import Login from '../components/Login/Login';
-import SignUp from '../components/SignUp/SignUp';
-import Home from '../components/Home/Home';
+import { useAppSelector } from '../../reducers/hooks';
+import Login from '../Login/Login';
+import SignUp from '../SignUp/SignUp';
+import Home from '../Home/Home';
 
 // Importing features
-import Metrics from '../components/features/Metrics';
-import Images from '../components/Images/Images';
-// import Yml from '../components/features/Yml';
-import Containers from '../components/Containers/Containers';
-import Settings from '../components/features/Settings';
-import Users from '../components/Users/Users';
-import VolumeHistory from '../components/VolumeHistory/VolumeHistory';
-import ProcessLogs from '../components/ProcessLogs/ProcessLogs';
+import Metrics from '../Metrics/Metrics';
+import Images from '../Images/Images';
+// import Yml from './features/Yml';
+import Containers from '../Containers/Containers';
+import Settings from '../Settings/Settings';
+import Users from '../Users/Users';
+import VolumeHistory from '../VolumeHistory/VolumeHistory';
+import ProcessLogs from '../ProcessLogs/ProcessLogs';
 // import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
-import SharedLayout from '../components/SharedLayout/SharedLayout';
+import SharedLayout from '../SharedLayout/SharedLayout';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,7 +39,7 @@ const App = () => {
           path="/home/logTable/:containerId"
           element={<ProcessLogsTable />}
         /> */}
-        {/* <Route path="/home/yml" element={<Yml />} /> */}
+        {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />

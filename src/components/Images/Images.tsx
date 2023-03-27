@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import useHelper from '../helpers/commands';
+import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import { ImageObj } from '../../../types';
@@ -170,7 +170,7 @@ const Images = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.imageSearchHolder}>
-        <h1>Image Repository</h1>
+        <h2>IMAGE REPOSITORY</h2>
         <input
           className={globalStyles.input}
           type="text"
@@ -184,7 +184,7 @@ const Images = (): JSX.Element => {
         </button>
       </div>
       <div>
-        <h1>Available Images</h1>
+        <h2>AVAILABLE IMAGES</h2>
         <div className={styles.imageHolder}>
           {imagesList.map((image, i: number) => {
             return (

@@ -8,7 +8,6 @@ import App from './App';
 import '../components/main.scss';
 // TODO setup redux persist & configure it
 
-
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 
 root.render(

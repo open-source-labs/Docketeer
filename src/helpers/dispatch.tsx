@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppDispatch } from '../reducers/hooks';
 
 import {
   getNetworkContainers,
   getContainerStacks,
   /* composeYml, */
   composeDown,
-} from '../../reducers/composeReducer';
+} from '../reducers/composeReducer';
 
 import {
   stopRunningContainer,
@@ -14,7 +14,7 @@ import {
   refreshRunningContainers,
   removeContainer,
   refreshStoppedContainer,
-} from '../../reducers/containerReducer';
+} from '../reducers/containerReducer';
 
 import {
   buildAxis,
@@ -24,11 +24,11 @@ import {
   buildReadIO,
   buildReceivedIO,
   buildTransmittedIO,
-} from '../../reducers/graphReducer';
+} from '../reducers/graphReducer';
 
-import { refreshImages } from '../../reducers/imageReducer';
+import { refreshImages } from '../reducers/imageReducer';
 
-import { getLogs } from '../../reducers/logReducer';
+import { getLogs } from '../reducers/logReducer';
 
 import {
   addPhoneNumber,
@@ -38,20 +38,17 @@ import {
   removeMemoryNotification,
   removeCpuNotification,
   removeStoppedNotification,
-} from '../../reducers/notificationReducer';
+} from '../reducers/notificationReducer';
 
 import {
   updateSession,
   updateUser,
   logoutUser,
-} from '../../reducers/sessionReducer';
+} from '../reducers/sessionReducer';
 
-import { updateUsers, updateRoles } from '../../reducers/userReducer';
+import { updateUsers, updateRoles } from '../reducers/userReducer';
 
-import {
-  getVolumes,
-  getVolumeContainersList,
-} from '../../reducers/volumeReducer';
+import { getVolumes, getVolumeContainersList } from '../reducers/volumeReducer';
 
 import {
   // ContainerObj,
@@ -64,7 +61,7 @@ import {
   VolumeNameObj,
   ContainerType,
   StoppedListType,
-} from '../../../types';
+} from '../../types';
 
 /**
  * @module | dispatch.tsx

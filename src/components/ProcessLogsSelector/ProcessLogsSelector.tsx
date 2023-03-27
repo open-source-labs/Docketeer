@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from './ProcessLogsSelector.module.scss';
 
@@ -25,11 +25,10 @@ function ProcessLogsSelector({ containerList, handleCheck, btnIdList }) {
                 <input
                   type="checkbox"
                   id={container.Names}
-                  name={container.ID}
                   value={container.Names}
-                  checked={btnIdList.includes(container.ID)}
+                  checked={btnIdList[container.Names] === true}
                   onChange={(e) => {
-                    handleCheck(e);
+                    handleCheck(e.target.id);
                   }}
                 />
                 <label htmlFor={container.Names}>{container.Names}</label>

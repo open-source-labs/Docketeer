@@ -49,7 +49,7 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
-     
+
       // TODO: add a delete method
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
@@ -301,6 +301,7 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
+        console.log('inside of async getLogs')
         try {
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',

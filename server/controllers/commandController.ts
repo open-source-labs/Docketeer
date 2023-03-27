@@ -652,8 +652,11 @@ const commandController: CommandController = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
+
+    console.log('req.body', req.body)
+
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
       let inputCommandString = 'docker logs --timestamps';
       if (optionsObj.since) {
@@ -662,8 +665,9 @@ const commandController: CommandController = {
       optionsObj.tail
         ? (inputCommandString += `--tail ${optionsObj.tail} `)
         : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerIds[i]}`;
+      inputCommandString += `${optionsObj.containerNames[i]}`;
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
+      console.log('ab to exec')
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
@@ -677,16 +681,18 @@ const commandController: CommandController = {
           containerLogs.stdout = [
             // TODO is the next line needed?
             ...containerLogs.stdout,
-            ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
           ];
           containerLogs.stderr = [
             ...containerLogs.stderr,
-            ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
           ];
           res.locals.logs = containerLogs;
+          console.log('got logs', res.locals.logs);
           return next();
         }
       );
+
     }
   },
 };

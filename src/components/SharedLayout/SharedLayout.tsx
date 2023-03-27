@@ -140,6 +140,7 @@ function SharedLayout(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
 
+
   // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {
     const interval = setInterval(() => {

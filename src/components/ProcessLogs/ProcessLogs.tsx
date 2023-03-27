@@ -31,14 +31,32 @@ const ProcessLogs = (): JSX.Element => {
   const { getLogs } = useHelper();
 
   // const id = containerID[containerID.length - 1];
+  // I need to pass in array of object names
+  // make object with name and wether or not they're checked
 
   // const runningList = useAppSelector((state) => state.containers.runningLibtnIdListst);
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
 
+  // there is an issue because the container list passed down is empty if the user navigates to this page directly. Somethine with the set timeout in the useEffect in the App.tsx file. Maybe a way to pass the container list down as props to this component?
+  function getContainerNames(containerList: ContainerType[]): {
+    name: string;
+    value: boolean;
+  } {
+    console.log('containerList: ', containerList);
+    const newObj = {};
+    containerList.forEach(({ Names }) => {
+      newObj[Names] = false;
+    });
+    return newObj;
+  }
+
+  const runningBtnList = getContainerNames(runningList);
+
   // btnIdList = boxes that are checked
-  const [btnIdList, setBtnIdList] = useState<string[]>([]);
+  const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
+
   const [rows, setRows] = useState([] as any[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
@@ -49,10 +67,28 @@ const ProcessLogs = (): JSX.Element => {
     tableData();
   }, [counter, csvData.length]);
 
+  /*
+        export const buildOptionsObj = (containerNames: string[]) => {
+        const optionsObj = {
+          containerNames: containerNames,
+        };
+
+      / if (document.getElementById('sinceInput').checked) {
+          const sinceValue = document.getElementById('sinceText').value;
+          optionsObj.since = sinceValue;
+        } else if (document.getElementById('tailInput').checked) {
+          const tailValue = document.getElementById('tailText').value;
+          optionsObj.tail = tailValue;
+        }
+  */
   // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
-  const handleGetLogs = async (idList: string[]) => {
+  const handleGetLogs = async (idList: object) => {
+    const idArr = Object.keys(idList);
+
     dispatch(createAlert('Loading process log information...', 5, 'success'));
-    const optionsObj = buildOptionsObj(idList);
+    // takes array of names and create obj
+    const optionsObj = buildOptionsObj(idArr);
+    console.log('idList', idList);
     const containerLogs = await getLogs(optionsObj);
     console.log({ containerLogs });
     getContainerLogsDispatcher(containerLogs);
@@ -61,17 +97,18 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   // Handle checkboxes
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('current test: ', btnIdList);
-    const box = e.target;
-    console.log('current test: ', box);
-    if (box.checked === true) {
-      btnIdList.push(box.id);
-      setBtnIdList(btnIdList);
+  const handleCheck = (name: string) => {
+    // console.log('event!: ', e);
+    console.log('btnIdList new name: ', name);
+    const newBtnIdList = { ...btnIdList };
+    if (newBtnIdList[name]) {
+      newBtnIdList[name] = false;
     } else {
-      const newIdList = btnIdList.filter((container) => container !== box.id);
-      setBtnIdList(newIdList);
+      newBtnIdList[name] = true;
     }
+    console.log('btnIdList', newBtnIdList);
+
+    setBtnIdList(newBtnIdList);
   };
 
   const tableData = () => {
@@ -123,6 +160,7 @@ const ProcessLogs = (): JSX.Element => {
       });
 
       setRows(newRows as keyof typeof setRows);
+      console.log('rows after setRows', rows)
       setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };
@@ -142,26 +180,7 @@ const ProcessLogs = (): JSX.Element => {
             handleCheck={handleCheck}
             btnIdList={btnIdList}
           />
-          <p>'-----'</p>
-          <p>'-----'</p>
-          <p>'-----'</p>
-          <div className={styles.runningList}>
-            {runningList.map((container, i) => {
-              console.log('container!!: ', container);
-              return (
-                <div key={i}>
-                  <label>
-                    <span>{container.Names}</span>
-                    <input
-                      type="checkbox"
-                      name={container.ID}
-                      onChange={(e) => handleCheck(e)}
-                    />
-                  </label>
-                </div>
-              );
-            })}
-          </div>
+
           <div className={styles.runningButtons}>
             <button
               type="button"

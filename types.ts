@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 
-
 // * BH: I think we should have a separate file for each interface, and then import them into this file. That way, we can keep the interfaces organized and not have to scroll through a huge file to find the interface we need.
 
 // ==============================================
@@ -25,6 +24,13 @@ export interface SignUpValues extends UserBase {
 }
 
 export interface UserInfo extends User {
+// ? not used anymore?
+export interface SignUpValues extends UserBase {
+  passwordConfirmation: string;
+  showPassword: boolean;
+}
+
+export interface UserInfo extends User {
   // removed password property on userInfo as it's not being used.
   // changed id from number type to string type so see if that breaks anything
   _id: string;
@@ -33,13 +39,34 @@ export interface UserInfo extends User {
   role: string;
   contact_pref: string;
   // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
+  // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
   mem_threshold: string;
+  // changed cpu threshold from string to string let's see what happens
   // changed cpu threshold from string to string let's see what happens
   cpu_threshold: string;
   // changed container_stops from boolean to string so let's see what happens
   container_stops: string;
   token: string;
 }
+
+export interface SessionStateType extends UserInfo {
+  isLoggedIn: boolean;
+  // userList: any[];
+}
+
+export interface RootState {
+  session: {
+    isLoggedIn?: boolean;
+    role: string;
+  };
+}
+
+export interface userStateType {
+  userList: UserInfo[];
+}
+
+export interface userReducerStateType {
+  name: string;
 
 export interface SessionStateType extends UserInfo {
   isLoggedIn: boolean;
@@ -70,7 +97,6 @@ export interface userReducerStateType {
   isSysAdmin: boolean;
 }
 
-
 // ==============================================
 // CONTAINER TYPES
 // ==============================================
@@ -78,10 +104,10 @@ export interface userReducerStateType {
 export interface ContainerType {
   ID: string;
   Names?: string;
+  Names?: string;
   Image?: string;
   RunningFor?: string;
 }
-
 
 export interface StoppedListType extends ContainerType {
   Img: string;
@@ -92,6 +118,8 @@ export interface StoppedListType extends ContainerType {
 // export interface RunningListType {
 //   Names?: string;
 //   ID: string;
+//   Image: string;
+//   RunningFor: string;
 //   Image: string;
 //   RunningFor: string;
 // }
@@ -105,11 +133,12 @@ export interface ContainerStateType {
 
 // for container's being run
 export interface ContainerObj extends ContainerType {
+export interface ContainerObj extends ContainerType {
   Container: string;
 }
 
 // for container's being stopped
-export interface StoppedContainerObj extends ContainerType{
+export interface StoppedContainerObj extends ContainerType {
   Command: string;
   CreatedAt: string;
   Labels: string;
@@ -127,7 +156,6 @@ export interface containersList {
   stoppedList: any[];
 }
 
-
 // ==============================================
 // IMAGE TYPES
 // ==============================================
@@ -141,7 +169,6 @@ export interface ImageObj {
 export interface ImagesStateType {
   imagesList: ImageObj[];
 }
-
 
 // ==============================================
 // LOGS TYPES
@@ -196,7 +223,6 @@ export interface VolumeStateType {
   arrayOfVolumeNames: VolumeNameObj[];
   volumeContainersList: VolumeObj[];
 }
-
 
 // ==============================================
 // MISC. TYPES
@@ -253,6 +279,7 @@ export interface RowsDataType {
 
 export interface ToggleDisplayProps {
   container: ContainerType;
+  container: ContainerType;
 }
 
 
@@ -271,6 +298,7 @@ export type SqlQuery = {
   query: (text: string, params?: any | any[], callback?: any) => void | any;
 };
 
+// // ==========================================================
 // // ==========================================================
 // Controller Types
 // ==========================================================
@@ -344,6 +372,7 @@ export interface DbController {
     res: Response,
     next: NextFunction
   ) => void;
+  addToken: (req: Request, res: Response, next: NextFunction) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
 
@@ -429,8 +458,6 @@ export interface GlobalErrorObject {
   message: { err: string };
 }
 
-
-
 // export interface containersList {
 //   runningList: any[];
 //   stoppedList: any[];
@@ -444,7 +471,6 @@ export interface GlobalErrorObject {
 // export interface ArrayOfVolumeNames {Name: string}[];
 
 // "any" has been used below since strict typing was used to define these props in the tabs types
-
 
 // interface imagesList {
 //   imagesList: any[];
@@ -477,12 +503,10 @@ export interface GlobalErrorObject {
 //   ) => void;
 // };
 
-
 // export type MetricsProps = {
 //   runningList: any[];
 //   threshold: any[];
 // };
-
 
 // export type RunningContainerType = {
 //   Names?: string;
@@ -543,7 +567,6 @@ export interface GlobalErrorObject {
 //   stoppedNotificationList: any[];
 // };
 
-
 // export interface imageObj {
 //   reps: string;
 //   tag: string;
@@ -567,9 +590,6 @@ export interface GlobalErrorObject {
 //     callback_2: (data: imageObj[]) => void
 //   ) => void;
 // }
-
-
-
 
 // export interface NetworkObj {
 //   CreatedAt: string;
@@ -604,7 +624,6 @@ export interface GlobalErrorObject {
 //   runningList: any[];
 //   stoppedList: any[];
 // }
-
 
 // interface volumeList {
 //   arrayOfVolumeNames: any[];
@@ -644,7 +663,6 @@ export interface GlobalErrorObject {
 //   };
 // }
 
-
 // export interface graphDataType {
 //   label: string;
 //   data: any[];
@@ -660,7 +678,6 @@ export interface GlobalErrorObject {
 //   graphReceivedIO: graphDataType[];
 //   graphTransmittedIO: graphDataType[];
 // }
-
 
 // need to get type of the sets later by seeing what data is in the notification lists
 // export interface notificationStateType {

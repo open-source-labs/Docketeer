@@ -12,54 +12,53 @@ interface userControllerMethods {
    * @description  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
    * @note Extract isername, password, and role ID from req.body
    */
-  createUser,
+  createUser;
 
   /**
-     * @description  Gets a single user yser
-     * @note Uses destructuring for _id from req.body
-     */
-  getOneUser,
+   * @description  Gets a single user yser
+   * @note Uses destructuring for _id from req.body
+   */
+  getOneUser;
 
   /**
-    * @description  Gets all users; returned in an array
-    * @note Sorts them by ASCENDING order
-    */
-  getAllUsers,
+   * @description  Gets all users; returned in an array
+   * @note Sorts them by ASCENDING order
+   */
+  getAllUsers;
 
   /**
-     * @description  verifies username/password are correct and sends back that user info; otherwise sends an error message
-     * @note Extract the username and password from req.body. Any errors get passed onto an error object.
-     */
-  verifyUser,
+   * @description  verifies username/password are correct and sends back that user info; otherwise sends an error message
+   * @note Extract the username and password from req.body. Any errors get passed onto an error object.
+   */
+  verifyUser;
 
   /**
-     * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
-     * @note System admin ID has a role_id of 1
-     */
-  checkSysAdmin,
+   * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
+   * @note System admin ID has a role_id of 1
+   */
+  checkSysAdmin;
 
   /**
-     * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
-     * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
-     */
-  switchUserRole,
+   * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
+   * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
+   */
+  switchUserRole;
 
   /**
-     * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
-     * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
-     */
-  updatePassword,
+   * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
+   * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
+   */
+  updatePassword;
 
   /**
-     * @description   updates the phone number of a user; column is 'phone'
-     */
-  updatePhone,
+   * @description   updates the phone number of a user; column is 'phone'
+   */
+  updatePhone;
 
   /**
-     * @description   updates the email of a user
-     */
-  updateEmail
-
+   * @description   updates the email of a user
+   */
+  updateEmail;
 }
 
 /**
@@ -222,7 +221,8 @@ const userController: UserController & userControllerMethods = {
       const parameters = [role, roleMap[role], _id];
       // we will return the role that the user was updated to
       db.query(query, parameters)
-        .then((data: { rows: User[] }): void => {
+        // TODO may need to make type alias for 'data' received from queries
+        .then((data: { rows: UserInfo[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
@@ -245,7 +245,9 @@ const userController: UserController & userControllerMethods = {
         'Incorrect password. Please enter the correct password to update it.';
       return next();
     }
-    const { newHashedPassword }: { newHashedPassword: string } = res.locals as { newHashedPassword: string };
+    const { newHashedPassword }: { newHashedPassword: string } = res.locals as {
+      newHashedPassword: string;
+    };
     const { username }: { username: string } = req.body;
     // TODO: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
     // define a querystring to update password of our user and return the affected columns

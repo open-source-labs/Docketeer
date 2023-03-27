@@ -5,7 +5,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { UserController, ServerError, User } from '../../types';
+import { UserController, ServerError, UserInfo } from '../../types';
 
 interface userControllerMethods {
   /**
@@ -118,7 +118,7 @@ const userController: UserController & userControllerMethods = {
     } else {
       const allUsers = 'SELECT * FROM users ORDER BY name ASC;';
       db.query(allUsers)
-        .then((response: { rows: User[] }): void => {
+        .then((response: { rows: UserInfo[] }): void => {
           res.locals.users = response.rows;
           return next();
         })
@@ -137,7 +137,7 @@ const userController: UserController & userControllerMethods = {
     const { _id }: { _id: string } = req.body;
     const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
     db.query(oneUser)
-      .then((response: { rows: User[] }): void => {
+      .then((response: { rows: UserInfo[] }): void => {
         res.locals.users = response.rows;
         return next();
       })
@@ -157,7 +157,7 @@ const userController: UserController & userControllerMethods = {
     const getUser = `SELECT * FROM users WHERE username='${username}';`;
     //   using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser)
-      .then(async (data: { rows: User[] }): Promise<void> => {
+      .then(async (data: { rows: UserInfo[] }): Promise<void> => {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (data.rows[0] && match) {
           res.locals.user = data.rows[0];
@@ -211,7 +211,12 @@ const userController: UserController & userControllerMethods = {
       const parameters = [role, roleMap[role], _id];
       // we will return the role that the user was updated to
       db.query(query, parameters)
+<<<<<<< HEAD
         .then((data: { rows: User[] }): void => {
+=======
+        // TODO may need to make type alias for 'data' received from queries
+        .then((data: { rows: UserInfo[] }): void => {
+>>>>>>> frontendTS-Ben
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
           return next();
@@ -242,7 +247,7 @@ const userController: UserController & userControllerMethods = {
       'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
     const parameters: string[] = [newHashedPassword, username];
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -261,7 +266,7 @@ const userController: UserController & userControllerMethods = {
       'UPDATE users SET phone = $1 WHERE username = $2 RETURNING *;';
     const parameters: (string | number)[] = [phone, username];
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })
@@ -280,7 +285,7 @@ const userController: UserController & userControllerMethods = {
       'UPDATE users SET email = $1 WHERE username = $2 RETURNING *;';
     const parameters: string[] = [email, username];
     db.query(query, parameters)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
         return next();
       })

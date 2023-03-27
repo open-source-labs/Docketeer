@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { LogsCardProps } from '../../../types';
 
 import styles from './ProcessLogsCard.module.scss';
@@ -13,9 +12,9 @@ import globalStyles from '../global.module.scss';
 
 const ProcessLogsCard = (props: LogsCardProps): JSX.Element => {
   const navigate = useNavigate();
-
+  
   return (
-    <div className={styles.card}>
+    <div className={globalStyles.card}>
       <div className={styles.test}>
         <h2>{props.container.Names}</h2>
         <p>Container ID: {props.container.ID}</p>
@@ -33,10 +32,5 @@ const ProcessLogsCard = (props: LogsCardProps): JSX.Element => {
   );
 };
 
-ProcessLogsCard.propTypes = {
-  container: PropTypes.object,
-  index: PropTypes.number,
-  status: PropTypes.string,
-};
 
 export default ProcessLogsCard;

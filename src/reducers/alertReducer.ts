@@ -3,15 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppDispatch } from './hooks';
 import { AlertStateType } from '../../types';
 
-/*
-export interface AlertStateType {
-  alertList: string[] | null;
-  promptList:
-    | [prompt: string, handleAccept: () => void, handleDeny: () => void]
-    | []
-    | null;
-}
-*/
 
 // TODO: redo prompts to be component based
 

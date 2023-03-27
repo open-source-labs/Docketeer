@@ -6,7 +6,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   CommandController,
-  logObject,
+  LogObject,
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
@@ -40,14 +40,14 @@ const convert = (stdout: string): string[][] => {
 const makeArrayOfObjects = (
   string: string,
   containerName: string
-): logObject[] => {
+): LogObject[] => {
   // Creates an array from the input string of logs
-  const arrayOfObjects: logObject[] = string
+  const arrayOfObjects: LogObject[] = string
     .trim()
     .split('\n')
     // mutates the array of logs to be more readable
-    .map((element: string): logObject => {
-      const obj: logObject = {
+    .map((element: string): LogObject => {
+      const obj: LogObject = {
         timeStamp: '',
         logMsg: '',
         containerName: '',
@@ -76,8 +76,8 @@ const makeArrayOfObjects = (
     });
 
   // filter out empty messages
-  const arrayOfLogs: logObject[] = arrayOfObjects.filter(
-    (obj: logObject): boolean => obj.logMsg !== ''
+  const arrayOfLogs: LogObject[] = arrayOfObjects.filter(
+    (obj: LogObject): boolean => obj.logMsg !== ''
   );
   return arrayOfLogs;
 };
@@ -676,26 +676,39 @@ const commandController: CommandController & CommandMethods = {
   },
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {
+<<<<<<< HEAD
     const containerLogs: { [k: string]: logObject[] } = {
+=======
+    // TODO any
+    const containerLogs: { [k: string]: LogObject[] } = {
+>>>>>>> frontendTS-Ben
       stdout: [],
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
+    console.log('optionsObj', req.body);
+
+    let completedExecs = 0;
+
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs --timestamps';
-      if (optionsObj.since) {
-        inputCommandString += `--since ${optionsObj.since} `;
-      }
-      optionsObj.tail
-        ? (inputCommandString += `--tail ${optionsObj.tail} `)
-        : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerIds[i]}`;
+      let inputCommandString = 'docker logs ';
+      // if (optionsObj.since) {
+      //   inputCommandString += `--since ${optionsObj.since} `;
+      // }
+      // optionsObj.tail
+      //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
+      //   : (inputCommandString += '--tail 50 ');
+      inputCommandString += `${optionsObj.containerNames[i]}`;
+      // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
+
+      console.log('ab to exec')
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
+          console.log(stdout);
           if (error) {
             console.log(
               'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
@@ -703,19 +716,34 @@ const commandController: CommandController & CommandMethods = {
             return next(error);
           }
           // update containerLogs properties to include what was received in stdout/stderr
+          console.log('broken stuff')
           containerLogs.stdout = [
             ...containerLogs.stdout,
-            ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
           ];
           containerLogs.stderr = [
             ...containerLogs.stderr,
-            ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
           ];
           res.locals.logs = containerLogs;
-          return next();
+          // console.log('logs', res.locals.logs);
+          // console.log('ab to increment')
+          completedExecs++;
+          console.log('CL', completedExecs, containerLogs);
+          if (i === optionsObj.containerNames.length - 1)return next();
         }
       );
+      // res.locals.logs = CL;
+      console.log('after exec')
+      console.log('locals after exec', res.locals.logs)
     }
+    // console.log('execs', completedExecs);
+    console.log('AFTER FOR LOOP LOGS', res.locals.logs);
+    // return next();
+    // while(completedExecs !== optionsObj.containerIds.length) {
+    //   // console.log('execs', completedExecs)
+    //   if (completedExecs === optionsObj.containerIds.length) return next();
+    // }
   },
 };
 

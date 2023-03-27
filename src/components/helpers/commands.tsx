@@ -49,6 +49,8 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
+
+      // TODO: add a delete method
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
@@ -299,13 +301,18 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
+        console.log('inside of async getLogs');
         try {
+          console.log('inside of try block');
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),
           });
-          return await response.json();
+          // console.log('response from fetch', response);
+          const parsedResponse = await response.json();
+          console.log('parsed response from fetch', parsedResponse);
+          return parsedResponse;
         } catch {
           console.log(err);
         }

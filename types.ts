@@ -498,9 +498,9 @@ export interface ConfigController {
 }
 
 export interface DbController {
-  createRoles: (req: Request, res: Response, next: NextFunction) => void;
+  createRolesTable: (req: Request, res: Response, next: NextFunction) => void;
   insertRoles: (req: Request, res: Response, next: NextFunction) => void;
-  createTable: (req: Request, res: Response, next: NextFunction) => void;
+  createUsersTable: (req: Request, res: Response, next: NextFunction) => void;
   // TODO insertAdmin: (req: Request, res: Response, next: NextFunction) => void; // not used
   createAdminPassword: (
     req: Request,
@@ -508,6 +508,7 @@ export interface DbController {
     next: NextFunction
   ) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
+  addToken: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface InitController {

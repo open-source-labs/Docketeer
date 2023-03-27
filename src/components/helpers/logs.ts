@@ -6,9 +6,9 @@
  * @returns {object} optionsObj
  */
 
-export const buildOptionsObj = (containerIDs: string[]) => {
+export const buildOptionsObj = (containerNames: string[]) => {
   const optionsObj = {
-    containerIds: containerIDs,
+    containerNames: containerNames,
   };
 
   console.log('optionsObj', optionsObj);
@@ -20,7 +20,7 @@ export const buildOptionsObj = (containerIDs: string[]) => {
   //   const tailValue = document.getElementById('tailText').value;
   //   optionsObj.tail = tailValue;
   // }
-  // return optionsObj;
+  return optionsObj;
 };
 
 /**

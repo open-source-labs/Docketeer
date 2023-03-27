@@ -16,7 +16,7 @@ export const logSlice = createSlice({
     getLogs: (state, action: PayloadAction<ContainerLogsType>) => {
       console.log('action.payload: ', action.payload);
       state.containerLogs = action.payload;
-      console.log('log state', current(state.containerLogs))
+      // console.log('saved to state', current(state))
     },
   },
 });

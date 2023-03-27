@@ -663,7 +663,7 @@ const commandController: CommandController = {
       // optionsObj.tail
       //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
       //   : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerIds[i]}`;
+      inputCommandString += `${optionsObj.containerNames[i]}`;
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
 
@@ -693,7 +693,7 @@ const commandController: CommandController = {
           // console.log('ab to increment')
           completedExecs++;
           console.log('CL', completedExecs, containerLogs);
-          if (i === optionsObj.containerIds.length - 1) return next();
+          if (i === optionsObj.containerNames.length - 1)return next();
         }
       );
 

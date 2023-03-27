@@ -59,10 +59,13 @@ $palettes: (
     lighter: hsla(181, 74%, 52%, 1),
   ),
   red: (
+    transparent: hsl(0, 100%, 58%, 0.1),
     base: hsl(0, 100%, 58%),
+    test: hsl(340, 95.1%, 42%),
   ),
   green: (
-    base: hsl(120, 100%, 50%),
+    transparent: hsl(131, 100%, 40%, 0.1),
+    base: hsl(131, 100%, 40%),
   ),
   yellow: (
     transparent: hsla(40, 100%, 50%, 0.1),

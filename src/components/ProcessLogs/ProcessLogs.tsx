@@ -120,7 +120,8 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    if (stdout) {
+    console.log('pls', stdout.length, stderr.length);
+    if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log['containerName']
@@ -188,6 +189,7 @@ const ProcessLogs = (): JSX.Element => {
 
           <div className={styles.runningButtons}>
             <button
+              className={globalStyles.button1}
               type="button"
               id="getlogs-btn"
               onClick={() => {
@@ -196,7 +198,7 @@ const ProcessLogs = (): JSX.Element => {
             >
               GET LOGS
             </button>
-            <button type="button">
+            <button className={globalStyles.button2} type="button">
               <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
             </button>
           </div>

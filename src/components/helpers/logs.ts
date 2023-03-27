@@ -20,7 +20,7 @@ export const buildOptionsObj = (containerIDs: string[]) => {
   //   const tailValue = document.getElementById('tailText').value;
   //   optionsObj.tail = tailValue;
   // }
-  // return optionsObj;
+  return optionsObj;
 };
 
 /**

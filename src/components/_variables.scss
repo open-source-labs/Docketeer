@@ -1,6 +1,84 @@
 //
 $base-color: #7a0d43;
 
+$shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
+
+$solid-background-fade: linear-gradient(
+  140deg,
+  hsl(0deg 0% 25%) 13%,
+  hsl(210deg 2% 25%) 37%,
+  hsl(195deg 3% 25%) 44%,
+  hsl(200deg 5% 25%) 47%,
+  hsl(202deg 6% 25%) 48%,
+  hsl(202deg 8% 26%) 49%,
+  hsl(202deg 15% 25%) 49%,
+  hsl(202deg 26% 23%) 48%,
+  hsl(202deg 36% 21%) 48%,
+  hsl(202deg 47% 19%) 48%,
+  hsl(202deg 58% 18%) 48%,
+  hsl(203deg 64% 18%) 48%,
+  hsl(202deg 64% 21%) 49%,
+  hsl(203deg 63% 25%) 51%,
+  hsl(202deg 64% 28%) 56%,
+  hsl(203deg 63% 32%) 64%,
+  hsl(203deg 63% 35%) 99%
+);
+
+$background-fade: linear-gradient(
+  140deg,
+  hsl(0deg 0% 8%) 0%,
+  hsl(0deg 0% 11%) 16%,
+  hsl(0deg 0% 15%) 30%,
+  hsl(0deg 0% 18%) 42%,
+  hsl(0deg 0% 21%) 52%,
+  hsl(0deg 0% 25%) 60%,
+  hsl(0deg 0% 29%) 68%,
+  hsl(0deg 0% 33%) 74%,
+  hsl(0deg 0% 34%) 79%,
+  hsl(0deg 0% 33%) 84%,
+  hsl(0deg 0% 32%) 90%,
+  hsl(0deg 0% 31%) 100%
+);
+
+$palettes: (
+  background: (
+    transparent: hsl(0, 0%, 0%, 0.1),
+    darkest: hsl(0, 0%, 13%),
+    darker: hsl(0, 0%, 15%),
+    dark: hsl(216, 15%, 18%),
+    base: hsl(210, 15.2%, 18%),
+    light: hsla(199, 8%, 47%, 1),
+    light-transparent: hsla(199, 8%, 47%, 0.25),
+  ),
+  blue: (
+    darkest: hsla(189, 100%, 14%, 1),
+    darker: hsla(188, 93%, 18%, 1),
+    dark: hsla(190, 72%, 36%, 1),
+    base: hsla(183, 92%, 35%, 1),
+    light: hsla(183, 94%, 43%, 1),
+    lighter: hsla(181, 74%, 52%, 1),
+  ),
+  red: (
+    transparent: hsl(0, 100%, 58%, 0.1),
+    base: hsl(0, 100%, 58%),
+    test: hsl(340, 95.1%, 42%),
+  ),
+  green: (
+    transparent: hsl(131, 100%, 40%, 0.1),
+    base: hsl(131, 100%, 40%),
+  ),
+  yellow: (
+    transparent: hsla(40, 100%, 50%, 0.1),
+    base: hsla(40, 100%, 50%, 1),
+  ),
+  light: (
+    tan: hsla(190, 88%, 94%, 1),
+    base: hsla(204, 9.8%, 90%, 1),
+    mid-gray: hsla(199, 8%, 47%, 1),
+    light-gray: hsla(200, 10%, 59%, 1),
+  ),
+);
+
 @function color($color, $tone) {
   // @warn map-get($palettes, $color);
 
@@ -19,31 +97,3 @@ $base-color: #7a0d43;
   @warn "unknown color `#{$color}` in palette";
   @return null;
 }
-
-$shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
-
-$palettes: (
-  background: (
-    darker: hsla(198, 41%, 13%, 1),
-    dark: hsla(195, 25%, 16%, 1),
-    base: hsla(199, 18%, 24%, 1),
-    light: hsla(199, 8%, 47%, 1),
-  ),
-  blue: (
-    darkest: hsla(189, 100%, 14%, 1),
-    darker: hsla(188, 93%, 18%, 1),
-    dark: hsla(190, 72%, 36%, 1),
-    base: hsla(183, 92%, 35%, 1),
-    light: hsla(183, 94%, 43%, 1),
-    lighter: hsla(181, 74%, 52%, 1),
-  ),
-  red: (
-    base: hsl(0, 100%, 58%),
-  ),
-  light: (
-    tan: hsla(190, 88%, 94%, 1),
-    base: hsla(0, 0%, 100%, 1),
-    mid-gray: hsla(199, 8%, 47%, 1),
-    light-gray: hsla(200, 10%, 59%, 1),
-  ),
-);

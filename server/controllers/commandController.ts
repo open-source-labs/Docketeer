@@ -657,7 +657,7 @@ const commandController: CommandController = {
     let completedExecs = 0;
 
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
       let inputCommandString = 'docker logs ';
       // if (optionsObj.since) {
@@ -666,7 +666,7 @@ const commandController: CommandController = {
       // optionsObj.tail
       //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
       //   : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerIds[i]}`;
+      inputCommandString += `${optionsObj.containerNames[i]}`;
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
 
@@ -685,18 +685,18 @@ const commandController: CommandController = {
           console.log('broken stuff')
           containerLogs.stdout = [
             ...containerLogs.stdout,
-            ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
           ];
           containerLogs.stderr = [
             ...containerLogs.stderr,
-            ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
           ];
           res.locals.logs = containerLogs;
           // console.log('logs', res.locals.logs);
           // console.log('ab to increment')
           completedExecs++;
           console.log('CL', completedExecs, containerLogs);
-          if (i === optionsObj.containerIds.length - 1) return next();
+          if (i === optionsObj.containerNames.length - 1)return next();
         }
       );
       // res.locals.logs = CL;

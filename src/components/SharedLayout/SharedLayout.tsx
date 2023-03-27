@@ -140,6 +140,7 @@ function SharedLayout(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
 
+
   // Refresh runningList, stoppedList, and imageList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {
     const interval = setInterval(() => {
@@ -200,7 +201,7 @@ function SharedLayout(): JSX.Element {
           <li>
             <NavLink
               className={({ isActive }) =>
-                isActive ? activeStyle : styles.navButton
+                isActive ? styles.active : styles.navButton
               }
               to="/home/running"
             >
@@ -248,7 +249,12 @@ function SharedLayout(): JSX.Element {
             </NavLink>
           </li>
           <li>
-            <NavLink className={styles.navButton} to="/home/logs">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/logs"
+            >
               Process Logs
             </NavLink>
           </li>
@@ -257,14 +263,9 @@ function SharedLayout(): JSX.Element {
               System Prune
             </a>
           </li>
+          <li>{userData.username && <span>{`${userData.username}`}</span>}</li>
           <li>
-            {userData.username && (
-              <span className="btn btn-primary btn-md lowercase font-bold text-sm">{`${userData.username}`}</span>
-            )}
-            <a
-              className={globalStyles.navButton}
-              onClick={() => handleLogOut()}
-            >
+            <a className={styles.navButton} onClick={() => handleLogOut()}>
               Logout
             </a>
           </li>

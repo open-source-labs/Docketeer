@@ -650,14 +650,10 @@ const commandController: CommandController = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
-    // const optionsObj = {
-    //   containerIds: ['grafana'],
-    // }
     console.log('optionsObj', req.body);
 
-    console.log('inside getLogs middleware');
+    let completedExecs = 0;
 
-   
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line
@@ -671,6 +667,7 @@ const commandController: CommandController = {
       inputCommandString += `${optionsObj.containerIds[i]}`;
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
+
       console.log('ab to exec')
       exec(
         inputCommandString,
@@ -693,14 +690,24 @@ const commandController: CommandController = {
             ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
           ];
           res.locals.logs = containerLogs;
-          console.log('logs', res.locals.logs);
-          return next();
+          // console.log('logs', res.locals.logs);
+          // console.log('ab to increment')
+          completedExecs++;
+          console.log('CL', completedExecs, containerLogs);
+          if (i === optionsObj.containerIds.length - 1)return next();
         }
       );
+      // res.locals.logs = CL;
+      console.log('after exec')
+      console.log('locals after exec', res.locals.logs)
     }
-    // res.locals.logs = test;
-    // console.log('AFTER FOR LOOP LOGS', res.locals.logs);
+    // console.log('execs', completedExecs);
+    console.log('AFTER FOR LOOP LOGS', res.locals.logs);
     // return next();
+    // while(completedExecs !== optionsObj.containerIds.length) {
+    //   // console.log('execs', completedExecs)
+    //   if (completedExecs === optionsObj.containerIds.length) return next();
+    // }
   },
 };
 

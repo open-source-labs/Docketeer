@@ -94,7 +94,7 @@ const ProcessLogs = (): JSX.Element => {
     console.log('idList', idList);
     console.log('optionsObj', optionsObj);
     const containerLogs = await getLogs(optionsObj);
-    console.log({ containerLogs });
+    console.log('hello', containerLogs)
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
     return containerLogs;
@@ -119,12 +119,13 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    if (stdout) {
+    if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
-        console.log('currCont', currCont)
+        console.log('currCont', currCont);
+        console.log('runningList in tableData', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -142,11 +143,13 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    if (stderr) {
+    if (stderr.length) {
       stderr.forEach((log: { [k: string]: any }, index: any) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
+        console.log('currCont stderr', currCont);
+        console.log('runningList in tableData stderr', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,

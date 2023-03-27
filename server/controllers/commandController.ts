@@ -650,12 +650,11 @@ const commandController: CommandController = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
-    console.log('optionsObj', req.body);
 
-    let completedExecs = 0;
+    console.log('req.body', req.body)
 
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerIds.length; i++) {
+    for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
       let inputCommandString = 'docker logs ';
       // if (optionsObj.since) {
@@ -683,11 +682,11 @@ const commandController: CommandController = {
           console.log('broken stuff')
           containerLogs.stdout = [
             ...containerLogs.stdout,
-            ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
           ];
           containerLogs.stderr = [
             ...containerLogs.stderr,
-            ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
+            ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
           ];
           res.locals.logs = containerLogs;
           // console.log('logs', res.locals.logs);
@@ -697,9 +696,7 @@ const commandController: CommandController = {
           if (i === optionsObj.containerIds.length - 1) return next();
         }
       );
-      // res.locals.logs = CL;
-      console.log('after exec')
-      console.log('locals after exec', res.locals.logs)
+
     }
     // console.log('execs', completedExecs);
     console.log('AFTER FOR LOOP LOGS', res.locals.logs);

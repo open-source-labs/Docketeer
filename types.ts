@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 // ==============================================
 // USER TYPES
 // ==============================================
-interface UserBase { 
+interface UserBase {
   username: string;
   password: string;
 }
@@ -83,7 +83,7 @@ export interface ContainerType {
 }
 
 
-export interface StoppedListType extends ContainerType { 
+export interface StoppedListType extends ContainerType {
   Img: string;
   Created: string;
   name: string;
@@ -482,7 +482,7 @@ export interface GlobalErrorObject {
 //   runningList: any[];
 //   threshold: any[];
 // };
-  
+
 
 // export type RunningContainerType = {
 //   Names?: string;

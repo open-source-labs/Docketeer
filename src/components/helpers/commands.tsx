@@ -49,7 +49,7 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
-     
+
       // TODO: add a delete method
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {

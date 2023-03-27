@@ -6,9 +6,9 @@
  * @returns {object} optionsObj
  */
 
-export const buildOptionsObj = (containerIDs: string[]) => {
+export const buildOptionsObj = (containerNames: string[]) => {
   const optionsObj = {
-    containerIds: containerIDs,
+    containerNames: containerNames,
   };
 
   console.log('optionsObj', optionsObj);

@@ -11,13 +11,13 @@ interface signupControllerMethods {
    * @description Checks if username already exists in the database
    * @note If user exists, error handler will return an error object with the relevant middleware passing from next()
    */
-  usernameCheck,
+  usernameCheck;
 
   /**
-    * @description Checks if password is at least 6 characters long
-    * @note Only performed if usernameCheck is successful with NO errors
-    */
-  passwordCheck
+   * @description Checks if password is at least 6 characters long
+   * @note Only performed if usernameCheck is successful with NO errors
+   */
+  passwordCheck;
 }
 
 /**

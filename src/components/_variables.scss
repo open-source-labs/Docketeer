@@ -42,9 +42,11 @@ $background-fade: linear-gradient(
 
 $palettes: (
   background: (
-    darker: hsl(224, 17%, 12%),
-    dark: hsl(0, 0%, 15%),
-    base: hsl(222, 17%, 20%),
+    transparent: hsl(0, 0%, 0%, 0.1),
+    darkest: hsl(0, 0%, 13%),
+    darker: hsl(0, 0%, 15%),
+    dark: hsl(216, 15%, 18%),
+    base: hsl(210, 15.2%, 18%),
     light: hsla(199, 8%, 47%, 1),
     light-transparent: hsla(199, 8%, 47%, 0.25),
   ),
@@ -63,11 +65,12 @@ $palettes: (
     base: hsl(120, 100%, 50%),
   ),
   yellow: (
-    base: hsla(59, 53%, 53%, 1),
+    transparent: hsla(40, 100%, 50%, 0.1),
+    base: hsla(40, 100%, 50%, 1),
   ),
   light: (
     tan: hsla(190, 88%, 94%, 1),
-    base: hsla(0, 0%, 100%, 1),
+    base: hsla(204, 9.8%, 90%, 1),
     mid-gray: hsla(199, 8%, 47%, 1),
     light-gray: hsla(200, 10%, 59%, 1),
   ),

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
-import ProcessLogsSelector from './ProcessLogsSelector';
+import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import { ContainerType, RowsDataType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
@@ -86,7 +86,7 @@ const ProcessLogs = (): JSX.Element => {
   */
   // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
   const handleGetLogs = async (idList: object) => {
-    const idArr = Object.keys(idList).filter(el => idList[el] === true);
+    const idArr = Object.keys(idList).filter((el) => idList[el] === true);
     console.log('idArr: ', idArr);
     dispatch(createAlert('Loading process log information...', 5, 'success'));
     // takes array of names and create obj
@@ -94,7 +94,7 @@ const ProcessLogs = (): JSX.Element => {
     console.log('idList', idList);
     console.log('optionsObj', optionsObj);
     const containerLogs = await getLogs(optionsObj);
-    console.log('hello', containerLogs)
+    console.log('hello', containerLogs);
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
     return containerLogs;
@@ -119,6 +119,7 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
+    console.log('pls', stdout.length, stderr.length);
     if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
@@ -169,7 +170,7 @@ const ProcessLogs = (): JSX.Element => {
 
       console.log('newRows', newRows);
       setRows(newRows as keyof typeof setRows);
-      console.log('rows after setRows', rows)
+      console.log('rows after setRows', rows);
       setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };
@@ -192,6 +193,7 @@ const ProcessLogs = (): JSX.Element => {
 
           <div className={styles.runningButtons}>
             <button
+              className={globalStyles.button1}
               type="button"
               id="getlogs-btn"
               onClick={() => {
@@ -200,7 +202,7 @@ const ProcessLogs = (): JSX.Element => {
             >
               GET LOGS
             </button>
-            <button type="button">
+            <button className={globalStyles.button2} type="button">
               <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
             </button>
           </div>

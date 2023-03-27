@@ -1,9 +1,11 @@
 {
   "workbench.localHistory.enabled": true,
   "editor.tabSize": 2,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.jsxSingleQuote": true,
-  "prettier.bracketSameLine": true,
   "editor.formatOnSave": true,
-  "editor.acceptSuggestionOnEnter": "off"
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.acceptSuggestionOnEnter": "on"
 }

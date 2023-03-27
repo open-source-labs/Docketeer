@@ -6,7 +6,7 @@ import { Router, Request, Response } from 'express';
 import dbController from '../controllers/dbController';
 
 const router = Router();
-// TODO this needs to be weighed against schema2 in the database folder to see if this file is necessary
+// TODO Detele? this needs to be weighed against schema2 in the database folder to see if this file is necessary
 
 // ==========================================================
 // Route: /
@@ -16,9 +16,9 @@ const router = Router();
 router.get(
   '/',
   // TODO create roles is a misleading name, creates a table for roles
-  dbController.createRoles,
+  dbController.createRolesTable,
   dbController.insertRoles,
-  dbController.createTable,
+  dbController.createUsersTable,
   (req: Request, res: Response): Response => {
     return res.status(200).json('Database initialized successfully');
   }

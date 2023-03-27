@@ -8,12 +8,28 @@ import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
 import { BcryptController } from '../../types';
 
-const bcryptController: BcryptController = {
-  // ==========================================================
-  // Middleware: hashPassword
-  // Purpose: hashes user password with bCrypt into SQL database input
-  // ==========================================================
+interface bcryptMethods {
+  /**
+   * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
+   */
+  hashPassword,
 
+  /**
+   * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
+   */
+  hashNewPassword,
+
+  /**
+   * @description uses roleID and username from users in locals to update user's token with cookie(after being hashed) adds token to user prop in locals
+   */
+  hashCookie
+}
+
+/**
+ * @description A controller to handle hashing of passwords and cookies
+ */
+const bcryptController: BcryptController & bcryptMethods = {
+  
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
     const saltRounds = 10;
@@ -41,20 +57,23 @@ const bcryptController: BcryptController = {
   // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
   // ==========================================================
   // return type is Promise<void> signifying we return a promise w a void value; in this case the invocation of next()
-  hashNewPassword: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    // TODO is Object.prototype necessary?
+  hashNewPassword: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    // TODO check if new password works changed: Object.prototype.hasOwnProperty.call(res.locals, "error") to what is now on ln 51
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (Object.prototype.hasOwnProperty.call(res.locals, 'error')) {
+    if (res.locals.error) {
       return next();
     }
     // else bCrypt the new password and move to next middleware
-    const { newPassword } = req.body;
+    const { newPassword }: { newPassword: string } = req.body;
     const saltRounds = 10;
-    // TODO rename hash to newHashedPassword
-    await bcrypt
+    bcrypt
       .hash(newPassword, saltRounds)
       .then((hash: string): void => {
-        res.locals.hash = hash;
+        res.locals.newHashedPassword = hash;
         return next();
       })
       .catch((err: Error): void => {
@@ -67,12 +86,9 @@ const bcryptController: BcryptController = {
       });
   },
 
-  /**
-   * @description hashes the locals property cookie. Creates a column in the database to store the hashed cookie
-   */
-
   hashCookie: (req: Request, res: Response, next: NextFunction): void => {
-    const { role_id, username }: { role_id: number, username: string } = res.locals.user;
+    const { role_id, username }: { role_id: number; username: string } =
+      res.locals.user;
     const saltRounds = 10;
     if (role_id === 1) {
       bcrypt

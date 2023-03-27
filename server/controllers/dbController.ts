@@ -2,20 +2,55 @@
  * @module | dbController.ts
  * @description | contains middleware that checks if the database has a user table and creates one if it doesn't
  **/
-
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 // TODO import sysadmin from "../../security/sysadmin"; // only used in insertAdmin which is not used
 import { DbController, ServerError } from '../../types';
-// TODO seems to have the exact functionality of schema2 in the database folder
-const dbController: DbController = {
-  // ==========================================================
-  // Middleware: createRoles
-  // Purpose: creates a table, roles, and gives it 2 columns: _id and role, _id is the primary key, oids false to optimize performance
-  // ==========================================================
 
-  createRoles: (req: Request, res: Response, next: NextFunction): void => {
+interface dbControllerMethods {
+  /**
+  * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
+  * @note OIDS is optional for this middleware
+   */
+  createRolesTable,
+
+  /**
+  * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
+  * @note uses single SQl query for all 3 rows in terms of string query
+   */
+  insertRoles,
+
+  /**
+  * @description Creates a table in database called "users" with user and container info
+  */
+  createUsersTable,
+
+  /**
+   * @description Creates a hashed password for the system admin user with 10 salt rounds (decrease for faster processing)
+   * @note adds the password as a string for the res.locals object
+   */
+  createAdminPassword,
+
+  /**
+   * @description Updates user token in the database
+   * @note Destructures username and token from request body
+   */
+  addToken,
+
+  /**
+   * @description Removes token (sets token to null) after user logs out.
+   * @note Destructures username from request body. Logout propery is created if SQL query is able to update users token to null.
+   */
+  removeToken
+
+}
+
+/**
+ * @description handles middleware functions that manipulate our database; contains middleware that checks if the database has a user table and creates one if it doesn't
+ */
+const dbController: DbController & dbControllerMethods = {
+  createRolesTable: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
       'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
     )
@@ -26,15 +61,9 @@ const dbController: DbController = {
         if (err) return next(err);
       });
   },
-
-  // ==========================================================
-  // Middleware: insertRoles
-  // Purpose: inserts 3 rows to roles: sys admin, admin, user; they have unique ids 1,2,3
-  // ==========================================================
-
   insertRoles: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
-      "INSERT INTO roles (role) VALUES ('system admin'); INSERT INTO roles (role) VALUES ('admin'); INSERT INTO roles (role) VALUES ('user');"
+      'INSERT INTO roles (role) VALUES (\'system admin\'); INSERT INTO roles (role) VALUES (\'admin\'); INSERT INTO roles (role) VALUES (\'user\');'
     )
       .then(() => {
         return next();
@@ -43,23 +72,12 @@ const dbController: DbController = {
         if (err) return next(err);
       });
   },
-
-  // ==========================================================
-  // Middleware: createTable
-  // Purpose: creates a NEW table with user and container info
-  // ==========================================================
-
-  createTable: (req: Request, res: Response, next: NextFunction): void => {
+  createUsersTable: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
-      "CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT 'user', role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);"
-    )
-      // TODO is this then necessary?
-      .then(() => {
-        return next();
-      })
-      .catch((err: ServerError) => {
-        if (err) return next(err);
-      });
+      'CREATE TABLE IF NOT EXISTS users (_id SERIAL NOT NULL, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, phone VARCHAR (255), role VARCHAR (255) DEFAULT user, role_id INTEGER DEFAULT 3, contact_pref VARCHAR (255), mem_threshold INTEGER DEFAULT 80, cpu_threshold INTEGER DEFAULT 80, container_stops BOOLEAN DEFAULT true, PRIMARY KEY (_id), FOREIGN KEY (role_id) REFERENCES Roles(_id)) WITH (OIDS = FALSE);'
+    ).catch((err: ServerError) => {
+      return next(err);
+    });
   },
   // TODO what is this used for
   // insertAdmin: (req: Request, res: Response, next: NextFunction) => {
@@ -86,7 +104,6 @@ const dbController: DbController = {
   //       if (err) return next(err);
   //     });
   // },
-
   createAdminPassword: (req: Request, res: Response, next: NextFunction) => {
     const saltRounds = 10;
 
@@ -106,18 +123,17 @@ const dbController: DbController = {
         });
       });
   },
-
-  /**
-   * @description removes token from database
-   */
-  // TODO when was token given?
-
-  // ==========================================================
-  // Middleware: removeToken
-  // Purpose: Removes token (sets token to null) after user logs out.
-  // TODO: No addToken/initiation of token to user exists.
-  // ==========================================================
-
+  addToken: (req: Request, res: Response, next: NextFunction) => {
+    const { username, token }: { username: string, token: string } = req.body;
+    db.query('UPDATE users SET token=$1 WHERE username=$2', [token, username])
+      .then(() => {
+        res.locals.login = 'Successfully logged in.';
+        return next();
+      })
+      .catch((err: ServerError) => {
+        if (err) return next(err);
+      });
+  },
   removeToken: (req: Request, res: Response, next: NextFunction) => {
     const { username }: { username: string } = req.body;
 
@@ -131,5 +147,4 @@ const dbController: DbController = {
       });
   },
 };
-
 export default dbController;

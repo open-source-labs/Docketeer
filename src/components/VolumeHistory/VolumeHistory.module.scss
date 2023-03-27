@@ -1,0 +1,34 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0 15%;
+
+  input {
+    width: 25%;
+  }
+
+  button {
+    width: 25%;
+  }
+}
+
+.searchHolder {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  height: 18vh;
+  // padding: 1rem;
+}
+
+.volumesHolder {
+  display: flex;
+  flex-direction: column;
+}
+
+.volumesDisplay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

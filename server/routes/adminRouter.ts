@@ -19,7 +19,6 @@ router.post(
 );
 
 // Checks if client has sysadmin privilege. Switch user role from 'user' to 'admin' and vice-versa.
-// TODO if we keep this we should change the name; switch-roles
 router.post(
   '/switch',
   userController.checkSysAdmin,

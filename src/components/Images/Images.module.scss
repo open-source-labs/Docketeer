@@ -5,13 +5,24 @@
   margin: 0 15%;
 }
 
+.imageSearchHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1rem 0;
+  h1 {
+    margin-bottom: 1rem;
+  }
+  input {
+    width: 30%;
+  }
+}
+
 .imageHolder {
   display: grid;
-  grid-template: 1fr 1fr / 1fr 1fr;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }
 
 .image {
-  background-color: color(background, base);
-  border-radius: 0.5rem;
-  margin: 1rem;
+  height: 5rem;
 }

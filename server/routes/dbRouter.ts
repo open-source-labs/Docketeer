@@ -16,9 +16,9 @@ const router = Router();
 router.get(
   '/',
   // TODO create roles is a misleading name, creates a table for roles
-  dbController.createRoles,
+  dbController.createRolesTable,
   dbController.insertRoles,
-  dbController.createTable,
+  dbController.createUsersTable,
   (req: Request, res: Response): Response => {
     return res.status(200).json('Database initialized successfully');
   }

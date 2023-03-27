@@ -21,10 +21,13 @@ import globalStyles from '../global.module.scss';
 
 type CSVData = string[];
 
+type CSVData = string[];
+
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+  console.log('runningList: ', runningList);
 
   const dispatch = useAppDispatch();
   const { getContainerLogsDispatcher } = useSurvey();
@@ -38,6 +41,8 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
+  console.log('stdout: ', stdout);
+  console.log('stderr: ', stderr);
 
   // there is an issue because the container list passed down is empty if the user navigates to this page directly. Somethine with the set timeout in the useEffect in the App.tsx file. Maybe a way to pass the container list down as props to this component?
   function getContainerNames(containerList: ContainerType[]): {
@@ -83,14 +88,15 @@ const ProcessLogs = (): JSX.Element => {
   */
   // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
   const handleGetLogs = async (idList: object) => {
-    const idArr = Object.keys(idList);
-
+    const idArr = Object.keys(idList).filter((el) => idList[el] === true);
+    console.log('idArr: ', idArr);
     dispatch(createAlert('Loading process log information...', 5, 'success'));
     // takes array of names and create obj
     const optionsObj = buildOptionsObj(idArr);
     console.log('idList', idList);
+    console.log('optionsObj', optionsObj);
     const containerLogs = await getLogs(optionsObj);
-    console.log({ containerLogs });
+    console.log('hello', containerLogs);
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
     return containerLogs;
@@ -115,11 +121,13 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    if (stdout) {
+    if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log['containerName']
+          (el: ContainerType) => el.Names === log['containerName']
         );
+        console.log('currCont', currCont);
+        console.log('runningList in tableData', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -137,11 +145,13 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    if (stderr) {
+    if (stderr.length) {
       stderr.forEach((log: { [k: string]: any }, index: any) => {
         const currCont = runningList.find(
-          (el: ContainerType) => el.ID === log['containerName']
+          (el: ContainerType) => el.Names === log['containerName']
         );
+        console.log('currCont stderr', currCont);
+        console.log('runningList in tableData stderr', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -159,8 +169,9 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
 
+      console.log('newRows', newRows);
       setRows(newRows as keyof typeof setRows);
-      console.log('rows after setRows', rows)
+      console.log('rows after setRows', rows);
       setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };

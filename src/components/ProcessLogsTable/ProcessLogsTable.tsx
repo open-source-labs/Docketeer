@@ -37,6 +37,10 @@
 //   console.log({ urlString });
 //   const containerID = urlString.split('/');
 //   console.log({ containerID });
+//   const urlString = window.location.href;
+//   console.log({ urlString });
+//   const containerID = urlString.split('/');
+//   console.log({ containerID });
 
 //   // Requests logs from server
 //   // idList = btnIdList

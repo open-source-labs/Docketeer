@@ -650,21 +650,32 @@ const commandController: CommandController = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
+    // const optionsObj = {
+    //   containerIds: ['grafana'],
+    // }
+    console.log('optionsObj', req.body);
+
+    console.log('inside getLogs middleware');
+
+    let test;
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs --timestamps';
-      if (optionsObj.since) {
-        inputCommandString += `--since ${optionsObj.since} `;
-      }
-      optionsObj.tail
-        ? (inputCommandString += `--tail ${optionsObj.tail} `)
-        : (inputCommandString += '--tail 50 ');
+      let inputCommandString = 'docker logs ';
+      // if (optionsObj.since) {
+      //   inputCommandString += `--since ${optionsObj.since} `;
+      // }
+      // optionsObj.tail
+      //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
+      //   : (inputCommandString += '--tail 50 ');
       inputCommandString += `${optionsObj.containerIds[i]}`;
+      // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
-      exec(
+      console.log('ab to exec')
+      test = await exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
+          console.log(stdout);
           if (error) {
             console.log(
               'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
@@ -672,8 +683,8 @@ const commandController: CommandController = {
             return next(error);
           }
           // update containerLogs properties to include what was received in stdout/stderr
+          console.log('broken stuff')
           containerLogs.stdout = [
-            // TODO is the next line needed?
             ...containerLogs.stdout,
             ...makeArrayOfObjects(stdout, optionsObj.containerIds[i]),
           ];
@@ -682,10 +693,14 @@ const commandController: CommandController = {
             ...makeArrayOfObjects(stderr, optionsObj.containerIds[i]),
           ];
           res.locals.logs = containerLogs;
+          console.log('logs', res.locals.logs);
           return next();
         }
       );
     }
+    // res.locals.logs = test;
+    // console.log('AFTER FOR LOOP LOGS', res.locals.logs);
+    // return next();
   },
 };
 

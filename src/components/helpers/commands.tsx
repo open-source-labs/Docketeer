@@ -301,6 +301,7 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
+        console.log('inside of async getLogs')
         try {
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',

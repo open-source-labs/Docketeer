@@ -696,7 +696,7 @@ const commandController: CommandController = {
           // console.log('ab to increment')
           completedExecs++;
           console.log('CL', completedExecs, containerLogs);
-          if (i === optionsObj.containerIds.length - 1)return next();
+          if (i === optionsObj.containerIds.length - 1) return next();
         }
       );
       // res.locals.logs = CL;

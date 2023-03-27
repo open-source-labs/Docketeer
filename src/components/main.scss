@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   padding-top: 80px;
@@ -14,7 +19,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
-  background-color: color(background, darker);
+  background-color: color(background, base);
   color: color(light, base);
 }
 
@@ -23,6 +28,16 @@ body {
   opacity: 92.5%;
   margin: auto;
   margin-top: 5px;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+@media (max-width: 550px) {
+  h1 {
+    font-size: 1.75rem;
+  }
 }
 
 // html {

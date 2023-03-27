@@ -1,0 +1,75 @@
+.wrapper {
+  position: fixed;
+  margin: 0 15%;
+  width: 70%;
+}
+
+.svg {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
+}
+
+// alert alert-info shadow-lg rounded-lg p-5 my-5
+.info {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.success {
+  position: fixed;
+  background-color: color(green, base);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  svg {
+    color: color(green, base);
+  }
+}
+
+.warning {
+  background-color: color(yellow, base);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  svg {
+    color: color(yellow, base);
+  }
+}
+
+.error {
+  background-color: color(red, base);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  color {
+    svg: color(red, base);
+  }
+}
+
+.general {
+  background-color: color(background, light);
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  svg {
+    color: color(background, dark);
+  }
+}

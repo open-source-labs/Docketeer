@@ -1,6 +1,9 @@
 import React from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 
+import styles from './Alert.module.scss';
+import globalStyles from '../global.module.scss';
+
 /**
  * @module | Alert.tsx
  * @description | Manages alerts & prompts (i.e. Are you sure you want ...?)
@@ -15,9 +18,9 @@ const Alert = (): JSX.Element => {
   const { alertList, promptList } = useAppSelector((state) => state.alerts);
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {alertList[1] === 'info' && (
-        <div className="alert alert-info shadow-lg rounded-lg p-5 my-5">
+        <div className={styles.info}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +40,7 @@ const Alert = (): JSX.Element => {
         </div>
       )}
       {alertList[1] === 'success' && (
-        <div className="alert alert-success shadow-lg rounded-lg p-5 my-5">
+        <div className={styles.success}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,11 +60,11 @@ const Alert = (): JSX.Element => {
         </div>
       )}
       {alertList[1] === 'warning' && (
-        <div className="alert alert-warning shadow-lg rounded-lg p-5 my-5">
+        <div className={styles.warning}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
+              className={styles.svg}
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -77,7 +80,7 @@ const Alert = (): JSX.Element => {
         </div>
       )}
       {alertList[1] === 'error' && (
-        <div className="alert alert-error shadow-lg rounded-lg p-5 my-5">
+        <div className={styles.error}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,13 +100,13 @@ const Alert = (): JSX.Element => {
         </div>
       )}
       {typeof promptList[0] === 'string' && (
-        <div className="alert shadow-lg p-5 my-5 rounded-lg">
+        <div className={styles.general}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="stroke-info flex-shrink-0 w-6 h-6"
+              className={styles.svg}
             >
               <path
                 strokeLinecap="round"
@@ -116,13 +119,13 @@ const Alert = (): JSX.Element => {
           </div>
           <div className="flex-none">
             <button
-              className="btn btn-sm btn-ghost"
+              className={globalStyles.button2}
               onClick={() => promptList[2]?.()}
             >
               Deny
             </button>
             <button
-              className="btn btn-sm btn-primary"
+              className={globalStyles.button1}
               onClick={() => promptList[1]?.()}
             >
               Accept
@@ -130,7 +133,7 @@ const Alert = (): JSX.Element => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

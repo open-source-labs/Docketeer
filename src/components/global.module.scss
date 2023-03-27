@@ -12,14 +12,15 @@
 }
 
 .card {
-  background: color(background, light-transparent);
-  box-shadow: $shadow;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  // background: color(background, light-transparent);
+  background-image: $background-fade;
+  // box-shadow: $shadow;
+  // backdrop-filter: blur(4px);
+  // -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  // border: 1px solid rgba(255, 255, 255, 0.18);
   margin: 1rem;
-  padding: 0.25rem 0.5rem;
+  padding: 1rem;
   max-width: 25vw;
   min-width: 12rem;
 }

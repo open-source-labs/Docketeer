@@ -495,12 +495,14 @@ const commandController: CommandController = {
       'compose.yaml',
     ]);
 
-    const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
-      ? `cd ${req.body.filePath} && docker compose up -d`
-      : `cd ${req.body.filePath} && docker compose -f ${req.body.ymlFileName} up -d`;
+    console.log('req.body',req.body)
 
-    const result: string | Error = await promisifiedExecStdErr(cmd);
-    res.locals.composeMessage = result;
+    // const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
+    //   ? `cd ${req.body.filePath} && docker compose up -d`
+    //   : `cd ${req.body.filePath} && docker compose -f ${req.body.ymlFileName} up -d`;
+
+    // const result: string | Error = await promisifiedExecStdErr(cmd);
+    // res.locals.composeMessage = result;
     return next();
   },
 

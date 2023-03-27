@@ -12,7 +12,7 @@ import Images from '../components/Images/Images';
 import Containers from '../components/Containers/Containers';
 import Settings from '../components/features/Settings';
 import Users from '../components/Users/Users';
-import VolumeHistory from '../components/features/VolumeHistory';
+import VolumeHistory from '../components/VolumeHistory/VolumeHistory';
 import ProcessLogs from '../components/ProcessLogs/ProcessLogs';
 // import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
 import SharedLayout from '../components/SharedLayout/SharedLayout';

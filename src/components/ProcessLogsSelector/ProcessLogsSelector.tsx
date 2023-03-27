@@ -10,7 +10,11 @@ import styles from './ProcessLogsSelector.module.scss';
 
 // TODO: add tooltip on hover for container name to show more info about container
 
-function ProcessLogsSelector({ containerList, handleCheck, btnIdList }) {
+function ProcessLogsSelector({
+  containerList,
+  handleCheck,
+  btnIdList,
+}): JSX.Element {
   // const [containerList, setContainerList] =
   // useState<object[]>(defaultContainerList);
 

@@ -657,7 +657,7 @@ const commandController: CommandController = {
 
     console.log('inside getLogs middleware');
 
-    let test;
+   
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerIds.length; i++) {
       // build inputCommandString to get logs from command line
@@ -672,7 +672,7 @@ const commandController: CommandController = {
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
       console.log('ab to exec')
-      test = await exec(
+      exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
           console.log(stdout);

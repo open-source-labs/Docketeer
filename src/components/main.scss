@@ -5,6 +5,12 @@
   padding: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   padding-top: 80px;
   font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
@@ -51,7 +57,7 @@ body {
 .metric-card {
   height: 100vh;
   width: 100vw;
-  background-color: color(background, darker);
+  background-color: color(background, base);
   color: color(light, base);
 }
 
@@ -60,6 +66,16 @@ body {
   opacity: 92.5%;
   margin: auto;
   margin-top: 5px;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+@media (max-width: 550px) {
+  h1 {
+    font-size: 1.75rem;
+  }
 }
 
 // html {

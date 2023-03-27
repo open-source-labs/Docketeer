@@ -145,7 +145,6 @@ const Containers = (): JSX.Element => {
             );
           })}
         </div>
-        ;
       </div>
     </div>
   );

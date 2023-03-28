@@ -120,7 +120,7 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    // console.log('pls', stdout.length, stderr.length);
+    console.log('pls', stdout.length, stderr.length);
     if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
@@ -169,9 +169,9 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
 
-      // console.log('newRows', newRows);
+      console.log('newRows', newRows);
       setRows(newRows as keyof typeof setRows);
-      // console.log('rows after setRows', rows);
+      console.log('rows after setRows', rows);
       setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
   };

@@ -54,17 +54,26 @@
 }
 
 .button1 {
+  // width: 150px;
+  // height: 60px;
   font-size: 1rem;
+  border-radius: 5px;
   color: color(white, tan);
   background-color: color(blue, dark);
+  // transform: translateY(5px);
   border: none;
   border-radius: 5px;
   padding: 1rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
+  // &:hover {
+  //   transform: scale(1.1);
+  // }
+  // @media ${BREAKPOINTS.sm} {
+  //   margin-top: 16px;
+  //   margin-left: 0;
+  //   width: 100%;
+  // }
 }
 
 .button2 {

@@ -2,24 +2,12 @@
   display: flex;
   flex-direction: column;
   margin: 5px 2rem;
-  input {
-    width: 25%;
-  }
-
-  button {
-    width: 25%;
-  }
 }
 
 .searchHolder {
   display: flex;
   flex-direction: column;
-}
-
-.card {
-  min-height: 5rem;
-  min-width: 8rem;
-  // padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .volumesHolder {
@@ -29,5 +17,6 @@
 
 .volumesDisplay {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 }

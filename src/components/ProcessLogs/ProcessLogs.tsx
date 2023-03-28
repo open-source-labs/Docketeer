@@ -223,7 +223,7 @@ const ProcessLogs = (): JSX.Element => {
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>CONTAINER</th>
@@ -234,7 +234,7 @@ const ProcessLogs = (): JSX.Element => {
           </thead>
           {rows.map((row, i) => {
             return (
-              <tbody key={i}>
+              <tbody key={`${row - i}`}>
                 <tr>
                   <td>{row.container}</td>
                   <td>{row.type}</td>

@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
   margin: 5px 1rem;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 .runningContainersHolder {
   display: flex;

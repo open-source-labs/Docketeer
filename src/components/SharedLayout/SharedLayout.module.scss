@@ -39,13 +39,27 @@
 }
 
 .navButton {
-  color: color(light, base);
+  // color: color(light, base);
   padding: 0.5rem 1rem;
+  display: block;
+  // text-overflow: ellipsis;
+  // white-space: nowrap;
+  margin: 0;
+  // padding: 0;
+  border: none;
+  background: transparent;
   cursor: pointer;
+  color: color(light, base);
+  text-align: left;
+  &:focus {
+    outline: 2px solid color(light, base);
+    outline-offset: 2px;
+  }
 }
 
 .active {
   color: color(light, base);
+  text-align: left;
   padding: 0.5rem 1rem;
   font-weight: 700;
   text-decoration: underline;

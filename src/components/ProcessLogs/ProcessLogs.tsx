@@ -202,9 +202,9 @@ const ProcessLogs = (): JSX.Element => {
             >
               GET LOGS
             </button>
-            <button className={globalStyles.button2} type="button">
-              <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
-            </button>
+            <CSVLink className={globalStyles.button2} data={csvData}>
+              DOWNLOAD CSV
+            </CSVLink>
           </div>
         </div>
         <div className={styles.runningRight}>

@@ -12,6 +12,12 @@ export default defineConfig({
     }),
   ],
   css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/_variables.scss";`,
+        includePaths: ['node_modules'],
+      },
+    },
     postcss,
   },
   resolve: {
@@ -19,7 +25,7 @@ export default defineConfig({
       src: path.resolve(__dirname, 'src'),
     },
   },
-  root: 'src/renderer',
+  root: 'src/',
   build: {
     outDir: '../dist',
     lib: {

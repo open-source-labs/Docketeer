@@ -12,7 +12,6 @@ import useHelper from '../../helpers/commands';
 // import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
-
 /**
  * @module | Users.js
  * @description | Provides admin ability to view & add users to grant them read-only access to the Docketeer interface
@@ -34,6 +33,76 @@ const UserTable = (): JSX.Element => {
   useEffect(() => {
     getUpdatedUserList();
   }, []);
+
+  // * adding funcs from newUserHelper here
+  // ! they should be moved to commands.tsx
+  const createNewUser = (
+    username: string,
+    password: string,
+    role_id: string
+  ) => {
+    console.log('ab to fetch -> createNewUser');
+    fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        role_id: role_id,
+      }),
+    })
+      .then((res) => {
+        console.log('res in createNewUser: ', res);
+        console.log('ab to invoke getUpdatedUserList');
+        getUpdatedUserList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getUpdatedUserList = () => {
+    console.log('ab to fetch -> getUpdatedUserList');
+    fetch('/api/admin')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data from getUpdatedUserList: ', data);
+        dispatch(updateUsers(data));
+      })
+      .catch((err) => {
+        console.log('error in getUpdatedUserList: ', err);
+      });
+  };
+
+  // ? why is this a POST request?
+  // const getUpdatedUserList = () => {
+  //   console.log('ab to fetch -> getUpdatedUserList');
+  //   fetch('/api/admin', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //     // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
+  //     // token: store.userInfo.token,
+  //     }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log('data from getUpdatedUserList: ', data);
+  //       dispatch(updateUsers(data));
+  //     })
+  //     .catch((err) => {
+  //       console.log('error in getUpdatedUserList: ', err);
+  //     });
+  // };
+
+  // const updateUserList = (data: UserInfo[]) => {
+  //   const dispatch = useAppDispatch();
+  //   dispatch(updateUsers(data));
+  // };
 
   const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
     return (
@@ -81,7 +150,13 @@ const UserTable = (): JSX.Element => {
 
       <form
         onSubmit={(e) => {
-          e.preventDefault;
+          e.preventDefault();
+          console.log(
+            'ab to create user -> users.tsx',
+            values.username,
+            values.password,
+            valueRole
+          );
           createNewUser(values.username, values.password, valueRole);
         }}
       >

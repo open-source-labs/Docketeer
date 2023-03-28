@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  margin: 5px 2rem;
+  margin: $default-page-margin;
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }

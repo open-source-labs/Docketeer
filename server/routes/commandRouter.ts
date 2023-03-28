@@ -2,7 +2,6 @@
  * @module COMMAND Router
  * @description Routes all requests to APIs
  */
-// TODO changed removeImage/Container, stopContainer, dockerPrune from get to delete requests
 import { Router, Request, Response } from 'express';
 import commandController from '../controllers/commandController';
 

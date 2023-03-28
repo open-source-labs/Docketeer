@@ -8,7 +8,6 @@ import { Router, Request, Response } from 'express';
 import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
 import apiController from '../controllers/apiController';
-// TODO combine with other sign-up login
 const router = Router();
 
 // Only trigger this endpoint when sysAdmin logs in; gets all users

@@ -2,7 +2,7 @@
 import React from 'react';
 import { ContainerType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import useHelper from '../helpers/commands';
+import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 import styles from './Containers.module.scss';

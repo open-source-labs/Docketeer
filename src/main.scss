@@ -11,22 +11,51 @@
   box-sizing: border-box;
 }
 
+html {
+  // font-size: 1.5vw;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: color(background, dark);
+  color: #fff;
+}
+
 h1,
 h2,
 h3 {
   font-family: 'Bai Jamjuree', sans-serif;
 }
 
+h1 {
+  font-size: 2.5rem;
+}
+
 body {
-  padding-top: 80px;
+  padding-top: 60px;
   font-family: 'Bai Jamjuree', sans-serif;
   // font-family: 'Quicksand', sans-serif;
   // font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
   //   'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: color(background, darkest);
   color: color(light, base);
 }
@@ -38,11 +67,10 @@ body {
   margin-top: 5px;
 }
 
-h1 {
-  font-size: 2.5rem;
-}
-
 @media (max-width: 550px) {
+  html {
+    font-size: 16px;
+  }
   h1 {
     font-size: 1.75rem;
   }

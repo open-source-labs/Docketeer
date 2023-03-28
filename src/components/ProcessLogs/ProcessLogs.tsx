@@ -5,9 +5,9 @@ import { ContainerType, RowsDataType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
 import { createAlert } from '../../reducers/alertReducer';
-import useHelper from '../helpers/commands';
-import useSurvey from '../helpers/dispatch';
-import { buildOptionsObj } from '../helpers/logs';
+import useHelper from '../../helpers/commands';
+import useSurvey from '../../helpers/dispatch';
+import { buildOptionsObj } from '../../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 
@@ -70,6 +70,7 @@ const ProcessLogs = (): JSX.Element => {
     tableData();
   }, [counter, csvData.length]);
 
+  // TODO: make since and tail react controller forms. Will have to change the way the options object is built to take in arguments instead of querying the dom. React shouldn't query the dom so it's two problems at once.
   /*
         export const buildOptionsObj = (containerNames: string[]) => {
         const optionsObj = {
@@ -209,21 +210,33 @@ const ProcessLogs = (): JSX.Element => {
         </div>
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
+          <p>
+            Please choose since when or the of the container(s) you would like
+            to view process logs for.
+          </p>
           <label>
             <input type="radio" name="logOption" id="sinceInput" />
-            <span>SINCE</span>
-            <input type="text" id="sinceText" />
+            <span>SINCE: </span>
+            <input
+              className={globalStyles.inputShort}
+              type="text"
+              id="sinceText"
+            />
           </label>
           <label>
             <input type="radio" name="logOption" id="tailInput" />
-            <span>TAIL</span>
-            <input type="text" id="tailText" />
+            <span>TAIL: </span>
+            <input
+              className={globalStyles.inputShort}
+              type="text"
+              id="tailText"
+            />
           </label>
         </div>
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>CONTAINER</th>
@@ -234,7 +247,7 @@ const ProcessLogs = (): JSX.Element => {
           </thead>
           {rows.map((row, i) => {
             return (
-              <tbody key={i}>
+              <tbody key={`${row - i}`}>
                 <tr>
                   <td>{row.container}</td>
                   <td>{row.type}</td>

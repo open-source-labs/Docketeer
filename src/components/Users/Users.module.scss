@@ -1,13 +1,18 @@
 .wrapper {
-  width: 70%;
-  margin: 0 15%;
+  margin: 5px 2rem;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  fieldset {
+    margin-bottom: 1rem;
+  }
 }
 
 .tableHolder {
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 100%;
+
   th {
     width: 4rem;
     padding: 0.5rem;

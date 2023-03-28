@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { UserInfo } from '../../../types';
-// import { createNewUser } from '../helpers/newUserHelper';
+// import { createNewUser } from '../../helpers/newUserHelper';
 import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
@@ -60,7 +60,7 @@ const UserTable = (): JSX.Element => {
         console.log(err);
       });
   };
-  
+
   const getUpdatedUserList = () => {
     console.log('ab to fetch -> getUpdatedUserList');
     fetch('/api/admin')
@@ -122,38 +122,38 @@ const UserTable = (): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <h2 >USER MANAGEMENT</h2>
-      <div className={styles.tableHolder} >
-        <table >
+      <h2>USER MANAGEMENT</h2>
+      <div className={styles.tableHolder}>
+        <table>
           <thead>
             <tr>
-              <th >ID</th>
-              <th >USER</th>
-              <th >ROLE</th>
-              <th >EMAIL</th>
-              <th >PHONE</th>
-              <th >CONTACT PREF.</th>
-              <th >MEMORY</th>
-              <th >CPU</th>
+              <th>ID</th>
+              <th>USER</th>
+              <th>ROLE</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>CONTACT PREF.</th>
+              <th>MEMORY</th>
+              <th>CPU</th>
             </tr>
           </thead>
           {renderUsers}
         </table>
       </div>
 
-      <h2 >CREATE NEW USER</h2>
-      <p >
-        Create a new Docketeer account for an employee. Please confirm with the employee that their information is accurate before submitting.
+      <h2>CREATE NEW USER</h2>
+      <p>
+        Create a new Docketeer account for an employee. Please confirm with the
+        employee that their information is accurate before submitting.
       </p>
 
       <form
         onSubmit={(e) => {
-          (e.preventDefault);
+          e.preventDefault();
           console.log('ab to create user -> users.tsx', values.username, values.password, valueRole);
           createNewUser(values.username, values.password, valueRole);
         }}
       >
-
         <input
           className={globalStyles.input}
           type="text"
@@ -190,41 +190,42 @@ const UserTable = (): JSX.Element => {
           <input
             type="radio"
             name="set-permissions"
-            id='set-sys-admin'
-            value='1'
+            id="set-sys-admin"
+            value="1"
             checked={valueRole === '1'}
-            onChange={(event) => setValueRole(event.target.value)}
+            onChange={(event) => {
+              console.log('event.target.value: ', event.target.value);
+              setValueRole(event.target.value);
+            }}
           />
-          <label htmlFor='set-sys-admin'>
-            System Admin
-          </label>
+          <label htmlFor="set-sys-admin">System Admin</label>
 
           {/* <input
             type="radio"
             name="set-permissions"
-            id='set-admin'
-            value='2'
+            id="set-admin"
+            value="2"
             checked={valueRole === '2'}
             onChange={(event) => setValueRole(event.target.value)}
           />
-          <label htmlFor='set-admin'>Admin</label> */}
+          <label htmlFor="set-admin">Admin</label> */}
 
           <input
             className={globalStyles.radioButton}
             type="radio"
             name="set-permissions"
-            id='set-user'
-            value='3'
+            id="set-user"
+            value="3"
             checked={valueRole === '3'}
-            onChange={(event) => setValueRole(event.target.value)}
+            onChange={(event) => {
+              console.log('event.target.value: ', event.target.value);
+              setValueRole(event.target.value);
+            }}
           />
-          <label htmlFor='set-user'>User</label>
+          <label htmlFor="set-user">User</label>
         </fieldset>
 
-
-        <button
-          className={globalStyles.button1}
-          type="submit">
+        <button className={globalStyles.button1} type="submit">
           Create
         </button>
       </form>

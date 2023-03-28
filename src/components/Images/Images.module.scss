@@ -1,25 +1,23 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  margin: 0 15%;
+  margin: 5px 2rem;
 }
 
 .imageSearchHolder {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   h1 {
     margin-bottom: 1rem;
-  }
-  input {
-    width: 30%;
   }
 }
 
 .imageHolder {
   display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }
 

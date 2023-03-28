@@ -49,7 +49,7 @@ const VolumeHistory = (): JSX.Element => {
 
     setVolumeList(result);
 
-    renderList = renderVolumeHistory(volumeList);
+    // renderList = renderVolumeHistory(volumeList);
   };
 
   return (

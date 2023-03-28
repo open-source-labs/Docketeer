@@ -14,6 +14,7 @@ router.post(
   userController.getAllUsers,
   (req: Request, res: Response): Response => {
     if (res.locals.error) return res.status(201).json(res.locals.error);
+    console.log('sending users to client');
     return res.status(201).json(res.locals.users);
   }
 );

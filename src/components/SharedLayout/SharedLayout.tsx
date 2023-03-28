@@ -228,7 +228,7 @@ function SharedLayout(): JSX.Element {
               Metrics
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               className={({ isActive }) =>
                 isActive ? styles.active : styles.navButton
@@ -237,7 +237,7 @@ function SharedLayout(): JSX.Element {
             >
               Docker Compose
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               className={({ isActive }) =>

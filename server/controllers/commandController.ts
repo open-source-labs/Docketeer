@@ -686,8 +686,9 @@ const commandController: CommandController & CommandMethods = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
+    // console.log('optionsObj', req.body);
 
-    console.log('req.body', req.body)
+    // let completedExecs = 0;
 
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerNames.length; i++) {
@@ -703,7 +704,7 @@ const commandController: CommandController & CommandMethods = {
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
 
-      console.log('ab to exec');
+      // console.log('ab to exec');
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
@@ -715,7 +716,7 @@ const commandController: CommandController & CommandMethods = {
             return next(error);
           }
           // update containerLogs properties to include what was received in stdout/stderr
-          console.log('broken stuff');
+          // console.log('broken stuff');
           containerLogs.stdout = [
             ...containerLogs.stdout,
             ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
@@ -727,17 +728,17 @@ const commandController: CommandController & CommandMethods = {
           res.locals.logs = containerLogs;
           // console.log('logs', res.locals.logs);
           // console.log('ab to increment')
-          completedExecs++;
-          console.log('CL', completedExecs, containerLogs);
+          // completedExecs++;
+          // console.log('CL', completedExecs, containerLogs);
           if (i === optionsObj.containerNames.length - 1) return next();
         }
       );
       // res.locals.logs = CL;
-      console.log('after exec');
-      console.log('locals after exec', res.locals.logs);
+      // console.log('after exec');
+      // console.log('locals after exec', res.locals.logs);
     }
     // console.log('execs', completedExecs);
-    console.log('AFTER FOR LOOP LOGS', res.locals.logs);
+    // console.log('AFTER FOR LOOP LOGS', res.locals.logs);
     // return next();
     // while(completedExecs !== optionsObj.containerIds.length) {
     //   // console.log('execs', completedExecs)

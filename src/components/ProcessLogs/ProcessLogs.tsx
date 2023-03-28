@@ -39,8 +39,8 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  // console.log('stdout: ', stdout);
-  // console.log('stderr: ', stderr);
+  console.log('stdout: ', stdout);
+  console.log('stderr: ', stderr);
 
   // there is an issue because the container list passed down is empty if the user navigates to this page directly. Somethine with the set timeout in the useEffect in the App.tsx file. Maybe a way to pass the container list down as props to this component?
   function getContainerNames(containerList: ContainerType[]): {
@@ -126,8 +126,8 @@ const ProcessLogs = (): JSX.Element => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log['containerName']
         );
-        // console.log('currCont', currCont);
-        // console.log('runningList in tableData', runningList);
+        console.log('currCont', currCont);
+        console.log('runningList in tableData', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -143,6 +143,7 @@ const ProcessLogs = (): JSX.Element => {
             log['logMsg'],
           ]);
         }
+        console.log('newRows after push', newRows);
       });
     }
     if (stderr) {
@@ -168,12 +169,11 @@ const ProcessLogs = (): JSX.Element => {
           ]);
         }
       });
-
-      console.log('newRows', newRows);
-      setRows(newRows as keyof typeof setRows);
-      console.log('rows after setRows', rows);
-      setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     }
+    console.log('newRows', newRows);
+    setRows(newRows as keyof typeof setRows);
+    console.log('rows after setRows', rows);
+    setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
   return (

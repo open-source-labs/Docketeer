@@ -2,7 +2,7 @@
  * @module COMMAND Router
  * @description Routes all requests to APIs
  */
-// TODO clarify proper requests for consistent REST architecture; ex. get deletes(not good)
+// TODO changed removeImage/Container, stopContainer, dockerPrune from get to delete requests
 import { Router, Request, Response } from 'express';
 import commandController from '../controllers/commandController';
 
@@ -49,9 +49,9 @@ router.get(
     return res.status(200).json(res.locals.imagesList);
   }
 );
-// TODO should be a delete
+
 // Route to remove a stopped container
-router.get(
+router.delete(
   '/removeContainer',
   commandController.remove,
   (req: Request, res: Response): Response => {
@@ -59,9 +59,9 @@ router.get(
   }
 );
 
-// TODO should be a delete
+
 // Route to stop a running container
-router.get(
+router.delete(
   '/stopContainer',
   commandController.stopContainer,
   commandController.refreshStopped,
@@ -78,18 +78,18 @@ router.get(
     return res.status(200).json(res.locals.containerRan);
   }
 );
-// TODO should be a delete
+
 // Route to remove an image
-router.get(
+router.delete(
   '/removeImage',
   commandController.removeImage,
   (req: Request, res: Response): Response => {
     return res.status(200);
   }
 );
-// TODO should this be a delete? execs a force prune
+
 // Route for running the docker prune command
-router.get(
+router.delete(
   '/dockerPrune',
   commandController.dockerPrune,
   (req: Request, res: Response): Response => {
@@ -114,8 +114,8 @@ router.get(
     return res.status(200).json(res.locals.networkContainers);
   }
 );
-// TODO why would we want to inspect? currently not implemented
-// Route to inspect docker container
+
+// Route to inspect docker container; currently not implemented
 router.get(
   '/inspect',
   commandController.inspectDockerContainer,
@@ -123,7 +123,7 @@ router.get(
     return res.status(200).json(res.locals.inspectOut);
   }
 );
-// TODO should be a post request or get?
+
 // Route to compose a docker file
 router.post(
   '/composeUp',
@@ -133,7 +133,7 @@ router.post(
     return res.status(201).json(res.locals.output);
   }
 );
-// TODO should this be a delete?
+
 // Route to compose DOWN a docker file
 router.post(
   '/composeDown',
@@ -170,7 +170,7 @@ router.get(
     return res.status(200).json(res.locals.volumeContainers);
   }
 );
-// TODO this should be a get request, is it best practice to include information in a get request in params/query(not body)
+
 // Route to get all container logs
 router.post(
   '/allLogs',

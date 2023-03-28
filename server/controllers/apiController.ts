@@ -5,7 +5,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
-// TODO security is in gitignore; my need to optimize nodemailer, implement "service"
+// TODO do we want this functionality
 import email from '../../security/email';
 import { ApiController, ServerError } from '../../types';
 
@@ -99,12 +99,11 @@ const apiController: ApiController = {
         <p>Warmest regards,</p>
         <p>Team Docketeer</p>`,
     };
-    // TODO may need to configure transport; add services? a property for transport
 
     // create transporter with Nodemailer to send email.
     transporter
 
-      // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
 
       .sendMail(mailDetails)
       .then((info: any) => {

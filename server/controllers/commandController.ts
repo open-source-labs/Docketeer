@@ -2,7 +2,7 @@
  * @module | commandController.ts
  * @description | Contains middleware that creates and runs the local database
  **/
-
+// TODO make a type alias for mwf
 import { Request, Response, NextFunction } from 'express';
 import {
   CommandController,
@@ -10,7 +10,7 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
-// TODO inconsitent use of async vs then
+
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -54,8 +54,6 @@ const makeArrayOfObjects = (
       };
       const logArray = element.split(' ');
       // extract timestamp
-
-      // TODO timestamp cant only be string but if set to string | undefined ln 51 trips out; figure reason
       if (logArray[0].endsWith('Z')) {
         const timeStamp: string | undefined = logArray.shift();
         // parse GMT string to be readable local date and time
@@ -97,7 +95,8 @@ const makeArrayOfObjects = (
 const fn = (num: number): number => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-// TODO the next two mwfs below dont practice dry; type alias?
+
+// TODO add descriptions to these functions
 // ==========================================================
 // Function: promisifiedExec
 // Purpose: makes our command line functions to return Promise
@@ -136,30 +135,136 @@ const promisifiedExecStdErr = (cmd: string): Promise<string> => {
 // Function: convertArrToObj
 // Purpose: converts arr to obj
 // ==========================================================
-const convertArrToObj = (array: string[][], objArray: string[]): object[] => {
+const convertArrToObj = (
+  array: string[][],
+  imgPropsArray: string[]
+): object[] => {
   const result: object[] = [];
   for (let i = 0; i < array.length; i++) {
     const containerObj: { [k: string]: string } = {};
     for (let j = 0; j < array[i].length; j++) {
-      containerObj[objArray[j]] = array[i][j];
+      containerObj[imgPropsArray[j]] = array[i][j];
     }
     result.push(containerObj);
   }
   return result;
 };
 
-const commandController: CommandController = {
-  // ==========================================================
-  // Middleware: getContainers
-  // Purpose: pulls running container info from docker ps command
-  // ==========================================================
+interface CommandMethods {
+  /**
+   * @description pulls running container info from docker ps command as a json object
+   */
+  getContainers;
+
+  /**
+   * @description executes the docker run command with parameters from body: reps, tag
+   * @note imgid is not used; may want it swapped with containerId in the exec?
+   */
+  runImage;
+
+  /**
+   * @description executes the docker ps command with status=exited flag to get list of stopped containers
+   */
+  refreshStopped;
+
+  /**
+   * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
+   */
+  refreshImages;
+
+  /**
+   * @description executes docker rm {containerId} command to remove a stopped container
+   * @note id is grabbed from req.query
+   */
+  remove;
+
+  /**
+   * @description executes docker stop {id} command to stop a running container
+   * @note id is grabbed from req.query
+   */
+  stopContainer;
+
+  /**
+   * @description executes docker start {id} command to run a stopped container
+   * @note id is grabbed from req.query
+   */
+  runStopped;
+
+  /**
+   * @description executes `docker rmi -f {id} command to remove a pulled image
+   * @note id is grabbed from req.query
+   */
+  removeImage;
+
+  /**
+   * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
+   */
+  dockerPrune;
+
+  /**
+   * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
+   * @note image's repo name grabbed from req.query
+   */
+  pullImage;
+
+  /**
+   * @description Display all containers network based on docker-compose in a json object; when the application starts
+   */
+  networkContainers;
+
+  /**
+   * @description inspects docker containers
+   * @note is not implemented right now
+   */
+  inspectDockerContainer;
+
+  /**
+   * @description compose up a network and container from an uploaded yml file
+   * @note file path is grabbed from req.body
+   */
+  composeUp;
+
+  /**
+   * @description get a list of all current container networks, based on running containers; passes the output to locals
+   * @note grabs file path and yml file name from req.body
+   */
+  composeStacks;
+
+  /**
+   * @description composes down a container and network
+   * @note (from v10): causes server to shut down because container is not properly
+  stopped; button goes away when you leave the page because the
+  file name and location are not in "docker networks" so it gets
+  erased from the state
+   */
+  composeDown;
+
+  /**
+   * @description retrieves the list of running volumes; passes the output to 'dockerVolumes' in locals
+   */
+  getAllDockerVolumes;
+
+  /**
+   * @description runs docker ps filtering by volume name to get list of containers running in the specified volume; passes output to 'volumeContainers' in locals
+   * @note grabs volume name from query
+   */
+  getVolumeContainers;
+
+  /**
+   * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
+   */
+  getLogs;
+}
+
+/**
+ * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
+ */
+const commandController: CommandController & CommandMethods = {
   getContainers: async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    // grab list of containers and info using docker ps
-
     const result: string = await promisifiedExec(
       'docker ps --format "{{json .}},"'
     );
@@ -170,17 +275,13 @@ const commandController: CommandController = {
     return next();
   },
 
-  // ==========================================================
-  // Middleware: runImage;
-  // Purpose: executes the docker run command with parameters and such
-  // ==========================================================
   runImage: (req: Request, res: Response, next: NextFunction): void => {
     // TODO imgid ln 171?
     // List of running containers (docker ps)
     const { imgid, reps, tag } = req.body;
     const containerId: number = Math.floor(Math.random() * 100);
     const filteredRepo: string = reps
-      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.') // TODO shorten regex filter
+      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
       .replace(/\s{2,}/g, ' ');
     exec(
       `docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`,
@@ -198,16 +299,11 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: refreshStopped
-  // Purpose: executes the docker ps command with status=exited flag to get list of stopped containers
-  // ==========================================================
   refreshStopped: async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    // run exec(docker ps -f "status=exited" --format "{{json .}},")
     const result: string = await promisifiedExec(
       'docker ps -f "status=exited" --format "{{json .}},"'
     );
@@ -227,12 +323,11 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    // TODO any
     const result: string = await promisifiedExec('docker images');
-    // make an arr of subarrays containing strings
+
     const value: string[][] = convert(result);
-    // TODO why is this called objArr?
-    const objArray: string[] = ['reps', 'tag', 'imgid', 'size'];
+    // Image properties: reps -> repository, tag -> img label, imgid -> image ID, size -> size of the img in bytes
+    const imgPropsArray: string[] = ['reps', 'tag', 'imgid', 'size'];
     const resultImages: string[][] = [];
 
     for (let i = 0; i < value.length; i++) {
@@ -246,16 +341,15 @@ const commandController: CommandController = {
       }
     }
 
-    const convertedValue: object[] = convertArrToObj(resultImages, objArray);
+    const convertedValue: object[] = convertArrToObj(
+      resultImages,
+      imgPropsArray
+    );
 
     res.locals.imagesList = convertedValue;
     return next();
   },
 
-  // ==========================================================
-  // Middleware: remove
-  // Purpose: executes docker rm {containerId} command to remove a stopped container
-  // ==========================================================
   remove: async (
     req: Request,
     res: Response,
@@ -282,10 +376,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: stopContainer
-  // Purpose: executes docker stop {id} command to stop a running container
-  // ==========================================================
   stopContainer: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker stop ${req.query.id}`,
@@ -307,10 +397,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: runStopped
-  // Purpose: executes docker start {id} command to run a stopped container
-  // ==========================================================
   runStopped: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker start ${req.query.id}`,
@@ -332,10 +418,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: removeImage
-  // Purpose: executes `docker rmi -f {id} command to remove a pulled image
-  // ==========================================================
   removeImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker rmi -f ${req.query.id}`,
@@ -356,10 +438,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: dockerPrune
-  // Purpose: executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced)
-  // ==========================================================
   dockerPrune: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       'docker system prune --force',
@@ -381,10 +459,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: pullImage
-  // Purpose: executes docker pull {repo} command to pull a new image
-  // ==========================================================
   pullImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker pull ${req.query.repo}`,
@@ -410,11 +484,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: networkContainers
-  // Purpose: Display all containers network based on docker-compose
-  // when the application starts
-  // ==========================================================
   networkContainers: (
     req: Request,
     res: Response,
@@ -456,10 +525,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: inspectDockerContainer
-  // Purpose: inspects docker containers; is not implemented right now
-  // ==========================================================
   inspectDockerContainer: (
     req: Request,
     res: Response,
@@ -481,10 +546,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: composeUp
-  // Purpose: compose up a network and container from an uploaded yml file
-  // ==========================================================
   composeUp: async (
     req: Request,
     res: Response,
@@ -508,10 +569,6 @@ const commandController: CommandController = {
     return next();
   },
 
-  // ==========================================================
-  // Middleware: composeStacks
-  // Purpose: get a list of all current container networks, based on running containers
-  // ==========================================================
   composeStacks: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
@@ -533,10 +590,10 @@ const commandController: CommandController = {
           .replaceAll(' ', '')}]`;
 
         const parseDockerOutput = JSON.parse(dockerOutput);
-        // TODO take a moment to see if we can figure why we update the filePath and ymlFileName in our object
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
           const directoryNameArray: string[] = req.body.filePath.split('/');
+          // TODO delete these comments?
           // console.log(directoryNameArray);
           // const containerNetworkName =
           //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
@@ -557,15 +614,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: composeDown
-  // Purpose: composes down a container and network
-  // TODO
-  // Note: causes server to shut down because container is not properly
-  // stopped; button goes away when you leave the page because the
-  // file name and location are not in "docker networks" so it gets
-  // erased from the state
-  // ==========================================================
   composeDown: async (
     req: Request,
     res: Response,
@@ -587,10 +635,6 @@ const commandController: CommandController = {
     return next();
   },
 
-  // ==========================================================
-  // Middleware: getAllDockerVolumes
-  // Purpose: retrieves the list of running volumes
-  // ==========================================================
   getAllDockerVolumes: async (
     req: Request,
     res: Response,
@@ -608,7 +652,6 @@ const commandController: CommandController = {
           return;
         }
 
-        // TODO define shape of dockeroutput with interface
         const dockerOutput: object = JSON.parse(
           `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
         );
@@ -618,10 +661,6 @@ const commandController: CommandController = {
     );
   },
 
-  // ==========================================================
-  // Middleware: getVolumeContainers
-  // Purpose: runs docker ps filtering by volume name to get list of containers running in the specified volume
-  // ==========================================================
   getVolumeContainers: (req: Request, res: Response, next: NextFunction) => {
     exec(
       `docker ps -a --filter volume=${req.query.volumeName} --format "{{json .}},"`,
@@ -642,13 +681,8 @@ const commandController: CommandController = {
       }
     );
   },
-  // TODO revise description?
-  // ==========================================================
-  // Middleware: getLogs
-  // Purpose: runs docker ps filtering by volume name to get list of containers running in the specified volume
-  // ==========================================================
+
   getLogs: (req: Request, res: Response, next: NextFunction) => {
-    // TODO any
     const containerLogs: { [k: string]: LogObject[] } = {
       stdout: [],
       stderr: [],
@@ -672,7 +706,7 @@ const commandController: CommandController = {
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
 
-      console.log('ab to exec')
+      console.log('ab to exec');
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
@@ -684,7 +718,7 @@ const commandController: CommandController = {
             return next(error);
           }
           // update containerLogs properties to include what was received in stdout/stderr
-          console.log('broken stuff')
+          console.log('broken stuff');
           containerLogs.stdout = [
             ...containerLogs.stdout,
             ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
@@ -698,12 +732,12 @@ const commandController: CommandController = {
           // console.log('ab to increment')
           completedExecs++;
           console.log('CL', completedExecs, containerLogs);
-          if (i === optionsObj.containerNames.length - 1)return next();
+          if (i === optionsObj.containerNames.length - 1) return next();
         }
       );
       // res.locals.logs = CL;
-      console.log('after exec')
-      console.log('locals after exec', res.locals.logs)
+      console.log('after exec');
+      console.log('locals after exec', res.locals.logs);
     }
     // console.log('execs', completedExecs);
     console.log('AFTER FOR LOOP LOGS', res.locals.logs);

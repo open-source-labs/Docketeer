@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 
-
 // * BH: I think we should have a separate file for each interface, and then import them into this file. That way, we can keep the interfaces organized and not have to scroll through a huge file to find the interface we need.
 
 // ==============================================
@@ -70,7 +69,6 @@ export interface userReducerStateType {
   isSysAdmin: boolean;
 }
 
-
 // ==============================================
 // CONTAINER TYPES
 // ==============================================
@@ -81,7 +79,6 @@ export interface ContainerType {
   Image?: string;
   RunningFor?: string;
 }
-
 
 export interface StoppedListType extends ContainerType {
   Img: string;
@@ -109,7 +106,7 @@ export interface ContainerObj extends ContainerType {
 }
 
 // for container's being stopped
-export interface StoppedContainerObj extends ContainerType{
+export interface StoppedContainerObj extends ContainerType {
   Command: string;
   CreatedAt: string;
   Labels: string;
@@ -127,7 +124,6 @@ export interface containersList {
   stoppedList: any[];
 }
 
-
 // ==============================================
 // IMAGE TYPES
 // ==============================================
@@ -141,7 +137,6 @@ export interface ImageObj {
 export interface ImagesStateType {
   imagesList: ImageObj[];
 }
-
 
 // ==============================================
 // LOGS TYPES
@@ -196,7 +191,6 @@ export interface VolumeStateType {
   arrayOfVolumeNames: VolumeNameObj[];
   volumeContainersList: VolumeObj[];
 }
-
 
 // ==============================================
 // MISC. TYPES
@@ -254,7 +248,6 @@ export interface RowsDataType {
 export interface ToggleDisplayProps {
   container: ContainerType;
 }
-
 
 // ==========================================================
 // Server-Side Typing
@@ -335,15 +328,16 @@ export interface ConfigController {
 }
 
 export interface DbController {
-  createRoles: (req: Request, res: Response, next: NextFunction) => void;
+  createRolesTable: (req: Request, res: Response, next: NextFunction) => void;
   insertRoles: (req: Request, res: Response, next: NextFunction) => void;
-  createTable: (req: Request, res: Response, next: NextFunction) => void;
+  createUsersTable: (req: Request, res: Response, next: NextFunction) => void;
   // TODO insertAdmin: (req: Request, res: Response, next: NextFunction) => void; // not used
   createAdminPassword: (
     req: Request,
     res: Response,
     next: NextFunction
   ) => void;
+  addToken: (req: Request, res: Response, next: NextFunction) => void;
   removeToken: (req: Request, res: Response, next: NextFunction) => void;
 }
 
@@ -429,8 +423,6 @@ export interface GlobalErrorObject {
   message: { err: string };
 }
 
-
-
 // export interface containersList {
 //   runningList: any[];
 //   stoppedList: any[];
@@ -444,7 +436,6 @@ export interface GlobalErrorObject {
 // export interface ArrayOfVolumeNames {Name: string}[];
 
 // "any" has been used below since strict typing was used to define these props in the tabs types
-
 
 // interface imagesList {
 //   imagesList: any[];
@@ -477,12 +468,10 @@ export interface GlobalErrorObject {
 //   ) => void;
 // };
 
-
 // export type MetricsProps = {
 //   runningList: any[];
 //   threshold: any[];
 // };
-
 
 // export type RunningContainerType = {
 //   Names?: string;
@@ -543,7 +532,6 @@ export interface GlobalErrorObject {
 //   stoppedNotificationList: any[];
 // };
 
-
 // export interface imageObj {
 //   reps: string;
 //   tag: string;
@@ -567,9 +555,6 @@ export interface GlobalErrorObject {
 //     callback_2: (data: imageObj[]) => void
 //   ) => void;
 // }
-
-
-
 
 // export interface NetworkObj {
 //   CreatedAt: string;
@@ -604,7 +589,6 @@ export interface GlobalErrorObject {
 //   runningList: any[];
 //   stoppedList: any[];
 // }
-
 
 // interface volumeList {
 //   arrayOfVolumeNames: any[];
@@ -644,7 +628,6 @@ export interface GlobalErrorObject {
 //   };
 // }
 
-
 // export interface graphDataType {
 //   label: string;
 //   data: any[];
@@ -660,7 +643,6 @@ export interface GlobalErrorObject {
 //   graphReceivedIO: graphDataType[];
 //   graphTransmittedIO: graphDataType[];
 // }
-
 
 // need to get type of the sets later by seeing what data is in the notification lists
 // export interface notificationStateType {

@@ -3,6 +3,7 @@
 
 .navBar {
   background-color: color(background, base);
+  display: flex;
   position: fixed;
   z-index: 9999;
   top: 0px;

@@ -236,28 +236,30 @@ const ProcessLogs = (): JSX.Element => {
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>CONTAINER</th>
-              <th>LOG TYPE</th>
-              <th>TIMESTAMP</th>
-              <th>MESSAGE</th>
-            </tr>
-          </thead>
-          {rows.map((row, i) => {
-            return (
-              <tbody key={`${row - i}`}>
-                <tr>
-                  <td>{row.container}</td>
-                  <td>{row.type}</td>
-                  <td>{row.time}</td>
-                  <td>{row.message}</td>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
+        <div className={styles.tableHolder}>
+          <table className={globalStyles.table}>
+            <thead>
+              <tr>
+                <th>CONTAINER</th>
+                <th>LOG TYPE</th>
+                <th>TIMESTAMP</th>
+                <th>MESSAGE</th>
+              </tr>
+            </thead>
+            {rows.map((row, i) => {
+              return (
+                <tbody key={`${row - i}`}>
+                  <tr>
+                    <td>{row.container}</td>
+                    <td>{row.type}</td>
+                    <td>{row.time}</td>
+                    <td>{row.message}</td>
+                  </tr>
+                </tbody>
+              );
+            })}
+          </table>
+        </div>
       </div>
       <div className={styles.stoppedContainersHoler}>
         <h2>STOPPED CONTAINERS</h2>

@@ -1,7 +1,8 @@
 .wrapper {
   position: fixed;
-  // min-width: 50vw;
-  margin: 0 25%;
+  min-width: 50vw;
+  display: flex;
+  justify-content: center;
 }
 
 .svg {

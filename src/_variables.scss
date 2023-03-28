@@ -3,6 +3,10 @@ $base-color: #7a0d43;
 
 $shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
 
+$breakpoint-sm: 550px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+
 $solid-background-fade: linear-gradient(
   140deg,
   hsl(0deg 0% 25%) 13%,

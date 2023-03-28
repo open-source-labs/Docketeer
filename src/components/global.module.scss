@@ -31,6 +31,7 @@
   border-color: transparent;
   border-image: initial;
   transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .radioForm {
@@ -53,39 +54,57 @@
   box-shadow: inset 1em 1em var(--form-control-color);
 }
 
-.button1 {
-  // width: 150px;
-  // height: 60px;
+.button1,
+.button2 {
+  color: color(light, tan);
+  align-self: start;
   font-size: 1rem;
   border-radius: 5px;
-  color: color(white, tan);
-  background-color: color(blue, dark);
-  // transform: translateY(5px);
   border: none;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 0.25em 0.75em;
+  min-width: 10ch;
+  min-height: 44px;
+  text-align: center;
+  line-height: 1.1;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  // &:hover {
-  //   transform: scale(1.1);
-  // }
-  // @media ${BREAKPOINTS.sm} {
-  //   margin-top: 16px;
-  //   margin-left: 0;
-  //   width: 100%;
-  // }
+}
+
+.button1 {
+  background-color: color(blue, dark);
+  text-shadow: 1px 1px 2px color(blue, dark);
+  &:hover,
+  &:active {
+    background-color: scale-color(color(blue, dark), $lightness: -10%);
+  }
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+  &--small {
+    font-size: 1.15rem;
+  }
 }
 
 .button2 {
-  color: color(blue, light);
+  // color: color(blue, light);
+
   background-color: transparent;
   border: 2px solid color(blue, light);
-  border-radius: 0.5rem;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
+  &:hover,
+  &:active {
+    // background-color: scale-color(color(background, darkest), $lightness: 5%);
+    border-color: scale-color(color(blue, light), $lightness: -15%);
+  }
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+  &--small {
+    font-size: 1.15rem;
   }
 }
 

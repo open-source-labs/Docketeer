@@ -19,6 +19,14 @@ a {
   text-decoration: none;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
 h1,
 h2,
 h3 {

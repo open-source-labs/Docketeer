@@ -2,20 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50vw;
-  height: 70vh;
-  margin: 0 25vw;
+  margin: $default-page-margin;
 }
 
 .formHolder {
   display: flex;
   flex-direction: column;
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }
 
 .buttonHolder {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 

@@ -10,7 +10,6 @@ import { useAppDispatch } from '../../reducers/hooks';
 import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
-
 /**
  * @module | Users.js
  * @description | Provides admin ability to view & add users to grant them read-only access to the Docketeer interface
@@ -28,9 +27,9 @@ const UserTable = (): JSX.Element => {
   const userList = useAppSelector((state) => state.users.userList);
   const dispatch = useAppDispatch();
 
-  // useEffect(() => { 
-  //   getUpdatedUserList();
-  // }, [])
+  useEffect(() => {
+    getUpdatedUserList();
+  }, []);
 
   // * adding funcs from newUserHelper here
   // ! they should be moved to commands.tsx
@@ -102,7 +101,6 @@ const UserTable = (): JSX.Element => {
   //   dispatch(updateUsers(data));
   // };
 
-
   const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
     return (
       <tbody key={i}>
@@ -150,7 +148,12 @@ const UserTable = (): JSX.Element => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log('ab to create user -> users.tsx', values.username, values.password, valueRole);
+          console.log(
+            'ab to create user -> users.tsx',
+            values.username,
+            values.password,
+            valueRole
+          );
           createNewUser(values.username, values.password, valueRole);
         }}
       >

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './SignUp.module.scss';
 import globalStyles from '../global.module.scss';
-import { createNewUser, checkDbInit } from '../../helpers/newUserHelper';
+import { checkDbInit } from '../../helpers/newUserHelper';
+import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
@@ -21,6 +22,7 @@ const SignUp = (): JSX.Element => {
     showPassword: false,
   });
   const navigate = useNavigate();
+  const { createNewUser } = useHelper();
 
   function handleClick(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();

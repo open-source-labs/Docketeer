@@ -19,6 +19,48 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
+      // USERS
+      createNewUser(
+        username: string,
+        password: string,
+        role_id: string
+      ) {
+        console.log('ab to fetch -> createNewUser');
+        fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            role_id: role_id,
+          }),
+        })
+          .then((res) => {
+            console.log('res in createNewUser: ', res);
+            console.log('ab to invoke getUpdatedUserList');
+            actions.getUpdatedUserList();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      getUpdatedUserList() {
+        const { updateUsers } = dispatch;
+        console.log('ab to fetch -> getUpdatedUserList');
+        fetch('/api/admin')
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('data from getUpdatedUserList: ', data);
+            updateUsers(data);
+          })
+          .catch((err) => {
+            console.log('error in getUpdatedUserList: ', err);
+          });
+      },
+
+
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;

@@ -6,8 +6,10 @@ import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 
-import { useAppDispatch } from '../../reducers/hooks';
-import { updateUsers } from '../../reducers/userReducer';
+import useHelper from '../../helpers/commands';
+
+// import { useAppDispatch } from '../../reducers/hooks';
+// import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
 
@@ -26,82 +28,12 @@ const UserTable = (): JSX.Element => {
   });
 
   const userList = useAppSelector((state) => state.users.userList);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { createNewUser, getUpdatedUserList } = useHelper();
 
-  // useEffect(() => { 
-  //   getUpdatedUserList();
-  // }, [])
-
-  // * adding funcs from newUserHelper here
-  // ! they should be moved to commands.tsx
-  const createNewUser = (
-    username: string,
-    password: string,
-    role_id: string
-  ) => {
-    console.log('ab to fetch -> createNewUser');
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        role_id: role_id,
-      }),
-    })
-      .then((res) => {
-        console.log('res in createNewUser: ', res);
-        console.log('ab to invoke getUpdatedUserList');
-        getUpdatedUserList();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  
-  const getUpdatedUserList = () => {
-    console.log('ab to fetch -> getUpdatedUserList');
-    fetch('/api/admin')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data from getUpdatedUserList: ', data);
-        dispatch(updateUsers(data));
-      })
-      .catch((err) => {
-        console.log('error in getUpdatedUserList: ', err);
-      });
-  };
-
-  // ? why is this a POST request?
-  // const getUpdatedUserList = () => {
-  //   console.log('ab to fetch -> getUpdatedUserList');
-  //   fetch('/api/admin', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //     // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
-  //     // token: store.userInfo.token,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('data from getUpdatedUserList: ', data);
-  //       dispatch(updateUsers(data));
-  //     })
-  //     .catch((err) => {
-  //       console.log('error in getUpdatedUserList: ', err);
-  //     });
-  // };
-
-  // const updateUserList = (data: UserInfo[]) => {
-  //   const dispatch = useAppDispatch();
-  //   dispatch(updateUsers(data));
-  // };
-
+  useEffect(() => {
+    getUpdatedUserList();
+  }, []);
 
   const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
     return (
@@ -192,7 +124,10 @@ const UserTable = (): JSX.Element => {
             id="set-sys-admin"
             value="1"
             checked={valueRole === '1'}
-            onChange={(event) => setValueRole(event.target.value)}
+            onChange={(event) => {
+              // console.log('event.target.value: ', event.target.value);
+              setValueRole(event.target.value);
+            }}
           />
           <label htmlFor="set-sys-admin">System Admin</label>
 
@@ -213,7 +148,10 @@ const UserTable = (): JSX.Element => {
             id="set-user"
             value="3"
             checked={valueRole === '3'}
-            onChange={(event) => setValueRole(event.target.value)}
+            onChange={(event) => {
+              // console.log('event.target.value: ', event.target.value);
+              setValueRole(event.target.value);
+            }}
           />
           <label htmlFor="set-user">User</label>
         </fieldset>

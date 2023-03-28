@@ -1,7 +1,9 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  margin: 5px 1rem;
+  margin: 5px 2rem;
+  // background-size: cover;
+
   a {
     color: inherit;
     text-decoration: none;
@@ -46,4 +48,33 @@
   width: 100%;
   height: 100%;
   margin-bottom: 3rem;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  thead {
+    background-color: color(light, base);
+    tr {
+      text-align: left;
+      th {
+        color: color(background, dark);
+        padding: 0.5rem;
+        white-space: nowrap;
+        padding-right: 1rem;
+      }
+    }
+  }
+  td {
+    padding: 0.5rem;
+  }
+  tr:nth-child(even) {
+    background-color: color(background, light);
+  }
 }

@@ -27,6 +27,15 @@ button {
   cursor: pointer;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: color(background, dark);
+  color: #fff;
+}
+
 h1,
 h2,
 h3 {
@@ -45,8 +54,8 @@ body {
   //   'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: color(background, darkest);
   color: color(light, base);
 }

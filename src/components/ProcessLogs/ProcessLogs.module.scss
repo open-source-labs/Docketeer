@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  margin: 5px 2rem;
+  margin: $default-page-margin;
   // background-size: cover;
 
   input {
@@ -59,38 +59,21 @@
 }
 
 .logsHolder {
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.tableHolder {
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  margin-bottom: 3rem;
-  overflow-y: auto;
-  max-height: 60vh;
-}
+  border: 1px solid color(light, base);
+  margin-bottom: 2rem;
+  max-height: 50vh;
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 1px solid #ddd;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  thead {
-    background-color: color(light, base);
-    tr {
-      text-align: left;
-      th {
-        color: color(background, dark);
-        padding: 0.5rem;
-        white-space: nowrap;
-        padding-right: 1rem;
-      }
-    }
-  }
-  td {
-    padding: 0.5rem;
-  }
-  tr:nth-child(even) {
-    background-color: color(background, light);
+  table {
+    border: none;
   }
 }

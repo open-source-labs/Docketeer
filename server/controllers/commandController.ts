@@ -1,13 +1,8 @@
-/**
- * @module | commandController.ts
- * @description | Contains middleware that creates and runs the local database
- **/
-// TODO make a type alias for mwf
 import { Request, Response, NextFunction } from 'express';
 import {
   CommandController,
   LogObject,
-  composeStacksDockerObject,
+  composeStacksDockerObject
 } from '../../types';
 import { exec } from 'child_process';
 
@@ -81,26 +76,19 @@ const makeArrayOfObjects = (
   );
   return arrayOfLogs;
 };
-
-// TODO: is this used?
-// ==========================================================
-// Function: fn
-// Purpose: formats our numbers to round to 2 decimal places
-// ==========================================================
 /**
  * Formats an input num to round to 2 decimal plames
  *
  *  @param {*} num
+ *  @note unsused
  */
 const fn = (num: number): number => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-
-// TODO add descriptions to these functions
-// ==========================================================
-// Function: promisifiedExec
-// Purpose: makes our command line functions to return Promise
-// ==========================================================
+/**
+ * @description makes our command line functions to return Promise
+ *  @param {*} cmd
+ */
 const promisifiedExec = (cmd: string): Promise<string> => {
   return new Promise(
     (resolve: (result: string) => void, reject: (error: Error) => void) => {
@@ -114,10 +102,10 @@ const promisifiedExec = (cmd: string): Promise<string> => {
   );
 };
 
-// ==========================================================
-// Function: promisifiedExecStdErr
-// Purpose: makes our command line functions to return Promise with std err
-// ==========================================================
+/**
+ * @description makes our command line functions to return Promise with std err
+ *  @param {*} cmd
+ */
 const promisifiedExecStdErr = (cmd: string): Promise<string> => {
   return new Promise(
     (resolve: (result: string) => void, reject: (error: Error) => void) => {
@@ -131,10 +119,10 @@ const promisifiedExecStdErr = (cmd: string): Promise<string> => {
   );
 };
 
-// ==========================================================
-// Function: convertArrToObj
-// Purpose: converts arr to obj
-// ==========================================================
+/**
+ * @description converts an arr to an arr of objects
+ *  @param {*} array, imgPropsArray
+ */
 const convertArrToObj = (
   array: string[][],
   imgPropsArray: string[]
@@ -150,116 +138,10 @@ const convertArrToObj = (
   return result;
 };
 
-interface CommandMethods {
-  /**
-   * @description pulls running container info from docker ps command as a json object
-   */
-  getContainers;
-
-  /**
-   * @description executes the docker run command with parameters from body: reps, tag
-   * @note imgid is not used; may want it swapped with containerId in the exec?
-   */
-  runImage;
-
-  /**
-   * @description executes the docker ps command with status=exited flag to get list of stopped containers
-   */
-  refreshStopped;
-
-  /**
-   * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
-   */
-  refreshImages;
-
-  /**
-   * @description executes docker rm {containerId} command to remove a stopped container
-   * @note id is grabbed from req.query
-   */
-  remove;
-
-  /**
-   * @description executes docker stop {id} command to stop a running container
-   * @note id is grabbed from req.query
-   */
-  stopContainer;
-
-  /**
-   * @description executes docker start {id} command to run a stopped container
-   * @note id is grabbed from req.query
-   */
-  runStopped;
-
-  /**
-   * @description executes `docker rmi -f {id} command to remove a pulled image
-   * @note id is grabbed from req.query
-   */
-  removeImage;
-
-  /**
-   * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
-   */
-  dockerPrune;
-
-  /**
-   * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
-   * @note image's repo name grabbed from req.query
-   */
-  pullImage;
-
-  /**
-   * @description Display all containers network based on docker-compose in a json object; when the application starts
-   */
-  networkContainers;
-
-  /**
-   * @description inspects docker containers
-   * @note is not implemented right now
-   */
-  inspectDockerContainer;
-
-  /**
-   * @description compose up a network and container from an uploaded yml file
-   * @note file path is grabbed from req.body
-   */
-  composeUp;
-
-  /**
-   * @description get a list of all current container networks, based on running containers; passes the output to locals
-   * @note grabs file path and yml file name from req.body
-   */
-  composeStacks;
-
-  /**
-   * @description composes down a container and network
-   * @note (from v10): causes server to shut down because container is not properly
-  stopped; button goes away when you leave the page because the
-  file name and location are not in "docker networks" so it gets
-  erased from the state
-   */
-  composeDown;
-
-  /**
-   * @description retrieves the list of running volumes; passes the output to 'dockerVolumes' in locals
-   */
-  getAllDockerVolumes;
-
-  /**
-   * @description runs docker ps filtering by volume name to get list of containers running in the specified volume; passes output to 'volumeContainers' in locals
-   * @note grabs volume name from query
-   */
-  getVolumeContainers;
-
-  /**
-   * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
-   */
-  getLogs;
-}
-
 /**
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
-const commandController: CommandController & CommandMethods = {
+const commandController: CommandController = {
   getContainers: async (
     req: Request,
     res: Response,
@@ -276,7 +158,6 @@ const commandController: CommandController & CommandMethods = {
   },
 
   runImage: (req: Request, res: Response, next: NextFunction): void => {
-    // TODO imgid ln 171?
     // List of running containers (docker ps)
     const { imgid, reps, tag } = req.body;
     const containerId: number = Math.floor(Math.random() * 100);
@@ -314,10 +195,6 @@ const commandController: CommandController & CommandMethods = {
     return next();
   },
 
-  // ==========================================================
-  // Middleware: refreshImgaes
-  // Purpose: executes the docker image command to get list of pulled images
-  // ==========================================================
   refreshImages: async (
     req: Request,
     res: Response,
@@ -591,10 +468,6 @@ const commandController: CommandController & CommandMethods = {
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
           const directoryNameArray: string[] = req.body.filePath.split('/');
-          // TODO delete these comments?
-          // console.log(directoryNameArray);
-          // const containerNetworkName =
-          //   directoryNameArray[directoryNameArray.length - 1].concat('_default');
           parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
             if (
               obj.Name.includes(

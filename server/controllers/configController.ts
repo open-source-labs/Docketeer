@@ -1,12 +1,11 @@
-/**
- * @module | configController.ts
- * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
- **/
-// TODO controller is never referenced
+// This controller is never referenced
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { ConfigController, ServerError } from '../../types';
 
+/**
+ * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
+ **/
 const configController: ConfigController = {
   // update configuration thresholds
   configureThresholds: (req: Request, res: Response, next: NextFunction) => {

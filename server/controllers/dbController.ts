@@ -1,55 +1,14 @@
-/**
- * @module | dbController.ts
- * @description | contains middleware that checks if the database has a user table and creates one if it doesn't
- **/
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-// TODO import sysadmin from "../../security/sysadmin"; // only used in insertAdmin which is not used
+// only used in insertAdmin which is not used
+// import sysadmin from "../../security/sysadmin";
 import { DbController, ServerError } from '../../types';
-
-interface dbControllerMethods {
-  /**
-  * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
-  * @note OIDS is optional for this middleware
-   */
-  createRolesTable,
-
-  /**
-  * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
-  * @note uses single SQl query for all 3 rows in terms of string query
-   */
-  insertRoles,
-
-  /**
-  * @description Creates a table in database called "users" with user and container info
-  */
-  createUsersTable,
-
-  /**
-   * @description Creates a hashed password for the system admin user with 10 salt rounds (decrease for faster processing)
-   * @note adds the password as a string for the res.locals object
-   */
-  createAdminPassword,
-
-  /**
-   * @description Updates user token in the database
-   * @note Destructures username and token from request body
-   */
-  addToken,
-
-  /**
-   * @description Removes token (sets token to null) after user logs out.
-   * @note Destructures username from request body. Logout propery is created if SQL query is able to update users token to null.
-   */
-  removeToken
-
-}
 
 /**
  * @description handles middleware functions that manipulate our database; contains middleware that checks if the database has a user table and creates one if it doesn't
  */
-const dbController: DbController & dbControllerMethods = {
+const dbController: DbController = {
   createRolesTable: (req: Request, res: Response, next: NextFunction): void => {
     db.query(
       'CREATE TABLE IF NOT EXISTS roles (_id SERIAL NOT NULL, role VARCHAR (255) NOT NULL, PRIMARY KEY (_id)) WITH (OIDS = FALSE);'
@@ -79,7 +38,9 @@ const dbController: DbController & dbControllerMethods = {
       return next(err);
     });
   },
-  // TODO what is this used for
+  
+  // below is insert admin
+
   // insertAdmin: (req: Request, res: Response, next: NextFunction) => {
   //   const { password }: { password: string } = res.locals;
   //   const email: string =

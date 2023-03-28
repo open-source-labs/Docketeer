@@ -2,7 +2,6 @@
  * @module Login Router
  * @description Routes all requests to login endpoint
  */
-// TODO combine with other sign-up login
 import { Request, Response, Router } from 'express';
 import userController from '../controllers/userController';
 

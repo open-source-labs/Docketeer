@@ -4,16 +4,14 @@
  */
 import { Router, Request, Response } from 'express';
 import dbController from '../controllers/dbController';
-// TODO combine with other sign-up login
 const router = Router();
-// TODO we remove a token, though tokens are added in bcryptController.hashCookie and this mw is never used in any of our routes
+// Note: we remove a token, though tokens are added in bcryptController.hashCookie and hashCookie mw is never used in any of our routes
 
 // ==========================================================
 // Route: /
 // Purpose: Removes token (sets token to null) after user logs out.
-// TODO: No addToken/initiation of token to user exists.
+// Note: 
 // ==========================================================
-
 router.post(
   '/',
   dbController.removeToken,

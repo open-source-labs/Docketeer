@@ -5,14 +5,12 @@
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
-// TODO do we want this functionality
 import email from '../../security/email';
 import { ApiController, ServerError } from '../../types';
 
 // ==========================================================
 // Function: transporter
 // Purpose: create transporter object to make sure these values are filled out in email.js
-// TODO make sure we have "service" key on our transporter obj to specify gmail, etc.
 // ==========================================================
 const transporter = nodemailer.createTransport({
   host: email.host,

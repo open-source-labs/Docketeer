@@ -2,7 +2,6 @@
  * @module AdminRouter
  * @description Routes all requests to admin endpoint
  */
-// TODO is this file used?
 import { Router, Request, Response } from 'express';
 import userController from '../controllers/userController';
 

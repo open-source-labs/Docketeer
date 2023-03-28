@@ -12,7 +12,6 @@ import useHelper from '../../helpers/commands';
 // import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
-
 /**
  * @module | Users.js
  * @description | Provides admin ability to view & add users to grant them read-only access to the Docketeer interface
@@ -82,7 +81,12 @@ const UserTable = (): JSX.Element => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log('ab to create user -> users.tsx', values.username, values.password, valueRole);
+          console.log(
+            'ab to create user -> users.tsx',
+            values.username,
+            values.password,
+            valueRole
+          );
           createNewUser(values.username, values.password, valueRole);
         }}
       >

@@ -19,7 +19,7 @@ const alertSlice = createSlice({
       state,
       action: PayloadAction<{ alert: string | null; type: string | null }>
     ) => {
-      console.log('setAlert payloadAction', action.payload);
+      // console.log('setAlert payloadAction', action.payload);
       state.alertList = [action.payload.alert, action.payload.type];
     },
     // TODO: turn alertlist type into an object when refactoring to all for easier typing
@@ -31,7 +31,7 @@ const alertSlice = createSlice({
         handleDeny: (() => void) | null;
       }>
     ) => {
-      console.log('setPrompt payloadAction', action.payload);
+      // console.log('setPrompt payloadAction', action.payload);
       if (action.payload.handleAccept === null) {
         state.promptList = [];
       }
@@ -71,7 +71,7 @@ export const createAlert = (
       // sending null to clear the alert
       useAppDispatch(setAlert({ alert: null, type: null }));
     }, time * 1000);
-    console.log({ timeoutId });
+    // console.log({ timeoutId });
   };
 };
 

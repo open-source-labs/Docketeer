@@ -27,10 +27,13 @@ const signupController: SignupController & signupControllerMethods = {
   usernameCheck: (req: Request, res: Response, next: NextFunction): void => {
     const { username }: { username: string } = req.body;
     // SQL query to check if username already exists in datebase, not unique.
+    console.log('username -> ab to query', username)
     const checkUsernameExists = `SELECT * FROM users WHERE username='${username}';`;
     db.query(checkUsernameExists)
       .then((data: { rows: User[] }): void => {
         // if row 0 or username already exists, throw error
+        console.log('data.rows: ', data.rows)
+        console.log('data.rows[0]: ', data.rows[0])
         if (data.rows[0]) {
           res.locals.error = 'Username already exists.';
           return next();

@@ -8,7 +8,7 @@ import Home from '../components/Home/Home';
 // Importing features
 import Metrics from '../components/features/Metrics';
 import Images from '../components/Images/Images';
-import Yml from '../components/features/Yml';
+// import Yml from '../components/features/Yml';
 import Containers from '../components/Containers/Containers';
 import Settings from '../components/features/Settings';
 import Users from '../components/Users/Users';
@@ -39,7 +39,7 @@ const App = () => {
           path="/home/logTable/:containerId"
           element={<ProcessLogsTable />}
         /> */}
-        <Route path="/home/yml" element={<Yml />} />
+        {/* <Route path="/home/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />

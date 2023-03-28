@@ -121,6 +121,7 @@ const useSurvey = () => {
       addPhoneNumber(data: string) {
         dispatch(addPhoneNumber(data));
       },
+      // ! this needs to be used in newUserHelper
       updateUser(userInfo: UserInfo) {
         dispatch(updateUser(userInfo));
       },

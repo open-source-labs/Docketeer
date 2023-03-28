@@ -301,9 +301,9 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
-        console.log('inside of async getLogs');
+        // console.log('inside of async getLogs');
         try {
-          console.log('inside of try block');
+          // console.log('inside of try block');
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -311,7 +311,7 @@ const useHelper = () => {
           });
           // console.log('response from fetch', response);
           const parsedResponse = await response.json();
-          console.log('parsed response from fetch', parsedResponse);
+          // console.log('parsed response from fetch', parsedResponse);
           return parsedResponse;
         } catch {
           console.log(err);

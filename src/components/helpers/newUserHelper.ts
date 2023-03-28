@@ -3,6 +3,8 @@
  * @description | Contains helper functions for creating new users
  **/
 
+// import { useSurvey } from '../../reducers/hooks';
+
 // import { useAppDispatch } from '../../reducers/hooks';
 // import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
@@ -70,6 +72,7 @@ export const createNewUser = (
   password: string,
   role_id: string
 ) => {
+  console.log('ab to fetch -> createNewUser');
   fetch('/api/signup', {
     method: 'POST',
     headers: {
@@ -81,7 +84,9 @@ export const createNewUser = (
       role_id: role_id,
     }),
   })
-    .then(() => {
+    .then((res) => {
+      console.log('res in createNewUser: ', res);
+      console.log('ab to invoke getUpdatedUserList');
       getUpdatedUserList();
     })
     .catch((err) => {
@@ -90,6 +95,7 @@ export const createNewUser = (
 };
 
 export const getUpdatedUserList = () => {
+  console.log('ab to fetch -> getUpdatedUserList');
   fetch('/api/admin', {
     method: 'POST',
     headers: {
@@ -102,7 +108,7 @@ export const getUpdatedUserList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('data in getUpdatedUserList: ', data);
+      console.log('data from getUpdatedUserList: ', data);
       // updateUserList(data);
     })
     .catch((err) => {

@@ -21,7 +21,7 @@ const Alert = (): JSX.Element => {
     <div className={styles.wrapper}>
       {alertList[1] === 'info' && (
         <div className={styles.info}>
-          <div>
+          <div className={styles.innerAlert}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,10 +41,10 @@ const Alert = (): JSX.Element => {
       )}
       {alertList[1] === 'success' && (
         <div className={styles.success}>
-          <div>
+          <div className={styles.innerAlert}>
             <svg
+              className={styles.svg}
               xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current flex-shrink-0 h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -61,10 +61,10 @@ const Alert = (): JSX.Element => {
       )}
       {alertList[1] === 'warning' && (
         <div className={styles.warning}>
-          <div>
+          <div className={styles.innerAlert}>
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className={styles.svg}
+              xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -81,7 +81,7 @@ const Alert = (): JSX.Element => {
       )}
       {alertList[1] === 'error' && (
         <div className={styles.error}>
-          <div>
+          <div className={styles.innerAlert}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current flex-shrink-0 h-6 w-6"
@@ -101,7 +101,7 @@ const Alert = (): JSX.Element => {
       )}
       {typeof promptList[0] === 'string' && (
         <div className={styles.general}>
-          <div>
+          <div className={styles.innerAlert}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -117,7 +117,7 @@ const Alert = (): JSX.Element => {
             </svg>
             <span>{promptList[0]}</span>
           </div>
-          <div className="flex-none">
+          <div className={styles.buttonHolder}>
             <button
               className={globalStyles.button2}
               onClick={() => promptList[2]?.()}

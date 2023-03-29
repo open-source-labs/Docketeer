@@ -75,3 +75,10 @@ body {
     font-size: 1.75rem;
   }
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  body {
+    padding-top: 0rem;
+    padding-left: 140px;
+  }
+}

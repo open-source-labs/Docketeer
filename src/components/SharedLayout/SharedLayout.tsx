@@ -174,7 +174,7 @@ function SharedLayout(): JSX.Element {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <nav className={styles.navBar}>
         <ul className={styles.innerNav}>
           <li>
@@ -283,7 +283,7 @@ function SharedLayout(): JSX.Element {
       <Alert />
 
       <Outlet />
-    </div>
+    </>
   );
 }
 

@@ -19,13 +19,12 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
-      // USERS
+      /* funcs to help w/ creating new users */
       createNewUser(
         username: string,
         password: string,
         role_id: string
       ) {
-        console.log('ab to fetch -> createNewUser');
         fetch('/api/signup', {
           method: 'POST',
           headers: {

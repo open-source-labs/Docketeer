@@ -1,39 +1,36 @@
 .wrapper {
   position: fixed;
-  min-width: 50vw;
-  display: flex;
-  justify-content: center;
+  // min-width: 50vw;
+  width: 500px;
+  min-height: 300px;
+  z-index: 100000;
+  // display: flex;
+  // justify-content: center;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .svg {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
   flex-shrink: 0;
   width: 1.5rem;
   height: 1.5rem;
   stroke: currentColor;
 }
-.innerAlert {
-  transform: translateY(-0.5rem);
-}
-
-// alert alert-info shadow-lg rounded-lg p-5 my-5
-.info {
-  padding: 1.25rem;
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
 
 .buttonHolder {
   display: flex;
   justify-content: center;
+  margin-top: 1rem;
   button {
-    margin-top: 0.5rem;
     margin-right: 1rem;
   }
 }
 
+.info,
 .success,
 .warning,
 .error,
@@ -42,7 +39,6 @@
   border-style: solid;
   background-color: scale-color(color(background, light), $alpha: -6%);
   text-align: center;
-  position: absolute;
   padding: 1rem;
   min-width: 100%;
   margin-top: 1.25rem;
@@ -51,6 +47,14 @@
   transition: all 0.5s ease-in-out;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  p {
+    margin: 0 2rem;
+  }
+}
+
+.info {
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  //   0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .success {

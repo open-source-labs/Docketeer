@@ -11,14 +11,8 @@
 .listHolder {
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // width: 50%;
-  // border-radius: 10px;
 }
 
-.containerList {
-  display: grid;
-  gap: 1rem;
-  grid-template: 1fr 1fr / 1fr 1fr;
-  width: 100%;
+.count {
+  margin-bottom: 1rem;
 }

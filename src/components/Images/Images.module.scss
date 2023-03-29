@@ -29,9 +29,13 @@
 .imageHolder {
   display: grid;
   gap: 1rem;
-  
+
   // make a media query to go up or down based on screen size
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
+
+.imageCard {
+  @extend .card;
 }
 
 .image {

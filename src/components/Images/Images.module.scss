@@ -8,8 +8,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 2rem;
+  input {
+    min-width: 40%;
+  }
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.availableImagesHolder {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 1rem;
-  h1 {
+  h2 {
     margin-bottom: 1rem;
   }
 }
@@ -17,10 +29,15 @@
 .imageHolder {
   display: grid;
   gap: 1rem;
-  margin-top: 2rem;
+
+  // make a media query to go up or down based on screen size
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }
 
+.imageCard {
+  @extend .card;
+}
+
 .image {
-  height: 5rem;
+  height: 4rem;
 }

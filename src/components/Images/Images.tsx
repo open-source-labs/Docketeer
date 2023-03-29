@@ -183,12 +183,12 @@ const Images = (): JSX.Element => {
           PULL
         </button>
       </div>
-      <div>
+      <div className={styles.availableImagesHolder}>
         <h2>AVAILABLE IMAGES</h2>
         <div className={styles.imageHolder}>
           {imagesList.map((image, i: number) => {
             return (
-              <div key={i} className={globalStyles.card}>
+              <div key={i} className={styles.imageCard}>
                 <figure>
                   <img
                     className={styles.image}

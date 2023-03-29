@@ -17,6 +17,8 @@ const Alert = (): JSX.Element => {
   // promptList = [prompt msg, onClickFunc1, onClickFunc2] : object
   const { alertList, promptList } = useAppSelector((state) => state.alerts);
 
+  // TODO: refactor to use conditionals for the different types of alerts. All that changes is the icon and the color.
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.alertHolder}>

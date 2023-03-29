@@ -248,7 +248,7 @@ const ProcessLogs = (): JSX.Element => {
             </thead>
             {rows.map((row, i) => {
               return (
-                <tbody key={`${row - i}`}>
+                <tbody key={`row-${i}`}>
                   <tr>
                     <td>{row.container}</td>
                     <td>{row.type}</td>

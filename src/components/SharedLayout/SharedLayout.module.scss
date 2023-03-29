@@ -1,21 +1,32 @@
 .wrapper {
 }
 
+$navbar-transition: transform 0.3s ease-in-out;
+
 .navBar {
+  transition: $navbar-transition;
+  transform: translateY($navbar-height);
+  // transform: translateY(
+  //   -300px
+  // ); /* the element is transposed 300px to the left of where it's supposed to be */
+  // transition: transform s ease-out;
+
   background-color: color(background, base);
   display: flex;
   position: fixed;
   z-index: 9999;
-  top: 0px;
+  top: -$navbar-height;
   left: 0px;
   right: 0px;
   padding: 0 1rem;
-  height: 60px;
+  height: $navbar-height;
   // transition: opacity 250ms;
   // will-change: transform;
   ul {
     display: flex;
+    // align-items: start;
     align-items: center;
+    text-align: left;
   }
   li {
     list-style: none;
@@ -25,9 +36,6 @@
     text-decoration: none;
     color: color(white, tan);
     font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100%;
   }
 }
@@ -44,11 +52,16 @@
   text-align: left;
   color: color(light, base);
   display: inline-block;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.2rem;
+  margin-right: 0.5rem;
   cursor: pointer;
+  // width: 6rem;
+  // transition: all 0.1s ease-in;
+  border-color: color(background, darkest);
   &:hover {
     // color: color(light, base);
     // text-decoration: underline;
+    // transition: all 0.1s ease-in;
     border-bottom: 4px solid color(background, darkest);
     // border-spacing: 0;
   }
@@ -64,7 +77,6 @@
 }
 
 .active {
-  border: none;
   font-weight: 700;
 }
 
@@ -93,35 +105,39 @@
 
 @media screen and (max-width: $breakpoint-lg) {
   .wrapper {
+    margin-top: 1rem;
+  }
+  .navButton,
+  .active {
+    transition: all 0.1s ease-in;
+    padding-left: 0rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    width: calc($sidebar-width - 1rem);
+    &:hover {
+      border-bottom: none;
+      border-left: 4px solid color(background, darkest);
+      padding-left: 0.5rem;
+      border-spacing: 0px 4px;
+    }
   }
   .navBar {
+    transition: $navbar-transition;
+    transform: translateY(100%);
+    transform: translateX($sidebar-width);
     margin: 0px;
-    display: flex;
-    // flex-direction: column;
-    position: fixed;
+    position: absolute;
     z-index: 9999;
-    // top: 0px;
-    left: 0px;
-    // right: 0px;
+    top: 0px;
+    left: -$sidebar-width;
+    bottom: 0px;
     padding: 0;
-    width: 140px;
+    width: $sidebar-width;
     height: 100%;
     ul {
       display: flex;
       align-items: start;
       flex-direction: column;
-
-      // align-items: left;
     }
   }
-  // .innerNav {
-  //   display: flex;
-  //   justify-content: space-around;
-  //   align-items: center;
-  //   width: 100%;
-  // }
-  // .navButton {
-  //   text-overflow: ellipsis;
-  //   white-space: nowrap;
-  // }
 }

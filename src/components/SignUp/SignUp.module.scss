@@ -10,12 +10,16 @@
 .formHolder {
   display: flex;
   flex-direction: column;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .buttonHolder {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 

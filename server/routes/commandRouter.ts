@@ -176,7 +176,6 @@ router.post(
   '/allLogs',
   commandController.getLogs,
   (req: Request, res: Response): Response => {
-    // console.log('res.locals.logs', res.locals.logs);
     return res.status(201).json(res.locals.logs);
   }
 );

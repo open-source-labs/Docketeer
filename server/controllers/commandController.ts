@@ -36,12 +36,14 @@ const convert = (stdout: string): string[][] => {
  *
  * @param {string} containerId
  * @returns {object} optionsObj
- */
+*/
 const makeArrayOfObjects = (
   string: string,
   containerName: string
 ): LogObject[] => {
   // Creates an array from the input string of logs
+  console.log('makeArrayOfObjs input2: ', containerName);
+
   const arrayOfObjects: LogObject[] = string
     .trim()
     .split('\n')
@@ -52,15 +54,25 @@ const makeArrayOfObjects = (
         logMsg: '',
         containerName: '',
       };
+      console.log('element', element);
       const logArray = element.split(' ');
-      // extract timestamp
-      if (logArray[0].endsWith('Z')) {
-        const timeStamp: string | undefined = logArray.shift();
+      console.log('logArray', logArray);
+
+      // extract timestamp from logArray
+      let timeStamp: string = logArray.find(el => el.endsWith('Z'));
+
+      // if there is a timestamp, parse it
+      if (timeStamp) {
+        timeStamp = timeStamp.replace(/t(s)?=/, '');
+        console.log('timeStamp', timeStamp);
+
         // parse GMT string to be readable local date and time
         obj.timeStamp = new Date(Date.parse(timeStamp || '')).toLocaleString();
+        console.log('obj.timeStamp', obj.timeStamp);
       }
+
       // parse remaining array to create readable message
-      let logMsg: string = logArray.join(' ');
+      let logMsg: string = logArray.filter(el => !el.endsWith('Z')).join(' ');
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
       const closingIndex: number = logMsg.indexOf(']');
       if (closingIndex >= 0) {
@@ -74,6 +86,8 @@ const makeArrayOfObjects = (
       obj.containerName = containerName;
       return obj;
     });
+  
+  // console.log('makeArrayOfObjs output: ', arrayOfObjects);
 
   // filter out empty messages
   const arrayOfLogs: LogObject[] = arrayOfObjects.filter(
@@ -558,7 +572,7 @@ const commandController: CommandController & CommandMethods = {
       'compose.yaml',
     ]);
 
-    console.log('req.body',req.body)
+    console.log('req.body',req.body);
 
     // const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
     //   ? `cd ${req.body.filePath} && docker compose up -d`
@@ -731,7 +745,7 @@ const commandController: CommandController & CommandMethods = {
           // console.log('logs', res.locals.logs);
           // console.log('ab to increment')
           // completedExecs++;
-          // console.log('CL', completedExecs, containerLogs);
+          // console.log('CL', containerLogs);
           if (i === optionsObj.containerNames.length - 1) return next();
         }
       );

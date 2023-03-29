@@ -3,6 +3,9 @@ import React from 'react';
 import styles from './ContainersCard.module.scss';
 import globalStyles from '../global.module.scss';
 
+// TODO: double check that stopped for is the right information in stopped containers
+// TODO: how can I make running containers and stopped containers the same size but still scale with text input?
+
 const ContainersCard = ({
   containerList,
   stopContainer,
@@ -24,34 +27,45 @@ const ContainersCard = ({
                 <strong>ID:</strong> {container.ID}
               </p>
               <p>
-                <strong>Running for:</strong> {container.RunningFor}
+                {status === 'running' && (
+                  <>
+                    <strong>Running for:</strong> {container.RunningFor}
+                  </>
+                )}
+                {status === 'stopped' && (
+                  <>
+                    <strong>Stopped for:</strong> {container.RunningFor}
+                  </>
+                )}
               </p>
             </div>
             <div className={styles.buttonHolder}>
-              {status === 'running' && (
-                <button
-                  className={globalStyles.buttonSmall}
-                  onClick={() => stopContainer(container)}
-                >
-                  STOP
-                </button>
-              )}
-              {status === 'stopped' && (
-                <>
+              <div className={styles.buttonSpacer}>
+                {status === 'running' && (
                   <button
                     className={globalStyles.buttonSmall}
-                    onClick={() => runContainer(container)}
+                    onClick={() => stopContainer(container)}
                   >
-                    RUN
+                    STOP
                   </button>
-                  <button
-                    className={globalStyles.buttonSmall}
-                    onClick={() => removeContainer(container)}
-                  >
-                    REMOVE
-                  </button>
-                </>
-              )}
+                )}
+                {status === 'stopped' && (
+                  <>
+                    <button
+                      className={globalStyles.buttonSmall}
+                      onClick={() => runContainer(container)}
+                    >
+                      RUN
+                    </button>
+                    <button
+                      className={globalStyles.buttonSmall}
+                      onClick={() => removeContainer(container)}
+                    >
+                      REMOVE
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         );

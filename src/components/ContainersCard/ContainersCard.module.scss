@@ -16,9 +16,12 @@
 .buttonHolder {
   display: flex;
   justify-content: space-between;
+}
+.buttonSpacer {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
   button {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
+    margin-right: 1rem;
   }
 }

@@ -21,7 +21,6 @@ export const composeSlice = createSlice({
       const currentState: any = state.composeStack;
 
       const composeStackUpdater = (
-        // TODO: rename arrays to be more readable. Consider moving this function elsewhere for easier readability. Redo the stringifying down below in variables at the top of the function to improve readability. Rename output array to new compose stack array
         // ? are the two forEaches redundant?
         // current state is first array
         firstArray: [],

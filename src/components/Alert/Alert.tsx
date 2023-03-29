@@ -8,8 +8,6 @@ import globalStyles from '../global.module.scss';
  * @module | Alert.tsx
  * @description | Manages alerts & prompts (i.e. Are you sure you want ...?)
  **/
-
-// TODO: make an alert for logging in, maybe piggyback off of line 39
 const Alert = (): JSX.Element => {
   // useApp is pulling state from the alert reducer
   // state.alerts is used to access the alert reducer

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { RowsDataType, ProcessLogsSelectorProps} from '../../../types';
 import styles from './ProcessLogsSelector.module.scss';
 
 // const defaultContainerList = [
@@ -8,13 +8,11 @@ import styles from './ProcessLogsSelector.module.scss';
 //   { 'container 3': false },
 // ];
 
-// TODO: add tooltip on hover for container name to show more info about container
-
 function ProcessLogsSelector({
   containerList,
   handleCheck,
   btnIdList,
-}): JSX.Element {
+}: ProcessLogsSelectorProps): JSX.Element {
   // const [containerList, setContainerList] =
   // useState<object[]>(defaultContainerList);
 

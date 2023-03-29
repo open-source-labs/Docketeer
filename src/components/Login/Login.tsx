@@ -7,7 +7,7 @@ import globalStyles from '../global.module.scss';
 import Docketeer from '../../../assets/docketeer-title.png';
 import { UserInfo } from '../../../types';
 import { createAlert } from '../../reducers/alertReducer';
-import { useAppDispatch } from '../../reducers/hooks';
+import { useAppDispatch} from '../../reducers/hooks';
 import useSurvey from '../../helpers/dispatch';
 
 /**
@@ -56,7 +56,6 @@ const Login = (): JSX.Element => {
       // parse the response
       const parsedResponse = await response.json();
 
-      // TODO: show data expected to be received
       console.log('parsedResponse: ', parsedResponse);
 
       // Switch state `loggedIn` to true

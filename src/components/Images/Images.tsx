@@ -17,8 +17,7 @@ const Images = (): JSX.Element => {
   const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();
-
-  // TODO: refactor handle click to be more readable
+  
   const handleClick = () => {
     if (!repo) {
       dispatch(

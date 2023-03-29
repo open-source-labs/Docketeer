@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import useHelper from '../helpers/commands';
+import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import { ImageObj } from '../../../types';
@@ -165,12 +165,10 @@ const Images = (): JSX.Element => {
     }
   };
 
-  // const renderImagesList = ;
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.imageSearchHolder}>
-        <h1>Image Repository</h1>
+        <h2>IMAGE REPOSITORY</h2>
         <input
           className={globalStyles.input}
           type="text"
@@ -183,37 +181,41 @@ const Images = (): JSX.Element => {
           PULL
         </button>
       </div>
-      <div>
-        <h1>Available Images</h1>
+      <div className={styles.availableImagesHolder}>
+        <h2>AVAILABLE IMAGES</h2>
         <div className={styles.imageHolder}>
           {imagesList.map((image, i: number) => {
             return (
-              <div key={i} className={globalStyles.card}>
-                <figure>
-                  <img
-                    className={styles.image}
-                    src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
-                    onError={handleError}
-                  />
-                </figure>
-                <div>
-                  <h2>{image.reps}</h2>
-                  <p>{image.tag}</p>
-                  <p>{`Image ID: ${image.imgid}`}</p>
-                  <p>{`Image Size: ${image.size}`}</p>
+              <div key={`image-${i}`} className={styles.imageCard}>
+                <div className={styles.textHolder}>
+                  <figure>
+                    <img
+                      className={styles.image}
+                      src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
+                      onError={handleError}
+                    />
+                  </figure>
                   <div>
-                    <button
-                      className={globalStyles.buttonSmall}
-                      onClick={() => runImage(image)}
-                    >
-                      RUN
-                    </button>
-                    <button
-                      className={globalStyles.buttonSmall}
-                      onClick={() => removeImage(image)}
-                    >
-                      REMOVE
-                    </button>
+                    <h2>{image.reps}</h2>
+                    <p>{image.tag}</p>
+                    <p>{`Image ID: ${image.imgid}`}</p>
+                    <p>{`Image Size: ${image.size}`}</p>
+                  </div>
+                  <div className={styles.buttonHolder}>
+                    <div className={styles.buttonSpacer}>
+                      <button
+                        className={globalStyles.buttonSmall}
+                        onClick={() => runImage(image)}
+                      >
+                        RUN
+                      </button>
+                      <button
+                        className={globalStyles.buttonSmall}
+                        onClick={() => removeImage(image)}
+                      >
+                        REMOVE
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

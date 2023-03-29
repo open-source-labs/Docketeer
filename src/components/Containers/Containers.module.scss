@@ -1,8 +1,8 @@
 .wrapper {
-  display: flex;
-  align-content: center;
-  justify-content: baseline;
-
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: $default-page-margin;
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
@@ -11,17 +11,40 @@
 .listHolder {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border-radius: 10px;
+}
+
+.count {
+  margin-bottom: 1rem;
 }
 
 .containerList {
   display: grid;
-  grid-template: 1fr 1fr / 1fr 1fr;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
 }
 
-.container {
-  background-color: red;
-  border-radius: 0.5rem;
-  margin: 0.5rem;
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .containerList {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .listHolder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .containerList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: 1fr;
+  }
 }

@@ -17,18 +17,18 @@ export const volumeSlice = createSlice({
   reducers: {
     // ! first time: action = page render(useEffect())
     getVolumes: (state, action: PayloadAction<VolumeNameObj[]>) => {
-      console.log('arrayOfVolumeNames', action.payload);
+      // console.log('arrayOfVolumeNames', action.payload);
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {
       // TODO change this if statement, doesn't seem to matter
       // ? if statement does nothing, does this solve an edge case?
       // if the state is not empty (state would only be empty at render)
-      console.log('getVolumneContainerList action.payload', action.payload);
-      console.log(
-        'getVolumneContainerList state.volumeContainersList',
-        current(state.volumeContainersList)
-      );
+      // console.log('getVolumneContainerList action.payload', action.payload);
+      // console.log(
+      //   'getVolumneContainerList state.volumeContainersList',
+      //   current(state.volumeContainersList)
+      // );
 
       // if the stateVCL has volumes
       // if (state.volumeContainersList.length) {

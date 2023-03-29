@@ -1,21 +1,20 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAppSelector } from '../reducers/hooks';
-import Login from '../components/Login/Login';
-import SignUp from '../components/SignUp/SignUp';
-import Home from '../components/Home/Home';
+import { useAppSelector } from './reducers/hooks';
+import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
+import Home from './components/Home/Home';
 
-// Importing features
-import Metrics from '../components/features/Metrics';
-import Images from '../components/Images/Images';
+import Metrics from './components/Metrics/Metrics';
+import Images from './components/Images/Images';
 // import Yml from './features/Yml';
-import Containers from '../components/Containers/Containers';
-import Settings from '../components/features/Settings';
-import Users from '../components/Users/Users';
-import VolumeHistory from '../components/VolumeHistory/VolumeHistory';
-import ProcessLogs from '../components/ProcessLogs/ProcessLogs';
-// import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
-import SharedLayout from '../components/SharedLayout/SharedLayout';
+import Containers from './components/Containers/Containers';
+import Settings from './components/Settings/Settings';
+import Users from './components/Users/Users';
+import VolumeHistory from './components/VolumeHistory/VolumeHistory';
+import ProcessLogs from './components/ProcessLogs/ProcessLogs';
+import SharedLayout from './components/SharedLayout/SharedLayout';
+import About from './components/About/About';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,10 +35,7 @@ const App = () => {
         <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
-        {/* <Route
-          path="/home/logTable/:containerId"
-          element={<ProcessLogsTable />}
-        /> */}
+        <Route path="/home/about" element={<About />} />
         {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />

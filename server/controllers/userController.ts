@@ -12,6 +12,9 @@ const userController: UserController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
+
+    console.log('in userController.createUser');
+
     try {
       const {
         username,
@@ -35,11 +38,18 @@ const userController: UserController = {
       default:
         role = '';
       }
+
+      console.log('ab to query to create user');
+
       const createUser =
         'INSERT INTO users (username, password, role, role_id) VALUES ($1, $2, $3, $4) RETURNING *;';
       // create an array, userDetails, to hold values from our createUser SQL query placeholders.
       const userDetails: string[] = [username, hashedPassword, role, role_id];
       const createdUser = await db.query(createUser, userDetails);
+
+      console.log('createdUser: ', createdUser.rows[0]);
+
+      // ? new user is added to res.locals, but all users are grabbed from res.locals.users in getAllUsers
       res.locals.user = createdUser.rows[0];
       return next();
     } catch (err: unknown) {
@@ -53,13 +63,20 @@ const userController: UserController = {
   },
 
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
+
+    console.log('in userController.getAllUsers');
+
     if ('error' in res.locals) {
       return next();
     } else {
       const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
+          // ? all users are added to res.locals.users, but new user is grabbed from res.locals.user in createUser
           res.locals.users = response.rows;
+          
+          console.log('res.locals.users(getAllUsers): ', res.locals.users);
+
           return next();
         })
         .catch((err: ServerError): void => {

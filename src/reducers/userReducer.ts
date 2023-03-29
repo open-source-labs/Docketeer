@@ -10,6 +10,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateUsers: (state, action: PayloadAction<UserInfo[]>) => {
+      console.log('updateUsers action.payload: ', action.payload);
       state.userList = action.payload;
     },
     updateRoles: (state, action: PayloadAction<UserInfo>) => {

@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './SignUp.module.scss';
 import globalStyles from '../global.module.scss';
-import { createNewUser, checkDbInit } from '../helpers/newUserHelper';
+import { createNewUser, checkDbInit } from '../../helpers/newUserHelper';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/docketeer-title.png';
 import { SignUpValues } from '../../../types';
 
-
 /**
  * @module | SignUp
  * @description | Facilitates registration of new users (admins) to Docketeer
  **/
-
 
 const SignUp = (): JSX.Element => {
   const [signUpValues, setSignUpValues] = useState<SignUpValues>({
@@ -51,9 +49,7 @@ const SignUp = (): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <img src={Docketeer} alt="product-logo"
-        className={styles.logo}
-      />
+      <img src={Docketeer} alt="product-logo" className={styles.logo} />
       <div className={styles.formHolder}>
         <form
           onSubmit={(e) => {

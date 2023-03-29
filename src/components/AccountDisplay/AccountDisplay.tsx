@@ -3,7 +3,7 @@ import {
   handlePasswordChange,
   handleEmailUpdate,
   handlePhoneUpdate,
-} from '../helpers/settingsHelper';
+} from '../../helpers/settingsHelper';
 import { useAppSelector } from '../../reducers/hooks';
 
 /**

@@ -28,18 +28,16 @@ const ContainersCard = ({
               <p>
                 <strong>ID:</strong> {container.ID}
               </p>
-              <p>
-                {status === 'running' && (
-                  <>
-                    <strong>Running for:</strong> {container.RunningFor}
-                  </>
-                )}
-                {status === 'stopped' && (
-                  <>
-                    <strong>Stopped for:</strong> {container.RunningFor}
-                  </>
-                )}
-              </p>
+              {status === 'running' && (
+                <p>
+                  <strong>Running for:</strong> {container.RunningFor}
+                </p>
+              )}
+              {status === 'stopped' && (
+                <p>
+                  <strong>Stopped for:</strong> {container.RunningFor}
+                </p>
+              )}
             </div>
             <div className={styles.buttonHolder}>
               <div className={styles.buttonSpacer}>

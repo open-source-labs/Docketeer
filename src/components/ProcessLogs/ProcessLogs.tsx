@@ -39,8 +39,8 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  console.log('stdout: ', stdout);
-  console.log('stderr: ', stderr);
+  // console.log('stdout: ', stdout);
+  // console.log('stderr: ', stderr);
 
   // there is an issue because the container list passed down is empty if the user navigates to this page directly. Somethine with the set timeout in the useEffect in the App.tsx file. Maybe a way to pass the container list down as props to this component?
   function getContainerNames(containerList: ContainerType[]): {
@@ -120,14 +120,14 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    console.log('pls', stdout.length, stderr.length);
+    // console.log('pls', stdout.length, stderr.length);
     if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log['containerName']
         );
-        console.log('currCont', currCont);
-        console.log('runningList in tableData', runningList);
+        // console.log('currCont', currCont);
+        // console.log('runningList in tableData', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -143,7 +143,7 @@ const ProcessLogs = (): JSX.Element => {
             log['logMsg'],
           ]);
         }
-        console.log('newRows after push', newRows);
+        // console.log('newRows after push', newRows);
       });
     }
     if (stderr) {
@@ -170,9 +170,9 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    console.log('newRows', newRows);
+    // console.log('newRows', newRows);
     setRows(newRows as keyof typeof setRows);
-    console.log('rows after setRows', rows);
+    // console.log('rows after setRows', rows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
@@ -214,7 +214,14 @@ const ProcessLogs = (): JSX.Element => {
             Please choose since when or the of the container(s) you would like
             to view process logs for.
           </p>
-          <label>
+
+          <select>
+            <option value="1">1 hour</option>
+            <option value="2">2 hours</option>
+            <option value="3">3 hours</option>
+          </select>    
+
+          {/* <label>
             <input type="radio" name="logOption" id="sinceInput" />
             <span>SINCE: </span>
             <input
@@ -231,7 +238,7 @@ const ProcessLogs = (): JSX.Element => {
               type="text"
               id="tailText"
             />
-          </label>
+          </label> */}
         </div>
       </div>
       <div className={styles.logsHolder}>

@@ -96,7 +96,9 @@ const useHelper = () => {
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
-        fetch(`/api/command/removeContainer?id=${containerID}`)
+        fetch(`/api/command/removeContainer?id=${containerID}`, {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -107,7 +109,9 @@ const useHelper = () => {
       /* Stops a container on what user selects @param {*} id */
       stop(id) {
         const { stopRunningContainer } = dispatch;
-        fetch(`/api/command/stopContainer?id=${id}`)
+        fetch(`/api/command/stopContainer?id=${id}`, {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -146,14 +150,18 @@ const useHelper = () => {
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {
         const { refreshImages } = dispatch;
-        fetch(`/api/command/removeImage?id=${id}`).then(() => {
+        fetch(`/api/command/removeImage?id=${id}`, {
+          method: 'DELET',
+        }).then(() => {
           refreshImages().catch((err: Error): void => console.log(err));
         });
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        fetch('/api/command/dockerPrune')
+        fetch('/api/command/dockerPrune', {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });

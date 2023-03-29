@@ -11,8 +11,6 @@ export const buildOptionsObj = (containerNames: string[]) => {
     containerNames: containerNames,
   };
 
-  console.log('optionsObj', optionsObj);
-
   // if (document.getElementById('sinceInput').checked) {
   //   const sinceValue = document.getElementById('sinceText').value;
   //   optionsObj.since = sinceValue;
@@ -20,6 +18,9 @@ export const buildOptionsObj = (containerNames: string[]) => {
   //   const tailValue = document.getElementById('tailText').value;
   //   optionsObj.tail = tailValue;
   // }
+
+  console.log('optionsObj', optionsObj);
+  
   return optionsObj;
 };
 

@@ -1,7 +1,4 @@
-/**
- * @module | apiController.ts
- * @description | contains middleware that sends emails to user for container issues and signup information
- **/
+// currently not used, is meant to send email alerts
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
@@ -22,6 +19,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+/**
+ * @module | apiController.ts
+ * @description | contains middleware that sends emails to user for container issues and signup information
+ **/
 const apiController: ApiController = {
   // ==========================================================
   // Middleware: sendEmailAlert

@@ -1,21 +1,25 @@
 .wrapper {
 }
 
+$navbar-transition: transform 0.3s ease-in-out;
+
 .navBar {
+  transition: $navbar-transition;
+  transform: translateY($navbar-height);
   // transform: translateY(
   //   -300px
   // ); /* the element is transposed 300px to the left of where it's supposed to be */
-  transition: transform 1s ease-out;
+  // transition: transform s ease-out;
 
   background-color: color(background, base);
   display: flex;
   position: fixed;
   z-index: 9999;
-  top: 0px;
+  top: -$navbar-height;
   left: 0px;
   right: 0px;
   padding: 0 1rem;
-  height: 60px;
+  height: $navbar-height;
   // transition: opacity 250ms;
   // will-change: transform;
   ul {
@@ -105,6 +109,7 @@
   }
   .navButton,
   .active {
+    transition: all 0.1s ease-in;
     padding-left: 0rem;
     margin-left: 1rem;
     margin-top: 0.5rem;
@@ -117,11 +122,14 @@
     }
   }
   .navBar {
+    transition: $navbar-transition;
+    transform: translateY(100%);
+    transform: translateX($sidebar-width);
     margin: 0px;
     position: absolute;
     z-index: 9999;
     top: 0px;
-    left: 0px;
+    left: -$sidebar-width;
     bottom: 0px;
     padding: 0;
     width: $sidebar-width;

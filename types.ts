@@ -187,6 +187,12 @@ export interface ProcessLogsSelectorProps {
   }[];
 }
 
+export interface ProcessLogsSelectorProps {
+  containerList: ContainerType[];
+  handleCheck: (name: string) => void;
+  btnIdList: object;
+}
+
 export interface stdType {
   containerName: string;
   logMsg: string;

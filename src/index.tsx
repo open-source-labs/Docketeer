@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import App from './App';
 import './main.scss';
-// TODO setup redux persist & configure it
 
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 

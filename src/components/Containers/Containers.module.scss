@@ -16,3 +16,35 @@
 .count {
   margin-bottom: 1rem;
 }
+
+.containerList {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .containerList {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .listHolder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .containerList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: 1fr;
+  }
+}

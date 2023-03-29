@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { ContainerType } from '../../../types';
+
 import styles from './ContainersCard.module.scss';
 import globalStyles from '../global.module.scss';
 
@@ -14,7 +16,7 @@ const ContainersCard = ({
   status,
 }) => {
   return (
-    <div className={styles.containerList}>
+    <>
       {containerList.map((container: ContainerType, i: number) => {
         return (
           <div key={i} className={styles.containerCard}>
@@ -70,7 +72,7 @@ const ContainersCard = ({
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 

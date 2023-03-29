@@ -3,6 +3,7 @@ $base-color: #7a0d43;
 
 $default-page-margin: 1rem 2rem;
 
+$navbar-height: 60px;
 $sidebar-width: 170px;
 
 $shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
@@ -110,22 +111,16 @@ $palettes: (
 
 // card is in variables to allow for easy extending and customization in containers, images, and volume history. Keeps tha base option the same, but allows for easy customization. Simply change things here and it will change everywhere.
 .card {
-  // background: color(background, light-transparent);
   background-image: $background-fade;
-  // box-shadow: $shadow;
-  // backdrop-filter: blur(4px);
-  // -webkit-backdrop-filter: blur(4px);
+  box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
   height: 100%;
   width: 100%;
-  // border: 1px solid rgba(255, 255, 255, 0.18);
-  // margin: 1rem;
   padding: 1rem;
-  // max-width: 25vw;
   min-width: 12rem;
   gap: 1rem;
-  // transition: border 350ms ease 100ms, background-image 200ms ease;
-  // border-radius: 20px;
   border-width: 2px;
   border-style: solid;
   border-color: transparent;

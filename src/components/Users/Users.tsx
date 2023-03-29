@@ -166,6 +166,7 @@ const UserTable = (): JSX.Element => {
               setValues({ ...values, password: e.target.value });
             }}
           />
+
           <input
             className={globalStyles.input}
             type="password"

@@ -293,6 +293,14 @@ export interface ToggleDisplayProps {
 }
 
 
+export interface ContainersCardsProps {
+  containerList: ContainerType[],
+  stopContainer: (container: ContainerType) => void,
+  runContainer: (container: ContainerType) => void,
+  removeContainer: (container: ContainerType) => void,
+  status: string
+}
+
 // ==========================================================
 // Server-Side Typing
 // ==========================================================

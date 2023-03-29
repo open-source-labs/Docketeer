@@ -21,7 +21,7 @@ export const volumeSlice = createSlice({
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {
-      // TODO change this if statement, doesn't seem to matter
+      // TODO do we delete?
       // ? if statement does nothing, does this solve an edge case?
       // if the state is not empty (state would only be empty at render)
       // console.log('getVolumneContainerList action.payload', action.payload);

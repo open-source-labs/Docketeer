@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { ContainerType } from '../../../types';
+import { ContainerType, ContainersCardsProps } from '../../../types';
 
 import styles from './ContainersCard.module.scss';
 import globalStyles from '../global.module.scss';
-
-// TODO: double check that stopped for is the right information in stopped containers
-// TODO: how can I make running containers and stopped containers the same size but still scale with text input?
 
 const ContainersCard = ({
   containerList,
@@ -14,7 +11,7 @@ const ContainersCard = ({
   runContainer,
   removeContainer,
   status,
-}) => {
+}: ContainersCardsProps): JSX.Element => {
   return (
     <>
       {containerList.map((container: ContainerType, i: number) => {

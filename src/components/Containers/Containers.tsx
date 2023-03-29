@@ -6,7 +6,6 @@ import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 import styles from './Containers.module.scss';
-import globalStyles from '../global.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 
 /**
@@ -86,7 +85,6 @@ const Containers = (): JSX.Element => {
     );
   };
 
-  // TODO: make a component for the cards. Should be able to use conditional logic for the buttons
   return (
     <div className={styles.wrapper}>
       <div className={styles.listHolder}>

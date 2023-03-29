@@ -1,3 +1,4 @@
+//TODO what do we do about this file?
 /**
  * @module | newUserHelper.tsx
  * @description | Contains helper functions for creating new users
@@ -43,7 +44,7 @@
 //   }
 //   return password === passwordConfirmation;
 // };
-// TODO: remove this alert or the one on the backend
+
 // export const checkPasswordLength = (password: string) => {
 //   const regex = /^(?=[a-z\d]{6,}$)(?=\d*[a-z])[a-z]*\d[a-z\d]*$/;
 //   if (!regex.test(password) && password) {

@@ -27,8 +27,6 @@ const SignUp = (): JSX.Element => {
   function handleClick(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    // TODO: make pop up for successful sign up
-
     // check that passwords match
     if (signUpValues.password !== signUpValues.passwordConfirmation) {
       window.alert('Passwords do not match');

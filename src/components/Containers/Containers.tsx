@@ -7,6 +7,7 @@ import { createAlert, createPrompt } from '../../reducers/alertReducer';
 
 import styles from './Containers.module.scss';
 import globalStyles from '../global.module.scss';
+import ContainersCard from '../ContainersCard/ContainersCard';
 
 /**
  * @module | Containers.tsx
@@ -85,66 +86,30 @@ const Containers = (): JSX.Element => {
     );
   };
 
+  // TODO: make a component for the cards. Should be able to use conditional logic for the buttons
   return (
     <div className={styles.wrapper}>
       <div className={styles.listHolder}>
         <h2>RUNNING CONTAINERS</h2>
-        <div>Count: {runningList.length}</div>
-        <div className={styles.containerList}>
-          {runningList.map((container: ContainerType, i: number) => {
-            return (
-              <div key={i} className={globalStyles.card}>
-                <div>
-                  <h2>{container.Names}</h2>
-                  <div></div>
-                  <p>Image: {container.Image}</p>
-                  <p>ID: {container.ID}</p>
-                  <p>Running for: {container.RunningFor}</p>
-                  <div>
-                    <button
-                      className={globalStyles.buttonSmall}
-                      onClick={() => stopContainer(container)}
-                    >
-                      STOP
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <p className={styles.count}>Count: {runningList.length}</p>
+        <ContainersCard
+          containerList={runningList}
+          stopContainer={stopContainer}
+          runContainer={runContainer}
+          removeContainer={removeContainer}
+          status="running"
+        />
       </div>
       <div className={styles.listHolder}>
         <h2>STOPPED CONTAINERS</h2>
-        <div>Count: {stoppedList.length}</div>
-        <div className={styles.containerList}>
-          {stoppedList.map((container: ContainerType, i: number) => {
-            return (
-              <div key={i} className={globalStyles.card}>
-                <div>
-                  <h2>{container.Names}</h2>
-                  <p>Image: {container.Image}</p>
-                  <p>ID: {container.ID}</p>
-                  <p>Running for: {container.RunningFor}</p>
-                  <div>
-                    <button
-                      className={globalStyles.buttonSmall}
-                      onClick={() => runContainer(container)}
-                    >
-                      RUN
-                    </button>
-                    <button
-                      className={globalStyles.buttonSmall}
-                      onClick={() => removeContainer(container)}
-                    >
-                      REMOVE
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <p className={styles.count}>Count: {stoppedList.length}</p>
+        <ContainersCard
+          containerList={stoppedList}
+          stopContainer={stopContainer}
+          runContainer={runContainer}
+          removeContainer={removeContainer}
+          status="stopped"
+        />
       </div>
     </div>
   );

@@ -56,11 +56,11 @@ const UserTable = (): JSX.Element => {
       .then((res) => {
         console.log('res in createNewUser: ', res);
         console.log('ab to invoke getUpdatedUserList');
-        getUpdatedUserList();
       })
       .catch((err) => {
         console.log(err);
       });
+    getUpdatedUserList();
   };
 
   const getUpdatedUserList = () => {

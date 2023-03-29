@@ -21,6 +21,9 @@ const Alert = (): JSX.Element => {
   const alertText = alertList[0];
   const promptText = promptList[0];
 
+  // temporary solution to get only render alert if alert exists
+  const alertExists = alertType || alertText || promptText ? true : false;
+
   const svgs = {
     info: (
       <svg
@@ -85,7 +88,7 @@ const Alert = (): JSX.Element => {
   };
 
   return (
-    <div>
+    alertExists && (
       <div className={styles.wrapper}>
         {alertType === 'info' && (
           <div className={styles.info}>
@@ -132,7 +135,7 @@ const Alert = (): JSX.Element => {
           </div>
         )}
       </div>
-    </div>
+    )
   );
 };
 

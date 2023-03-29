@@ -612,6 +612,21 @@ export interface UserController {
    * @description   updates the email of a user
    */
   updateEmail: MiddleWareFunction;
+
+  /**
+   * @description  adds a cookie to our user's browser to signify they are logged in
+   */
+  addCookie: MiddleWareFunction
+
+  /**
+   * @description  checks if user has a valid cookie
+   */
+  checkCookie: MiddleWareFunction
+
+  /**
+   * @description  removes our user's cookie
+   */
+  removeCookie: MiddleWareFunction
 }
 
 export interface ContainerNetworkObject {

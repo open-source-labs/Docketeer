@@ -1,8 +1,3 @@
-/**
- * @module | bcryptController.ts
- * @description | Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
- **/
-
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';

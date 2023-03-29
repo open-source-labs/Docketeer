@@ -19,16 +19,17 @@ import About from './components/About/About';
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const session: boolean = useAppSelector((state) => state.sessions.isLoggedIn);
-
+  
   return (
     <Routes>
       <Route
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
-      />
+      />: 
       <Route path="/login" element={<Login />} />
       <Route path="/userSignup" element={<SignUp />} />
-      <Route path="/home" element={<SharedLayout />}>
+      <Route path="/home" element={session ? <SharedLayout /> :
+        <Navigate to="/login" />}>
         <Route index element={<Home />} />
         <Route path="/home/volume" element={<VolumeHistory />} />
         <Route path="/home/metrics" element={<Metrics key={1} />} />

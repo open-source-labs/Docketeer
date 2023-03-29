@@ -181,24 +181,17 @@ const ProcessLogs = (): JSX.Element => {
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
           <p>
-            Please choose since when or the of the container(s) you would like
-            to view process logs for.
+            Please select a timeframe that you would like to see process logs within.
           </p>
           
           <label htmlFor="num">Number</label>
-          <select id='num' onChange={(e) => handleChange(e)}>
-            {
-              Array.from(Array(7).keys()).map((num) => { 
-                return <option key={num}>{num}</option>;
-              })
-            }
-          </select>
-
-          <label htmlFor="time">Time</label>
           <select id='time' onChange={(e) => handleChange(e)}>
-            <option value="m">minutes</option>
-            <option value="h">hours</option>
-            <option value="h">days</option>
+            <option value="10m">10 minutes</option>
+            <option value="15m">15 minutes</option>
+            <option value="30m">30 minutes</option>
+            <option value="1h">1 hour</option>
+            <option value="3h">3 hours</option>
+            <option value="5h">5 hours</option>
           </select>
         </div>
       </div>

@@ -29,15 +29,49 @@
 .imageHolder {
   display: grid;
   gap: 1rem;
-
-  // make a media query to go up or down based on screen size
-  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .imageCard {
   @extend .card;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
 }
 
 .image {
   height: 4rem;
+}
+
+.textHolder {
+  margin-bottom: 2rem;
+}
+.buttonHolder {
+}
+.buttonSpacer {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  button {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .imageHolder {
+    grid-template-columns: 1fr;
+  }
 }

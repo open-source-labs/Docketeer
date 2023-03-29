@@ -259,6 +259,16 @@ function SharedLayout(): JSX.Element {
               SYSTEM PRUNE
             </a>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.navButton
+              }
+              to="/home/about"
+            >
+              ABOUT
+            </NavLink>
+          </li>
           <li>{userData.username && <span>{`${userData.username}`}</span>}</li>
           <li>
             <a className={styles.navButton} onClick={() => handleLogOut()}>

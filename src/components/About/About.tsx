@@ -5,7 +5,7 @@ import styles from './About.module.scss';
 
 const About = () => {
   return (
-    <div>
+    <div className={styles.wrapper}>
       <footer className={styles.footer}>
         <div className={styles.footerLogo}>
           <a href="https://www.docketeer.org/demo">

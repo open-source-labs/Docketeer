@@ -50,7 +50,6 @@ const useHelper = () => {
           .catch((err: Error): void => console.log(err));
       },
 
-      // TODO: add a delete method
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
@@ -253,7 +252,6 @@ const useHelper = () => {
         })
           .then((data: Response) => data.json())
           .then((response) => {
-            // TODO: why is any not erroring here?
             console.log(response);
             return;
           })

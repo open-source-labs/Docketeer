@@ -1,14 +1,5 @@
 import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-// import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Home.module.scss';
-// import globalStyles from '../global.module.scss';
-
-// Importing helpers
-// import useSurvey from '../../helpers/dispatch';
-// import useHelper from '../../helpers/commands';
-// import * as history from '../../helpers/volumeHistoryHelper';
 
 /**
  * @module | Home.tsx

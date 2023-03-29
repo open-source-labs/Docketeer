@@ -19,6 +19,9 @@ import globalStyles from '../global.module.scss';
  * @description | Provides process logs for running containers & additional configuration options
 **/
 
+
+// TODO: add a second dropdown for time frame selection
+
 type CSVData = string[];
 
 const ProcessLogs = (): JSX.Element => {
@@ -43,6 +46,9 @@ const ProcessLogs = (): JSX.Element => {
   const { getLogs } = useHelper();
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    tableData();
+  }, [counter, csvData.length]);
 
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
@@ -55,13 +61,6 @@ const ProcessLogs = (): JSX.Element => {
     });
     return newObj;
   }
-
-
-  useEffect(() => {
-    tableData();
-  }, [counter, csvData.length]);
-
-  // TODO: make since and tail react controller forms. Will have to change the way the options object is built to take in arguments instead of querying the dom. React shouldn't query the dom so it's two problems at once.
 
   // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
   const handleGetLogs = async (idList: object) => {
@@ -91,7 +90,7 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('e.target.value: ', e.target.value)
+    console.log('e.target.value: ', e.target.value);
     setTimeFrame(e.target.value);
   };
 
@@ -185,33 +184,22 @@ const ProcessLogs = (): JSX.Element => {
             Please choose since when or the of the container(s) you would like
             to view process logs for.
           </p>
-
-          <select onChange={(e) => handleChange(e)}>
-            <option value="10m">10 minutes</option>
-            <option value="1h">1 hour</option>
-            <option value="3h">3 hours</option>
-            <option value="5h">5 hours</option>
-            <option value="24h">1 day</option>
+          
+          <label htmlFor="num">Number</label>
+          <select id='num' onChange={(e) => handleChange(e)}>
+            {
+              Array.from(Array(7).keys()).map((num) => { 
+                return <option key={num}>{num}</option>;
+              })
+            }
           </select>
 
-          {/* <label>
-            <input type="radio" name="logOption" id="sinceInput" />
-            <span>SINCE: </span>
-            <input
-              className={globalStyles.inputShort}
-              type="text"
-              id="sinceText"
-            />
-          </label>
-          <label>
-            <input type="radio" name="logOption" id="tailInput" />
-            <span>TAIL: </span>
-            <input
-              className={globalStyles.inputShort}
-              type="text"
-              id="tailText"
-            />
-          </label> */}
+          <label htmlFor="time">Time</label>
+          <select id='time' onChange={(e) => handleChange(e)}>
+            <option value="m">minutes</option>
+            <option value="h">hours</option>
+            <option value="h">days</option>
+          </select>
         </div>
       </div>
       <div className={styles.logsHolder}>
@@ -225,18 +213,29 @@ const ProcessLogs = (): JSX.Element => {
               <th>MESSAGE</th>
             </tr>
           </thead>
-          {rows.map((row, i) => {
-            return (
-              <tbody key={`${row - i}`}>
-                <tr>
-                  <td>{row.container}</td>
-                  <td>{row.type}</td>
-                  <td>{row.time}</td>
-                  <td>{row.message}</td>
-                </tr>
-              </tbody>
-            );
-          })}
+          {rows.length > 0 ?
+            rows.map((row, i) => {
+              return (
+                <tbody key={`${row - i}`}>
+                  <tr>
+                    <td>{row.container}</td>
+                    <td>{row.type}</td>
+                    <td>{row.time}</td>
+                    <td>{row.message}</td>
+                  </tr>
+                </tbody>
+              );
+            })
+            :
+            <tbody>
+              <tr>
+                <td>Nothing</td>
+                <td>to</td>
+                <td>see</td>
+                <td>here</td>
+              </tr>
+            </tbody>
+          }
         </table>
       </div>
       <div className={styles.stoppedContainersHoler}>

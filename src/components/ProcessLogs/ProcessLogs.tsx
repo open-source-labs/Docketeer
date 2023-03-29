@@ -191,7 +191,6 @@ const ProcessLogs = (): JSX.Element => {
             Please specify a timeframe that you would like to see process logs within.
           </p>
           
-          {/* TODO: rename labels if neccessary */}
           <label htmlFor='num'>NUM</label>
           <input
             onChange={(e) => setTimeFrameNum(e.target.value)}
@@ -219,31 +218,6 @@ const ProcessLogs = (): JSX.Element => {
                 <th>MESSAGE</th>
               </tr>
             </thead>
-<<<<<<< HEAD
-            {rows.length > 0 ?
-              rows.map((row, i) => {
-                return (
-                  <tbody key={`${row - i}`}>
-                    <tr>
-                      <td>{row.container}</td>
-                      <td>{row.type}</td>
-                      <td>{row.time}</td>
-                      <td>{row.message}</td>
-                    </tr>
-                  </tbody>
-                );
-              })
-              :
-              <tbody>
-                <tr>
-                  <td>Nothing</td>
-                  <td>to</td>
-                  <td>see</td>
-                  <td>here</td>
-                </tr>
-              </tbody>
-            }
-=======
             {rows.map((row, i) => {
               return (
                 <tbody key={`row-${i}`}>
@@ -256,7 +230,6 @@ const ProcessLogs = (): JSX.Element => {
                 </tbody>
               );
             })}
->>>>>>> broke
           </table>
         </div>
       </div>

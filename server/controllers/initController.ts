@@ -1,8 +1,3 @@
-/**
- * @module | initController.ts
- * @description | Contains middleware that creates and runs the local database
- **/
-
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { InitController, ServerError, MetricsQuery } from '../../types';

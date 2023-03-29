@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-// only used in insertAdmin which is not used
+// only used in insertAdmin which is not currently used
 // import sysadmin from "../../security/sysadmin";
 import { DbController, ServerError } from '../../types';
 

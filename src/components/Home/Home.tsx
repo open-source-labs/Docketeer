@@ -20,8 +20,6 @@ import * as history from '../helpers/volumeHistoryHelper';
 
 const Home = (): JSX.Element => {
 
-
-
   return (
     <>
       <div className={styles.wrapper}>

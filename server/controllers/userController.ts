@@ -56,7 +56,7 @@ const userController: UserController = {
     if ('error' in res.locals) {
       return next();
     } else {
-      const allUsers = 'SELECT * FROM users ORDER BY name ASC;';
+      const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
           res.locals.users = response.rows;
@@ -234,6 +234,24 @@ const userController: UserController = {
           },
         });
       });
+  },
+
+  addCookie: (req: Request, res: Response, next: NextFunction): void => {
+    res.cookie('loggedIn', true);
+    return next();
+  },
+
+  checkCookie: (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.cookies.loggedIn) res.locals.notSignedIn = true;
+    return next();
+  },
+
+  removeCookie: (req: Request, res: Response, next: NextFunction): void => {
+    console.log('abt to rmv cookie');
+    res.clearCookie('loggedIn');
+    console.log('cookied rmvd');
+    res.locals.loggedOut = true;
+    return next();
   },
 };
 export default userController;

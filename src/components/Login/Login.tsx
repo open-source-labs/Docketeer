@@ -69,7 +69,7 @@ const Login = (): JSX.Element => {
       
       dispatch(
         createAlert(
-          `Welcome back to Docketeer, ${parsedResponse.username}!`,
+          `Welcome back Docketeer, ${parsedResponse.username}!`,
           5,
           'success'
         )

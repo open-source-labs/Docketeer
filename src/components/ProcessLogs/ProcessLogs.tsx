@@ -219,6 +219,7 @@ const ProcessLogs = (): JSX.Element => {
                 <th>MESSAGE</th>
               </tr>
             </thead>
+<<<<<<< HEAD
             {rows.length > 0 ?
               rows.map((row, i) => {
                 return (
@@ -242,6 +243,20 @@ const ProcessLogs = (): JSX.Element => {
                 </tr>
               </tbody>
             }
+=======
+            {rows.map((row, i) => {
+              return (
+                <tbody key={`row-${i}`}>
+                  <tr>
+                    <td>{row.container}</td>
+                    <td>{row.type}</td>
+                    <td>{row.time}</td>
+                    <td>{row.message}</td>
+                  </tr>
+                </tbody>
+              );
+            })}
+>>>>>>> broke
           </table>
         </div>
       </div>

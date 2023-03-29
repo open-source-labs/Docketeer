@@ -79,6 +79,6 @@ body {
 @media screen and (max-width: $breakpoint-lg) {
   body {
     padding-top: 0rem;
-    padding-left: 140px;
+    padding-left: $sidebar-width;
   }
 }

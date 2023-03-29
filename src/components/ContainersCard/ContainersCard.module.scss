@@ -1,9 +1,11 @@
 .containerCard {
   @extend .card;
+  transition: 0.2s;
   position: relative;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
+  
 }
 .textHolder {
   margin-bottom: 1rem;

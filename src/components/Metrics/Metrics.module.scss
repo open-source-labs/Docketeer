@@ -13,3 +13,9 @@
   min-height: 20rem;
   border: 0px;
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  .metrics {
+    height: calc(100vh - (6rem));
+  }
+}

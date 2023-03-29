@@ -90,3 +90,10 @@
     // position: absolute;
   }
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    left: calc(50% + $sidebar-width / 2);
+    width: 50%;
+  }
+}

@@ -35,10 +35,6 @@ const App = () => {
         <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
         <Route path="/home/about" element={<About />} />
-        {/* <Route
-          path="/home/logTable/:containerId"
-          element={<ProcessLogsTable />}
-        /> */}
         {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />

@@ -6,17 +6,17 @@
  * @returns {object} optionsObj
  */
 
-export const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
-  const optionsObj = {
-    containerNames: containerNames,
-    since: timeFrame,
-  };
+// export const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
+//   const optionsObj = {
+//     containerNames: containerNames,
+//     since: timeFrame,
+//   };
 
-  if (timeFrame) optionsObj.since = timeFrame;
+//   if (timeFrame) optionsObj.since = timeFrame;
 
-  console.log('optionsObj', optionsObj);
-  return optionsObj;
-};
+//   console.log('optionsObj', optionsObj);
+//   return optionsObj;
+// };
 
 /**
  * Helper function to transform input string (where string is a batch of logs) to an array of log objects

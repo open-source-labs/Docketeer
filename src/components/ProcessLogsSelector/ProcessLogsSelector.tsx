@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { ProcessLogsSelectorProps } from '../../../types';
 import styles from './ProcessLogsSelector.module.scss';
 
 // const defaultContainerList = [
@@ -14,7 +14,7 @@ function ProcessLogsSelector({
   containerList,
   handleCheck,
   btnIdList,
-}): JSX.Element {
+}: ProcessLogsSelectorProps): JSX.Element {
   // const [containerList, setContainerList] =
   // useState<object[]>(defaultContainerList);
 

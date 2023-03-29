@@ -147,11 +147,12 @@ export interface LogObject {
   containerName: string;
 }
 
-// ? might delete this if we get rid of ProcessLogsCards component
-export interface LogsCardProps {
-  container: ContainerType;
-  index: number;
-  status: any;
+export interface ProcessLogsSelectorProps {
+  containerList: ContainerType[];
+  handleCheck: (name: string) => void;
+  btnIdList: {
+    Names: boolean
+  }[];
 }
 
 export interface stdType {
@@ -168,6 +169,9 @@ export interface ContainerLogsType {
 export interface LogsStateType {
   containerLogs: ContainerLogsType;
 }
+
+export type CSVDataType = string[];
+
 
 // ==============================================
 // VOLUME TYPES

@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -37,12 +37,12 @@ import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
 import signupRouter from './routes/signupRouter';
-import userController from './controllers/userController';
+// import userController from './controllers/userController';
 
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // check for cookie
 // app.use('/', userController.checkCookie, (req: Request, res: Response): void => {

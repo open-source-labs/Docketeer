@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
-import { ContainerType, RowsDataType } from '../../../types';
+import { ContainerType, RowsDataType, CSVDataType, stdType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
 import { createAlert } from '../../reducers/alertReducer';
 import useHelper from '../../helpers/commands';
 import useSurvey from '../../helpers/dispatch';
-import { buildOptionsObj } from '../../helpers/logs';
+// import { buildOptionsObj } from '../../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 
@@ -19,11 +19,6 @@ import globalStyles from '../global.module.scss';
  * @description | Provides process logs for running containers & additional configuration options
 **/
 
-
-// TODO: add a second dropdown for time frame selection
-
-type CSVData = string[];
-
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
@@ -31,18 +26,25 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-
   const runningBtnList = getContainerNames(runningList);
 
+  // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
+  function getContainerNames(containerList: ContainerType[]): {
+    name: string;
+    value: boolean;
+  }{
+    const newObj = {};
+    containerList.forEach(({ Names }) => newObj[Names] = false);
+    return newObj;
+  }
+
   const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
-  const [timeFrameNum, setTimeFrameNum] = useState<string>();
-  console.log(timeFrameNum);
-  const [timeFrame, setTimeFrame] = useState<string>();
-  console.log('hi', timeFrame);
-  const [rows, setRows] = useState([] as any[]);
+  const [timeFrameNum, setTimeFrameNum] = useState<string>('');
+  const [timeFrame, setTimeFrame] = useState<string>('');
+  const [rows, setRows] = useState([] as JSX.Element[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
-  ] as any[]);
+  ] as CSVDataType[]);
   const [counter, setCounter] = useState(0);
 
   const { getContainerLogsDispatcher } = useSurvey();
@@ -53,18 +55,20 @@ const ProcessLogs = (): JSX.Element => {
     tableData();
   }, [counter, csvData.length]);
 
-  function getContainerNames(containerList: ContainerType[]): {
-    name: string;
-    value: boolean;
-  }{
-    const newObj = {};
-    containerList.forEach(({ Names }) => {
-      newObj[Names] = false;
-    });
-    return newObj;
-  }
 
-  // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
+  // helper func to create a single object to send to the backend
+  const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
+    const optionsObj = {
+      containerNames: containerNames,
+      since: timeFrame,
+    };
+
+    if (timeFrame) optionsObj.since = timeFrame;
+
+    return optionsObj;
+  };
+
+  // takes in a btnIdList, passes that into buildObptionObj
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
@@ -95,17 +99,13 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
-  // const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   console.log('e.target.value: ', e.target.value);
-  //   setTimeFrame(e.target.value);
-  // };
-
+  // creates an array of log messages and saves it to state
   const tableData = () => {
     const newRows: RowsDataType[] = [];
-    const newCSV: CSVData[] = [];
+    const newCSV: CSVDataType[] = [];
 
     if (stdout.length) {
-      stdout.forEach((log: { [k: string]: any }) => {
+      stdout.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
@@ -127,7 +127,7 @@ const ProcessLogs = (): JSX.Element => {
       });
     }
     if (stderr.length) {
-      stderr.forEach((log: { [k: string]: any }, index: any) => {
+      stderr.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
@@ -137,7 +137,7 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stderr',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: parseInt(index),
+            id: Math.random() * 100,
           });
           newCSV.push([
             currCont.Names,
@@ -209,39 +209,41 @@ const ProcessLogs = (): JSX.Element => {
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>CONTAINER</th>
-              <th>LOG TYPE</th>
-              <th>TIMESTAMP</th>
-              <th>MESSAGE</th>
-            </tr>
-          </thead>
-          {rows.length > 0 ?
-            rows.map((row, i) => {
-              return (
-                <tbody key={`${row - i}`}>
-                  <tr>
-                    <td>{row.container}</td>
-                    <td>{row.type}</td>
-                    <td>{row.time}</td>
-                    <td>{row.message}</td>
-                  </tr>
-                </tbody>
-              );
-            })
-            :
-            <tbody>
+        <div className={styles.tableHolder}>
+          <table className={globalStyles.table}>
+            <thead>
               <tr>
-                <td>Nothing</td>
-                <td>to</td>
-                <td>see</td>
-                <td>here</td>
+                <th>CONTAINER</th>
+                <th>LOG TYPE</th>
+                <th>TIMESTAMP</th>
+                <th>MESSAGE</th>
               </tr>
-            </tbody>
-          }
-        </table>
+            </thead>
+            {rows.length > 0 ?
+              rows.map((row, i) => {
+                return (
+                  <tbody key={`${row - i}`}>
+                    <tr>
+                      <td>{row.container}</td>
+                      <td>{row.type}</td>
+                      <td>{row.time}</td>
+                      <td>{row.message}</td>
+                    </tr>
+                  </tbody>
+                );
+              })
+              :
+              <tbody>
+                <tr>
+                  <td>Nothing</td>
+                  <td>to</td>
+                  <td>see</td>
+                  <td>here</td>
+                </tr>
+              </tbody>
+            }
+          </table>
+        </div>
       </div>
       <div className={styles.stoppedContainersHoler}>
         <h2>STOPPED CONTAINERS</h2>

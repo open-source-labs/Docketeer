@@ -37,8 +37,6 @@ const makeArrayOfObjects = (
   containerName: string
 ): LogObject[] => {
   // Creates an array from the input string of logs
-  console.log('makeArrayOfObjs input2: ', containerName);
-
   const arrayOfObjects: LogObject[] = string
     .trim()
     .split('\n')
@@ -55,19 +53,17 @@ const makeArrayOfObjects = (
       // extract timestamp from logArray
       let timeStamp: string = logArray.find(el => el.endsWith('Z'));
 
-      // if there is a timestamp, parse it
+      // if there is a timestamp, parse it (if statement isn't really neccessary, but TS complains)
       if (timeStamp) {
         timeStamp = timeStamp.replace(/t(s)?=/, '');
-        console.log(timeStamp);
 
         // parse GMT string to be readable local date and time
         // ! this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
         obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', { timeZone: 'America/New_York' });
-        console.log('current time', obj.timeStamp);
       }
 
       // parse remaining array to create readable message
-      let logMsg: string = logArray.filter(el => !el.endsWith('Z')).join('   ');
+      let logMsg: string = logArray.filter(el => !el.endsWith('Z')).join(' ');
       
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
       const closingIndex: number = logMsg.indexOf(']');
@@ -86,23 +82,23 @@ const makeArrayOfObjects = (
       return obj;
     });
 
-  // console.log('makeArrayOfObjs output: ', arrayOfObjects);
-
   // filter out empty messages
   const arrayOfLogs: LogObject[] = arrayOfObjects.filter(
     (obj: LogObject): boolean => obj.logMsg !== ''
   );
   return arrayOfLogs;
 };
+
 /**
  * Formats an input num to round to 2 decimal plames
  *
  *  @param {*} num
- *  @note unsused
+ *  @note unused
  */
-const fn = (num: number): number => {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
-};
+// const fn = (num: number): number => {
+//   return Math.round((num + Number.EPSILON) * 100) / 100;
+// };
+
 /**
  * @description makes our command line functions to return Promise
  *  @param {*} cmd
@@ -589,7 +585,6 @@ const commandController: CommandController = {
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
-          console.log(stdout);
           if (error) {
             console.log(
               'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'

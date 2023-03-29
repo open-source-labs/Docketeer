@@ -2,28 +2,20 @@ import React from 'react';
 import { ProcessLogsSelectorProps } from '../../../types';
 import styles from './ProcessLogsSelector.module.scss';
 
-// const defaultContainerList = [
-//   { 'container 1': false },
-//   { 'container 2': false },
-//   { 'container 3': false },
-// ];
-
 function ProcessLogsSelector({
   containerList,
   handleCheck,
-  btnIdList,
+  btnIdList
 }: ProcessLogsSelectorProps): JSX.Element {
-  // const [containerList, setContainerList] =
-  // useState<object[]>(defaultContainerList);
 
   return (
     <div className={styles.wrapper}>
       <form>
         <fieldset>
           <legend>Container List</legend>
-          {containerList.map((container) => {
+          {containerList.map((container, i) => {
             return (
-              <div key={container}>
+              <div key={i} >
                 <input
                   type="checkbox"
                   id={container.Names}

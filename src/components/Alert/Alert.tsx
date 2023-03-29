@@ -83,51 +83,53 @@ const Alert = (): JSX.Element => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      {alertType === 'info' && (
-        <div className={styles.info}>
-          {svgs.info}
-          <p>{alertText}</p>
-        </div>
-      )}
-      {alertType === 'success' && (
-        <div className={styles.success}>
-          {svgs.success}
-          <p>{alertText}</p>
-        </div>
-      )}
-      {alertType === 'warning' && (
-        <div className={styles.warning}>
-          {svgs.success}
-          <p>{alertText}</p>
-        </div>
-      )}
-      {alertType === 'error' && (
-        <div className={styles.error}>
-          {svgs.error}
-          <p>{alertText}</p>
-        </div>
-      )}
-      {typeof promptText === 'string' && (
-        <div className={styles.general}>
-          {svgs.prompt}
-          <p>{promptText}</p>
-          <div className={styles.buttonHolder}>
-            <button
-              className={globalStyles.button2}
-              onClick={() => promptList[2]?.()}
-            >
-              Deny
-            </button>
-            <button
-              className={globalStyles.button1}
-              onClick={() => promptList[1]?.()}
-            >
-              Accept
-            </button>
+    <div>
+      <div className={styles.wrapper}>
+        {alertType === 'info' && (
+          <div className={styles.info}>
+            {svgs.info}
+            <p>{alertText}</p>
           </div>
-        </div>
-      )}
+        )}
+        {alertType === 'success' && (
+          <div className={styles.success}>
+            {svgs.success}
+            <p>{alertText}</p>
+          </div>
+        )}
+        {alertType === 'warning' && (
+          <div className={styles.warning}>
+            {svgs.success}
+            <p>{alertText}</p>
+          </div>
+        )}
+        {alertType === 'error' && (
+          <div className={styles.error}>
+            {svgs.error}
+            <p>{alertText}</p>
+          </div>
+        )}
+        {typeof promptText === 'string' && (
+          <div className={styles.general}>
+            {svgs.prompt}
+            <p>{promptText}</p>
+            <div className={styles.buttonHolder}>
+              <button
+                className={globalStyles.button2}
+                onClick={() => promptList[2]?.()}
+              >
+                Deny
+              </button>
+              <button
+                className={globalStyles.button1}
+                onClick={() => promptList[1]?.()}
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

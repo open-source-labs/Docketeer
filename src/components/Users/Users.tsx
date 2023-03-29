@@ -36,23 +36,6 @@ const UserTable = (): JSX.Element => {
     getUpdatedUserList();
   }, []);
 
-  const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
-    return (
-      <tbody key={i}>
-        <tr>
-          <td>{user._id}</td>
-          <td>{user.username}</td>
-          <td>{user.role}</td>
-          <td>{user.email}</td>
-          <td>{user.phone}</td>
-          <td>{user.contact_pref}</td>
-          <td>{user.mem_threshold}</td>
-          <td>{user.cpu_threshold}</td>
-        </tr>
-      </tbody>
-    );
-  });
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.userManagement}>

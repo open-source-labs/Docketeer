@@ -17,7 +17,7 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
- **/
+**/
 
 type CSVData = string[];
 
@@ -25,24 +25,25 @@ const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
-  // console.log('runningList: ', runningList);
-
-  const dispatch = useAppDispatch();
-  const { getContainerLogsDispatcher } = useSurvey();
-  const { getLogs } = useHelper();
-
-  // const id = containerID[containerID.length - 1];
-  // I need to pass in array of object names
-  // make object with name and wether or not they're checked
-
-  // const runningList = useAppSelector((state) => state.containers.runningLibtnIdListst);
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  // console.log('stdout: ', stdout);
-  // console.log('stderr: ', stderr);
 
-  // there is an issue because the container list passed down is empty if the user navigates to this page directly. Somethine with the set timeout in the useEffect in the App.tsx file. Maybe a way to pass the container list down as props to this component?
+  const runningBtnList = getContainerNames(runningList);
+
+  const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
+  const [timeFrame, setTimeFrame] = useState('10m' as string);
+  const [rows, setRows] = useState([] as any[]);
+  const [csvData, setCsvData] = useState([
+    ['container', 'type', 'time', 'message'],
+  ] as any[]);
+  const [counter, setCounter] = useState(0);
+
+  const { getContainerLogsDispatcher } = useSurvey();
+  const { getLogs } = useHelper();
+  const dispatch = useAppDispatch();
+
+
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
@@ -55,79 +56,54 @@ const ProcessLogs = (): JSX.Element => {
     return newObj;
   }
 
-  const runningBtnList = getContainerNames(runningList);
-
-  // btnIdList = boxes that are checked
-  const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
-
-  const [rows, setRows] = useState([] as any[]);
-  const [csvData, setCsvData] = useState([
-    ['container', 'type', 'time', 'message'],
-  ] as any[]);
-  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     tableData();
   }, [counter, csvData.length]);
 
   // TODO: make since and tail react controller forms. Will have to change the way the options object is built to take in arguments instead of querying the dom. React shouldn't query the dom so it's two problems at once.
-  /*
-        export const buildOptionsObj = (containerNames: string[]) => {
-        const optionsObj = {
-          containerNames: containerNames,
-        };
 
-      / if (document.getElementById('sinceInput').checked) {
-          const sinceValue = document.getElementById('sinceText').value;
-          optionsObj.since = sinceValue;
-        } else if (document.getElementById('tailInput').checked) {
-          const tailValue = document.getElementById('tailText').value;
-          optionsObj.tail = tailValue;
-        }
-  */
   // takes in a btnIdList, passes that into buildObptionObj, then passes that into getLogs
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
-    // console.log('idArr: ', idArr);
+
     dispatch(createAlert('Loading process log information...', 5, 'success'));
-    // takes array of names and create obj
-    const optionsObj = buildOptionsObj(idArr);
-    // console.log('idList', idList);
-    // console.log('optionsObj', optionsObj);
+
+    const optionsObj = buildOptionsObj(idArr, timeFrame);
     const containerLogs = await getLogs(optionsObj);
-    // console.log('hello', containerLogs);
+
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
+
     return containerLogs;
   };
 
   // Handle checkboxes
   const handleCheck = (name: string) => {
-    // console.log('event!: ', e);
-    // console.log('btnIdList new name: ', name);
     const newBtnIdList = { ...btnIdList };
     if (newBtnIdList[name]) {
       newBtnIdList[name] = false;
     } else {
       newBtnIdList[name] = true;
     }
-    // console.log('btnIdList', newBtnIdList);
 
     setBtnIdList(newBtnIdList);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log('e.target.value: ', e.target.value)
+    setTimeFrame(e.target.value);
   };
 
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVData[] = [];
 
-    // console.log('pls', stdout.length, stderr.length);
     if (stdout.length) {
       stdout.forEach((log: { [k: string]: any }) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log['containerName']
         );
-        // console.log('currCont', currCont);
-        // console.log('runningList in tableData', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -143,7 +119,6 @@ const ProcessLogs = (): JSX.Element => {
             log['logMsg'],
           ]);
         }
-        // console.log('newRows after push', newRows);
       });
     }
     if (stderr) {
@@ -151,8 +126,6 @@ const ProcessLogs = (): JSX.Element => {
         const currCont = runningList.find(
           (el: ContainerType) => el.ID === log['containerName']
         );
-        // console.log('currCont stderr', currCont);
-        // console.log('runningList in tableData stderr', runningList);
         if (currCont) {
           newRows.push({
             container: currCont.Names,
@@ -170,9 +143,7 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    // console.log('newRows', newRows);
     setRows(newRows as keyof typeof setRows);
-    // console.log('rows after setRows', rows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
@@ -215,11 +186,13 @@ const ProcessLogs = (): JSX.Element => {
             to view process logs for.
           </p>
 
-          <select>
-            <option value="1">1 hour</option>
-            <option value="2">2 hours</option>
-            <option value="3">3 hours</option>
-          </select>    
+          <select onChange={(e) => handleChange(e)}>
+            <option value="10m">10 minutes</option>
+            <option value="1h">1 hour</option>
+            <option value="3h">3 hours</option>
+            <option value="5h">5 hours</option>
+            <option value="24h">1 day</option>
+          </select>
 
           {/* <label>
             <input type="radio" name="logOption" id="sinceInput" />

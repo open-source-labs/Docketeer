@@ -86,7 +86,7 @@ const makeArrayOfObjects = (
       obj.containerName = containerName;
       return obj;
     });
-  
+
   // console.log('makeArrayOfObjs output: ', arrayOfObjects);
 
   // filter out empty messages
@@ -439,7 +439,7 @@ const commandController: CommandController & CommandMethods = {
         if (error) {
           console.log(
             `${error.message}` +
-              '\nPlease stop running container first then remove.'
+            '\nPlease stop running container first then remove.'
           );
           return next(error);
         }
@@ -572,7 +572,7 @@ const commandController: CommandController & CommandMethods = {
       'compose.yaml',
     ]);
 
-    console.log('req.body',req.body);
+    console.log('req.body', req.body);
 
     const result: string | Error = await promisifiedExecStdErr(cmd);
     res.locals.composeMessage = result;
@@ -705,14 +705,14 @@ const commandController: CommandController & CommandMethods = {
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs ';
-      // if (optionsObj.since) {
-      //   inputCommandString += `--since ${optionsObj.since} `;
-      // }
+      let inputCommandString = `docker logs ${optionsObj.containerNames[i]} `;
+      if (optionsObj.since) {
+        inputCommandString += `--since ${optionsObj.since} `;
+      }
       // optionsObj.tail
       //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
       //   : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerNames[i]}`;
+      // inputCommandString += `${optionsObj.containerNames[i]}`;
       // inputCommandString += 'grafana';
       // execute our command (inputCommandString) to update our containerLogs props to include proper logs
 

@@ -35,7 +35,10 @@ const ProcessLogs = (): JSX.Element => {
   const runningBtnList = getContainerNames(runningList);
 
   const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
-  const [timeFrame, setTimeFrame] = useState('10m' as string);
+  const [timeFrameNum, setTimeFrameNum] = useState<string>();
+  console.log(timeFrameNum);
+  const [timeFrame, setTimeFrame] = useState<string>();
+  console.log('hi', timeFrame);
   const [rows, setRows] = useState([] as any[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
@@ -53,8 +56,7 @@ const ProcessLogs = (): JSX.Element => {
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
-  } {
-    // console.log('containerList: ', containerList);
+  }{
     const newObj = {};
     containerList.forEach(({ Names }) => {
       newObj[Names] = false;
@@ -68,7 +70,7 @@ const ProcessLogs = (): JSX.Element => {
 
     dispatch(createAlert('Loading process log information...', 5, 'success'));
 
-    const optionsObj = buildOptionsObj(idArr, timeFrame);
+    const optionsObj = buildOptionsObj(idArr, createTimeFrameStr(timeFrameNum, timeFrame));
     const containerLogs = await getLogs(optionsObj);
 
     getContainerLogsDispatcher(containerLogs);
@@ -76,10 +78,14 @@ const ProcessLogs = (): JSX.Element => {
 
     return containerLogs;
   };
+  
+  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
+  const createTimeFrameStr = (num, option) => option === 'd' ? `${num * 24}h` : `${num}${option}`;
 
   // Handle checkboxes
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
+
     if (newBtnIdList[name]) {
       newBtnIdList[name] = false;
     } else {
@@ -89,10 +95,10 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('e.target.value: ', e.target.value);
-    setTimeFrame(e.target.value);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   console.log('e.target.value: ', e.target.value);
+  //   setTimeFrame(e.target.value);
+  // };
 
   const tableData = () => {
     const newRows: RowsDataType[] = [];
@@ -146,6 +152,7 @@ const ProcessLogs = (): JSX.Element => {
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.runningContainersHolder}>
@@ -181,18 +188,23 @@ const ProcessLogs = (): JSX.Element => {
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
           <p>
-            Please select a timeframe that you would like to see process logs within.
+            Please specify a timeframe that you would like to see process logs within.
           </p>
           
-          <label htmlFor="num">Number</label>
-          <select id='time' onChange={(e) => handleChange(e)}>
-            <option value="10m">10 minutes</option>
-            <option value="15m">15 minutes</option>
-            <option value="30m">30 minutes</option>
-            <option value="1h">1 hour</option>
-            <option value="3h">3 hours</option>
-            <option value="5h">5 hours</option>
-          </select>
+          {/* TODO: rename labels if neccessary */}
+          <label htmlFor='num'>NUM</label>
+          <input
+            onChange={(e) => setTimeFrameNum(e.target.value)}
+            className={globalStyles.inputShort}
+            type="text"
+            id="num"
+          />
+         
+          <label htmlFor='logOption'>TIME FRAME:</label>
+          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='m'/>Minutes
+          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='h'/>Hours
+          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='d'/>Days
+          
         </div>
       </div>
       <div className={styles.logsHolder}>

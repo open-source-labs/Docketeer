@@ -31,7 +31,7 @@ const convert = (stdout: string): string[][] => {
  *
  * @param {string} containerId
  * @returns {object} optionsObj
- */
+*/
 const makeArrayOfObjects = (
   string: string,
   containerName: string
@@ -47,26 +47,38 @@ const makeArrayOfObjects = (
         logMsg: '',
         containerName: '',
       };
+
       const logArray = element.split(' ');
-      // extract timestamp
-      if (logArray[0].endsWith('Z')) {
-        const timeStamp: string | undefined = logArray.shift();
+
+      // extract timestamp from logArray
+      let timeStamp: string = logArray.find(el => el.endsWith('Z'));
+
+      // if there is a timestamp, parse it (if statement isn't really neccessary, but TS complains)
+      if (timeStamp) {
+        timeStamp = timeStamp.replace(/t(s)?=/, '');
+
         // parse GMT string to be readable local date and time
-        obj.timeStamp = new Date(Date.parse(timeStamp || '')).toLocaleString();
+        // ! this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
+        obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', { timeZone: 'America/New_York' });
       }
+
       // parse remaining array to create readable message
-      let logMsg: string = logArray.join(' ');
+      let logMsg: string = logArray.filter(el => !el.endsWith('Z')).join(' ');
+      
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
       const closingIndex: number = logMsg.indexOf(']');
       if (closingIndex >= 0) {
         logMsg = logMsg.slice(closingIndex + 1).trim();
       }
+
       // after removing [num/notice], some logs also have 'LOG:' before the actual msg
       if (logMsg.slice(0, 4) === 'LOG:') {
         logMsg = logMsg.slice(4);
       }
+
       obj.logMsg = logMsg.trim();
       obj.containerName = containerName;
+
       return obj;
     });
 
@@ -76,15 +88,17 @@ const makeArrayOfObjects = (
   );
   return arrayOfLogs;
 };
+
 /**
  * Formats an input num to round to 2 decimal plames
  *
  *  @param {*} num
- *  @note unsused
+ *  @note unused
  */
-const fn = (num: number): number => {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
-};
+// const fn = (num: number): number => {
+//   return Math.round((num + Number.EPSILON) * 100) / 100;
+// };
+
 /**
  * @description makes our command line functions to return Promise
  *  @param {*} cmd
@@ -302,7 +316,7 @@ const commandController: CommandController = {
         if (error) {
           console.log(
             `${error.message}` +
-              '\nPlease stop running container first then remove.'
+            '\nPlease stop running container first then remove.'
           );
           return next(error);
         }
@@ -435,7 +449,7 @@ const commandController: CommandController = {
       'compose.yaml',
     ]);
 
-    console.log('req.body',req.body)
+    console.log('req.body', req.body);
 
     // const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
     //   ? `cd ${req.body.filePath} && docker compose up -d`
@@ -561,37 +575,22 @@ const commandController: CommandController = {
       stderr: [],
     };
     const optionsObj: { [k: string]: string[] } = req.body;
-    // console.log('optionsObj', req.body);
-
-    // let completedExecs = 0;
 
     // iterate through containerIds array in optionsObj
     for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = 'docker logs ';
-      // if (optionsObj.since) {
-      //   inputCommandString += `--since ${optionsObj.since} `;
-      // }
-      // optionsObj.tail
-      //   ? (inputCommandString += `--tail ${optionsObj.tail} `)
-      //   : (inputCommandString += '--tail 50 ');
-      inputCommandString += `${optionsObj.containerNames[i]}`;
-      // inputCommandString += 'grafana';
-      // execute our command (inputCommandString) to update our containerLogs props to include proper logs
+      let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t `;
+      if (optionsObj.since) inputCommandString += `--since ${optionsObj.since} `;
 
-      // console.log('ab to exec');
       exec(
         inputCommandString,
         (error: Error | null, stdout: string, stderr: string) => {
-          console.log(stdout);
           if (error) {
             console.log(
               'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
             );
             return next(error);
           }
-          // update containerLogs properties to include what was received in stdout/stderr
-          // console.log('broken stuff');
           containerLogs.stdout = [
             ...containerLogs.stdout,
             ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
@@ -601,24 +600,10 @@ const commandController: CommandController = {
             ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
           ];
           res.locals.logs = containerLogs;
-          // console.log('logs', res.locals.logs);
-          // console.log('ab to increment')
-          // completedExecs++;
-          // console.log('CL', completedExecs, containerLogs);
           if (i === optionsObj.containerNames.length - 1) return next();
         }
       );
-      // res.locals.logs = CL;
-      // console.log('after exec');
-      // console.log('locals after exec', res.locals.logs);
     }
-    // console.log('execs', completedExecs);
-    // console.log('AFTER FOR LOOP LOGS', res.locals.logs);
-    // return next();
-    // while(completedExecs !== optionsObj.containerIds.length) {
-    //   // console.log('execs', completedExecs)
-    //   if (completedExecs === optionsObj.containerIds.length) return next();
-    // }
   },
 };
 

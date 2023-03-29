@@ -68,54 +68,54 @@ export const checkPhone = (phone: string) => {
 };
 
 // * changed role_id to string, may need to change back if assignment function is changed
-export const createNewUser = (
-  username: string,
-  password: string,
-  role_id: string
-) => {
-  console.log('ab to fetch -> createNewUser');
-  fetch('/api/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      role_id: role_id,
-    }),
-  })
-    .then((res) => {
-      console.log('res in createNewUser: ', res);
-      console.log('ab to invoke getUpdatedUserList');
-      getUpdatedUserList();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+// export const createNewUser = (
+//   username: string,
+//   password: string,
+//   role_id: string
+// ) => {
+//   console.log('ab to fetch -> createNewUser');
+//   fetch('/api/signup', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       username: username,
+//       password: password,
+//       role_id: role_id,
+//     }),
+//   })
+//     .then((res) => {
+//       console.log('res in createNewUser: ', res);
+//       console.log('ab to invoke getUpdatedUserList');
+//       getUpdatedUserList();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
 
-export const getUpdatedUserList = () => {
-  console.log('ab to fetch -> getUpdatedUserList');
-  fetch('/api/admin', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
-      // token: store.userInfo.token,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('data from getUpdatedUserList: ', data);
-      // updateUserList(data);
-    })
-    .catch((err) => {
-      console.log('error in getUpdatedUserList: ', err);
-    });
-};
+// export const getUpdatedUserList = () => {
+//   console.log('ab to fetch -> getUpdatedUserList');
+//   fetch('/api/admin', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
+//       // token: store.userInfo.token,
+//     }),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log('data from getUpdatedUserList: ', data);
+//       // updateUserList(data);
+//     })
+//     .catch((err) => {
+//       console.log('error in getUpdatedUserList: ', err);
+//     });
+// };
 
 // export const updateUserList = (data: UserInfo[]) => {
 //   const dispatch = useAppDispatch();

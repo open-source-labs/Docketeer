@@ -6,8 +6,10 @@ import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 
-import { useAppDispatch } from '../../reducers/hooks';
-import { updateUsers } from '../../reducers/userReducer';
+import useHelper from '../../helpers/commands';
+
+// import { useAppDispatch } from '../../reducers/hooks';
+// import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
 /**
@@ -27,79 +29,29 @@ const UserTable = (): JSX.Element => {
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
 
   const userList = useAppSelector((state) => state.users.userList);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { createNewUser, getUpdatedUserList } = useHelper();
 
   useEffect(() => {
     getUpdatedUserList();
   }, []);
 
-  const createNewUser = (
-    username: string,
-    password: string,
-    role_id: string
-  ) => {
-    console.log('ab to fetch -> createNewUser');
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        role_id: role_id,
-      }),
-    })
-      .then((res) => {
-        console.log('res in createNewUser: ', res);
-        console.log('ab to invoke getUpdatedUserList');
-        getUpdatedUserList();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getUpdatedUserList = () => {
-    console.log('ab to fetch -> getUpdatedUserList');
-    fetch('/api/admin')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data from getUpdatedUserList: ', data);
-        dispatch(updateUsers(data));
-      })
-      .catch((err) => {
-        console.log('error in getUpdatedUserList: ', err);
-      });
-  };
-
-  // ? why is this a POST request?
-  // const getUpdatedUserList = () => {
-  //   console.log('ab to fetch -> getUpdatedUserList');
-  //   fetch('/api/admin', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //     // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
-  //     // token: store.userInfo.token,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('data from getUpdatedUserList: ', data);
-  //       dispatch(updateUsers(data));
-  //     })
-  //     .catch((err) => {
-  //       console.log('error in getUpdatedUserList: ', err);
-  //     });
-  // };
-
-  // const updateUserList = (data: UserInfo[]) => {
-  //   const dispatch = useAppDispatch();
-  //   dispatch(updateUsers(data));
-  // };
+  const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
+    return (
+      <tbody key={i}>
+        <tr>
+          <td>{user._id}</td>
+          <td>{user.username}</td>
+          <td>{user.role}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.contact_pref}</td>
+          <td>{user.mem_threshold}</td>
+          <td>{user.cpu_threshold}</td>
+        </tr>
+      </tbody>
+    );
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -119,22 +71,7 @@ const UserTable = (): JSX.Element => {
                 <th>CPU</th>
               </tr>
             </thead>
-            {userList.map((user: UserInfo, i: number): JSX.Element => {
-              return (
-                <tbody key={`user-${i}`}>
-                  <tr>
-                    <td>{user._id}</td>
-                    <td>{user.username}</td>
-                    <td>{user.role}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.contact_pref}</td>
-                    <td>{user.mem_threshold}</td>
-                    <td>{user.cpu_threshold}</td>
-                  </tr>
-                </tbody>
-              );
-            })}
+            {renderUsers}
           </table>
         </div>
       </div>

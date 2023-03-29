@@ -26,17 +26,17 @@ const userController: UserController = {
 
       let role: string;
       switch (role_id) {
-      case '1':
-        role = 'system admin';
-        break;
-      case '2':
-        role = 'admin';
-        break;
-      case '3':
-        role = 'user';
-        break;
-      default:
-        role = '';
+        case '1':
+          role = 'system admin';
+          break;
+        case '2':
+          role = 'admin';
+          break;
+        case '3':
+          role = 'user';
+          break;
+        default:
+          role = '';
       }
 
       console.log('ab to query to create user');
@@ -64,19 +64,14 @@ const userController: UserController = {
 
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
 
-    console.log('in userController.getAllUsers');
-
     if ('error' in res.locals) {
       return next();
     } else {
       const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
-          // ? all users are added to res.locals.users, but new user is grabbed from res.locals.user in createUser
-          res.locals.users = response.rows;
-          
-          console.log('res.locals.users(getAllUsers): ', res.locals.users);
 
+          res.locals.users = response.rows;
           return next();
         })
         .catch((err: ServerError): void => {

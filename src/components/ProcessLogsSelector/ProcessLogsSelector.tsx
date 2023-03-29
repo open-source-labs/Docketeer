@@ -1,5 +1,5 @@
 import React from 'react';
-import { RowsDataType, ProcessLogsSelectorProps} from '../../../types';
+import { ProcessLogsSelectorProps } from '../../../types';
 import styles from './ProcessLogsSelector.module.scss';
 
 // const defaultContainerList = [

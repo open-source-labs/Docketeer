@@ -6,13 +6,11 @@ import { Router, Request, Response } from 'express';
 import initController from '../controllers/initController';
 
 const router = Router();
-// TODO make sure to check what we are sending in the body, is it the name? or githuburl?
 
 // ==========================================================
 // Route: /github
 // Purpose: Grabs url of specified container
 // ==========================================================
-
 router.post(
   '/github',
   initController.gitUrl,
@@ -25,7 +23,6 @@ router.post(
 // Route: /addMetrics
 // Purpose: adds metrics to our metrics table of each individual container
 // ==========================================================
-
 router.post(
   '/addMetrics',
   initController.addMetrics,
@@ -33,13 +30,11 @@ router.post(
     return res.status(201).json({});
   }
 );
-// TODO should this be a get request?
 
 // ==========================================================
 // Route: /getMetrics
 // Purpose: retrieves metrics from our metrics table of each individual container
 // ==========================================================
-
 router.post(
   '/getMetrics',
   initController.getMetrics,

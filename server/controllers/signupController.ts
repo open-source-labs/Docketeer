@@ -1,36 +1,18 @@
-/**
- * @module | signupController.ts
- * @description | Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
- **/
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
-import { SignupController, ServerError, User } from '../../types';
-
-interface signupControllerMethods {
-  /**
-   * @description Checks if username already exists in the database
-   * @note If user exists, error handler will return an error object with the relevant middleware passing from next()
-   */
-  usernameCheck;
-
-  /**
-   * @description Checks if password is at least 6 characters long
-   * @note Only performed if usernameCheck is successful with NO errors
-   */
-  passwordCheck;
-}
+import { SignupController, ServerError, UserInfo } from '../../types';
 
 /**
  * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
  */
-const signupController: SignupController & signupControllerMethods = {
+const signupController: SignupController = {
   usernameCheck: (req: Request, res: Response, next: NextFunction): void => {
     const { username }: { username: string } = req.body;
     // SQL query to check if username already exists in datebase, not unique.
     console.log('username -> ab to query', username)
     const checkUsernameExists = `SELECT * FROM users WHERE username='${username}';`;
     db.query(checkUsernameExists)
-      .then((data: { rows: User[] }): void => {
+      .then((data: { rows: UserInfo[] }): void => {
         // if row 0 or username already exists, throw error
         console.log('data.rows: ', data.rows)
         console.log('data.rows[0]: ', data.rows[0])

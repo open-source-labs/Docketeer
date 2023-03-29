@@ -5,7 +5,6 @@ import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
 
-// Importing features
 import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';
 // import Yml from './features/Yml';
@@ -14,8 +13,8 @@ import Settings from './components/Settings/Settings';
 import Users from './components/Users/Users';
 import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
-// import ProcessLogsTable from '../components/ProcessLogsTable/ProcessLogsTable';
 import SharedLayout from './components/SharedLayout/SharedLayout';
+import About from './components/About/About';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,6 +34,7 @@ const App = () => {
         <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
+        <Route path="/home/about" element={<About />} />
         {/* <Route
           path="/home/logTable/:containerId"
           element={<ProcessLogsTable />}

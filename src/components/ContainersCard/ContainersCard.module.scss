@@ -1,14 +1,9 @@
-.containerList {
-  display: grid;
-  gap: 1rem;
-  grid-template: 1fr 1fr / 1fr 1fr;
-  width: 100%;
-}
 .containerCard {
   @extend .card;
   position: relative;
   display: flex;
   flex-direction: column;
+  word-wrap: break-word;
 }
 .textHolder {
   margin-bottom: 1rem;
@@ -16,9 +11,12 @@
 .buttonHolder {
   display: flex;
   justify-content: space-between;
+}
+.buttonSpacer {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
   button {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }

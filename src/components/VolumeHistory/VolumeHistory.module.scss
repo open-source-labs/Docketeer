@@ -2,12 +2,15 @@
   display: flex;
   flex-direction: column;
   margin: $default-page-margin;
+  h2 {
+    margin-bottom: 1rem;
+  }
 }
 
 .searchHolder {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .volumesHolder {
@@ -19,4 +22,35 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+}
+
+.volumesCard {
+  @extend .card;
+  min-height: 120px;
+  word-wrap: break-word;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .volumesDisplay {
+    grid-template-columns: 1fr 1fr;
+  }
+  .listHolder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .volumesDisplay {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .volumesDisplay {
+    grid-template-columns: 1fr;
+  }
 }

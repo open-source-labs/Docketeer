@@ -92,24 +92,28 @@ const Containers = (): JSX.Element => {
       <div className={styles.listHolder}>
         <h2>RUNNING CONTAINERS</h2>
         <p className={styles.count}>Count: {runningList.length}</p>
-        <ContainersCard
-          containerList={runningList}
-          stopContainer={stopContainer}
-          runContainer={runContainer}
-          removeContainer={removeContainer}
-          status="running"
-        />
+        <div className={styles.containerList}>
+          <ContainersCard
+            containerList={runningList}
+            stopContainer={stopContainer}
+            runContainer={runContainer}
+            removeContainer={removeContainer}
+            status="running"
+          />
+        </div>
       </div>
       <div className={styles.listHolder}>
         <h2>STOPPED CONTAINERS</h2>
         <p className={styles.count}>Count: {stoppedList.length}</p>
-        <ContainersCard
-          containerList={stoppedList}
-          stopContainer={stopContainer}
-          runContainer={runContainer}
-          removeContainer={removeContainer}
-          status="stopped"
-        />
+        <div className={styles.containerList}>
+          <ContainersCard
+            containerList={stoppedList}
+            stopContainer={stopContainer}
+            runContainer={runContainer}
+            removeContainer={removeContainer}
+            status="stopped"
+          />
+        </div>
       </div>
     </div>
   );

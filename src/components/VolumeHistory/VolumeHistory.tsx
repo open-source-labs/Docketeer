@@ -77,7 +77,7 @@ const VolumeHistory = (): JSX.Element => {
         <div className={styles.volumesDisplay}>
           {volumeContainersList.map((volume: VolumeObj, i: number) => {
             return (
-              <div className={`${globalStyles.card} ${styles.card}`} key={i}>
+              <div className={`${styles.volumesCard} ${styles.card}`} key={i}>
                 <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>
                 <div>
                   {volume.containers.length ? (

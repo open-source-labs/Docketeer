@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
+// import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -22,7 +22,7 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
- **/
+**/
 
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
@@ -37,9 +37,9 @@ const ProcessLogs = (): JSX.Element => {
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
-  } {
+  }{
     const newObj = {};
-    containerList.forEach(({ Names }) => (newObj[Names] = false));
+    containerList.forEach(({ Names }) => newObj[Names] = false);
     return newObj;
   }
 
@@ -59,6 +59,7 @@ const ProcessLogs = (): JSX.Element => {
   useEffect(() => {
     tableData();
   }, [counter, csvData.length]);
+
 
   // helper func to create a single object to send to the backend
   const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
@@ -80,26 +81,24 @@ const ProcessLogs = (): JSX.Element => {
 
     dispatch(createAlert('Loading process log information...', 5, 'success'));
 
-    const optionsObj = buildOptionsObj(
-      idArr,
-      createTimeFrameStr(timeFrameNum, timeFrame)
-    );
-    console.log('optionsObj: ', optionsObj);
+    const optionsObj = buildOptionsObj(idArr, createTimeFrameStr(timeFrameNum, timeFrame));
     const containerLogs = await getLogs(optionsObj);
+
 
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
+
 
     return containerLogs;
   };
 
   // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
-  const createTimeFrameStr = (num, option) =>
-    option === 'd' ? `${num * 24}h` : `${num}${option}`;
+  const createTimeFrameStr = (num, option) => option === 'd' ? `${num * 24}h` : `${num}${option}`;
 
   // Handle checkboxes
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
+
 
     if (newBtnIdList[name]) {
       newBtnIdList[name] = false;
@@ -110,6 +109,7 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
+  // creates an array of log messages and saves it to state
   // creates an array of log messages and saves it to state
   const tableData = () => {
     const newRows: RowsDataType[] = [];
@@ -163,6 +163,7 @@ const ProcessLogs = (): JSX.Element => {
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.runningContainersHolder}>
@@ -206,8 +207,7 @@ const ProcessLogs = (): JSX.Element => {
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
           <p>
-            Please specify a timeframe that you would like to see process logs
-            within.
+            Please specify a timeframe that you would like to see process logs within.
           </p>
           {/* TODO: rename labels if neccessary */}
           <label htmlFor="num">NUM</label>

@@ -22,7 +22,7 @@ function SharedLayout(): JSX.Element {
   const { updateSession, logoutUser } = useSurvey();
 
   const {isLoggedIn} = useAppSelector((state) => state.sessions);
-  console.log('session in SharedLayout.tsx', isLoggedIn);
+  // console.log('session in SharedLayout.tsx', isLoggedIn);
 
   const logOut = async (): Promise<void> => {
     updateSession();

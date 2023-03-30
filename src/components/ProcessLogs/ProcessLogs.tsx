@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -22,7 +21,7 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
-**/
+ **/
 
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
@@ -31,7 +30,6 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  const runningBtnList = getContainerNames(runningList);
   const runningBtnList = getContainerNames(runningList);
 
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
@@ -81,7 +79,6 @@ const ProcessLogs = (): JSX.Element => {
     console.log('idList: ', idList);
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
-
     dispatch(createAlert('Loading process log information...', 5, 'success'));
 
     const optionsObj = buildOptionsObj(
@@ -96,12 +93,8 @@ const ProcessLogs = (): JSX.Element => {
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
 
-
     return containerLogs;
   };
-
-  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
-  const createTimeFrameStr = (num, option) => option === 'd' ? `${num * 24}h` : `${num}${option}`;
 
   // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
   const createTimeFrameStr = (num, option) =>
@@ -110,7 +103,6 @@ const ProcessLogs = (): JSX.Element => {
   // Handle checkboxes
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
-
 
     if (newBtnIdList[name]) {
       newBtnIdList[name] = false;
@@ -175,7 +167,6 @@ const ProcessLogs = (): JSX.Element => {
     setRows(newRows as keyof typeof setRows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
-
 
   return (
     <div className={styles.wrapper}>

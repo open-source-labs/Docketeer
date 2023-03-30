@@ -15,34 +15,46 @@ const About = () => {
           />
         </a>
       </div>
-      <h2>
-        Docketeer
-      </h2>
-      <div className={styles.aboutParagraph}>
-        Greetings, fellow space traveler! We're thrilled that you've chosen our application to help you navigate and explore the vast universe of Docker infrastructure. As a Docketeer, you know that real-time tracking of metrics and logs is essential for staying ahead of potential issues and optimizing your workflows.<br></br>
+      <h2>DOCKETEER</h2>
+      <p>
+        Greetings, fellow space traveler! We&apos;re thrilled that you&apos;ve
+        chosen our application to help you navigate and explore the vast
+        universe of Docker infrastructure. As a Docketeer, you know that
+        real-time tracking of metrics and logs is essential for staying ahead of
+        potential issues and optimizing your workflows.<p></p>
+        Our application provides you with the tools you need to take control of
+        your Docker images, containers, volumes, and logs. With an intuitive
+        interface and powerful administrative features, you can easily make the
+        necessary adjustments to ensure a smooth journey through the cosmos of
+        your Docker environment.
+      </p>
+      <h2>OUR TEAM</h2>
+      <p>
+        As a team of passionate engineers, we are dedicated to improving the
+        workflow of developers as they explore the vast universe of Docker
+        infrastructure. We know that space travel can be complex and
+        challenging, but with the right tools and support, you can navigate the
+        stars with ease.
+        <p></p>
+        Our mission is to provide Docketeers like you with the tools and support
+        you need to make your Docker journey as smooth as possible. We strive to
+        make our application intuitive, powerful, and user-friendly so that you
+        can focus on exploring the Docker universe without worrying about the
+        technical details.
+      </p>
+      <h2>CONTACT US</h2>
+      <p>
+        We would love to hear your feedback and answer any questions you may
+        have about our application. To get in touch with us, you can find us on
+        LinkedIn and GitHub or send us an email. We&apos;re happy to chat with
+        you about how our application can improve your workflow with Docker.
+      </p>
 
-        Our application provides you with the tools you need to take control of your Docker images, containers, volumes, and logs. With an intuitive interface and powerful administrative features, you can easily make the necessary adjustments to ensure a smooth journey through the cosmos of your Docker environment.
-      </div>
-      <br></br>
-      <h2>
-        Our Team
-      </h2>
-      <div className={styles.aboutParagraph}>
-        As a team of passionate engineers, we are dedicated to improving the workflow of developers as they explore the vast universe of Docker infrastructure. We know that space travel can be complex and challenging, but with the right tools and support, you can navigate the stars with ease.
-        <br></br> 
-        Our mission is to provide Docketeers like you with the tools and support you need to make your Docker journey as smooth as possible. We strive to make our application intuitive, powerful, and user-friendly so that you can focus on exploring the Docker universe without worrying about the technical details.
-      </div>
-      <br></br>
-      <h2>
-        Contact us
-      </h2>
-      <div className={styles.aboutParagraph}>
-        We would love to hear your feedback and answer any questions you may have about our application. To get in touch with us, you can find us on LinkedIn and GitHub or send us an email. We're happy to chat with you about how our application can improve your workflow with Docker.
-      </div>
-      <br></br>
-      <br></br>
       <footer className={styles.footer}>
-        <a className={styles.footerIcons} href="https://twitter.com/dockDockGoose7">
+        <a
+          className={styles.footerIcons}
+          href="https://twitter.com/dockDockGoose7"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -53,7 +65,10 @@ const About = () => {
           </svg>
         </a>
 
-        <a className={styles.footerIcons} href="https://github.com/open-source-labs/Docketeer">
+        <a
+          className={styles.footerIcons}
+          href="https://github.com/open-source-labs/Docketeer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -78,7 +93,10 @@ const About = () => {
           </svg>
         </a>
 
-        <a className={styles.footerIcons} href="https://www.linkedin.com/company/docketeer/">
+        <a
+          className={styles.footerIcons}
+          href="https://www.linkedin.com/company/docketeer/"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

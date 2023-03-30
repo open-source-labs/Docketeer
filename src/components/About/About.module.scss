@@ -7,22 +7,39 @@
   h2 {
     margin-bottom: 1rem;
   }
+  p {
+    margin-bottom: 1rem;
+    max-width: 820px;
+    font-size: 1.2rem;
+  }
 }
 
 .logo {
-  width: 300px
+  max-width: 250px;
 }
 
 .aboutParagraph {
-  width: 820px;
-  font-size: 17px;
 }
 .footer {
-  width: 1000px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin: 1rem;
 }
 
 .footerIcons {
-  width: 30px
+  height: 30px;
+  svg {
+    fill: color(light, base);
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    p {
+      width: 80%;
+    }
+  }
+  .footer {
+    width: 100%;
+  }
 }

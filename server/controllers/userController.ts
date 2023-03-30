@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-import { UserController, ServerError, User } from '../../types';
+import { UserController, ServerError, UserInfo } from '../../types';
 
 /**
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
+const userController: UserController = {
 const userController: UserController = {
   createUser: async (
     req: Request,
@@ -26,6 +27,17 @@ const userController: UserController = {
 
       let role: string;
       switch (role_id) {
+        case '1':
+          role = 'system admin';
+          break;
+        case '2':
+          role = 'admin';
+          break;
+        case '3':
+          role = 'user';
+          break;
+        default:
+          role = '';
         case '1':
           role = 'system admin';
           break;
@@ -70,6 +82,7 @@ const userController: UserController = {
       const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
+
 
           res.locals.users = response.rows;
           return next();
@@ -191,6 +204,7 @@ const userController: UserController = {
     };
     const { username }: { username: string } = req.body;
     // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
+    // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
     // define a querystring to update password of our user and return the affected columns
     const query =
       'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
@@ -246,6 +260,24 @@ const userController: UserController = {
           },
         });
       });
+  },
+
+  addCookie: (req: Request, res: Response, next: NextFunction): void => {
+    res.cookie('loggedIn', true);
+    return next();
+  },
+
+  checkCookie: (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.cookies.loggedIn) res.locals.notSignedIn = true;
+    return next();
+  },
+
+  removeCookie: (req: Request, res: Response, next: NextFunction): void => {
+    console.log('abt to rmv cookie');
+    res.clearCookie('loggedIn');
+    console.log('cookied rmvd');
+    res.locals.loggedOut = true;
+    return next();
   },
 
   addCookie: (req: Request, res: Response, next: NextFunction): void => {

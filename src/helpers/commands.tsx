@@ -51,7 +51,7 @@ const useHelper = () => {
         fetch('/api/admin')
           .then((response) => response.json())
           .then((data) => {
-            // console.log('data from getUpdatedUserList: ', data);
+            console.log('data from getUpdatedUserList: ', data);
             updateUsers(data);
           })
           .catch((err) => {
@@ -98,6 +98,9 @@ const useHelper = () => {
         fetch(`/api/command/removeContainer?id=${containerID}`, {
           method: 'DELETE',
         })
+        fetch(`/api/command/removeContainer?id=${containerID}`, {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -108,6 +111,9 @@ const useHelper = () => {
       /* Stops a container on what user selects @param {*} id */
       stop(id) {
         const { stopRunningContainer } = dispatch;
+        fetch(`/api/command/stopContainer?id=${id}`, {
+          method: 'DELETE',
+        })
         fetch(`/api/command/stopContainer?id=${id}`, {
           method: 'DELETE',
         })
@@ -152,12 +158,18 @@ const useHelper = () => {
         fetch(`/api/command/removeImage?id=${id}`, {
           method: 'DELET',
         }).then(() => {
+        fetch(`/api/command/removeImage?id=${id}`, {
+          method: 'DELET',
+        }).then(() => {
           refreshImages().catch((err: Error): void => console.log(err));
         });
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
+        fetch('/api/command/dockerPrune', {
+          method: 'DELETE',
+        })
         fetch('/api/command/dockerPrune', {
           method: 'DELETE',
         })

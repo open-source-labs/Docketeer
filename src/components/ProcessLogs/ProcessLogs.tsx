@@ -87,6 +87,8 @@ const ProcessLogs = (): JSX.Element => {
     console.log('optionsObj: ', optionsObj);
     const containerLogs = await getLogs(optionsObj);
 
+    console.log('containerLogs: ', containerLogs);
+
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
 
@@ -115,9 +117,11 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
 
+    const combinedList = [...runningList, ...stoppedList];
+
     if (stdout.length) {
       stdout.forEach((log: stdType) => {
-        const currCont = runningList.find(
+        const currCont = combinedList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
         if (currCont) {
@@ -139,7 +143,7 @@ const ProcessLogs = (): JSX.Element => {
     }
     if (stderr.length) {
       stderr.forEach((log: stdType) => {
-        const currCont = runningList.find(
+        const currCont = combinedList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
         if (currCont) {

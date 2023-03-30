@@ -7,7 +7,7 @@ import userController from '../controllers/userController';
 import bcryptController from '../controllers/bcryptController';
 
 const router = Router();
-// TODO do these do anything? ALSO should these be a patch/put requests?
+
 // updates password
 router.post(
   '/password',

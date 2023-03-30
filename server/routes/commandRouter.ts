@@ -2,7 +2,6 @@
  * @module COMMAND Router
  * @description Routes all requests to APIs
  */
-// TODO changed removeImage/Container, stopContainer, dockerPrune from get to delete requests
 import { Router, Request, Response } from 'express';
 import commandController from '../controllers/commandController';
 
@@ -176,7 +175,6 @@ router.post(
   '/allLogs',
   commandController.getLogs,
   (req: Request, res: Response): Response => {
-    // console.log('res.locals.logs', res.locals.logs);
     return res.status(201).json(res.locals.logs);
   }
 );

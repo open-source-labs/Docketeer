@@ -6,8 +6,10 @@ import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 
-import { useAppDispatch } from '../../reducers/hooks';
-import { updateUsers } from '../../reducers/userReducer';
+import useHelper from '../../helpers/commands';
+
+// import { useAppDispatch } from '../../reducers/hooks';
+// import { updateUsers } from '../../reducers/userReducer';
 // import { UserInfo } from '../../../types';
 
 /**
@@ -27,51 +29,12 @@ const UserTable = (): JSX.Element => {
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
 
   const userList = useAppSelector((state) => state.users.userList);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { createNewUser, getUpdatedUserList } = useHelper();
 
   useEffect(() => {
     getUpdatedUserList();
   }, []);
-
-  const createNewUser = (
-    username: string,
-    password: string,
-    role_id: string
-  ) => {
-    console.log('ab to fetch -> createNewUser');
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        role_id: role_id,
-      }),
-    })
-      .then((res) => {
-        console.log('res in createNewUser: ', res);
-        console.log('ab to invoke getUpdatedUserList');
-        getUpdatedUserList();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getUpdatedUserList = () => {
-    console.log('ab to fetch -> getUpdatedUserList');
-    fetch('/api/admin')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data from getUpdatedUserList: ', data);
-        dispatch(updateUsers(data));
-      })
-      .catch((err) => {
-        console.log('error in getUpdatedUserList: ', err);
-      });
-  };
 
   return (
     <div className={styles.wrapper}>
@@ -150,6 +113,7 @@ const UserTable = (): JSX.Element => {
               setValues({ ...values, password: e.target.value });
             }}
           />
+
           <input
             className={globalStyles.input}
             type="password"

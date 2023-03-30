@@ -16,8 +16,6 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
   const updateUser = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    console.log('updated vals', updatedUserValues);
-
     setUpdatedUserValues({
       username: '',
       password: '',
@@ -32,11 +30,9 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
   };
 
   return (
-
     <div className={styles.wrapper}>
       <div className={styles.general}>
         <div className={styles.updateUserHolder}>
-          <button onClick={togglePopup}>X</button>
           <form onSubmit={(e) => updateUser(e)}>
             <input
               className={globalStyles.input}
@@ -149,18 +145,19 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
               />
               <label htmlFor="set-phone">Text</label>
             </fieldset>
-
-            <button className={globalStyles.button1}>
-              Update User
-            </button>
-
-            <button className={globalStyles.button2}>
-              Cancel
-            </button>
+                
+            <div className={styles.button}>
+              <button className={globalStyles.button1}>
+                Update User
+              </button>
+              <button onClick={togglePopup} className={globalStyles.button2}>
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

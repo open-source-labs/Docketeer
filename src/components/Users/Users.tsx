@@ -6,10 +6,8 @@ import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 
 import useHelper from '../../helpers/commands';
-
-// import { useAppDispatch } from '../../reducers/hooks';
-// import { updateUsers } from '../../reducers/userReducer';
-// import { UserInfo } from '../../../types';
+import UserPopup from '../UserPopup/UserPopup';
+import UserDeletePopup from '../UserDeletePopup/UserDeletePopup';
 
 /**
  * @module | Users.js
@@ -24,25 +22,28 @@ const defaultSignUpValues: SignUpValues = {
 };
 
 const UserTable = (): JSX.Element => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-    console.log('showPopup: ', showPopup);
-  }
-
+  const [showUpdatePopup, setUpdatePopup] = useState<boolean>(false);  
+  const [showDeletePopup, setDeletePopup] = useState<boolean>(false);  
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
-
+  
   const userList = useAppSelector((state) => state.users.userList);
   // const dispatch = useAppDispatch();
   const { createNewUser, getUpdatedUserList } = useHelper();
-  // const dispatch = useAppDispatch();
-  const { createNewUser, getUpdatedUserList } = useHelper();
-
+  
   useEffect(() => {
     getUpdatedUserList();
   }, []);
+  
+
+  const toggleUpdatePopup = () => { 
+    setUpdatePopup(!showUpdatePopup);
+  };
+ 
+  const toggleDeletePopup = () => { 
+    setDeletePopup(!showDeletePopup);
+  };
+ 
 
   return (
     <div className={styles.wrapper}>
@@ -77,12 +78,18 @@ const UserTable = (): JSX.Element => {
                     <td>{user.mem_threshold}</td>
                     <td>{user.cpu_threshold}</td>
                     <td>
-                      <button onClick={togglePopup}>
+                      <button
+                        className={styles.editUserButton}
+                        onClick={toggleUpdatePopup}
+                      >
                         Edit
                       </button>
                     </td>
                     <td>
-                      <button>
+                      <button
+                        className={styles.deleteUserButton}
+                        onClick={toggleDeletePopup}
+                      >
                         Delete
                       </button>
                     </td>
@@ -94,9 +101,8 @@ const UserTable = (): JSX.Element => {
         </div>
       </div>
 
-      {showPopup ? <UserPopup togglePopup={togglePopup} /> : null}
-
-
+      {showUpdatePopup ? <UserPopup togglePopup={toggleUpdatePopup} /> : null}
+      {showDeletePopup ? <UserDeletePopup togglePopup={toggleDeletePopup} /> : null}
 
       <div className={styles.createUserHolder}>
         <h2>CREATE NEW USER</h2>

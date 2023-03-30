@@ -6,50 +6,54 @@ import styles from './About.module.scss';
 const About = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.logo}>
-        <a href="https://www.docketeer.org/demo">
-          <img
-            className={styles.logo}
-            src={Docketeer}
-            alt="footer-product-logo"
-          />
-        </a>
+      <a href="https://www.docketeer.org/demo">
+        <img
+          className={styles.logo}
+          src={Docketeer}
+          alt="footer-product-logo"
+        />
+      </a>
+      <div className={styles.section}>
+        <h2>DOCKETEER</h2>
+        <p>
+          Greetings, fellow space traveler! We&apos;re thrilled that you&apos;ve
+          chosen our application to help you navigate and explore the vast
+          universe of Docker infrastructure. As a Docketeer, you know that
+          real-time tracking of metrics and logs is essential for staying ahead
+          of potential issues and optimizing your workflows.<p></p>
+          Our application provides you with the tools you need to take control
+          of your Docker images, containers, volumes, and logs. With an
+          intuitive interface and powerful administrative features, you can
+          easily make the necessary adjustments to ensure a smooth journey
+          through the cosmos of your Docker environment.
+        </p>
       </div>
-      <h2>DOCKETEER</h2>
-      <p>
-        Greetings, fellow space traveler! We&apos;re thrilled that you&apos;ve
-        chosen our application to help you navigate and explore the vast
-        universe of Docker infrastructure. As a Docketeer, you know that
-        real-time tracking of metrics and logs is essential for staying ahead of
-        potential issues and optimizing your workflows.<p></p>
-        Our application provides you with the tools you need to take control of
-        your Docker images, containers, volumes, and logs. With an intuitive
-        interface and powerful administrative features, you can easily make the
-        necessary adjustments to ensure a smooth journey through the cosmos of
-        your Docker environment.
-      </p>
-      <h2>OUR TEAM</h2>
-      <p>
-        As a team of passionate engineers, we are dedicated to improving the
-        workflow of developers as they explore the vast universe of Docker
-        infrastructure. We know that space travel can be complex and
-        challenging, but with the right tools and support, you can navigate the
-        stars with ease.
-        <p></p>
-        Our mission is to provide Docketeers like you with the tools and support
-        you need to make your Docker journey as smooth as possible. We strive to
-        make our application intuitive, powerful, and user-friendly so that you
-        can focus on exploring the Docker universe without worrying about the
-        technical details.
-      </p>
-      <h2>CONTACT US</h2>
-      <p>
-        We would love to hear your feedback and answer any questions you may
-        have about our application. To get in touch with us, you can find us on
-        LinkedIn and GitHub or send us an email. We&apos;re happy to chat with
-        you about how our application can improve your workflow with Docker.
-      </p>
-
+      <div className={styles.section}>
+        <h2>OUR TEAM</h2>
+        <p>
+          As a team of passionate engineers, we are dedicated to improving the
+          workflow of developers as they explore the vast universe of Docker
+          infrastructure. We know that space travel can be complex and
+          challenging, but with the right tools and support, you can navigate
+          the stars with ease.
+          <p></p>
+          Our mission is to provide Docketeers like you with the tools and
+          support you need to make your Docker journey as smooth as possible. We
+          strive to make our application intuitive, powerful, and user-friendly
+          so that you can focus on exploring the Docker universe without
+          worrying about the technical details.
+        </p>
+      </div>
+      <div className={styles.section}>
+        <h2>CONTACT US</h2>
+        <p>
+          We would love to hear your feedback and answer any questions you may
+          have about our application. To get in touch with us, you can find us
+          on LinkedIn and GitHub or send us an email. We&apos;re happy to chat
+          with you about how our application can improve your workflow with
+          Docker.
+        </p>
+      </div>
       <footer className={styles.footer}>
         <a
           className={styles.footerIcons}

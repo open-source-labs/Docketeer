@@ -16,16 +16,19 @@ const UserDeletePopup = ({ togglePopup }): JSX.Element => {
         <p>
           Are you sure you want to delete this user?
         </p>
-                
+
         <div className={styles.button}>
           <button onClick={deleteUser} className={globalStyles.button1}>
-                Delete User
+            Delete User
           </button>
+          &nbsp;
+          &nbsp;
+          &nbsp;
           <button onClick={togglePopup} className={globalStyles.button2}>
-                Cancel
+            Cancel
           </button>
         </div>
-    
+
       </div>
     </div >
   );

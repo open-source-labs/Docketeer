@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.scss';
+import globalStyles from '../global.module.scss';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from '../../assets/docketeer-title.png';
-import { UserInfo } from '../../types';
-import { createAlert } from '../reducers/alertReducer';
-import { useAppDispatch } from '../reducers/hooks';
-import useSurvey from './helpers/dispatch';
+import Docketeer from '../../../assets/docketeer-title.png';
+import { UserInfo } from '../../../types';
+import { createAlert } from '../../reducers/alertReducer';
+import { useAppDispatch } from '../../reducers/hooks';
+import useSurvey from '../../helpers/dispatch';
 
 /**
  * @module | Login
- * @description | Login component which renders a login page, and sign-up modal. This is the first component that is appended to the dist/.renderer-index-template.html via renderer/index.js
+ * @description | Login component which renders a login page, and sign-up modal. This is the first component that users are routed to if there are no active sessions.
  **/
 
 const Login = (): JSX.Element => {
@@ -26,7 +28,6 @@ const Login = (): JSX.Element => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
     // prevent default form submission action
     e.preventDefault();
-    // authenticate user
     authenticateUser(username, password);
   };
 
@@ -55,7 +56,6 @@ const Login = (): JSX.Element => {
       // parse the response
       const parsedResponse = await response.json();
 
-      // TODO: show data expected to be received
       console.log('parsedResponse: ', parsedResponse);
 
       // Switch state `loggedIn` to true
@@ -63,9 +63,10 @@ const Login = (): JSX.Element => {
       // Update user information in sessionsReducer
       updateUserInfo(parsedResponse);
       // create alert to notify user that they have successfully logged in
+
       dispatch(
         createAlert(
-          `Welcome back to Docketeer, ${parsedResponse.username}!`,
+          `Welcome back Docketeer, ${parsedResponse.username}!`,
           5,
           'success'
         )
@@ -92,44 +93,36 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row lg:space-x-20">
-        <img src={Docketeer} alt="product-logo" className="max-w-sm" />
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form className="card-body" onSubmit={(e) => handleLogin(e)}>
-            <div className="form-control">
-              <input
-                className="input input-bordered"
-                type="text"
-                id="username"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="form-control">
-              <input
-                className="input input-bordered"
-                type="password"
-                id="password"
-                value={password}
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <label className="label">
-                <a
-                  className="label-text-alt link link-hover"
-                  onClick={() => navigate('/userSignup')}
-                >
-                  HELLLOOOOOO.
-                </a>
-              </label>
-            </div>
-            <div className="form-control mt-2">
-              <button className="btn btn-primary">Login</button>
-            </div>
-          </form>
-        </div>
+    <div className={styles.wrapper}>
+      <img src={Docketeer} alt="product-logo" className={styles.logo} />
+      <div className={styles.formHolder}>
+        <form onSubmit={(e) => handleLogin(e)}>
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className={globalStyles.input}
+            type="password"
+            id="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className={styles.buttonHolder}>
+            <button className={globalStyles.button1}>Login</button>
+            <button
+              className={globalStyles.button2}
+              onClick={() => navigate('/userSignup')}
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

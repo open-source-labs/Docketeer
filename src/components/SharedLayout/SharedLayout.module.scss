@@ -1,5 +1,4 @@
-.wrapper {
-}
+.wrapper {}
 
 $navbar-transition: transform 0.3s ease-in-out;
 
@@ -24,11 +23,13 @@ $navbar-transition: transform 0.3s ease-in-out;
     align-items: center;
     text-align: left;
   }
+
   li {
     list-style: none;
     padding: 0.5rem 0.2rem;
     margin-right: 0.5rem;
   }
+
   a {
     text-decoration: none;
     color: color(white, tan);
@@ -36,9 +37,9 @@ $navbar-transition: transform 0.3s ease-in-out;
     height: 100%;
   }
 }
+
 .navLeft,
-.navRight {
-}
+.navRight {}
 
 .navLeft {
   // display: flex;
@@ -47,8 +48,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   // width: 100%;
 }
 
-.navRight {
-}
+.navRight {}
 
 .userName {
   margin-right: 0.5rem;
@@ -63,6 +63,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   cursor: pointer;
 
   border-color: color(background, darkest);
+
   &:hover {
     // color: color(light, base);
     // text-decoration: underline;
@@ -70,6 +71,7 @@ $navbar-transition: transform 0.3s ease-in-out;
     border-bottom: 4px solid color(background, darkest);
     // border-spacing: 0;
   }
+
   &:focus-visible {
     outline: 2px solid color(light, base);
     outline-offset: 2px;
@@ -96,8 +98,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   background-color: color(darks, base);
 }
 
-.footerLogo {
-}
+.footerLogo {}
 
 .footerIcons {
   display: flex;
@@ -112,12 +113,14 @@ $navbar-transition: transform 0.3s ease-in-out;
   .wrapper {
     margin-top: 1rem;
   }
+
   .userName {
     padding-left: 0rem;
     margin-left: 1rem;
     margin-top: 0.5rem;
     width: calc($sidebar-width - 1rem);
   }
+
   .navButton,
   .active {
     transition: all 0.1s ease-in;
@@ -125,6 +128,7 @@ $navbar-transition: transform 0.3s ease-in-out;
     margin-left: 1rem;
     margin-top: 0.5rem;
     width: calc($sidebar-width - 1rem);
+
     &:hover {
       border-bottom: none;
       border-left: 4px solid color(background, darkest);
@@ -132,6 +136,7 @@ $navbar-transition: transform 0.3s ease-in-out;
       border-spacing: 0px 4px;
     }
   }
+
   .navBar {
     // animation
     transition: $navbar-transition;

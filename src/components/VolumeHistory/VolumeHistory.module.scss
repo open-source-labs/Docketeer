@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   margin: $default-page-margin;
+
   h2 {
     margin-bottom: 1rem;
   }
@@ -35,9 +36,11 @@
     display: flex;
     flex-direction: column;
   }
+
   .volumesDisplay {
     grid-template-columns: 1fr 1fr;
   }
+
   .listHolder {
     width: 100%;
   }

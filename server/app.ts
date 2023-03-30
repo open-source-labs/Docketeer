@@ -2,13 +2,13 @@
 import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import { exec } from 'child_process';
+// import cookieParser from 'cookie-parser'; // for when cookies get implemented
+
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
-app.use(cookieParser());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(
@@ -23,7 +23,7 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  },
+  }
 );
 
 // Importing routers...
@@ -36,12 +36,19 @@ import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
 import signupRouter from './routes/signupRouter';
+// import userController from './controllers/userController';
 
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser()); // for when cookies get implemented
 
+// check for cookie
+// app.use('/', userController.checkCookie, (req: Request, res: Response): void => {
+//   console.log('cookffffffs', req.headers.cookie, req.cookies);
+//   if (res.locals.notSignedIn) res.redirect('/login');
+// });
+// console.log('exited cookie check');
 // Defining routers...
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
@@ -72,7 +79,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  },
+  }
 );
 
 // Exporting app...

@@ -5,6 +5,8 @@
 
 import { Router, Request, Response } from 'express';
 import userController from '../controllers/userController';
+// import apiController from '../controllers/apiController'; // controller for sending email notification
+// import signupController from '../controllers/signupController';
 
 const router = Router();
 
@@ -21,14 +23,10 @@ router.get(
 router.post(
   '/',
   userController.createUser,
-  (req: Request, res: Response) => {
-    if (res.locals.token) {
-      res.cookie('admin', res.locals.token, { httpOnly: true });
-      return res.status(201).json(res.locals.newUser);
-    } else {
-      return res.status(200).json(res.locals.newUser);
-    }
-  },
+  (req: Request, res: Response): Response => {
+    if (res.locals.error) return res.status(201).json(res.locals);
+    return res.status(201).json('successfully added new user to database');
+  }
 );
 
 export default router;

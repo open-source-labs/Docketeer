@@ -1,14 +1,17 @@
 // !
 // !
 // ! Currently not used, is meant to send email alerts
+// currently not used, is meant to send email alerts
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import email from '../../security/email';
 import { ApiController, ServerError } from '../../types';
 
-// *** Signup email not currently being used. ***
-
+// ==========================================================
+// Function: transporter
+// Purpose: create transporter object to make sure these values are filled out in email.js
+// ==========================================================
 const transporter = nodemailer.createTransport({
   host: email.host,
   port: email.port,

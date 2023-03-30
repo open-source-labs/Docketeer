@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin: $default-page-margin;
+
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
@@ -30,10 +31,12 @@
     display: flex;
     flex-direction: column;
   }
+
   .containerList {
     grid-template-columns: 1fr 1fr 1fr;
     transform: all 0.2s ease-in-out;
   }
+
   .listHolder {
     width: 100%;
   }

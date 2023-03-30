@@ -9,9 +9,11 @@
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 2rem;
+
   input {
     min-width: 40%;
   }
+
   h2 {
     margin-bottom: 1rem;
   }
@@ -21,6 +23,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+
   h2 {
     margin-bottom: 1rem;
   }
@@ -47,12 +50,16 @@
 .textHolder {
   margin-bottom: 2rem;
 }
+
 .buttonHolder {
+  
 }
+
 .buttonSpacer {
   position: absolute;
   bottom: 0.5rem;
   left: 0.5rem;
+
   button {
     margin-right: 0.5rem;
   }

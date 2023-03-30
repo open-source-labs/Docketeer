@@ -22,7 +22,7 @@ function SharedLayout(): JSX.Element {
   const { updateSession, logoutUser } = useSurvey();
 
   const {isLoggedIn} = useAppSelector((state) => state.sessions);
-  console.log('session in SharedLayout.tsx', isLoggedIn);
+  // console.log('session in SharedLayout.tsx', isLoggedIn);
 
   const logOut = async (): Promise<void> => {
     updateSession();
@@ -30,7 +30,6 @@ function SharedLayout(): JSX.Element {
 
     // what is this try block doing?
     try {
-      console.log('logging out, in the try block');
       console.log('logging out, in the try block');
       const response = await fetch('/api/logout', {
         method: 'POST',
@@ -43,11 +42,9 @@ function SharedLayout(): JSX.Element {
       });
       const parsedData = await response.json();
       console.log('parsedData', parsedData);
-      console.log('parsedData', parsedData);
     } catch (err) {
       console.log(err);
     }
-    if (isLoggedIn === false) navigate('/login');
     if (isLoggedIn === false) navigate('/login');
   };
 

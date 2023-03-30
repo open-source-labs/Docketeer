@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createNewUser } from '../../helpers/newUserHelper';
+import { createNewUser } from '../../helpers/commands';
 import globalStyles from '../global.module.scss';
 
 /**

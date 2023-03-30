@@ -38,7 +38,6 @@ const ProcessLogs = (): JSX.Element => {
     name: string;
     value: boolean;
   } {
-  } {
     const newObj = {};
     containerList.forEach(({ Names }) => newObj[Names] = false);
     return newObj;

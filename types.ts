@@ -24,13 +24,6 @@ export interface SignUpValues extends UserBase {
 }
 
 export interface UserInfo extends User {
-// ? not used anymore?
-export interface SignUpValues extends UserBase {
-  passwordConfirmation: string;
-  showPassword: boolean;
-}
-
-export interface UserInfo extends User {
   // removed password property on userInfo as it's not being used.
   // changed id from number type to string type so see if that breaks anything
   _id: string;
@@ -39,34 +32,13 @@ export interface UserInfo extends User {
   role: string;
   contact_pref: string;
   // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
-  // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
   mem_threshold: string;
-  // changed cpu threshold from string to string let's see what happens
   // changed cpu threshold from string to string let's see what happens
   cpu_threshold: string;
   // changed container_stops from boolean to string so let's see what happens
   container_stops: string;
   token: string;
 }
-
-export interface SessionStateType extends UserInfo {
-  isLoggedIn: boolean;
-  // userList: any[];
-}
-
-export interface RootState {
-  session: {
-    isLoggedIn?: boolean;
-    role: string;
-  };
-}
-
-export interface userStateType {
-  userList: UserInfo[];
-}
-
-export interface userReducerStateType {
-  name: string;
 
 export interface SessionStateType extends UserInfo {
   isLoggedIn: boolean;
@@ -104,7 +76,6 @@ export interface userReducerStateType {
 export interface ContainerType {
   ID: string;
   Names?: string;
-  Names?: string;
   Image?: string;
   RunningFor?: string;
 }
@@ -120,8 +91,6 @@ export interface StoppedListType extends ContainerType {
 //   ID: string;
 //   Image: string;
 //   RunningFor: string;
-//   Image: string;
-//   RunningFor: string;
 // }
 
 export interface ContainerStateType {
@@ -132,7 +101,6 @@ export interface ContainerStateType {
 }
 
 // for container's being run
-export interface ContainerObj extends ContainerType {
 export interface ContainerObj extends ContainerType {
   Container: string;
 }
@@ -289,7 +257,6 @@ export interface RowsDataType {
 
 export interface ToggleDisplayProps {
   container: ContainerType;
-  container: ContainerType;
 }
 
 
@@ -347,37 +314,109 @@ export interface BcryptController {
 }
 
 export interface CommandController {
-  getContainers: (req: Request, res: Response, next: NextFunction) => void;
-  runImage: (req: Request, res: Response, next: NextFunction) => void;
-  refreshStopped: (req: Request, res: Response, next: NextFunction) => void;
-  refreshImages: (req: Request, res: Response, next: NextFunction) => void;
-  remove: (req: Request, res: Response, next: NextFunction) => void;
-  stopContainer: (req: Request, res: Response, next: NextFunction) => void;
-  runStopped: (req: Request, res: Response, next: NextFunction) => void;
-  removeImage: (req: Request, res: Response, next: NextFunction) => void;
-  dockerPrune: (req: Request, res: Response, next: NextFunction) => void;
-  pullImage: (req: Request, res: Response, next: NextFunction) => void;
-  networkContainers: (req: Request, res: Response, next: NextFunction) => void;
-  inspectDockerContainer: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => void;
-  composeUp: (req: Request, res: Response, next: NextFunction) => void;
-  composeStacks: (req: Request, res: Response, next: NextFunction) => void;
-  composeDown: (req: Request, res: Response, next: NextFunction) => void;
-  getAllDockerVolumes: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => void;
-  getVolumeContainers: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => void;
-  getLogs: (req: Request, res: Response, next: NextFunction) => void;
-  checkAdmin: (req: Request, res: Response, next: NextFunction) => void;
+  /**
+   * @description pulls running container info from docker ps command as a json object
+   */
+  getContainers: MiddleWareFunction;
+
+  /**
+   * @description executes the docker run command with parameters from body: reps, tag
+   * @note imgid is not used; may want it swapped with containerId in the exec?
+   */
+  runImage: MiddleWareFunction;
+
+  /**
+   * @description executes the docker ps command with status=exited flag to get list of stopped containers
+   */
+  refreshStopped: MiddleWareFunction;
+
+  /**
+   * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
+   */
+  refreshImages: MiddleWareFunction;
+
+  /**
+  * @description executes docker rm {containerId} command to remove a stopped container
+  * @note id is grabbed from req.query
+  */
+  remove: MiddleWareFunction;
+
+  /**
+   * @description executes docker stop {id} command to stop a running container
+   * @note id is grabbed from req.query
+   */
+  stopContainer: MiddleWareFunction;
+
+  /**
+   * @description executes docker start {id} command to run a stopped container
+   * @note id is grabbed from req.query
+   */
+  runStopped: MiddleWareFunction;
+
+  /**
+   * @description executes `docker rmi -f {id} command to remove a pulled image
+   * @note id is grabbed from req.query
+   */
+  removeImage: MiddleWareFunction;
+
+  /**
+   * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
+   */
+  dockerPrune: MiddleWareFunction;
+
+  /**
+   * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
+   * @note image's repo name grabbed from req.query
+   */
+  pullImage: MiddleWareFunction;
+
+  /**
+   * @description Display all containers network based on docker-compose in a json object; when the application starts
+   */
+  networkContainers: MiddleWareFunction;
+
+  /**
+   * @description inspects docker containers
+   * @note is not implemented right now
+   */
+  inspectDockerContainer: MiddleWareFunction;
+
+  /**
+   * @description compose up a network and container from an uploaded yml file
+   * @note file path is grabbed from req.body; IS NOT USED
+   */
+  composeUp: MiddleWareFunction;
+
+  /**
+   * @description get a list of all current container networks, based on running containers; passes the output to locals
+   * @note grabs file path and yml file name from req.body
+   */
+  composeStacks: MiddleWareFunction;
+
+  /**
+   * @description composes down a container and network
+   * @note (from v10): causes server to shut down because container is not properly
+  stopped; button goes away when you leave the page because the
+  file name and location are not in "docker networks" so it gets
+  erased from the state
+   */
+  composeDown: MiddleWareFunction;
+
+  /**
+   * @description retrieves the list of running volumes; passes the output to 'dockerVolumes' in locals
+   */
+  getAllDockerVolumes: MiddleWareFunction;
+
+  /**
+   * @description runs docker ps filtering by volume name to get list of containers running in the specified volume; passes output to 'volumeContainers' in locals
+   * @note grabs volume name from query
+   */
+  getVolumeContainers: MiddleWareFunction;
+
+  /**
+   * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
+   */
+  getLogs: MiddleWareFunction;
 }
 
 // this is not used
@@ -400,19 +439,64 @@ export interface ConfigController {
 
 
 export interface DbController {
-  insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
-  createAdminPassword: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => void;
-  removeToken?: (req: Request, res: Response, next: NextFunction) => void;
+
+  /**
+  * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
+  * @note OIDS is optional for this middleware
+   */
+  createRolesTable: MiddleWareFunction;
+
+  /**
+  * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
+  * @note uses single SQl query for all 3 rows in terms of string query
+   */
+  insertRoles: MiddleWareFunction;
+
+  /**
+  * @description Creates a table in database called "users" with user and container info
+  */
+  createUsersTable: MiddleWareFunction;
+
+  // not used
+  // insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
+
+  /**
+   * @description Creates a hashed password for the system admin user with 10 salt rounds (decrease for faster processing)
+   * @note adds the password as a string for the res.locals object
+   */
+  createAdminPassword: MiddleWareFunction;
+
+  /**
+   * @description Updates user token in the database
+   * @note Destructures username and token from request body
+   */
+  addToken: MiddleWareFunction;
+
+  /**
+   * @description Removes token (sets token to null) after user logs out.
+   * @note Destructures username from request body. Logout propery is created if SQL query is able to update users token to null.
+   */
+  removeToken: MiddleWareFunction;
 }
 
 export interface InitController {
-  gitUrl?: (req: Request, res: Response, next: NextFunction) => void;
-  addMetrics: (req: Request, res: Response, next: NextFunction) => void;
-  getMetrics: (req: Request, res: Response, next: NextFunction) => void;
+
+  /**
+   * @description Obtains github URL from containers name, and assigns it to 'parameter'
+   * @note 'url' property is set on res.locals upon success
+   */
+  gitUrl: MiddleWareFunction;
+
+  /**
+   * @description adds metrics to our metrics table of each individual container
+   */
+  addMetrics: MiddleWareFunction;
+
+  /**
+   * @description Obtains metrics data
+   * @note returns a promise with an object that has the data, located in 'rows'
+   */
+  getMetrics: MiddleWareFunction;
 }
 
 // not used
@@ -462,15 +546,72 @@ export interface SignupController {
 }
 
 export interface UserController {
-  createUser: (req: Request, res: Response, next: NextFunction) => void;
-  getAllUsers: (req: Request, res: Response, next: NextFunction) => void;
-  getOneUser: (req: Request, res: Response, next: NextFunction) => void;
-  verifyUser: (req: Request, res: Response, next: NextFunction) => void;
-  checkSysAdmin?: (req: Request, res: Response, next: NextFunction) => void;
-  switchUserRole?: (req: Request, res: Response, next: NextFunction) => void;
-  updatePassword: (req: Request, res: Response, next: NextFunction) => void;
-  updatePhone: (req: Request, res: Response, next: NextFunction) => void;
-  updateEmail: (req: Request, res: Response, next: NextFunction) => void;
+  /**
+   * @description  Performs SQL query to insert a new user, hashing the password before it does, into "users" table and then RETURNS those values.
+   * @note Extract isername, password, and role ID from req.body
+   */
+  createUser: MiddleWareFunction;
+
+  /**
+   * @description  Gets all users; returned in an array
+   * @note Sorts them by ASCENDING order
+   */
+  getAllUsers: MiddleWareFunction;
+
+  /**
+   * @description  Gets a single user yser
+   * @note Uses destructuring for _id from req.body
+   */
+  getOneUser: MiddleWareFunction;
+
+  /**
+   * @description  verifies username/password are correct and sends back that user info; otherwise sends an error message
+   * @note Extract the username and password from req.body. Any errors get passed onto an error object.
+   */
+  verifyUser: MiddleWareFunction;
+
+  /**
+   * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
+   * @note System admin ID has a role_id of 1
+   */
+  checkSysAdmin: MiddleWareFunction;
+
+  /**
+   * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
+   * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
+   */
+  switchUserRole: MiddleWareFunction;
+
+  /**
+   * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
+   * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
+   */
+  updatePassword: MiddleWareFunction;
+
+  /**
+   * @description   updates the phone number of a user; column is 'phone'
+   */
+  updatePhone: MiddleWareFunction;
+
+  /**
+   * @description   updates the email of a user
+   */
+  updateEmail: MiddleWareFunction;
+
+  /**
+   * @description  adds a cookie to our user's browser to signify they are logged in
+   */
+  addCookie: MiddleWareFunction
+
+  /**
+   * @description  checks if user has a valid cookie
+   */
+  checkCookie: MiddleWareFunction
+
+  /**
+   * @description  removes our user's cookie
+   */
+  removeCookie: MiddleWareFunction
 }
 
 export interface ContainerNetworkObject {

@@ -14,9 +14,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
 
-    # networks:
-    #   - my-network
-
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
     container_name: cadvisor
@@ -34,9 +31,6 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_path: '/metrics'
 
-    # networks:
-    #   - my-network
-
   node-exporter:
     image: docketeerxi/nodeex
     container_name: node-exporter
@@ -51,8 +45,6 @@ services:
       - /:/rootfs:ro
     depends_on:
       - db
-    # networks:
-    #   - my-network
 
   prometheus:
     image: docketeerxi/prometheus
@@ -67,8 +59,6 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_port: '9090'
       org_prometheus_starter_path: '/metrics'
-    # networks:
-    #   - my-network
 
   grafana:
     image: grafana/grafana:latest
@@ -86,31 +76,20 @@ services:
       - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
 
-    # networks:
-    #   - my-network
-
     depends_on:
       - prometheus
-
-  docketeer:
-    image: docketeerxi/docketeer
-    container_name: docketeer
+  dev:
+    image: docketeerxi/docketeer-dev
+    container_name: docketeer-dev
+    build:
+      dockerfile: dockerfile-dev
     ports:
       - 4000:4000
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/app
+      - node_modules:/app/node_modules
     command: npm run dev
-    # networks:
-    #   - my-network
-    # depends_on:
-    #   - grafana
 
-# networks:
-#   my-network:
-#     driver: bridge
-#     driver_opts:
-#       com.docker.network.bridge.name: my-bridge
-#       com.docker.network.bridge.enable_icc: "true"
-#       subnet: "172.16.238.0/24"
-#       gateway: "172.16.238.1"
+volumes:
+  node_modules:

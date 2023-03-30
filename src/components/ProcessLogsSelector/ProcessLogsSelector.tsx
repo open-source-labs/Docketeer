@@ -17,7 +17,7 @@ function ProcessLogsSelector({
           <legend>{status} Containers</legend>
           {containerList.map((container, i) => {
             return (
-              <div key={i} >
+              <div key={i}>
                 <input
                   type="checkbox"
                   id={container.Names}

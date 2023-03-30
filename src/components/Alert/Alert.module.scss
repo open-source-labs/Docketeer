@@ -25,6 +25,7 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+
   button {
     margin-right: 1rem;
   }
@@ -47,6 +48,7 @@
   transition: all 0.5s ease-in-out;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
   p {
     margin: 0 2rem;
   }
@@ -61,12 +63,14 @@
   // background-color: scale-color(color(green, base), $alpha: 40%);
   // border-color: color(green, base);
   min-width: 100%;
+
   svg {
     color: scale-color(color(green, base), $lightness: -40%);
   }
 }
 
 .warning {
+
   // background-color: color(yellow, base);
   // border-color: color(yellow, base);
   svg {
@@ -75,6 +79,7 @@
 }
 
 .error {
+
   // background-color: color(red, base);
   // border-color: color(red, base);
   svg {
@@ -83,6 +88,7 @@
 }
 
 .general {
+
   // background-color: scale-color(color(background, light), $alpha: -6%);
   // border-color: color(background, dark);
   svg {

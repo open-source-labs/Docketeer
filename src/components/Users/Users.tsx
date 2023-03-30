@@ -4,7 +4,6 @@ import { UserInfo } from '../../../types';
 import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
-
 import useHelper from '../../helpers/commands';
 import UserPopup from '../UserPopup/UserPopup';
 import UserDeletePopup from '../UserDeletePopup/UserDeletePopup';
@@ -22,14 +21,14 @@ const defaultSignUpValues: SignUpValues = {
 };
 
 const UserTable = (): JSX.Element => {
-  const [showUpdatePopup, setUpdatePopup] = useState<boolean>(false);  
-  const [showDeletePopup, setDeletePopup] = useState<boolean>(false);  
+  const [showUpdatePopup, setUpdatePopup] = useState<boolean>(false);
+  const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
-  
+
   const userList = useAppSelector((state) => state.users.userList);
   const { createNewUser, getUpdatedUserList } = useHelper();
-  
+
   useEffect(() => {
     getUpdatedUserList();
   }, []);
@@ -74,6 +73,22 @@ const UserTable = (): JSX.Element => {
                     <td>{user.contact_pref}</td>
                     <td>{user.mem_threshold}</td>
                     <td>{user.cpu_threshold}</td>
+                    <td>
+                      <button
+                        className={styles.editUserButton}
+                        onClick={toggleUpdatePopup}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className={styles.deleteUserButton}
+                        onClick={toggleDeletePopup}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               );
@@ -125,7 +140,6 @@ const UserTable = (): JSX.Element => {
               setValues({ ...values, password: e.target.value });
             }}
           />
-
 
           <input
             className={globalStyles.input}

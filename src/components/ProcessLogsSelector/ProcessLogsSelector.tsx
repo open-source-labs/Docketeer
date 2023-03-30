@@ -14,6 +14,7 @@ function ProcessLogsSelector({
   containerList,
   handleCheck,
   btnIdList,
+  status,
 }: ProcessLogsSelectorProps): JSX.Element {
   // const [containerList, setContainerList] =
   // useState<object[]>(defaultContainerList);
@@ -22,10 +23,10 @@ function ProcessLogsSelector({
     <div className={styles.wrapper}>
       <form>
         <fieldset>
-          <legend>Container List</legend>
-          {containerList.map((container) => {
+          <legend>{status} Containers</legend>
+          {containerList.map((container, i) => {
             return (
-              <div key={container}>
+              <div key={i}>
                 <input
                   type="checkbox"
                   id={container.Names}

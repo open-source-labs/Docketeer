@@ -178,7 +178,7 @@ const useSurvey = () => {
         dispatch(getLogs(data));
       },
     }),
-    [dispatch]
+    [dispatch],
   );
   return actions;
 };

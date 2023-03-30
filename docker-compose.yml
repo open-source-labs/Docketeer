@@ -5,7 +5,7 @@ services:
     image: docketeerxi/postgres
     restart: always
     ports:
-      - '${POSTGRES_PORT}:5432'
+      - 5432:5432
     volumes:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
@@ -13,6 +13,9 @@ services:
       POSTGRES_DB: ${POSTGRES_NAME}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
+
+    # networks:
+    #   - my-network
 
     # networks:
     #   - my-network
@@ -59,8 +62,8 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
-    #can add volume here to persist the prometheus data.
+    volumes:
+      - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
       - node-exporter
     labels:

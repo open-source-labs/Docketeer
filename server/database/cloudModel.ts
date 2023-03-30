@@ -1,5 +1,11 @@
 import { Pool } from 'pg';
 import { SqlQuery } from '../../types';
+import {
+  POSTGRES_SERVICE,
+  POSTGRES_USER,
+  POSTGRES_PASS,
+  POSTGRES_NAME,
+} from '../../config.js';
 
 const pool: Pool = new Pool({
   host: 'db',

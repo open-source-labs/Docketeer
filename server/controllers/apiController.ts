@@ -1,5 +1,3 @@
-// !
-// !
 // ! Currently not used, is meant to send email alerts
 // currently not used, is meant to send email alerts
 

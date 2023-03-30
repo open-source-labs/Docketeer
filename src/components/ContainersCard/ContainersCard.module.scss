@@ -5,15 +5,17 @@
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  
 }
+
 .textHolder {
   margin-bottom: 1rem;
 }
+
 .buttonHolder {
   display: flex;
   justify-content: space-between;
 }
+
 .buttonSpacer {
   position: absolute;
   bottom: 0.5rem;

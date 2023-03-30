@@ -23,9 +23,6 @@ import globalStyles from '../global.module.scss';
  * @description | Provides process logs for running containers & additional configuration options
 <<<<<<<<< Temporary merge branch 1
 **/
-=========
- **/
->>>>>>>>> Temporary merge branch 2
 
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
@@ -37,11 +34,10 @@ const ProcessLogs = (): JSX.Element => {
   const runningBtnList = getContainerNames(runningList);
 
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
-  // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
-  }{
+  } {
     const newObj = {};
     containerList.forEach(({ Names }) => newObj[Names] = false);
     return newObj;
@@ -213,16 +209,9 @@ const ProcessLogs = (): JSX.Element => {
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
           <p>
-<<<<<<<<< Temporary merge branch 1
             Please specify a timeframe that you would like to see process logs within.
           </p>
 
-          {/* TODO: rename labels if neccessary */}
-          <label htmlFor='num'>NUM</label>
-=========
-            Please specify a timeframe that you would like to see process logs
-            within.
-          </p>
           {/* TODO: rename labels if neccessary */}
           <label htmlFor="num">NUM</label>
           <input
@@ -282,7 +271,7 @@ const ProcessLogs = (): JSX.Element => {
           </table>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

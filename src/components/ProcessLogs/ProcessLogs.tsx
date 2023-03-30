@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
+// import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -92,6 +92,9 @@ const ProcessLogs = (): JSX.Element => {
     return containerLogs;
   };
 
+  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
+  const createTimeFrameStr = (num, option) => option === 'd' ? `${num * 24}h` : `${num}${option}`;
+
   // Handle checkboxes
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
@@ -111,10 +114,8 @@ const ProcessLogs = (): JSX.Element => {
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
-    const newCSV: CSVDataType[] = [];
 
     if (stdout.length) {
-      stdout.forEach((log: stdType) => {
       stdout.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
@@ -138,7 +139,6 @@ const ProcessLogs = (): JSX.Element => {
     }
     if (stderr.length) {
       stderr.forEach((log: stdType) => {
-      stderr.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
@@ -148,7 +148,6 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stderr',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: Math.random() * 100,
             id: Math.random() * 100,
           });
           newCSV.push([
@@ -160,8 +159,6 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    setRows(newRows as keyof typeof setRows);
-    setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
     setRows(newRows as keyof typeof setRows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };

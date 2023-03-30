@@ -20,10 +20,14 @@
   grid-template: 1fr 1fr / 1fr 1fr;
   margin-bottom: 1rem;
 }
-.runningButtons {
+.buttonHolder {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
+  button {
+    margin-right: 1rem;
+  }
 }
 
 .runningLeft {
@@ -32,7 +36,7 @@
   flex: 1;
   padding-right: 1rem;
   p {
-    margin-top: 1rem;
+    margin: 1rem 0;
   }
   form {
     width: 100%;

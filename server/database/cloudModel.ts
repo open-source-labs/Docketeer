@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import { SqlQuery } from '../../types';
 
-const pool = new Pool({
+const pool: Pool = new Pool({
   host: 'db',
   user: 'postgres',
   password: 'postgres',

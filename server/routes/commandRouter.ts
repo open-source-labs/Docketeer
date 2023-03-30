@@ -2,7 +2,6 @@
  * @module COMMAND Router
  * @description Routes all requests to APIs
  */
-
 import { Router, Request, Response } from 'express';
 import commandController from '../controllers/commandController';
 
@@ -17,7 +16,7 @@ const router = Router();
 router.get(
   '/refreshRunning',
   commandController.getContainers,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.containers);
   }
 );
@@ -27,7 +26,7 @@ router.post(
   '/runImage',
   commandController.runImage,
   commandController.getContainers,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.containers);
   }
 );
@@ -36,7 +35,7 @@ router.post(
 router.get(
   '/refreshStopped',
   commandController.refreshStopped,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.stoppedContainers);
   }
 );
@@ -51,20 +50,21 @@ router.get(
 );
 
 // Route to remove a stopped container
-router.get(
+router.delete(
   '/removeContainer',
   commandController.remove,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.idRemoved);
   }
 );
 
+
 // Route to stop a running container
-router.get(
+router.delete(
   '/stopContainer',
   commandController.stopContainer,
   commandController.refreshStopped,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.containerStopped);
   }
 );
@@ -73,25 +73,25 @@ router.get(
 router.get(
   '/runStopped',
   commandController.runStopped,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.containerRan);
   }
 );
 
 // Route to remove an image
-router.get(
+router.delete(
   '/removeImage',
   commandController.removeImage,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200);
   }
 );
 
 // Route for running the docker prune command
-router.get(
+router.delete(
   '/dockerPrune',
   commandController.dockerPrune,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.pruneMessage);
   }
 );
@@ -100,7 +100,7 @@ router.get(
 router.get(
   '/pullImage',
   commandController.pullImage,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.imgMessage);
   }
 );
@@ -109,16 +109,16 @@ router.get(
 router.get(
   '/networkContainers',
   commandController.networkContainers,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.networkContainers);
   }
 );
 
-// Route to inspect docker container
+// Route to inspect docker container; currently not implemented
 router.get(
   '/inspect',
   commandController.inspectDockerContainer,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.inspectOut);
   }
 );
@@ -128,7 +128,7 @@ router.post(
   '/composeUp',
   commandController.composeUp,
   commandController.composeStacks,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.output);
   }
 );
@@ -138,7 +138,7 @@ router.post(
   '/composeDown',
   commandController.composeDown,
   commandController.composeStacks,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.output);
   }
 );
@@ -147,7 +147,7 @@ router.post(
 router.get(
   '/composeStacks',
   commandController.composeStacks,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.output);
   }
 );
@@ -156,7 +156,7 @@ router.get(
 router.get(
   '/allDockerVolumes',
   commandController.getAllDockerVolumes,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.dockerVolumes);
   }
 );
@@ -165,7 +165,7 @@ router.get(
 router.get(
   '/volumeContainers',
   commandController.getVolumeContainers,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.volumeContainers);
   }
 );
@@ -174,7 +174,7 @@ router.get(
 router.post(
   '/allLogs',
   commandController.getLogs,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     return res.status(201).json(res.locals.logs);
   }
 );

@@ -1,21 +1,21 @@
-/**
- * @module | signupController.ts
- * @description | Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
- **/
-
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
-import { SignupController, ServerError } from '../../types';
+import { SignupController, ServerError, UserInfo } from '../../types';
 
+/**
+ * @description Contains middleware that checks if username exists, if password meets requirements upon signup, and if the login form is missing a username or password
+ */
 const signupController: SignupController = {
-  // verify username is unique
-  usernameCheck: (req: Request, res: Response, next: NextFunction) => {
-    const { username } = req.body;
-
+  usernameCheck: (req: Request, res: Response, next: NextFunction): void => {
+    const { username }: { username: string } = req.body;
+    // SQL query to check if username already exists in datebase, not unique.
+    console.log('username -> ab to query', username)
     const checkUsernameExists = `SELECT * FROM users WHERE username='${username}';`;
-
     db.query(checkUsernameExists)
-      .then((data: any) => {
+      .then((data: { rows: UserInfo[] }): void => {
+        // if row 0 or username already exists, throw error
+        console.log('data.rows: ', data.rows)
+        console.log('data.rows[0]: ', data.rows[0])
         if (data.rows[0]) {
           res.locals.error = 'Username already exists.';
           return next();
@@ -23,7 +23,7 @@ const signupController: SignupController = {
           return next();
         }
       })
-      .catch((err: ServerError) => {
+      .catch((err: ServerError): void => {
         return next({
           log: `Error in signupController usernameCheck: ${err}`,
           message: {
@@ -32,13 +32,9 @@ const signupController: SignupController = {
         });
       });
   },
-
-  // verify password meets requirements
-  passwordCheck: (req: Request, res: Response, next: NextFunction) => {
+  passwordCheck: (req: Request, res: Response, next: NextFunction): void => {
     if (res.locals.error) return next();
-
-    const { password } = req.body;
-
+    const { password }: { password: string } = req.body;
     if (password.length >= 6) {
       return next();
     } else {
@@ -47,5 +43,4 @@ const signupController: SignupController = {
     }
   },
 };
-
 export default signupController;

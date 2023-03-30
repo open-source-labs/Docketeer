@@ -4,26 +4,26 @@
  **/
 
 import { Router, Request, Response } from 'express';
-import signupController from '../controllers/signupController';
-import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
-import apiController from '../controllers/apiController';
+// import apiController from '../controllers/apiController'; // controller for sending email notification
+// import signupController from '../controllers/signupController';
 
 const router = Router();
 
-// Only trigger this endpoint when sysAdmin logs in
-router.get('/', userController.getAllUsers, (req: Request, res: Response) => {
-  return res.status(200).json(res.locals.users);
-});
+// Only trigger this endpoint when sysAdmin logs in; gets all users
+router.get(
+  '/',
+  userController.getAllUsers,
+  (req: Request, res: Response): Response => {
+    return res.status(200).json(res.locals.users);
+  }
+);
 
+// Hashes password and inserts user to db
 router.post(
   '/',
-  signupController.usernameCheck,
-  signupController.passwordCheck,
-  bcryptController.hashPassword,
   userController.createUser,
-  apiController.signupEmail,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response): Response => {
     if (res.locals.error) return res.status(201).json(res.locals);
     return res.status(201).json('successfully added new user to database');
   }

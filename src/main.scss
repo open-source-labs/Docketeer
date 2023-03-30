@@ -82,3 +82,10 @@ body {
     padding-left: $sidebar-width;
   }
 }
+
+@media screen and (min-width: 2560px) {
+  body {
+    margin: 0 auto;
+    max-width: 2560px;
+  }
+}

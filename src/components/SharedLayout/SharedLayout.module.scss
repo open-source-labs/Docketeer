@@ -26,6 +26,8 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
   li {
     list-style: none;
+    padding: 0.5rem 0.2rem;
+    margin-right: 0.5rem;
   }
   a {
     text-decoration: none;
@@ -58,8 +60,6 @@ $navbar-transition: transform 0.3s ease-in-out;
   text-align: left;
   color: color(light, base);
   display: inline-block;
-  padding: 0.5rem 0.2rem;
-  margin-right: 0.5rem;
   cursor: pointer;
 
   border-color: color(background, darkest);

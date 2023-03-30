@@ -10,7 +10,6 @@ src/database/docketeerdb
 server/database/docketeerdb
 dist/
 
-
 coverage/
 
 out/

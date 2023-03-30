@@ -28,6 +28,9 @@
 <div align="center">
   
   <br />
+    <br />
+  <img src="assets/docketeerwords.png" alt="Logo" width="fit" height="auto">
+   <br /> 
   <br />
   <img src="assets/dlogo-no-bg.png" alt="Logo" width="fit" height="auto">
    <br /> 

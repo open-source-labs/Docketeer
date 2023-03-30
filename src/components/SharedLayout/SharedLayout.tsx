@@ -176,7 +176,7 @@ function SharedLayout(): JSX.Element {
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
-        <ul className={styles.innerNav}>
+        <ul className={styles.navLeft}>
           <li>
             <NavLink
               className={({ isActive }) =>
@@ -272,7 +272,11 @@ function SharedLayout(): JSX.Element {
               ABOUT
             </NavLink>
           </li>
-          <li>{userData.username && <span>{`${userData.username}`}</span>}</li>
+        </ul>
+        <ul className={styles.navRight}>
+          <li className={styles.userName}>
+            {userData.username && <span>{`${userData.username}`}</span>}
+          </li>
           <li>
             <a className={styles.navButton} onClick={() => handleLogOut()}>
               LOGOUT

@@ -25,7 +25,7 @@ const UserTable = (): JSX.Element => {
   const togglePopup = () => {
     setShowPopup(!showPopup);
     console.log('showPopup: ', showPopup);
-  }
+  };
 
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);

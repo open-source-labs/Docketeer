@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
-import { ContainerType, RowsDataType, CSVDataType, stdType } from '../../../types';
+import {
+  ContainerType,
+  RowsDataType,
+  CSVDataType,
+  stdType,
+} from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 
 import { createAlert } from '../../reducers/alertReducer';
@@ -70,6 +75,8 @@ const ProcessLogs = (): JSX.Element => {
 
   // takes in a btnIdList, passes that into buildObptionObj
   const handleGetLogs = async (idList: object) => {
+    console.log('getting logs');
+    console.log('idList: ', idList);
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
     dispatch(createAlert('Loading process log information...', 5, 'success'));
@@ -77,18 +84,18 @@ const ProcessLogs = (): JSX.Element => {
     const optionsObj = buildOptionsObj(idArr, createTimeFrameStr(timeFrameNum, timeFrame));
     const containerLogs = await getLogs(optionsObj);
 
+
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
 
+
     return containerLogs;
   };
-  
-  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
-  const createTimeFrameStr = (num, option) => option === 'd' ? `${num * 24}h` : `${num}${option}`;
 
   // Handle checkboxes
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
+
 
     if (newBtnIdList[name]) {
       newBtnIdList[name] = false;
@@ -100,11 +107,14 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   // creates an array of log messages and saves it to state
+  // creates an array of log messages and saves it to state
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
+    const newCSV: CSVDataType[] = [];
 
     if (stdout.length) {
+      stdout.forEach((log: stdType) => {
       stdout.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
@@ -128,6 +138,7 @@ const ProcessLogs = (): JSX.Element => {
     }
     if (stderr.length) {
       stderr.forEach((log: stdType) => {
+      stderr.forEach((log: stdType) => {
         const currCont = runningList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
@@ -137,6 +148,7 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stderr',
             time: log['timeStamp'],
             message: log['logMsg'],
+            id: Math.random() * 100,
             id: Math.random() * 100,
           });
           newCSV.push([
@@ -150,6 +162,8 @@ const ProcessLogs = (): JSX.Element => {
     }
     setRows(newRows as keyof typeof setRows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
+    setRows(newRows as keyof typeof setRows);
+    setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
 
 
@@ -160,16 +174,24 @@ const ProcessLogs = (): JSX.Element => {
           <h2>RUNNING CONTAINERS</h2>
           <div>Count: {runningList.length}</div>
           <p>
-            Please choose the running container(s) you would like to view
-            process logs for.
+            Please choose the container(s) you would like to view process logs
+            for.
           </p>
           <ProcessLogsSelector
             containerList={runningList}
             handleCheck={handleCheck}
             btnIdList={btnIdList}
+            status="Running"
           />
 
-          <div className={styles.runningButtons}>
+          <ProcessLogsSelector
+            containerList={stoppedList}
+            handleCheck={handleCheck}
+            btnIdList={btnIdList}
+            status="Stopped"
+          />
+
+          <div className={styles.buttonHolder}>
             <button
               className={globalStyles.button1}
               type="button"
@@ -190,21 +212,36 @@ const ProcessLogs = (): JSX.Element => {
           <p>
             Please specify a timeframe that you would like to see process logs within.
           </p>
-          
           {/* TODO: rename labels if neccessary */}
-          <label htmlFor='num'>NUM</label>
+          <label htmlFor="num">NUM</label>
           <input
             onChange={(e) => setTimeFrameNum(e.target.value)}
             className={globalStyles.inputShort}
             type="text"
             id="num"
           />
-         
-          <label htmlFor='logOption'>TIME FRAME:</label>
-          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='m'/>Minutes
-          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='h'/>Hours
-          <input onChange={(e) => setTimeFrame(e.target.value)} type="radio" name="logOption" value='d'/>Days
-          
+          <label htmlFor="logOption">TIME FRAME:</label>
+          <input
+            onChange={(e) => setTimeFrame(e.target.value)}
+            type="radio"
+            name="logOption"
+            value="m"
+          />
+          Minutes
+          <input
+            onChange={(e) => setTimeFrame(e.target.value)}
+            type="radio"
+            name="logOption"
+            value="h"
+          />
+          Hours
+          <input
+            onChange={(e) => setTimeFrame(e.target.value)}
+            type="radio"
+            name="logOption"
+            value="d"
+          />
+          Days
         </div>
       </div>
       <div className={styles.logsHolder}>
@@ -232,23 +269,6 @@ const ProcessLogs = (): JSX.Element => {
               );
             })}
           </table>
-        </div>
-      </div>
-      <div className={styles.stoppedContainersHoler}>
-        <h2>STOPPED CONTAINERS</h2>
-        <div>Count: {stoppedList.length}</div>
-
-        <div className={styles.cardHolder}>
-          {stoppedList.map(
-            (container: ContainerType, index: number): JSX.Element => (
-              <ProcessLogsCard
-                key={index}
-                index={index}
-                container={container}
-                status="Stopped"
-              />
-            )
-          )}
         </div>
       </div>
     </div>

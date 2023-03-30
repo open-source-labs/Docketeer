@@ -33,16 +33,14 @@ const UserTable = (): JSX.Element => {
   useEffect(() => {
     getUpdatedUserList();
   }, []);
-  
 
-  const toggleUpdatePopup = () => { 
+  const toggleUpdatePopup = (): void => {
     setUpdatePopup(!showUpdatePopup);
   };
- 
-  const toggleDeletePopup = () => { 
+
+  const toggleDeletePopup = (): void => {
     setDeletePopup(!showDeletePopup);
   };
- 
 
   return (
     <div className={styles.wrapper}>

@@ -4,33 +4,28 @@
 $navbar-transition: transform 0.3s ease-in-out;
 
 .navBar {
+  // setting the animation for page resize
   transition: $navbar-transition;
   transform: translateY($navbar-height);
-  // transform: translateY(
-  //   -300px
-  // ); /* the element is transposed 300px to the left of where it's supposed to be */
-  // transition: transform s ease-out;
+  top: -$navbar-height;
 
   background-color: color(background, base);
   display: flex;
+  justify-content: space-between;
   position: fixed;
   z-index: 9999;
-  top: -$navbar-height;
   left: 0px;
   right: 0px;
   padding: 0 1rem;
   height: $navbar-height;
-  // transition: opacity 250ms;
-  // will-change: transform;
+
   ul {
     display: flex;
-    // align-items: start;
     align-items: center;
     text-align: left;
   }
   li {
     list-style: none;
-    // margin: 0 0.5rem;
   }
   a {
     text-decoration: none;
@@ -39,12 +34,23 @@ $navbar-transition: transform 0.3s ease-in-out;
     height: 100%;
   }
 }
+.navLeft,
+.navRight {
+}
 
-.innerNav {
+.navLeft {
   // display: flex;
   // justify-content: space-around;
   // align-items: center;
   // width: 100%;
+}
+
+.navRight {
+}
+
+.userName {
+  margin-right: 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 
 .navButton,
@@ -55,8 +61,7 @@ $navbar-transition: transform 0.3s ease-in-out;
   padding: 0.5rem 0.2rem;
   margin-right: 0.5rem;
   cursor: pointer;
-  // width: 6rem;
-  // transition: all 0.1s ease-in;
+
   border-color: color(background, darkest);
   &:hover {
     // color: color(light, base);
@@ -107,6 +112,12 @@ $navbar-transition: transform 0.3s ease-in-out;
   .wrapper {
     margin-top: 1rem;
   }
+  .userName {
+    padding-left: 0rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    width: calc($sidebar-width - 1rem);
+  }
   .navButton,
   .active {
     transition: all 0.1s ease-in;
@@ -122,9 +133,11 @@ $navbar-transition: transform 0.3s ease-in-out;
     }
   }
   .navBar {
+    // animation
     transition: $navbar-transition;
     transform: translateY(100%);
     transform: translateX($sidebar-width);
+    // position
     margin: 0px;
     position: absolute;
     z-index: 9999;
@@ -134,7 +147,12 @@ $navbar-transition: transform 0.3s ease-in-out;
     padding: 0;
     width: $sidebar-width;
     height: 100%;
-    ul {
+    // handle left and right navbars
+    flex-direction: column;
+    justify-content: start;
+
+    ul,
+    span {
       display: flex;
       align-items: start;
       flex-direction: column;

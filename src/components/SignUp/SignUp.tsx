@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './SignUp.module.scss';
 import globalStyles from '../global.module.scss';
+// import { checkDbInit } from '../../helpers/newUserHelper';
 import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -22,7 +23,6 @@ const SignUp = (): JSX.Element => {
   });
   const navigate = useNavigate();
   const { createNewUser } = useHelper();
-
 
   const checkDbInit = () => {
     fetch('/api/db')

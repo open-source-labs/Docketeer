@@ -1,18 +1,20 @@
 import React from 'react';
-import { RowsDataType, ProcessLogsSelectorProps} from '../../../types';
 import styles from './ProcessLogsSelector.module.scss';
 
 function ProcessLogsSelector({
   containerList,
   handleCheck,
-  btnIdList
+  btnIdList,
+  status,
 }: ProcessLogsSelectorProps): JSX.Element {
+  // const [containerList, setContainerList] =
+  // useState<object[]>(defaultContainerList);
 
   return (
     <div className={styles.wrapper}>
       <form>
         <fieldset>
-          <legend>Container List</legend>
+          <legend>{status} Containers</legend>
           {containerList.map((container, i) => {
             return (
               <div key={i} >

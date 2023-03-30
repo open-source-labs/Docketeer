@@ -139,7 +139,8 @@ $navbar-transition: transform 0.3s ease-in-out;
     transform: translateX($sidebar-width);
     // position
     margin: 0px;
-    position: absolute;
+    position: fixed;
+    // position: absolute;
     z-index: 9999;
     top: 0px;
     left: -$sidebar-width;

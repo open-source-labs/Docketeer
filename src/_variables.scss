@@ -1,7 +1,17 @@
 //
 $base-color: #7a0d43;
 
+$default-page-margin: 1rem 2rem;
+
+$navbar-height: 60px;
+$sidebar-width: 170px;
+
 $shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
+
+$breakpoint-sm: 630px;
+$breakpoint-md: 860px;
+$breakpoint-lg: 1047px;
+$breakpoint-uw: 1300px;
 
 $solid-background-fade: linear-gradient(
   140deg,
@@ -40,6 +50,7 @@ $background-fade: linear-gradient(
   hsl(0deg 0% 31%) 100%
 );
 
+// pallette for selecting colors
 $palettes: (
   background: (
     transparent: hsl(0, 0%, 0%, 0.1),
@@ -79,6 +90,7 @@ $palettes: (
   ),
 );
 
+// corresponds with above color palette. Simplifies the use of colors across the codebase
 @function color($color, $tone) {
   // @warn map-get($palettes, $color);
 
@@ -96,4 +108,24 @@ $palettes: (
 
   @warn "unknown color `#{$color}` in palette";
   @return null;
+}
+
+// card is in variables to allow for easy extending and customization in containers, images, and volume history. Keeps tha base option the same, but allows for easy customization. Simply change things here and it will change everywhere.
+.card {
+  background-image: $background-fade;
+  box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  min-width: 12rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
 }

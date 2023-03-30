@@ -1,34 +1,12 @@
-/**
- * @module | bcryptController.ts
- * @description | Contains middleware that encrypts password before storing in database and compares a user's inputted password to their stored password
- **/
-
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
 import { BcryptController } from '../../types';
 
-interface bcryptMethods {
-  /**
-   * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
-   */
-  hashPassword,
-
-  /**
-   * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
-   */
-  hashNewPassword,
-
-  /**
-   * @description uses roleID and username from users in locals to update user's token with cookie(after being hashed) adds token to user prop in locals
-   */
-  hashCookie
-}
-
 /**
  * @description A controller to handle hashing of passwords and cookies
  */
-const bcryptController: BcryptController & bcryptMethods = {
+const bcryptController: BcryptController = {
   
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
@@ -51,18 +29,12 @@ const bcryptController: BcryptController & bcryptMethods = {
         });
       });
   },
-
-  // ==========================================================
-  // Middleware: hashNewPassword
-  // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
-  // ==========================================================
-  // return type is Promise<void> signifying we return a promise w a void value; in this case the invocation of next()
+  
   hashNewPassword: (
     req: Request,
     res: Response,
     next: NextFunction
   ): void => {
-    // TODO check if new password works changed: Object.prototype.hasOwnProperty.call(res.locals, "error") to what is now on ln 51
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
     if (res.locals.error) {
       return next();

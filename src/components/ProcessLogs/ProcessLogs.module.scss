@@ -1,8 +1,14 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  margin: 0 15%;
+  margin: $default-page-margin;
+  input {
+    margin-right: 0.5rem;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 .runningContainersHolder {
   display: flex;
@@ -14,10 +20,14 @@
   grid-template: 1fr 1fr / 1fr 1fr;
   margin-bottom: 1rem;
 }
-.runningButtons {
+.buttonHolder {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
+  button {
+    margin-right: 1rem;
+  }
 }
 
 .runningLeft {
@@ -26,7 +36,11 @@
   flex: 1;
   padding-right: 1rem;
   p {
-    margin-top: 1rem;
+    margin: 1rem 0;
+  }
+  form {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
 
@@ -35,12 +49,33 @@
   flex-direction: column;
   flex: 1;
   padding-left: 1rem;
+  p {
+    padding-bottom: 0.5rem;
+  }
+  span {
+    padding-right: 1ch;
+  }
+  label {
+    margin-right: 1rem;
+  }
 }
 
 .logsHolder {
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.tableHolder {
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  margin-bottom: 3rem;
+  border: 1px solid color(light, base);
+  margin-bottom: 2rem;
+  max-height: 50vh;
+
+  table {
+    border: none;
+  }
 }

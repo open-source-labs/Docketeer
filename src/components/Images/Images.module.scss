@@ -1,28 +1,77 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  margin: 0 15%;
+  margin: $default-page-margin;
 }
 
 .imageSearchHolder {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 1rem 0;
-  h1 {
+  margin-bottom: 2rem;
+  input {
+    min-width: 40%;
+  }
+  h2 {
     margin-bottom: 1rem;
   }
-  input {
-    width: 30%;
+}
+
+.availableImagesHolder {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  h2 {
+    margin-bottom: 1rem;
   }
 }
 
 .imageHolder {
   display: grid;
-  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.imageCard {
+  @extend .card;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
 }
 
 .image {
-  height: 5rem;
+  height: 4rem;
+}
+
+.textHolder {
+  margin-bottom: 2rem;
+}
+.buttonHolder {
+}
+.buttonSpacer {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  button {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .imageHolder {
+    grid-template-columns: 1fr;
+  }
 }

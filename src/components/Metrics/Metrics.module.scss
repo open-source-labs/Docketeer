@@ -1,0 +1,25 @@
+.wrapper {
+  margin: $default-page-margin;
+  height: 100%;
+  h2 {
+    // transition: transform 0.3s ease-in-out;
+    // transform: translateY($navbar-height);
+    // position: static;
+    // top: -$navbar-height;
+    margin-bottom: 1rem;
+  }
+}
+
+.metrics {
+  width: 100%;
+  min-height: 100%;
+  height: calc(100vh - (60px + 6rem));
+  min-height: 20rem;
+  border: 0px;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .metrics {
+    height: calc(100vh - (6rem));
+  }
+}

@@ -2,14 +2,14 @@
  * @module AdminRouter
  * @description Routes all requests to admin endpoint
  */
-// TODO is this file used?
 import { Router, Request, Response } from 'express';
 import userController from '../controllers/userController';
 
 const router = Router();
 
 // Checks if client has sysadmin privilege. Get all users from users table and send back to client (system admin); sends an arr of the users
-router.post(
+// * changed to a GET from a POST
+router.get(
   '/',
   userController.getAllUsers,
   (req: Request, res: Response): Response => {

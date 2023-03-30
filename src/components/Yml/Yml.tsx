@@ -1,14 +1,16 @@
-// import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-// import useHelper from '../helpers/commands';
-// import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
-// import { createAlert, createPrompt } from '../../reducers/alertReducer';
+// * Currently not implemented. Is meant to upload and run docker compose files.
 
 // /**
 //  * @module | Yml.js
 //  * @description | Provides ability to upload local docker compose file & subsequently run docker compose up & docker compose down via UI
 //  **/
 
-// const Yml = () => {
+// import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+// import useHelper from '../helpers/commands';
+// import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
+// import { createAlert, createPrompt } from '../../reducers/alertReducer';
+
+// const Yml = (): JSX.Element => {
 //   const dispatch = useAppDispatch();
 //   const composeStack = useAppSelector((state) => state.composes.composeStack);
 
@@ -51,6 +53,7 @@
 //     };
 
 //     uploadHolder.onchange = (e) => {
+//       console.log('you uploaded')
 //       e.preventDefault();
 //       if (
 //         e.target.files.length &&
@@ -58,7 +61,9 @@
 //       ) {
 //         const ymlFile = e.target.files[0];
 //         const filePath = e.target.files[0].path;
-
+//         console.log('ymlFileName1', ymlFile)
+//         console.log('path1', filePath)
+        
 //         const reader = new FileReader();
 //         reader.readAsText(ymlFile);
 //         reader.onload = function (e) {
@@ -67,8 +72,11 @@
 
 //         const ymlRegex = /\/docker-compose.*.yml/;
 //         const ymlFileName = filePath.match(ymlRegex)[0].replace('/', '');
-
 //         const directoryPath = filePath.replace(ymlRegex, '');
+
+//         console.log('ymlFileName2', ymlFileName)
+//         console.log('path2', directoryPath)
+        
 //         setFilePath(directoryPath);
 //         setYmlFileName(ymlFileName);
 //       }

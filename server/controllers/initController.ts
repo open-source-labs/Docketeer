@@ -1,35 +1,11 @@
-/**
- * @module | initController.ts
- * @description | Contains middleware that creates and runs the local database
- **/
-
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
-import { InitController, ServerError, MetricsQuery } from '../../types';
-
-interface initControllerMethods {
-  /**
-   * @description Obtains github URL from containers name, and assigns it to 'parameter'
-   * @note 'url' property is set on res.locals upon success
-   */
-  gitUrl,
-
-  /**
-   * @description adds metrics to our metrics table of each individual container
-   */
-  addMetrics,
-
-  /**
-   * @description Obtains metrics data
-   * @note returns a promise with an object that has the data, located in 'rows'
-   */
-  getMetrics
-}
+import { InitController, ServerError } from '../../types';
 
 /**
  * @description Contains middleware that creates and runs the local database
  */
-const initController: InitController & initControllerMethods = {
+const initController: InitController = {
   gitUrl: (req: Request, res: Response, next: NextFunction): void => {
     const parameter: string[] = [req.body.githubUrl];
     db.query('SELECT github_url FROM containers where name = $1', parameter)

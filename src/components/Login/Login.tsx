@@ -8,14 +8,12 @@ import Docketeer from '../../../assets/docketeer-title.png';
 import { UserInfo } from '../../../types';
 import { createAlert } from '../../reducers/alertReducer';
 import { useAppDispatch } from '../../reducers/hooks';
-import useSurvey from '../helpers/dispatch';
-
+import useSurvey from '../../helpers/dispatch';
 
 /**
  * @module | Login
  * @description | Login component which renders a login page, and sign-up modal. This is the first component that users are routed to if there are no active sessions.
  **/
-
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
@@ -58,7 +56,6 @@ const Login = (): JSX.Element => {
       // parse the response
       const parsedResponse = await response.json();
 
-      // TODO: show data expected to be received
       console.log('parsedResponse: ', parsedResponse);
 
       // Switch state `loggedIn` to true
@@ -66,10 +63,10 @@ const Login = (): JSX.Element => {
       // Update user information in sessionsReducer
       updateUserInfo(parsedResponse);
       // create alert to notify user that they have successfully logged in
-      
+
       dispatch(
         createAlert(
-          `Welcome back to Docketeer, ${parsedResponse.username}!`,
+          `Welcome back Docketeer, ${parsedResponse.username}!`,
           5,
           'success'
         )
@@ -97,10 +94,8 @@ const Login = (): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <img src={Docketeer}
-        alt="product-logo"
-        className={styles.logo} />
-      <div className={styles.formHolder} >
+      <img src={Docketeer} alt="product-logo" className={styles.logo} />
+      <div className={styles.formHolder}>
         <form onSubmit={(e) => handleLogin(e)}>
           <input
             className={globalStyles.input}
@@ -119,10 +114,9 @@ const Login = (): JSX.Element => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className={styles.buttonHolder}>
-            <button className={globalStyles.button1}>
-              Login
-            </button>
-            <button className={globalStyles.button2}
+            <button className={globalStyles.button1}>Login</button>
+            <button
+              className={globalStyles.button2}
               onClick={() => navigate('/userSignup')}
             >
               Sign Up

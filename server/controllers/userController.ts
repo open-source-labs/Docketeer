@@ -1,75 +1,20 @@
-/**
- * @module | userController.ts
- * @description | Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
- **/
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { UserController, ServerError, UserInfo } from '../../types';
 
-interface userControllerMethods {
-  /**
-   * @description  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
-   * @note Extract isername, password, and role ID from req.body
-   */
-  createUser;
-
-  /**
-   * @description  Gets a single user yser
-   * @note Uses destructuring for _id from req.body
-   */
-  getOneUser;
-
-  /**
-   * @description  Gets all users; returned in an array
-   * @note Sorts them by ASCENDING order
-   */
-  getAllUsers;
-
-  /**
-   * @description  verifies username/password are correct and sends back that user info; otherwise sends an error message
-   * @note Extract the username and password from req.body. Any errors get passed onto an error object.
-   */
-  verifyUser;
-
-  /**
-   * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
-   * @note System admin ID has a role_id of 1
-   */
-  checkSysAdmin;
-
-  /**
-   * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
-   * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
-   */
-  switchUserRole;
-
-  /**
-   * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
-   * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
-   */
-  updatePassword;
-
-  /**
-   * @description   updates the phone number of a user; column is 'phone'
-   */
-  updatePhone;
-
-  /**
-   * @description   updates the email of a user
-   */
-  updateEmail;
-}
-
 /**
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
-const userController: UserController & userControllerMethods = {
+const userController: UserController = {
   createUser: async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
+
+    console.log('in userController.createUser');
+
     try {
       const {
         username,
@@ -80,7 +25,6 @@ const userController: UserController & userControllerMethods = {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       let role: string;
-      // TODO: this seems unnecessary. Just pass in the role from the frontend instead of a number
       switch (role_id) {
       case '1':
         role = 'system admin';
@@ -94,11 +38,17 @@ const userController: UserController & userControllerMethods = {
       default:
         role = '';
       }
+
+      console.log('ab to query to create user');
+
       const createUser =
         'INSERT INTO users (username, password, role, role_id) VALUES ($1, $2, $3, $4) RETURNING *;';
       // create an array, userDetails, to hold values from our createUser SQL query placeholders.
       const userDetails: string[] = [username, hashedPassword, role, role_id];
       const createdUser = await db.query(createUser, userDetails);
+
+      console.log('createdUser: ', createdUser.rows[0]);
+
       res.locals.user = createdUser.rows[0];
       return next();
     } catch (err: unknown) {
@@ -112,12 +62,14 @@ const userController: UserController & userControllerMethods = {
   },
 
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
+
     if ('error' in res.locals) {
       return next();
     } else {
-      const allUsers = 'SELECT * FROM users ORDER BY name ASC;';
+      const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
+
           res.locals.users = response.rows;
           return next();
         })
@@ -149,6 +101,7 @@ const userController: UserController & userControllerMethods = {
         });
       });
   },
+
   verifyUser: (req: Request, res: Response, next: NextFunction): void => {
     const { username, password }: { username: string; password: string } =
       req.body;
@@ -174,6 +127,7 @@ const userController: UserController & userControllerMethods = {
         });
       });
   },
+
   checkSysAdmin: (req: Request, res: Response, next: NextFunction): void => {
     const query = 'SELECT * FROM users WHERE role_id = 1';
     db.query(query)
@@ -191,6 +145,7 @@ const userController: UserController & userControllerMethods = {
         });
       });
   },
+
   switchUserRole: (req: Request, res: Response, next: NextFunction): void => {
     // ? creates an object that contains roles is this necessary?
     const roleMap: { [k: string]: number } = {
@@ -210,7 +165,6 @@ const userController: UserController & userControllerMethods = {
       const parameters = [role, roleMap[role], _id];
       // we will return the role that the user was updated to
       db.query(query, parameters)
-        // TODO may need to make type alias for 'data' received from queries
         .then((data: { rows: UserInfo[] }): void => {
           res.locals.role = data.rows[0].role;
           res.locals.hasError = false;
@@ -238,8 +192,7 @@ const userController: UserController & userControllerMethods = {
       newHashedPassword: string;
     };
     const { username }: { username: string } = req.body;
-    // TODO: for future, have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
-    // define a querystring to update password of our user and return the affected columns
+    // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
     const query =
       'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
     const parameters: string[] = [newHashedPassword, username];
@@ -257,6 +210,7 @@ const userController: UserController & userControllerMethods = {
         });
       });
   },
+
   updatePhone: (req: Request, res: Response, next: NextFunction): void => {
     const { username, phone }: { username: string; phone: number } = req.body;
     const query =
@@ -276,6 +230,7 @@ const userController: UserController & userControllerMethods = {
         });
       });
   },
+
   updateEmail: (req: Request, res: Response, next: NextFunction): void => {
     const { username, email }: { username: string; email: string } = req.body;
     const query =
@@ -294,6 +249,24 @@ const userController: UserController & userControllerMethods = {
           },
         });
       });
+  },
+
+  addCookie: (req: Request, res: Response, next: NextFunction): void => {
+    res.cookie('loggedIn', true);
+    return next();
+  },
+
+  checkCookie: (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.cookies.loggedIn) res.locals.notSignedIn = true;
+    return next();
+  },
+
+  removeCookie: (req: Request, res: Response, next: NextFunction): void => {
+    console.log('abt to rmv cookie');
+    res.clearCookie('loggedIn');
+    console.log('cookied rmvd');
+    res.locals.loggedOut = true;
+    return next();
   },
 };
 export default userController;

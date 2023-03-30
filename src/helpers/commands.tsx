@@ -4,8 +4,8 @@ import {
   listOfVolumeProperties,
 } from './volumeHistoryHelper';
 import { useMemo } from 'react';
-import useSurvey from '../helpers/dispatch';
-import { useAppSelector } from '../../reducers/hooks';
+import useSurvey from './dispatch';
+import { useAppSelector } from '../reducers/hooks';
 
 /**
  * @module | commands.tsx
@@ -19,6 +19,47 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
+      /* funcs to help w/ creating new users */
+      createNewUser(
+        username: string,
+        password: string,
+        role_id: string
+      ) {
+        fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            role_id: role_id,
+          }),
+        })
+          .then((res) => {
+            console.log('res in createNewUser: ', res);
+            console.log('ab to invoke getUpdatedUserList');
+            actions.getUpdatedUserList();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      getUpdatedUserList() {
+        const { updateUsers } = dispatch;
+        console.log('ab to fetch -> getUpdatedUserList');
+        fetch('/api/admin')
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log('data from getUpdatedUserList: ', data);
+            updateUsers(data);
+          })
+          .catch((err) => {
+            console.log('error in getUpdatedUserList: ', err);
+          });
+      },
+
+
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
@@ -50,11 +91,12 @@ const useHelper = () => {
           .catch((err: Error): void => console.log(err));
       },
 
-      // TODO: add a delete method
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
-        fetch(`/api/command/removeContainer?id=${containerID}`)
+        fetch(`/api/command/removeContainer?id=${containerID}`, {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -65,7 +107,9 @@ const useHelper = () => {
       /* Stops a container on what user selects @param {*} id */
       stop(id) {
         const { stopRunningContainer } = dispatch;
-        fetch(`/api/command/stopContainer?id=${id}`)
+        fetch(`/api/command/stopContainer?id=${id}`, {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -104,14 +148,18 @@ const useHelper = () => {
       /* Removes an image from pulled images list in image tab @param {*} id */
       removeIm(id) {
         const { refreshImages } = dispatch;
-        fetch(`/api/command/removeImage?id=${id}`).then(() => {
+        fetch(`/api/command/removeImage?id=${id}`, {
+          method: 'DELET',
+        }).then(() => {
           refreshImages().catch((err: Error): void => console.log(err));
         });
       },
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        fetch('/api/command/dockerPrune')
+        fetch('/api/command/dockerPrune', {
+          method: 'DELETE',
+        })
           .then((message: Response) => message.json())
           .then((message) => {
             console.log({ message });
@@ -253,7 +301,6 @@ const useHelper = () => {
         })
           .then((data: Response) => data.json())
           .then((response) => {
-            // TODO: why is any not erroring here?
             console.log(response);
             return;
           })
@@ -301,9 +348,9 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
-        console.log('inside of async getLogs');
+        // console.log('inside of async getLogs');
         try {
-          console.log('inside of try block');
+          // console.log('inside of try block');
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -311,7 +358,7 @@ const useHelper = () => {
           });
           // console.log('response from fetch', response);
           const parsedResponse = await response.json();
-          console.log('parsed response from fetch', parsedResponse);
+          // console.log('parsed response from fetch', parsedResponse);
           return parsedResponse;
         } catch {
           console.log(err);

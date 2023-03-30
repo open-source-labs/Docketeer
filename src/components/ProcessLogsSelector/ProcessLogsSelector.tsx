@@ -1,20 +1,12 @@
 import React from 'react';
-
 import styles from './ProcessLogsSelector.module.scss';
-
-// const defaultContainerList = [
-//   { 'container 1': false },
-//   { 'container 2': false },
-//   { 'container 3': false },
-// ];
-
-// TODO: add tooltip on hover for container name to show more info about container
 
 function ProcessLogsSelector({
   containerList,
   handleCheck,
   btnIdList,
-}): JSX.Element {
+  status,
+}: ProcessLogsSelectorProps): JSX.Element {
   // const [containerList, setContainerList] =
   // useState<object[]>(defaultContainerList);
 
@@ -22,10 +14,10 @@ function ProcessLogsSelector({
     <div className={styles.wrapper}>
       <form>
         <fieldset>
-          <legend>Container List</legend>
-          {containerList.map((container) => {
+          <legend>{status} Containers</legend>
+          {containerList.map((container, i) => {
             return (
-              <div key={container}>
+              <div key={i}>
                 <input
                   type="checkbox"
                   id={container.Names}

@@ -4,8 +4,6 @@ import { useAppDispatch } from './hooks';
 import { AlertStateType } from '../../types';
 
 
-// TODO: redo prompts to be component based
-
 const initialState: AlertStateType = {
   alertList: [],
   promptList: [],
@@ -19,10 +17,9 @@ const alertSlice = createSlice({
       state,
       action: PayloadAction<{ alert: string | null; type: string | null }>
     ) => {
-      console.log('setAlert payloadAction', action.payload);
+      // console.log('setAlert payloadAction', action.payload);
       state.alertList = [action.payload.alert, action.payload.type];
     },
-    // TODO: turn alertlist type into an object when refactoring to all for easier typing
     setPrompt: (
       state,
       action: PayloadAction<{
@@ -31,7 +28,7 @@ const alertSlice = createSlice({
         handleDeny: (() => void) | null;
       }>
     ) => {
-      console.log('setPrompt payloadAction', action.payload);
+      // console.log('setPrompt payloadAction', action.payload);
       if (action.payload.handleAccept === null) {
         state.promptList = [];
       }
@@ -55,7 +52,6 @@ export const createAlert = (
   time: number,
   type: string
 ) => {
-  // TODO: revisit typing of payloadAction. Should it be more specific?
   return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
     useAppDispatch(setAlert({ alert, type }));
     useAppDispatch(
@@ -71,7 +67,7 @@ export const createAlert = (
       // sending null to clear the alert
       useAppDispatch(setAlert({ alert: null, type: null }));
     }, time * 1000);
-    console.log({ timeoutId });
+    // console.log({ timeoutId });
   };
 };
 

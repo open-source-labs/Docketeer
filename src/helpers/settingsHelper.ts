@@ -3,7 +3,7 @@
  * @description | Contains helper functions facilitating updates to account information (AccountDisplay, Settings, etc.)
  **/
 // import useSurvey from '../helpers/dispatch';
-import store from '../../renderer/store';
+import store from '../store';
 // const { updateUser } = useSurvey();
 
 export const handlePasswordChange = () => {
@@ -15,6 +15,8 @@ export const handlePasswordChange = () => {
     'new-password-input'
   ) as HTMLInputElement;
   const newPassword = newPasswordHolder.value;
+
+  // conditionals for new password alerts
 
   // if (!checkCurrentPassword()) {
   //   window.alert('Warning: Please enter your current password');

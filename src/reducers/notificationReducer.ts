@@ -16,19 +16,15 @@ export const notificationSlice = createSlice({
       state.phoneNumber = action.payload;
     },
     addMemoryNotification: (state, action: PayloadAction<any>) => {
-      console.log('addMemoryNotification action.payload: ', action.payload);
       state.memoryNotificationList = new Set(action.payload);
     },
     addCpuNotification: (state, action: PayloadAction<any>) => {
-      console.log('addCpuNotification action.payload: ', action.payload);
       state.cpuNotificationList = new Set(action.payload);
     },
     addStopNotification: (state, action: PayloadAction<any>) => {
-      console.log('addStopNotification action.payload: ', action.payload);
       state.stoppedNotificationList = new Set(action.payload);
     },
     removeMemoryNotification: (state, action: PayloadAction<any>) => {
-      console.log('removeMemoryNotification action.payload: ', action.payload);
       state.memoryNotificationList.forEach((container) => {
         if (container === action.payload) {
           state.memoryNotificationList.delete(container);
@@ -36,7 +32,6 @@ export const notificationSlice = createSlice({
       });
     },
     removeCpuNotification: (state, action: PayloadAction<any>) => {
-      console.log('removeCpuNotification action.payload: ', action.payload);
       state.cpuNotificationList.forEach((container) => {
         if (container === action.payload) {
           state.cpuNotificationList.delete(container);
@@ -44,7 +39,6 @@ export const notificationSlice = createSlice({
       });
     },
     removeStoppedNotification: (state, action: PayloadAction<any>) => {
-      console.log('removeStoppedNotification action.payload: ', action.payload);
       state.stoppedNotificationList.forEach((container) => {
         if (container === action.payload) {
           state.stoppedNotificationList.delete(container);

@@ -7,12 +7,17 @@ import {
   POSTGRES_NAME,
 } from '../../config.js';
 
-const pool: Pool = new Pool({
-  host: 'db',
-  user: 'postgres',
-  password: 'postgres',
-  database: 'docketeer-db',
-  port: 5432,
+const host = POSTGRES_SERVICE;
+const user = POSTGRES_USER;
+const password = POSTGRES_PASS;
+const database = POSTGRES_NAME;
+const port = 5432;
+const pool = new Pool({
+  host,
+  user,
+  password,
+  database,
+  port,
 });
 
 const db: SqlQuery = {

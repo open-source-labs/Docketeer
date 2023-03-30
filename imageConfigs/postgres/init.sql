@@ -9,7 +9,7 @@ CREATE TABLE roles (
 CREATE TABLE users (
     _id SERIAL NOT NULL,
     username VARCHAR (255) UNIQUE NOT NULL,
-    email VARCHAR (255),
+    email VARCHAR (255) NOT NULL,
     password VARCHAR (255) NOT NULL,
   phone VARCHAR (255),
   role VARCHAR (255) DEFAULT 'user',
@@ -36,7 +36,7 @@ CREATE TABLE metrics (
   pid TEXT,
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
-R
+
 CREATE TABLE containers (
   id TEXT PRIMARY KEY,
   name TEXT,

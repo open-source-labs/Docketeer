@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// eslint-disable-next-line
 import { useAppDispatch } from './hooks';
-import { AlertStateType } from '../../types';
 
-
-const initialState: AlertStateType = {
+const initialState: any = {
   alertList: [],
   promptList: [],
 };
@@ -13,26 +10,10 @@ const alertSlice = createSlice({
   name: 'alerts',
   initialState,
   reducers: {
-    setAlert: (
-      state,
-      action: PayloadAction<{ alert: string | null; type: string | null }>
-    ) => {
-      // console.log('setAlert payloadAction', action.payload);
+    setAlert: (state, action: PayloadAction<any>) => {
       state.alertList = [action.payload.alert, action.payload.type];
     },
-    setPrompt: (
-      state,
-      action: PayloadAction<{
-        prompt: string | null;
-        handleAccept: (() => void) | null;
-        handleDeny: (() => void) | null;
-      }>
-    ) => {
-      // console.log('setPrompt payloadAction', action.payload);
-      if (action.payload.handleAccept === null) {
-        state.promptList = [];
-      }
-
+    setPrompt: (state, action: PayloadAction<any>) => {
       state.promptList = [
         action.payload.prompt,
         action.payload.handleAccept,
@@ -45,38 +26,29 @@ const alertSlice = createSlice({
 export const { setAlert, setPrompt } = alertSlice.actions;
 
 // let timeoutId = null;
-let timeoutId: ReturnType<typeof setTimeout> | null = null;
+let timeoutId: any;
 
-export const createAlert = (
-  alert: string | null,
-  time: number,
-  type: string
-) => {
-  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
+export const createAlert = (alert: any, time: any, type: any) => {
+  return (useAppDispatch) => {
     useAppDispatch(setAlert({ alert, type }));
-    useAppDispatch(
-      // sending null to clear the prompt
-      setPrompt({ prompt: null, handleAccept: null, handleDeny: null })
-    );
+    useAppDispatch(setPrompt([]));
 
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
-      // sending null to clear the alert
-      useAppDispatch(setAlert({ alert: null, type: null }));
+      useAppDispatch(setAlert([]));
     }, time * 1000);
-    // console.log({ timeoutId });
   };
 };
 
 export const createPrompt = (
-  prompt: string | null,
-  handleAccept: (() => void) | null,
-  handleDeny: (() => void) | null
+  prompt: any = null,
+  handleAccept: any,
+  handleDeny: any
 ) => {
-  return (useAppDispatch: (arg: PayloadAction<object>) => void) => {
+  return (useAppDispatch) => {
     useAppDispatch(setPrompt({ prompt, handleAccept, handleDeny }));
   };
 };

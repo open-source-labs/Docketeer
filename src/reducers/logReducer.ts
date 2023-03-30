@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { LogsStateType, ContainerLogsType } from '../../types';
+import { logsStateType } from '../../types';
 
-const initialState: LogsStateType = {
+const initialState: logsStateType = {
   containerLogs: {
     stdout: [],
     stderr: [],
@@ -12,7 +12,7 @@ export const logSlice = createSlice({
   name: 'logs',
   initialState,
   reducers: {
-    getLogs: (state, action: PayloadAction<ContainerLogsType>) => {
+    getLogs: (state, action: PayloadAction<any>) => {
       state.containerLogs = action.payload;
     },
   },

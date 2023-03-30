@@ -8,32 +8,29 @@ import bcryptController from '../controllers/bcryptController';
 
 const router = Router();
 
-// updates password
 router.post(
   '/password',
   userController.verifyUser,
   bcryptController.hashNewPassword,
   userController.updatePassword,
-  (req: Request, res: Response): Response => {
+  (req: Request, res: Response) => {
     if (res.locals.error) return res.status(200).json(res.locals);
     return res.status(201).json('Successfully updated your password.');
   }
 );
 
-// updates phone number
 router.post(
   '/phone',
   userController.updatePhone,
-  (req: Request, res: Response): Response => {
+  (req: Request, res: Response) => {
     return res.status(201).json(res.locals.user);
   }
 );
 
-// updates email
 router.post(
   '/email',
   userController.updateEmail,
-  (req: Request, res: Response): Response => {
+  (req: Request, res: Response) => {
     return res.status(201).json(res.locals.user);
   }
 );

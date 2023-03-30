@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     container_name: docketeerdb
-    image: docketeerxi/postgres
+    image: docketeerx/postgres
     restart: always
     ports:
       - 5432:5432
@@ -10,15 +10,9 @@ services:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: ${POSTGRES_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
-
-    # networks:
-    #   - my-network
-
-    # networks:
-    #   - my-network
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -37,11 +31,8 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_path: '/metrics'
 
-    # networks:
-    #   - my-network
-
   node-exporter:
-    image: docketeerxi/nodeex
+    image: docketeerx/nodeex
     container_name: node-exporter
     ports:
       - '9100:9100'
@@ -54,11 +45,9 @@ services:
       - /:/rootfs:ro
     depends_on:
       - db
-    # networks:
-    #   - my-network
 
   prometheus:
-    image: docketeerxi/prometheus
+    image: docketeerx/prometheus
     container_name: prometheus
     ports:
       - '9090:9090'
@@ -70,8 +59,6 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_port: '9090'
       org_prometheus_starter_path: '/metrics'
-    # networks:
-    #   - my-network
 
   grafana:
     image: grafana/grafana:latest
@@ -89,31 +76,13 @@ services:
       - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
 
-    # networks:
-    #   - my-network
-
     depends_on:
       - prometheus
 
   docketeer:
-    image: docketeerxi/docketeer
+    image: docketeerx/docketeer
     container_name: docketeer
     ports:
       - 4000:4000
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: npm run dev
-    # networks:
-    #   - my-network
-    # depends_on:
-    #   - grafana
-
-# networks:
-#   my-network:
-#     driver: bridge
-#     driver_opts:
-#       com.docker.network.bridge.name: my-bridge
-#       com.docker.network.bridge.enable_icc: "true"
-#       subnet: "172.16.238.0/24"
-#       gateway: "172.16.238.1"

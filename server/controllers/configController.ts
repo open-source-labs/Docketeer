@@ -1,13 +1,12 @@
-// !
-// !
-// ! This controller is not currently implement, is used to set thersholds/preferences
+/**
+ * @module | configController.ts
+ * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
+ **/
+
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { ConfigController, ServerError } from '../../types';
 
-/**
- * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
- **/
 const configController: ConfigController = {
   // *** I don't believe any of these are currently in use ***
 
@@ -20,7 +19,6 @@ const configController: ConfigController = {
 
     const inputThresholds =
       'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
-
     const thresholdDetails = [
       contact_pref,
       mem_threshold,
@@ -45,11 +43,7 @@ const configController: ConfigController = {
   },
 
   // configure contact preference
-  updateContactPref: (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): void => {
+  updateContactPref: (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.error) return next();
 
     const { contact_pref, _id } = req.body;

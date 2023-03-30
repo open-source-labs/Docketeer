@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ImagesStateType, ImageObj } from '../../types';
+import { imagesStateType } from '../../types';
 
-const initialState: ImagesStateType = {
+const initialState: imagesStateType = {
   imagesList: [],
 };
 
@@ -9,7 +9,7 @@ export const imageSlice = createSlice({
   name: 'images',
   initialState,
   reducers: {
-    refreshImages: (state, action: PayloadAction<ImageObj[]>) => {
+    refreshImages: (state, action: PayloadAction<any>) => {
       state.imagesList = action.payload;
     },
   },

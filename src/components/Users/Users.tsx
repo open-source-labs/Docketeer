@@ -73,34 +73,6 @@ const UserTable = (): JSX.Element => {
       });
   };
 
-  // ? why is this a POST request?
-  // const getUpdatedUserList = () => {
-  //   console.log('ab to fetch -> getUpdatedUserList');
-  //   fetch('/api/admin', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //     // username: store.userInfo.username,  //TM: Accessing store.userInfo.username returns undefined - this is original code
-  //     // token: store.userInfo.token,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('data from getUpdatedUserList: ', data);
-  //       dispatch(updateUsers(data));
-  //     })
-  //     .catch((err) => {
-  //       console.log('error in getUpdatedUserList: ', err);
-  //     });
-  // };
-
-  // const updateUserList = (data: UserInfo[]) => {
-  //   const dispatch = useAppDispatch();
-  //   dispatch(updateUsers(data));
-  // };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.userManagement}>

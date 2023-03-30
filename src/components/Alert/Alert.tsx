@@ -21,8 +21,7 @@ const Alert = (): JSX.Element => {
   const alertText = alertList[0];
   const promptText = promptList[0];
 
-  // temporary solution to get only render alert if alert exists
-  const alertExists = alertType || alertText || promptText ? true : false;
+  const alertExists = alertType || alertText || promptText;
 
   const svgs = {
     info: (

@@ -4,7 +4,6 @@
  * @param {string} filterInput
  **/
 
-// TODO: rewrite this func
 export const filterOneProperty = (input: object[], filterInput: string) => {
   const filteredOutput: object[] = [];
 
@@ -13,7 +12,6 @@ export const filterOneProperty = (input: object[], filterInput: string) => {
     // create an arr (filteredArr)
     // assign it to a filtered object that only have the key/value pair that matches filter input
     const filteredArr = Object.entries(input[i]).filter(
-      // TODO: remove value?
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([key, value]) => key === filterInput
     );

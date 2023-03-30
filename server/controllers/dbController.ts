@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
-// only used in insertAdmin which is not currently used
-// import sysadmin from "../../security/sysadmin";
+// import sysadmin from "../../security/sysadmin"; // only used in insertAdmin which is not currently used
 import { DbController, ServerError } from '../../types';
 
 /**
@@ -38,18 +37,18 @@ const dbController: DbController = {
       return next(err);
     });
   },
-  
-  // below is insert admin
+
+  // below is insert admin; currently not implemented
 
   // insertAdmin: (req: Request, res: Response, next: NextFunction) => {
   //   const { password }: { password: string } = res.locals;
   //   const email: string =
   //     sysadmin.email === null || sysadmin.email === ""
-  //       ? "sysadmin@email.com"
+  // -       ? "sysadmin@email.com"
   //       : sysadmin.email;
   //   const phone: string | number =
   //     sysadmin.phone === null || sysadmin.phone === ""
-  //       ? "+15013456789"
+  // -       ? "+15013456789"
   //       : sysadmin.email;
 
   //   const parameters: (string | number)[] = [email, password, phone];
@@ -65,6 +64,7 @@ const dbController: DbController = {
   //       if (err) return next(err);
   //     });
   // },
+
   createAdminPassword: (req: Request, res: Response, next: NextFunction) => {
     const saltRounds = 10;
 

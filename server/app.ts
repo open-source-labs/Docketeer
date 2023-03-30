@@ -1,10 +1,9 @@
 // import/prep for our server and type declarations
 import express, { Request, Response } from 'express';
-// import type { ErrorRequestHandler } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
-// import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser'; // for when cookies get implemented
 
 const app = express();
 
@@ -42,7 +41,7 @@ import signupRouter from './routes/signupRouter';
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+// app.use(cookieParser()); // for when cookies get implemented
 
 // check for cookie
 // app.use('/', userController.checkCookie, (req: Request, res: Response): void => {
@@ -67,10 +66,6 @@ app.use('/', (req: Request, res: Response): Response => {
     .status(404)
     .send({ error: 'Unknown endpoint YES HIT ROUTE please try again.' });
 });
-
-// const errorHandler: ErrorRequestHandler = (err, req, res, next) => {};
-
-// app.use(errorHandler);
 
 // Handling global errors...
 app.get(

@@ -21,29 +21,38 @@ const defaultSignUpValues: SignUpValues = {
 };
 
 const UserTable = (): JSX.Element => {
-  const [showUpdatePopup, setUpdatePopup] = useState<boolean>(false);  
-  const [showDeletePopup, setDeletePopup] = useState<boolean>(false);  
+  const [showUpdatePopup, setUpdatePopup] = useState<boolean>(false);
+  const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
-  
+
   const userList = useAppSelector((state) => state.users.userList);
-  // const dispatch = useAppDispatch();
   const { createNewUser, getUpdatedUserList } = useHelper();
-  
+
   useEffect(() => {
     getUpdatedUserList();
   }, []);
-  
 
-  const toggleUpdatePopup = () => { 
-    setUpdatePopup(!showUpdatePopup);
-  };
- 
-  const toggleDeletePopup = () => { 
-    setDeletePopup(!showDeletePopup);
-  };
- 
+<<<<<<<< < Temporary merge branch 1
+  const renderUsers = userList.map((user: UserInfo, i: number): JSX.Element => {
+    return (
+      <tbody key={i}>
+        <tr>
+          <td>{user._id}</td>
+          <td>{user.username}</td>
+          <td>{user.role}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.contact_pref}</td>
+          <td>{user.mem_threshold}</td>
+          <td>{user.cpu_threshold}</td>
+        </tr>
+      </tbody>
+    );
+  });
 
+=========
+>>>>>>>>> Temporary merge branch 2
   return (
     <div className={styles.wrapper}>
       <div className={styles.userManagement}>

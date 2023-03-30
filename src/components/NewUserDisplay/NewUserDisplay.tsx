@@ -6,7 +6,7 @@ import globalStyles from '../global.module.scss';
  * @module | NewUserDisplay.tsx
  * @description | Provides registration/sign-up features
  **/
-// TODO: change useState to redux? Actually I think it's appropriate for forms to do it this way
+
 const NewUserDisplay = (): JSX.Element => {
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState({

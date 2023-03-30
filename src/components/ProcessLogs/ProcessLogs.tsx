@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import ProcessLogsCard from '../ProcessLogsCard/ProcessLogsCard';
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -22,7 +21,11 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
+<<<<<<<<< Temporary merge branch 1
 **/
+=========
+ **/
+>>>>>>>>> Temporary merge branch 2
 
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
@@ -33,6 +36,7 @@ const ProcessLogs = (): JSX.Element => {
   );
   const runningBtnList = getContainerNames(runningList);
 
+  // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
@@ -73,6 +77,7 @@ const ProcessLogs = (): JSX.Element => {
     return optionsObj;
   };
 
+  // takes in a btnIdList, passes that into buildObptionObj
   // takes in a btnIdList, passes that into buildObptionObj
   const handleGetLogs = async (idList: object) => {
     console.log('getting logs');
@@ -115,9 +120,11 @@ const ProcessLogs = (): JSX.Element => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
 
+    const combinedList = [...runningList, ...stoppedList];
+
     if (stdout.length) {
       stdout.forEach((log: stdType) => {
-        const currCont = runningList.find(
+        const currCont = combinedList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
         if (currCont) {
@@ -139,7 +146,7 @@ const ProcessLogs = (): JSX.Element => {
     }
     if (stderr.length) {
       stderr.forEach((log: stdType) => {
-        const currCont = runningList.find(
+        const currCont = combinedList.find(
           (el: ContainerType) => el.Names === log['containerName']
         );
         if (currCont) {
@@ -162,7 +169,6 @@ const ProcessLogs = (): JSX.Element => {
     setRows(newRows as keyof typeof setRows);
     setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
   };
-
 
   return (
     <div className={styles.wrapper}>
@@ -207,7 +213,15 @@ const ProcessLogs = (): JSX.Element => {
         <div className={styles.runningRight}>
           <h2>TIME FRAME SELECTION</h2>
           <p>
+<<<<<<<<< Temporary merge branch 1
             Please specify a timeframe that you would like to see process logs within.
+          </p>
+
+          {/* TODO: rename labels if neccessary */}
+          <label htmlFor='num'>NUM</label>
+=========
+            Please specify a timeframe that you would like to see process logs
+            within.
           </p>
           {/* TODO: rename labels if neccessary */}
           <label htmlFor="num">NUM</label>

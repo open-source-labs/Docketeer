@@ -4,10 +4,10 @@
  **/
 
 import { Router, Request, Response } from 'express';
-// import signupController from '../controllers/signupController';
-import bcryptController from '../controllers/bcryptController';
 import userController from '../controllers/userController';
-import apiController from '../controllers/apiController';
+// import apiController from '../controllers/apiController'; // controller for sending email notification
+// import signupController from '../controllers/signupController';
+
 const router = Router();
 
 // Only trigger this endpoint when sysAdmin logs in; gets all users
@@ -19,14 +19,9 @@ router.get(
   }
 );
 
-// ==========================================================
-// Route: /
-// Purpose: Hashes password and inserts user to db
-// ==========================================================
-
+// Hashes password and inserts user to db
 router.post(
   '/',
-  // createUser will have functionality that hashes the password before we add user to the db
   userController.createUser,
   (req: Request, res: Response): Response => {
     if (res.locals.error) return res.status(201).json(res.locals);

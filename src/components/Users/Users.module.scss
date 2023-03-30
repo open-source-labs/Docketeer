@@ -35,6 +35,47 @@
   }
 }
 
+.editUserButton {
+  min-height: 30px;
+  width: 60px;
+  background-color: color(blue, dark);
+  border-radius: 5px;
+  color: white;
+  text-shadow: 1px 1px 2px color(blue, dark);
+  &:hover,
+  &:active {
+    background-color: scale-color(color(blue, dark), $lightness: -10%);
+  }
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+.deleteUserButton {
+  min-height: 30px;
+  width: 60px;
+  background-color: color(blue, dark);
+  border-radius: 5px;
+  color: white;
+  text-shadow: 1px 1px 2px color(blue, dark);
+  &:hover,
+  &:active {
+    background-color: scale-color(color(blue, dark), $lightness: -10%);
+  }
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+
 .createUserHolder {
   width: 50%;
   margin-left: 1rem;

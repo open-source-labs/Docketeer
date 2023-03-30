@@ -51,7 +51,7 @@ const useHelper = () => {
         fetch('/api/admin')
           .then((response) => response.json())
           .then((data) => {
-            console.log('data from getUpdatedUserList: ', data);
+            // console.log('data from getUpdatedUserList: ', data);
             updateUsers(data);
           })
           .catch((err) => {

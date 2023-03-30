@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { UserInfo } from '../../../types';
-import { createNewUser } from '../../helpers/newUserHelper';
 import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
-
 import useHelper from '../../helpers/commands';
-
-// import { useAppDispatch } from '../../reducers/hooks';
-// import { updateUsers } from '../../reducers/userReducer';
-// import { UserInfo } from '../../../types';
+import UserPopup from '../UserPopup/UserPopup';
 
 /**
  * @module | Users.js
@@ -25,6 +20,13 @@ const defaultSignUpValues: SignUpValues = {
 };
 
 const UserTable = (): JSX.Element => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+    console.log('showPopup: ', showPopup);
+  }
+
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
 
@@ -120,12 +122,44 @@ const UserTable = (): JSX.Element => {
                 <th>CONTACT PREF.</th>
                 <th>MEMORY</th>
                 <th>CPU</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
-            {renderUsers}
+            {userList.map((user: UserInfo, i: number): JSX.Element => {
+              return (
+                <tbody key={`user-${i}`}>
+                  <tr>
+                    <td>{user._id}</td>
+                    <td>{user.username}</td>
+                    <td>{user.role}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.contact_pref}</td>
+                    <td>{user.mem_threshold}</td>
+                    <td>{user.cpu_threshold}</td>
+                    <td>
+                      <button onClick={togglePopup}>
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })}
           </table>
         </div>
       </div>
+
+      {showPopup ? <UserPopup togglePopup={togglePopup} /> : null}
+
+
+
       <div className={styles.createUserHolder}>
         <h2>CREATE NEW USER</h2>
         <p>
@@ -207,16 +241,6 @@ const UserTable = (): JSX.Element => {
               }}
             />
             <label htmlFor="set-sys-admin">System Admin</label>
-
-            {/* <input
-            type="radio"
-            name="set-permissions"
-            id="set-admin"
-            value="2"
-            checked={valueRole === '2'}
-            onChange={(event) => setValueRole(event.target.value)}
-          />
-          <label htmlFor="set-admin">Admin</label> */}
           </fieldset>
 
           <button className={globalStyles.button1} type="submit">

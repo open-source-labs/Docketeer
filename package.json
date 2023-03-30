@@ -1,7 +1,7 @@
 {
   "name": "docketeer",
   "productName": "Docketeer",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
   "author": "Docketeer",
@@ -14,7 +14,7 @@
     "docker-down": "docker-compose -f docker-compose.yml down",
     "docker-dev-up": "docker-compose -f docker-compose-dev.yml up",
     "docker-dev-down": "docker-compose -f docker-compose-dev.yml down",
-    "docker-dev-build": "sudo docker build -t docketeerxi/docketeer-dev .",
+    "docker-dev-build": "docker build -t docketeerxi/docketeer-dev .",
     "build": "vite build",
     "buildWeb": "webpack --config=./webpack.react.config.js",
     "test": "jest --verbose",

@@ -101,7 +101,9 @@ const SignUp = (): JSX.Element => {
             }}
           />
           <div className={styles.buttonHolder}>
-            <button className={globalStyles.button1}>Create User</button>
+            <button className={globalStyles.button1}>
+              Create User
+            </button>
             <button
               className={globalStyles.button2}
               onClick={() => {

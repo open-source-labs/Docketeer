@@ -28,7 +28,6 @@ const UserTable = (): JSX.Element => {
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
   
   const userList = useAppSelector((state) => state.users.userList);
-  // const dispatch = useAppDispatch();
   const { createNewUser, getUpdatedUserList } = useHelper();
   
   useEffect(() => {
@@ -77,22 +76,6 @@ const UserTable = (): JSX.Element => {
                     <td>{user.contact_pref}</td>
                     <td>{user.mem_threshold}</td>
                     <td>{user.cpu_threshold}</td>
-                    <td>
-                      <button
-                        className={styles.editUserButton}
-                        onClick={toggleUpdatePopup}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className={styles.deleteUserButton}
-                        onClick={toggleDeletePopup}
-                      >
-                        Delete
-                      </button>
-                    </td>
                   </tr>
                 </tbody>
               );

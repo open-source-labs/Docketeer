@@ -13,7 +13,6 @@ export const composeSlice = createSlice({
   name: 'composes',
   initialState,
   reducers: {
-    // ! doesn't seem like getNetworkContainers is being used anywhere
     getNetworkContainers: (state, action: PayloadAction<any>) => {
       state.networkList.push([...action.payload]);
     },

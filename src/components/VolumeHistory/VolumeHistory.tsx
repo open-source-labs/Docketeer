@@ -2,7 +2,7 @@
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
-import { VolumeObj, VolumeContainerObj } from '../../../types';
+import { VolumeObj } from '../../../types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
@@ -35,8 +35,6 @@ const VolumeHistory = (): JSX.Element => {
   these objs should have a Names, State, and Status property
   */
 
-  // const renderVolumeHistory = (volumeProps: VolumeObj[]): JSX.Element[] =>
-
   // Initializes the volume history tab to be the list of volumes
   // let renderList = renderVolumeHistory(volumeContainersList);
 
@@ -48,8 +46,6 @@ const VolumeHistory = (): JSX.Element => {
     );
 
     setVolumeList(result);
-
-    // renderList = renderVolumeHistory(volumeList);
   };
 
   return (

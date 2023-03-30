@@ -16,6 +16,8 @@ export const handlePasswordChange = () => {
   ) as HTMLInputElement;
   const newPassword = newPasswordHolder.value;
 
+  // conditionals for new password alerts
+
   // if (!checkCurrentPassword()) {
   //   window.alert('Warning: Please enter your current password');
   //   return;

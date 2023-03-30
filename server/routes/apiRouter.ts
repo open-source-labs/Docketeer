@@ -10,7 +10,7 @@ const router = Router();
 // Sends email notification to user/Sends fetch request from frontend when event emitter finds container issue
 router.post(
   '/',
-  // ? may need depending on what info is sent over in request body
+  // from v10: may need depending on what info is sent over in request body
   // userController.getOneUser,
   apiController.sendEmailAlert,
   (req: Request, res: Response): Response => {

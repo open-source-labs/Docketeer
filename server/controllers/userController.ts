@@ -27,28 +27,17 @@ const userController: UserController = {
 
       let role: string;
       switch (role_id) {
-        case '1':
-          role = 'system admin';
-          break;
-        case '2':
-          role = 'admin';
-          break;
-        case '3':
-          role = 'user';
-          break;
-        default:
-          role = '';
-        case '1':
-          role = 'system admin';
-          break;
-        case '2':
-          role = 'admin';
-          break;
-        case '3':
-          role = 'user';
-          break;
-        default:
-          role = '';
+      case '1':
+        role = 'system admin';
+        break;
+      case '2':
+        role = 'admin';
+        break;
+      case '3':
+        role = 'user';
+        break;
+      default:
+        role = '';
       }
 
       console.log('ab to query to create user');
@@ -61,7 +50,6 @@ const userController: UserController = {
 
       console.log('createdUser: ', createdUser.rows[0]);
 
-      // ? new user is added to res.locals, but all users are grabbed from res.locals.users in getAllUsers
       res.locals.user = createdUser.rows[0];
       return next();
     } catch (err: unknown) {
@@ -115,6 +103,7 @@ const userController: UserController = {
         });
       });
   },
+
   verifyUser: (req: Request, res: Response, next: NextFunction): void => {
     const { username, password }: { username: string; password: string } =
       req.body;
@@ -140,6 +129,7 @@ const userController: UserController = {
         });
       });
   },
+
   checkSysAdmin: (req: Request, res: Response, next: NextFunction): void => {
     const query = 'SELECT * FROM users WHERE role_id = 1';
     db.query(query)
@@ -157,6 +147,7 @@ const userController: UserController = {
         });
       });
   },
+
   switchUserRole: (req: Request, res: Response, next: NextFunction): void => {
     // ? creates an object that contains roles is this necessary?
     const roleMap: { [k: string]: number } = {
@@ -204,8 +195,6 @@ const userController: UserController = {
     };
     const { username }: { username: string } = req.body;
     // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
-    // from v10: have the query return every column but the password column. Might be a security concern to be sending the user's hashed password to the client.
-    // define a querystring to update password of our user and return the affected columns
     const query =
       'UPDATE users SET password = $1 WHERE username = $2 RETURNING *;';
     const parameters: string[] = [newHashedPassword, username];
@@ -223,6 +212,7 @@ const userController: UserController = {
         });
       });
   },
+
   updatePhone: (req: Request, res: Response, next: NextFunction): void => {
     const { username, phone }: { username: string; phone: number } = req.body;
     const query =
@@ -242,6 +232,7 @@ const userController: UserController = {
         });
       });
   },
+  
   updateEmail: (req: Request, res: Response, next: NextFunction): void => {
     const { username, email }: { username: string; email: string } = req.body;
     const query =

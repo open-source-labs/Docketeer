@@ -8,7 +8,6 @@ import userController from '../controllers/userController';
 const router = Router();
 
 // Checks if client has sysadmin privilege. Get all users from users table and send back to client (system admin); sends an arr of the users
-// * changed to a GET from a POST
 router.get(
   '/',
   userController.getAllUsers,

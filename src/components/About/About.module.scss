@@ -1,0 +1,52 @@
+.wrapper {
+  margin: $default-page-margin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.logo {
+  max-width: 250px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  p {
+    margin-bottom: 1rem;
+    max-width: 820px;
+    font-size: 1.2rem;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.footerIcons {
+  height: 30px;
+  svg {
+    fill: color(light, base);
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .section {
+    p {
+      width: 80%;
+    }
+  }
+  .logo {
+    width: 200%;
+  }
+}

@@ -1,0 +1,48 @@
+.wrapper {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formHolder {
+  display: flex;
+  flex-direction: column;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  input {
+    min-width: 226.99px;
+  }
+}
+
+.buttonHolder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.logo {
+  margin-top: 1rem;
+  max-width: 440px;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .logo {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .logo {
+    min-width: 340px;
+  }
+}

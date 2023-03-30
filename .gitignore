@@ -9,12 +9,10 @@ yarn.lock
 src/database/docketeerdb
 server/database/docketeerdb
 dist/
-.env
-/imageConfigs/grafana/data
-/imageConfigs/prometheus/promData
-/imageConfigs/postgres/docketeerdb
 
 coverage/
 
 out/
 docketeerdb
+imageConfigs/grafana/data/
+imageConfigs/grafana/data/grafana.db

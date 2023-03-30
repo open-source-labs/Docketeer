@@ -1,15 +1,15 @@
-/**
- * @module | apiController.ts
- * @description | contains middleware that sends emails to user for container issues and signup information
- **/
+// ! Currently not used, is meant to send email alerts
+// currently not used, is meant to send email alerts
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import email from '../../security/email';
 import { ApiController, ServerError } from '../../types';
 
-// *** Signup email not currently being used. ***
-
+// ==========================================================
+// Function: transporter
+// Purpose: create transporter object to make sure these values are filled out in email.js
+// ==========================================================
 const transporter = nodemailer.createTransport({
   host: email.host,
   port: email.port,
@@ -20,10 +20,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+/**
+ * @module | apiController.ts
+ * @description | contains middleware that sends emails to user for container issues and signup information
+ **/
 const apiController: ApiController = {
+  // ==========================================================
+  // Middleware: sendEmailAlert
+  // Purpose:
+  // ==========================================================
   sendEmailAlert: (req: Request, res: Response, next: NextFunction) => {
     const { email, containerName, time, date, stopped } = req.body;
-    let emailBody;
+    let emailBody: string;
 
     if (stopped === 'true') {
       emailBody = `
@@ -67,9 +75,15 @@ const apiController: ApiController = {
       });
   },
 
-  // sends email with username/password when user signs up
+  // ==========================================================
+  // Middleware: signupEmail
+  // Purpose: sends email with username/password when user successfully signs up
+  // ==========================================================
+
   signupEmail: (req: Request, res: Response, next: NextFunction) => {
     const { email, username, password } = req.body;
+
+    // create an email description and boilerplate with mailDetails
 
     const mailDetails = {
       from: 'team.docketeer@gmail.com',
@@ -86,7 +100,11 @@ const apiController: ApiController = {
         <p>Team Docketeer</p>`,
     };
 
+    // create transporter with Nodemailer to send email.
     transporter
+
+    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+
       .sendMail(mailDetails)
       .then((info: any) => {
         return next();

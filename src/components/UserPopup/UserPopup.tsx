@@ -33,7 +33,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
     <div className={styles.wrapper}>
       <div className={styles.general}>
         <div className={styles.updateUserHolder}>
-          <form onSubmit={(e) => updateUser(e)}>
+          <form onSubmit={(e) => updateUser(e)} className={styles.editUser}>
             <input
               className={globalStyles.input}
               type="text"
@@ -87,7 +87,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
                 });
               }}
             />
-            <input 
+            <input
               className={globalStyles.input}
               type="text"
               id='memThreshold'
@@ -100,7 +100,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
                 });
               }}
             />
-            <input 
+            <input
               className={globalStyles.input}
               type="text"
               id='cpuThreshold'
@@ -145,11 +145,14 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
               />
               <label htmlFor="set-phone">Text</label>
             </fieldset>
-                
+
             <div className={styles.button}>
               <button className={globalStyles.button1}>
                 Update User
               </button>
+              &nbsp;
+              &nbsp;
+              &nbsp;
               <button onClick={togglePopup} className={globalStyles.button2}>
                 Cancel
               </button>

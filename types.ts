@@ -258,12 +258,12 @@ export interface notificationList {
 export interface AlertStateType {
   alertList: (string | null)[];
   promptList:
-    | [
-        prompt: string | null,
-        handleAccept: (() => void) | null,
-        handleDeny: (() => void) | null
-      ]
-    | null[];
+  | [
+    prompt: string | null,
+    handleAccept: (() => void) | null,
+    handleDeny: (() => void) | null
+  ]
+  | null[];
 }
 
 export interface notificationStateType {
@@ -311,8 +311,8 @@ export type MiddleWareFunction = (req: Request, res: Response, next: NextFunctio
 // Controller Types
 // ==========================================================
 export interface ApiController {
-  sendEmailAlert:  MiddleWareFunction;
-  signupEmail:  MiddleWareFunction;
+  sendEmailAlert: MiddleWareFunction;
+  signupEmail: MiddleWareFunction;
 }
 
 export interface BcryptController {
@@ -320,16 +320,16 @@ export interface BcryptController {
    * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
    */
   hashPassword: MiddleWareFunction;
-  
+
   /**
    * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
    */
   hashNewPassword: MiddleWareFunction;
-  
+
   /**
    * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
    */
-  hashCookie:  MiddleWareFunction;
+  hashCookie: MiddleWareFunction;
 }
 
 export interface CommandController {
@@ -348,52 +348,52 @@ export interface CommandController {
    * @description executes the docker ps command with status=exited flag to get list of stopped containers
    */
   refreshStopped: MiddleWareFunction;
-  
+
   /**
    * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
    */
   refreshImages: MiddleWareFunction;
 
-   /**
-   * @description executes docker rm {containerId} command to remove a stopped container
-   * @note id is grabbed from req.query
-   */
+  /**
+  * @description executes docker rm {containerId} command to remove a stopped container
+  * @note id is grabbed from req.query
+  */
   remove: MiddleWareFunction;
-  
+
   /**
    * @description executes docker stop {id} command to stop a running container
    * @note id is grabbed from req.query
    */
   stopContainer: MiddleWareFunction;
-  
+
   /**
    * @description executes docker start {id} command to run a stopped container
    * @note id is grabbed from req.query
    */
   runStopped: MiddleWareFunction;
-  
+
   /**
    * @description executes `docker rmi -f {id} command to remove a pulled image
    * @note id is grabbed from req.query
    */
   removeImage: MiddleWareFunction;
-  
+
   /**
    * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
    */
   dockerPrune: MiddleWareFunction;
-  
+
   /**
    * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
    * @note image's repo name grabbed from req.query
    */
   pullImage: MiddleWareFunction;
-  
+
   /**
    * @description Display all containers network based on docker-compose in a json object; when the application starts
    */
   networkContainers: MiddleWareFunction;
-  
+
   /**
    * @description inspects docker containers
    * @note is not implemented right now

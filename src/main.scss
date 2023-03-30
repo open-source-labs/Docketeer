@@ -83,9 +83,9 @@ body {
   }
 }
 
-@media screen and (min-width: 2560px) {
+@media screen and (min-width: $breakpoint-uw) {
   body {
     margin: 0 auto;
-    max-width: 2560px;
+    max-width: $breakpoint-uw;
   }
 }

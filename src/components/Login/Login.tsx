@@ -7,7 +7,7 @@ import globalStyles from '../global.module.scss';
 import Docketeer from '../../../assets/docketeer-title.png';
 import { UserInfo } from '../../../types';
 import { createAlert } from '../../reducers/alertReducer';
-import { useAppDispatch} from '../../reducers/hooks';
+import { useAppDispatch } from '../../reducers/hooks';
 import useSurvey from '../../helpers/dispatch';
 
 /**
@@ -66,7 +66,7 @@ const Login = (): JSX.Element => {
 
       dispatch(
         createAlert(
-          `Welcome back Docketeer, ${parsedResponse.username}!`,
+          `Welcome back to Docketeer, ${parsedResponse.username}!`,
           5,
           'success'
         )

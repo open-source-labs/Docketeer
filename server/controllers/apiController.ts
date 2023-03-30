@@ -1,4 +1,6 @@
-// currently not used, is meant to send email alerts
+// !
+// !
+// ! Currently not used, is meant to send email alerts
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';

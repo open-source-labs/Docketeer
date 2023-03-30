@@ -383,7 +383,7 @@ export interface CommandController {
 
   /**
    * @description compose up a network and container from an uploaded yml file
-   * @note file path is grabbed from req.body
+   * @note file path is grabbed from req.body; IS NOT USED
    */
   composeUp: MiddleWareFunction;
 
@@ -547,7 +547,7 @@ export interface SignupController {
 
 export interface UserController {
   /**
-   * @description  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
+   * @description  Performs SQL query to insert a new user, hashing the password before it does, into "users" table and then RETURNS those values.
    * @note Extract isername, password, and role ID from req.body
    */
   createUser: MiddleWareFunction;

@@ -51,14 +51,14 @@ const makeArrayOfObjects = (
       const logArray = element.split(' ');
 
       // extract timestamp from logArray
-      let timeStamp: string = logArray.find(el => el.endsWith('Z'));
+      let timeStamp: string | undefined = logArray.find(el => el.endsWith('Z'));
 
       // if there is a timestamp, parse it (if statement isn't really neccessary, but TS complains)
       if (timeStamp) {
         timeStamp = timeStamp.replace(/t(s)?=/, '');
 
         // parse GMT string to be readable local date and time
-        // ! this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
+        // this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
         obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', { timeZone: 'America/New_York' });
       }
 
@@ -442,14 +442,13 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    const nativeYmlFilenames: Set<string> = new Set([
-      'docker-compose.yml',
-      'docker-compose.yaml',
-      'compose.yml',
-      'compose.yaml',
-    ]);
 
-    console.log('req.body', req.body);
+    // const nativeYmlFilenames: Set<string> = new Set([
+    //   'docker-compose.yml',
+    //   'docker-compose.yaml',
+    //   'compose.yml',
+    //   'compose.yaml',
+    // ]);
 
     // const cmd: string = nativeYmlFilenames.has(req.body.ymlFileName)
     //   ? `cd ${req.body.filePath} && docker compose up -d`

@@ -56,7 +56,6 @@ const Login = (): JSX.Element => {
       // parse the response
       const parsedResponse = await response.json();
 
-      // TODO: show data expected to be received
       console.log('parsedResponse: ', parsedResponse);
 
       // Switch state `loggedIn` to true

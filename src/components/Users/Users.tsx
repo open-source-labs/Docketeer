@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { UserInfo } from '../../../types';
-// import { createNewUser } from '../../helpers/newUserHelper';
 import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 
 import useHelper from '../../helpers/commands';
-
-// import { useAppDispatch } from '../../reducers/hooks';
-// import { updateUsers } from '../../reducers/userReducer';
-// import { UserInfo } from '../../../types';
 
 /**
  * @module | Users.js
@@ -29,7 +24,6 @@ const UserTable = (): JSX.Element => {
   const [values, setValues] = useState<SignUpValues>(defaultSignUpValues);
 
   const userList = useAppSelector((state) => state.users.userList);
-  // const dispatch = useAppDispatch();
   const { createNewUser, getUpdatedUserList } = useHelper();
 
   useEffect(() => {
@@ -154,16 +148,6 @@ const UserTable = (): JSX.Element => {
               }}
             />
             <label htmlFor="set-sys-admin">System Admin</label>
-
-            {/* <input
-            type="radio"
-            name="set-permissions"
-            id="set-admin"
-            value="2"
-            checked={valueRole === '2'}
-            onChange={(event) => setValueRole(event.target.value)}
-          />
-          <label htmlFor="set-admin">Admin</label> */}
           </fieldset>
 
           <button className={globalStyles.button1} type="submit">

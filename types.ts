@@ -155,6 +155,12 @@ export interface ProcessLogsSelectorProps {
   }[];
 }
 
+export interface ProcessLogsSelectorProps {
+  containerList: ContainerType[];
+  handleCheck: (name: string) => void;
+  btnIdList: { Names: boolean; }[];
+}
+
 export interface stdType {
   containerName: string;
   logMsg: string;
@@ -253,6 +259,15 @@ export interface ToggleDisplayProps {
   container: ContainerType;
 }
 
+
+export interface ContainersCardsProps {
+  containerList: ContainerType[],
+  stopContainer: (container: ContainerType) => void,
+  runContainer: (container: ContainerType) => void,
+  removeContainer: (container: ContainerType) => void,
+  status: string
+}
+
 // ==========================================================
 // Server-Side Typing
 // ==========================================================
@@ -286,12 +301,12 @@ export interface BcryptController {
    * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
    */
   hashPassword: MiddleWareFunction;
-  
+
   /**
    * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
    */
   hashNewPassword: MiddleWareFunction;
-  
+
   /**
    * @description destructures new password from req.body then hashes it and adds it to locals under 'newHashedPassword'
    */
@@ -314,7 +329,7 @@ export interface CommandController {
    * @description executes the docker ps command with status=exited flag to get list of stopped containers
    */
   refreshStopped: MiddleWareFunction;
-  
+
   /**
    * @description executes the docker image command to get list of pulled images; invokes convertArrToObj and passes resulting value in locals to imagesList
    */
@@ -325,41 +340,41 @@ export interface CommandController {
    * @note id is grabbed from req.query
    */
   remove: MiddleWareFunction;
-  
+
   /**
    * @description executes docker stop {id} command to stop a running container
    * @note id is grabbed from req.query
    */
   stopContainer: MiddleWareFunction;
-  
+
   /**
    * @description executes docker start {id} command to run a stopped container
    * @note id is grabbed from req.query
    */
   runStopped: MiddleWareFunction;
-  
+
   /**
    * @description executes `docker rmi -f {id} command to remove a pulled image
    * @note id is grabbed from req.query
    */
   removeImage: MiddleWareFunction;
-  
+
   /**
    * @description executes docker system prune --force command to remove all unused containers, networks, images (both dangling and unreferenced); passes a string to prop 'pruneMessage' in locals relaying the prune
    */
   dockerPrune: MiddleWareFunction;
-  
+
   /**
    * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
    * @note image's repo name grabbed from req.query
    */
   pullImage: MiddleWareFunction;
-  
+
   /**
    * @description Display all containers network based on docker-compose in a json object; when the application starts
    */
   networkContainers: MiddleWareFunction;
-  
+
   /**
    * @description inspects docker containers
    * @note is not implemented right now
@@ -368,7 +383,7 @@ export interface CommandController {
 
   /**
    * @description compose up a network and container from an uploaded yml file
-   * @note file path is grabbed from req.body
+   * @note file path is grabbed from req.body; IS NOT USED
    */
   composeUp: MiddleWareFunction;
 
@@ -532,7 +547,7 @@ export interface SignupController {
 
 export interface UserController {
   /**
-   * @description  Performs SQL query to insert a new record into "users" table and then RETURNS those values.
+   * @description  Performs SQL query to insert a new user, hashing the password before it does, into "users" table and then RETURNS those values.
    * @note Extract isername, password, and role ID from req.body
    */
   createUser: MiddleWareFunction;

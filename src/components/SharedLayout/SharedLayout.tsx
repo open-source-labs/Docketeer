@@ -152,7 +152,6 @@ function SharedLayout(): JSX.Element {
   }, []);
 
   // Pertains to sysAdmin only
-  // TODO: double check what this is doing and name appropriately
   const setAdminToken = async (): Promise<void> => {
     try {
       const response = await fetch('/api/admin', {

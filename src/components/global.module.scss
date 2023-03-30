@@ -9,6 +9,7 @@
   color: color(white, tan);
   background-color: color(light, light-gray);
   box-shadow: $shadow;
+
   &Short {
     @extend .input;
     height: 1.25rem;
@@ -45,11 +46,13 @@
   // align-items: start;
   justify-content: center;
   padding: 0.25rem 0rem;
+
   // justify-content: space-around;
   &[type='radio'] {
     display: grid;
     place-content: center;
   }
+
   label {
     margin-right: 1rem;
   }
@@ -86,15 +89,18 @@
   min-height: 44px;
   background-color: color(blue, dark);
   text-shadow: 1px 1px 2px color(blue, dark);
+
   &:hover,
   &:active {
     background-color: scale-color(color(blue, dark), $lightness: -10%);
   }
+
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
+
   &--small {
     font-size: 1.15rem;
   }
@@ -105,16 +111,19 @@
   // color: color(blue, light);
   background-color: transparent;
   border: 2px solid color(blue, light);
+
   &:hover,
   &:active {
     // background-color: scale-color(color(background, darkest), $lightness: 5%);
     border-color: scale-color(color(blue, light), $lightness: -15%);
   }
+
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
+
   &--small {
     font-size: 1.15rem;
   }
@@ -127,6 +136,7 @@
   font-size: 0.75rem;
   cursor: pointer;
   outline-color: scale-color(color(background, darker), $lightness: 0%);
+
   &:hover,
   &:active {
     // background-color: scale-color(color(background, darkest), $lightness: 5%);
@@ -135,11 +145,13 @@
     outline-width: 1px;
     outline-color: scale-color(color(background, darker), $lightness: -5%);
   }
+
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
+
   &--small {
     font-size: 1.15rem;
   }
@@ -156,6 +168,7 @@
     position: sticky;
     top: 0;
     background-color: color(light, base);
+
     th {
       text-align: left;
       color: color(background, dark);
@@ -164,12 +177,15 @@
       padding-right: 1rem;
     }
   }
+
   tbody {
     // display: block;
   }
+
   td {
     padding: 0.5rem;
   }
+
   tr:nth-child(even) {
     background-color: color(background, light);
   }

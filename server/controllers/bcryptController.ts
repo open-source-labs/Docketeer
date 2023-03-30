@@ -29,12 +29,7 @@ const bcryptController: BcryptController = {
         });
       });
   },
-
-  // ==========================================================
-  // Middleware: hashNewPassword
-  // Purpose: checks if locals has an error prop; if not, hashes new user password with bCrypt and adds it to locals
-  // ==========================================================
-  // return type is Promise<void> signifying we return a promise w a void value; in this case the invocation of next()
+  
   hashNewPassword: (
     req: Request,
     res: Response,

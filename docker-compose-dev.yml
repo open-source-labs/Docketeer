@@ -88,7 +88,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/app
-      # - node_modules:/app/node_modules
+      - node_modules:/app/node_modules
     command: npm run dev
-# volumes:
-#   node_modules:
+
+volumes:
+  node_modules:

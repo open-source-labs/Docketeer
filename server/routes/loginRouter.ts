@@ -17,8 +17,12 @@ router.post(
   userController.verifyUser,
   // userController.addCookie,
   (req: Request, res: Response): Response => {
-    if (res.locals.error) return res.status(201).json(res.locals);
-    return res.status(201).json(res.locals.user);
+    if (res.locals.token) {
+      res.cookie('admin', res.locals.token, { httpOnly: true });
+      return res.status(201).json(res.locals.verifiedUser);
+    } else {
+      return res.status(201).json(res.locals.user);
+    }
   }
 );
 

@@ -5,8 +5,8 @@ import styles from './Users.module.scss';
 import globalStyles from '../global.module.scss';
 import { SignUpValues } from '../../../types';
 import useHelper from '../../helpers/commands';
-import UserPopup from '../UserPopup/UserPopup';
-import UserDeletePopup from '../UserDeletePopup/UserDeletePopup';
+import UserPopup from '../UsersPopup/UsersPopup';
+import UserDeletePopup from '../UsersDeletePopup/UsersDeletePopup';
 
 /**
  * @module | Users.js
@@ -75,7 +75,7 @@ const UserTable = (): JSX.Element => {
                     <td>{user.cpu_threshold}</td>
                     <td>
                       <button
-                        className={styles.editUserButton}
+                        className={globalStyles.buttonUsers}
                         onClick={toggleUpdatePopup}
                       >
                         Edit
@@ -83,7 +83,7 @@ const UserTable = (): JSX.Element => {
                     </td>
                     <td>
                       <button
-                        className={styles.deleteUserButton}
+                        className={globalStyles.buttonUsers}
                         onClick={toggleDeletePopup}
                       >
                         Delete
@@ -98,7 +98,9 @@ const UserTable = (): JSX.Element => {
       </div>
 
       {showUpdatePopup ? <UserPopup togglePopup={toggleUpdatePopup} /> : null}
-      {showDeletePopup ? <UserDeletePopup togglePopup={toggleDeletePopup} /> : null}
+      {showDeletePopup ? (
+        <UserDeletePopup togglePopup={toggleDeletePopup} />
+      ) : null}
 
       <div className={styles.createUserHolder}>
         <h2>CREATE NEW USER</h2>

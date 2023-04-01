@@ -24,7 +24,6 @@ router.post(
   '/',
   userController.createUser,
   (req: Request, res: Response): Response => {
-    if (res.locals.error) return res.status(201).json(res.locals);
     return res.status(201).json('successfully added new user to database');
   }
 );

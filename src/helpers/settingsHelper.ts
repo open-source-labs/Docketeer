@@ -16,22 +16,6 @@ export const handlePasswordChange = () => {
   ) as HTMLInputElement;
   const newPassword = newPasswordHolder.value;
 
-  // conditionals for new password alerts
-
-  // if (!checkCurrentPassword()) {
-  //   window.alert('Warning: Please enter your current password');
-  //   return;
-  // }
-  // if (!checkPasswordLength()) {
-  //   window.alert('Warning: Password must be 6 characters or longer');
-  //   return;
-  // }
-
-  // if (!confirmPassword()) {
-  //   window.alert('Warning: Passwords do not match');
-  //   return;
-  // }
-
   updatePassword(currentPassword, newPassword);
 };
 
@@ -102,19 +86,6 @@ export const confirmPassword: () => void = () => {
   }
   return newPassword === newPasswordConfirmation;
 };
-
-// export const checkPasswordLength = () => {
-//   const newPassword = document.getElementById('new-password-input').value;
-//   const newPasswordAlert = document.getElementById('new-password-alert');
-
-//   if (newPassword.length <= 6) {
-//     newPasswordAlert.innerHTML =
-//       'Warning: Password must be 6 characters or longer';
-//   } else {
-//     newPasswordAlert.innerHTML = '';
-//   }
-//   return newPassword.length >= 6;
-// };
 
 export const handleEmailUpdate = () => {
   const emailInput = document.getElementById(

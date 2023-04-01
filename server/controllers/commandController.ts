@@ -2,9 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import {
   CommandController,
   LogObject,
-  composeStacksDockerObject
+  composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../../config.js';
+const secret = JWT_SECRET;
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -31,7 +34,8 @@ const convert = (stdout: string): string[][] => {
  *
  * @param {string} containerId
  * @returns {object} optionsObj
-*/
+ */
+
 const makeArrayOfObjects = (
   string: string,
   containerName: string
@@ -51,7 +55,9 @@ const makeArrayOfObjects = (
       const logArray = element.split(' ');
 
       // extract timestamp from logArray
-      let timeStamp: string | undefined = logArray.find(el => el.endsWith('Z'));
+      let timeStamp: string | undefined = logArray.find((el) =>
+        el.endsWith('Z')
+      );
 
       // if there is a timestamp, parse it (if statement isn't really neccessary, but TS complains)
       if (timeStamp) {
@@ -59,11 +65,13 @@ const makeArrayOfObjects = (
 
         // parse GMT string to be readable local date and time
         // this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
-        obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', { timeZone: 'America/New_York' });
+        obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', {
+          timeZone: 'America/New_York',
+        });
       }
 
       // parse remaining array to create readable message
-      let logMsg: string = logArray.filter(el => !el.endsWith('Z')).join(' ');
+      let logMsg: string = logArray.filter((el) => !el.endsWith('Z')).join(' ');
 
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
       const closingIndex: number = logMsg.indexOf(']');
@@ -156,6 +164,34 @@ const convertArrToObj = (
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
 const commandController: CommandController = {
+  checkAdmin: (req, res, next) => {
+    const token = req.cookies.admin || null;
+
+    if (token) {
+      jwt.verify(token, secret, (error, decoded) => {
+        if (error || decoded.verifiedRole !== 'system admin') {
+          return next({
+            log: 'Unauthorized access -- invalid permissions',
+            status: 401,
+            message: {
+              err: 'Unauthorized access --invalid permissions',
+              error,
+            },
+          });
+        }
+        return next();
+      });
+    } else {
+      return next({
+        log: 'Unauthorized access -- not logged in',
+        status: 401,
+        message: {
+          err: 'Unauthorized access -- not logged in',
+        },
+      });
+    }
+  },
+
   getContainers: async (
     req: Request,
     res: Response,
@@ -316,7 +352,7 @@ const commandController: CommandController = {
         if (error) {
           console.log(
             `${error.message}` +
-            '\nPlease stop running container first then remove.'
+              '\nPlease stop running container first then remove.'
           );
           return next(error);
         }
@@ -442,7 +478,6 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-
     // const nativeYmlFilenames: Set<string> = new Set([
     //   'docker-compose.yml',
     //   'docker-compose.yaml',
@@ -579,7 +614,8 @@ const commandController: CommandController = {
     for (let i = 0; i < optionsObj.containerNames.length; i++) {
       // build inputCommandString to get logs from command line
       let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t `;
-      if (optionsObj.since) inputCommandString += `--since ${optionsObj.since} `;
+      if (optionsObj.since)
+        inputCommandString += `--since ${optionsObj.since} `;
 
       exec(
         inputCommandString,

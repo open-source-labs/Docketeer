@@ -85,7 +85,7 @@ const dbController: DbController = {
       });
   },
   addToken: (req: Request, res: Response, next: NextFunction) => {
-    const { username, token }: { username: string, token: string } = req.body;
+    const { username, token }: { username: string; token: string } = req.body;
     db.query('UPDATE users SET token=$1 WHERE username=$2', [token, username])
       .then(() => {
         res.locals.login = 'Successfully logged in.';

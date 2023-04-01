@@ -5,14 +5,14 @@ services:
     image: docketeerxi/postgres
     restart: always
     ports:
-      - '${POSTGRES_PORT}:5432'
+      - '5432:5432'
     volumes:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: ${POSTGRES_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -82,7 +82,7 @@ services:
     image: docketeerxi/docketeer-dev
     container_name: docketeer-dev
     build:
-      dockerfile: dockerfile-dev
+      dockerfile: dockerfile.dev
     ports:
       - 4000:4000
     volumes:

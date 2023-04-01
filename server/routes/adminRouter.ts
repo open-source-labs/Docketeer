@@ -13,7 +13,6 @@ router.get(
   '/',
   userController.getAllUsers,
   (req: Request, res: Response): Response => {
-    if (res.locals.error) return res.status(201).json(res.locals.error);
     return res.status(201).json(res.locals.users);
   }
 );

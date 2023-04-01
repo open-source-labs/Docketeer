@@ -2,17 +2,20 @@ import { Request, Response, NextFunction } from 'express';
 import db from '../database/cloudModel';
 import bcrypt from 'bcryptjs';
 import { UserController, ServerError, UserInfo } from '../../types';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../../config.js';
+const secret = JWT_SECRET;
 
 /**
  * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
  */
+
 const userController: UserController = {
   createUser: async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-
     console.log('in userController.createUser');
 
     try {
@@ -62,14 +65,12 @@ const userController: UserController = {
   },
 
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
-
     if ('error' in res.locals) {
       return next();
     } else {
       const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
       db.query(allUsers)
         .then((response: { rows: UserInfo[] }): void => {
-
           res.locals.users = response.rows;
           return next();
         })
@@ -86,8 +87,8 @@ const userController: UserController = {
 
   getOneUser: (req: Request, res: Response, next: NextFunction): void => {
     const { _id }: { _id: string } = req.body;
-    const oneUser = `SELECT * FROM users WHERE _id = ${_id};`;
-    db.query(oneUser)
+    const oneUser = 'SELECT * FROM users WHERE _id = $1;';
+    db.query(oneUser, [_id])
       .then((response: { rows: UserInfo[] }): void => {
         res.locals.users = response.rows;
         return next();
@@ -106,19 +107,43 @@ const userController: UserController = {
     const { username, password }: { username: string; password: string } =
       req.body;
     // using username we create a query string to grab that user
-    const getUser = `SELECT * FROM users WHERE username='${username}';`;
+    const getUser = 'SELECT * FROM users WHERE username=$1;';
     //   using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
-    db.query(getUser)
-      .then(async (data: { rows: UserInfo[] }): Promise<void> => {
+    db.query(getUser, [username])
+      .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
-        if (data.rows[0] && match) {
-          res.locals.user = data.rows[0];
+        if (!(data.rows[0] || match)) {
+          return next({
+            log: 'Error in userController\'s verifyUser method',
+            status: 400,
+            message: {
+              err: 'Unable to verify user credentials.',
+            },
+          });
+        }
+        const verifiedUser = data.rows[0];
+        console.log('verified user', verifiedUser);
+        const verifiedRole = verifiedUser.role;
+        if (verifiedRole === 'system admin') {
+          await jwt.sign({ verifiedRole }, secret, (err, token) => {
+            if (err) {
+              return next({
+                log: 'Error in JWT sign in verifyUser',
+                status: 400,
+                message: { err: 'Unable to verify the User' },
+              });
+            } else {
+              res.locals.verifiedUser = verifiedUser;
+            }
+            res.locals.token = token;
+            return next();
+          });
+        } else if (verifiedRole === 'user') {
+          res.locals.user = verifiedUser;
           return next();
-        } else {
-          res.locals.error = 'Incorrect username or password.';
         }
       })
-      .catch((err: ServerError): void => {
+      .catch((err: ServerError) => {
         return next({
           log: `Error in userController checkUserExists: ${err}`,
           message: {
@@ -129,18 +154,45 @@ const userController: UserController = {
   },
 
   checkSysAdmin: (req: Request, res: Response, next: NextFunction): void => {
-    const query = 'SELECT * FROM users WHERE role_id = 1';
-    db.query(query)
-      .then((data: any) => {
-        res.locals.sysAdmins = data.rowCount;
-        res.locals.id = data.rows[0]._id;
-        return next();
+    const { username, password } = req.body;
+
+    const getUser = 'SELECT * FROM users WHERE username=$1;';
+
+    db.query(getUser, [username])
+      .then(async (data: any) => {
+        const match = await bcrypt.compare(password, data.rows[0].password);
+        if (!(data.rows[0] || match)) {
+          return next({
+            log: 'Error in userController\'s verifyUser method',
+            status: 400,
+            message: {
+              err: 'Unable to verify user credentials.',
+            },
+          });
+        }
+        const verifiedUser = data.rows[0];
+        console.log('verified user', verifiedUser);
+        res.locals.verifiedUser = verifiedUser;
+        const verifiedRole = verifiedUser.role;
+        if (verifiedRole === 'system admin') {
+          await jwt.sign({ verifiedRole }, secret, (err, token) => {
+            if (err) {
+              return next({
+                log: 'Error in JWT sign in verifyUser',
+                status: 400,
+                message: { err: 'Unable to verify the User' },
+              });
+            }
+            res.locals.token = token;
+            return next();
+          });
+        }
       })
       .catch((err: ServerError) => {
         return next({
-          log: `Error in userController switchUserRole: ${err}`,
+          log: `Error in userController checkUserExists: ${err}`,
           message: {
-            err: 'An error occurred while checking number of SysAdmins. See userController.checkSysAdmins.',
+            err: 'An error occurred while checking if username exists. See userController.checkUserExists.',
           },
         });
       });
@@ -183,11 +235,7 @@ const userController: UserController = {
 
   updatePassword: (req: Request, res: Response, next: NextFunction): void => {
     // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (res.locals.error) {
-      res.locals.error =
-        'Incorrect password. Please enter the correct password to update it.';
-      return next();
-    }
+
     const { newHashedPassword }: { newHashedPassword: string } = res.locals as {
       newHashedPassword: string;
     };

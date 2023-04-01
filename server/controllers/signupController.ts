@@ -10,15 +10,15 @@ const signupController: SignupController = {
     const { username }: { username: string } = req.body;
     // SQL query to check if username already exists in datebase, not unique.
     console.log('username -> ab to query', username);
-    const checkUsernameExists = `SELECT * FROM users WHERE username='${username}';`;
-    db.query(checkUsernameExists)
+    const checkUsernameExists = 'SELECT * FROM users WHERE username=$1;';
+
+    db.query(checkUsernameExists, [username])
       .then((data: { rows: UserInfo[] }): void => {
         // if row 0 or username already exists, throw error
         console.log('data.rows: ', data.rows);
         console.log('data.rows[0]: ', data.rows[0]);
         if (data.rows[0]) {
-          res.locals.error = 'Username already exists.';
-          return next();
+          throw { message: 'Username already exists.' };
         } else {
           return next();
         }
@@ -27,18 +27,21 @@ const signupController: SignupController = {
         return next({
           log: `Error in signupController usernameCheck: ${err}`,
           message: {
-            err: 'An error occured while checking if username exists. See signupController.usernameCheck.',
+            err: `An error occured while checking if username exists. See signupController.usernameCheck., ${err.message}`,
           },
         });
       });
   },
-  passwordCheck: (req: Request, res: Response, next: NextFunction): void => {
-    if (res.locals.error) return next();
+
+  // verify password meets requirements
+  passwordCheck: (req: Request, res: Response, next: NextFunction) => {
     const { password }: { password: string } = req.body;
-    if (password.length >= 6) {
-      return next();
+    if (!(password.length >= 6)) {
+      return next({
+        status: 400,
+        message: 'Password length too short',
+      });
     } else {
-      res.locals.error = 'Password must be at least 6 characters.';
       return next();
     }
   },

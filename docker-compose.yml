@@ -5,17 +5,14 @@ services:
     image: docketeerxi/postgres
     restart: always
     ports:
-      - '${POSTGRES_PORT}:5432'
+      - '5432:5432'
     volumes:
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
-      POSTGRES_DB: ${POSTGRES_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
-
-    # networks:
-    #   - my-network
+      POSTGRES_DB: 'docketeer-db'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -34,9 +31,6 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_path: '/metrics'
 
-    # networks:
-    #   - my-network
-
   node-exporter:
     image: docketeerxi/nodeex
     container_name: node-exporter
@@ -51,8 +45,6 @@ services:
       - /:/rootfs:ro
     depends_on:
       - db
-    # networks:
-    #   - my-network
 
   prometheus:
     image: docketeerxi/prometheus
@@ -67,8 +59,9 @@ services:
       org_prometheus_starter: 'true'
       org_prometheus_starter_port: '9090'
       org_prometheus_starter_path: '/metrics'
-    # networks:
-    #   - my-network
+
+    volumes:
+      - ./imageConfigs/prometheus/promData:/prometheus
 
   grafana:
     image: grafana/grafana:latest
@@ -86,9 +79,6 @@ services:
       - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
 
-    # networks:
-    #   - my-network
-
     depends_on:
       - prometheus
 
@@ -97,20 +87,5 @@ services:
     container_name: docketeer
     ports:
       - 4000:4000
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: npm run dev
-    # networks:
-    #   - my-network
-    # depends_on:
-    #   - grafana
-
-# networks:
-#   my-network:
-#     driver: bridge
-#     driver_opts:
-#       com.docker.network.bridge.name: my-bridge
-#       com.docker.network.bridge.enable_icc: "true"
-#       subnet: "172.16.238.0/24"
-#       gateway: "172.16.238.1"

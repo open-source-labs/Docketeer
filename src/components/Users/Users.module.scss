@@ -9,11 +9,9 @@
   margin-right: 1rem;
   flex-direction: column;
   margin-bottom: 2rem;
-
   h2 {
     margin-bottom: 1rem;
   }
-
   th {
     width: 4rem;
     padding: 0.5rem;
@@ -37,30 +35,6 @@
   }
 }
 
-.editUserButton {
-  min-height: 30px;
-  width: 60px;
-  background-color: color(blue, dark);
-  border-radius: 5px;
-  color: white;
-  text-shadow: 1px 1px 2px color(blue, dark);
-
-  &:hover,
-  &:active {
-    background-color: scale-color(color(blue, dark), $lightness: -10%);
-  }
-
-  &:focus {
-    outline-style: solid;
-    outline-color: transparent;
-    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
-  }
-
-  &--small {
-    font-size: 1.15rem;
-  }
-}
-
 .deleteUserButton {
   min-height: 30px;
   width: 60px;
@@ -68,18 +42,15 @@
   border-radius: 5px;
   color: white;
   text-shadow: 1px 1px 2px color(blue, dark);
-
   &:hover,
   &:active {
     background-color: scale-color(color(blue, dark), $lightness: -10%);
   }
-
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
-
   &--small {
     font-size: 1.15rem;
   }
@@ -88,30 +59,24 @@
 .createUserHolder {
   width: 50%;
   margin-left: 1rem;
-
   form {
     display: flex;
     flex-direction: column;
   }
-
   [type='radio'] {
     margin-right: 0.5rem;
   }
-
   [type='text'] {
     min-width: 15rem;
   }
-
   [type='password'] {
     min-width: 15rem;
   }
-
   fieldset {
     margin-bottom: 1rem;
     width: 15rem;
     border-radius: 5px;
   }
-
   p {
     // max-width: 50%; only want this when vertical
     margin-bottom: 1rem;
@@ -122,16 +87,13 @@
   .wrapper {
     flex-direction: column;
   }
-
   .userManagement {
     margin-right: 0px;
     width: 100%;
   }
-
   .createUserHolder {
     width: 100%;
     margin-left: 0px;
-
     // fieldset {
     //   max-width: 100%;
     // }

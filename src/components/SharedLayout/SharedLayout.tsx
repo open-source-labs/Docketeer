@@ -21,7 +21,7 @@ function SharedLayout(): JSX.Element {
   const { handlePruneClick } = useHelper();
   const { updateSession, logoutUser } = useSurvey();
 
-  const {isLoggedIn} = useAppSelector((state) => state.sessions);
+  const { isLoggedIn } = useAppSelector((state) => state.sessions);
   // console.log('session in SharedLayout.tsx', isLoggedIn);
 
   const logOut = async (): Promise<void> => {
@@ -175,58 +175,59 @@ function SharedLayout(): JSX.Element {
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
-        <ul className={styles.navLeft}>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/"
-            >
-              HOME
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/users"
-            >
-              USERS
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/running"
-            >
-              CONTAINERS
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/images"
-            >
-              IMAGES
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/metrics"
-            >
-              METRICS
-            </NavLink>
-          </li>
-          {/* <li>
+        <div className={styles.navSpacer}>
+          <ul className={styles.navLeft}>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/"
+              >
+                HOME
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/users"
+              >
+                USERS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/running"
+              >
+                CONTAINERS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/images"
+              >
+                IMAGES
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/metrics"
+              >
+                METRICS
+              </NavLink>
+            </li>
+            {/* <li>
             <NavLink
               className={({ isActive }) =>
                 isActive ? styles.active : styles.navButton
@@ -236,52 +237,53 @@ function SharedLayout(): JSX.Element {
               Docker Compose
             </NavLink>
           </li> */}
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/volume"
-            >
-              VOLUME HISTORY
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/logs"
-            >
-              PROCESS LOGS
-            </NavLink>
-          </li>
-          <li>
-            <a className={styles.navButton} onClick={(e) => systemPrune(e)}>
-              SYSTEM PRUNE
-            </a>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/about"
-            >
-              ABOUT
-            </NavLink>
-          </li>
-        </ul>
-        <ul className={styles.navRight}>
-          <li className={styles.userName}>
-            {userData.username && <span>{`${userData.username}`}</span>}
-          </li>
-          <li>
-            <a className={styles.navButton} onClick={() => handleLogOut()}>
-              LOGOUT
-            </a>
-          </li>
-        </ul>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/volume"
+              >
+                VOLUME HISTORY
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/logs"
+              >
+                PROCESS LOGS
+              </NavLink>
+            </li>
+            <li>
+              <a className={styles.navButton} onClick={(e) => systemPrune(e)}>
+                SYSTEM PRUNE
+              </a>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/home/about"
+              >
+                ABOUT
+              </NavLink>
+            </li>
+          </ul>
+          <ul className={styles.navRight}>
+            <li className={styles.userName}>
+              {userData.username && <span>{`${userData.username}`}</span>}
+            </li>
+            <li>
+              <a className={styles.navButton} onClick={() => handleLogOut()}>
+                LOGOUT
+              </a>
+            </li>
+          </ul>
+        </div>
       </nav>
       <Alert />
 

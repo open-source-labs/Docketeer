@@ -151,14 +151,14 @@ export interface ProcessLogsSelectorProps {
   containerList: ContainerType[];
   handleCheck: (name: string) => void;
   btnIdList: {
-    Names: boolean
+    Names: boolean;
   }[];
 }
 
 export interface ProcessLogsSelectorProps {
   containerList: ContainerType[];
   handleCheck: (name: string) => void;
-  btnIdList: { Names: boolean; }[];
+  btnIdList: { Names: boolean }[];
 }
 
 export interface stdType {
@@ -177,7 +177,6 @@ export interface LogsStateType {
 }
 
 export type CSVDataType = string[];
-
 
 // ==============================================
 // VOLUME TYPES
@@ -232,12 +231,12 @@ export interface notificationList {
 export interface AlertStateType {
   alertList: (string | null)[];
   promptList:
-  | [
-    prompt: string | null,
-    handleAccept: (() => void) | null,
-    handleDeny: (() => void) | null
-  ]
-  | null[];
+    | [
+        prompt: string | null,
+        handleAccept: (() => void) | null,
+        handleDeny: (() => void) | null
+      ]
+    | null[];
 }
 
 export interface notificationStateType {
@@ -259,13 +258,12 @@ export interface ToggleDisplayProps {
   container: ContainerType;
 }
 
-
 export interface ContainersCardsProps {
-  containerList: ContainerType[],
-  stopContainer: (container: ContainerType) => void,
-  runContainer: (container: ContainerType) => void,
-  removeContainer: (container: ContainerType) => void,
-  status: string
+  containerList: ContainerType[];
+  stopContainer: (container: ContainerType) => void;
+  runContainer: (container: ContainerType) => void;
+  removeContainer: (container: ContainerType) => void;
+  status: string;
 }
 
 // ==========================================================
@@ -286,7 +284,11 @@ export type SqlQuery = {
 // ==========================================================
 // MiddleWare Function Type
 // ==========================================================
-export type MiddleWareFunction = (req: Request, res: Response, next: NextFunction) => void;
+export type MiddleWareFunction = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => void;
 
 // ==========================================================
 // Controller Types
@@ -336,9 +338,9 @@ export interface CommandController {
   refreshImages: MiddleWareFunction;
 
   /**
-  * @description executes docker rm {containerId} command to remove a stopped container
-  * @note id is grabbed from req.query
-  */
+   * @description executes docker rm {containerId} command to remove a stopped container
+   * @note id is grabbed from req.query
+   */
   remove: MiddleWareFunction;
 
   /**
@@ -417,6 +419,12 @@ export interface CommandController {
    * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
    */
   getLogs: MiddleWareFunction;
+
+  /**
+   * @description verifies admin status before executing docker commands (i.e. remove image, docker stop)
+   */
+
+  checkAdmin: MiddleWareFunction;
 }
 
 // this is not used
@@ -437,24 +445,22 @@ export interface ConfigController {
   updateStopPref: (req: Request, res: Response, next: NextFunction) => void;
 }
 
-
 export interface DbController {
-
   /**
-  * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
-  * @note OIDS is optional for this middleware
+   * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
+   * @note OIDS is optional for this middleware
    */
   createRolesTable: MiddleWareFunction;
 
   /**
-  * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
-  * @note uses single SQl query for all 3 rows in terms of string query
+   * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
+   * @note uses single SQl query for all 3 rows in terms of string query
    */
   insertRoles: MiddleWareFunction;
 
   /**
-  * @description Creates a table in database called "users" with user and container info
-  */
+   * @description Creates a table in database called "users" with user and container info
+   */
   createUsersTable: MiddleWareFunction;
 
   // not used
@@ -480,12 +486,11 @@ export interface DbController {
 }
 
 export interface InitController {
-
   /**
    * @description Obtains github URL from containers name, and assigns it to 'parameter'
    * @note 'url' property is set on res.locals upon success
    */
-  gitUrl: MiddleWareFunction;
+  gitUrl?: MiddleWareFunction;
 
   /**
    * @description adds metrics to our metrics table of each individual container
@@ -574,14 +579,15 @@ export interface UserController {
    * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
    * @note System admin ID has a role_id of 1
    */
-  checkSysAdmin: MiddleWareFunction;
+  checkSysAdmin?: MiddleWareFunction;
 
   /**
    * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
    * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
    */
-  switchUserRole: MiddleWareFunction;
+  switchUserRole?: MiddleWareFunction;
 
+  // TODO: update description. no more res.locals.error
   /**
    * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
    * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
@@ -601,17 +607,17 @@ export interface UserController {
   /**
    * @description  adds a cookie to our user's browser to signify they are logged in
    */
-  addCookie: MiddleWareFunction
+  addCookie: MiddleWareFunction;
 
   /**
    * @description  checks if user has a valid cookie
    */
-  checkCookie: MiddleWareFunction
+  checkCookie: MiddleWareFunction;
 
   /**
    * @description  removes our user's cookie
    */
-  removeCookie: MiddleWareFunction
+  removeCookie: MiddleWareFunction;
 }
 
 export interface ContainerNetworkObject {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import styles from './UserPopup.module.scss';
+import styles from './UsersPopup.module.scss';
 import globalStyles from '../global.module.scss';
 
-const UserPopup = ({ togglePopup }): JSX.Element => {
+const UsersPopup = ({ togglePopup }): JSX.Element => {
   const [updatedUserValues, setUpdatedUserValues] = useState({
     username: '',
     password: '',
@@ -37,7 +37,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='username'
+              id="username"
               value={updatedUserValues.username}
               placeholder="Username"
               onChange={(e) => {
@@ -50,7 +50,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='password'
+              id="password"
               value={updatedUserValues.password}
               minLength={6}
               placeholder="Password"
@@ -64,7 +64,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='email'
+              id="email"
               value={updatedUserValues.email}
               placeholder="Email"
               onChange={(e) => {
@@ -77,7 +77,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='phone'
+              id="phone"
               value={updatedUserValues.phone}
               placeholder="Phone Number"
               onChange={(e) => {
@@ -90,7 +90,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='memThreshold'
+              id="memThreshold"
               value={updatedUserValues.memThreshold}
               placeholder="Memory Threshold"
               onChange={(e) => {
@@ -103,7 +103,7 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
             <input
               className={globalStyles.input}
               type="text"
-              id='cpuThreshold'
+              id="cpuThreshold"
               value={updatedUserValues.cpuThreshold}
               placeholder="CPU Threshold"
               onChange={(e) => {
@@ -146,13 +146,8 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
               <label htmlFor="set-phone">Text</label>
             </fieldset>
 
-            <div className={styles.button}>
-              <button className={globalStyles.button1}>
-                Update User
-              </button>
-              &nbsp;
-              &nbsp;
-              &nbsp;
+            <div className={styles.buttonHolder}>
+              <button className={globalStyles.button1}>Update User</button>
               <button onClick={togglePopup} className={globalStyles.button2}>
                 Cancel
               </button>
@@ -160,8 +155,8 @@ const UserPopup = ({ togglePopup }): JSX.Element => {
           </form>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
-export default UserPopup;
+export default UsersPopup;

@@ -18,7 +18,8 @@ router.post(
   // dbController.removeToken,
   // userController.removeCookie,
   (req: Request, res: Response): Response => {
-    return res.status(201).json(res.locals);
+    res.clearCookie('admin', { httpOnly: true });
+    return res.status(201).json({ loggedOut: 'true' });
   }
 );
 

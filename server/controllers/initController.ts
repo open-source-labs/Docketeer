@@ -54,21 +54,25 @@ const initController: InitController = {
         block,
         pid,
       ];
-      db.query(queryString, parameters)
-
-        .catch((err: ServerError) => {
-          console.log(err);
-          return next(err);
-        });
+      db.query(queryString, parameters).catch((err: ServerError) => {
+        console.log(err);
+        return next(err);
+      });
     });
     return next();
   },
-  getMetrics: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  getMetrics: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
       const timePeriod = req.body.time;
       const containerList = req.body.containers;
-      let queryStringStart = 'SELECT * FROM metrics WHERE (container_name = $1 ';
-      const queryStringEnd = ') AND created_at >= now() - interval $2:raw ORDER BY created_at ASC';
+      let queryStringStart =
+        'SELECT * FROM metrics WHERE (container_name = $1 ';
+      const queryStringEnd =
+        ') AND created_at >= now() - interval $2:raw ORDER BY created_at ASC';
       const params = [containerList[0], `${timePeriod} hour`];
 
       if (containerList.length > 1) {

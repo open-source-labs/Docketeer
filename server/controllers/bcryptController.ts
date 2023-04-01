@@ -7,7 +7,6 @@ import { BcryptController } from '../../types';
  * @description A controller to handle hashing of passwords and cookies
  */
 const bcryptController: BcryptController = {
-  
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
     const saltRounds = 10;
@@ -29,16 +28,8 @@ const bcryptController: BcryptController = {
         });
       });
   },
-  
-  hashNewPassword: (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): void => {
-    // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-    if (res.locals.error) {
-      return next();
-    }
+
+  hashNewPassword: (req: Request, res: Response, next: NextFunction): void => {
     // else bCrypt the new password and move to next middleware
     const { newPassword }: { newPassword: string } = req.body;
     const saltRounds = 10;

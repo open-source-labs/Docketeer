@@ -1,4 +1,5 @@
-.wrapper {}
+.wrapper {
+}
 
 $navbar-transition: transform 0.3s ease-in-out;
 
@@ -9,27 +10,33 @@ $navbar-transition: transform 0.3s ease-in-out;
   top: -$navbar-height;
 
   background-color: color(background, base);
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  align-items: center;
   position: fixed;
   z-index: 9999;
   left: 0px;
   right: 0px;
-  padding: 0 1rem;
+  padding: 0 2rem;
   height: $navbar-height;
+}
+
+.navSpacer {
+  height: $navbar-height;
+  display: flex;
+  justify-content: space-between;
 
   ul {
     display: flex;
     align-items: center;
     text-align: left;
   }
-
   li {
     list-style: none;
-    padding: 0.5rem 0.2rem;
-    margin-right: 0.5rem;
+    padding: 0.5rem 0rem;
+    margin-right: 1rem;
   }
-
   a {
     text-decoration: none;
     color: color(white, tan);
@@ -39,7 +46,8 @@ $navbar-transition: transform 0.3s ease-in-out;
 }
 
 .navLeft,
-.navRight {}
+.navRight {
+}
 
 .navLeft {
   // display: flex;
@@ -48,7 +56,8 @@ $navbar-transition: transform 0.3s ease-in-out;
   // width: 100%;
 }
 
-.navRight {}
+.navRight {
+}
 
 .userName {
   margin-right: 0.5rem;
@@ -63,7 +72,6 @@ $navbar-transition: transform 0.3s ease-in-out;
   cursor: pointer;
 
   border-color: color(background, darkest);
-
   &:hover {
     // color: color(light, base);
     // text-decoration: underline;
@@ -71,7 +79,6 @@ $navbar-transition: transform 0.3s ease-in-out;
     border-bottom: 4px solid color(background, darkest);
     // border-spacing: 0;
   }
-
   &:focus-visible {
     outline: 2px solid color(light, base);
     outline-offset: 2px;
@@ -87,40 +94,36 @@ $navbar-transition: transform 0.3s ease-in-out;
   font-weight: 600;
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 10vh;
-  background-color: color(darks, base);
-}
-
-.footerLogo {}
-
-.footerIcons {
-  display: flex;
-  justify-content: space-around;
-
-  a {
-    padding: 0.5rem;
+@media screen and (min-width: $breakpoint-uw) {
+  // .wrapper {
+  //   margin: 0 auto;
+  //   max-width: $breakpoint-uw;
+  // }
+  .navBar {
+    // width: $breakpoint-uw;
+    padding: 0;
   }
+  .navSpacer {
+    max-width: $breakpoint-uw;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  // .navLeft,
+  // .navRight {
+  //   margin: 0 auto;
+  // }
 }
 
 @media screen and (max-width: $breakpoint-lg) {
   .wrapper {
     margin-top: 1rem;
   }
-
   .userName {
     padding-left: 0rem;
     margin-left: 1rem;
     margin-top: 0.5rem;
     width: calc($sidebar-width - 1rem);
   }
-
   .navButton,
   .active {
     transition: all 0.1s ease-in;
@@ -128,7 +131,9 @@ $navbar-transition: transform 0.3s ease-in-out;
     margin-left: 1rem;
     margin-top: 0.5rem;
     width: calc($sidebar-width - 1rem);
-
+    line-height: 100%;
+    display: flex;
+    align-items: center;
     &:hover {
       border-bottom: none;
       border-left: 4px solid color(background, darkest);
@@ -136,7 +141,6 @@ $navbar-transition: transform 0.3s ease-in-out;
       border-spacing: 0px 4px;
     }
   }
-
   .navBar {
     // animation
     transition: $navbar-transition;
@@ -163,5 +167,9 @@ $navbar-transition: transform 0.3s ease-in-out;
       align-items: start;
       flex-direction: column;
     }
+    
+  }
+  .navSpacer{
+    flex-direction: column;
   }
 }

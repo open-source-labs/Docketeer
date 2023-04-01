@@ -10,9 +10,9 @@ import { ConfigController, ServerError } from '../../types';
  **/
 const configController: ConfigController = {
   // update configuration thresholds
-  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
+  // TODO: implement
 
+  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
     const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } =
       req.body;
 
@@ -43,13 +43,13 @@ const configController: ConfigController = {
   },
 
   // configure contact preference
+  // TODO: implement
+
   updateContactPref: (
     req: Request,
     res: Response,
     next: NextFunction
   ): void => {
-    if (res.locals.error) return next();
-
     const { contact_pref, _id } = req.body;
 
     const inputPref =
@@ -72,9 +72,9 @@ const configController: ConfigController = {
   },
 
   // configure CPU threshold
-  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
+  // TODO: implement
 
+  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
     const { cpu_threshold, _id } = req.body;
 
     const inputCPU =
@@ -97,9 +97,8 @@ const configController: ConfigController = {
   },
 
   // configure memory threshold
+  // TODO: implement
   updateMemThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
-
     const { mem_threshold, _id } = req.body;
 
     const inputMem =
@@ -122,9 +121,8 @@ const configController: ConfigController = {
   },
 
   // configure preference to receive notification when a container stops running
+  // TODO: implement
   updateStopPref: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
-
     const { container_stops, _id } = req.body;
 
     const inputStopPref =

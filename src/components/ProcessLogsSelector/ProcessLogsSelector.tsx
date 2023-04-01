@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ProcessLogsSelector.module.scss';
+import globalStyles from '../global.module.scss';
 
 function ProcessLogsSelector({
   containerList,
@@ -11,29 +12,27 @@ function ProcessLogsSelector({
   // useState<object[]>(defaultContainerList);
 
   return (
-    <div className={styles.wrapper}>
-      <form>
-        <fieldset>
-          <legend>{status} Containers</legend>
-          {containerList.map((container, i) => {
-            return (
-              <div key={i}>
-                <input
-                  type="checkbox"
-                  id={container.Names}
-                  value={container.Names}
-                  checked={btnIdList[container.Names] === true}
-                  onChange={(e) => {
-                    handleCheck(e.target.id);
-                  }}
-                />
-                <label htmlFor={container.Names}>{container.Names}</label>
-              </div>
-            );
-          })}
-        </fieldset>
-      </form>
-    </div>
+    <form className={styles.wrapper}>
+      <fieldset className={globalStyles.radioForm}>
+        <legend>{status.toUpperCase()} CONTAINERS</legend>
+        {containerList.map((container, i) => {
+          return (
+            <div key={i}>
+              <input
+                type="checkbox"
+                id={container.Names}
+                value={container.Names}
+                checked={btnIdList[container.Names] === true}
+                onChange={(e) => {
+                  handleCheck(e.target.id);
+                }}
+              />
+              <label htmlFor={container.Names}>{container.Names}</label>
+            </div>
+          );
+        })}
+      </fieldset>
+    </form>
   );
 }
 

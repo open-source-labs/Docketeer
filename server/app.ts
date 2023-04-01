@@ -3,12 +3,14 @@ import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
-// import cookieParser from 'cookie-parser'; // for when cookies get implemented
+import cookieParser from 'cookie-parser'; // for when cookies get implemented
 
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
+
+app.use(cookieParser());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(

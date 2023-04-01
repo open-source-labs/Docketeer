@@ -16,7 +16,7 @@
   // justify-content: center;
   border-width: 2px;
   border-style: solid;
-  background-color: scale-color(color(background, light), $alpha: -6%);
+  background-color: scale-color(color(background, dark), $alpha: -6%);
   text-align: center;
   padding: 1rem;
   min-width: 100%;
@@ -31,7 +31,6 @@
     margin: 0 2rem;
   }
 }
-
 
 .updateUserHolder {
   width: 100%;
@@ -77,7 +76,6 @@
   display: flex;
   justify-content: center;
 }
-
 
 @media screen and (max-width: $breakpoint-lg) {
   .wrapper {

@@ -37,7 +37,9 @@
 .general {
   border-width: 2px;
   border-style: solid;
-  background-color: scale-color(color(background, light), $alpha: -6%);
+  border-color: scale-color(color(light, base), $alpha: -6%);
+  background-color: scale-color(color(background, dark), $alpha: -6%);
+
   text-align: center;
   padding: 1rem;
   min-width: 100%;
@@ -45,8 +47,9 @@
   margin-bottom: 1.25rem;
   border-radius: 0.5rem;
   transition: all 0.5s ease-in-out;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px, 2px 4px color(background, darkest);
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  // 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   p {
     margin: 0 2rem;
   }
@@ -55,12 +58,15 @@
 .info {
   // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
   //   0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  // svg {
+  //   color: scale-color(color(background, light), $lightness: -40%);
+  // }
 }
 
 .success {
   // background-color: scale-color(color(green, base), $alpha: 40%);
   // border-color: color(green, base);
-  min-width: 100%;
+  // min-width: 100%;
   svg {
     color: scale-color(color(green, base), $lightness: -40%);
   }

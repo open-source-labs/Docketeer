@@ -274,8 +274,12 @@ function SharedLayout(): JSX.Element {
             </li>
           </ul>
           <ul className={styles.navRight}>
-            <li className={styles.userName}>
-              {userData.username && <span>{`${userData.username}`}</span>}
+            <li>
+              {userData.username && (
+                <span
+                  className={styles.userName}
+                >{`${userData.username}`}</span>
+              )}
             </li>
             <li>
               <a className={styles.navButton} onClick={() => handleLogOut()}>

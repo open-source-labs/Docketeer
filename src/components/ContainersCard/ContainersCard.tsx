@@ -27,12 +27,12 @@ const ContainersCard = ({
               </p>
               {status === 'running' && (
                 <p>
-                  <strong>Running for:</strong> {container.RunningFor}
+                  <strong>Running since: </strong> {container.RunningFor}
                 </p>
               )}
               {status === 'stopped' && (
                 <p>
-                  <strong>Stopped for:</strong> {container.RunningFor}
+                  <strong>Stopped: </strong> {container.RunningFor}
                 </p>
               )}
             </div>

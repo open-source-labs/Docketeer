@@ -282,6 +282,10 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
+    console.log('removing container');
+
+    console.log('req.query.id', req.query.id);
+
     exec(
       `docker rm ${req.query.id}`,
       (error: Error | null, stdout: string, stderr: string): void => {

@@ -16,5 +16,4 @@ coverage/
 out/
 docketeerdb
 imageConfigs/grafana/data/
-imageConfigs/grafana/data/alerting
 imageConfigs/grafana/data/grafana.db

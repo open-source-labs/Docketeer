@@ -9,8 +9,8 @@ $sidebar-width: 170px;
 $shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
 
 $breakpoint-sm: 630px;
-$breakpoint-md: 860px;
-$breakpoint-lg: 1060px;
+$breakpoint-md: 900px;
+$breakpoint-lg: 1096px;
 $breakpoint-uw: 1300px;
 
 $background-bg: linear-gradient(
@@ -128,7 +128,7 @@ $palettes: (
     tan: hsla(190, 88%, 94%, 1),
     base: hsla(204, 9.8%, 90%, 1),
     mid-gray: hsla(199, 8%, 47%, 1),
-    light-gray: hsla(200, 10%, 59%, 1),
+    light-gray: rgb(200, 200, 200),
   ),
 );
 

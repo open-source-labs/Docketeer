@@ -9,7 +9,9 @@ import styles from './Home.module.scss';
 const Home = (): JSX.Element => {
   return (
     <>
-      <div className={styles.wrapper}></div>
+      <div className={styles.wrapper}>
+        <h2>Welcome to Docketeer!</h2>
+      </div>
     </>
   );
 };

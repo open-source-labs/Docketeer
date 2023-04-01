@@ -1,12 +1,11 @@
 .wrapper {
   margin: $default-page-margin;
   display: flex;
+  flex-direction: column;
 }
 
 .userManagement {
-  width: 50%;
   display: flex;
-  margin-right: 1rem;
   flex-direction: column;
   margin-bottom: 2rem;
   h2 {
@@ -35,30 +34,7 @@
   }
 }
 
-.deleteUserButton {
-  min-height: 30px;
-  width: 60px;
-  background-color: color(blue, dark);
-  border-radius: 5px;
-  color: white;
-  text-shadow: 1px 1px 2px color(blue, dark);
-  &:hover,
-  &:active {
-    background-color: scale-color(color(blue, dark), $lightness: -10%);
-  }
-  &:focus {
-    outline-style: solid;
-    outline-color: transparent;
-    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
-  }
-  &--small {
-    font-size: 1.15rem;
-  }
-}
-
 .createUserHolder {
-  width: 50%;
-  margin-left: 1rem;
   form {
     display: flex;
     flex-direction: column;
@@ -78,7 +54,8 @@
     border-radius: 5px;
   }
   p {
-    // max-width: 50%; only want this when vertical
+    max-width: 600px;
+    // width: 50%; //only want this when vertical
     margin-bottom: 1rem;
   }
 }
@@ -98,7 +75,7 @@
     //   max-width: 100%;
     // }
     p {
-      max-width: 100%;
+      width: 100%;
     }
   }
 }

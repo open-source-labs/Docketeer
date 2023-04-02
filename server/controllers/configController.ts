@@ -1,24 +1,26 @@
-/**
- * @module | configController.ts
- * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
- **/
-
+// !
+// !
+// ! This controller is not currently implement, is used to set thersholds/preferences
 import db from '../database/cloudModel';
 import { Request, Response, NextFunction } from 'express';
 import { ConfigController, ServerError } from '../../types';
 
+/**
+ * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
+ **/
 const configController: ConfigController = {
   // *** I don't believe any of these are currently in use ***
 
   // update configuration thresholds
-  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
+  // TODO: implement
 
+  configureThresholds: (req: Request, res: Response, next: NextFunction) => {
     const { contact_pref, mem_threshold, cpu_threshold, container_stops, _id } =
       req.body;
 
     const inputThresholds =
       'UPDATE users SET contact_pref = $1, mem_threshold = $2, cpu_threshold = $3, container_stops = $4 WHERE _id = $5 RETURNING *;';
+
     const thresholdDetails = [
       contact_pref,
       mem_threshold,
@@ -43,9 +45,13 @@ const configController: ConfigController = {
   },
 
   // configure contact preference
-  updateContactPref: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
+  // TODO: implement
 
+  updateContactPref: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
     const { contact_pref, _id } = req.body;
 
     const inputPref =
@@ -68,9 +74,9 @@ const configController: ConfigController = {
   },
 
   // configure CPU threshold
-  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
+  // TODO: implement
 
+  updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => {
     const { cpu_threshold, _id } = req.body;
 
     const inputCPU =
@@ -93,9 +99,8 @@ const configController: ConfigController = {
   },
 
   // configure memory threshold
+  // TODO: implement
   updateMemThreshold: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
-
     const { mem_threshold, _id } = req.body;
 
     const inputMem =
@@ -118,9 +123,8 @@ const configController: ConfigController = {
   },
 
   // configure preference to receive notification when a container stops running
+  // TODO: implement
   updateStopPref: (req: Request, res: Response, next: NextFunction) => {
-    if (res.locals.error) return next();
-
     const { container_stops, _id } = req.body;
 
     const inputStopPref =

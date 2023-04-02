@@ -1,0 +1,175 @@
+//
+$base-color: #7a0d43;
+
+$default-page-margin: 1rem 2rem;
+
+$navbar-height: 60px;
+$sidebar-width: 170px;
+
+$shadow: 2.6px 5.1px 5.1px hsla(0, 2%, 25%, 0.42);
+
+$breakpoint-sm: 630px;
+$breakpoint-md: 900px;
+$breakpoint-lg: 1096px;
+$breakpoint-uw: 1300px;
+
+$background-bg: linear-gradient(
+  45deg,
+  hsl(0deg 0% 10%) 0%,
+  hsl(240deg 2% 10%) 7%,
+  hsl(210deg 4% 11%) 13%,
+  hsl(210deg 3% 12%) 19%,
+  hsl(200deg 5% 12%) 24%,
+  hsl(216deg 7% 13%) 29%,
+  hsl(216deg 7% 14%) 34%,
+  hsl(210deg 8% 15%) 40%,
+  hsl(210deg 10% 15%) 46%,
+  hsl(207deg 11% 16%) 53%,
+  hsl(213deg 13% 17%) 61%,
+  hsl(210deg 14% 17%) 71%,
+  hsl(210deg 15% 18%) 92%
+);
+
+$background-bg-fade: linear-gradient(
+  45deg,
+  hsl(0deg 0% 0%) 1%,
+  hsl(344deg 0% 13%) 50%,
+  hsl(344deg 0% 24%) 50%,
+  hsl(344deg 0% 36%) 50%,
+  hsl(0deg 0% 48%) 99%
+);
+$background-br-fade: linear-gradient(
+  45deg,
+  hsl(0deg 0% 0%) 1%,
+  hsl(180deg 14% 1%) 39%,
+  hsl(210deg 13% 3%) 47%,
+  hsl(200deg 13% 5%) 50%,
+  hsl(216deg 16% 6%) 51%,
+  hsl(210deg 16% 7%) 51%,
+  hsl(214deg 15% 9%) 50%,
+  hsl(210deg 15% 11%) 49%,
+  hsl(207deg 15% 12%) 49%,
+  hsl(207deg 16% 14%) 50%,
+  hsl(213deg 14% 15%) 53%,
+  hsl(212deg 15% 17%) 61%,
+  hsl(210deg 15% 18%) 99%
+);
+
+$solid-background-fade: linear-gradient(
+  140deg,
+  hsl(0deg 0% 25%) 13%,
+  hsl(210deg 2% 25%) 37%,
+  hsl(195deg 3% 25%) 44%,
+  hsl(200deg 5% 25%) 47%,
+  hsl(202deg 6% 25%) 48%,
+  hsl(202deg 8% 26%) 49%,
+  hsl(202deg 15% 25%) 49%,
+  hsl(202deg 26% 23%) 48%,
+  hsl(202deg 36% 21%) 48%,
+  hsl(202deg 47% 19%) 48%,
+  hsl(202deg 58% 18%) 48%,
+  hsl(203deg 64% 18%) 48%,
+  hsl(202deg 64% 21%) 49%,
+  hsl(203deg 63% 25%) 51%,
+  hsl(202deg 64% 28%) 56%,
+  hsl(203deg 63% 32%) 64%,
+  hsl(203deg 63% 35%) 99%
+);
+
+$background-fade: linear-gradient(
+  140deg,
+  hsl(0deg 0% 8%) 0%,
+  hsl(0deg 0% 11%) 16%,
+  hsl(0deg 0% 15%) 30%,
+  hsl(0deg 0% 18%) 42%,
+  hsl(0deg 0% 21%) 52%,
+  hsl(0deg 0% 25%) 60%,
+  hsl(0deg 0% 29%) 68%,
+  hsl(0deg 0% 33%) 74%,
+  hsl(0deg 0% 34%) 79%,
+  hsl(0deg 0% 33%) 84%,
+  hsl(0deg 0% 32%) 90%,
+  hsl(0deg 0% 31%) 100%
+);
+
+// pallette for selecting colors
+$palettes: (
+  background: (
+    transparent: hsl(0, 0%, 0%, 0.1),
+    darkest: hsl(0, 0%, 13%),
+    darker: hsl(0, 0%, 15%),
+    dark: hsl(216, 15%, 18%),
+    base: hsl(210, 15.2%, 18%),
+    light: hsla(199, 8%, 47%, 1),
+    light-transparent: hsla(199, 8%, 47%, 0.25),
+  ),
+  blue: (
+    darkest: hsla(189, 100%, 14%, 1),
+    darker: hsla(188, 93%, 18%, 1),
+    dark: hsla(190, 72%, 36%, 1),
+    base: hsla(183, 92%, 35%, 1),
+    light: hsla(183, 94%, 43%, 1),
+    lighter: hsla(181, 74%, 52%, 1),
+  ),
+  red: (
+    transparent: hsl(0, 100%, 58%, 0.1),
+    base: hsl(0, 100%, 58%),
+    test: hsl(340, 95.1%, 42%),
+  ),
+  green: (
+    transparent: hsl(131, 100%, 40%, 0.1),
+    base: hsl(131, 100%, 40%),
+  ),
+  yellow: (
+    transparent: hsla(40, 100%, 50%, 0.1),
+    base: hsla(40, 100%, 50%, 1),
+  ),
+  light: (
+    tan: hsla(190, 88%, 94%, 1),
+    base: hsla(204, 9.8%, 90%, 1),
+    mid-gray: hsla(199, 8%, 47%, 1),
+    light-gray: rgb(200, 200, 200),
+  ),
+);
+
+// corresponds with above color palette. Simplifies the use of colors across the codebase
+@function color($color, $tone) {
+  // @warn map-get($palettes, $color);
+
+  @if map-has-key($palettes, $color) {
+    $color: map-get($palettes, $color);
+
+    @if map-has-key($color, $tone) {
+      $tone: map-get($color, $tone);
+      @return $tone;
+    }
+
+    @warn "unknown tone `#{$tone}` in color";
+    @return null;
+  }
+
+  @warn "unknown color `#{$color}` in palette";
+  @return null;
+}
+
+// card is in variables to allow for easy extending and customization in containers, images, and volume history. Keeps tha base option the same, but allows for easy customization. Simply change things here and it will change everywhere.
+.card {
+  background-color: color(background, base);
+  // background: $background-bg;
+  // box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  min-width: 12rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color(light, base);
+  // border-color: color(background, base);
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
+}

@@ -1,0 +1,105 @@
+.wrapper {
+  position: fixed;
+  // min-width: 50vw;
+  width: 500px;
+  min-height: 300px;
+  z-index: 100000;
+  // display: flex;
+  // justify-content: center;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.svg {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
+}
+
+.buttonHolder {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  button {
+    margin-right: 1rem;
+  }
+}
+
+.info,
+.success,
+.warning,
+.error,
+.general {
+  border-width: 2px;
+  border-style: solid;
+  border-color: scale-color(color(light, base), $alpha: -6%);
+  background-color: scale-color(color(background, dark), $alpha: -6%);
+
+  text-align: center;
+  padding: 1rem;
+  min-width: 100%;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 2px, 2px 4px color(background, darkest);
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  // 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  p {
+    margin: 0 2rem;
+  }
+}
+
+.info {
+  // box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  //   0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  // svg {
+  //   color: scale-color(color(background, light), $lightness: -40%);
+  // }
+}
+
+.success {
+  // background-color: scale-color(color(green, base), $alpha: 40%);
+  // border-color: color(green, base);
+  // min-width: 100%;
+  svg {
+    color: scale-color(color(green, base), $lightness: -40%);
+  }
+}
+
+.warning {
+  // background-color: color(yellow, base);
+  // border-color: color(yellow, base);
+  svg {
+    color: color(yellow, base);
+  }
+}
+
+.error {
+  // background-color: color(red, base);
+  // border-color: color(red, base);
+  svg {
+    color: color(red, base);
+  }
+}
+
+.general {
+  // background-color: scale-color(color(background, light), $alpha: -6%);
+  // border-color: color(background, dark);
+  svg {
+    color: color(background, dark);
+    // position: absolute;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    left: calc(50% + $sidebar-width / 2);
+    width: 50%;
+  }
+}

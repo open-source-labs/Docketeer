@@ -1,0 +1,26 @@
+.containerCard {
+  @extend .card;
+  transition: 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}
+
+.textHolder {
+  margin-bottom: 2rem;
+}
+
+.buttonHolder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonSpacer {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  button {
+    margin-right: 0.5rem;
+  }
+}

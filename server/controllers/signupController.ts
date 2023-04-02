@@ -26,6 +26,7 @@ const signupController: SignupController = {
       .catch((err: ServerError): void => {
         return next({
           log: `Error in signupController usernameCheck: ${err}`,
+          status: 409,
           message: {
             err: `An error occured while checking if username exists. See signupController.usernameCheck., ${err.message}`,
           },

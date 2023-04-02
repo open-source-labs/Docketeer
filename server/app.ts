@@ -25,7 +25,7 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  }
+  },
 );
 
 // Importing routers...
@@ -81,7 +81,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  }
+  },
 );
 
 // Exporting app...

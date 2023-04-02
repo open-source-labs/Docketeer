@@ -51,8 +51,8 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
-    #can add volume here to persist the prometheus data.
+    volumes:
+      - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
       - node-exporter
     labels:

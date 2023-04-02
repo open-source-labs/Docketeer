@@ -525,7 +525,7 @@ const commandController: CommandController = {
           parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
             if (
               obj.Name.includes(
-                directoryNameArray[directoryNameArray.length - 1]
+                directoryNameArray[directoryNameArray.length - 1],
               )
             ) {
               obj.FilePath = req.body.filePath;
@@ -535,7 +535,7 @@ const commandController: CommandController = {
         }
         res.locals.output = parseDockerOutput;
         return next();
-      }
+      },
     );
   },
 
@@ -605,6 +605,8 @@ const commandController: CommandController = {
         return next();
       }
     );
+    res.locals.containers = dockerOutput;
+    return next();
   },
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {

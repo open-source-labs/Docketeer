@@ -9,6 +9,8 @@ import { ConfigController, ServerError } from '../../types';
  * @description | Contains middleware that updates a user's contact preference, CPU threshold, memory threshold, and container stop preference in database
  **/
 const configController: ConfigController = {
+  // *** I don't believe any of these are currently in use ***
+
   // update configuration thresholds
   // TODO: implement
 

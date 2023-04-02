@@ -247,6 +247,7 @@ const userController: UserController = {
     db.query(query, parameters)
       .then((data: { rows: UserInfo[] }): void => {
         res.locals.user = data.rows[0];
+        delete res.locals.user.password;
         return next();
       })
       .catch((err: ServerError): void => {
@@ -318,3 +319,41 @@ const userController: UserController = {
   },
 };
 export default userController;
+
+// not currently in use.
+
+// switches role of user upon designation by system admin
+// switchUserRole: (req: Request, res: Response, next: NextFunction) => {
+//   const roleMap: { [k: string]: number } = {
+//     'system admin': 1,
+//     admin: 2,
+//     user: 3,
+//   };
+
+//   const { _id, role } = req.body;
+
+//   if (res.locals.sysAdmins === 1 && _id == res.locals.id) {
+//     res.locals.hasError = true;
+//     next();
+//   } else {
+//     const query =
+//       'UPDATE users SET role = $1, role_id = $2 WHERE _id = $3 RETURNING *;';
+
+//     const parameters = [role, roleMap[role], _id];
+
+//     db.query(query, parameters)
+//       .then((data: any) => {
+//         res.locals.role = data.rows[0].role;
+//         res.locals.hasError = false;
+//         return next();
+//       })
+//       .catch((err: ServerError) => {
+//         return next({
+//           log: `Error in userController switchUserRole: ${err}`,
+//           message: {
+//             err: 'An error occurred while switching roles. See userController.switchUserRole.',
+//           },
+//         });
+//       });
+//   }
+// },

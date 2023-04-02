@@ -1,0 +1,77 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: $default-page-margin;
+}
+
+.imageSearchHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  input {
+    min-width: 40%;
+  }
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.availableImagesHolder {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.imageHolder {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.imageCard {
+  @extend .card;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}
+
+.image {
+  height: 4rem;
+}
+
+.textHolder {
+  margin-bottom: 3rem;
+}
+.buttonHolder {
+}
+.buttonSpacer {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  button {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .imageHolder {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .imageHolder {
+    grid-template-columns: 1fr;
+  }
+}

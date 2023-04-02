@@ -52,7 +52,7 @@ router.get(
 );
 
 // Route to remove a stopped container
-router.get(
+router.delete(
   '/removeContainer',
   commandController.checkAdmin,
   commandController.remove,
@@ -62,7 +62,7 @@ router.get(
 );
 
 // Route to stop a running container
-router.get(
+router.delete(
   '/stopContainer',
   commandController.checkAdmin,
   commandController.stopContainer,
@@ -83,7 +83,7 @@ router.get(
 );
 
 // Route to remove an image
-router.get(
+router.delete(
   '/removeImage',
   commandController.checkAdmin,
   commandController.removeImage,
@@ -93,7 +93,7 @@ router.get(
 );
 
 // Route for running the docker prune command
-router.get(
+router.delete(
   '/dockerPrune',
   commandController.checkAdmin,
   commandController.dockerPrune,

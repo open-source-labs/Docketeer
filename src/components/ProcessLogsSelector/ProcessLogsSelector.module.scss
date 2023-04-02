@@ -1,0 +1,9 @@
+.wrapper {
+  display: flex;
+  fieldset {
+    padding: 0.25rem 1rem;
+    // border: 1px solid color(background, light);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

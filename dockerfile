@@ -3,12 +3,14 @@ FROM node
 # Set the working directory to /app
 WORKDIR /app
 
+# Set the PATH env variable
+# ENV PATH="/usr/local/bin:${PATH}"
+# COPY /usr/local/bin/docker /usr/local/bin/docker
 ENV DOCKERVERSION=19.03.12
 
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
-
 
 COPY package*.json ./
 
@@ -23,6 +25,3 @@ EXPOSE 4000
 
 # Start the app
 CMD ["npm", "start"]
-
-
-

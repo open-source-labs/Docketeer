@@ -36,7 +36,7 @@ CREATE TABLE metrics (
   pid TEXT,
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
-R
+
 CREATE TABLE containers (
   id TEXT PRIMARY KEY,
   name TEXT,

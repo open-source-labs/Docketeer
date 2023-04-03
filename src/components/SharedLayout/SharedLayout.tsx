@@ -30,7 +30,7 @@ function SharedLayout(): JSX.Element {
 
     // what is this try block doing?
     try {
-      console.log('logging out, in the try block');
+      // console.log('logging out, in the try block');
       const response = await fetch('/api/logout', {
         method: 'POST',
         headers: {

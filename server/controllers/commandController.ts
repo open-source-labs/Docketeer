@@ -605,8 +605,8 @@ const commandController: CommandController = {
         return next();
       }
     );
-    res.locals.containers = dockerOutput;
-    return next();
+    // res.locals.containers = dockerOutput;
+    // return next();
   },
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {

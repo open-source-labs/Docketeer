@@ -56,7 +56,7 @@ const Login = (): JSX.Element => {
       // parse the response
       const parsedResponse = await response.json();
 
-      console.log('parsedResponse: ', parsedResponse);
+      // console.log('parsedResponse: ', parsedResponse); // logs user
 
       // Switch state `loggedIn` to true
       updateUserSession();

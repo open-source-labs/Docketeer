@@ -133,13 +133,13 @@ const userController: UserController = {
                 message: { err: 'Unable to verify the User' },
               });
             } else {
-              res.locals.verifiedUser = verifiedUser;
+              res.locals.verifiedUser = { ...verifiedUser, password: null };
             }
             res.locals.token = token;
             return next();
           });
         } else if (verifiedRole === 'user') {
-          res.locals.user = verifiedUser;
+          res.locals.user = { ...verifiedUser, password: null };
           return next();
         }
       })

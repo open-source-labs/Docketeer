@@ -93,7 +93,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 ### Built With
 
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
 
 
 
@@ -106,6 +106,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
 - It aims to simplify the development process for projects that use Docker containers.
 - JWT authentication, allowing administrator and non-administrator privileges.
+- Allows you to filter through both your running and stopped container logs. 
 - Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
@@ -144,7 +145,7 @@ git clone https://github.com/open-source-labs/Docketeer.git
 #### STEP 2 — Docker compose up
 
 ```sh
-npm run docker-dev-up
+docker compose up
 ```
 
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
@@ -325,6 +326,8 @@ Give a ⭐️ if this project helped you!
 [MySQL-url]: https://www.mysql.com/
 [SASS]: https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white
 [SASS-url]: https://sass-lang.com/
+[RTK]: https://img.shields.io/badge/RTK-563D7C?style=for-the-badge&logo=redux&logoColor=white
+[RTK-url]: https://redux-toolkit.js.org/
 
 
 

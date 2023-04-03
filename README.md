@@ -27,7 +27,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/open-source-labs/Docketeer">
-    <img src="assets/Docketeerlogos.png" alt="Logo" width="325" height="auto">
+    <img src="assets/DockLogo.png" alt="Logo" width="325" height="auto">
   </a>
   <br />
   https://www.docketeer.org/

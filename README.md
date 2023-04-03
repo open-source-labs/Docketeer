@@ -11,6 +11,8 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
+
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -19,15 +21,16 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
+
+
+<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/open-source-labs/Docketeer">
-    <img src="assets/docketeer-title.png" alt="Logo" width="325" height="auto">
+    <img src="assets/docketeerCombined.png" alt="Logo" width="325" height="auto">
   </a>
   <br />
-  <br />
-  <img src="assets/demo.gif" alt="Logo" width="fit" height="auto">
-   <br /> 
+
    <br /> 
   <p align="center">
   Docketeer is a developer-friendly application that provides a single interface for both container management & metric visualization.  
@@ -79,19 +82,41 @@
 
 <br />
   <div align="center">
-    <img src="assets/finalabout.jpg" alt="Logo" width="fit" height="auto">
+    <img src="assets/DocketeerDemo.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 
-Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containarized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
+
+Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-[![React][React.js]][React-url][![Typescript][TS.js]][TS-url][![Redux][Redux]][Redux-url][![Webpack][Webpack]][Webpack-url][![TailwindCSS][Tailwind]][Tailwind-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Grafana][Grafana]][Grafana-url][![Docker][Docker]][Docker-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+#### Features:
+
+- Docketeer is a developer tool that's available as an open-source project on GitHub.
+- It aims to simplify the development process for projects that use Docker containers.
+- Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
+- With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
+- Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
+- Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
+- Docketeer is highly customizable, and developers can configure it to suit their specific needs.
+- It's a community-maintained project, with frequent updates and bug fixes.
+- Docketeer is licensed under the MIT license, meaning it can be used and modified freely, even for commercial projects.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
 
 <!-- GETTING STARTED -->
 
@@ -123,15 +148,34 @@ POSTGRES_PASS=postgres
 
 <br />
 
-#### STEP 3 — Docker compose up
+#### STEP 3 — Docker build
 
 ```sh
-docker compose up
+ npm run docker-dev-build
 ```
+<br />
+  <div align="center">
+    <img src="assets/newbuild.gif" alt="Logo" width="fit" height="auto">
+  </div>
+<br />
+
 
 <br />
 
-#### STEP 4 — Navigate to localhost:4000 to sign-up & login!
+#### STEP 4 — Docker compose up
+
+```sh
+npm run docker-dev-up
+```
+<br />
+  <div align="center">
+    <img src="assets/newComposeUp.gif" alt="Logo" width="fit" height="auto">
+  </div>
+<br />
+
+<br />
+
+#### STEP 5 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
 http://localhost:4000/
@@ -139,26 +183,31 @@ http://localhost:4000/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- USAGE EXAMPLES -->
 
-## Usage
+<br />
+  <div align="center">
+    <img src="assets/newbuild.gif" alt="Logo" width="fit" height="auto">
+  </div>
+<br />
 
-Coming soon...
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 
-## Roadmap
+## Roadmap: The future of Docketeer?
 
-- [ ] Server-side integration of dockerode
-- [ ] Continued efforts to implement static typechecking using TypeScript throughout source code
-- [ ] Create additional tests to validate existing client-side & server-side functionality
-  - [ ] Unit tests
-  - [ ] Integration tests
-  - [ ] End-to-end tests
+- [ ] Support for more development frameworks and languages, such as Next.JS.
+- [ ] Integration with container orchestration tools like Kubernetes or Docker Swarm.
+- [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.
+- [ ] Expand Docker networking capabilities within Docketeer to provide more sophisticated networking configurations and better interoperability with other network tools.
+- [ ] Improve Docketeer's error handling and logging capabilities to streamline the troubleshooting process and improve problem identification.
+- [ ] Develop more advanced container configuration options within Docketeer, such as load balancing or high availability setups.
+- [ ] Improve Docketeer's documentation and user guides to make it easier for new users to understand and use the tool.
+- [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
+- [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
+- [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/open-source-labs/Docketeer/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -181,7 +230,18 @@ Don't forget to give the project a star! Thanks again!
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## <b>Read More</b>
+
+- [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
+- [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)
+- [Docketeer is here! You’re WHALEcome!](https://medium.com/@dfeldman24/docketeer-5-0-is-here-youre-whalecome-6f9d72ec3b58)
+- [Docketeer! What's new?](https://medium.com/@hultzentre/docketeer-5-0-whats-new-358a5f107ac4)
+- [Docketeer: An Innovative Tool to Manage Docker Containers](https://griffinsilver.medium.com/docketeer-3-0-an-innovative-tool-to-manage-docker-containers-723ea5be6220a)
+- [Whale Hello There, Docketeer is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
+- [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
+
 
 <!-- LICENSE -->
 
@@ -238,12 +298,17 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Alex Schmidt [@RedAfronNinja](https://github.com/RedAfronNinja) | [LinkedIn](https://www.linkedin.com/in/alex-schmidt-44b27413b/)
 - Edward Kenny [@EdwardKenny](https://github.com/EdwardKenny) | [LinkedIn](https://www.linkedin.com/in/edward-kenny-8949b8136/)
 - Kennan Budnik [@kobudnik](https://github.com/kobudnik) | [LinkedIn](https://www.linkedin.com/in/kobudnik/)
+- Mason Royal [@masonroyal](https://github.com/masonroyal) | [LinkedIn](https://www.linkedin.com/in/masonroyal/)
+- Benjamin Huang [@byhuang4100](https://github.com/byhuang4100) | [LinkedIn](https://www.linkedin.com/in/bh4120/)
+- Saad Hamdani [@Saadh123](https://github.com/saadh123) | [LinkedIn](https://www.linkedin.com/in/saadh123/)
+- Michael Angelo Garcia [@MichaelAngelo13](https://github.com/MichaelAngelo13) | [LinkedIn](https://www.linkedin.com/in/michael-angelo-garcia-053848265/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
 [contributors-url]: https://github.com/open-source-labs/Docketeer/graphs/contributors
@@ -256,23 +321,45 @@ Give a ⭐️ if this project helped you!
 [license-shield]: https://img.shields.io/github/license/open-source-labs/Docketeer.svg?style=for-the-badge
 [license-url]: https://github.com/open-source-labs/Docketeer/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[linkedin-url]: https://www.linkedin.com/company/docketeer
 [product-screenshot]: images/screenshot.png
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React.js]: https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
 [React-url]: https://reactjs.org/
-[TS.js]: https://img.shields.io/badge/TypeScript-000000?style=for-the-badge&logo=typescript&logoColor=white
+[TS.js]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
 [TS-url]: https://www.typescriptlang.org/
-[Grafana]: https://img.shields.io/badge/Grafana-35495E?style=for-the-badge&logo=grafana&logoColor=4FC08D
+[Grafana]: https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white
 [Grafana-url]: https://grafana.com/
-[Tailwind]: https://img.shields.io/badge/TailwindCSS-DD0031?style=for-the-badge&logo=tailwindcss&logoColor=white
-[Tailwind-url]: https://tailwindcss.com/
-[Node.js]: https://img.shields.io/badge/Node-4A4A55?style=for-the-badge&logo=nodedotjs&logoColor=FF3E00
+[Prometheus]: https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white
+[Prometheus-url]: https://prometheus.io/
+[JavaScript]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[JavaScript-url]: https://www.javascript.com/
+[Node.js]: https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white
 [Node-url]: https://nodejs.org/en/
-[Express]: https://img.shields.io/badge/Express-FF2D20?style=for-the-badge&logo=express&logoColor=FF3E00
+[Vite]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
+[Vite-url]: https://vitejs.dev/
+[Express]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
 [Express-url]: https://expressjs.com/
-[Redux]: https://img.shields.io/badge/RTK-563D7C?style=for-the-badge&logo=redux&logoColor=white
+[Redux]: https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white
 [Redux-url]: https://redux.js.org/
-[Webpack]: https://img.shields.io/badge/Webpack-0769AD?style=for-the-badge&logo=webpack&logoColor=white
-[Webpack-url]: https://webpack.js.org/guides/getting-started/
-[Docker]: https://img.shields.io/badge/Docker-0769AD?style=for-the-badge&logo=docker&logoColor=white
+[Postgres]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
+[Postgres-url]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white](https://www.postgresql.org/)
+[Jest]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
+[Jest-url]: https://jestjs.io/
+[Styled Components]: https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white
+[Styled Components-url]: https://styled-components.com/
+[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
+[Git]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
+[Git-url]: https://git-scm.com/
+[CSS3]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[CSS3-url]: https://www.w3schools.com/css/
+[HTML5]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
+[HTML5-url]: https://www.w3schools.com/html/
+[MySQL]: https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://www.mysql.com/
+[SASS]: https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white
+[SASS-url]: https://sass-lang.com/
+
+
+
+

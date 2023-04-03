@@ -82,7 +82,7 @@
 
 <br />
   <div align="center">
-    <img src="assets/Metrics.gif" alt="Logo" width="fit" height="auto">
+    <img src="assets/FullDemo2.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 
@@ -103,7 +103,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 #### Features:
 
-- Docketeer is a developer tool that's available as an open-source project on GitHub.
+- Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
 - It aims to simplify the development process for projects that use Docker containers.
 - JWT authentication, allowing administrator and non-administrator privileges.
 - Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
@@ -119,7 +119,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <br />
   <div align="center">
-    <img src="assets/FullDemo2.gif" alt="Logo" width="fit" height="auto">
+    <img src="assets/Metrics.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 

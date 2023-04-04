@@ -14,7 +14,7 @@ const userController: UserController = {
   createUser: async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> => {
     console.log('in userController.createUser');
 
@@ -29,17 +29,17 @@ const userController: UserController = {
 
       let role: string;
       switch (role_id) {
-      case '1':
-        role = 'system admin';
-        break;
-      case '2':
-        role = 'admin';
-        break;
-      case '3':
-        role = 'user';
-        break;
-      default:
-        role = '';
+        case '1':
+          role = 'system admin';
+          break;
+        case '2':
+          role = 'admin';
+          break;
+        case '3':
+          role = 'user';
+          break;
+        default:
+          role = '';
       }
 
       console.log('ab to query to create user');
@@ -65,24 +65,20 @@ const userController: UserController = {
   },
 
   getAllUsers: (req: Request, res: Response, next: NextFunction) => {
-    if ('error' in res.locals) {
-      return next();
-    } else {
-      const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
-      db.query(allUsers)
-        .then((response: { rows: UserInfo[] }): void => {
-          res.locals.users = response.rows;
-          return next();
-        })
-        .catch((err: ServerError): void => {
-          return next({
-            log: `Error in userController getAllUsers: ${err}`,
-            message: {
-              err: 'An error occurred retrieving all users from database. See userController.getAllUsers.',
-            },
-          });
+    const allUsers = 'SELECT * FROM users ORDER BY username ASC;';
+    db.query(allUsers)
+      .then((response: { rows: UserInfo[] }): void => {
+        res.locals.users = response.rows;
+        return next();
+      })
+      .catch((err: ServerError): void => {
+        return next({
+          log: `Error in userController getAllUsers: ${err}`,
+          message: {
+            err: 'An error occurred retrieving all users from database. See userController.getAllUsers.',
+          },
         });
-    }
+      });
   },
 
   getOneUser: (req: Request, res: Response, next: NextFunction): void => {
@@ -114,7 +110,7 @@ const userController: UserController = {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (!(data.rows[0] || match)) {
           return next({
-            log: 'Error in userController\'s verifyUser method',
+            log: "Error in userController's verifyUser method",
             status: 400,
             message: {
               err: 'Unable to verify user credentials.',
@@ -163,7 +159,7 @@ const userController: UserController = {
         const match = await bcrypt.compare(password, data.rows[0].password);
         if (!(data.rows[0] || match)) {
           return next({
-            log: 'Error in userController\'s verifyUser method',
+            log: "Error in userController's verifyUser method",
             status: 400,
             message: {
               err: 'Unable to verify user credentials.',

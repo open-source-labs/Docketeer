@@ -60,9 +60,6 @@ services:
       org_prometheus_starter_port: '9090'
       org_prometheus_starter_path: '/metrics'
 
-    volumes:
-      - ./imageConfigs/prometheus/promData:/prometheus
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana

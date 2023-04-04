@@ -25,23 +25,13 @@ function SharedLayout(): JSX.Element {
   // console.log('session in SharedLayout.tsx', isLoggedIn);
 
   const logOut = async (): Promise<void> => {
-    updateSession();
-    logoutUser();
-
-    // what is this try block doing?
     try {
       // console.log('logging out, in the try block');
-      const response = await fetch('/api/logout', {
+      await fetch('/api/logout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userData.username,
-        }),
       });
-      const parsedData = await response.json();
-      console.log('parsedData', parsedData);
+      updateSession();
+      logoutUser();
     } catch (err) {
       console.log(err);
     }
@@ -65,11 +55,11 @@ function SharedLayout(): JSX.Element {
               createAlert(
                 'The request to logout has been cancelled.',
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
@@ -91,11 +81,11 @@ function SharedLayout(): JSX.Element {
               createAlert(
                 'The request to perform system prune has been cancelled.',
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
@@ -110,14 +100,12 @@ function SharedLayout(): JSX.Element {
     refreshImages,
     writeToDb,
     networkContainers,
-    // below function never called
-    // setDbSessionTimeZone,
     getAllDockerVolumes,
     getVolumeContainers,
   } = useHelper();
 
   // Deconstructs dispatch functions from custom hook
-  const { updateUser, getVolumeContainerList } = useSurvey();
+  const { getVolumeContainerList } = useSurvey();
 
   useEffect(() => {
     refreshRunning();
@@ -126,7 +114,6 @@ function SharedLayout(): JSX.Element {
     writeToDb();
     networkContainers();
     getAllDockerVolumes();
-    setAdminToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -135,7 +122,7 @@ function SharedLayout(): JSX.Element {
     history.volumeByName(
       getVolumeContainers,
       arrayOfVolumeNames,
-      getVolumeContainerList
+      getVolumeContainerList,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
@@ -151,27 +138,6 @@ function SharedLayout(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Pertains to sysAdmin only
-  const setAdminToken = async (): Promise<void> => {
-    try {
-      const response = await fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: userData.token,
-          username: userData.username,
-        }),
-      });
-      const parsedData = await response.json();
-
-      updateUser(parsedData);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
@@ -182,7 +148,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/"
+                to='/home/'
               >
                 HOME
               </NavLink>
@@ -192,7 +158,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/users"
+                to='/home/users'
               >
                 USERS
               </NavLink>
@@ -202,7 +168,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/running"
+                to='/home/running'
               >
                 CONTAINERS
               </NavLink>
@@ -212,7 +178,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/images"
+                to='/home/images'
               >
                 IMAGES
               </NavLink>
@@ -222,7 +188,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/metrics"
+                to='/home/metrics'
               >
                 METRICS
               </NavLink>
@@ -242,7 +208,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/volume"
+                to='/home/volume'
               >
                 VOLUME HISTORY
               </NavLink>
@@ -252,7 +218,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/logs"
+                to='/home/logs'
               >
                 PROCESS LOGS
               </NavLink>
@@ -267,7 +233,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/about"
+                to='/home/about'
               >
                 ABOUT
               </NavLink>

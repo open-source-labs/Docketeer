@@ -13,14 +13,9 @@ const router = Router();
 // Purpose: Removes token (sets token to null) after user logs out.
 // Note: tokens and cookies not currently implemented
 // ==========================================================
-router.post(
-  '/',
-  // dbController.removeToken,
-  // userController.removeCookie,
-  (req: Request, res: Response): Response => {
-    res.clearCookie('admin', { httpOnly: true });
-    return res.status(201).json({ loggedOut: 'true' });
-  }
-);
+router.post('/', (req: Request, res: Response): Response => {
+  res.clearCookie('admin', { httpOnly: true });
+  return res.status(201).json({ loggedOut: 'true' });
+});
 
 export default router;

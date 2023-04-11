@@ -16,6 +16,7 @@ const About = () => {
       <div className={styles.section}>
         <h2>DOCKETEER</h2>
         <p>
+          hi!
           Greetings, fellow space traveler! We&apos;re thrilled that you&apos;ve
           chosen our application to help you navigate and explore the vast
           universe of Docker infrastructure. As a Docketeer, you know that
@@ -70,7 +71,7 @@ const About = () => {
           </svg>
         </a>
 
-        <a className={styles.footerIcons} href="docketeerxii@gmail.com">
+        <a className={styles.footerIcons} href="mailto:docketeerxii@gmail.com">
           <svg
             width="32"
             height="32"

@@ -6,7 +6,8 @@ WORKDIR /app
 # Set the PATH env variable
 # ENV PATH="/usr/local/bin:${PATH}"
 # COPY /usr/local/bin/docker /usr/local/bin/docker
-ENV DOCKERVERSION=19.03.12
+# changed to most recent version!
+ENV DOCKERVERSION=20.10.23 
 
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \

@@ -70,7 +70,7 @@ const About = () => {
           </svg>
         </a>
 
-        <a className={styles.footerIcons} href="babybelugala45@gmail.com">
+        <a className={styles.footerIcons} href="docketeerxii@gmail.com">
           <svg
             width="32"
             height="32"

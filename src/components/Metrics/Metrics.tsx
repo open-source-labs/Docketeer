@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import styles from './Metrics.module.scss';
+import styles from "./Metrics.module.scss";
 
 /**
  * @module | Metrics.tsx
@@ -14,6 +14,10 @@ const Metrics = (): JSX.Element => {
       <iframe
         className={styles.metrics}
         src="http://localhost:2999/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk"
+      />
+      <iframe
+        className={styles.metrics}
+        src="http://localhost:3000/d/vN1Y7kPVk/node-exporter-nodes?orgId=1&refresh=30s&from=1681423247828&to=1681426847828&anonymous=true"
       />
     </div>
   );

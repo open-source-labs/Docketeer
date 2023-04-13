@@ -16,7 +16,6 @@ const About = () => {
       <div className={styles.section}>
         <h2>DOCKETEER</h2>
         <p>
-          hi!
           Greetings, fellow space traveler! We&apos;re thrilled that you&apos;ve
           chosen our application to help you navigate and explore the vast
           universe of Docker infrastructure. As a Docketeer, you know that

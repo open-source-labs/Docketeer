@@ -1,6 +1,7 @@
 .wrapper {
   margin: $default-page-margin;
   height: 100%;
+
   h2 {
     // transition: transform 0.3s ease-in-out;
     // transform: translateY($navbar-height);
@@ -9,6 +10,7 @@
     margin-bottom: 1rem;
   }
 }
+
 .button {
   background-color: #212121;
   border: none;
@@ -42,4 +44,46 @@
   .metrics {
     height: calc(100vh - (6rem));
   }
+}
+
+input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 80px;
+  height: 40px;
+  background: rgb(90, 98, 206);
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked+label {
+  background: #bada55;
+}
+
+input:checked+label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 40px;
 }

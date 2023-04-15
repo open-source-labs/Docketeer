@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./Setup.module.scss";
+import React from 'react';
+import styles from './Setup.module.scss';
 
 const Setup = (): JSX.Element => {
   return (

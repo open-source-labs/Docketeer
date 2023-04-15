@@ -9,6 +9,26 @@
     margin-bottom: 1rem;
   }
 }
+.button {
+  background-color: #212121;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.button:hover {
+  background-color: red;
+  box-shadow: 0 12px 16px 0 rgba(243, 8, 8, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
 
 .metrics {
   width: 100%;

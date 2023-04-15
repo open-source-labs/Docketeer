@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./Home.module.scss";
-import Setup from "../Setup/Setup";
+import React from 'react';
+import styles from './Home.module.scss';
+import Setup from '../Setup/Setup';
 
 /**
  * @module | Home.tsx

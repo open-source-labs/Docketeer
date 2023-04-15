@@ -1,0 +1,14 @@
+.container {
+	height: 30vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.buttonContainer {
+	height: 20vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

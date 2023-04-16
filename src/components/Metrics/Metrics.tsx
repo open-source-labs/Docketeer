@@ -55,7 +55,9 @@ const Metrics = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <h2>METRICS DASHBOARD</h2>
-      <input type="checkbox" id="switch" onClick={handleToggle} />{button}<label htmlFor="switch">{button}</label>
+      <input type="checkbox" id="switch" className={styles.switch} onClick={handleToggle} />
+      {button}
+      <label className={styles.toggle} htmlFor="switch"></label>
       {kubernetesOrNah === 1 ? (
         <iframe
           className={styles.metrics}

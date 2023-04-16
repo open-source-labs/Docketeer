@@ -46,13 +46,13 @@
   }
 }
 
-input[type=checkbox] {
+.switch[type=checkbox] {
   height: 0;
   width: 0;
   visibility: hidden;
 }
 
-label {
+.toggle {
   cursor: pointer;
   text-indent: -9999px;
   width: 80px;
@@ -63,7 +63,7 @@ label {
   position: relative;
 }
 
-label:after {
+.toggle:after {
   content: '';
   position: absolute;
   top: 5px;
@@ -75,15 +75,15 @@ label:after {
   transition: 0.3s;
 }
 
-input:checked+label {
+.switch:checked+.toggle {
   background: #bada55;
 }
 
-input:checked+label:after {
+.switch:checked+.toggle:after {
   left: calc(100% - 5px);
   transform: translateX(-100%);
 }
 
-label:active:after {
+.toggle:active:after {
   width: 40px;
 }

@@ -9,6 +9,7 @@ import bcryptController from '../controllers/bcryptController';
 const router = Router();
 
 // updates password
+
 router.post(
   '/password',
   userController.verifyUser,
@@ -19,6 +20,8 @@ router.post(
     return res.status(201).json('Successfully updated your password.');
   }
 );
+
+
 
 // updates phone number
 router.post(

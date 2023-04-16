@@ -54,7 +54,8 @@ app.use(express.urlencoded({ extended: true }));
 // Defining routers...
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
-app.use('/api', apiRouter);
+app.use('/gapi', apiRouter);
+//app.use('/api', apiRouter);
 app.use('/command', commandRouter);
 app.use('/db', dbRouter);
 app.use('/init', initRouter);

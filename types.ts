@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, RequestHandler  } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 // * BH: I think we should have a separate file for each interface, and then import them into this file. That way, we can keep the interfaces organized and not have to scroll through a huge file to find the interface we need.
 
@@ -231,12 +231,12 @@ export interface notificationList {
 export interface AlertStateType {
   alertList: (string | null)[];
   promptList:
-    | [
-        prompt: string | null,
-        handleAccept: (() => void) | null,
-        handleDeny: (() => void) | null
-      ]
-    | null[];
+  | [
+    prompt: string | null,
+    handleAccept: (() => void) | null,
+    handleDeny: (() => void) | null
+  ]
+  | null[];
 }
 
 export interface notificationStateType {
@@ -541,6 +541,26 @@ export interface SettingsController {
     next: NextFunction
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+export interface SetupController {
+  /**
+ * @description Installs Prometheus Operator on user's cluster   
+ * @note Only needs to install once
+ */
+  promInstall: MiddleWareFunction;
+
+  /**
+   * @description Applys prometheus-grafana.yml on cluster  
+   * @note 
+   */
+  applyGraf: MiddleWareFunction;
+
+  /**
+ * @description Port forwards prometheus-grafana pod to 3000
+ * @note Must check for prometheus-grafana deployment
+ */
+  portForward: MiddleWareFunction;
 }
 
 export interface SignupController {

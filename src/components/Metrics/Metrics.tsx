@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
+import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {
+  const { getKey } = useHelper();
   const [kubernetesOrNah, setFrame] = useState(1);
+  const [apiKey, setApiKey] = useState('');
   const button = kubernetesOrNah === 1 ? 'Containers' : 'Kubernetes Cluster';
+
+  useEffect(() => {
+    const fetchKey = async () => {
+      const key = await getKey();
+      setApiKey(key);
+    };
+
+    fetchKey();
+  }, [getKey]);
 
   const handleToggle = () => {
     setFrame((prevFrame) => (prevFrame === 1 ? 2 : 1));
   };
+
+  console.log(apiKey);
 
   return (
     <div className={styles.wrapper}>

@@ -7,9 +7,13 @@ const Setup = (): JSX.Element => {
     <div className={styles.container}>
       <h3>Configure Kubernetes</h3>
       <div className={styles.buttonContainer}>
-        <button className={globalStyles.button1} style={{ alignSelf: 'center' }} onClick={() => fetch('http://localhost:3000/')}>Install Prometheus Operator</button>
-        <button className={globalStyles.button1} style={{ alignSelf: 'center' }} onClick={() => fetch('http://localhost:3000/')}>Get Metrics</button>
-        <button className={globalStyles.button1} style={{ alignSelf: 'center' }} onClick={() => fetch('http://localhost:3000/')}>Launch Port Forwarding</button>
+        <button className={globalStyles.button1} style={{ alignSelf: 'center' }}
+          onClick={() =>
+            fetch('/api/setup/promInstall')
+              .then(() => document.querySelector('span').style.display = 'inline-block')}>Install Prometheus Operator</button>
+        <span style={{display: 'none'}}>complete!&#10004;</span>
+        <button className={globalStyles.button1} style={{ alignSelf: 'center' }} onClick={() => fetch('/api/setup/applyGraf')}>Get Metrics</button>
+        <button className={globalStyles.button1} style={{ alignSelf: 'center' }} onClick={() => fetch('/api/setup/portForward')}>Launch Port Forwarding</button>
       </div>
     </div>
   );

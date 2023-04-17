@@ -11,7 +11,14 @@ ENV DOCKERVERSION=20.10.23
 
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
-  && rm docker-${DOCKERVERSION}.tgz
+  && rm docker-${DOCKERVERSION}.tgz \
+  && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+  && chmod 700 get_helm.sh \
+  && ./get_helm.sh \
+  && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+  && chmod +x kubectl \
+  && mkdir -p ~/.local/bin \
+  && mv ./kubectl ~/.local/bin/kubectl
 
 COPY package*.json ./
 

@@ -37,6 +37,7 @@ import dbRouter from './routes/dbRouter';
 import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
+import setupRouter from './routes/setupRouter';
 import signupRouter from './routes/signupRouter';
 // import userController from './controllers/userController';
 
@@ -61,6 +62,7 @@ app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/setup', setupRouter);
 app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...

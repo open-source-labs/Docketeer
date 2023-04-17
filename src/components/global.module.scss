@@ -35,15 +35,15 @@
   }
 }
 
-.radioForm::before {
-  // content: '';
-  // width: 1em;
-  // height: 1em;
-  // border-radius: 50%;
-  // transform: scale(0);
-  // transition: 120ms transform ease-in-out;
-  // box-shadow: inset 1em 1em var(--form-control-color);
-}
+// .radioForm::before {
+//   // content: '';
+//   // width: 1em;
+//   // height: 1em;
+//   // border-radius: 50%;
+//   // transform: scale(0);
+//   // transition: 120ms transform ease-in-out;
+//   // box-shadow: inset 1em 1em var(--form-control-color);
+// }
 
 .button1,
 .button2,
@@ -114,6 +114,7 @@
   font-size: 0.75rem;
   cursor: pointer;
   outline-color: scale-color(color(background, darkest), $lightness: 0%);
+
   &:hover,
   &:active {
     // background-color: scale-color(color(background, darkest), $lightness: 5%);
@@ -122,11 +123,13 @@
     outline-width: 1px;
     outline-color: scale-color(color(background, darkest), $lightness: -5%);
   }
+
   &:focus {
     outline-style: solid;
     outline-color: transparent;
     box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
   }
+
   &--small {
     font-size: 1.15rem;
   }

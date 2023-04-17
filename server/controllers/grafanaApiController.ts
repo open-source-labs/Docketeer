@@ -11,21 +11,24 @@ const grafanaApiController: grafanaController = {};
 grafanaApiController.getApi = async (req, res, next) => {
   console.log('HEYYYYYYYY');
   try {
-    const response = await fetch('http://localhost:3000/api/auth/keys', {
-      method: 'POST',
-      // mode: 'no-cors',
-      headers: {
-        Authorization:
-          'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: Math.random().toString(36).substring(7),
-        role: 'Admin',
-        secondsToLive: 86400,
-      }),
-    });
+    const response = await fetch(
+      'http://host.docker.internal:3000/api/auth/keys',
+      {
+        method: 'POST',
+        // mode: 'no-cors',
+        headers: {
+          Authorization:
+            'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: Math.random().toString(36).substring(7),
+          role: 'Admin',
+          secondsToLive: 86400,
+        }),
+      }
+    );
     console.log('YO BOI');
     const data = (await response.json()) as GrafanaResponse;
     res.locals.key = data.key;
@@ -48,7 +51,9 @@ grafanaApiController.getUid = async (req, res, next) => {
   const { key, dashboard }: { key: string; dashboard: string } = req.body;
   try {
     const response = await fetch(
-      `http://localhost:3000/api/search?query=${encodeURIComponent(dashboard)}`,
+      `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(
+        dashboard
+      )}`,
       {
         method: 'GET',
         headers: {

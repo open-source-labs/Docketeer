@@ -41,9 +41,33 @@ const useHelper = () => {
             console.log(err);
           });
       },
+      getUid(apiKey: string, dashboard: string): Promise<string> {
+        console.log('WORKKKKKKK, ', apiKey);
+        return fetch('/api/gapi/uidkey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            key: apiKey,
+            dashboard: dashboard,
+          }),
+        })
+          .then((res) => {
+            console.log('Response received:', res); // Log the response object
+            return res.json();
+          })
+          .then((data) => {
+            console.log('kubernetes-api', data);
+            return data;
+          })
+          .catch((error) => {
+            console.log('error when fetching uid key', error);
+          });
+      },
       getKey(): Promise<string> {
         console.log('WORKKKKKKK');
-        fetch('/api/gapi/key', {
+        return fetch('/api/gapi/key', {
           method: 'GET',
         })
           .then((res) => res.json())

@@ -41,6 +41,21 @@ const useHelper = () => {
             console.log(err);
           });
       },
+      getKey(): Promise<string> {
+        console.log('WORKKKKKKK');
+        fetch('/api/gapi/key', {
+          method: 'GET',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log('key', data);
+            return data;
+          })
+          .catch((error) => {
+            console.log('error when fetching api key', error);
+          });
+      },
+
       getUpdatedUserList() {
         const { updateUsers } = dispatch;
         console.log('ab to fetch -> getUpdatedUserList');

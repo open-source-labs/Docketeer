@@ -25,7 +25,7 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  },
+  }
 );
 
 // Importing routers...
@@ -54,7 +54,8 @@ app.use(express.urlencoded({ extended: true }));
 // Defining routers...
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
-app.use('/api', apiRouter);
+app.use('/gapi', apiRouter);
+// app.use('/api', apiRouter);
 app.use('/command', commandRouter);
 app.use('/db', dbRouter);
 app.use('/init', initRouter);
@@ -81,7 +82,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  },
+  }
 );
 
 // Exporting app...

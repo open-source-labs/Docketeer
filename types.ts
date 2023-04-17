@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler  } from 'express';
 
 // * BH: I think we should have a separate file for each interface, and then import them into this file. That way, we can keep the interfaces organized and not have to scroll through a huge file to find the interface we need.
 
@@ -296,7 +296,14 @@ export type MiddleWareFunction = (
 export interface ApiController {
   sendEmailAlert: MiddleWareFunction;
   signupEmail: MiddleWareFunction;
+  testing: MiddleWareFunction
 }
+
+export interface grafanaController {
+  getApi?: RequestHandler;
+  getUid?: RequestHandler;
+}
+
 
 export interface BcryptController {
   /**

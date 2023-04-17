@@ -27,6 +27,16 @@ const transporter = nodemailer.createTransport({
  * @description | contains middleware that sends emails to user for container issues and signup information
  **/
 const apiController: ApiController = {
+//   testing: (req, res, next) => {
+//   console.log("HELLO WE'RE TESTING!!!")
+//   res.locals.testingData = "HELLLOOOOO OBJECT HERE"
+//   return next();
+// }
+  testing: (req: Request, res: Response, next: NextFunction) => {
+    console.log("HELLO WERE TESTING")
+    res.locals.testingData = "HELLOOOO OBJECT HERE"
+    return next()
+  },
   // ==========================================================
   // Middleware: sendEmailAlert
   // Purpose:
@@ -120,6 +130,27 @@ const apiController: ApiController = {
         });
       });
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
 
 export default apiController;

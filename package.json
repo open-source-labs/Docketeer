@@ -27,7 +27,6 @@
     "child_process": "^1.0.2",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
     "node-fetch": "^2.3.0",

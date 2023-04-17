@@ -26,9 +26,14 @@ const Metrics = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <h2>METRICS DASHBOARD</h2>
-      <button className={styles.button} onClick={handleToggle}>
-        {button}
-      </button>
+      <input
+        type="checkbox"
+        id="switch"
+        className={styles.switch}
+        onClick={handleToggle}
+      />
+      {button}
+      <label className={styles.toggle} htmlFor="switch"></label>
       {kubernetesOrNah === 1 ? (
         <iframe
           className={styles.metrics}
@@ -37,7 +42,7 @@ const Metrics = (): JSX.Element => {
       ) : (
         <iframe
           className={styles.metrics}
-          src="http://localhost:3000/d/Hkev6ZP4z/node-exporter-nodes?orgId=1&refresh=30s"
+          src={`http://localhost:3000/d/${uid}/node-exporter-nodes?orgId=1&refresh=30s`}
         />
       )}
     </div>

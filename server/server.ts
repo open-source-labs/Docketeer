@@ -1,8 +1,8 @@
 // sets up port
 import app from './app';
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, (): void => {
-  console.log(`HAIIIIIIIIIIIII ${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });

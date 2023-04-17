@@ -27,15 +27,15 @@ const transporter = nodemailer.createTransport({
  * @description | contains middleware that sends emails to user for container issues and signup information
  **/
 const apiController: ApiController = {
-//   testing: (req, res, next) => {
-//   console.log("HELLO WE'RE TESTING!!!")
-//   res.locals.testingData = "HELLLOOOOO OBJECT HERE"
-//   return next();
-// }
+  //   testing: (req, res, next) => {
+  //   console.log("HELLO WE'RE TESTING!!!")
+  //   res.locals.testingData = "HELLLOOOOO OBJECT HERE"
+  //   return next();
+  // }
   testing: (req: Request, res: Response, next: NextFunction) => {
-    console.log("HELLO WERE TESTING")
-    res.locals.testingData = "HELLOOOO OBJECT HERE"
-    return next()
+    console.log('HELLO WERE TESTING');
+    res.locals.testingData = 'HELLOOOO OBJECT HERE';
+    return next();
   },
   // ==========================================================
   // Middleware: sendEmailAlert
@@ -66,7 +66,7 @@ const apiController: ApiController = {
     }
 
     const mailDetails = {
-      from: 'team.docketeer@gmail.com',
+      from: 'docketeerxii@@gmail.com',
       to: email,
       subject: 'Docketeer: Container Issue',
       html: `${emailBody}`,
@@ -98,7 +98,7 @@ const apiController: ApiController = {
     // create an email description and boilerplate with mailDetails
 
     const mailDetails = {
-      from: 'team.docketeer@gmail.com',
+      from: 'docketeerxii@gmail.com',
       to: email,
       subject: 'Docketeer: Account Details',
       html: `
@@ -106,7 +106,7 @@ const apiController: ApiController = {
         <p>We are so excited to have you onboard!</p>
         <h3>Username: ${username}</h3>
         <h3>Password: ${password}</h3>
-        <p>For any questions or concerns, please reach out to us at team.docketeer@gmail.com.</p>
+        <p>For any questions or concerns, please reach out to us at docketeerxii@gmail.com.</p>
         <br/>
         <p>Warmest regards,</p>
         <p>Team Docketeer</p>`,
@@ -115,7 +115,7 @@ const apiController: ApiController = {
     // create transporter with Nodemailer to send email.
     transporter
 
-    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+      // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
 
       .sendMail(mailDetails)
       .then((info: any) => {

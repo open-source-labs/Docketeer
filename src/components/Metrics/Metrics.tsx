@@ -42,7 +42,7 @@ const Metrics = (): JSX.Element => {
       ) : (
         <iframe
           className={styles.metrics}
-          src={`http://localhost:3000/d/${uid}/node-exporter-nodes?orgId=1&refresh=30s`}
+          src='http://localhost:3000/d/UcDlc7PVk/node-exporter-nodes?orgId=1&refresh=10s&kiosk'
         />
       )}
     </div>

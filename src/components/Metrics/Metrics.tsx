@@ -38,6 +38,7 @@ const Metrics = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <h2>METRICS DASHBOARD</h2>
+      <button onClick={testing}>GET KEYS AND UID</button>
       <input
         type="checkbox"
         id="switch"

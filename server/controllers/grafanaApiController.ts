@@ -5,7 +5,9 @@ const fetch = require('node-fetch');
 interface GrafanaResponse {
   key: string;
 }
-
+// http://localhost:3000/api/auth/keys
+// 'http://host.docker.internal:3000/api/auth/keys'
+// http://host.docker.internal:3000/api/search?query=${encodeURIComponent(dashboard)}`
 const grafanaApiController: grafanaController = {};
 
 grafanaApiController.getApi = async (req, res, next) => {

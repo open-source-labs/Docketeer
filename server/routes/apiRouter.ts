@@ -22,7 +22,7 @@ router.post(
 router.get(
   '/key',
   grafanaApiController.getApi,
-  (req: Request, res: Response): any => {
+  (req: Request, res: Response): Response => {
     console.log('RETURNED NEXT');
     return res.status(200).json(res.locals.key);
   }
@@ -31,7 +31,7 @@ router.get(
 router.post(
   '/uidkey',
   grafanaApiController.getUid,
-  (req: Request, res: Response): any => {
+  (req: Request, res: Response): Response => {
     return res.status(200).json(res.locals.uid);
   }
 );

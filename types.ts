@@ -299,12 +299,6 @@ export interface ApiController {
   testing: MiddleWareFunction
 }
 
-export interface grafanaController {
-  getApi?: RequestHandler;
-  getUid?: RequestHandler;
-}
-
-
 export interface BcryptController {
   /**
    * @description destructures password from req.body then hashes it and adds it to locals under 'hash'
@@ -490,6 +484,18 @@ export interface DbController {
    * @note Destructures username from request body. Logout propery is created if SQL query is able to update users token to null.
    */
   removeToken: MiddleWareFunction;
+}
+
+export interface GrafanaApiController {
+  /**
+   * @description Gets API key from Grafana API
+   */
+  getApi?: RequestHandler;
+
+  /**
+ * @description Gets dashboard UID from Grafana API using API key
+ */
+  getUid?: RequestHandler;
 }
 
 export interface InitController {

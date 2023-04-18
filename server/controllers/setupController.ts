@@ -30,18 +30,18 @@ const setupController: SetupController = {
     // );
 
     spawnSync(
-      'docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
+      'docker exec -t docketeer helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
       {
         stdio: 'inherit',
         shell: true,
       }
     );
-    spawnSync('docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm repo update', {
+    spawnSync('docker exec -t docketeer helm repo update', {
       stdio: 'inherit',
       shell: true,
     });
     spawnSync(
-      'docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm install prometheus prometheus-community/kube-prometheus-stack',
+      'docker exec -t docketeer helm install prometheus prometheus-community/kube-prometheus-stack',
       {
         stdio: 'inherit',
         shell: true,

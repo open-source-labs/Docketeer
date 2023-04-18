@@ -22,25 +22,26 @@ const setupController: SetupController = {
 
     // synchronous functions need to be used in order to make sure these commands execute successively
     // spawnSync(
-    //   'docker exec docketeer bash',
+    //   'docker exec -it docketeer bash',
     //   {
     //     stdio: 'inherit',
     //     shell: true,
     //   }
     // );
+
     spawnSync(
-      'docker exec -t docketeer helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
+      'docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
       {
         stdio: 'inherit',
         shell: true,
       }
     );
-    spawnSync('docker exec -t docketeer helm repo update', {
+    spawnSync('docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm repo update', {
       stdio: 'inherit',
       shell: true,
     });
     spawnSync(
-      'docker exec -t docketeer helm install prometheus prometheus-community/kube-prometheus-stack',
+      'docker exec -t -e KUBECONFIG=~/.kube/config docketeer helm install prometheus prometheus-community/kube-prometheus-stack',
       {
         stdio: 'inherit',
         shell: true,
@@ -52,7 +53,7 @@ const setupController: SetupController = {
 
   applyGraf: (req: Request, res: Response, next: NextFunction): void => {
     let pod: string;
-    const getPods = exec('kubectl get pods', (err, stdout, stderr) => {
+    const getPods = exec('docker exec -t docketeer kubectl get pods', (err, stdout, stderr) => {
       if (err) {
         console.error(`exec error: ${err}`);
         return;
@@ -70,11 +71,11 @@ const setupController: SetupController = {
     });
 
     getPods.once('close', () => {
-      spawnSync('kubectl apply -f prometheus-grafana.yml', {
+      spawnSync('docker exec -t docketeer kubectl apply -f prometheus-grafana.yml', {
         stdio: 'inherit',
         shell: true,
       });
-      spawnSync(`kubectl delete pod ${pod}`, {
+      spawnSync(`docker exec -t docketeer kubectl delete pod ${pod}`, {
         stdio: 'inherit',
         shell: true,
       });

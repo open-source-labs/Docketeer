@@ -117,7 +117,7 @@ $navbar-transition: transform 0.3s ease-in-out;
     height: 100%;
     // handle left and right navbars
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
 
     ul {
       display: flex;

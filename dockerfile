@@ -11,13 +11,7 @@ ENV DOCKERVERSION=20.10.23
 
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
-  && rm docker-${DOCKERVERSION}.tgz \
-  && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
-  && chmod 700 get_helm.sh \
-  && ./get_helm.sh \
-  && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-  && chmod +x kubectl \
-  && mv kubectl /usr/local/bin/
+  && rm docker-${DOCKERVERSION}.tgz 
 
 COPY package*.json ./
 

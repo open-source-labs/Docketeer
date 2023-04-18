@@ -70,7 +70,7 @@ const Metrics = (): JSX.Element => {
           </button>
           <iframe
             className={styles.metrics}
-            src={`http://localhost:3000/d/${uidKey}/`}
+            src={`http://localhost:3000/d/${uidKey}/?orgId=1&refresh=10s&kiosk`}
           />
         </div>
       )}

@@ -5,19 +5,16 @@ import { SetupController } from '../../types';
 
 const setupController: SetupController = {
   promInstall: (req: Request, res: Response, next: NextFunction): void => {
-    // exec('curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash && helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm install prometheus-operator prometheus-community/kube-prometheus-stack', (error, stdout, stderr) => {
+    // exec('docker exec docketeer /bin/bash prom-operator.sh', (error, stdout, stderr) => {
     //   if (error) {
     //     console.error(`Error: ${error.message}`);
-    //     res.send(`Error: ${error.message}`);
     //     return;
     //   }
     //   if (stderr) {
     //     console.error(`Stderr: ${stderr}`);
-    //     res.send(`Stderr: ${stderr}`);
     //     return;
     //   }
     //   console.log(`stdout: ${stdout}`);
-    //   res.send(`stdout: ${stdout}`);
     // });
 
     // synchronous functions need to be used in order to make sure these commands execute successively
@@ -29,24 +26,24 @@ const setupController: SetupController = {
     //   }
     // );
 
-    spawnSync(
-      'docker exec -t docketeer helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
-      {
-        stdio: 'inherit',
-        shell: true,
-      }
-    );
-    spawnSync('docker exec -t docketeer helm repo update', {
-      stdio: 'inherit',
-      shell: true,
-    });
-    spawnSync(
-      'docker exec -t docketeer helm install prometheus prometheus-community/kube-prometheus-stack',
-      {
-        stdio: 'inherit',
-        shell: true,
-      }
-    );
+    // spawnSync(
+    //   'docker exec docketeer bash -c "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"',
+    //   {
+    //     stdio: 'inherit',
+    //     shell: true,
+    //   }
+    // );
+    // spawnSync('docker exec docketeer bash -c "helm repo update"', {
+    //   stdio: 'inherit',
+    //   shell: true,
+    // });
+    // spawnSync(
+    //   'docker exec docketeer bash -c "helm install prometheus prometheus-community/kube-prometheus-stack"',
+    //   {
+    //     stdio: 'inherit',
+    //     shell: true,
+    //   }
+    // );
     return next();
   },
   

@@ -49,21 +49,13 @@ const Login = (): JSX.Element => {
         }),
       });
 
-      if (response.status === 401) {
-        throw new Error('Unauthorized');
-      }
-
       // parse the response
       const parsedResponse = await response.json();
-
-      // console.log('parsedResponse: ', parsedResponse); // logs user
-
       // Switch state `loggedIn` to true
       updateUserSession();
       // Update user information in sessionsReducer
       updateUserInfo(parsedResponse);
       // create alert to notify user that they have successfully logged in
-
       dispatch(
         createAlert(
           `Welcome back Docketeer, ${parsedResponse.username}!`,
@@ -74,7 +66,6 @@ const Login = (): JSX.Element => {
       // Navigate to root route
       navigate('/');
     } catch (err) {
-      console.log('Fetch: POST error to /login', err);
       // Alert user upon wrong username or password entry using an alert.
       window.alert(
         'Incorrect password and/or username. \n Please register or try again.'

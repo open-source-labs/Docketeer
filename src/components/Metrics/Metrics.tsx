@@ -30,7 +30,7 @@ const Metrics = (): JSX.Element => {
 
   const changePage = async (dashboard) => {
     setCurrentPage(dashboard);
-    const uid = await getUid(apiKey, currentPage);
+    const uid = await getUid(apiKey, dashboard);
     setUidKey(uid);
   };
 

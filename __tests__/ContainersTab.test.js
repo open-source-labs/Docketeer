@@ -1,9 +1,11 @@
 import React from 'react';
-import Containers from '../src/components/tabs/Containers';
+import { Provider } from 'react-redux';
+import Containers from '../src/components/Containers/Containers';
 import {describe, beforeEach, expect, test, jest} from '@jest/globals';
 import '@testing-library/jest-dom';
-import ToggleDisplay from '../src/components/display/ToggleDisplay';
+//import ToggleDisplay from '../src/components/display/ToggleDisplay';
 import { fireEvent, render, screen } from '@testing-library/react';
+import App from '../src/App';
 
 const props = {
   runningList: [
@@ -34,6 +36,13 @@ const props = {
 
 
 describe('Containers', () => {
+  beforeEach(async () => {
+    const app = await render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
   
   beforeEach(()=>{
     render(<Containers {...props} />);

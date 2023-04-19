@@ -44,8 +44,8 @@ const Metrics = (): JSX.Element => {
         className={styles.switch}
         onClick={handleToggle}
       />
-      {button}
-      <label className={styles.toggle} htmlFor="switch"></label>
+      <>{button}</>
+      <label className={styles.toggle} htmlFor="switch" />
 
       {kubernetesOrNah === 1 ? (
         <div>

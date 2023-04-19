@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { containerStateType } from '../../types';
+import { ContainerStateType } from '../../types';
 
-const initialState: containerStateType = {
+const initialState: ContainerStateType = {
   // ? why is runningList & stoppedList here
   runningList: [],
   stoppedList: [],

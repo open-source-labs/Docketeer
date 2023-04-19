@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createNewUser } from '../../helpers/commands';
+import useHelper from '../../helpers/commands'; // {}
 import globalStyles from '../global.module.scss';
 
 /**
@@ -8,6 +8,7 @@ import globalStyles from '../global.module.scss';
  **/
 
 const NewUserDisplay = (): JSX.Element => {
+  const { createNewUser } = useHelper();
   const [valueRole, setValueRole] = useState('3');
   const [values, setValues] = useState({
     username: '',

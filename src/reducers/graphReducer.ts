@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { graphStateType } from '../../types';
-
-const initialState: graphStateType = {
+// import { graphStateType } from '../../types';
+// changed to any from graphStateType
+const initialState: any = {
   graphAxis: [],
   graphMemory: [
     {

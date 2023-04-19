@@ -112,7 +112,7 @@ const userController: UserController = {
     db.query(getUser, [username])
       .then(async (data: any) => {
         const match = await bcrypt.compare(password, data.rows[0].password);
-        if (!data.rows[0] || !match) {
+        if (!(data.rows[0] || match)) {
           return next({
             log: 'Error in userController\'s verifyUser method',
             status: 400,

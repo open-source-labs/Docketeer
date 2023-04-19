@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { describe, expect, test, jest } from '@jest/globals';
 import '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -7,8 +8,9 @@ import {
   render,
   screen,
 } from '@testing-library/react';
-import NewUserDisplay from '../src/components/display/NewUserDisplay';
+import NewUserDisplay from '../src/components/NewUserDisplay/NewUserDisplay';
 import fetchMock from 'jest-fetch-mock';
+import App from '../src/App';
 
 fetchMock.enableMocks();
 
@@ -30,10 +32,18 @@ const props = {
 /* ----- Create a New User ----- */
 
 describe('Create a New User functionality', () => {
+  beforeEach(async () => {
+    const app = await render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
 
   beforeEach(() => {
     render(<NewUserDisplay {...props} />);
   });
+
   describe ('Input fields', () => {
     test('Email', () => {
       const email = document.getElementById('signupEmail');

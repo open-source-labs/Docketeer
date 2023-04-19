@@ -1,7 +1,9 @@
 import React from 'react';
-import * as helper from '../src/components/helper/commands';
+import { Provider } from 'react-redux';
+import App from '../src/App';
+import * as helper from '../src/helpers/commands';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
-import Images from '../src/components/tabs/Images';
+import Images from '../src/components/Images/Images';
 import {
   fireEvent,
   render,
@@ -23,6 +25,13 @@ const props = {
 };
 
 describe('Images', () => {
+  beforeEach(async () => {
+    const app = await render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
 
   beforeEach(() => {
     render(<Images {...props} />);

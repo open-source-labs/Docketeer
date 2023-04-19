@@ -30,6 +30,7 @@
     "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
+    "next": "^13.3.0",
     "node-fetch": "^2.3.0",
     "os": "^0.1.2",
     "os-utils": "^0.0.14",
@@ -125,7 +126,7 @@
     },
     "preset": "ts-jest",
     "moduleNameMapper": {
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   }

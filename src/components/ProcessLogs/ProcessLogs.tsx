@@ -21,7 +21,6 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
-<<<<<<<<< Temporary merge branch 1
 **/
 
 const ProcessLogs = (): JSX.Element => {
@@ -31,19 +30,20 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  const runningBtnList = getContainerNames(runningList);
+  const runningBtnList: any = getContainerNames(runningList);
 
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
   } {
-    const newObj = {};
+    // type assertion saying treat {} as { name: string; value: boolean; }
+    const newObj = {} as { name: string; value: boolean; };
     containerList.forEach(({ Names }) => (newObj[Names] = false));
     return newObj;
   }
 
-  const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
+  const [btnIdList, setBtnIdList] = useState<Array<object>>(runningBtnList);
   const [timeFrameNum, setTimeFrameNum] = useState<string>('');
   const [timeFrame, setTimeFrame] = useState<string>('');
   const [rows, setRows] = useState([] as JSX.Element[]);
@@ -250,10 +250,10 @@ const ProcessLogs = (): JSX.Element => {
               return (
                 <tbody key={`row-${i}`}>
                   <tr>
-                    <td>{row.container}</td>
-                    <td>{row.type}</td>
-                    <td>{row.time}</td>
-                    <td>{row.message}</td>
+                    <td>{row[i].container}</td>
+                    <td>{row[i].type}</td>
+                    <td>{row[i].time}</td>
+                    <td>{row[i].message}</td>
                   </tr>
                 </tbody>
               );

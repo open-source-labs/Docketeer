@@ -1,6 +1,6 @@
 // import { Request, Response, NextFunction } from 'express';
 import { GrafanaApiController } from '../../types';
-import 'node-fetch';
+import fetch from 'node-fetch';
 
 interface GrafanaResponse {
   key: string;
@@ -12,24 +12,21 @@ const grafanaApiController: GrafanaApiController = {
   getApi: async (req, res, next): Promise<void> => {
     console.log('HEYYYYYYYY');
     try {
-      const response = await fetch(
-        'http://host.docker.internal:3000/api/auth/keys',
-        {
-          method: 'POST',
-          // mode: 'no-cors',
-          headers: {
-            Authorization:
-              'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: Math.random().toString(36).substring(7),
-            role: 'Admin',
-            secondsToLive: 86400,
-          }),
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/auth/keys', {
+        method: 'POST',
+        // mode: 'no-cors',
+        headers: {
+          Authorization:
+            'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: Math.random().toString(36).substring(7),
+          role: 'Admin',
+          secondsToLive: 86400,
+        }),
+      });
       console.log('YO BOI');
       const data = (await response.json()) as GrafanaResponse;
       res.locals.key = data.key;
@@ -48,11 +45,11 @@ const grafanaApiController: GrafanaApiController = {
   },
 
   getUid: async (req, res, next): Promise<void> => {
-    console.log('HELLO HIT CONTROLLER HERE');
+    console.log(req.body);
     const { key, dashboard }: { key: string; dashboard: string } = req.body;
     try {
       const response = await fetch(
-        `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(
+        `http://localhost:3000/api/search?query=${encodeURIComponent(
           dashboard
         )}`,
         {
@@ -64,6 +61,7 @@ const grafanaApiController: GrafanaApiController = {
         }
       );
       const data: any = await response.json();
+      console.log('THIS IS DATA', data);
       const uidKey: any = data[0].uid;
       res.locals.uid = uidKey;
       console.log('UID KEY HERE!!', uidKey);

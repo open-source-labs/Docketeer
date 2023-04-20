@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
-// * BH: I think we should have a separate file for each interface, and then import them into this file. That way, we can keep the interfaces organized and not have to scroll through a huge file to find the interface we need.
-
 // ==============================================
 // USER TYPES
 // ==============================================

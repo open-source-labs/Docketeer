@@ -1,0 +1,29 @@
+.container {
+	height: 30vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.buttonContainer {
+	height: 20vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+button {
+  color: color(light, tan);
+  align-self: start;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  border-radius: 5px;
+  padding: 0.25em 0.75em;
+  min-width: 10ch;
+  text-align: center;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}

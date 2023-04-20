@@ -4,12 +4,12 @@ import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
 import cookieParser from 'cookie-parser'; // for when cookies get implemented
+import * as path from 'path';
 
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
-
 app.use(cookieParser());
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
@@ -39,11 +39,12 @@ import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
 import setupRouter from './routes/setupRouter';
 import signupRouter from './routes/signupRouter';
-// import userController from './controllers/userController';
 
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('SetupApp'));
+
 // app.use(cookieParser()); // for when cookies get implemented
 
 // check for cookie
@@ -53,10 +54,20 @@ app.use(express.urlencoded({ extended: true }));
 // });
 // console.log('exited cookie check');
 // Defining routers...
+
+app.use('/k8', (req: Request, res: Response) => {
+  // const options = {
+  //   headers: {
+  //     'Content-Type': 'application/javascript'
+  //   }
+  // };
+  res.status(200).sendFile(path.join(__dirname, '../SetupApp/index.html'));
+});
+
+
 app.use('/account', accountRouter);
 app.use('/admin', adminRouter);
 app.use('/gapi', apiRouter);
-// app.use('/api', apiRouter);
 app.use('/command', commandRouter);
 app.use('/db', dbRouter);
 app.use('/init', initRouter);

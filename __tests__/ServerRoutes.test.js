@@ -83,7 +83,6 @@ describe('uid test', () => {
 
 // account route
 xdescribe('Account Route', () => {
-xdescribe('Account Route', () => {
   test('Get request', () => {
     request(app)
       .get('/account')
@@ -96,7 +95,6 @@ xdescribe('Account Route', () => {
 
 // admin route
 xdescribe('Admin Route', () => {
-xdescribe('Admin Route', () => {
   test('Get request', () => {
     request(app)
       .get('/admin')
@@ -107,7 +105,6 @@ xdescribe('Admin Route', () => {
 });
 
 // api route
-xdescribe('Api Route', () => {
 xdescribe('Api Route', () => {
   test('Get request', () => {
     request(app)
@@ -120,7 +117,6 @@ xdescribe('Api Route', () => {
 
 // command route
 xdescribe('Command Route', () => {
-xdescribe('Command Route', () => {
   test('Get refreshRunning', () => {
     request(app)
       .get('/command/refreshRunning')
@@ -131,7 +127,6 @@ xdescribe('Command Route', () => {
 });
 
 // db route
-xdescribe('Db Route', () => {
 xdescribe('Db Route', () => {
   test('Get request', () => {
     request(app)
@@ -144,7 +139,6 @@ xdescribe('Db Route', () => {
 
 // init route
 xdescribe('Init Route', () => {
-xdescribe('Init Route', () => {
   test('Get request', () => {
     request(app)
       .get('/init')
@@ -156,7 +150,6 @@ xdescribe('Init Route', () => {
 
 // login route
 xdescribe('Login Route', () => {
-xdescribe('Login Route', () => {
   test('Get request', () => {
     request(app)
       .get('/login')
@@ -167,7 +160,6 @@ xdescribe('Login Route', () => {
 });
 
 // logout route
-xdescribe('Logout Route', () => {
 xdescribe('Logout Route', () => {
   test('Get request', () => {
     request(app)

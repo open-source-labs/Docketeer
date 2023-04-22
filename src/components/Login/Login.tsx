@@ -9,6 +9,7 @@ import { UserInfo } from '../../../types';
 import { createAlert } from '../../reducers/alertReducer';
 import { useAppDispatch } from '../../reducers/hooks';
 import useSurvey from '../../helpers/dispatch';
+import useHelper from '../../helpers/commands';
 
 /**
  * @module | Login
@@ -21,6 +22,7 @@ const Login = (): JSX.Element => {
   const updateUserSession = () => updateSession();
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
   const dispatch = useAppDispatch();
+  const { checkCookie } = useHelper();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -49,10 +51,16 @@ const Login = (): JSX.Element => {
         }),
       });
 
+      const data = await checkCookie();
+
       // parse the response
       const parsedResponse = await response.json();
+      console.log(parsedResponse);
       // Switch state `loggedIn` to true
-      updateUserSession();
+      if (data) {
+        console.log('yoyo ' + data);
+        updateUserSession();
+      }
       // Update user information in sessionsReducer
       updateUserInfo(parsedResponse);
       // create alert to notify user that they have successfully logged in
@@ -105,7 +113,7 @@ const Login = (): JSX.Element => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className={styles.buttonHolder}>
-            <button className={globalStyles.button1}>Login</button>
+            <button className={globalStyles.button1 }>Login</button>
             <button
               className={globalStyles.button2}
               onClick={() => navigate('/userSignup')}

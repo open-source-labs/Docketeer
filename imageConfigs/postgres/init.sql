@@ -1,10 +1,10 @@
-CREATE TABLE roles (
-  _id SERIAL NOT NULL,
-  role VARCHAR (255) NOT NULL,
-  PRIMARY KEY (_id)
-) WITH (
-  OIDS = FALSE
-);
+-- CREATE TABLE roles (
+--   _id SERIAL NOT NULL,
+--   role VARCHAR (255) NOT NULL,
+--   PRIMARY KEY (_id)
+-- ) WITH (
+--   OIDS = FALSE
+-- );
 
 CREATE TABLE users (
     _id SERIAL NOT NULL,
@@ -12,14 +12,14 @@ CREATE TABLE users (
     email VARCHAR (255),
     password VARCHAR (255) NOT NULL,
   phone VARCHAR (255),
-  role VARCHAR (255) DEFAULT 'user',
-  role_id INTEGER DEFAULT 3,
+  -- role VARCHAR (255) DEFAULT 'user',
+  -- role_id INTEGER DEFAULT 3,
   contact_pref VARCHAR (255),
   mem_threshold INTEGER DEFAULT 80,
   cpu_threshold INTEGER DEFAULT 80,
   container_stops BOOLEAN DEFAULT true,
   PRIMARY KEY (_id),
-  FOREIGN KEY (role_id) REFERENCES Roles(_id)
+  -- FOREIGN KEY (role_id) REFERENCES Roles(_id)
 ) WITH (
   OIDS = FALSE
 );
@@ -62,7 +62,7 @@ INSERT INTO notification_settings (metric_name, triggering_value) VALUES
 ('cpu', 80),
 ('stopped', 0);
 
-INSERT INTO roles (role) VALUES 
-  ('system admin'),
-  ('admin'),
-  ('user');
+-- INSERT INTO roles (role) VALUES 
+--   ('system admin'),
+--   ('admin'),
+--   ('user');

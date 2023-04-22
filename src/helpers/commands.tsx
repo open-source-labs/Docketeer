@@ -20,7 +20,7 @@ const useHelper = () => {
   const actions = useMemo(
     () => ({
       /* funcs to help w/ creating new users */
-      createNewUser(username: string, password: string, role_id: string) {
+      createNewUser(username: string, password: string) {
         fetch('/api/signup', {
           method: 'POST',
           headers: {
@@ -29,7 +29,7 @@ const useHelper = () => {
           body: JSON.stringify({
             username: username,
             password: password,
-            role_id: role_id,
+            // role_id: role_id,
           }),
         })
           .then((res) => {
@@ -39,6 +39,20 @@ const useHelper = () => {
           })
           .catch((err) => {
             console.log(err);
+          });
+      },
+      checkCookie(): Promise<string> {
+        console.log('WORKKKKKKK');
+        return fetch('/api/login/checkCookie', {
+          method: 'GET',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log('status', data);
+            return data;
+          })
+          .catch((error) => {
+            console.log('error when fetching cookie', error);
           });
       },
       getUid(apiKey: string, dashboard: string): Promise<string> {

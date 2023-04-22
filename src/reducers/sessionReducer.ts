@@ -30,8 +30,9 @@ export const sessionSlice = createSlice({
   reducers: {
     // This doesn't utilize a payload (see calling of updateSession in Login.tsx)
     updateSession: (state) => {
-      // console.log('current session', current(state.isLoggedIn));
+      console.log('current session', state.isLoggedIn);
       state.isLoggedIn = !state.isLoggedIn;
+      console.log('this should be opposite of current session', state.isLoggedIn);
     },
     updateUser: (state, action: PayloadAction<UserInfo>) => {
       for (const info in action.payload) {

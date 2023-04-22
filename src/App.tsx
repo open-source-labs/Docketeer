@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAppSelector } from './reducers/hooks';
 import Login from './components/Login/Login';
@@ -15,11 +15,42 @@ import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
+import useSurvey from './helpers/dispatch';
+import useHelper from './helpers/commands';
+
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const session: boolean = useAppSelector((state) => state.sessions.isLoggedIn);
+  const { updateSession } = useSurvey();
+  const { checkCookie } = useHelper();
   
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const data = await checkCookie();
+        console.log('session on start dog ' + data);
+        if (data) {
+          updateSession();
+          setSession(true);
+        } else {
+          setSession(false);
+        }
+        setLoading(false);
+      } catch (err) {
+        console.log('Cannot get uid key or api key', err);
+        setSession(false);
+        setLoading(false);
+      }
+    };
+    checkLogin();
+  }, [checkCookie, updateSession]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <Routes>
       <Route

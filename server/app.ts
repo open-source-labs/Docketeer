@@ -11,6 +11,8 @@ const app = express();
 // allow requests from other domains
 app.use(cors());
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(
@@ -30,7 +32,7 @@ exec(
 
 // Importing routers...
 import accountRouter from './routes/accountRouter';
-import adminRouter from './routes/adminRouter';
+// import adminRouter from './routes/adminRouter';
 import apiRouter from './routes/apiRouter';
 import commandRouter from './routes/commandRouter';
 import dbRouter from './routes/dbRouter';
@@ -51,8 +53,10 @@ app.use(express.static('SetupApp'));
 // app.use('/', userController.checkCookie, (req: Request, res: Response): void => {
 //   console.log('cookffffffs', req.headers.cookie, req.cookies);
 //   if (res.locals.notSignedIn) res.redirect('/login');
+//   else res.redirect('/');
 // });
-// console.log('exited cookie check');
+
+
 // Defining routers...
 
 app.use('/k8', (req: Request, res: Response) => {
@@ -66,7 +70,6 @@ app.use('/k8', (req: Request, res: Response) => {
 
 
 app.use('/account', accountRouter);
-app.use('/admin', adminRouter);
 app.use('/gapi', apiRouter);
 app.use('/command', commandRouter);
 app.use('/db', dbRouter);
@@ -75,6 +78,8 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/setup', setupRouter);
 app.use('/signup', signupRouter);
+// app.use('/admin', adminRouter);
+// app.use('/api', apiRouter);
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {

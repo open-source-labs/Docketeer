@@ -42,7 +42,6 @@ const useHelper = () => {
           });
       },
       getUid(apiKey: string, dashboard: string): Promise<string> {
-        console.log('WORKKKKKKK, ', apiKey);
         return fetch('/api/gapi/uidkey', {
           method: 'POST',
           headers: {
@@ -66,7 +65,6 @@ const useHelper = () => {
           });
       },
       getKey(): Promise<string> {
-        console.log('WORKKKKKKK');
         return fetch('/api/gapi/key', {
           method: 'GET',
         })

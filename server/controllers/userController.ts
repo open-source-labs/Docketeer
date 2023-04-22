@@ -111,8 +111,10 @@ const userController: UserController = {
     //   using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser, [username])
       .then(async (data: any) => {
+        console.log(data.rows[0]);
         const match = await bcrypt.compare(password, data.rows[0].password);
-        if (!(data.rows[0] || match)) {
+        console.log(match);
+        if (!data.rows[0] || !match) {
           return next({
             log: 'Error in userController\'s verifyUser method',
             status: 400,
@@ -122,7 +124,7 @@ const userController: UserController = {
           });
         }
         const verifiedUser = data.rows[0];
-        console.log('verified user', verifiedUser);
+        // console.log('verified user', verifiedUser);
         const verifiedRole = verifiedUser.role;
         if (verifiedRole === 'system admin') {
           await jwt.sign({ verifiedRole }, secret, (err, token) => {

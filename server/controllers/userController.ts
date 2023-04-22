@@ -123,7 +123,6 @@ const userController: UserController = {
           });
         }
         const verifiedUser = data.rows[0];
-      
         res.locals.user = verifiedUser;
         console.log('verified user', verifiedUser);
         return next();
@@ -147,8 +146,6 @@ const userController: UserController = {
         //   res.locals.user = { ...verifiedUser, password: null };
         //   return next();
         // }
-
-     
       })
       .catch((err: ServerError) => {
         return next({

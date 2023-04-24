@@ -250,10 +250,10 @@ const ProcessLogs = (): JSX.Element => {
               return (
                 <tbody key={`row-${i}`}>
                   <tr>
-                    <td>{row[i].container}</td>
-                    <td>{row[i].type}</td>
-                    <td>{row[i].time}</td>
-                    <td>{row[i].message}</td>
+                    <td>{row.container}</td>
+                    <td>{row.type}</td>
+                    <td>{row.time}</td>
+                    <td>{row.message}</td>
                   </tr>
                 </tbody>
               );

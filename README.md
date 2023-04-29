@@ -111,9 +111,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 ## Installation
 
-The local configuration for Docketeer was setup to be as simple as possible for the end-user. Follow the steps below to get started with Docketeer.
-
-<br />
+The local configuration for Docketeer was setup to be as simple as possible for the end-user. <br />
+Follow the steps below to get started with Docketeer.
 
 #### STEP 1 — Clone the repository
 

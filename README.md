@@ -143,6 +143,8 @@ Run
 ```sh
 npm run dev
 ```
+and navigate to localhost:3003.
+
 If you haven't set up Prometheus-Operator with us before, click the first button to install.
 Otherwise, you can skip the first button and go on with the next two!
 

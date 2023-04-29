@@ -4,8 +4,8 @@ import { SetupController } from '../../types';
 
 /**
  * @description v12.0 implemented k8 cluster metrics! In order to set this up, run npm run dev, go to 
- * localhost:/3000 click the three buttons in sequence, this will run the necessary shell lines on your host terminal.
- *  Than you can compose up to see your k8 metrics. 
+ * http://localhost:4000/api/k8 click the three buttons in sequence, this will run the necessary shell lines on your host terminal.
+ *  Open up a new terminal, compose up and see your k8 metrics!
  */
 
 const setupController: SetupController = {

@@ -11,6 +11,12 @@ const Metrics = (): JSX.Element => {
   const button = kubernetesOrNah === 1 ? 'Containers' : 'Kubernetes Cluster';
 
   useEffect(() => {
+    /*
+    * Retrieves the API and UID key 
+    * @method
+    * @async
+    * @returns {promise} returns promise when api key and uid key is successfully set
+    */
     const fetchKey = async () => {
       try {
         const key = await getKey();
@@ -28,6 +34,13 @@ const Metrics = (): JSX.Element => {
     setFrame((prevFrame) => (prevFrame === 1 ? 2 : 1));
   };
 
+  /*
+    * Changes the container metrics dashboard to the kubernetes dashboard
+    * @method
+    * @params {string} dashboard, new dashboard page to set to as the current page
+    * @async
+    * @returns {promise} returns promise when dashboard and uid key is successfully set
+  */
   const changePage = async (dashboard) => {
     setCurrentPage(dashboard);
     const uid = await getUid(apiKey, dashboard);

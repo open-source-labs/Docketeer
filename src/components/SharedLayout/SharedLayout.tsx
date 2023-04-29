@@ -28,7 +28,6 @@ function SharedLayout(): JSX.Element {
     logoutUser();
   
   
-    // what is this try block doing?
     try {
       const response = await fetch('/api/logout', {
         method: 'POST',
@@ -184,16 +183,6 @@ function SharedLayout(): JSX.Element {
                 to="/home/"
               >
                 HOME
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/home/users"
-              >
-                USERS
               </NavLink>
             </li>
             <li>

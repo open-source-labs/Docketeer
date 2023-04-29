@@ -15,8 +15,10 @@ import useHelper from '../../helpers/commands';
  * @module | Login
  * @description | Login component which renders a login page, and sign-up modal. This is the first component that users are routed to if there are no active sessions.
  **/
-
-const Login = (): JSX.Element => {
+interface loginProps{
+  navigateToHome: () => void;
+}
+const Login = (props: loginProps): JSX.Element => {
   const navigate = useNavigate();
   const { updateUser, updateSession } = useSurvey();
   const updateUserSession = () => updateSession();
@@ -26,6 +28,7 @@ const Login = (): JSX.Element => {
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
     // prevent default form submission action
@@ -33,7 +36,12 @@ const Login = (): JSX.Element => {
     authenticateUser(username, password);
   };
 
-  // send a fetch request to the backend to login
+  /*
+  authenticates users username and password
+  @method
+  @async
+  @returns promise when sending a request to backend to login is successful, and updates users session and cookies
+  */
   const authenticateUser = async (
     username: string,
     password: string
@@ -70,8 +78,7 @@ const Login = (): JSX.Element => {
         )
       );
       // Navigate to root route
-      console.log(data);
-      navigate('/');
+      props.navigateToHome();
     } catch (err) {
       // Alert user upon wrong username or password entry using an alert.
       window.alert(

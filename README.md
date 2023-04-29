@@ -141,8 +141,6 @@ It's super simple to get started! Follow these 3 steps:
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-<br />
-
 #### STEP 2 — Docker compose up
 
 ```sh

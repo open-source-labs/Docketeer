@@ -50,6 +50,13 @@ const App = () => {
   useEffect(() => {
     checkLogin();
   }, [checkCookie, updateSession]);
+  /**
+   * checks if user was already logged in, and navigates them to home if cookie was already set
+   * @method
+   * @async
+   * @params none
+   * @returns {Promise<void>} navigates user to endpoint /home if they were logged in
+   */
 
   const navigateToHome = async () => {
     await checkLogin();

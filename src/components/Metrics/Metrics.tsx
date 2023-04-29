@@ -11,7 +11,7 @@ const Metrics = (): JSX.Element => {
   const button = kubernetesOrNah === 1 ? 'Containers' : 'Kubernetes Cluster';
 
   useEffect(() => {
-    /*
+    /** 
     * Retrieves the API and UID key 
     * @method
     * @async

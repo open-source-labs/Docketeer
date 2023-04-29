@@ -36,12 +36,12 @@ const Login = (props: loginProps): JSX.Element => {
     authenticateUser(username, password);
   };
 
-  /*
-  authenticates users username and password
-  @method
-  @async
-  @returns promise when sending a request to backend to login is successful, and updates users session and cookies
+  /** authenticates users username and password
+   * @method
+   * @async
+   * @returns {Promise<void>} returns promise when sending a request to backend to login is successful, and updates users session and cookies
   */
+ 
   const authenticateUser = async (
     username: string,
     password: string

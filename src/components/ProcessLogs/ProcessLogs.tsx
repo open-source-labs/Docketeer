@@ -73,10 +73,7 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   // takes in a btnIdList, passes that into buildObptionObj
-  // takes in a btnIdList, passes that into buildObptionObj
   const handleGetLogs = async (idList: object) => {
-    console.log('getting logs');
-    console.log('idList: ', idList);
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
     dispatch(createAlert('Loading process log information...', 5, 'success'));

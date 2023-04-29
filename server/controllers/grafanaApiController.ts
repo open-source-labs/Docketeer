@@ -5,9 +5,10 @@ import fetch from 'node-fetch';
 interface GrafanaResponse {
   key: string;
 }
+
+// use localhost version for npm run dev or testing, but host.docker.internal when running compose up
 // http://localhost:3000/api/auth/keys
 // 'http://host.docker.internal:3000/api/auth/keys'
-// http://host.docker.internal:3000/api/search?query=${encodeURIComponent(dashboard)}`
 const grafanaApiController: GrafanaApiController = {
   getApi: async (req, res, next): Promise<void> => {
     try {
@@ -42,6 +43,9 @@ const grafanaApiController: GrafanaApiController = {
     }
   },
 
+  // use localhost version for npm run dev or testing, but host.docker.internal when running compose up
+  // http://localhost:3000/api/search?query=${encodeURIComponent(dashboard)}`
+  // http://host.docker.internal:3000/api/search?query=${encodeURIComponent(dashboard)}` 
   getUid: async (req, res, next): Promise<void> => {
     const { key, dashboard }: { key: string; dashboard: string } = req.body;
     try {

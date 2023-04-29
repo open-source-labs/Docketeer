@@ -23,7 +23,6 @@ router.get(
   '/key',
   grafanaApiController.getApi,
   (req: Request, res: Response): Response => {
-    console.log('RETURNED NEXT');
     return res.status(200).json(res.locals.key);
   }
 );
@@ -42,7 +41,6 @@ router.get('/testing', apiController.testing, (req: Request, res: Response) => {
 });
 
 router.get('/hello', (req: Request, res: Response) => {
-  console.log('hey bitch');
   res.setHeader('Cache-Control', 'no-cache');
   return res.status(200).json({ data: 'in hello testing' });
 });

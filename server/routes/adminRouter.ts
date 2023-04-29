@@ -1,7 +1,10 @@
 /**
  * @module AdminRouter
  * @description Routes all requests to admin endpoint
+ * v12.0 depreciated all admin / system admin functionality since it was nonfunctional
  */
+
+
 // import { Router, Request, Response } from 'express';
 // import userController from '../controllers/userController';
 

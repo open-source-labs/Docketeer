@@ -35,11 +35,8 @@ export const volumeByName = (
   getVolumeContainersList
 ) => {
   let volumeName;
-  // console.log("arrOfVolNames", arrayOfVolumeNames);
   arrayOfVolumeNames.forEach((element) => {
-    // console.log("element: ", element);
     volumeName = getVolumeContainers(element['Name'], getVolumeContainersList);
-    // console.log("volumeName: ", volumeName);
   });
   return volumeName;
 };

@@ -1,20 +1,20 @@
-import { Router, Request, Response } from "express";
+import { Router } from 'express';
 const router = Router();
-const fetch = require("node-fetch")
+import fetch from 'node-fetch';
 
-router.get("/api-key", async (req, res, next) => {
+router.get('/api-key', async (req, res, next) => {
   try {
-    let response = await fetch("http://localhost:3000/api/auth/keys", {
-      method: "POST",
+    const response = await fetch('http://localhost:3000/api/auth/keys', {
+      method: 'POST',
       headers: {
         Authorization:
-          "Basic " + Buffer.from("admin:prom-operator").toString("base64"),
-        Accept: "*/*",
-        "Content-Type": "application/json",
+          'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
+        Accept: '*/*',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: Math.random().toString(36).substring(7),
-        role: "Admin",
+        role: 'Admin',
         secondsToLive: 86400,
       }),
     });

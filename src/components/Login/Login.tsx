@@ -55,10 +55,8 @@ const Login = (): JSX.Element => {
 
       // parse the response
       const parsedResponse = await response.json();
-      console.log(parsedResponse);
       // Switch state `loggedIn` to true
       if (data) {
-        console.log('yoyo ' + data);
         updateUserSession();
       }
       // Update user information in sessionsReducer
@@ -79,16 +77,6 @@ const Login = (): JSX.Element => {
       window.alert(
         'Incorrect password and/or username. \n Please register or try again.'
       );
-      // if error send dispatch to create alert
-      // if (Object.prototype.hasOwnProperty.call(parsedResponse, 'error')) {
-      //   dispatch(
-      //     createAlert(
-      //       'The username and/or password entered could not be authenticated. Please try again.',
-      //       5,
-      //       'error'
-      //     )
-      //   );
-      // }
     }
   };
 
@@ -114,7 +102,7 @@ const Login = (): JSX.Element => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className={styles.buttonHolder}>
-            <button className={globalStyles.button1 }>Login</button>
+            <button className={globalStyles.button1}>Login</button>
             <button
               className={globalStyles.button2}
               onClick={() => navigate('/userSignup')}

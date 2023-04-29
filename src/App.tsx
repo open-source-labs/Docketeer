@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useAppSelector } from './reducers/hooks';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
-
 import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';
-// import Yml from './features/Yml';
 import Containers from './components/Containers/Containers';
 import Settings from './components/Settings/Settings';
 import Users from './components/Users/Users';
@@ -31,7 +28,6 @@ const App = () => {
     const checkLogin = async () => {
       try {
         const data = await checkCookie();
-        console.log('session on start dog ' + data);
         if (data) {
           updateSession();
           setSession(true);
@@ -40,7 +36,7 @@ const App = () => {
         }
         setLoading(false);
       } catch (err) {
-        console.log('Cannot get uid key or api key', err);
+        console.log('Cannot get uid key or API key:', err);
         setSession(false);
         setLoading(false);
       }
@@ -67,7 +63,6 @@ const App = () => {
         <Route path="/home/users" element={<Users />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
         <Route path="/home/about" element={<About />} />
-        {/* <Route path="/yml" element={<Yml />} /> */}
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />

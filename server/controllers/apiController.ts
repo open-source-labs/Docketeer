@@ -1,7 +1,6 @@
 // !
 // !
 // ! Currently not used, is meant to send email alerts
-// currently not used, is meant to send email alerts
 
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
@@ -12,6 +11,7 @@ import { ApiController, ServerError } from '../../types';
 // Function: transporter
 // Purpose: create transporter object to make sure these values are filled out in email.js
 // ==========================================================
+
 const transporter = nodemailer.createTransport({
   host: email.host,
   port: email.port,
@@ -27,20 +27,16 @@ const transporter = nodemailer.createTransport({
  * @description | contains middleware that sends emails to user for container issues and signup information
  **/
 const apiController: ApiController = {
-  //   testing: (req, res, next) => {
-  //   console.log("HELLO WE'RE TESTING!!!")
-  //   res.locals.testingData = "HELLLOOOOO OBJECT HERE"
-  //   return next();
-  // }
   testing: (req: Request, res: Response, next: NextFunction) => {
-    console.log('HELLO WERE TESTING');
-    res.locals.testingData = 'HELLOOOO OBJECT HERE';
+    res.locals.testingData = 'test';
     return next();
   },
+  
   // ==========================================================
   // Middleware: sendEmailAlert
   // Purpose:
   // ==========================================================
+
   sendEmailAlert: (req: Request, res: Response, next: NextFunction) => {
     const { email, containerName, time, date, stopped } = req.body;
     let emailBody: string;
@@ -74,7 +70,7 @@ const apiController: ApiController = {
 
     transporter
       .sendMail(mailDetails)
-      .then((info: any) => {
+      .then(() => {
         return next();
       })
       .catch((err: ServerError) => {
@@ -115,10 +111,10 @@ const apiController: ApiController = {
     // create transporter with Nodemailer to send email.
     transporter
 
-      // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
+    // .sendMail is part of nodemailer package, sends an email and returns a promise with details on the email (info)
 
       .sendMail(mailDetails)
-      .then((info: any) => {
+      .then(() => {
         return next();
       })
       .catch((err: ServerError) => {

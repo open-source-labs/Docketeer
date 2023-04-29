@@ -17,7 +17,6 @@ const alertSlice = createSlice({
       state,
       action: PayloadAction<{ alert: string | null; type: string | null }>
     ) => {
-      // console.log('setAlert payloadAction', action.payload);
       state.alertList = [action.payload.alert, action.payload.type];
     },
     setPrompt: (
@@ -28,7 +27,6 @@ const alertSlice = createSlice({
         handleDeny: (() => void) | null;
       }>
     ) => {
-      // console.log('setPrompt payloadAction', action.payload);
       if (action.payload.handleAccept === null) {
         state.promptList = [];
       }
@@ -67,7 +65,6 @@ export const createAlert = (
       // sending null to clear the alert
       useAppDispatch(setAlert({ alert: null, type: null }));
     }, time * 1000);
-    // console.log({ timeoutId });
   };
 };
 

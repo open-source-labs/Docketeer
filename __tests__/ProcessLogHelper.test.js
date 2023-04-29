@@ -4,6 +4,8 @@ describe('dummy test', () => {
   });
 });  
 
+//Testing for Process logs needs to be implemented
+
 // /**
 //  * @jest-environment jsdom
 //  */

@@ -32,9 +32,7 @@ const useHelper = () => {
             // role_id: role_id,
           }),
         })
-          .then((res) => {
-            console.log('res in createNewUser: ', res);
-            console.log('ab to invoke getUpdatedUserList');
+          .then(() => {
             actions.getUpdatedUserList();
           })
           .catch((err) => {
@@ -42,13 +40,11 @@ const useHelper = () => {
           });
       },
       checkCookie(): Promise<string> {
-        console.log('WORKKKKKKK');
         return fetch('/api/login/checkCookie', {
           method: 'GET',
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log('status', data);
             return data;
           })
           .catch((error) => {
@@ -71,11 +67,10 @@ const useHelper = () => {
             return res.json();
           })
           .then((data) => {
-            console.log('kubernetes-api', data);
             return data;
           })
           .catch((error) => {
-            console.log('error when fetching uid key', error);
+            console.log('Error when fetching uid key', error);
           });
       },
       getKey(): Promise<string> {
@@ -84,21 +79,18 @@ const useHelper = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log('key', data);
             return data;
           })
           .catch((error) => {
-            console.log('error when fetching api key', error);
+            console.log('Error when fetching api key', error);
           });
       },
 
       getUpdatedUserList() {
         const { updateUsers } = dispatch;
-        console.log('ab to fetch -> getUpdatedUserList');
         fetch('/api/admin')
           .then((response) => response.json())
           .then((data) => {
-            // console.log('data from getUpdatedUserList: ', data);
             updateUsers(data);
           })
           .catch((err) => {
@@ -453,17 +445,13 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
-        // console.log('inside of async getLogs');
         try {
-          // console.log('inside of try block');
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),
           });
-          // console.log('response from fetch', response);
           const parsedResponse = await response.json();
-          // console.log('parsed response from fetch', parsedResponse);
           return parsedResponse;
         } catch {
           console.log(err);

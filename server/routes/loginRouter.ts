@@ -17,19 +17,11 @@ router.post(
   userController.verifyUser,
   userController.addCookie,
   (req: Request, res: Response): Response => {
-    console.log('YOOOOOOOOO');
-    // if (res.locals.token) {
-    // res.cookie('admin', res.locals.token, { httpOnly: true });
-    // return res.status(201).json(res.locals.verifiedUser);
-    // } else {
     return res.status(201).json(res.locals.user);
-    // }
-  }
-);
+  });
 
 router.get('/checkCookie', userController.checkCookie, (req: Request, res: Response): Response => {
   return res.status(200).json(res.locals.signedIn);
-}
-);
+});
 
 export default router;

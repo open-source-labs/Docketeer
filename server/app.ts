@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
-import cookieParser from 'cookie-parser'; // for when cookies get implemented
+import cookieParser from 'cookie-parser';
 import * as path from 'path';
 
 const app = express();
@@ -47,24 +47,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('SetupApp'));
 
-// app.use(cookieParser()); // for when cookies get implemented
-
-// check for cookie
-// app.use('/', userController.checkCookie, (req: Request, res: Response): void => {
-//   console.log('cookffffffs', req.headers.cookie, req.cookies);
-//   if (res.locals.notSignedIn) res.redirect('/login');
-//   else res.redirect('/');
-// });
-
 
 // Defining routers...
 
 app.use('/k8', (req: Request, res: Response) => {
-  // const options = {
-  //   headers: {
-  //     'Content-Type': 'application/javascript'
-  //   }
-  // };
   res.status(200).sendFile(path.join(__dirname, '../SetupApp/index.html'));
 });
 

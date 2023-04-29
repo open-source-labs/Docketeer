@@ -53,7 +53,6 @@
 //     };
 
 //     uploadHolder.onchange = (e) => {
-//       console.log('you uploaded')
 //       e.preventDefault();
 //       if (
 //         e.target.files.length &&

@@ -6,7 +6,7 @@
 import { Router, Request, Response } from 'express';
 import userController from '../controllers/userController';
 // import apiController from '../controllers/apiController'; // controller for sending email notification
-// import signupController from '../controllers/signupController';
+
 
 const router = Router();
 

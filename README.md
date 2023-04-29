@@ -115,8 +115,6 @@ The local configuration for Docketeer was setup to be as simple as possible for 
 
 <br />
 
-It's super simple to get started! Follow these 3 steps:
-
 #### STEP 1 — Clone the repository
 
 ```sh

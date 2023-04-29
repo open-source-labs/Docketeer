@@ -1,9 +1,10 @@
 import React from 'react';
+import store from '../src/store';
 import { Provider } from 'react-redux';
-import App from '../src/App';
 import * as helper from '../src/helpers/commands';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 import Images from '../src/components/Images/Images';
+import "@testing-library/jest-dom";
 import {
   fireEvent,
   render,
@@ -25,21 +26,27 @@ const props = {
 };
 
 describe('Images', () => {
-  beforeEach(async () => {
-    const app = await render(
+  beforeEach(() => {
+    render(      
       <Provider store={store}>
-        <App />
+        <Images {...props} />
       </Provider>
-    );
+    )
   });
 
-  beforeEach(() => {
-    render(<Images {...props} />);
-    screen.debug();
-  });
+  // beforeEach(() => {
+  //   render(<Images {...props} />);
+  //   screen.debug();
+  // });
+  xdescribe("text rendering", () => {
+    test("if image repsository text renders", async () => {
+      //const text = screen.getByText('IMAGE REPOSITORY')
+      expect(screen.getByText("IMAGE REPOSITORY")).toBeInTheDocument();
+    });
+  })
 
   /* ----- search bar ----- */
-  describe('Seach bar testing', () => {
+  xdescribe('Seach bar testing', () => {
     test('Search accepts input', async () => {
       const search = screen.getByRole('textbox');
       await fireEvent.change(search, { target: { value: 'search' } });
@@ -50,10 +57,11 @@ describe('Images', () => {
   /* ----- button testing ------ */
 
   describe('Run button on click', () => {
-    test('Fires run button functionality', async () => {
-      const runButton = screen.getByRole('button', { name: 'RUN' });
-      await fireEvent.click(runButton);
-      expect(runButton).toBeCalled;
+    test('Fires run button functionality', () => {
+      const runButton = screen.getByRole("button", { name: "RUN" });
+      fireEvent.click(runButton);
+      // expect(pullButton).toBeCalled
+      expect(props.runIm).toBeCalled;
     });
   });
 

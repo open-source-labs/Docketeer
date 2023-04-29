@@ -12,7 +12,7 @@ const Metrics = (): JSX.Element => {
 
   useEffect(() => {
     /** 
-    * Retrieves the API and UID key 
+    * @description Retrieves the API and UID key 
     * @method
     * @async
     * @returns {promise} returns promise when api key and uid key is successfully set
@@ -34,11 +34,9 @@ const Metrics = (): JSX.Element => {
     setFrame((prevFrame) => (prevFrame === 1 ? 2 : 1));
   };
 
-  /*
-    * Changes the container metrics dashboard to the kubernetes dashboard
-    * @method
+  /** 
+    * @description Changes the container metrics dashboard to the kubernetes dashboard
     * @params {string} dashboard, new dashboard page to set to as the current page
-    * @async
     * @returns {promise} returns promise when dashboard and uid key is successfully set
   */
   const changePage = async (dashboard) => {

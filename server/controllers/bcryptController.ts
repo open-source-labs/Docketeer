@@ -1,7 +1,7 @@
-import db from '../database/cloudModel';
-import bcrypt from 'bcryptjs';
-import { Request, Response, NextFunction } from 'express';
-import { BcryptController } from '../../types';
+import db from "../database/cloudModel";
+import bcrypt from "bcryptjs";
+import { Request, Response, NextFunction } from "express";
+import { BcryptController } from "../../types";
 
 /**
  * @description A controller to handle hashing of passwords and cookies
@@ -23,7 +23,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
+            err: "An error occured creating hash with bcrypt. See bcryptController.hashPassword.",
           },
         });
       });
@@ -43,41 +43,37 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
-            err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.',
+            err: "An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.",
           },
         });
       });
   },
 
   hashCookie: (req: Request, res: Response, next: NextFunction): void => {
-    const { role_id, username }: { role_id: number; username: string } =
-      res.locals.user;
+    const { username }: { username: string } = res.locals.user;
     const saltRounds = 10;
-    if (role_id === 1) {
-      bcrypt
-        .hash(res.locals.cookie, saltRounds)
-        .then((hash: string): void => {
-          res.locals.user.token = hash;
-          db.query(
-            'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
-          );
-          db.query('UPDATE users SET token=$1 WHERE username=$2', [
-            res.locals.user.token,
-            username,
-          ]);
-          return next();
-        })
-        .catch((err: Error): void => {
-          return next({
-            log: `Error in bcryptController hashCookeis: ${err}`,
-            message: {
-              err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
-            },
-          });
+    bcrypt
+      .hash(res.locals.cookie, saltRounds)
+      .then((hash: string): void => {
+        res.locals.user.token = hash;
+        db.query(
+          "ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)"
+        );
+        db.query("UPDATE users SET token=$1 WHERE username=$2", [
+          res.locals.user.token,
+          username,
+        ]);
+        return next();
+      })
+      .catch((err: Error): void => {
+        return next({
+          log: `Error in bcryptController hashCookeis: ${err}`,
+          message: {
+            err: "An error occured creating hash with bcrypt. See bcryptController.hashCookies.",
+          },
         });
-    } else {
-      return next();
-    }
+      });
+    return next();
   },
 };
 

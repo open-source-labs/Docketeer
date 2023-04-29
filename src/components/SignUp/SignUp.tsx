@@ -44,7 +44,7 @@ const SignUp = (): JSX.Element => {
 
     // checDbInit() is a function that checks if the database has been initialized
     checkDbInit();
-    createNewUser(signUpValues.username, signUpValues.password, '1');
+    createNewUser(signUpValues.username, signUpValues.password);
 
     setSignUpValues({
       username: '',

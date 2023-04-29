@@ -25,7 +25,6 @@ import logoutRouter from '../server/routes/logoutRouter';
 // });
 
 app.use('/account', accountRouter);
-app.use('/admin', adminRouter);
 app.use('/gapi', apiRouter);
 app.use('/api', apiRouter);
 app.use('command', commandRouter);
@@ -33,16 +32,17 @@ app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
-// app.use('/settings', settingsRouter);
 app.use('/signup', signupRouter);
 
-/* all route testing needed */
+/* all route testing except /gapi needed */
 
 // Notes from 9.0: There is no testing database / server set up, so post request testing will not work right now.
 // account route
 
+//assign testKey to be used in uid test 
 let testKey;
 
+// checking for false negatives
 describe('test test', () => {
   test('Get request', async () => {
     const res = await request(app)
@@ -53,6 +53,7 @@ describe('test test', () => {
   });
 })
 
+//make sure run dev is on to test!
 //container has to be running for key test to pass OR use localhost link commented out above in grafanaApiController
 describe('key test ', () => {
   test('Get request', async () => {
@@ -63,6 +64,7 @@ describe('key test ', () => {
   });
 });
 
+//because this is testing the grafana api with minikube metrics, your minikube must be running and you must have helm and grafana set up with port forwarding at localhost;/3000 for this to pass
 describe('uid test', () => {
   test('Post request', async () => {
     const requestBody = {

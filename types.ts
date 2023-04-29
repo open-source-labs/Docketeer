@@ -12,7 +12,6 @@ interface User extends UserBase {
   username: string;
   password: string;
   // changed role_id from number to string check if that broke anything (from previous group)
-  role_id: string;
 }
 
 // ? not used anymore?
@@ -59,7 +58,6 @@ export interface userReducerStateType {
   email: string;
   phone: string;
   role: string;
-  role_id: string;
   contact_pref: string;
   mem_threshold: string;
   cpu_threshold: string;

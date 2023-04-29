@@ -205,9 +205,7 @@ const Images = (): JSX.Element => {
                       <button
                         className={globalStyles.buttonSmall}
                         onClick={() => runImage(image)}
-                      >
-                        RUN
-                      </button>
+                      >RUN</button>
                       <button
                         className={globalStyles.buttonSmall}
                         onClick={() => removeImage(image)}

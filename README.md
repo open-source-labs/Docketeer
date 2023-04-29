@@ -144,7 +144,8 @@ Run the following command and then navigate to localhost:3003:
 npm run dev
 ``` 
 
-If you haven't set up Prometheus-Operator with us before, click the first button to install.
+If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+<br />
 Otherwise, you can skip the first button and go on with the next two!
 
 #### STEP 2 — Docker compose up

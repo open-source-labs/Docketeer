@@ -263,9 +263,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Show your support
+## Show Your Support
 
-Give a ⭐️ if this project helped you!
+Please ⭐️ this project if you found it helpful, thank you!
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge

@@ -129,7 +129,7 @@ function SharedLayout(): JSX.Element {
     writeToDb();
     networkContainers();
     getAllDockerVolumes();
-    setAdminToken();
+    // setAdminToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -155,25 +155,25 @@ function SharedLayout(): JSX.Element {
   }, []);
 
   // Pertains to sysAdmin only
-  const setAdminToken = async (): Promise<void> => {
-    try {
-      const response = await fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: userData.token,
-          username: userData.username,
-        }),
-      });
-      const parsedData = await response.json();
+  // const setAdminToken = async (): Promise<void> => {
+  //   try {
+  //     const response = await fetch('/api/admin', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         token: userData.token,
+  //         username: userData.username,
+  //       }),
+  //     });
+  //     const parsedData = await response.json();
 
-      updateUser(parsedData);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //     updateUser(parsedData);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <div className={styles.wrapper}>

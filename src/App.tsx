@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from './reducers/hooks';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
@@ -23,7 +23,7 @@ const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { updateSession } = useSurvey();
   const { checkCookie } = useHelper();
-  
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<boolean | undefined>(undefined);
 
@@ -46,7 +46,7 @@ const App = () => {
       }
     };
     checkLogin();
-  }, [checkCookie, updateSession]);
+  }, [location.pathname, checkCookie, updateSession]);
 
   if (loading) {
     return <div>Loading...</div>;

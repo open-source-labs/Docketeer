@@ -72,6 +72,7 @@ const Login = (): JSX.Element => {
         )
       );
       // Navigate to root route
+      console.log(data);
       navigate('/');
     } catch (err) {
       // Alert user upon wrong username or password entry using an alert.

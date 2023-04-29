@@ -61,15 +61,9 @@
   <ol>
       <br />
     <li>
-      <a href="#about-the-project">About Docketeer</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-    </li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <a href="#about-the-project">About Docketeer</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#in-development">In Development</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -79,6 +73,12 @@
 <br />
 
 ## About The Project
+
+<div align="center" width="100%">
+            
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+
+</div>
 
 <br />
   <div align="center">
@@ -91,18 +91,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
-
-<div align="center" width="100%">
-            
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
-
-</div>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-### Features
+### Features:
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
 - It aims to simplify the development process for projects that use Docker containers.
@@ -118,16 +107,9 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- INSTALLATION -->
 
-<br />
-  <div align="center">
-    <img src="assets/Metrics.gif" alt="Logo" width="fit" height="auto">
-  </div>
-<br />
-
-<!-- GETTING STARTED -->
-
-## Getting Started
+## Installation
 
 The local configuration for Docketeer was setup to be as simple as possible for the end-user. Follow the steps below to get started with Docketeer.
 
@@ -169,10 +151,9 @@ http://localhost:4000/
 
 
 
-<!-- ROADMAP -->
+<!-- IN DEVELOPMENT -->
 
-## Roadmap
-The future of Docketeer?
+## In Development
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
 - [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.

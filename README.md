@@ -163,7 +163,7 @@ http://localhost:4000/
 
 <!-- ROADMAP -->
 
-## Roadmap: The future of Docketeer?
+## Roadmap
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
 - [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.

@@ -57,7 +57,6 @@ describe('test test', () => {
 describe('key test ', () => {
   test('Get request', async () => {
     const res = await request(app).get('/gapi/key');
-    console.log(res.body);
     expect(typeof res.body).toBe('string');
     expect(res.status).toBe(200);
     testKey = res.body
@@ -66,7 +65,6 @@ describe('key test ', () => {
 
 describe('uid test', () => {
   test('Post request', async () => {
-    console.log('WE HERE', testKey)
     const requestBody = {
       key: testKey,
       dashboard: 'Node Exporter / Nodes',
@@ -75,7 +73,6 @@ describe('uid test', () => {
       .post('/gapi/uidkey')
       // .set('Content-Type', 'application/json')
       .send(requestBody);
-    console.log('RES BODY', res.body)
     expect(typeof res.body).toBe('string');
     expect(res.status).toBe(200);
   });

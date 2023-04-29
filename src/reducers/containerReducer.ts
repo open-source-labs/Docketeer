@@ -17,7 +17,6 @@ export const containerSlice = createSlice({
   initialState,
   reducers: {
     stopRunningContainer: (state, action: PayloadAction<string>) => {
-      console.log('action.payload', action.payload);
       state.runningList.filter((container) => container.ID !== action.payload);
     },
     runStoppedContainer: (state, action: PayloadAction<string>) => {

@@ -34,7 +34,6 @@ const Metrics = (): JSX.Element => {
     setUidKey(uid);
   };
 
-  console.log(uidKey);
   return (
     <div className={styles.wrapper}>
       <h2>METRICS DASHBOARD</h2>

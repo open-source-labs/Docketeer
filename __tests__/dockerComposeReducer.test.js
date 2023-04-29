@@ -4,6 +4,8 @@ describe('dummy test', () => {
   });
 });  
 
+//Docker Compose testing needs refactoring
+
 // import dockerComposeReducer from '../src/redux/reducers/dockerComposeReducer'
 // import { describe, beforeEach, expect, test, jest } from '@jest/globals'
 // import '@testing-library/jest-dom'

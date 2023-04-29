@@ -7,7 +7,8 @@ import { UserController, ServerError, UserInfo } from '../../types';
 // const secret = JWT_SECRET;
 
 /**
- * @description Contains middleware that creates new user in database, gets all users from database for system admin, and verifies user exists before sending back user data to login component
+ * @description Contains middleware that creates new user in database, gets all users from database verifies if user exists before sending back user data to login component
+ * v12.0 implemented cookies for user sessions and commented out all system admin implementaion since it was nonfunctional
  */
 
 const userController: UserController = {
@@ -16,14 +17,13 @@ const userController: UserController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-    console.log('in userController.createUser');
 
     try {
       const {
         username,
         password,
         // role_id,
-      }: { username: string; password: string;} = req.body;
+      }: { username: string; password: string; } = req.body;
       // hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -48,9 +48,6 @@ const userController: UserController = {
       // create an array, userDetails, to hold values from our createUser SQL query placeholders.
       const userDetails: string[] = [username, hashedPassword];
       const createdUser = await db.query(createUser, userDetails);
-
-      console.log('createdUser: ', createdUser.rows[0]);
-
       res.locals.user = createdUser.rows[0];
       return next();
     } catch (err: unknown) {
@@ -107,12 +104,10 @@ const userController: UserController = {
       req.body;
     // using username we create a query string to grab that user
     const getUser = 'SELECT * FROM users WHERE username=$1;';
-    //   using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
+    // using bcrypt we check if client's password input matches the password of that username in the db; we then add to locals accordingly
     db.query(getUser, [username])
       .then(async (data: any) => {
-        console.log(data.rows[0]);
         const match = await bcrypt.compare(password, data.rows[0].password);
-        console.log(match);
         if (!data.rows[0] || !match) {
           return next({
             log: 'Error in userController\'s verifyUser method',
@@ -124,9 +119,8 @@ const userController: UserController = {
         }
         const verifiedUser = data.rows[0];
         res.locals.user = verifiedUser;
-        console.log('verified user', verifiedUser);
         return next();
-    
+
         // const verifiedRole = verifiedUser.role;
         // if (verifiedRole === 'system admin') {
         //   await jwt.sign({ verifiedRole }, secret, (err, token) => {
@@ -157,11 +151,8 @@ const userController: UserController = {
       });
   },
 
-  
 
   updatePassword: (req: Request, res: Response, next: NextFunction): void => {
-    // if there is an error property on res.locals, return next(). i.e., incorrect password entered
-
     const { newHashedPassword }: { newHashedPassword: string } = res.locals as {
       newHashedPassword: string;
     };
@@ -226,29 +217,29 @@ const userController: UserController = {
       });
   },
 
+  // adding cookie  
   addCookie: (req: Request, res: Response, next: NextFunction): void => {
-    console.log('we are adding the cookie here right now');
     res.cookie('loggedIn', true);
     return next();
   },
 
+  // verify cookie on refresh
   checkCookie: (req: Request, res: Response, next: NextFunction): void => {
     if (req.cookies.loggedIn) res.locals.signedIn = true;
     else res.locals.signedIn = false;
     return next();
   },
 
+  // remove cookie on logout
   removeCookie: (req: Request, res: Response, next: NextFunction): void => {
-    console.log('abt to rmv cookie');
     res.clearCookie('loggedIn');
-    console.log('cookied rmvd');
     res.locals.loggedOut = true;
     return next();
   },
 };
 export default userController;
 
-// not currently in use.
+// not currently in use (from v12.0)
 
 // switches role of user upon designation by system admin
 // switchUserRole: (req: Request, res: Response, next: NextFunction) => {
@@ -303,7 +294,6 @@ export default userController;
 //         });
 //       }
 //       const verifiedUser = data.rows[0];
-//       console.log('verified user', verifiedUser);
 //       res.locals.verifiedUser = verifiedUser;
 //       const verifiedRole = verifiedUser.role;
 //       if (verifiedRole === 'system admin') {

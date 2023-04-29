@@ -16,7 +16,6 @@ export const volumeSlice = createSlice({
   initialState,
   reducers: {
     getVolumes: (state, action: PayloadAction<VolumeNameObj[]>) => {
-      // console.log('arrayOfVolumeNames', action.payload);
       state.arrayOfVolumeNames.push(...action.payload);
     },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {

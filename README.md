@@ -140,7 +140,7 @@ git clone https://github.com/open-source-labs/Docketeer.git
 #### STEP 1.5 - Need to set up your Kubernetes cluster to work with Docketeer?
 
 Run
-```sh
+```
 npm run dev
 ```
 and navigate to localhost:3003.

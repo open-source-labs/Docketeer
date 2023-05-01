@@ -5,7 +5,6 @@ import ContainersCard from "../src/components/ContainersCard/ContainersCard";
 import { describe, beforeEach, expect, test, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
 import store from "../src/store";
 
 const props = {
@@ -36,8 +35,6 @@ const props = {
   status: 'running'
 };
 
-fetchMock.enableMocks();
-
 describe("Containers", () => {
   test("Containers component should render", () => {
      render(
@@ -48,7 +45,7 @@ describe("Containers", () => {
    });
 
   describe('ContainersCard', () => {
-    test('renders correctly', () => {
+    test('ContainersCard component should render', () => {
       render(
         <ContainersCard
           containerList={props.runningList}

@@ -120,7 +120,7 @@ Follow the steps below to get started with Docketeer.
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-#### STEP 1.5 - Need to set up your Kubernetes cluster to work with Docketeer?
+#### STEP 1.5 — Need to set up your Kubernetes cluster to work with Docketeer?
 
 Run the following command and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
 ```sh

@@ -32,38 +32,25 @@ const props = {
   stop: jest.fn(),
   remove: jest.fn(),
   runStopped: jest.fn(),
-  status: 'running'
+  status: "running",
 };
 
 describe("Containers", () => {
   test("Containers component should render", () => {
-     render(
-       <Provider store={store}>
-         <Containers />
-       </Provider>
-     );
-   });
-
-  describe('ContainersCard', () => {
-    test('ContainersCard component should render', () => {
-      render(
-        <ContainersCard
-          containerList={props.runningList}
-          stopContainer={props.stop}
-          runContainer={props.runStopped}
-          removeContainer={props.remove}
-          status={props.status}
-        />
-      );
-    });
+    render(
+      <Provider store={store}>
+        <Containers />
+      </Provider>
+    );
   });
 
   describe("Running List containers", () => {
     beforeEach(() => {
-      render(<Provider store={store}>
-        <Containers {...props} />
-      </Provider>
-      )
+      render(
+        <Provider store={store}>
+          <Containers {...props} />
+        </Provider>
+      );
       render(
         <ContainersCard
           containerList={props.runningList}
@@ -111,5 +98,19 @@ describe("Containers", () => {
       expect(runStopped).toBeCalled;
       expect(remove).toBeCalled;
     });
+  });
+});
+
+describe("ContainersCard", () => {
+  test("ContainersCard component should render", () => {
+    render(
+      <ContainersCard
+        containerList={props.runningList}
+        stopContainer={props.stop}
+        runContainer={props.runStopped}
+        removeContainer={props.remove}
+        status={props.status}
+      />
+    );
   });
 });

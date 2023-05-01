@@ -12,7 +12,7 @@ interface GrafanaResponse {
 const grafanaApiController: GrafanaApiController = {
   getApi: async (req, res, next): Promise<void> => {
     try {
-      const response = await fetch('http://host.docker.internal:3000/api/auth/keys', {
+      const response = await fetch('http://localhost:3000/api/auth/keys', {
         method: 'POST',
         // mode: 'no-cors',
         headers: {
@@ -50,9 +50,7 @@ const grafanaApiController: GrafanaApiController = {
     const { key, dashboard }: { key: string; dashboard: string } = req.body;
     try {
       const response = await fetch(
-        `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(
-          dashboard
-        )}`,
+        `http://localhost:3000/api/search?query=${encodeURIComponent(dashboard)}`,
         {
           method: 'GET',
           headers: {

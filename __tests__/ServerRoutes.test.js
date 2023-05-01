@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 import accountRouter from '../server/routes/accountRouter';
-import adminRouter from '../server/routes/adminRouter';
+
 import apiRouter from '../server/routes/apiRouter';
 import commandRouter from '../server/routes/commandRouter';
 import signupRouter from '../server/routes/signupRouter';
@@ -25,7 +25,6 @@ import logoutRouter from '../server/routes/logoutRouter';
 // });
 
 app.use('/account', accountRouter);
-app.use('/admin', adminRouter);
 app.use('/gapi', apiRouter);
 app.use('/api', apiRouter);
 app.use('command', commandRouter);

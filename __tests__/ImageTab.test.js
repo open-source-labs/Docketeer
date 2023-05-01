@@ -1,7 +1,8 @@
 import React from 'react';
 import store from '../src/store';
 import { Provider } from 'react-redux';
-import * as helper from '../src/helpers/commands';
+//import useHelper, * as helper from '../src/helpers/commands';
+import {useHelper} from "../src/helpers/commands"
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 import Images from '../src/components/Images/Images';
 import "@testing-library/jest-dom";
@@ -10,7 +11,10 @@ import {
   render,
   screen,
 } from '@testing-library/react';
+import { isJSDocSeeTag } from 'typescript';
+import ReactDOM from "react-dom";
 
+  /* ----- fake data  ------ */
 const props = {
   imagesList: [
     {
@@ -26,27 +30,26 @@ const props = {
 };
 
 describe('Images', () => {
+  const div = document.createElement("div");
   beforeEach(() => {
-    render(      
+
+    render(
       <Provider store={store}>
-        <Images {...props} />
+        <Images imagesList={props.imagesList[0]} />
       </Provider>
-    )
+    );
   });
 
-  // beforeEach(() => {
-  //   render(<Images {...props} />);
-  //   screen.debug();
-  // });
-  xdescribe("text rendering", () => {
-    test("if image repsository text renders", async () => {
-      //const text = screen.getByText('IMAGE REPOSITORY')
+    /* ----- heading ------ */
+  describe("Text renders on page", () => {
+    test("Image repository is present on screen", async () => {
+      const text = screen.getByText('IMAGE REPOSITORY')
       expect(screen.getByText("IMAGE REPOSITORY")).toBeInTheDocument();
     });
   })
 
   /* ----- search bar ----- */
-  xdescribe('Seach bar testing', () => {
+  describe('Seach bar testing', () => {
     test('Search accepts input', async () => {
       const search = screen.getByRole('textbox');
       await fireEvent.change(search, { target: { value: 'search' } });
@@ -54,30 +57,9 @@ describe('Images', () => {
     });
   });
 
-  /* ----- button testing ------ */
-
-  describe('Run button on click', () => {
-    test('Fires run button functionality', () => {
-      const runButton = screen.getByRole("button", { name: "RUN" });
-      fireEvent.click(runButton);
-      // expect(pullButton).toBeCalled
-      expect(props.runIm).toBeCalled;
-    });
-  });
-
-
-  describe('Remove button on click', () => {
-    test('Fires remove button functionality', async () => {
-      const removeButton = screen.getByRole('button', { name: 'REMOVE' });
-      await fireEvent.click(removeButton);
-      expect(removeButton).toBeCalled;
-    });
-  });
-
-  // currently gets stuck at window.runExec method --> reads undefined
+  /* ----- pull button click  ------ */
   describe('pull button on click', () => {
     test('fires pull button functionality', () => {
-      // const { container } = render(<Images {...props} />);
       const pullButton = screen.getByRole('button', { name: 'PULL' });
       fireEvent.click(pullButton);
       expect(pullButton).toBeCalled;
@@ -85,16 +67,31 @@ describe('Images', () => {
     });
   });
 
-  describe('Images', () => {
-    test('Renders an image if one is found', () => {
-      const name = screen.getByText('Redis');
-      const id = screen.getByText('2718634043dc');
-      const size = screen.getByText('111 MB');
-      const tag = screen.getByText(16.4);
-      expect(name).toBeDefined;
-      expect(id).toBeDefined;
-      expect(size).toBeDefined;
-      expect(tag).toBeDefined;
+  /* -----  image cards render  ------ */
+  describe('Images Card Testing', () => {
+    //render(<Provider store={store}><Images imagesList={props.imagesList[0]} /></Provider>);
+    test("Run images button clicks", () => {
+      const runButton = screen.getByRole('button', { name: 'RUN' });
+      expect(runButton).toBeInTheDocument()
+      fireEvent.click(runButton);
+      expect(Images.runIm).toBeCalled;
+    });
+    test('Remove image button clicks', () => {
+      const removeButton = screen.getByRole('button', { name: 'REMOVE' });
+      expect(removeButton).toBeInTheDocument()
+      fireEvent.click(removeButton);
+      expect(Images.removeIm).toBeCalled;
+    })
+    test("Renders an image if one is found", () => {
+      const redisImage = screen.getByText(/Redis/i);
+      const imageId = screen.getByText(/Image ID: 2718634043dc/i);
+      const imageSize = screen.getByText(/Image Size: 111 MB/i);
+      const imageTag = screen.getByText(/16.4/i);
+
+      expect(redisImage).toBeInTheDocument();
+      expect(imageId).toBeInTheDocument();
+      expect(imageSize).toBeInTheDocument();
+      expect(imageTag).toBeInTheDocument();
+    });
     });
   });
-});

@@ -5,6 +5,7 @@ import ContainersCard from "../src/components/ContainersCard/ContainersCard";
 import { describe, beforeEach, expect, test, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
+import fetchMock from "jest-fetch-mock";
 import store from "../src/store";
 
 const props = {
@@ -32,26 +33,57 @@ const props = {
   stop: jest.fn(),
   remove: jest.fn(),
   runStopped: jest.fn(),
+  status: 'running'
 };
 
+fetchMock.enableMocks();
+
 describe("Containers", () => {
-  beforeEach(() => {
-    render(
-      <Provider store={store}>
-        <Containers {...props}/>
-      </Provider>
-    );
+  test("Containers component should render", () => {
+     render(
+       <Provider store={store}>
+         <Containers />
+       </Provider>
+     );
+   });
+
+  describe('ContainersCard', () => {
+    test('renders correctly', () => {
+      render(
+        <ContainersCard
+          containerList={props.runningList}
+          stopContainer={props.stop}
+          runContainer={props.runStopped}
+          removeContainer={props.remove}
+          status={props.status}
+        />
+      );
+    });
   });
 
   describe("Running List containers", () => {
+    beforeEach(() => {
+      render(<Provider store={store}>
+        <Containers {...props} />
+      </Provider>
+      )
+      render(
+        <ContainersCard
+          containerList={props.runningList}
+          stopContainer={props.stop}
+          runContainer={props.runStopped}
+          removeContainer={props.remove}
+          status={props.status}
+        />
+      );
+    });
+
     test("Should have render correct amount of running containers", () => {
-      const runningContainers = screen.getByText("RUNNING CONTAINERS");
-      
-      console.log(runningContainers);
+      expect(screen.getByText(/1/i)).toBeInTheDocument();
     });
 
     xtest("Name of container should properly display", () => {
-      const h3 = screen.getAllByRole("heading", { level: 3 });
+      const h3 = div.querySelectorAll(h3);
       const name = h3[0].innerHTML;
       expect(name).toEqual("blissful_matsumoto");
     });
@@ -65,10 +97,7 @@ describe("Containers", () => {
 
   describe("Stopped List Containers", () => {
     xtest("Should have render correct amount of containers", () => {
-      const exitedContainers = screen.getByText("EXITED CONTAINERS");
-      expect(exitedContainers.nextSibling.innerText).toBe(
-        `Count: ${props.stoppedList.length}`
-      );
+      expect(div.querySelectorAll("p")[1].textContent).toBe("Count: 1");
     });
 
     xtest("Name of container should properly display", () => {

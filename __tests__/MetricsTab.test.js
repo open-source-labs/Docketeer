@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 import Metrics from '../src/components/Metrics/Metrics';
-import {
-  describe,
-  expect,
-  test,
-  beforeEach,
-  afterEach,
-  jest,
-} from '@jest/globals';
+import { describe, expect, test, beforeEach } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import store from '../src/store';
-import { act } from 'react-test-renderer';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import { async } from 'regenerator-runtime';
 
 fetchMock.enableMocks();
 

@@ -122,7 +122,7 @@ git clone https://github.com/open-source-labs/Docketeer.git
 
 #### STEP 1.5 - Need to set up your Kubernetes cluster to work with Docketeer?
 
-Run the following command and then navigate to localhost:3003:
+Run the following command and then navigate to <a href="http://localhost:4001/api/k8"></a>:
 ```sh
 npm run dev
 ``` 
@@ -133,7 +133,7 @@ Otherwise, you can skip the first button and go on with the next two!
 
 #### STEP 2 — Docker compose up
 
-Go back to your terminal and make sure you're in the Docketeer directory. Then run
+Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
 ```sh
 docker compose up
 ```

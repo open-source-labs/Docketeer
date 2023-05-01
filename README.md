@@ -12,13 +12,17 @@
 -->
 
 
+<div align="center" width="100%">   
+            
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-  
+            
+</div>
+            
 <!-- PROJECT LOGO -->
 
 
@@ -29,7 +33,7 @@
     <img src="assets/DockLogo.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
-  https://www.docketeer.org/
+  https://www.docketeer.io/
 <br/>
   
    <br /> 
@@ -57,20 +61,9 @@
   <ol>
       <br />
     <li>
-      <a href="#about-the-project">About Docketeer</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <a href="#about-the-project">About Docketeer</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#in-development">In Development</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -80,6 +73,12 @@
 <br />
 
 ## About The Project
+
+<div align="center" width="100%">
+            
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+
+</div>
 
 <br />
   <div align="center">
@@ -92,17 +91,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
-
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
-
-
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-#### Features:
+### Features:
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
 - It aims to simplify the development process for projects that use Docker containers.
@@ -118,22 +107,12 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- INSTALLATION -->
 
-<br />
-  <div align="center">
-    <img src="assets/Metrics.gif" alt="Logo" width="fit" height="auto">
-  </div>
-<br />
+## Installation
 
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-The local configuration for Docketeer was setup to be as simple as possible for the end-user. Follow the steps below to get started with Docketeer.
-
-<br />
-
-It's super simple to get started! Follow these 3 steps:
+The local configuration for Docketeer was setup to be as simple as possible for the end-user. <br />
+Follow the steps below to get started with Docketeer.
 
 #### STEP 1 — Clone the repository
 
@@ -141,8 +120,20 @@ It's super simple to get started! Follow these 3 steps:
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
+#### STEP 1.5 - Need to set up your Kubernetes cluster to work with Docketeer?
+
+Run the following command and then navigate to localhost:3003:
+```sh
+npm run dev
+``` 
+
+If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+<br />
+Otherwise, you can skip the first button and go on with the next two!
+
 #### STEP 2 — Docker compose up
 
+Go back to your terminal and make sure you're in the Docketeer directory. Then run
 ```sh
 docker compose up
 ```
@@ -157,11 +148,9 @@ http://localhost:4000/
 
 
 
+<!-- IN DEVELOPMENT -->
 
-<!-- ROADMAP -->
-
-## Roadmap
-The future of Docketeer?
+## In Development
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
 - [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.
@@ -274,9 +263,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Show your support
+## Show Your Support
 
-Give a ⭐️ if this project helped you!
+Please ⭐️ this project if you found it helpful, thank you!
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge

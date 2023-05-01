@@ -9,6 +9,14 @@ import { SetupController } from '../../types';
  */
 
 const setupController: SetupController = {
+  /**
+   * @description Middleware function that runs 3 commands to set up Prometheus
+   * 1. Installs prometheus using helm
+   * 2. Updates the helm version
+   * 3. Installs prometheus into your k8 cluster
+   * @params {req, response, next}
+   * @returns {void} just runs the 3 commands to install prometheus, doesn't return anything
+   */
   promInstall: (req: Request, res: Response, next: NextFunction): void => {
     spawnSync(
       'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts',
@@ -30,7 +38,9 @@ const setupController: SetupController = {
     );
     return next();
   },
-
+  /**
+   *@description Applies grafana to the k8 cluster
+   */
   applyGraf: (req: Request, res: Response, next: NextFunction): void => {
     let pod: string;
     const getPods = exec('kubectl get pods', (err, stdout, stderr) => {
@@ -63,7 +73,9 @@ const setupController: SetupController = {
     });
   },
 
-
+  /**
+   * @description Forwards port to 3000 so that metrics can be accessed and viewed in the web browser
+   */
   portForward: (req: Request, res: Response, next: NextFunction): void => {
     let podStatus: string;
     while (podStatus !== 'Running') {

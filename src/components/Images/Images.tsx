@@ -12,26 +12,28 @@ import globalStyles from '../global.module.scss';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
-const Images = (): JSX.Element => {
-  const imagesList = useAppSelector((state) => state.images.imagesList);
-  const [repo, setRepo] = useState('');
+const Images = ({ imagesList: initialImagesList }): JSX.Element => {
+  //const imagesList = useAppSelector((state) => state.images.imagesList);
+  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
+  const imagesList = initialImagesList ? [initialImagesList] : reduxImagesList;
+  const [repo, setRepo] = useState("");
   const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();
-  
+
   const handleClick = () => {
     if (!repo) {
       dispatch(
         createAlert(
-          'Please enter an image name prior to attempting to pull.',
+          "Please enter an image name prior to attempting to pull.",
           5,
-          'error'
+          "error"
         )
       );
       return;
     } else {
       let existingRepo = false;
-      if (repo.includes(':')) {
-        const splitRepo = repo.split(':');
+      if (repo.includes(":")) {
+        const splitRepo = repo.split(":");
         imagesList.map((el) => {
           if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
             existingRepo = true;
@@ -43,9 +45,9 @@ const Images = (): JSX.Element => {
         if (existingRepo === true) {
           dispatch(
             createAlert(
-              'This image already exists within your Docketeer image collection.',
+              "This image already exists within your Docketeer image collection.",
               5,
-              'error'
+              "error"
             )
           );
           return;
@@ -55,14 +57,14 @@ const Images = (): JSX.Element => {
               `Are you sure you want to pull ${repo}?`,
               () => {
                 pullImage(repo);
-                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+                dispatch(createAlert(`Pulling ${repo}...`, 5, "success"));
               },
               () => {
                 dispatch(
                   createAlert(
                     `The request to pull ${repo} has been cancelled.`,
                     5,
-                    'warning'
+                    "warning"
                   )
                 );
               }
@@ -72,7 +74,7 @@ const Images = (): JSX.Element => {
         }
       } else {
         imagesList.map((el) => {
-          if (el.reps === repo && el.tag === 'latest') {
+          if (el.reps === repo && el.tag === "latest") {
             existingRepo = true;
             return;
           }
@@ -82,9 +84,9 @@ const Images = (): JSX.Element => {
         if (existingRepo === true) {
           dispatch(
             createAlert(
-              'This image already exists within your Docketeer image collection.',
+              "This image already exists within your Docketeer image collection.",
               5,
-              'error'
+              "error"
             )
           );
           return;
@@ -94,14 +96,14 @@ const Images = (): JSX.Element => {
               `Are you sure you want to pull ${repo}?`,
               () => {
                 pullImage(repo);
-                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+                dispatch(createAlert(`Pulling ${repo}...`, 5, "success"));
               },
               () => {
                 dispatch(
                   createAlert(
                     `The request to pull ${repo} has been cancelled.`,
                     5,
-                    'warning'
+                    "warning"
                   )
                 );
               }
@@ -115,7 +117,7 @@ const Images = (): JSX.Element => {
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src =
-      'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
+      "https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png";
   };
 
   const runImage = (image: ImageObj) => {
@@ -125,14 +127,14 @@ const Images = (): JSX.Element => {
           `Are you sure you want to run ${image.reps}?`,
           () => {
             runIm(image);
-            dispatch(createAlert(`Running ${image.reps}...`, 5, 'success'));
+            dispatch(createAlert(`Running ${image.reps}...`, 5, "success"));
           },
           () => {
             dispatch(
               createAlert(
                 `The request to run ${image.reps} has been cancelled.`,
                 5,
-                'warning'
+                "warning"
               )
             );
           }
@@ -148,14 +150,14 @@ const Images = (): JSX.Element => {
           `Are you sure you want to remove ${image.reps}?`,
           () => {
             removeIm(image.imgid);
-            dispatch(createAlert(`Removing ${image.reps}...`, 5, 'success'));
+            dispatch(createAlert(`Removing ${image.reps}...`, 5, "success"));
           },
           () => {
             dispatch(
               createAlert(
                 `The request to remove ${image.reps} has been cancelled.`,
                 5,
-                'warning'
+                "warning"
               )
             );
           }

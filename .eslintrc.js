@@ -27,7 +27,7 @@ module.exports = {
     indent: ['warn', 2],
     'no-unused-vars': ['off', { vars: 'local' }],
     'prefer-const': 'warn',
-    quotes: ['warn', 'single'],
+    'quotes': [2, 'single', { 'avoidEscape': true }],
     semi: ['warn', 'always'],
     'space-infix-ops': 'warn',
     'no-console': 'off',

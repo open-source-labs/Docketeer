@@ -29,7 +29,6 @@ const useHelper = () => {
           body: JSON.stringify({
             username: username,
             password: password,
-            // role_id: role_id,
           }),
         })
           .then(() => {

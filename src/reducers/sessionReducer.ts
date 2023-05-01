@@ -13,7 +13,6 @@ const initialState: SessionStateType = {
   email: '',
   phone: '',
   role: '',
-  role_id: '',
   contact_pref: '',
   mem_threshold: '',
   cpu_threshold: '',

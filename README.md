@@ -122,7 +122,7 @@ git clone https://github.com/open-source-labs/Docketeer.git
 
 #### STEP 2 — Docker compose up
 
-Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
+Making sure you're in your Docketeer directory, run
 ```sh
 docker compose up
 ```

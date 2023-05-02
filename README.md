@@ -43,7 +43,7 @@
     <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://docketeer.io/#demo">View Demo</a>
+    <a href="https://github.com/open-source-labs/Docketeer/issues">View Demo</a>
     ·
     <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
     ·

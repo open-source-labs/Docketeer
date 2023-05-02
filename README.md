@@ -120,9 +120,16 @@ Follow the steps below to get started with Docketeer.
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-#### STEP 1.5 — Need to set up your Kubernetes cluster to work with Docketeer?
+#### STEP 2 — Docker compose up
 
-Run the following command and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
+```sh
+docker compose up
+```
+
+#### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
+
+Open up a new tab in your terminal and run the following command and then navigate to [localhost:4000/api/k8](http://localhost:4000/api/k8):
 ```sh
 npm run dev
 ``` 
@@ -130,13 +137,6 @@ npm run dev
 If you haven't set up Prometheus-Operator with us before, click the first button to install. 
 <br />
 Otherwise, you can skip the first button and go on with the next two!
-
-#### STEP 2 — Docker compose up
-
-Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
-```sh
-docker compose up
-```
 
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 

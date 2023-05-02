@@ -6,7 +6,7 @@
   padding: 0 1rem;
   margin-bottom: 1rem;
   font-size: 1rem;
-  color: color(white, tan);
+  color: white;
   background-color: color(light, light-gray);
   box-shadow: $shadow;
 
@@ -34,16 +34,6 @@
     margin-right: 1rem;
   }
 }
-
-// .radioForm::before {
-//   // content: '';
-//   // width: 1em;
-//   // height: 1em;
-//   // border-radius: 50%;
-//   // transform: scale(0);
-//   // transition: 120ms transform ease-in-out;
-//   // box-shadow: inset 1em 1em var(--form-control-color);
-// }
 
 .button1,
 .button2,

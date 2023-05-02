@@ -120,9 +120,9 @@ Follow the steps below to get started with Docketeer.
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-#### STEP 1.5 - Need to set up your Kubernetes cluster to work with Docketeer?
+#### STEP 1.5 — Need to set up your Kubernetes cluster to work with Docketeer?
 
-Run the following command and then navigate to localhost:3003:
+Run the following command and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
 ```sh
 npm run dev
 ``` 
@@ -133,7 +133,7 @@ Otherwise, you can skip the first button and go on with the next two!
 
 #### STEP 2 — Docker compose up
 
-Go back to your terminal and make sure you're in the Docketeer directory. Then run
+Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
 ```sh
 docker compose up
 ```
@@ -188,12 +188,13 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## <b>Read More</b>
 
+- [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
 - [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)
 - [Docketeer is here! You’re WHALEcome!](https://medium.com/@dfeldman24/docketeer-5-0-is-here-youre-whalecome-6f9d72ec3b58)
 - [Docketeer! What's new?](https://medium.com/@hultzentre/docketeer-5-0-whats-new-358a5f107ac4)
 - [Docketeer: An Innovative Tool to Manage Docker Containers](https://griffinsilver.medium.com/docketeer-3-0-an-innovative-tool-to-manage-docker-containers-723ea5be6220a)
-- [Whale Hello There, Docketeer is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
+- [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
 - [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
 
 
@@ -259,7 +260,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Anna Tran [@annamullike](https://github.com/annamullike) | [LinkedIn](https://www.linkedin.com/in/annatran10/)
 - Emily John [@emilyjohl](https://github.com/emilyjohl) | [LinkedIn](https://www.linkedin.com/in/emily-johl-5093ab137/)
 - Jaeni Lee [@jaenixlee](https://github.com/jaenixlee) | [LinkedIn](https://www.linkedin.com/in/jaenilee/)
-- Jay Salgado [@Jaysalgado](https://github.com/Jaysalgado) | [LinkedIn](https://www.linkedin.com/in/joseph-salgado-76410620b/)
+- Joseph Salgado [@Jaysalgado](https://github.com/Jaysalgado) | [LinkedIn](https://www.linkedin.com/in/joseph-salgado-76410620b/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -5,7 +5,6 @@ import ContainersCard from "../src/components/ContainersCard/ContainersCard";
 import { describe, beforeEach, expect, test, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import fetchMock from "jest-fetch-mock";
 import store from "../src/store";
 
 const props = {
@@ -33,40 +32,25 @@ const props = {
   stop: jest.fn(),
   remove: jest.fn(),
   runStopped: jest.fn(),
-  status: 'running'
+  status: "running",
 };
-
-fetchMock.enableMocks();
 
 describe("Containers", () => {
   test("Containers component should render", () => {
-     render(
-       <Provider store={store}>
-         <Containers />
-       </Provider>
-     );
-   });
-
-  describe('ContainersCard', () => {
-    test('renders correctly', () => {
-      render(
-        <ContainersCard
-          containerList={props.runningList}
-          stopContainer={props.stop}
-          runContainer={props.runStopped}
-          removeContainer={props.remove}
-          status={props.status}
-        />
-      );
-    });
+    render(
+      <Provider store={store}>
+        <Containers />
+      </Provider>
+    );
   });
 
   describe("Running List containers", () => {
     beforeEach(() => {
-      render(<Provider store={store}>
-        <Containers {...props} />
-      </Provider>
-      )
+      render(
+        <Provider store={store}>
+          <Containers {...props} />
+        </Provider>
+      );
       render(
         <ContainersCard
           containerList={props.runningList}
@@ -114,5 +98,19 @@ describe("Containers", () => {
       expect(runStopped).toBeCalled;
       expect(remove).toBeCalled;
     });
+  });
+});
+
+describe("ContainersCard", () => {
+  test("ContainersCard component should render", () => {
+    render(
+      <ContainersCard
+        containerList={props.runningList}
+        stopContainer={props.stop}
+        runContainer={props.runStopped}
+        removeContainer={props.remove}
+        status={props.status}
+      />
+    );
   });
 });

@@ -87,7 +87,7 @@ const App = () => {
         <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
         <Route path="/home/about" element={<About />} />
-        <Route path="/home/images" element={<Images />} />
+        <Route path="/home/images" element={<Images imagesList={undefined} />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />
       </Route>

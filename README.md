@@ -137,6 +137,8 @@ npm run dev
 If you haven't set up Prometheus-Operator with us before, click the first button to install. 
 <br />
 Otherwise, you can skip the first button and go on with the next two!
+<br />
+P.S. Make sure to keep this terminal open!
 
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 

@@ -1,0 +1,33 @@
+{
+  "name": "setupapp",
+  "type": "module",
+  "productName": "Docketeer Setup",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Set up your Kubernetes cluster with Docketeer.",
+  "author": "Docketeer",
+  "main": "index.tsx",
+  "scripts": {
+    "start": "node index2.tsx",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.4",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "express": "^4.18.2",
+    "postcss": "^8.4.23",
+    "postcss-loader": "^7.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.0",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}

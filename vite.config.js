@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import postcss from './postcss.config.cjs';
 
-const SERVER = 'http://localhost:3000/';
+const SERVER = 'http://localhost:3003/';
 
 export default defineConfig({
   plugins: [

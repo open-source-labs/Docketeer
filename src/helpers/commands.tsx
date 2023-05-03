@@ -20,7 +20,7 @@ const useHelper = () => {
   const actions = useMemo(
     () => ({
       /* funcs to help w/ creating new users */
-      createNewUser(username: string, password: string, role_id: string) {
+      createNewUser(username: string, password: string) {
         fetch('/api/signup', {
           method: 'POST',
           headers: {
@@ -29,29 +29,59 @@ const useHelper = () => {
           body: JSON.stringify({
             username: username,
             password: password,
-            role_id: role_id,
           }),
         })
-          .then((res) => {
-            console.log('res in createNewUser: ', res);
-            console.log('ab to invoke getUpdatedUserList');
+          .then(() => {
             actions.getUpdatedUserList();
           })
           .catch((err) => {
             console.log(err);
           });
       },
-      getUpdatedUserList() {
-        const { updateUsers } = dispatch;
-        console.log('ab to fetch -> getUpdatedUserList');
-        fetch('/api/admin')
-          .then((response) => response.json())
+      checkCookie(): Promise<string> {
+        return fetch('/api/login/checkCookie', {
+          method: 'GET',
+        })
+          .then((res) => res.json())
           .then((data) => {
-            // console.log('data from getUpdatedUserList: ', data);
-            updateUsers(data);
+            return data;
           })
-          .catch((err) => {
-            console.log('error in getUpdatedUserList: ', err);
+          .catch((error) => {
+            console.log('error when fetching cookie', error);
+          });
+      },
+      getUid(apiKey: string, dashboard: string): Promise<string> {
+        return fetch('/api/gapi/uidkey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            key: apiKey,
+            dashboard: dashboard,
+          }),
+        })
+          .then((res) => {
+            console.log('Response received:', res); // Log the response object
+            return res.json();
+          })
+          .then((data) => {
+            return data;
+          })
+          .catch((error) => {
+            console.log('Error when fetching uid key', error);
+          });
+      },
+      getKey(): Promise<string> {
+        return fetch('/api/gapi/key', {
+          method: 'GET',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            return data;
+          })
+          .catch((error) => {
+            console.log('Error when fetching api key', error);
           });
       },
 
@@ -402,17 +432,13 @@ const useHelper = () => {
       },
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
-        // console.log('inside of async getLogs');
         try {
-          // console.log('inside of try block');
           const response: Response = await fetch('/api/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),
           });
-          // console.log('response from fetch', response);
           const parsedResponse = await response.json();
-          // console.log('parsed response from fetch', parsedResponse);
           return parsedResponse;
         } catch {
           console.log(err);

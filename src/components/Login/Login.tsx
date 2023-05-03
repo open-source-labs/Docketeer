@@ -9,21 +9,26 @@ import { UserInfo } from '../../../types';
 import { createAlert } from '../../reducers/alertReducer';
 import { useAppDispatch } from '../../reducers/hooks';
 import useSurvey from '../../helpers/dispatch';
+import useHelper from '../../helpers/commands';
 
 /**
  * @module | Login
  * @description | Login component which renders a login page, and sign-up modal. This is the first component that users are routed to if there are no active sessions.
  **/
-
-const Login = (): JSX.Element => {
+interface loginProps{
+  navigateToHome: () => void;
+}
+const Login = (props: loginProps): JSX.Element => {
   const navigate = useNavigate();
   const { updateUser, updateSession } = useSurvey();
   const updateUserSession = () => updateSession();
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
   const dispatch = useAppDispatch();
+  const { checkCookie } = useHelper();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
     // prevent default form submission action
@@ -31,7 +36,12 @@ const Login = (): JSX.Element => {
     authenticateUser(username, password);
   };
 
-  // send a fetch request to the backend to login
+  /** authenticates users username and password
+   * @method
+   * @async
+   * @returns {Promise<void>} returns promise when sending a request to backend to login is successful, and updates users session and cookies
+  */
+ 
   const authenticateUser = async (
     username: string,
     password: string
@@ -49,21 +59,17 @@ const Login = (): JSX.Element => {
         }),
       });
 
-      if (response.status === 401) {
-        throw new Error('Unauthorized');
-      }
+      const data = await checkCookie();
 
       // parse the response
       const parsedResponse = await response.json();
-
-      // console.log('parsedResponse: ', parsedResponse); // logs user
-
       // Switch state `loggedIn` to true
-      updateUserSession();
+      if (data) {
+        updateUserSession();
+      }
       // Update user information in sessionsReducer
       updateUserInfo(parsedResponse);
       // create alert to notify user that they have successfully logged in
-
       dispatch(
         createAlert(
           `Welcome back Docketeer, ${parsedResponse.username}!`,
@@ -72,23 +78,12 @@ const Login = (): JSX.Element => {
         )
       );
       // Navigate to root route
-      navigate('/');
+      props.navigateToHome();
     } catch (err) {
-      console.log('Fetch: POST error to /login', err);
       // Alert user upon wrong username or password entry using an alert.
       window.alert(
         'Incorrect password and/or username. \n Please register or try again.'
       );
-      // if error send dispatch to create alert
-      // if (Object.prototype.hasOwnProperty.call(parsedResponse, 'error')) {
-      //   dispatch(
-      //     createAlert(
-      //       'The username and/or password entered could not be authenticated. Please try again.',
-      //       5,
-      //       'error'
-      //     )
-      //   );
-      // }
     }
   };
 

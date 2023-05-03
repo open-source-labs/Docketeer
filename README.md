@@ -129,7 +129,7 @@ docker compose up
 
 #### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
 
-Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4000/api/k8](http://localhost:4000/api/k8):
+Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
 ```sh
 npm run dev
 ``` 
@@ -137,11 +137,13 @@ npm run dev
 If you haven't set up Prometheus-Operator with us before, click the first button to install. 
 <br />
 Otherwise, you can skip the first button and go on with the next two!
+<br />
+P.S. Make sure to keep this terminal open!
 
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
-http://localhost:4000/
+http://localhost:4000
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -188,6 +190,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## <b>Read More</b>
 
+- [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
 - [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
 - [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)

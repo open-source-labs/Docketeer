@@ -7,28 +7,17 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
-import accountRouter from '../server/routes/accountRouter';
-import adminRouter from '../server/routes/adminRouter';
 import apiRouter from '../server/routes/apiRouter';
 import commandRouter from '../server/routes/commandRouter';
 import signupRouter from '../server/routes/signupRouter';
 import loginRouter from '../server/routes/loginRouter';
-import dbRouter from '../server/routes/dbRouter';
 import initRouter from '../server/routes/initRouter';
 import logoutRouter from '../server/routes/logoutRouter';
-// import settingsRouter from '../server/routes/settingsRouter';
 
-// app.use('/test', (req, res) => {
-//   res.status(200).json({
-//     success: true,
-//   });
-// });
 
-app.use('/account', accountRouter);
 app.use('/gapi', apiRouter);
 app.use('/api', apiRouter);
 app.use('command', commandRouter);
-app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
@@ -46,7 +35,7 @@ let testKey;
 describe('test test', () => {
   test('Get request', async () => {
     const res = await request(app)
-      .get('/gapi/hello');
+      .get('/gapi/test');
     expect(res.body.data).toBe('in hello testing');
     expect(res.status).toBe(200)
     
@@ -80,29 +69,6 @@ describe('uid test', () => {
   });
 })
 
-// account route
-xdescribe('Account Route', () => {
-  test('Get request', () => {
-    request(app)
-      .get('/account')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200)
-      .expect(response);
-  });
-});
-
-
-// admin route
-xdescribe('Admin Route', () => {
-  test('Get request', () => {
-    request(app)
-      .get('/admin')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200)
-      .expect(response);
-  });
-});
-
 // api route
 xdescribe('Api Route', () => {
   test('Get request', () => {
@@ -119,17 +85,6 @@ xdescribe('Command Route', () => {
   test('Get refreshRunning', () => {
     request(app)
       .get('/command/refreshRunning')
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(200)
-      .expect(response);
-  });
-});
-
-// db route
-xdescribe('Db Route', () => {
-  test('Get request', () => {
-    request(app)
-      .get('/db')
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200)
       .expect(response);
@@ -168,29 +123,6 @@ xdescribe('Logout Route', () => {
       .expect(response);
   });
 });
-
-// setting route
-// describe('Settings Route', () => {
-//   test('Get request should return empty mem, cpu, stopped', async () => {
-//     await request(app)
-//       .get('/settings')
-//       .expect('Content-Type', 'application/json; charset=utf-8')
-//       .expect(200)
-//       .expect(response);
-//   });
-//   xtest('Post request', async () => {
-//     await request(app)
-//       .post('/settings/insert')
-//       .send({
-//         container: ['test', 'value'],
-//         name: 'testname',
-//         metric: 'hello'
-//       })
-//       .expect('Content-Type', 'application/json; charset=utf-8')
-//       .expect(200)
-//       .expect(response);
-//   });
-// });
 
 // signup route
 // describe('Signup Route', () => {

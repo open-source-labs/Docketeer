@@ -11,7 +11,7 @@ import { SignUpValues } from '../../../types';
 
 /**
  * @module | SignUp
- * @description | Facilitates registration of new users (admins) to Docketeer
+ * @description | Facilitates registration of new users to Docketeer
  **/
 
 const SignUp = (): JSX.Element => {

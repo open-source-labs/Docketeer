@@ -2,6 +2,7 @@
  * @module initRouter Router
  * @description Initializes the Docketeer local database
  */
+
 import { Router, Request, Response } from 'express';
 import initController from '../controllers/initController';
 

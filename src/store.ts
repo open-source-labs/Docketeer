@@ -5,9 +5,8 @@ import containerReducer from './reducers/containerReducer';
 import graphReducer from './reducers/graphReducer';
 import imageReducer from './reducers/imageReducer';
 import logReducer from './reducers/logReducer';
-import notificationReducer from './reducers/notificationReducer';
-import sessionReducer from './reducers/sessionReducer';
 import userReducer from './reducers/userReducer';
+import sessionReducer from './reducers/sessionReducer';
 import volumeReducer from './reducers/volumeReducer';
 
 const store = configureStore({
@@ -16,11 +15,10 @@ const store = configureStore({
     images: imageReducer,
     graphs: graphReducer,
     composes: composeReducer,
-    notifications: notificationReducer,
     sessions: sessionReducer,
-    users: userReducer,
     volumes: volumeReducer,
     logs: logReducer,
+    users: userReducer,
     alerts: alertReducer,
   },
   middleware: (getDefaultMiddleware) =>

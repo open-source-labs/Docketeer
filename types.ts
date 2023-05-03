@@ -62,7 +62,6 @@ export interface userReducerStateType {
   mem_threshold: string;
   cpu_threshold: string;
   container_stops: boolean;
-  isSysAdmin: boolean;
 }
 
 // ==============================================
@@ -291,7 +290,6 @@ export type MiddleWareFunction = (
 // Controller Types
 // ==========================================================
 export interface ApiController {
-  sendEmailAlert: MiddleWareFunction;
   signupEmail: MiddleWareFunction;
   testing: MiddleWareFunction
 }
@@ -417,18 +415,6 @@ export interface CommandController {
    * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
    */
   getLogs: MiddleWareFunction;
-
-  /**
-   * @description verifies admin status before executing docker commands (i.e. remove image, docker stop)
-   */
-
-  checkAdmin: MiddleWareFunction;
-}
-
-// this is not used
-export interface CookieController {
-  setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void;
-  setAdminCookie: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface ConfigController {
@@ -441,46 +427,6 @@ export interface ConfigController {
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
   updateMemThreshold: (req: Request, res: Response, next: NextFunction) => void;
   updateStopPref: (req: Request, res: Response, next: NextFunction) => void;
-}
-
-export interface DbController {
-  /**
-   * @description creates a database table called "roles" if it doesn't exist. db.query executes SQL query.
-   * @note OIDS is optional for this middleware
-   */
-  createRolesTable: MiddleWareFunction;
-
-  /**
-   * @description inserts 3 rows into databse for "roles": "system admin" (1), "admin" (2), "user" (3)
-   * @note uses single SQl query for all 3 rows in terms of string query
-   */
-  insertRoles: MiddleWareFunction;
-
-  /**
-   * @description Creates a table in database called "users" with user and container info
-   */
-  createUsersTable: MiddleWareFunction;
-
-  // not used
-  // insertAdmin: (req: Request, res: Response, next: NextFunction) => void;
-
-  /**
-   * @description Creates a hashed password for the system admin user with 10 salt rounds (decrease for faster processing)
-   * @note adds the password as a string for the res.locals object
-   */
-  createAdminPassword: MiddleWareFunction;
-
-  /**
-   * @description Updates user token in the database
-   * @note Destructures username and token from request body
-   */
-  addToken: MiddleWareFunction;
-
-  /**
-   * @description Removes token (sets token to null) after user logs out.
-   * @note Destructures username from request body. Logout propery is created if SQL query is able to update users token to null.
-   */
-  removeToken: MiddleWareFunction;
 }
 
 export interface GrafanaApiController {
@@ -604,36 +550,7 @@ export interface UserController {
    * @note Extract the username and password from req.body. Any errors get passed onto an error object.
    */
   verifyUser: MiddleWareFunction;
-
-  /**
-   * @description  grabs all users that have a role of system admin and adds rowCount and id of the users to locals
-   * @note System admin ID has a role_id of 1
-   */
-  checkSysAdmin?: MiddleWareFunction;
-
-  /**
-   * @description  switches role of user in database upon designation by system admin; must be provided id of user and role
-   * @note roleMap maps role strings to the role ID's. If there is only one system admin and the _id's match, it results in an error from hasError being true.
-   */
-  switchUserRole?: MiddleWareFunction;
-
-  // TODO: update description. no more res.locals.error
-  /**
-   * @description  Checks for error prop in locals; if none, updates password and adds user with updated pw to locals
-   * @note If incorrect password is entered, then res.locals error property will exist and next() will occur because error.
-   */
-  updatePassword: MiddleWareFunction;
-
-  /**
-   * @description   updates the phone number of a user; column is 'phone'
-   */
-  updatePhone: MiddleWareFunction;
-
-  /**
-   * @description   updates the email of a user
-   */
-  updateEmail: MiddleWareFunction;
-
+  
   /**
    * @description  adds a cookie to our user's browser to signify they are logged in
    */

@@ -2,6 +2,7 @@ import { Router } from 'express';
 const router = Router();
 import fetch from 'node-fetch';
 
+// This route is only for testing purposes
 router.get('/api-key', async (req, res, next) => {
   try {
     const response = await fetch('http://localhost:3000/api/auth/keys', {

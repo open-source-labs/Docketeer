@@ -4,11 +4,11 @@ import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {
   const { getKey, getUid } = useHelper();
-  const [kubernetesOrNah, setFrame] = useState(1);
+  const [toggleKubernetes, setToggleKubernetes] = useState(1);
   const [apiKey, setApiKey] = useState('');
   const [uidKey, setUidKey] = useState('');
   const [currentPage, setCurrentPage] = useState('Node Exporter / Nodes');
-  const button = kubernetesOrNah === 1 ? 'Containers' : 'Kubernetes Cluster';
+  const button = toggleKubernetes === 1 ? 'Containers' : 'Kubernetes Cluster';
 
   useEffect(() => {
     /** 
@@ -31,7 +31,7 @@ const Metrics = (): JSX.Element => {
   }, []);
 
   const handleToggle = () => {
-    setFrame((prevFrame) => (prevFrame === 1 ? 2 : 1));
+    setToggleKubernetes((prevFrame) => (prevFrame === 1 ? 2 : 1));
   };
 
   /** 
@@ -57,7 +57,7 @@ const Metrics = (): JSX.Element => {
       <>{button}</>
       <label className={styles.toggle} htmlFor="switch" />
 
-      {kubernetesOrNah === 1 ? (
+      {toggleKubernetes === 1 ? (
         <div>
           <iframe
             className={styles.metrics}

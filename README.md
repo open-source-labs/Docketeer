@@ -43,7 +43,7 @@
     <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer">View Demo</a>
+    <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
     ·
     <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
     ·
@@ -82,7 +82,7 @@
 
 <br />
   <div align="center">
-    <img src="assets/FullDemo2.gif" alt="Logo" width="fit" height="auto">
+    <img src="assets/FullDemo.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 
@@ -120,9 +120,16 @@ Follow the steps below to get started with Docketeer.
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-#### STEP 1.5 — Need to set up your Kubernetes cluster to work with Docketeer?
+#### STEP 2 — Docker compose up
 
-Run the following command and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+Making sure you're in your Docketeer directory, run:
+```sh
+docker compose up
+```
+
+#### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
+
+Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
 ```sh
 npm run dev
 ``` 
@@ -130,18 +137,13 @@ npm run dev
 If you haven't set up Prometheus-Operator with us before, click the first button to install. 
 <br />
 Otherwise, you can skip the first button and go on with the next two!
-
-#### STEP 2 — Docker compose up
-
-Open up a new tab in your terminal and make sure you're in the Docketeer directory. Then run
-```sh
-docker compose up
-```
+<br />
+P.S. Make sure to keep this terminal open!
 
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
-http://localhost:4000/
+http://localhost:4000
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -188,6 +190,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## <b>Read More</b>
 
+- [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
 - [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
 - [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)

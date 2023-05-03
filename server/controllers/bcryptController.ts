@@ -1,11 +1,12 @@
-import db from "../database/cloudModel";
-import bcrypt from "bcryptjs";
-import { Request, Response, NextFunction } from "express";
-import { BcryptController } from "../../types";
+import db from '../database/cloudModel';
+import bcrypt from 'bcryptjs';
+import { Request, Response, NextFunction } from 'express';
+import { BcryptController } from '../../types';
 
 /**
  * @description A controller to handle hashing of passwords and cookies
  */
+
 const bcryptController: BcryptController = {
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
@@ -23,7 +24,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashPassword.',
           },
         });
       });
@@ -43,7 +44,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashNewPassword: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashNewPassword.',
           },
         });
       });
@@ -57,9 +58,9 @@ const bcryptController: BcryptController = {
       .then((hash: string): void => {
         res.locals.user.token = hash;
         db.query(
-          "ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)"
+          'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
         );
-        db.query("UPDATE users SET token=$1 WHERE username=$2", [
+        db.query('UPDATE users SET token=$1 WHERE username=$2', [
           res.locals.user.token,
           username,
         ]);
@@ -69,7 +70,7 @@ const bcryptController: BcryptController = {
         return next({
           log: `Error in bcryptController hashCookeis: ${err}`,
           message: {
-            err: "An error occured creating hash with bcrypt. See bcryptController.hashCookies.",
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
           },
         });
       });

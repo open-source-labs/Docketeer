@@ -10,23 +10,17 @@ import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../Alert/Alert';
 import styles from './SharedLayout.module.scss';
-// import globalStyles from '../global.module.scss';
-
-// const activeStyle = 'background - color: color(background, darker);';
 
 function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { handlePruneClick } = useHelper();
-  const {  logoutUser } = useSurvey();
-
-  const { isLoggedIn } = useAppSelector((state) => state.sessions);
+  const { logoutUser } = useSurvey();
 
   const logOut = async (): Promise<void> => {
-    // updateSession();
+
     logoutUser();
-  
   
     try {
       const response = await fetch('/api/logout', {
@@ -108,14 +102,12 @@ function SharedLayout(): JSX.Element {
     refreshImages,
     writeToDb,
     networkContainers,
-    // below function never called
-    // setDbSessionTimeZone,
     getAllDockerVolumes,
     getVolumeContainers,
   } = useHelper();
 
   // Deconstructs dispatch functions from custom hook
-  const { updateUser, getVolumeContainerList } = useSurvey();
+  const { getVolumeContainerList } = useSurvey();
 
   useEffect(() => {
     refreshRunning();
@@ -124,7 +116,6 @@ function SharedLayout(): JSX.Element {
     writeToDb();
     networkContainers();
     getAllDockerVolumes();
-    // setAdminToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -148,27 +139,6 @@ function SharedLayout(): JSX.Element {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Pertains to sysAdmin only
-  // const setAdminToken = async (): Promise<void> => {
-  //   try {
-  //     const response = await fetch('/api/admin', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         token: userData.token,
-  //         username: userData.username,
-  //       }),
-  //     });
-  //     const parsedData = await response.json();
-
-  //     updateUser(parsedData);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   return (
     <div className={styles.wrapper}>
@@ -215,16 +185,6 @@ function SharedLayout(): JSX.Element {
                 METRICS
               </NavLink>
             </li>
-            {/* <li>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.navButton
-              }
-              to="/home/yml"
-            >
-              Docker Compose
-            </NavLink>
-          </li> */}
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -278,7 +238,6 @@ function SharedLayout(): JSX.Element {
         </div>
       </nav>
       <Alert />
-
       <Outlet />
     </div>
   );

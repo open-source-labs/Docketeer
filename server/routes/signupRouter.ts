@@ -1,16 +1,14 @@
 /**
- * @module | signupRouter.ts
+ * @module | Signup router
  * @description | Routes all requests to signup endpoint
  **/
 
 import { Router, Request, Response } from 'express';
 import userController from '../controllers/userController';
-// import apiController from '../controllers/apiController'; // controller for sending email notification
 
 
 const router = Router();
 
-// Only trigger this endpoint when sysAdmin logs in; gets all users
 router.get(
   '/',
   userController.getAllUsers,

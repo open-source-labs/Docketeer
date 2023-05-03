@@ -47,4 +47,5 @@ const signupController: SignupController = {
     }
   },
 };
+
 export default signupController;

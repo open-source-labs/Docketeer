@@ -1,4 +1,3 @@
-// import { Request, Response, NextFunction } from 'express';
 import { GrafanaApiController } from '../../types';
 import fetch from 'node-fetch';
 

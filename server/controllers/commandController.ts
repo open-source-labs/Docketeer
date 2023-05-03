@@ -5,9 +5,6 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../../config.js';
-const secret = JWT_SECRET;
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -103,9 +100,6 @@ const makeArrayOfObjects = (
  *  @param {*} num
  *  @note unused
  */
-// const fn = (num: number): number => {
-//   return Math.round((num + Number.EPSILON) * 100) / 100;
-// };
 
 /**
  * @description makes our command line functions to return Promise
@@ -164,33 +158,7 @@ const convertArrToObj = (
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
 const commandController: CommandController = {
-  checkAdmin: (req, res, next) => {
-    const token = req.cookies.admin || null;
 
-    if (token) {
-      jwt.verify(token, secret, (error, decoded) => {
-        if (error || decoded.verifiedRole !== 'system admin') {
-          return next({
-            log: 'Unauthorized access -- invalid permissions',
-            status: 401,
-            message: {
-              err: 'Unauthorized access --invalid permissions',
-              error,
-            },
-          });
-        }
-        return next();
-      });
-    } else {
-      return next({
-        log: 'Unauthorized access -- not logged in',
-        status: 401,
-        message: {
-          err: 'Unauthorized access -- not logged in',
-        },
-      });
-    }
-  },
 
   getContainers: async (
     req: Request,
@@ -209,10 +177,10 @@ const commandController: CommandController = {
 
   runImage: (req: Request, res: Response, next: NextFunction): void => {
     // List of running containers (docker ps)
-    const { imgid, reps, tag } = req.body;
+    const { reps, tag } = req.body;
     const containerId: number = Math.floor(Math.random() * 100);
     const filteredRepo: string = reps
-      .replace(/[,\/#!$%\^&\*;:{}=\`~()]/g, '.')
+      .replace(/[,/#!$%^&*;:{}=`~()]/g, '.')
       .replace(/\s{2,}/g, ' ');
     exec(
       `docker run --name ${filteredRepo}-${tag}_${containerId} ${reps}:${tag}`,
@@ -253,7 +221,6 @@ const commandController: CommandController = {
     const result: string = await promisifiedExec('docker images');
 
     const value: string[][] = convert(result);
-    // Image properties: reps -> repository, tag -> img label, imgid -> image ID, size -> size of the img in bytes
     const imgPropsArray: string[] = ['reps', 'tag', 'imgid', 'size'];
     const resultImages: string[][] = [];
 
@@ -297,8 +264,6 @@ const commandController: CommandController = {
           console.log(`remove stderr: ${stderr}`);
           return;
         }
-        // container deleted move to refreshStopped method
-        // res.locals.idRemoved = req.body;
         res.locals.idRemoved = {
           message: `Container with id ${req.query.id} deleted`,
         };

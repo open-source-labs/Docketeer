@@ -42,7 +42,6 @@ const alertSlice = createSlice({
 
 export const { setAlert, setPrompt } = alertSlice.actions;
 
-// let timeoutId = null;
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const createAlert = (

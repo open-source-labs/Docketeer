@@ -31,11 +31,8 @@ exec(
 );
 
 // Importing routers...
-import accountRouter from './routes/accountRouter';
-// import adminRouter from './routes/adminRouter';
 import apiRouter from './routes/apiRouter';
 import commandRouter from './routes/commandRouter';
-import dbRouter from './routes/dbRouter';
 import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
@@ -49,23 +46,18 @@ app.use(express.static('SetupApp'));
 
 
 // Defining routers...
-
 app.use('/k8', (req: Request, res: Response) => {
   res.status(200).sendFile(path.join(__dirname, '../SetupApp/index.html'));
 });
 
 
-app.use('/account', accountRouter);
 app.use('/gapi', apiRouter);
 app.use('/command', commandRouter);
-app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/setup', setupRouter);
 app.use('/signup', signupRouter);
-// app.use('/admin', adminRouter);
-// app.use('/api', apiRouter);
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {
@@ -89,5 +81,4 @@ app.get(
   }
 );
 
-// Exporting app...
 export default app;

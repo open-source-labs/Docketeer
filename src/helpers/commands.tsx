@@ -85,18 +85,6 @@ const useHelper = () => {
           });
       },
 
-      getUpdatedUserList() {
-        const { updateUsers } = dispatch;
-        fetch('/api/admin')
-          .then((response) => response.json())
-          .then((data) => {
-            updateUsers(data);
-          })
-          .catch((err) => {
-            console.log('error in getUpdatedUserList: ', err);
-          });
-      },
-
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;

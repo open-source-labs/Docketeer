@@ -14,5 +14,4 @@ document.addEventListener('DOMContentLoaded', () => {
   portForward.addEventListener('click', () => {
     fetch('/api/setup/portForward');
   });
-
 });

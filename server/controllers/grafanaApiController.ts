@@ -52,7 +52,9 @@ const grafanaApiController: GrafanaApiController = {
     const { key, dashboard }: { key: string; dashboard: string } = req.body;
     try {
       const response = await fetch(
-        `http://localhost:3000/api/search?query=${encodeURIComponent(dashboard)}`,
+        `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(
+          dashboard
+        )}`,
         {
           method: 'GET',
           headers: {

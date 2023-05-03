@@ -114,7 +114,7 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 The local configuration for Docketeer was setup to be as simple as possible for the end-user. <br />
 Follow the steps below to get started with Docketeer.
 
-## Prerequisites:
+#### Prerequisites:
 You must have Docker Desktop installed!
 
 #### STEP 1 — Clone the repository

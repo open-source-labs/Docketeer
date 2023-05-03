@@ -116,7 +116,7 @@ Follow the steps below to get started with Docketeer.
 
 #### Prerequisites:
 You must have Docker Desktop installed!
-<br />
+<br></br>
 
 #### STEP 1 — Clone the repository
 

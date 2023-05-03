@@ -82,7 +82,7 @@
 
 <br />
   <div align="center">
-    <img src="" alt="Logo" width="fit" height="auto">
+    <img src="assets/FullDemo.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 

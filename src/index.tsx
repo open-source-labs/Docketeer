@@ -7,16 +7,16 @@ import store from './store';
 import App from './App';
 import './main.scss';
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 
 root.render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
     <BrowserRouter>
       <Routes>
         <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
-    {/* </React.StrictMode> */}
   </Provider>
 );

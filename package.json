@@ -1,7 +1,7 @@
 {
   "name": "docketeer",
   "productName": "Docketeer",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
   "author": "Docketeer",
@@ -9,12 +9,12 @@
   "scripts": {
     "start": "concurrently \"nodemon server/server.ts\" \"vite dev\" --host 0.0.0.0",
     "dev": "concurrently \"nodemon server/server.ts\" \"vite dev\" --host 0.0.0.0",
-    "docker-build": "docker build -t docketeerxi/docketeer .",
+    "docker-build": "docker build -t docketeerxii/docketeer .",
     "docker-up": "docker-compose -f docker-compose.yml up",
     "docker-down": "docker-compose -f docker-compose.yml down",
     "docker-dev-up": "docker-compose -f docker-compose-dev.yml up",
     "docker-dev-down": "docker-compose -f docker-compose-dev.yml down",
-    "docker-dev-build": "docker build -t docketeerxi/docketeer-dev .",
+    "docker-dev-build": "docker build -t docketeerxii/docketeer-dev .",
     "build": "vite build",
     "test": "jest --verbose",
     "lint": "eslint .",
@@ -30,6 +30,8 @@
     "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
+    "next": "^13.3.0",
+    "node-fetch": "^2.3.0",
     "os": "^0.1.2",
     "os-utils": "^0.0.14",
     "pg": "^8.8.0",
@@ -92,7 +94,6 @@
     "jest-environment-jsdom": "^29.2.1",
     "jest-fetch-mock": "^3.0.3",
     "jsonwebtoken": "^9.0.0",
-    "node-fetch": "^3.2.10",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "postcss": "^8.4.21",
@@ -115,7 +116,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/docketeer.git"
+    "url": "git+https://github.com/open-source-labs/Docketeer"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -125,7 +126,7 @@
     },
     "preset": "ts-jest",
     "moduleNameMapper": {
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   }

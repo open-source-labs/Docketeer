@@ -15,15 +15,13 @@ const router = Router();
 router.post(
   '/',
   userController.verifyUser,
-  // userController.addCookie,
+  userController.addCookie,
   (req: Request, res: Response): Response => {
-    if (res.locals.token) {
-      res.cookie('admin', res.locals.token, { httpOnly: true });
-      return res.status(201).json(res.locals.verifiedUser);
-    } else {
-      return res.status(201).json(res.locals.user);
-    }
-  }
-);
+    return res.status(201).json(res.locals.user);
+  });
+
+router.get('/checkCookie', userController.checkCookie, (req: Request, res: Response): Response => {
+  return res.status(200).json(res.locals.signedIn);
+});
 
 export default router;

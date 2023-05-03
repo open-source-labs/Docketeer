@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     container_name: docketeerdb
-    image: docketeerxi/postgres
+    image: docketeerxii/postgres
     restart: always
     ports:
       - '5432:5432'
@@ -32,7 +32,7 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   node-exporter:
-    image: docketeerxi/nodeex
+    image: docketeerxii/nodeex
     container_name: node-exporter
     ports:
       - '9100:9100'
@@ -47,7 +47,7 @@ services:
       - db
 
   prometheus:
-    image: docketeerxi/prometheus
+    image: docketeerxii/prometheus
     container_name: prometheus
     ports:
       - '9090:9090'
@@ -60,14 +60,11 @@ services:
       org_prometheus_starter_port: '9090'
       org_prometheus_starter_path: '/metrics'
 
-    volumes:
-      - ./imageConfigs/prometheus/promData:/prometheus
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - 2999:3000
+      - '2999:3000'
     environment:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
@@ -83,10 +80,10 @@ services:
       - prometheus
 
   docketeer:
-    image: docketeerxi/docketeer
+    image: docketeerxii/docketeer
     container_name: docketeer
     ports:
-      - 4000:4000
+      - '4000:4000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: npm start

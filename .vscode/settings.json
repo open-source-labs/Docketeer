@@ -1,7 +1,7 @@
 {
   "workbench.localHistory.enabled": true,
   "editor.tabSize": 2,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.codeActionsOnSave": {

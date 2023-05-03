@@ -25,7 +25,6 @@ router.get(
 // Route for adding a new running container to runningList state
 router.post(
   '/runImage',
-  commandController.checkAdmin,
   commandController.runImage,
   commandController.getContainers,
   (req: Request, res: Response) => {
@@ -54,7 +53,6 @@ router.get(
 // Route to remove a stopped container
 router.delete(
   '/removeContainer',
-  commandController.checkAdmin,
   commandController.remove,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.idRemoved);
@@ -64,7 +62,6 @@ router.delete(
 // Route to stop a running container
 router.delete(
   '/stopContainer',
-  commandController.checkAdmin,
   commandController.stopContainer,
   commandController.refreshStopped,
   (req: Request, res: Response) => {
@@ -75,7 +72,6 @@ router.delete(
 // Route to run a stopped container
 router.get(
   '/runStopped',
-  commandController.checkAdmin,
   commandController.runStopped,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.containerRan);
@@ -85,7 +81,6 @@ router.get(
 // Route to remove an image
 router.delete(
   '/removeImage',
-  commandController.checkAdmin,
   commandController.removeImage,
   (req: Request, res: Response) => {
     return res.status(200);
@@ -95,7 +90,6 @@ router.delete(
 // Route for running the docker prune command
 router.delete(
   '/dockerPrune',
-  commandController.checkAdmin,
   commandController.dockerPrune,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.pruneMessage);
@@ -105,7 +99,6 @@ router.delete(
 // Route to pull new images
 router.get(
   '/pullImage',
-  commandController.checkAdmin,
   commandController.pullImage,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.imgMessage);
@@ -133,7 +126,6 @@ router.get(
 // Route to compose a docker file
 router.post(
   '/composeUp',
-  commandController.checkAdmin,
   commandController.composeUp,
   commandController.composeStacks,
   (req: Request, res: Response) => {
@@ -144,7 +136,6 @@ router.post(
 // Route to compose DOWN a docker file
 router.post(
   '/composeDown',
-  commandController.checkAdmin,
   commandController.composeDown,
   commandController.composeStacks,
   (req: Request, res: Response) => {
@@ -155,7 +146,6 @@ router.post(
 // Route to get list of container networks
 router.get(
   '/composeStacks',
-  commandController.checkAdmin,
   commandController.composeStacks,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.output);

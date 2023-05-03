@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="index.js"></script>
+    <title>Set Up Your Kubernetes Cluster</title>
+    <style>
+      body {
+        height: 79vh;
+        font-family: "Bai Jamjuree", sans-serif;
+        background: rgb(132, 202, 241);
+        background: linear-gradient(
+          107deg,
+          rgba(132, 202, 241, 1) 0%,
+          rgba(74, 194, 172, 1) 50%,
+          rgba(83, 139, 198, 1) 100%
+        );
+        background-size: cover;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+      
+      .buttonContainer {
+        margin-top: 20vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
+
+      button {
+        font-family: "Bai Jamjuree", sans-serif;
+        color: color(light, tan);
+        align-self: center;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5em 0.75em;
+        margin: 8px;
+        min-width: 10ch;
+        text-align: center;
+        line-height: 1.1;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      .buttonDiv {
+        display: flex;
+        flex-direction: row;
+        line-height: 60px;
+      }
+
+      #promCheck, #grafCheck, #portCheck {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root2"></div>
+    <div class="buttonContainer">
+      <div class="buttons">
+        <h1>Set Up Your Kubernetes Cluster with Docketeer!</h1>
+        <span>You only need to Install Prometheus Operator once!</span>
+        <span>Please wait for the green check mark to appear before moving onto the next step!</span>
+        <div class="buttonDiv"><button id="prom">Install Prometheus Operator</button><span id="promCheck">&#9989;</span></div>
+        <div class="buttonDiv"><button id="metrics">Set Up Grafana</button><span id="grafCheck">&#9989;</span></div>
+        <div class="buttonDiv"><button id="port">Launch Port Forwarding</button><span id="portCheck">&#9989;</span></div>
+      </div>
+    </div>
+  </body>
+</html>

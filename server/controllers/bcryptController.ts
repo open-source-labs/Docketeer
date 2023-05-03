@@ -6,6 +6,7 @@ import { BcryptController } from '../../types';
 /**
  * @description A controller to handle hashing of passwords and cookies
  */
+
 const bcryptController: BcryptController = {
   hashPassword: (req: Request, res: Response, next: NextFunction): void => {
     const { password }: { password: string } = req.body;
@@ -50,34 +51,30 @@ const bcryptController: BcryptController = {
   },
 
   hashCookie: (req: Request, res: Response, next: NextFunction): void => {
-    const { role_id, username }: { role_id: number; username: string } =
-      res.locals.user;
+    const { username }: { username: string } = res.locals.user;
     const saltRounds = 10;
-    if (role_id === 1) {
-      bcrypt
-        .hash(res.locals.cookie, saltRounds)
-        .then((hash: string): void => {
-          res.locals.user.token = hash;
-          db.query(
-            'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
-          );
-          db.query('UPDATE users SET token=$1 WHERE username=$2', [
-            res.locals.user.token,
-            username,
-          ]);
-          return next();
-        })
-        .catch((err: Error): void => {
-          return next({
-            log: `Error in bcryptController hashCookeis: ${err}`,
-            message: {
-              err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
-            },
-          });
+    bcrypt
+      .hash(res.locals.cookie, saltRounds)
+      .then((hash: string): void => {
+        res.locals.user.token = hash;
+        db.query(
+          'ALTER TABLE users ADD COLUMN IF NOT EXISTS token varchar(250)'
+        );
+        db.query('UPDATE users SET token=$1 WHERE username=$2', [
+          res.locals.user.token,
+          username,
+        ]);
+        return next();
+      })
+      .catch((err: Error): void => {
+        return next({
+          log: `Error in bcryptController hashCookeis: ${err}`,
+          message: {
+            err: 'An error occured creating hash with bcrypt. See bcryptController.hashCookies.',
+          },
         });
-    } else {
-      return next();
-    }
+      });
+    return next();
   },
 };
 

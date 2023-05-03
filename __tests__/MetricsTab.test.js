@@ -1,66 +1,56 @@
 import React, { Component } from 'react';
-import Metrics from '../src/components/tabs/Metrics';
-import {describe, expect, test, beforeEach, afterEach, jest} from '@jest/globals';
+import Metrics from '../src/components/Metrics/Metrics';
+import { describe, expect, test, beforeEach } from '@jest/globals';
 import '@testing-library/jest-dom';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../src/renderer/store';
-import { act } from 'react-test-renderer';
+import store from '../src/store';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 
-const props = {
-  runningList: [
-    {
-      ID: 'a802306eeac3',
-      Name: 'blissful_matsumoto',
-      Image: 'postgres:15',
-      CPUPerc: '0.17',
-      MemPerc: '0.11',
-      MemUsage: '2.19MiB / 1.94MiB',
-      NetIO: '796kB/0kB',
-      BlockIO: '34029.57kB / 4.1kB',
-      PIDs: '5'
-    }
-  ],
-  threshold: [
-    80.00, // state.session.cpu_threshold:
-    80.00, // state.session.mem_threshold: 
-  ],
-};
-
 fetchMock.enableMocks();
 
-// // This test tab needs work as we are unable to render the metrics component for testing
-// describe('Metrics tab should render', () => {
-//   beforeEach( async () => {
-//     fetch.resetMocks();
-
-//     async function metricsRenderer(){
-//       return <Metrics runningList={props.runningList} threshold={props.threshold}/>;
-//     }
-
-//     const MetricsTab = await metricsRenderer();
-//     console.log(MetricsTab);
-
-//     await act( () => {
-//       render(
-//         <Provider store={store}>
-//           <MemoryRouter initialEntries={['/app/*']}>
-//             {/* <Metrics runningList={props.runningList} threshold={props.threshold}/> */}
-//             {MetricsTab}
-//           </MemoryRouter>
-//         </Provider>
-//       );
-//       // console.log(screen);
-//       screen.debug();
-//     });
-//   });
-// });
-
-//* Dummy Test
-describe('dummy test', () => {
-  test('dummy test', () => {
-    expect(2 + 2).toBe(4);
+describe('Testing Metrics Tab', () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <Metrics />
+      </Provider>
+    );
   });
-});  
+
+  test('Metrics dashboard renders', async () => {
+    const iframe = document.querySelector('iframe');
+
+    // Wait for the iframe to load
+    await waitFor(() => {
+      expect(iframe.contentDocument).toBeTruthy(); 
+    });
+  });
+
+  describe('Testing buttons within metrics tab', () => {
+    test('Toggle button switches between Containers and Kubernetes Cluster', () => {
+      const toggleButton = screen.getByRole('checkbox');
+      expect(screen.getByText('Containers')).toBeInTheDocument();
+
+      fireEvent.click(toggleButton);
+      expect(screen.getByText('Kubernetes Cluster')).toBeInTheDocument();
+
+      fireEvent.click(toggleButton);
+      expect(screen.getByText('Containers')).toBeInTheDocument();
+    });
+
+    test('Dashboard changes for K8 metrics', () => {
+      const toggleButton = screen.getByRole('checkbox');
+      fireEvent.click(toggleButton);
+
+      const nodeButton = screen.getByRole('button', { name: 'Node' });
+      const kubeButton = screen.getByRole('button', { name: 'Kubelet' });
+
+      fireEvent.click(nodeButton);
+      expect(Metrics.changePage).toBeCalled;
+      
+      fireEvent.click(kubeButton);
+      expect(Metrics.changePage).toBeCalled;
+    });
+  });
+});

@@ -3,14 +3,16 @@ import express, { Request, Response } from 'express';
 import { ServerError, GlobalErrorObject } from '../types';
 import cors from 'cors';
 import { exec } from 'child_process';
-import cookieParser from 'cookie-parser'; // for when cookies get implemented
+import cookieParser from 'cookie-parser';
+import * as path from 'path';
 
 const app = express();
 
 // allow requests from other domains
 app.use(cors());
-
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(
@@ -25,41 +27,36 @@ exec(
       return;
     }
     console.log(`stdout: ${stdout}`);
-  },
+  }
 );
 
 // Importing routers...
-import accountRouter from './routes/accountRouter';
-import adminRouter from './routes/adminRouter';
 import apiRouter from './routes/apiRouter';
 import commandRouter from './routes/commandRouter';
-import dbRouter from './routes/dbRouter';
 import initRouter from './routes/initRouter';
 import loginRouter from './routes/loginRouter';
 import logoutRouter from './routes/logoutRouter';
+import setupRouter from './routes/setupRouter';
 import signupRouter from './routes/signupRouter';
-// import userController from './controllers/userController';
 
 // Enabling middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser()); // for when cookies get implemented
+app.use(express.static('SetupApp'));
 
-// check for cookie
-// app.use('/', userController.checkCookie, (req: Request, res: Response): void => {
-//   console.log('cookffffffs', req.headers.cookie, req.cookies);
-//   if (res.locals.notSignedIn) res.redirect('/login');
-// });
-// console.log('exited cookie check');
+
 // Defining routers...
-app.use('/account', accountRouter);
-app.use('/admin', adminRouter);
-app.use('/api', apiRouter);
+app.use('/k8', (req: Request, res: Response) => {
+  res.status(200).sendFile(path.join(__dirname, '../SetupApp/index.html'));
+});
+
+
+app.use('/gapi', apiRouter);
 app.use('/command', commandRouter);
-app.use('/db', dbRouter);
 app.use('/init', initRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/setup', setupRouter);
 app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...
@@ -81,8 +78,7 @@ app.get(
     };
     const errorObj: ServerError = Object.assign(defaultErr, err);
     return res.status(errorObj.status).json(errorObj.message);
-  },
+  }
 );
 
-// Exporting app...
 export default app;

@@ -12,12 +12,15 @@ import globalStyles from '../global.module.scss';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
-const Images = (): JSX.Element => {
-  const imagesList = useAppSelector((state) => state.images.imagesList);
+// eslint-disable-next-line react/prop-types
+const Images = ({ imagesList: initialImagesList }): JSX.Element => {
+  // imagesList for testing purposes only
+  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
+  const imagesList = initialImagesList ? [initialImagesList] : reduxImagesList;
   const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();
-  
+
   const handleClick = () => {
     if (!repo) {
       dispatch(

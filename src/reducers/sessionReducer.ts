@@ -1,27 +1,20 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { SessionStateType, UserInfo } from '../../types';
-// import { current } from '@reduxjs/toolkit';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
- * @param {nested Objects} volumeContainersList Containers running under each volume
-//  */
+ * @param {nested Objects} volumeContainersList Containers running under each volume 
+*/
 
 const initialState: SessionStateType = {
   _id: '',
   username: '',
   password: '',
-  email: '',
-  phone: '',
-  role: '',
-  role_id: '',
-  contact_pref: '',
   mem_threshold: '',
   cpu_threshold: '',
   container_stops: '',
   token: '',
   isLoggedIn: false,
-  // userList: [],
 };
 
 export const sessionSlice = createSlice({
@@ -30,7 +23,6 @@ export const sessionSlice = createSlice({
   reducers: {
     // This doesn't utilize a payload (see calling of updateSession in Login.tsx)
     updateSession: (state) => {
-      // console.log('current session', current(state.isLoggedIn));
       state.isLoggedIn = !state.isLoggedIn;
     },
     updateUser: (state, action: PayloadAction<UserInfo>) => {

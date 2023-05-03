@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     container_name: docketeerdb
-    image: docketeerxi/postgres
+    image: docketeerxii/postgres
     restart: always
     ports:
       - '5432:5432'
@@ -32,7 +32,7 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   node-exporter:
-    image: docketeerxi/nodeex
+    image: docketeerxii/nodeex
     container_name: node-exporter
     ports:
       - '9100:9100'
@@ -47,7 +47,7 @@ services:
       - db
 
   prometheus:
-    image: docketeerxi/prometheus
+    image: docketeerxii/prometheus
     container_name: prometheus
     ports:
       - '9090:9090'
@@ -79,7 +79,7 @@ services:
     depends_on:
       - prometheus
   dev:
-    image: docketeerxi/docketeer-dev
+    image: docketeerxii/docketeer-dev
     container_name: docketeer-dev
     build:
       dockerfile: dockerfile.dev

@@ -21,7 +21,6 @@ import globalStyles from '../global.module.scss';
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
-<<<<<<<<< Temporary merge branch 1
 **/
 
 const ProcessLogs = (): JSX.Element => {
@@ -31,19 +30,20 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(
     (state) => state.logs.containerLogs
   );
-  const runningBtnList = getContainerNames(runningList);
+  const runningBtnList: any = getContainerNames(runningList);
 
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
   } {
-    const newObj = {};
+    // type assertion saying treat {} as { name: string; value: boolean; }
+    const newObj = {} as { name: string; value: boolean; };
     containerList.forEach(({ Names }) => (newObj[Names] = false));
     return newObj;
   }
 
-  const [btnIdList, setBtnIdList] = useState<object>(runningBtnList);
+  const [btnIdList, setBtnIdList] = useState<Array<object>>(runningBtnList);
   const [timeFrameNum, setTimeFrameNum] = useState<string>('');
   const [timeFrame, setTimeFrame] = useState<string>('');
   const [rows, setRows] = useState([] as JSX.Element[]);
@@ -73,10 +73,7 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   // takes in a btnIdList, passes that into buildObptionObj
-  // takes in a btnIdList, passes that into buildObptionObj
   const handleGetLogs = async (idList: object) => {
-    console.log('getting logs');
-    console.log('idList: ', idList);
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
     dispatch(createAlert('Loading process log information...', 5, 'success'));
@@ -246,7 +243,7 @@ const ProcessLogs = (): JSX.Element => {
                 <th>MESSAGE</th>
               </tr>
             </thead>
-            {rows.map((row, i) => {
+            {rows.map((row: any, i) => {
               return (
                 <tbody key={`row-${i}`}>
                   <tr>

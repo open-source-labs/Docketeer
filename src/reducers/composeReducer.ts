@@ -1,8 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { containerStateType } from '../../types';
+import { ContainerStateType } from '../../types';
 
-const initialState: containerStateType = {
-  // ? why is runningList & stoppedList here
+const initialState: ContainerStateType = {
   runningList: [],
   stoppedList: [],
   networkList: [],
@@ -20,10 +19,8 @@ export const composeSlice = createSlice({
       const currentState: any = state.composeStack;
 
       const composeStackUpdater = (
-        // ? are the two forEaches redundant?
         // current state is first array
         firstArray: [],
-        // action payload is second array (new stack?)
         secondArray: [],
         outputArray = []
       ) => {

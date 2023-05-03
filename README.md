@@ -12,14 +12,17 @@
 -->
 
 
-
+<div align="center" width="100%">   
+            
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
+            
+</div>
+            
 <!-- PROJECT LOGO -->
 
 
@@ -30,7 +33,7 @@
     <img src="assets/DockLogo.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
-  https://www.docketeer.org/
+  https://www.docketeer.io/
 <br/>
   
    <br /> 
@@ -40,7 +43,7 @@
     <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer">View Demo</a>
+    <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
     ·
     <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
     ·
@@ -58,20 +61,9 @@
   <ol>
       <br />
     <li>
-      <a href="#about-the-project">About Docketeer</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <a href="#about-the-project">About Docketeer</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#in-development">In Development</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -82,36 +74,32 @@
 
 ## About The Project
 
+<div align="center" width="100%">
+            
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+
+</div>
+
 <br />
   <div align="center">
-    <img src="assets/FullDemo2.gif" alt="Logo" width="fit" height="auto">
+    <img src="assets/FullDemo.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 
 
-Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
+Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data, along with Kubernetes cluster data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
-
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
-
-
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-#### Features:
+### Features:
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
 - It aims to simplify the development process for projects that use Docker containers.
-- JWT authentication, allowing administrator and non-administrator privileges.
 - Allows you to filter through both your running and stopped container logs. 
 - Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
+- Docketeer offers Node and kubelet metrics visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
 - Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
 - Docketeer is highly customizable, and developers can configure it to suit their specific needs.
 - It's a community-maintained project, with frequent updates and bug fixes.
@@ -119,22 +107,16 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- INSTALLATION -->
 
-<br />
-  <div align="center">
-    <img src="assets/Metrics.gif" alt="Logo" width="fit" height="auto">
-  </div>
-<br />
+## Installation
 
-<!-- GETTING STARTED -->
+The local configuration for Docketeer was setup to be as simple as possible for the end-user. <br />
+Follow the steps below to get started with Docketeer.
 
-## Getting Started
-
-The local configuration for Docketeer was setup to be as simple as possible for the end-user. Follow the steps below to get started with Docketeer.
-
-<br />
-
-It's super simple to get started! Follow these 3 steps:
+#### Prerequisites:
+You must have Docker Desktop installed!
+<br></br>
 
 #### STEP 1 — Clone the repository
 
@@ -142,39 +124,48 @@ It's super simple to get started! Follow these 3 steps:
 git clone https://github.com/open-source-labs/Docketeer.git
 ```
 
-<br />
-
 #### STEP 2 — Docker compose up
 
+Making sure you're in your Docketeer directory, run:
 ```sh
 docker compose up
 ```
 
+#### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
+
+Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+```sh
+npm run dev
+``` 
+
+If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+<br />
+Otherwise, you can skip the first button and go on with the next two!
+<br />
+P.S. Make sure to keep this terminal open!
+
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
-http://localhost:4000/
+http://localhost:4000
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
+<!-- IN DEVELOPMENT -->
 
-<!-- ROADMAP -->
-
-## Roadmap: The future of Docketeer?
+## In Development
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
-- [ ] Integration with container orchestration tools like Kubernetes or Docker Swarm.
 - [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.
 - [ ] Expand Docker networking capabilities within Docketeer to provide more sophisticated networking configurations and better interoperability with other network tools.
-- [ ] Improve Docketeer's error handling and logging capabilities to streamline the troubleshooting process and improve problem identification.
 - [ ] Develop more advanced container configuration options within Docketeer, such as load balancing or high availability setups.
-- [ ] Improve Docketeer's documentation and user guides to make it easier for new users to understand and use the tool.
 - [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
+- [ ] Display additional metrics for Kubernetes clusters.
 
 See the [open issues](https://github.com/open-source-labs/Docketeer/issues) for a full list of proposed features (and known issues).
 
@@ -203,12 +194,14 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## <b>Read More</b>
 
+- [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
+- [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
 - [Docketeer is here to make a splash!](https://medium.com/@garima41/docketeer-9-0-is-here-to-make-a-splash-134336923d3d)
 - [Docketeer is here! You’re WHALEcome!](https://medium.com/@dfeldman24/docketeer-5-0-is-here-youre-whalecome-6f9d72ec3b58)
 - [Docketeer! What's new?](https://medium.com/@hultzentre/docketeer-5-0-whats-new-358a5f107ac4)
 - [Docketeer: An Innovative Tool to Manage Docker Containers](https://griffinsilver.medium.com/docketeer-3-0-an-innovative-tool-to-manage-docker-containers-723ea5be6220a)
-- [Whale Hello There, Docketeer is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
+- [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
 - [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
 
 
@@ -271,12 +264,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Benjamin Huang [@byhuang4100](https://github.com/byhuang4100) | [LinkedIn](https://www.linkedin.com/in/bh4120/)
 - Saad Hamdani [@Saadh123](https://github.com/saadh123) | [LinkedIn](https://www.linkedin.com/in/saadh123/)
 - Michael Angelo Garcia [@MichaelAngelo13](https://github.com/MichaelAngelo13) | [LinkedIn](https://www.linkedin.com/in/michael-angelo-garcia-053848265/)
+- Anna Tran [@annamullike](https://github.com/annamullike) | [LinkedIn](https://www.linkedin.com/in/annatran10/)
+- Emily John [@emilyjohl](https://github.com/emilyjohl) | [LinkedIn](https://www.linkedin.com/in/emily-johl-5093ab137/)
+- Jaeni Lee [@jaenixlee](https://github.com/jaenixlee) | [LinkedIn](https://www.linkedin.com/in/jaenilee/)
+- Joseph Salgado [@Jaysalgado](https://github.com/Jaysalgado) | [LinkedIn](https://www.linkedin.com/in/joseph-salgado-76410620b/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Show your support
+## Show Your Support
 
-Give a ⭐️ if this project helped you!
+Please ⭐️ this project if you found it helpful, thank you!
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
@@ -330,7 +327,10 @@ Give a ⭐️ if this project helped you!
 [SASS-url]: https://sass-lang.com/
 [RTK]: https://img.shields.io/badge/RTK-563D7C?style=for-the-badge&logo=redux&logoColor=white
 [RTK-url]: https://redux-toolkit.js.org/
-
+[Helm]: https://img.shields.io/badge/helm-navy?style=for-the-badge&logo=helm&logoColor=white
+[Helm-url]: https://helm.sh/
+[Kubernetes]: https://img.shields.io/badge/kubernetes-3371e3?style=for-the-badge&logo=kubernetes&logoColor=white
+[Kubernetes-url]: https://kubernetes.io/
 
 
 

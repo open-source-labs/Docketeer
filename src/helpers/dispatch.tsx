@@ -15,16 +15,6 @@ import {
   refreshStoppedContainer,
 } from '../reducers/containerReducer';
 
-import {
-  buildAxis,
-  buildMemory,
-  buildCpu,
-  buildWrittenIO,
-  buildReadIO,
-  buildReceivedIO,
-  buildTransmittedIO,
-} from '../reducers/graphReducer';
-
 import { refreshImages } from '../reducers/imageReducer';
 
 import { getLogs } from '../reducers/logReducer';
@@ -107,28 +97,6 @@ const useSurvey = () => {
       },
       composeDown(data: any) {
         dispatch(composeDown(data));
-      },
-      // Dispatch functions used in LineChartDisplay.tsx
-      buildAxis(data: any) {
-        dispatch(buildAxis(data));
-      },
-      buildMemory(data: any) {
-        dispatch(buildMemory(data));
-      },
-      buildCpu(data: any) {
-        dispatch(buildCpu(data));
-      },
-      buildWrittenIO(data: any) {
-        dispatch(buildWrittenIO(data));
-      },
-      buildReadIO(data: any) {
-        dispatch(buildReadIO(data));
-      },
-      buildReceivedIO(data: any) {
-        dispatch(buildReceivedIO(data));
-      },
-      buildTransmittedIO(data: any) {
-        dispatch(buildTransmittedIO(data));
       },
       // Dispatch functions used in ProcessLogsTable.tsx
       getContainerLogsDispatcher(data: ContainerLogsType) {

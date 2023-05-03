@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import alertReducer from './reducers/alertReducer';
 import composeReducer from './reducers/composeReducer';
 import containerReducer from './reducers/containerReducer';
-import graphReducer from './reducers/graphReducer';
 import imageReducer from './reducers/imageReducer';
 import logReducer from './reducers/logReducer';
 import userReducer from './reducers/userReducer';
@@ -13,7 +12,6 @@ const store = configureStore({
   reducer: {
     containers: containerReducer,
     images: imageReducer,
-    graphs: graphReducer,
     composes: composeReducer,
     sessions: sessionReducer,
     volumes: volumeReducer,

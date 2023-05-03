@@ -10,16 +10,11 @@ const initialState: SessionStateType = {
   _id: '',
   username: '',
   password: '',
-  email: '',
-  phone: '',
-  role: '',
-  contact_pref: '',
   mem_threshold: '',
   cpu_threshold: '',
   container_stops: '',
   token: '',
   isLoggedIn: false,
-  // userList: [],
 };
 
 export const sessionSlice = createSlice({

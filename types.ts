@@ -24,10 +24,6 @@ export interface UserInfo extends User {
   // removed password property on userInfo as it's not being used.
   // changed id from number type to string type so see if that breaks anything
   _id: string;
-  email: string;
-  phone: string;
-  role: string;
-  contact_pref: string;
   // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
   mem_threshold: string;
   // changed cpu threshold from string to string let's see what happens

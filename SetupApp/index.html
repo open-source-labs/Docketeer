@@ -59,19 +59,28 @@
         cursor: pointer;
         transition: all 0.3s ease-in-out;
       }
+      .buttonDiv {
+        display: flex;
+        flex-direction: row;
+        line-height: 60px;
+      }
+
+      #promCheck, #grafCheck, #portCheck {
+        visibility: hidden;
+      }
     </style>
   </head>
 
   <body>
     <div id="root2"></div>
     <div class="buttonContainer">
-      
       <div class="buttons">
         <h1>Set Up Your Kubernetes Cluster with Docketeer!</h1>
         <span>You only need to Install Prometheus Operator once!</span>
-        <button id="prom">Install Prometheus Operator</button>
-        <button id="metrics">Set Up Grafana</button>
-        <button id="port">Launch Port Forwarding</button>
+        <span>Please wait for the green check mark to appear before moving onto the next step!</span>
+        <div class="buttonDiv"><button id="prom">Install Prometheus Operator</button><span id="promCheck">&#9989;</span></div>
+        <div class="buttonDiv"><button id="metrics">Set Up Grafana</button><span id="grafCheck">&#9989;</span></div>
+        <div class="buttonDiv"><button id="port">Launch Port Forwarding</button><span id="portCheck">&#9989;</span></div>
       </div>
     </div>
   </body>

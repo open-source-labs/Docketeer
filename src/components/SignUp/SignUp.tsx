@@ -6,7 +6,7 @@ import globalStyles from '../global.module.scss';
 import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from '../../../assets/docketeer-title.png';
+import Docketeer from '../../../assets/extended-white.png';
 import { SignUpValues } from '../../../types';
 
 /**

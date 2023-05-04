@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './SignUp.module.scss';
 import globalStyles from '../global.module.scss';
-// import { checkDbInit } from '../../helpers/newUserHelper';
 import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Docketeer from '../../../assets/extended-white.png';
+import Docketeer from '../../../assets/extended-light.png';
 import { SignUpValues } from '../../../types';
 
 /**

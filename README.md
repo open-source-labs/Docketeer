@@ -33,7 +33,7 @@
     <img src="assets/extended-dark.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
-  https://www.docketeer.io/
+  https://docketeer.io/
 <br/>
   
    <br /> 

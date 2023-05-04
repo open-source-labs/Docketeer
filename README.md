@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/open-source-labs/Docketeer">
-    <img src="assets/DockLogo.png" alt="Logo" width="550" height="auto">
+    <img src="assets/extended-dark.png" alt="Logo" width="550" height="auto">
   </a>
   <br />
   https://www.docketeer.io/
@@ -82,7 +82,7 @@
 
 <br />
   <div align="center">
-    <img src="assets/extended-dark.png" alt="Logo" width="fit" height="auto">
+    <img src="assets/FullDemo.gif" alt="Logo" width="fit" height="auto">
   </div>
 <br />
 

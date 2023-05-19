@@ -180,12 +180,11 @@ Contributions are what make the open source community such an amazing place to l
 If you have a suggestion that would make this better, please fork the repository and create a pull request. You can also simply open an issue describing your contribution.
 Don't forget to give the project a star! Thanks again!
 
-1. Fork the Project
-2. Checkout Development (`git checkout development`)
+1. Fork the project and clone onto your local machine
 3. Create your Feature Branch (`git checkout -b feature/NewFeatureName`)
-4. Commit your Changes (`git commit -m 'Add some NewFeatureMessage'`)
+4. Commit your Changes (`git commit -m '(feature/bugfix/style/etc.): [commit message here]'`)
 5. Push to the Branch (`git push origin feature/NewFeatureName`)
-6. Open a Pull Request (from `feature/NewFeatureName` to `development`)
+6. Open a Pull Request
 7. Create an issue on GitHub (as mentioned above!)
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.

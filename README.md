@@ -133,7 +133,7 @@ docker compose up
 
 #### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
 
-Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4000/api/k8):
 ```sh
 npm run dev
 ``` 

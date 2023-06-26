@@ -114,6 +114,22 @@ router.get(
   },
 );
 
+//
+router.post(
+  '/networkCreate',
+  commandController.networkCreate,
+  commandController.networkContainers,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.networkContainers);
+  }
+);
+
+
+
+
+
+
+
 // Route to inspect docker container
 router.get(
   '/inspect',
@@ -178,5 +194,6 @@ router.post(
     return res.status(201).json(res.locals.logs);
   },
 );
+
 
 export default router;

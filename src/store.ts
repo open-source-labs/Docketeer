@@ -26,9 +26,10 @@ const store = configureStore({
     }),
 });
 
+export type AppDispatch = typeof store.dispatch;
+
 // grabbing type of state returned from the reducer and setting that equal to RootState
 // RootState is used to dynamically change the type of the hooks
 export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
 export default store;

@@ -5,6 +5,7 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
+import { getNetworkContainers } from '../../src/reducers/composeReducer';
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -158,8 +159,6 @@ const convertArrToObj = (
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
 const commandController: CommandController = {
-
-
   getContainers: async (
     req: Request,
     res: Response,
@@ -408,18 +407,66 @@ const commandController: CommandController = {
           Driver: string;
         };
 
-        // remove docker network defaults named: bridge, host, and none
+        // remove docker network defaults named: host and none
         const networkContainers: NetworkContainer[] = JSON.parse(
           dockerOutput
         ).filter(
-          ({ Name }: { Name: string }) =>
-            Name !== 'bridge' && Name !== 'host' && Name !== 'none'
+          ({ Name }: { Name: string }) => Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
+        console.log('network containers line 416', networkContainers);
         return next();
       }
     );
   },
+
+  networkCheck: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkContainers } = res.locals;
+    const { networkName } = req.body;
+    console.log('network containers line 425', networkContainers);
+
+
+    for (let i = 0; i < networkContainers.length; i++) {
+      const curr = networkContainers[i];
+      if (curr.Name === networkName) {
+        res.locals.networkExists = true;
+
+        return next();
+      }
+    }
+    res.locals.networkExists = false;
+    return next();
+  },
+
+
+  networkCreate: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName } = req.body;
+
+    // added below line
+    if (res.locals.networkExists === false) {
+
+      exec(
+        `docker network create ${networkName}`,
+        (error: Error | null, stdout: string, stderr: string) => {
+
+          if (error) {
+            console.log(`networkCreate controller error: ${error.message} hi`);
+            return next(error);
+          }
+          // shows terminal error as opposed to controller error above
+          if (stderr) {
+            console.log(`networkCreate controller stderr: ${stderr} hi2`);
+            return next(stderr);
+          }
+          return next();
+        }
+      );
+    }
+    else {
+      next();
+    }
+  },
+
 
   inspectDockerContainer: (
     req: Request,
@@ -490,7 +537,7 @@ const commandController: CommandController = {
           parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
             if (
               obj.Name.includes(
-                directoryNameArray[directoryNameArray.length - 1],
+                directoryNameArray[directoryNameArray.length - 1]
               )
             ) {
               obj.FilePath = req.body.filePath;
@@ -500,7 +547,7 @@ const commandController: CommandController = {
         }
         res.locals.output = parseDockerOutput;
         return next();
-      },
+      }
     );
   },
 

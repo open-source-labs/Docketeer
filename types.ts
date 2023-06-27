@@ -370,6 +370,17 @@ export interface CommandController {
   networkContainers: MiddleWareFunction;
 
   /**
+   * @description Check to see if network already exists, if it does then throw an error.
+   */
+  networkCheck: MiddleWareFunction;
+
+  /**
+   * @description Display all networks based on docker-compose in a json object; when the user creates a new network
+   */
+
+  networkCreate: MiddleWareFunction;
+
+  /**
    * @description inspects docker containers
    * @note is not implemented right now
    */

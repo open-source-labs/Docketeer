@@ -421,17 +421,19 @@ const commandController: CommandController = {
 
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
+    // added below line
     exec(
       `docker network create ${networkName}`,
       (error: Error | null, stdout: string, stderr: string) => {
-        if (error) {
-          console.log(`networkCreate controller error: ${error.message}`);
-          return next(error);
-        }
+
+        // if (error) {
+        //   console.log(`networkCreate controller error: ${error.message} hi`);
+        //   return next(error);
+        // }
         // shows terminal error as opposed to controller error above
         if (stderr) {
-          console.log(`networkCreate controller stderr: ${stderr}`);
-          return;
+          console.log(`networkCreate controller stderr: ${stderr} hi2`);
+          return next(stderr);
         }
         // if (
         //   stdout ===

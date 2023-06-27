@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import { ContainerType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../../helpers/commands';
@@ -129,7 +129,7 @@ const Containers = (): JSX.Element => {
   }
 
   // Invoked when 'Create new network' button is pressed. Sends POST request to backend with current state of input field in the body. Resets input field upon submission.
-  const createNewNetwork = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+  const createNewNetwork = () => {
     if (!network) {
       dispatch(
         createAlert(
@@ -139,13 +139,11 @@ const Containers = (): JSX.Element => {
         )
       );
       return;
-    } 
-    e.preventDefault();
+    }
     console.log(network);
     fetchNewNetwork(network);
     setNetwork('');
-    
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -162,7 +160,7 @@ const Containers = (): JSX.Element => {
             setNetwork(e.target.value);
           }}
         />
-        <button className={globalStyles.button1} onClick={(e) => createNewNetwork(e)}>
+        <button className={globalStyles.button1} onClick={() => createNewNetwork()}>
           CREATE NEW NETWORK
         </button>
         <div className={styles.containerList}>

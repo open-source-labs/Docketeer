@@ -5,6 +5,17 @@ import {
   StoppedListType,
 } from '../../types';
 
+
+// createSlice is the main function used to define the redux logic
+// PayloadAction is a TS type that represents 'this is the contents of one given action object'
+
+
+// Below represents the shape of the state inside of our slice that is managed by the reducer
+// if there was an interface
+
+
+
+// below are defining the initial state
 const initialState: ContainerStateType = {
   runningList: [],
   stoppedList: [],
@@ -12,6 +23,7 @@ const initialState: ContainerStateType = {
   composeStack: [],
 };
 
+// Now we define the Slice that contains the reducer logic
 export const containerSlice = createSlice({
   name: 'containers',
   initialState,

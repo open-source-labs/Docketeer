@@ -426,13 +426,21 @@ const commandController: CommandController = {
       (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
           console.log(`networkCreate controller error: ${error.message}`);
-          return next();
+          return next(error);
         }
         // shows terminal error as opposed to controller error above
         if (stderr) {
           console.log(`networkCreate controller stderr: ${stderr}`);
           return;
         }
+        // if (
+        //   stdout ===
+        //   'Error response from daemon: network with name test already exists'
+        // ) {
+        //   return ({
+        //     log:
+        //   })
+        // }
         return next();
       }
     );

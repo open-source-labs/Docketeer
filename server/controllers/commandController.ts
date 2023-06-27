@@ -5,6 +5,7 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
+import { getNetworkContainers } from '../../src/reducers/composeReducer';
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -410,46 +411,61 @@ const commandController: CommandController = {
         const networkContainers: NetworkContainer[] = JSON.parse(
           dockerOutput
         ).filter(
-          ({ Name }: { Name: string }) =>
-            Name !== 'host' && Name !== 'none'
+          ({ Name }: { Name: string }) => Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
+        console.log('network containers line 416', networkContainers);
         return next();
       }
     );
   },
+
+  networkCheck: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkContainers } = res.locals;
+    const { networkName } = req.body;
+    console.log('network containers line 425', networkContainers);
+
+
+    for (let i = 0; i < networkContainers.length; i++) {
+      const curr = networkContainers[i];
+      if (curr.Name === networkName) {
+        res.locals.networkExists = true;
+
+        return next();
+      }
+    }
+    res.locals.networkExists = false;
+    return next();
+  },
+
 
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
+
     // added below line
-    exec(
-      `docker network create ${networkName}`,
-      (error: Error | null, stdout: string, stderr: string) => {
+    if (res.locals.networkExists === false) {
 
-        // if (error) {
-        //   console.log(`networkCreate controller error: ${error.message} hi`);
-        //   return next(error);
-        // }
-        // shows terminal error as opposed to controller error above
-        if (stderr) {
-          console.log(`networkCreate controller stderr: ${stderr} hi2`);
-          return next(stderr);
+      exec(
+        `docker network create ${networkName}`,
+        (error: Error | null, stdout: string, stderr: string) => {
+
+          if (error) {
+            console.log(`networkCreate controller error: ${error.message} hi`);
+            return next(error);
+          }
+          // shows terminal error as opposed to controller error above
+          if (stderr) {
+            console.log(`networkCreate controller stderr: ${stderr} hi2`);
+            return next(stderr);
+          }
+          return next();
         }
-        // if (
-        //   stdout ===
-        //   'Error response from daemon: network with name test already exists'
-        // ) {
-        //   return ({
-        //     log:
-        //   })
-        // }
-        return next();
-      }
-    );
+      );
+    }
+    else {
+      next();
+    }
   },
-
-
-
 
 
   inspectDockerContainer: (

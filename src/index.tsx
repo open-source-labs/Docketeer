@@ -12,6 +12,9 @@ import './main.scss';
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 
 root.render(
+  // Import curly braces Provider from react-redux, then we want to import that store variable that we just exported
+  // import store from './store' location 
+  // then we make a file called hooks.ts
   <Provider store={store}>
     <BrowserRouter>
       <Routes>

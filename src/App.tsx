@@ -21,6 +21,7 @@ const App = () => {
   const { checkCookie } = useHelper();
   const navigate = useNavigate();
 
+
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<boolean | undefined>(undefined);
   /**

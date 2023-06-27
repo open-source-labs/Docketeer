@@ -85,4 +85,5 @@ export default containerSlice.reducer;
 
 // All of the above is the basic shape of what we call a redux slice
 // Use the createSlice API to find what your state, one or more reducers to apply updates, export action creators
-// export the reducer that handles all those cases
+// export the reducer that handles all those cases/
+// Now we need to setup our Redux Store, which is a one time thing for our app, store.ts

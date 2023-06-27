@@ -19,7 +19,6 @@ export const composeSlice = createSlice({
       const currentState: any = state.composeStack;
 
       const composeStackUpdater = (
-        // current state is first array
         firstArray: [],
         secondArray: [],
         outputArray = []

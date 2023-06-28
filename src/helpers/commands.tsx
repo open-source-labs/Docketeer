@@ -246,12 +246,12 @@ const useHelper = () => {
           .catch((err: Error): void => console.log(err));
       },
       /* Display all containers network based on docker-compose when the application starts */
-      networkContainers() {
+      networkContainers() { // Pass in container that button is clicked on
         const { getNetworkContainers } = dispatch;
         fetch('/api/command/networkContainers')
           .then((data: Response) => data.json())
           .then((networkContainers) => {
-            getNetworkContainers(networkContainers);
+            getNetworkContainers(networkContainers); // use passed in container to
           })
           .catch((err: Error): void => console.log(err));
       },

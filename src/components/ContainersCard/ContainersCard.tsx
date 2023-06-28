@@ -10,6 +10,7 @@ const ContainersCard = ({
   stopContainer,
   runContainer,
   removeContainer,
+  connectToNetwork,
   status,
 }: ContainersCardsProps): JSX.Element => {
   return (
@@ -61,6 +62,14 @@ const ContainersCard = ({
                       REMOVE
                     </button>
                   </>
+                )}
+                {status === 'running' && (
+                  <button
+                    className={globalStyles.buttonSmall}
+                    onClick={() => connectToNetwork(container)}
+                  >
+                    NETWORK
+                  </button>
                 )}
               </div>
             </div>

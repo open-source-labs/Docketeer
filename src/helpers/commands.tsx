@@ -251,7 +251,9 @@ const useHelper = () => {
         fetch('/api/command/networkContainers')
           .then((data: Response) => data.json())
           .then((networkContainers) => {
-            getNetworkContainers(networkContainers); // use passed in container to
+            // grab the name of the network only using map method
+            networkContainers = networkContainers.map(el => el.Name);
+            getNetworkContainers(networkContainers);// use passed in container to
           })
           .catch((err: Error): void => console.log(err));
       },

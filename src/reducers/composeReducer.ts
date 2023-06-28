@@ -13,7 +13,8 @@ export const composeSlice = createSlice({
   initialState,
   reducers: {
     getNetworkContainers: (state, action: PayloadAction<any>) => {
-      state.networkList.push([...action.payload]);
+      // state.networkList.push(action.payload); original approach did not work in our end
+      state.networkList = action.payload;
     },
     getContainerStacks: (state, action: PayloadAction<any>) => {
       const currentState: any = state.composeStack;

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ContainerType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../../helpers/commands';
@@ -18,13 +18,17 @@ import globalStyles from '../global.module.scss';
 
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [network, setNetwork] = useState('');
 
-  const { runStopped, remove, stop, networkContainers } = useHelper();
+  const { runStopped, remove, stop, networkContainers, } = useHelper();
+  const [network, setNetwork] = useState('');
 
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+  // networkList state from the composeReducer.ts and ready to use
+  // const { networkList } = useAppSelector(
+  //   (state) => state.composes
+  // );
 
   const stopContainer = (container: ContainerType) => {
     dispatch(
@@ -114,7 +118,7 @@ const Containers = (): JSX.Element => {
   //
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
-      const response = await fetch('/networkCreate', {
+      const response = await fetch('/api/command/networkCreate', {
         method: 'POST',
         body: JSON.stringify({networkName : name}),
         headers: {'Content-Type': 'application/json'}

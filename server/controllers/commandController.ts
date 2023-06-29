@@ -493,6 +493,31 @@ const commandController: CommandController = {
     );
   },
 
+  networkDisconnect: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName, containerName } = req.body;
+
+    exec(
+      `docker network disconnect ${networkName} ${containerName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkDisconnect controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkDisconnect controller error: ${error.message}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
+
   inspectDockerContainer: (
     req: Request,
     res: Response,

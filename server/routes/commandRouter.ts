@@ -141,6 +141,14 @@ router.post(
   }
 );
 
+router.post(
+  '/networkDisconnect',
+  commandController.networkDisconnect,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
+
 // Route to inspect docker container
 router.get(
   '/inspect',

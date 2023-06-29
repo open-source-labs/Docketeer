@@ -389,6 +389,12 @@ export interface CommandController {
   networkConnect: MiddleWareFunction;
 
   /**
+   * @description Connect a container to a network
+   */
+
+  networkDisconnect: MiddleWareFunction;
+
+  /**
    * @description inspects docker containers
    * @note is not implemented right now
    */

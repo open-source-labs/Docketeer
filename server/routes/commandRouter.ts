@@ -117,22 +117,29 @@ router.get(
 //
 router.post(
   '/networkCreate',
-  commandController.networkContainers,
-  commandController.networkCheck,
   commandController.networkCreate,
   (req: Request, res: Response) => {
-    if (res.locals.networkExists) {
-      return res.status(409).json({ error: 'already exists' });
-    }
-    return res.status(200).json(res.locals.networkContainers);
+    return res.status(200).json(res.locals.result);
   }
 );
 
+//
+router.post(
+  '/networkRemove',
+  commandController.networkRemove,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
 
-
-
-
-
+//
+router.post(
+  '/networkConnect',
+  commandController.networkConnect,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
 
 // Route to inspect docker container
 router.get(

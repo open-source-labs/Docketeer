@@ -414,59 +414,84 @@ const commandController: CommandController = {
           ({ Name }: { Name: string }) => Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
-        console.log('network containers line 416', networkContainers);
         return next();
       }
     );
   },
 
-  networkCheck: (req: Request, res: Response, next: NextFunction): void => {
-    const { networkContainers } = res.locals;
-    const { networkName } = req.body;
-    console.log('network containers line 425', networkContainers);
-
-
-    for (let i = 0; i < networkContainers.length; i++) {
-      const curr = networkContainers[i];
-      if (curr.Name === networkName) {
-        res.locals.networkExists = true;
-
-        return next();
-      }
-    }
-    res.locals.networkExists = false;
-    return next();
-  },
-
-
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
 
     // added below line
-    if (res.locals.networkExists === false) {
 
-      exec(
-        `docker network create ${networkName}`,
-        (error: Error | null, stdout: string, stderr: string) => {
-
-          if (error) {
-            console.log(`networkCreate controller error: ${error.message} hi`);
-            return next(error);
-          }
-          // shows terminal error as opposed to controller error above
-          if (stderr) {
-            console.log(`networkCreate controller stderr: ${stderr} hi2`);
-            return next(stderr);
-          }
+    exec(
+      `docker network create ${networkName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkCreate controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
           return next();
         }
-      );
-    }
-    else {
-      next();
-    }
+
+        if (error) {
+          console.log(`networkCreate controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
   },
 
+  networkRemove: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName } = req.body;
+
+    exec(
+      `docker network rm ${networkName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkRemove controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkRemove controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
+
+  networkConnect: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName, containerName } = req.body;
+
+    exec(
+      `docker network connect ${networkName} ${containerName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkConnect controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkConnect controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
 
   inspectDockerContainer: (
     req: Request,

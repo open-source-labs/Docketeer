@@ -121,6 +121,8 @@ const Containers = (): JSX.Element => {
   };
 
   const displayNetworkList = () => {
+    // update the networkList before displaying the network list
+    // networkContainers();
     setShowList(!showList);
   };
 
@@ -155,8 +157,8 @@ const Containers = (): JSX.Element => {
     }
     // console.log(network);
     fetchNewNetwork(network);
-    // update the networkList right away after
-    networkContainers();
+    // update the networkList right away after add a new network name
+    // networkContainers();
     setNetwork('');
   };
 

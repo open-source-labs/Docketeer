@@ -21,14 +21,19 @@ const Containers = (): JSX.Element => {
 
   const { runStopped, remove, stop, networkContainers, } = useHelper();
   const [network, setNetwork] = useState('');
+  const [showList, setShowList] = useState(false);
 
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
   // networkList state from the composeReducer.ts and ready to use
-  // const { networkList } = useAppSelector(
-  //   (state) => state.composes
-  // );
+  const { networkList } = useAppSelector(
+    (state) => state.composes
+  );
+
+  useEffect(() => {
+    console.log(networkList);
+  }, []);
 
   const stopContainer = (container: ContainerType) => {
     dispatch(
@@ -115,6 +120,10 @@ const Containers = (): JSX.Element => {
     );
   };
 
+  const displayNetworkList = () => {
+    setShowList(!showList);
+  };
+
   //
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
@@ -144,38 +153,68 @@ const Containers = (): JSX.Element => {
       );
       return;
     }
-    console.log(network);
+    // console.log(network);
     fetchNewNetwork(network);
+    // update the networkList right away after
+    networkContainers();
     setNetwork('');
   };
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.listHolder}>
-        <h2>RUNNING CONTAINERS</h2>
-        <p className={styles.count}>Count: {runningList.length}</p>
-        <input
-          className={globalStyles.input}
-          type="text"
-          id='newNetwork'
-          value={network}
-          placeholder="Input network name here..."
-          onChange={(e) => {
-            setNetwork(e.target.value);
-          }}
-        />
-        <button className={globalStyles.button1} onClick={() => createNewNetwork()}>
-          CREATE NEW NETWORK
-        </button>
-        <div className={styles.containerList}>
-          <ContainersCard
-            containerList={runningList}
-            stopContainer={stopContainer}
-            runContainer={runContainer}
-            removeContainer={removeContainer}
-            connectToNetwork={connectToNetwork}
-            status="running"
+      <div className={styles.wrapper}>
+        <div id={styles.networkList} className={styles.listHolder}>
+          <h2>NETWORKS</h2>
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="newNetwork"
+            value={network}
+            placeholder="Input network name here..."
+            onChange={(e) => {
+              setNetwork(e.target.value);
+            }}
           />
+          <button
+            className={globalStyles.button1}
+            onClick={() => createNewNetwork()}
+          >
+            CREATE NEW NETWORK
+          </button>
+          <button
+            className={globalStyles.button1}
+            onClick={() => displayNetworkList()}
+          >
+            {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
+          </button>
+          {showList && (
+            <div className={styles.listHolder}>
+              <div id={styles.networkList}>
+                {networkList.map((name: string, index: number) => {
+                  return (
+                    <div key={index}>
+                      <p id={styles.networkName}>{name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+          )}
+        </div>
+        <div className={styles.listHolder}>
+          <h2>RUNNING CONTAINERS</h2>
+          <p className={styles.count}>Count: {runningList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={runningList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              connectToNetwork={connectToNetwork}
+              status="running"
+            />
+          </div>
         </div>
       </div>
       <div className={styles.listHolder}>

@@ -102,9 +102,8 @@ const Containers = (): JSX.Element => {
   const connectToNetwork = (container: ContainerType) => {
     dispatch(
       createPrompt(
-        'Choose a network to connect to.',
+        `Please connect or disconnect desired networks for container ${container.Names}`,
         () => {
-          networkContainers(container['ID']);
           dispatch(createAlert(`Connecting ${container.Names} to network.`, 5, 'success'));
         },
         () => {
@@ -143,6 +142,7 @@ const Containers = (): JSX.Element => {
     }
   }
 
+
   // Invoked when 'Create new network' button is pressed. Sends POST request to backend with current state of input field in the body. Resets input field upon submission.
   const createNewNetwork = () => {
     if (!network) {
@@ -161,6 +161,30 @@ const Containers = (): JSX.Element => {
     // networkContainers();
     setNetwork('');
   };
+
+  // ADDED deleteNetwork
+  async function deleteNetwork(name: string): Promise<void> {
+    try {
+      const response = await fetch('/api/command/networkRemove', {
+        method: 'POST',
+        body: JSON.stringify({ networkName: name }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        console.log('Request to delete network has been sent');
+      } else {
+        // If backend sending stderr to the frontend
+        dispatch(createAlert('Please detach container(s) before deleting this network.', 5, 'error'));
+        return;
+      }
+      
+    } catch (err) {
+      console.log('An error occurred while deleting network', err);
+    }
+  }
+
+  // TODO: CREATE FUNCTIONALITY TO ADD NETWORK TO CONTAINER
 
   return (
     <div className={styles.wrapper}>
@@ -196,6 +220,8 @@ const Containers = (): JSX.Element => {
                   return (
                     <div key={index}>
                       <p id={styles.networkName}>{name}</p>
+                      {/* ADDING DELETE BUTTON */}
+                      <button onClick={() => deleteNetwork(name)}>DELETE</button>
                     </div>
                   );
                 })}

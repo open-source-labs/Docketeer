@@ -21,14 +21,19 @@ const Containers = (): JSX.Element => {
 
   const { runStopped, remove, stop, networkContainers, } = useHelper();
   const [network, setNetwork] = useState('');
+  const [showList, setShowList] = useState(false);
 
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
   // networkList state from the composeReducer.ts and ready to use
-  // const { networkList } = useAppSelector(
-  //   (state) => state.composes
-  // );
+  const { networkList } = useAppSelector(
+    (state) => state.composes
+  );
+
+  useEffect(() => {
+    console.log(networkList);
+  }, []);
 
   const stopContainer = (container: ContainerType) => {
     dispatch(
@@ -97,9 +102,8 @@ const Containers = (): JSX.Element => {
   const connectToNetwork = (container: ContainerType) => {
     dispatch(
       createPrompt(
-        'Choose a network to connect to.',
+        `Please connect or disconnect desired networks for container ${container.Names}`,
         () => {
-          networkContainers(container['ID']);
           dispatch(createAlert(`Connecting ${container.Names} to network.`, 5, 'success'));
         },
         () => {
@@ -113,6 +117,12 @@ const Containers = (): JSX.Element => {
         }
       )
     );
+  };
+
+  const displayNetworkList = () => {
+    // update the networkList before displaying the network list
+    // networkContainers();
+    setShowList(!showList);
   };
 
   //
@@ -132,6 +142,7 @@ const Containers = (): JSX.Element => {
     }
   }
 
+
   // Invoked when 'Create new network' button is pressed. Sends POST request to backend with current state of input field in the body. Resets input field upon submission.
   const createNewNetwork = () => {
     if (!network) {
@@ -144,38 +155,94 @@ const Containers = (): JSX.Element => {
       );
       return;
     }
-    console.log(network);
+    // console.log(network);
     fetchNewNetwork(network);
+    // update the networkList right away after add a new network name
+    // networkContainers();
     setNetwork('');
   };
 
+  // ADDED deleteNetwork
+  async function deleteNetwork(name: string): Promise<void> {
+    try {
+      const response = await fetch('/api/command/networkRemove', {
+        method: 'POST',
+        body: JSON.stringify({ networkName: name }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        console.log('Request to delete network has been sent');
+      } else {
+        // If backend sending stderr to the frontend
+        dispatch(createAlert('Please detach container(s) before deleting this network.', 5, 'error'));
+        return;
+      }
+      
+    } catch (err) {
+      console.log('An error occurred while deleting network', err);
+    }
+  }
+
+  // TODO: CREATE FUNCTIONALITY TO ADD NETWORK TO CONTAINER
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.listHolder}>
-        <h2>RUNNING CONTAINERS</h2>
-        <p className={styles.count}>Count: {runningList.length}</p>
-        <input
-          className={globalStyles.input}
-          type="text"
-          id='newNetwork'
-          value={network}
-          placeholder="Input network name here..."
-          onChange={(e) => {
-            setNetwork(e.target.value);
-          }}
-        />
-        <button className={globalStyles.button1} onClick={() => createNewNetwork()}>
-          CREATE NEW NETWORK
-        </button>
-        <div className={styles.containerList}>
-          <ContainersCard
-            containerList={runningList}
-            stopContainer={stopContainer}
-            runContainer={runContainer}
-            removeContainer={removeContainer}
-            connectToNetwork={connectToNetwork}
-            status="running"
+      <div className={styles.wrapper}>
+        <div id={styles.networkList} className={styles.listHolder}>
+          <h2>NETWORKS</h2>
+          <input
+            className={globalStyles.input}
+            type="text"
+            id="newNetwork"
+            value={network}
+            placeholder="Input network name here..."
+            onChange={(e) => {
+              setNetwork(e.target.value);
+            }}
           />
+          <button
+            className={globalStyles.button1}
+            onClick={() => createNewNetwork()}
+          >
+            CREATE NEW NETWORK
+          </button>
+          <button
+            className={globalStyles.button1}
+            onClick={() => displayNetworkList()}
+          >
+            {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
+          </button>
+          {showList && (
+            <div className={styles.listHolder}>
+              <div id={styles.networkList}>
+                {networkList.map((name: string, index: number) => {
+                  return (
+                    <div key={index}>
+                      <p id={styles.networkName}>{name}</p>
+                      {/* ADDING DELETE BUTTON */}
+                      <button onClick={() => deleteNetwork(name)}>DELETE</button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+          )}
+        </div>
+        <div className={styles.listHolder}>
+          <h2>RUNNING CONTAINERS</h2>
+          <p className={styles.count}>Count: {runningList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={runningList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              connectToNetwork={connectToNetwork}
+              status="running"
+            />
+          </div>
         </div>
       </div>
       <div className={styles.listHolder}>

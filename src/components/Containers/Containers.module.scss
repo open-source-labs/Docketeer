@@ -6,6 +6,29 @@
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
+  
+}
+
+#networkList {
+  max-height: 40rem;
+  overflow-y: scroll;
+  width: 15rem;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+      width: 10px;
+      background-color: rgb(41, 41, 41);
+    }
+  input {
+    margin-top: 2rem;
+  }
+  button{
+    margin-top: .5rem;
+  }
+}
+
+#networkName {
+  margin-top: .25rem;
+  font-size: 1.5rem;
 }
 
 .listHolder {

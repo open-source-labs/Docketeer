@@ -166,7 +166,7 @@ const Containers = (): JSX.Element => {
   async function deleteNetwork(name: string): Promise<void> {
     try {
       const response = await fetch('/api/command/networkRemove', {
-        method: 'DELETE',
+        method: 'POST',
         body: JSON.stringify({ networkName: name }),
         headers: { 'Content-Type': 'application/json' },
       });

@@ -1,30 +1,57 @@
+// .wrapper {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   gap: 2rem;
+//   margin: $default-page-margin;
+//   @media screen and (max-width: 1000px) {
+//     flex-direction: column;
+//   }
+  
+// }
+
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin: $default-page-margin;
+  display: flex;
+  // flex-direction: column;
+  // margin: $default-page-margin;
+  margin-top: 1rem;
+  transition: margin-left .5s;
+  padding-left: 18rem;
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
-  
+
 }
 
 #networkList {
-  max-height: 40rem;
+  position: fixed;
+  height: 100%;
+  width: .5rem;
+  z-index: 1;
+  top: 3.8rem;
+  left: 0;
   overflow-y: scroll;
-  width: 15rem;
   overflow-x: hidden;
+  background-color: #111;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  transition: .5s;
+  &:hover {
+    width: 18rem;
+  }
   &::-webkit-scrollbar {
       width: 10px;
       background-color: rgb(41, 41, 41);
     }
   input {
     margin-top: 2rem;
+    width: 15rem;
   }
   button{
     margin-top: .5rem;
+    width: 15rem;
   }
 }
+
 
 #networkName {
   margin-top: .25rem;
@@ -44,7 +71,7 @@
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
-  // transform: all 0.5s ease-in-out;
+  transform: all 0.5s ease-in-out;
   width: 100%;
 }
 

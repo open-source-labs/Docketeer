@@ -163,35 +163,35 @@ const Containers = (): JSX.Element => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.wrapper}>
-        <div id={styles.networkList} className={styles.listHolder}>
-          <h2>NETWORKS</h2>
-          <input
-            className={globalStyles.input}
-            type="text"
-            id="newNetwork"
-            value={network}
-            placeholder="Input network name here..."
-            onChange={(e) => {
-              setNetwork(e.target.value);
-            }}
-          />
-          <button
-            className={globalStyles.button1}
-            onClick={() => createNewNetwork()}
-          >
+    <div>
+      <div id={styles.sidebar}>
+        <div className={styles.listHolder}>
+          <div id={styles.networkList}>
+            <h2>NETWORKS</h2>
+            <input
+              className={globalStyles.input}
+              type="text"
+              id="newNetwork"
+              value={network}
+              placeholder="Input network name here..."
+              onChange={(e) => {
+                setNetwork(e.target.value);
+              }}
+            />
+            <button
+              className={globalStyles.button1}
+              onClick={() => createNewNetwork()}
+            >
             CREATE NEW NETWORK
-          </button>
-          <button
-            className={globalStyles.button1}
-            onClick={() => displayNetworkList()}
-          >
-            {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
-          </button>
-          {showList && (
-            <div className={styles.listHolder}>
-              <div id={styles.networkList}>
+            </button>
+            <button
+              className={globalStyles.button1}
+              onClick={() => displayNetworkList()}
+            >
+              {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
+            </button>
+            {showList && (
+              <div className={styles.listHolder}>
                 {networkList.map((name: string, index: number) => {
                   return (
                     <div key={index}>
@@ -200,10 +200,11 @@ const Containers = (): JSX.Element => {
                   );
                 })}
               </div>
-            </div>
-            
-          )}
+            )}
+          </div>
         </div>
+      </div>
+      <div className={styles.wrapper}>
         <div className={styles.listHolder}>
           <h2>RUNNING CONTAINERS</h2>
           <p className={styles.count}>Count: {runningList.length}</p>
@@ -216,21 +217,21 @@ const Containers = (): JSX.Element => {
               connectToNetwork={connectToNetwork}
               status="running"
             />
-          </div>
+          </div>    
         </div>
-      </div>
-      <div className={styles.listHolder}>
-        <h2>STOPPED CONTAINERS</h2>
-        <p className={styles.count}>Count: {stoppedList.length}</p>
-        <div className={styles.containerList}>
-          <ContainersCard
-            containerList={stoppedList}
-            stopContainer={stopContainer}
-            runContainer={runContainer}
-            removeContainer={removeContainer}
-            connectToNetwork={connectToNetwork}
-            status="stopped"
-          />
+        <div className={styles.listHolder}>
+          <h2>STOPPED CONTAINERS</h2>
+          <p className={styles.count}>Count: {stoppedList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={stoppedList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              connectToNetwork={connectToNetwork}
+              status="stopped"
+            />
+          </div>
         </div>
       </div>
     </div>

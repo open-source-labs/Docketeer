@@ -419,6 +419,67 @@ const commandController: CommandController = {
     );
   },
 
+  networkListContainers: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    // declare an output object
+    const { networkContainers } = res.locals;
+    const networkListContainers = {};
+
+    const getContainersForNetwork = networkName => {
+      return new Promise((resolve, reject) => {
+        exec(`docker network inspect ${networkName} --format "{{json .}},"`, (error: Error | null, stdout: string, stderr: string) => {
+          if (stderr) {
+            console.log(`networkListContainers controller stderr: ${stderr}`);
+            res.locals.result = { error: stderr };
+            return next();
+          }
+
+          if (error) {
+            console.log(`networkListContainers controller error: ${error.message}`);
+            return next();
+          }
+
+          const dockerOutput = `${stdout
+            .trim()
+            .slice(0, -1)
+            .replaceAll(' ', '')}`;
+
+          // access Containers property on the object at index 0 in the array
+          const currentNetwork = JSON.parse(dockerOutput).Containers;
+          const containerList = {};
+
+          // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address 
+          for (const hash in currentNetwork) {
+            // if hash
+            // then we do containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address
+            if (hash) {
+              containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address;
+            }
+            // containerList[currentNetwork[hash].Name] = currentNetwork.hash.IPv4Address ? currentNetwork.hash.IPv4Address : 'no containers';
+          }
+          resolve(containerList);
+
+        });
+      });
+    };
+    
+    for (let i = 0; i < networkContainers.length; i++) {
+      const networkName = networkContainers[i].Name;
+      try {
+        const containerList = await getContainersForNetwork(networkName);
+        networkListContainers[networkName] = containerList;
+      }
+      catch (error) {
+        console.log('error line 462', error);
+      }
+    }
+    res.locals.networkListContainers = networkListContainers;
+    return next();
+  },
+
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
 

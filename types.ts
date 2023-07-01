@@ -69,6 +69,7 @@ export interface ContainerType {
   Names?: string;
   Image?: string;
   RunningFor?: string;
+  ConnectedNetworks?: string[];
 }
 
 export interface StoppedListType extends ContainerType {
@@ -87,7 +88,7 @@ export interface StoppedListType extends ContainerType {
 export interface ContainerStateType {
   runningList: ContainerType[];
   stoppedList: StoppedListType[];
-  networkList: any[];
+  networkList: string[];
   composeStack: any[];
 }
 

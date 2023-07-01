@@ -13,6 +13,7 @@ import {
   refreshRunningContainers,
   removeContainer,
   refreshStoppedContainer,
+  networkConnect
 } from '../reducers/containerReducer';
 
 import { refreshImages } from '../reducers/imageReducer';
@@ -82,6 +83,9 @@ const useSurvey = () => {
       },
       stopRunningContainer(id: string) {
         dispatch(stopRunningContainer(id));
+      },
+      networkConnect(data: ContainerType[]) {
+        dispatch(networkConnect(data));
       },
       // Dispatch functions used in Images.tsx
       // Note: refreshImagesList, refreshRunningContainers (both already exported)

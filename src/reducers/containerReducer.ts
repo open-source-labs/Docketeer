@@ -37,8 +37,19 @@ export const containerSlice = createSlice({
     ) => {
       state.stoppedList = action.payload;
     },
-  },
-});
+    networkConnect: (
+      state,
+      action: PayloadAction<string[]>
+    ) => {
+      state.runningList.forEach((el) => {
+        if (el.Names === action.payload[0]) {
+          el.ConnectedNetworks.push(action.payload[1]);
+        }
+      });
+    }
+  }
+}
+);
 
 
 export const {
@@ -47,6 +58,7 @@ export const {
   refreshRunningContainers,
   removeContainer,
   refreshStoppedContainer,
+  networkConnect,
 } = containerSlice.actions;
 
 export default containerSlice.reducer;

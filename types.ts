@@ -254,12 +254,14 @@ export interface ToggleDisplayProps {
 }
 
 export interface ContainersCardsProps {
-  containerList: ContainerType[];
+  containerList?: ContainerType[];
   stopContainer: (container: ContainerType) => void;
   runContainer: (container: ContainerType) => void;
   removeContainer: (container: ContainerType) => void;
-  connectToNetwork: (container: ContainerType) => void;
+  connectToNetwork: (network: string, container: string) => void;
+  container?: ContainerType;
   status: string;
+  key?: string;
 }
 
 // ==========================================================

@@ -33,7 +33,9 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      console.log(containerName)
+      console.log('Current containerList', containerList);
+      console.log('Current container name', containerName);
+
       const response = await fetch('/api/command/networkConnect', {
         method: 'POST',
         body: JSON.stringify({
@@ -42,28 +44,54 @@ const ContainersCard = ({
         }),
         headers: { 'Content-Type': 'application/json' },
       });
+      // process that we forgot to do in fetch function!
+      // we need to parse the response from the server as JSON and then grab the data from it
+      const dataFromBackend = await response.json();
 
-      if (response.ok) {
-        console.log(
-          `Request to connect ${containerName} to ${networkName} has been sent`
-        );
-        // iterate through containerList in state. if containerName matches the element in containerList, update it's network property to include the network that it was connected to.
-        const { networkConnect }: any = dispatch;
-        console.log(containerName, networkName);
-        networkConnect([containerName, networkName]);
-      } else {
-        // If backend sending stderr to the frontend
+      // console.log for what does resoponse from backend looks like
+      // console.log(
+      //   'Response from the backend after call the connectToNetwork function: ',
+      //   dataFromBackend
+      // );
+
+      // if serever response the { hash: stdout } which means we are success to attach the network to the container
+      // we CAN NOT set the if conidtion for success as if(dataFromBackend.hash) because when I checked stdout
+      // it is just empty string so it should be treat as false not true
+      // and use creatAlert to display the result of function invocation to user instead of using console.log 
+      if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
-            'Please detach container(s) before deleting this network.',
+            // string that shows on the alert
+            containerName + ' is successfully attached to the ' + networkName,
+            // how long it will stay up in the alert window
             5,
-            'error'
+            // type of the alert
+            'success'
+          )
+        );
+        // iterate through containerList in state. if containerName matches the element in containerList, update it's network property to include the network that it was connected to.
+        // const { networkConnect }: any = dispatch;
+        // networkConnect([containerName, networkName]);
+      } else if (dataFromBackend.error) {
+        // If server response { error: stderr } to the frontend which means container already exist in the network
+        dispatch(
+          createAlert(
+            containerName + ' is already attached to the ' + networkName,
+            5,
+            'warning'
           )
         );
         return;
       }
     } catch (err) {
-      console.log('An error occurred while attaching to network', err);
+      dispatch(
+        createAlert(
+          'An error occurred while attaching to network : ' + err
+          ,
+          5,
+          'error'
+        )
+      );
     }
   }
 
@@ -127,8 +155,7 @@ const ContainersCard = ({
 
   // component for the modal to display current network list
   const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
-    console.log('Line#130', Names);
-
+    // console.log(Names);
     return (
       <Modal
         isOpen={isOpen}
@@ -138,7 +165,7 @@ const ContainersCard = ({
         ariaHideApp={false}
       >
         <div className={styles.listHolder}>
-          <h4>Network List</h4>
+          <h4>Network List for {Names}</h4>
           {networkList.map((name: string, index: number) => {
             return (
               <div style={networkDiv} key={index}>

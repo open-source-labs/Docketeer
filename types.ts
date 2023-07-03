@@ -70,6 +70,7 @@ export interface ContainerType {
   Image?: string;
   RunningFor?: string;
   ConnectedNetworks?: string[];
+  ModalOpen: boolean;
 }
 
 export interface StoppedListType extends ContainerType {

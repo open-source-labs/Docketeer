@@ -114,6 +114,16 @@ router.get(
   },
 );
 
+// Route to get network container list
+router.get(
+  '/networkListContainers',
+  commandController.networkContainers,
+  commandController.networkListContainers,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.networkListContainers);
+  },
+);
+
 //
 router.post(
   '/networkCreate',

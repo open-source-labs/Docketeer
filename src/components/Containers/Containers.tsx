@@ -218,10 +218,10 @@ const Containers = (): JSX.Element => {
               <div className={styles.listHolder}>
                 {networkList.map((name: string, index: number) => {
                   return (
-                    <div key={index}>
-                      <p id={styles.networkName}>{name}</p>
+                    <div className={styles.networkDiv} key={index}>
+                        <p id={styles.networkName}>{name}</p>            
                       {/* ADDING DELETE BUTTON */}
-                      <button onClick={() => deleteNetwork(name)}>DELETE</button>
+                      <button id={styles.networkDeleteButton} onClick={() => deleteNetwork(name)}>DELETE</button>
                     </div>
                   );
                 })}

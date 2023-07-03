@@ -46,6 +46,17 @@ export const containerSlice = createSlice({
           el.ConnectedNetworks.push(action.payload[1]);
         }
       });
+    },
+    // openModal reducer function will iterate through runningList to find matching container and toggle it's ModalOpen state between true/false
+    openModal: (
+      state,
+      action: PayloadAction<any>
+    ) => {
+      for (let i = 0; i < state.runningList.length; i++) {
+        if (state.runningList[i] === action.payload) {
+          state.runningList[i].ModalOpen = !state.runningList[i].ModalOpen;
+        }
+      }
     }
   }
 }
@@ -59,6 +70,7 @@ export const {
   removeContainer,
   refreshStoppedContainer,
   networkConnect,
+  openModal
 } = containerSlice.actions;
 
 export default containerSlice.reducer;

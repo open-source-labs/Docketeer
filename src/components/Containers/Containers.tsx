@@ -19,7 +19,7 @@ import globalStyles from '../global.module.scss';
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { runStopped, remove, stop, networkContainers, } = useHelper();
+  const { runStopped, remove, stop, networkContainers } = useHelper();
   const [network, setNetwork] = useState('');
   const [showList, setShowList] = useState(false);
 

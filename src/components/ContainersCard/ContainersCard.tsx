@@ -7,6 +7,7 @@ import { ContainerType, ContainersCardsProps } from '../../../types';
 import styles from './ContainersCard.module.scss';
 import globalStyles from '../global.module.scss';
 // import useHelper from '../../helpers/commands';
+import useSurvey from '../../helpers/dispatch';
 
 const ContainersCard = ({
   containerList,
@@ -18,19 +19,17 @@ const ContainersCard = ({
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
   const { networkList } = useAppSelector((state) => state.composes);
- 
-
-  // create state that will use as toggle to show the modal or not
-  const [isOpen, setIsOpen] = useState(false);
-
 
   const dispatch = useAppDispatch();
   // const { networkName, containerName } = req.body; <-- give the backend this information
   // containerName = container.Name
+  // create state that will use as toggle to show the modal or not
+  const [isOpen, setIsOpen] = useState(false);
+
 
   async function connectToNetwork(
     networkName: string,
-    containerName: string,
+    containerName: string
   ): Promise<void> {
     try {
       console.log('Current containerList', containerList);
@@ -57,7 +56,7 @@ const ContainersCard = ({
       // if serever response the { hash: stdout } which means we are success to attach the network to the container
       // we CAN NOT set the if conidtion for success as if(dataFromBackend.hash) because when I checked stdout
       // it is just empty string so it should be treat as false not true
-      // and use creatAlert to display the result of function invocation to user instead of using console.log 
+      // and use creatAlert to display the result of function invocation to user instead of using console.log
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
@@ -70,8 +69,8 @@ const ContainersCard = ({
           )
         );
         // iterate through containerList in state. if containerName matches the element in containerList, update it's network property to include the network that it was connected to.
-        // const { networkConnect }: any = dispatch;
-        // networkConnect([containerName, networkName]);
+        const { networkConnect }: any = dispatch;
+        networkConnect([containerName, networkName]);
       } else if (dataFromBackend.error) {
         // If server response { error: stderr } to the frontend which means container already exist in the network
         dispatch(
@@ -86,8 +85,7 @@ const ContainersCard = ({
     } catch (err) {
       dispatch(
         createAlert(
-          'An error occurred while attaching to network : ' + err
-          ,
+          'An error occurred while attaching to network : ' + err,
           5,
           'error'
         )
@@ -156,6 +154,7 @@ const ContainersCard = ({
   // component for the modal to display current network list
   const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
     // console.log(Names);
+
     return (
       <Modal
         isOpen={isOpen}

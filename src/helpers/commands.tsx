@@ -254,6 +254,7 @@ const useHelper = () => {
             // grab the name of the network only using map method
             networkContainers = networkContainers.map(el => el.Name);
             getNetworkContainers(networkContainers);// use passed in container to
+            
           })
           .catch((err: Error): void => console.log(err));
       },

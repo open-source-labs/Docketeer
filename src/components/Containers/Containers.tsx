@@ -98,26 +98,7 @@ const Containers = (): JSX.Element => {
     );
   };
 
-  //
-  const connectToNetwork = (container: ContainerType) => {
-    dispatch(
-      createPrompt(
-        `Please connect or disconnect desired networks for container ${container.Names}`,
-        () => {
-          dispatch(createAlert(`Connecting ${container.Names} to network.`, 5, 'success'));
-        },
-        () => {
-          dispatch(
-            createAlert(
-              `The request to connect ${container.Names} to a network has been cancelled.`,
-              5,
-              'warning'
-            )
-          );
-        }
-      )
-    );
-  };
+
 
   const displayNetworkList = () => {
     // update the networkList before displaying the network list
@@ -240,7 +221,7 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              connectToNetwork={connectToNetwork}
+              // connectToNetwork={connectToNetwork}
               status="running"
             />
           </div>    
@@ -254,7 +235,7 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              connectToNetwork={connectToNetwork}
+              // connectToNetwork={connectToNetwork}
               status="stopped"
             />
           </div>

@@ -88,7 +88,7 @@ const RunningContainer = ({
       <Modal
         isOpen={isOpen}
         onRequestClose={closeNetworkList}
-        contentLable="Network List"
+        contentLabel="Network List"
         style={customStyles}
         ariaHideApp={false}
       >

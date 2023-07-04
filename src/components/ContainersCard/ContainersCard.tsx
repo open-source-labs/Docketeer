@@ -15,6 +15,7 @@ const ContainersCard = ({
   stopContainer,
   runContainer,
   removeContainer,
+  status
 }: ContainersCardsProps): JSX.Element => {
   // // Using useAppSelector for accessing to networkList state
   // const { networkList } = useAppSelector((state) => state.composes);
@@ -139,7 +140,7 @@ const ContainersCard = ({
       );
     }
   }
-
+  console.log('CONTAINER LIST DATA FOR GARRETT', containerList)
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     return (
       <RunningContainer
@@ -150,7 +151,7 @@ const ContainersCard = ({
         removeContainer={removeContainer}
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
-        status="running"/>
+        status={status}/>
     );
   }
   );

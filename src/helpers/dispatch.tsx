@@ -14,6 +14,7 @@ import {
   removeContainer,
   refreshStoppedContainer,
   networkConnect,
+  networkDisconnect,
   openModal
 } from '../reducers/containerReducer';
 
@@ -85,8 +86,21 @@ const useSurvey = () => {
       stopRunningContainer(id: string) {
         dispatch(stopRunningContainer(id));
       },
-      networkConnect(data: any) {
-        dispatch(networkConnect(data));
+      networkConnect(containerName: string, networkName: string) {
+        dispatch(
+          networkConnect({
+            containerName: containerName,
+            networkName: networkName,
+          })
+        );
+      },
+      networkDisconnect(containerName: string, networkName: string) {
+        dispatch(
+          networkDisconnect({
+            containerName: containerName,
+            networkName: networkName,
+          })
+        );
       },
       openModal(data: boolean) {
         dispatch(openModal(data));
@@ -98,7 +112,7 @@ const useSurvey = () => {
       updateUser(userInfo: UserInfo) {
         dispatch(updateUser(userInfo));
       },
-    
+
       // Dispatch functions used in Yml.tsx
       getContainerStacks(data: any) {
         dispatch(getContainerStacks(data));
@@ -111,7 +125,7 @@ const useSurvey = () => {
         dispatch(getLogs(data));
       },
     }),
-    [dispatch],
+    [dispatch]
   );
   return actions;
 };

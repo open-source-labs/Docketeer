@@ -13,6 +13,7 @@ const RunningContainer = ({
   runContainer,
   removeContainer,
   connectToNetwork,
+  disconnectFromNetwork,
   status,
   key
 }: ContainersCardsProps): JSX.Element => {
@@ -20,7 +21,6 @@ const RunningContainer = ({
   const { networkList } = useAppSelector((state) => state.composes);
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
-
 
   // function for opening the modal
   // openNetworkList will be invoking when open button is clicked[ line# 154 ]
@@ -100,6 +100,9 @@ const RunningContainer = ({
                 <p id={styles.networkName}>{name}</p>
                 <button onClick={() => connectToNetwork(name, Names)}>
                   Connect
+                </button>
+                <button onClick={() => disconnectFromNetwork(name, Names)}>
+                  Disconnect
                 </button>
               </div>
             );

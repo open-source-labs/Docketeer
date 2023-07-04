@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, current } from '@reduxjs/toolkit';
 import {
   ContainerStateType,
   ContainerType,
@@ -39,11 +39,26 @@ export const containerSlice = createSlice({
     },
     networkConnect: (
       state,
-      action: PayloadAction<string[]>
+      action: PayloadAction<any>
     ) => {
       state.runningList.forEach((el) => {
-        if (el.Names === action.payload[0]) {
-          el.ConnectedNetworks.push(action.payload[1]);
+        console.log(current(el));
+        if (el.Names === action.payload.containerName) {
+          console.log(current(el.Networks));
+          el.Networks.push(action.payload.networkName);
+        }
+      });
+    },
+    networkDisconnect: (
+      state,
+      action: PayloadAction<any>
+    ) => {
+      console.log(current(state.runningList));
+      state.runningList.forEach((el) => {
+        if (el.Names === action.payload.containerName) {
+          el.Image.Networks.filter(
+            (network) => network !== action.payload.networkName
+          );
         }
       });
     },
@@ -70,6 +85,7 @@ export const {
   removeContainer,
   refreshStoppedContainer,
   networkConnect,
+  networkDisconnect,
   openModal
 } = containerSlice.actions;
 

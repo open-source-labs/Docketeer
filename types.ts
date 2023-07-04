@@ -259,6 +259,7 @@ export interface ContainersCardsProps {
   runContainer: (container: ContainerType) => void;
   removeContainer: (container: ContainerType) => void;
   connectToNetwork: (network: string, container: string) => void;
+  disconnectFromNetwork: (network: string, container: string) => void;
   container?: ContainerType;
   status: string;
   key?: string;

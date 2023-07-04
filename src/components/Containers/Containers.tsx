@@ -133,7 +133,7 @@ const Containers = (): JSX.Element => {
         body: JSON.stringify({networkName : name}),
         headers: {'Content-Type': 'application/json'}
       });
-
+      
       if (response.ok) {
         console.log('New network name has been sent');
       }

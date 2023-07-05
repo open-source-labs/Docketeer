@@ -170,6 +170,12 @@ const commandController: CommandController = {
     const dockerOutput: string[] = JSON.parse(
       `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
+
+    // reformat networks property from a string to an array of strings
+    dockerOutput.forEach((el) => {
+      el['Networks'] = el['Networks'].split(',');
+    });
+
     res.locals.containers = dockerOutput;
     return next();
   },
@@ -417,6 +423,79 @@ const commandController: CommandController = {
         return next();
       }
     );
+  },
+
+  networkListContainers: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+
+    type Container = {
+      containerName: string;
+      containerIP: string;
+    };
+
+    type NetworkObject = {
+      networkName: string;
+      containers: Container[] | any;
+    };
+    
+    // declare an output object
+    const { networkContainers } = res.locals;
+    const networkListContainers : NetworkObject[] = [];
+    const getContainersForNetwork = networkName => {
+      return new Promise((resolve, reject) => {
+        exec(`docker network inspect ${networkName} --format "{{json .}},"`, (error: Error | null, stdout: string, stderr: string) => {
+          if (stderr) {
+            console.log(`networkListContainers controller stderr: ${stderr}`);
+            res.locals.result = { error: stderr };
+            return next();
+          }
+          if (error) {
+            console.log(`networkListContainers controller error: ${error.message}`);
+            return next();
+          }
+          const dockerOutput = `${stdout
+            .trim()
+            .slice(0, -1)
+            .replaceAll(' ', '')}`;
+          // access Containers property on the object at index 0 in the array
+          const currentNetwork = JSON.parse(dockerOutput).Containers;
+          const containerList : Container[] = [];
+          // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address 
+          for (const hash in currentNetwork) {
+            // if hash, i.e. if container exists, then we do containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address
+            if (hash) {
+              const container: Container = {
+                containerName: currentNetwork[hash].Name,
+                containerIP: currentNetwork[hash].IPv4Address,
+              };        
+              containerList.push(container);
+            }
+          }
+          resolve(containerList);
+        });
+      });
+    };
+    
+    for (let i = 0; i < networkContainers.length; i++) {
+      const networkName = networkContainers[i].Name;
+      try {
+        const containerList = await getContainersForNetwork(networkName);
+        // put the containerList in the networkObject
+        const networkObject: NetworkObject = {
+          networkName: networkName,
+          containers: containerList,
+        };
+        networkListContainers.push(networkObject);
+      }
+      catch (error) {
+        console.log('error in commandController.networkListContainers', error);
+      }
+    }
+    res.locals.networkListContainers = networkListContainers;
+    return next();
   },
 
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {

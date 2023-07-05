@@ -401,6 +401,12 @@ export interface CommandController {
   networkDisconnect: MiddleWareFunction;
 
   /**
+   * @description List containers attached to each of the networks
+   */
+
+  networkListContainers: MiddleWareFunction;
+
+  /**
    * @description inspects docker containers
    * @note is not implemented right now
    */

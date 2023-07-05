@@ -170,6 +170,12 @@ const commandController: CommandController = {
     const dockerOutput: string[] = JSON.parse(
       `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
+
+    // reformat networks property from a string to an array of strings
+    dockerOutput.forEach((el) => {
+      el['Networks'] = el['Networks'].split(',');
+    });
+
     res.locals.containers = dockerOutput;
     return next();
   },

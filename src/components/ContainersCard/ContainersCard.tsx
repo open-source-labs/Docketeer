@@ -17,11 +17,6 @@ const ContainersCard = ({
   removeContainer,
   status
 }: ContainersCardsProps): JSX.Element => {
-  // // Using useAppSelector for accessing to networkList state
-  // const { networkList } = useAppSelector((state) => state.composes);
-  const { networkConnect, networkDisconnect } = useSurvey();
-  const updateConnectedNetworks = (containerName, networkName) => networkConnect(containerName, networkName);
-  const updateDisconnectedNetworks = (containerName, networkName) => networkDisconnect(containerName, networkName);
 
   const dispatch = useAppDispatch();
   // const { networkName, containerName } = req.body; <-- give the backend this information
@@ -63,20 +58,18 @@ const ContainersCard = ({
             // string that shows on the alert
             containerName + ' is successfully attached to the ' + networkName,
             // how long it will stay up in the alert window
-            2,
+            4,
             // type of the alert
             'success'
           )
         );
-        // iterate through containerList in state. if containerName matches the element in containerList, update it's network property to include the network that it was connected to.
-        console.log('CONTAINER NAME ON LINE 69', containerName);
-        updateConnectedNetworks(containerName, networkName);
+
       } else if (dataFromBackend.error) {
         // If server response { error: stderr } to the frontend which means container already exist in the network
         dispatch(
           createAlert(
             containerName + ' is already attached to the ' + networkName,
-            2,
+            4,
             'warning'
           )
         );
@@ -86,7 +79,7 @@ const ContainersCard = ({
       dispatch(
         createAlert(
           'An error occurred while attaching to network : ' + err,
-          2,
+          4,
           'error'
         )
       );
@@ -107,14 +100,14 @@ const ContainersCard = ({
         headers: { 'Content-Type': 'application/json' },
       });
       const dataFromBackend = await response.json();
-      updateDisconnectedNetworks(containerName, networkName);
+      
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
             // string that shows on the alert
             containerName + ' was successfully disconnected from ' + networkName,
             // how long it will stay up in the alert window
-            2,
+            4,
             // type of the alert
             'success'
           )
@@ -124,7 +117,7 @@ const ContainersCard = ({
         dispatch(
           createAlert(
             containerName + ' is not connected to ' + networkName,
-            2,
+            4,
             'warning'
           )
         );
@@ -134,13 +127,13 @@ const ContainersCard = ({
       dispatch(
         createAlert(
           'An error occurred while disconnecting from network : ' + err,
-          2,
+          4,
           'error'
         )
       );
     }
   }
-  console.log('CONTAINER LIST DATA FOR GARRETT', containerList)
+  // console.log('CONTAINER LIST DATA FOR GARRETT', containerList);
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     return (
       <RunningContainer

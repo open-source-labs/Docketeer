@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerObj, ContainerType, ContainersCardsProps } from '../../../types';
-
+import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';
 
@@ -81,6 +81,24 @@ const RunningContainer = ({
   */
 
   // component for the modal to display current network list
+
+
+
+  console.log(networkList);
+  // EXPECTED SHAPED OF runningList from BACKEND after fetch request 
+  // runningList = [{
+  // Networks : ['network1', 'network2']
+  // }];
+  //
+  // networkList
+  // ['network1', 'network2', 'network3']
+  /*
+    if(container.Networks.includes(name)) {
+      return true
+    } else {
+      return false
+    }
+  */
   const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
     // console.log(Names);
 
@@ -95,15 +113,17 @@ const RunningContainer = ({
         <div className={styles.listHolder}>
           <h4>Network List for {Names}</h4>
           {networkList.map((name: string, index: number) => {
+            
             return (
               <div style={networkDiv} key={index}>
                 <p id={styles.networkName}>{name}</p>
-                <button onClick={() => connectToNetwork(name, Names)}>
+                {/* <button onClick={() => connectToNetwork(name, Names)}>
                   Connect
                 </button>
                 <button onClick={() => disconnectFromNetwork(name, Names)}>
                   Disconnect
-                </button>
+                </button> */}
+                <ConnectOrDisconnect container={container} networkName={name} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} />
               </div>
             );
           })}

@@ -133,7 +133,7 @@ const ContainersCard = ({
       );
     }
   }
-  // console.log('CONTAINER LIST DATA FOR GARRETT', containerList);
+
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     return (
       <RunningContainer

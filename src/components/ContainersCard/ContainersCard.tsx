@@ -40,7 +40,7 @@ const ContainersCard = ({
       });
       // process that we forgot to do in fetch function!
       // we need to parse the response from the server as JSON and then grab the data from it
-      const dataFromBackend = response.json();
+      const dataFromBackend = await response.json();
 
       // console.log for what does response from backend looks like
       // console.log(
@@ -99,7 +99,7 @@ const ContainersCard = ({
         }),
         headers: { 'Content-Type': 'application/json' },
       });
-      const dataFromBackend = response.json();
+      const dataFromBackend = await response.json();
       
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(

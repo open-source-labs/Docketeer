@@ -80,25 +80,7 @@ const RunningContainer = ({
            { overlay: {}, content: {} } 
   */
 
-  // component for the modal to display current network list
 
-
-
-  console.log(networkList);
-  // EXPECTED SHAPED OF runningList from BACKEND after fetch request 
-  // runningList = [{
-  // Networks : ['network1', 'network2']
-  // }];
-  //
-  // networkList
-  // ['network1', 'network2', 'network3']
-  /*
-    if(container.Networks.includes(name)) {
-      return true
-    } else {
-      return false
-    }
-  */
   const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
     // console.log(Names);
 

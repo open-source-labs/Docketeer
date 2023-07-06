@@ -587,7 +587,7 @@ const commandController: CommandController = {
 
         if (error) {
           console.log(`networkDisconnect controller error: ${error.message}`);
-          res.locals.result = { error: stderr };
+          // res.locals.result = { error: stderr };
           return next();
         }
 

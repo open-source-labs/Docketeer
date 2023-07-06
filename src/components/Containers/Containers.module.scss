@@ -15,10 +15,15 @@
   // margin: $default-page-margin;
   margin-top: 1rem;
   transition: margin-left .5s;
-  padding-left: 18rem;
+  .listHolder {
+      display: flex;
+      flex-direction: column;
+      padding-left: 2rem;
+    }
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
+
 
 }
 
@@ -36,7 +41,10 @@
   padding-left: 1rem;
   transition: .5s;
   &:hover {
-    width: 18rem;
+    width: 19rem;
+  }
+  .listHolder {
+    margin-top: 1rem;
   }
   &::-webkit-scrollbar {
       width: 10px;
@@ -49,6 +57,33 @@
   button{
     margin-top: .5rem;
     width: 15rem;
+  }
+  .networkDiv{
+    display: flex;
+    justify-content: space-between;
+    background-color: hsl(210, 15.2%, 18%);
+    margin-top: .5rem;
+    border: 2px solid rgb(214, 214, 214);
+    border-radius: .5rem;
+    width: 17rem;
+    height: 2.75rem;
+    padding-left: .5rem;
+    #networkName {
+      width: 12rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      // background-color: rgb(92, 51, 0);
+    }
+    #networkDeleteButton {
+      color: rgb(158, 30, 30);
+          // background-color: hsl(0, 0%, 13%);
+      font-weight: 700;
+      height: 1.5rem;
+      width: 3.5rem;
+      border-radius: .3rem;
+      margin-right: .25rem;
+    }
   }
 }
 

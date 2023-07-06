@@ -19,7 +19,7 @@ import globalStyles from '../global.module.scss';
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { runStopped, remove, stop, networkContainers, } = useHelper();
+  const { runStopped, remove, stop, networkContainers } = useHelper();
   const [network, setNetwork] = useState('');
   const [showList, setShowList] = useState(false);
 
@@ -98,26 +98,7 @@ const Containers = (): JSX.Element => {
     );
   };
 
-  //
-  const connectToNetwork = (container: ContainerType) => {
-    dispatch(
-      createPrompt(
-        `Please connect or disconnect desired networks for container ${container.Names}`,
-        () => {
-          dispatch(createAlert(`Connecting ${container.Names} to network.`, 5, 'success'));
-        },
-        () => {
-          dispatch(
-            createAlert(
-              `The request to connect ${container.Names} to a network has been cancelled.`,
-              5,
-              'warning'
-            )
-          );
-        }
-      )
-    );
-  };
+
 
   const displayNetworkList = () => {
     // update the networkList before displaying the network list
@@ -133,7 +114,7 @@ const Containers = (): JSX.Element => {
         body: JSON.stringify({networkName : name}),
         headers: {'Content-Type': 'application/json'}
       });
-
+      
       if (response.ok) {
         console.log('New network name has been sent');
       }
@@ -218,10 +199,10 @@ const Containers = (): JSX.Element => {
               <div className={styles.listHolder}>
                 {networkList.map((name: string, index: number) => {
                   return (
-                    <div key={index}>
-                      <p id={styles.networkName}>{name}</p>
+                    <div className={styles.networkDiv} key={index}>
+                        <p id={styles.networkName}>{name}</p>            
                       {/* ADDING DELETE BUTTON */}
-                      <button onClick={() => deleteNetwork(name)}>DELETE</button>
+                      <button id={styles.networkDeleteButton} onClick={() => deleteNetwork(name)}>DELETE</button>
                     </div>
                   );
                 })}
@@ -240,7 +221,7 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              connectToNetwork={connectToNetwork}
+              // connectToNetwork={connectToNetwork}
               status="running"
             />
           </div>    
@@ -254,7 +235,7 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              connectToNetwork={connectToNetwork}
+              // connectToNetwork={connectToNetwork}
               status="stopped"
             />
           </div>

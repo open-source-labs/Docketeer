@@ -90,7 +90,7 @@ const useSurvey = () => {
       updateUser(userInfo: UserInfo) {
         dispatch(updateUser(userInfo));
       },
-    
+
       // Dispatch functions used in Yml.tsx
       getContainerStacks(data: any) {
         dispatch(getContainerStacks(data));
@@ -103,7 +103,7 @@ const useSurvey = () => {
         dispatch(getLogs(data));
       },
     }),
-    [dispatch],
+    [dispatch]
   );
   return actions;
 };

@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, current } from '@reduxjs/toolkit';
 import {
   ContainerStateType,
   ContainerType,
@@ -20,7 +20,10 @@ export const containerSlice = createSlice({
       state.runningList.filter((container) => container.ID !== action.payload);
     },
     runStoppedContainer: (state, action: PayloadAction<string>) => {
-      state.stoppedList.filter((container) => container.ID !== action.payload);
+      state.stoppedList.filter(
+        (container) =>
+          container.ID !== action.payload 
+      );
     },
     refreshRunningContainers: (
       state,
@@ -37,8 +40,10 @@ export const containerSlice = createSlice({
     ) => {
       state.stoppedList = action.payload;
     },
-  },
-});
+ 
+  }
+}
+);
 
 
 export const {

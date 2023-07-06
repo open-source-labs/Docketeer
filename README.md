@@ -67,6 +67,7 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
   </ol>
 
 <!-- ABOUT THE PROJECT -->
@@ -115,7 +116,7 @@ The local configuration for Docketeer was setup to be as simple as possible for 
 Follow the steps below to get started with Docketeer.
 
 #### Prerequisites:
-You must have Docker Desktop installed!
+You must have Docker Desktop installed and running!
 <br></br>
 
 #### STEP 1 — Clone the repository
@@ -131,19 +132,6 @@ Making sure you're in your Docketeer directory, run:
 docker compose up
 ```
 
-#### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
-
-Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
-```sh
-npm run dev
-``` 
-
-If you haven't set up Prometheus-Operator with us before, click the first button to install. 
-<br />
-Otherwise, you can skip the first button and go on with the next two!
-<br />
-P.S. Make sure to keep this terminal open!
-
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
@@ -152,7 +140,28 @@ http://localhost:4000
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Setting up Docketeer to work with a Kubernetes cluster
 
+Prerequisites: you must have <a href="https://helm.sh/docs/intro/install/">helm</a> and <a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a> installed and be running a Kubernetes cluster/kube. 
+
+Open up a new tab in your terminal. Run 
+
+```sh
+npm install
+```
+and
+
+```sh
+npm run dev
+``` 
+
+Then, navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+
+If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+<br />
+Otherwise, you can skip the first button and go on with the next two!
+<br />
+P.S. Make sure to keep this terminal open!
 
 <!-- IN DEVELOPMENT -->
 
@@ -167,7 +176,7 @@ http://localhost:4000
 - [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
 - [ ] Display additional metrics for Kubernetes clusters.
 
-See the [open issues](https://github.com/open-source-labs/Docketeer/issues) for a full list of proposed features (and known issues).
+See <a href="#troubleshooting">Troubleshooting</a> and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -189,7 +198,7 @@ Don't forget to give the project a star! Thanks again!
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
-
+<br />
 
 ## <b>Read More</b>
 
@@ -203,6 +212,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 - [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
 - [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
 
+<br />
 
 <!-- LICENSE -->
 
@@ -273,6 +283,61 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Show Your Support
 
 Please ⭐️ this project if you found it helpful, thank you!
+
+<br />
+
+## Troubleshooting:
+
+<br />
+
+#### WSL
+
+There are some known issues running Docketeer through WSL. Using WindowsOS, MacOS, or Linux is recommended.
+
+<br />
+
+#### Linux
+
+If you are runing Docketeer in Linux and encounter the followeing errors, you might need to change some of your permissions.
+
+```sh
+grafana        |Error: ✗ failed to connect to database: failed to create SQLite database file "/var/lib/grafana/grafana.db": open /var/lib/grafana/grafana.db: permission denied
+```
+
+```sh
+prometheus     | ts=2023-07-05T23:48:01.612Z caller=query_logger.go:113 level=error component=activeQueryTracker msg="Failed to create directory for logging active queries"
+
+prometheus     | ts=2023-07-05T23:48:01.613Z caller=query_logger.go:91 level=error component=activeQueryTracker msg="Error opening query log file" file=/prometheus/data/queries.active err="open data/queries.active: no such file or directory"
+
+prometheus     | panic: Unable to create mmap-ed active query log
+```
+
+In order to do this, you need to change the permissions of data in ./imageConfigs/grafana and promDate under ./imageConfigs/prometheus. 
+
+ go to grafana under ./imageConfigs and change permission of data
+
+ ```sh
+cd ./imageConfigs/grafana
+chmod 771 data/
+```
+
+go to prometheus under ./imageConfigs and change permission of promDate
+
+```sh
+cd ./imageConfigs/prometheus
+chmod 777 promData/
+```
+
+<br />
+
+#### Ad-blocker
+
+If you are encountering the following error and are running an ad-blocker, disable your ad-blocker
+
+```sh
+ERR_BLOCKED_BY_CLIENT
+```
+
 
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge

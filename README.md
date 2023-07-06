@@ -142,7 +142,7 @@ http://localhost:4000
 
 ## Setting up Docketeer to work with a Kubernetes cluster
 
-Prerequisites: you must have <a href="https://helm.sh/docs/intro/install/">helm</a> and <a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a> installed and be running a Kubernetes cluster/kube. 
+Prerequisites: you must be running a Kubernetes cluster/kube.
 
 Open up a new tab in your terminal. Run 
 

@@ -57,6 +57,11 @@ describe('Command Route', () => {
     expect(res.status).toBe(200)
     expect(res.body.hash).toBeDefined()
   });
+  request(app)
+    .post('/command/networkRemove')
+    .send({
+      networkName: "test1",
+    })
 })
 
 // tests that route responds with error when given an invalid name, i.e. one that already exists as a network or an invalid network name
@@ -107,7 +112,7 @@ describe('Command Route', () => {
       .send({
         networkName: "test3",
       })
-    expect(resCreate.status).toBe(200)
+    expect(resCreate.status).toBe(200) // get rid of these expects
     expect(resCreate.body.hash).toBeDefined()
 
     const resRemove = await request(app)
@@ -141,7 +146,7 @@ describe('Command Route', () => {
 
 describe('Command Route', () => {
   test('networkConnect', async () => {
-    const res = await request(app)
+    const res = await request(app) // create a network, connect a docketeer container to it, disconnect it 
       .post('/command/networkConnect')
       .send({
         networkName: "miles",
@@ -151,11 +156,10 @@ describe('Command Route', () => {
     expect(res.status).toBe(200)
     expect(res.body.hash).toBeDefined()
     expect(res.body.error).not.toBeDefined()
-
   });
 })
 
-// tests that route when a container is attached to a network and try to connect the container to the same network
+// tests that a container is attached to a network and try to connect the container to the same network
 describe('Command Route', () => {
   test('networkConnect', async () => {
     const res = await request(app)

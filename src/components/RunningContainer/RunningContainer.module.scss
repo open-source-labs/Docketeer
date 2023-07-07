@@ -27,3 +27,33 @@
     margin-right: 0.5rem;
   }
 }
+
+.modal {
+  position: fixed;
+  display: flex;
+  background: $background-bg;
+  justify-content: center;
+  align-items: center;
+  height: 25rem;
+  // overflow-y: scroll;
+  width: 20rem;
+  left: 40%;
+  top: 30%;
+  border-radius: 2rem;
+}
+
+.overlay {
+  position: fixed;
+  display: flex;
+  background: hsla(0, 0%, 0%, 0.342);
+  width: 100%;
+  height: 100%;
+  left: 0%;
+  top: 0%;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}

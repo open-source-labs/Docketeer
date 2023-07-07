@@ -34,25 +34,6 @@ const RunningContainer = ({
     setIsOpen(false);
   };
 
-  // Temporary styling for the modal
-  const customStyles = {
-    // overlay
-    overlay: {
-      left: '40%',
-      top: '30%',
-      width: '430px',
-      height: '330px',
-      // try to mimick the current docketeer's background color
-      background: 'hsl(0deg 0% 12.94%)',
-    },
-    // content which display the actual component
-    content: {
-      width: '350px',
-      height: '250px',
-      // try to mimick the current docketeer's container card color
-      background: 'hsl(210deg 15.22% 18.04%)',
-    },
-  };
 
   // temporary styling for button
   const buttonStyles = {
@@ -80,25 +61,7 @@ const RunningContainer = ({
            { overlay: {}, content: {} } 
   */
 
-  // component for the modal to display current network list
 
-
-
-  console.log(networkList);
-  // EXPECTED SHAPED OF runningList from BACKEND after fetch request 
-  // runningList = [{
-  // Networks : ['network1', 'network2']
-  // }];
-  //
-  // networkList
-  // ['network1', 'network2', 'network3']
-  /*
-    if(container.Networks.includes(name)) {
-      return true
-    } else {
-      return false
-    }
-  */
   const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
     // console.log(Names);
 
@@ -107,7 +70,8 @@ const RunningContainer = ({
         isOpen={isOpen}
         onRequestClose={closeNetworkList}
         contentLabel="Network List"
-        style={customStyles}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
         ariaHideApp={false}
       >
         <div className={styles.listHolder}>
@@ -127,8 +91,8 @@ const RunningContainer = ({
               </div>
             );
           })}
-          <div style={buttonDiv}>
-            <button style={buttonStyles} onClick={() => closeNetworkList()}>
+          <div className={styles.buttonDiv}>
+            <button className={globalStyles.buttonSmall} onClick={() => closeNetworkList()}>
               CLOSE
             </button>
           </div>

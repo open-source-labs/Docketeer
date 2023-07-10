@@ -11,13 +11,11 @@ import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
+import NotFound from './components/NotFound/NotFound'
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
 
-const NotFound = () => {
-  return <h1>404 - Page Not Found</h1>;
-};
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -8,4 +8,4 @@ const Network = (): JSX.Element => {
   );
 };
 
-export default Network
+export default Network;

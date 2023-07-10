@@ -7,6 +7,7 @@ import logReducer from './reducers/logReducer';
 import userReducer from './reducers/userReducer';
 import sessionReducer from './reducers/sessionReducer';
 import volumeReducer from './reducers/volumeReducer';
+import networkReducer from './reducers/networkReducer';
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     logs: logReducer,
     users: userReducer,
     alerts: alertReducer,
+    networks: networkReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

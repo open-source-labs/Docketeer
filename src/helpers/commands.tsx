@@ -115,7 +115,16 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
-
+      /* Refreshes networkContainerList[state in networkReducer] */
+      refreshNetwork() {
+        const { refreshNetworkList } = dispatch;
+        fetch('/api/command/networkListContainers')
+          .then((data: Response) => data.json())
+          .then((networkList) => {
+            refreshNetworkList(networkList);
+          })
+          .catch((err: Error): void => console.log(err));
+      },
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
@@ -254,7 +263,6 @@ const useHelper = () => {
             // grab the name of the network only using map method
             networkContainers = networkContainers.map(el => el.Name);
             getNetworkContainers(networkContainers);// use passed in container to
-            
           })
           .catch((err: Error): void => console.log(err));
       },

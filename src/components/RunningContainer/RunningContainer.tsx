@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import { createAlert } from '../../reducers/alertReducer';
-import { ContainerObj, ContainerType, ContainersCardsProps } from '../../../types';
+import { useAppSelector } from '../../reducers/hooks';
+import {
+  ContainersCardsProps,
+  NetworkModal,
+  NetworkContainerListType,
+} from '../../../types';
 import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';
+
+/**
+ * @module | RunningContainers.tsx
+ * @description | This component renders each container, and if a container is currently running, it passes the modal component for network configuration.
+ **/
 
 const RunningContainer = ({
   container,
@@ -18,18 +26,16 @@ const RunningContainer = ({
   key
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
-  const { networkList } = useAppSelector((state) => state.composes);
+  const { networkContainerList } = useAppSelector((state) => state.networks);
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
 
   // function for opening the modal
-  // openNetworkList will be invoking when open button is clicked[ line# 154 ]
   const openNetworkList = () => {
     setIsOpen(true);
   };
 
   // function for closing the modal
-  // closeNetworkList will be invoking when close button is clicked[ line# 90 ]
   const closeNetworkList = () => {
     setIsOpen(false);
   };
@@ -62,9 +68,7 @@ const RunningContainer = ({
   */
 
 
-  const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
-    // console.log(Names);
-
+  const NetworkListModal = ({ Names }: NetworkModal): JSX.Element => {
     return (
       <Modal
         isOpen={isOpen}
@@ -76,23 +80,32 @@ const RunningContainer = ({
       >
         <div className={styles.listHolder}>
           <h4>Network List for {Names}</h4>
-          {networkList.map((name: string, index: number) => {
-            
-            return (
-              <div style={networkDiv} key={index}>
-                <p id={styles.networkName}>{name}</p>
-                {/* <button onClick={() => connectToNetwork(name, Names)}>
+          {networkContainerList.map(
+            (network: NetworkContainerListType, index: number) => {
+              return (
+                <div style={networkDiv} key={index}>
+                  <p id={styles.networkName}>{network.networkName}</p>
+                  {/* <button onClick={() => connectToNetwork(name, Names)}>
                   Connect
                 </button>
                 <button onClick={() => disconnectFromNetwork(name, Names)}>
                   Disconnect
                 </button> */}
-                <ConnectOrDisconnect container={container} networkName={name} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} />
-              </div>
-            );
-          })}
+                  <ConnectOrDisconnect
+                    container={container}
+                    networkName={network.networkName}
+                    connectToNetwork={connectToNetwork}
+                    disconnectFromNetwork={disconnectFromNetwork}
+                  />
+                </div>
+              );
+            }
+          )}
           <div className={styles.buttonDiv}>
-            <button className={globalStyles.buttonSmall} onClick={() => closeNetworkList()}>
+            <button
+              className={globalStyles.buttonSmall}
+              onClick={() => closeNetworkList()}
+            >
               CLOSE
             </button>
           </div>
@@ -100,8 +113,6 @@ const RunningContainer = ({
       </Modal>
     );
   };
-
-
 
 
   return (

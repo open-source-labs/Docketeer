@@ -14,11 +14,7 @@ app.use('/gapi', apiRouter);
 app.use('/api', apiRouter);
 app.use('/command', commandRouter);
 
-// tests networkContainers route
-
-// test that it is responding with a list of network objects with a Name property
-
-describe('Command Route', () => {
+describe('/command/networkContainers', () => {
   test('Get networkContainers', async () => {
     const res = await request(app)
       .get('/command/networkContainers');
@@ -30,8 +26,7 @@ describe('Command Route', () => {
   });
 })
 
-// tests networkListContainers route
-describe('Command Route', () => {
+describe('/command/networkListContainers', () => {
   test('Get networkListContainers', async () => {
     const res = await request(app).get('/command/networkListContainers');
     expect(res.status).toBe(200)
@@ -43,12 +38,30 @@ describe('Command Route', () => {
   })
 })
 
-// tests networkCreate route
+describe('/command/networkCreate', () => {
 
-// tests that route creates a network when given a valid name
+  beforeAll(async () => {
+    await request(app)
+      .post('/command/networkCreate')
+      .send({
+        networkName: "test2",
+      })
+  })
 
-describe('Command Route', () => {
-  test('networkCreate', async () => {
+  afterAll(async () => {
+  await request(app)
+      .post('/command/networkRemove')
+      .send({
+        networkName: "test1",
+      })
+  await request(app)
+      .post('/command/networkRemove')
+      .send({
+        networkName: "test2",
+      })
+});
+
+  test('networkCreate with a valid name', async () => {
     const res = await request(app)
       .post('/command/networkCreate')
       .send({
@@ -57,39 +70,19 @@ describe('Command Route', () => {
     expect(res.status).toBe(200)
     expect(res.body.hash).toBeDefined()
   });
-  request(app)
-    .post('/command/networkRemove')
-    .send({
-      networkName: "test1",
-    })
-})
 
-// tests that route responds with error when given an invalid name, i.e. one that already exists as a network or an invalid network name
-
-describe('Command Route', () => {
-  test('networkCreate', async () => {
+  test('networkCreate duplicate', async () => {
     const res = await request(app)
       .post('/command/networkCreate')
       .send({
         networkName: "test2",
       })
     expect(res.status).toBe(200)
-    expect(res.body.hash).toBeDefined()
-    expect(res.body.error).not.toBeDefined()
-    
-    const duplicate = await request(app)
-      .post('/command/networkCreate')
-      .send({
-        networkName: "test2",
-      })
-    expect(duplicate.status).toBe(200)
-    expect(duplicate.body.hash).not.toBeDefined()
-    expect(duplicate.body.error).toBeDefined()
+    expect(res.body.hash).not.toBeDefined()
+    expect(res.body.error).toBeDefined()
   });
-})
-
-describe('Command Route', () => {
-  test('networkCreate', async () => {
+  
+  test('networkCreate with an invalid name', async () => {
     const res = await request(app)
       .post('/command/networkCreate')
       .send({
@@ -101,120 +94,148 @@ describe('Command Route', () => {
   });
 })
 
-// tests networkRemove route
+describe('/command/networkRemove', () => {
 
-// tests that route removes a network when given a valid name
-
-describe('Command Route', () => {
-  test('networkRemove', async () => {
-    const resCreate = await request(app)
+  beforeAll(async () => {
+    await request(app)
       .post('/command/networkCreate')
       .send({
         networkName: "test3",
       })
-    expect(resCreate.status).toBe(200) // get rid of these expects
-    expect(resCreate.body.hash).toBeDefined()
+  });
 
-    const resRemove = await request(app)
+  test('networkRemove', async () => {
+    const res = await request(app)
       .post('/command/networkRemove')
       .send({
         networkName: "test3",
       })
-    expect(resRemove.status).toBe(200)
-    expect(resRemove.body.hash).toBeDefined()
-  });
-})
-
-// tests that route responds with error when given an invalid name, i.e. one that don't exist as a network. This is not possible on our frontend, since users can only make a remove request on networks that exist 
-
-// xdescribe('Command Route', () => {
-//   test('networkRemove', async () => {
-//     const res = await request(app)
-//       .post('/command/networkRemove')
-//       .send({
-//         networkName: "kiwi",
-//       })
-//     expect(res.status).toBe(200)
-//     expect(res.body.error).toBeDefined()
-//   });
-// })
-
-
-// tests networkConnect route 
-
-// tests that route attaches a container to a network when given valid container name and network name
-
-describe('Command Route', () => {
-  test('networkConnect', async () => {
-    const res = await request(app) // create a network, connect a docketeer container to it, disconnect it 
-      .post('/command/networkConnect')
-      .send({
-        networkName: "miles",
-        containerName: "nginx-latest_81"
-        
-      })
     expect(res.status).toBe(200)
     expect(res.body.hash).toBeDefined()
-    expect(res.body.error).not.toBeDefined()
+  });
+
+  test('networkRemove duplicate', async () => {
+    const res = await request(app)
+      .post('/command/networkRemove')
+      .send({
+        networkName: "test3",
+      })
+    expect(res.status).toBe(200)
+    expect(res.body.hash).not.toBeDefined()
+    expect(res.body.error).toBeDefined()
   });
 })
 
-// tests that a container is attached to a network and try to connect the container to the same network
-describe('Command Route', () => {
+describe('/command/networkConnect', () => {
+
+  beforeAll(async () => {
+    await request(app)
+      .post('/command/networkCreate')
+      .send({
+        networkName: "test4",
+      })
+    
+    // await request(app)
+    //   .post('/command/runImage')
+    //   .send({
+    //     reps: "nginx",
+    //     tag: "latest"
+    //   })
+  });
+
+  afterAll(async () => {
+    await request(app)
+      .post('/command/networkDisconnect')
+      .send({
+        networkName: "test4",
+        containerName: "docketeerdb"
+      })
+    
+    await request(app)
+      .post('/command/networkRemove')
+      .send({
+        networkName: "test4",
+      })
+    
+  });
+
   test('networkConnect', async () => {
     const res = await request(app)
       .post('/command/networkConnect')
       .send({
-        networkName: "lim",
-        containerName: "nginx-latest_81"
+        networkName: "test4",
+        containerName: "docketeerdb"
         
       })
     expect(res.status).toBe(200)
     expect(res.body.hash).toBeDefined()
     expect(res.body.error).not.toBeDefined()
+  });
 
-    const duplicate = await request(app)
+  test('networkConnect duplicate', async () => {
+    const res = await request(app)
       .post('/command/networkConnect')
       .send({
-        networkName: "lim",
-        containerName: "nginx-latest_81"
-        
-      })
-    expect(duplicate.status).toBe(200)
-    expect(duplicate.body.hash).not.toBeDefined()
-    expect(duplicate.body.error).toBeDefined()
+        networkName: "test4",
+        containerName: "docketeerdb"
 
+      })
+    expect(res.status).toBe(200)
+    expect(res.body.hash).not.toBeDefined()
+    expect(res.body.error).toBeDefined()
   });
 })
 
-// tests networkDisconnect route
+describe('/command/networkDisconnect', () => {
 
-// tests that route disconnects a container from a network when given valid container name and network name
+  beforeAll(async () => {
+    await request(app)
+      .post('/command/networkCreate')
+      .send({
+        networkName: "test5",
+      })
 
-describe('Command Route', () => {
-  test('networkDisconnect', async () => {
-    const resConnect = await request(app)
+    await request(app)
       .post('/command/networkConnect')
       .send({
-        networkName: "lemon",
-        containerName: "nginx-latest_81"
-
+        networkName: "test5",
+        containerName: "docketeerdb"
       })
-    expect(resConnect.status).toBe(200)
-    expect(resConnect.body.hash).toBeDefined()
-    expect(resConnect.body.error).not.toBeDefined()
+  });
 
-    const resDisconnect = await request(app)
+  afterAll(async () => {
+    await request(app)
+      .post('/command/networkRemove')
+      .send({
+        networkName: "test5",
+      })
+  });
+
+  test('networkDisconnect', async () => {
+
+    const res = await request(app)
       .post('/command/networkDisconnect')
       .send({
-        networkName: "lemon",
-        containerName: "nginx-latest_81"
+        networkName: "test5",
+        containerName: "docketeerdb"
 
       })
-    expect(resDisconnect.status).toBe(200)
-    expect(resDisconnect.body.hash).toBeDefined()
-    expect(resDisconnect.body.error).not.toBeDefined()
+    expect(res.status).toBe(200)
+    expect(res.body.hash).toBeDefined()
+    expect(res.body.error).not.toBeDefined()
+  });
 
+  test('networkDisconnect duplicate', async () => {
+    const res = await request(app)
+      .post('/command/networkDisconnect')
+      .send({
+        networkName: "test5",
+        containerName: "docketeerdb"
+
+      })
+    expect(res.status).toBe(200)
+    expect(res.body.hash).not.toBeDefined()
+    expect(res.body.error).toBeDefined()
   });
 })
 

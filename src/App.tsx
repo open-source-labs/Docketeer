@@ -15,6 +15,10 @@ import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
 
+const NotFound = () => {
+  return <h1>404 - Page Not Found</h1>;
+};
+
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { updateSession } = useSurvey();
@@ -92,7 +96,9 @@ const App = () => {
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />
         <Route path='/home/network' element={<Network />} />
+        <Route path='/home/*' element={<NotFound/>} />
       </Route>
+      <Route path='*' element={<NotFound/>} />
     </Routes>
   );
 };

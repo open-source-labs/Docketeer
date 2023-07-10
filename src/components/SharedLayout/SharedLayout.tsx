@@ -19,9 +19,8 @@ function SharedLayout(): JSX.Element {
   const { logoutUser } = useSurvey();
 
   const logOut = async (): Promise<void> => {
-
     logoutUser();
-  
+
     try {
       const response = await fetch('/api/logout', {
         method: 'POST',
@@ -36,7 +35,7 @@ function SharedLayout(): JSX.Element {
     } catch (err) {
       console.log(err);
     }
-    
+
     navigate('/login');
   };
 
@@ -100,8 +99,8 @@ function SharedLayout(): JSX.Element {
     refreshRunning,
     refreshStopped,
     refreshImages,
+    refreshNetwork,
     writeToDb,
-    networkContainers,
     getAllDockerVolumes,
     getVolumeContainers,
   } = useHelper();
@@ -113,8 +112,8 @@ function SharedLayout(): JSX.Element {
     refreshRunning();
     refreshStopped();
     refreshImages();
+    refreshNetwork();
     writeToDb();
-    networkContainers();
     getAllDockerVolumes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -129,13 +128,13 @@ function SharedLayout(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
 
-  // Refresh runningList, stoppedList, imageList and networkList every 5-seconds to ensure GUI accurately depicts local Docker environment
+  // Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {
     const interval = setInterval(() => {
       refreshRunning();
       refreshStopped();
       refreshImages();
-      networkContainers();
+      refreshNetwork();
     }, 5000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps

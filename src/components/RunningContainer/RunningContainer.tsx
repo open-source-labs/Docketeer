@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import { ContainerObj, ContainerType, ContainersCardsProps } from '../../../types';
+import { ContainerObj, ContainerType, ContainersCardsProps, NetworkModal } from '../../../types';
 import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';
@@ -18,7 +18,7 @@ const RunningContainer = ({
   key
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
-  const { networkList } = useAppSelector((state) => state.composes);
+  const { networkContainerList } = useAppSelector((state) => state.networks);
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,7 +62,7 @@ const RunningContainer = ({
   */
 
 
-  const NetworkListModal = ({ Names }: ContainerType): JSX.Element => {
+  const NetworkListModal = ({ Names }: NetworkModal): JSX.Element => {
     // console.log(Names);
 
     return (
@@ -75,19 +75,24 @@ const RunningContainer = ({
         ariaHideApp={false}
       >
         <div className={styles.listHolder}>
-          <h4>Network List for {Names}</h4>
-          {networkList.map((name: string, index: number) => {
+          <h4>Network list for {Names}</h4>
+          {networkContainerList.map((network: object, index: number) => {
             
             return (
               <div style={networkDiv} key={index}>
-                <p id={styles.networkName}>{name}</p>
+                <p id={styles.networkName}>{network.networkName}</p>
                 {/* <button onClick={() => connectToNetwork(name, Names)}>
                   Connect
                 </button>
                 <button onClick={() => disconnectFromNetwork(name, Names)}>
                   Disconnect
                 </button> */}
-                <ConnectOrDisconnect container={container} networkName={name} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} />
+                <ConnectOrDisconnect
+                  container={container}
+                  networkName={network.networkName}
+                  connectToNetwork={connectToNetwork}
+                  disconnectFromNetwork={disconnectFromNetwork}
+                />
               </div>
             );
           })}

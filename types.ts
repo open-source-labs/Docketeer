@@ -69,8 +69,18 @@ export interface ContainerType {
   Names?: string;
   Image?: string;
   RunningFor?: string;
-  ConnectedNetworks?: string[];
-  ModalOpen?: boolean;
+  Networks?: string[];
+}
+
+// for networkReducer's initial state
+export interface NetworkListContainerType {
+  networkName: string;
+  containers: object[];
+}
+
+// for networkReducer's action
+export interface NetworkStateType {
+  networkContainerList: NetworkListContainerType[];
 }
 
 export interface StoppedListType extends ContainerType {
@@ -265,6 +275,10 @@ export interface ContainersCardsProps {
   key?: string;
 }
 
+export interface NetworkModal {
+  Names: string;
+}
+
 // ==========================================================
 // Server-Side Typing
 // ==========================================================
@@ -295,7 +309,7 @@ export type MiddleWareFunction = (
 export interface ApiController {
   signupEmail: MiddleWareFunction;
   testing: MiddleWareFunction
-}
+}``
 
 export interface BcryptController {
   /**

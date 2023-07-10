@@ -19,19 +19,16 @@ import globalStyles from '../global.module.scss';
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const { runStopped, remove, stop, networkContainers } = useHelper();
+  const { runStopped, remove, stop } = useHelper();
   const [network, setNetwork] = useState('');
   const [showList, setShowList] = useState(false);
 
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
-  // networkList state from the composeReducer.ts and ready to use
-  const { networkList } = useAppSelector((state) => state.composes);
-
-  useEffect(() => {
-    console.log(networkList);
-  }, []);
+  
+  // networkList state from the networkReducer
+  const { networkContainerList } = useAppSelector((state) => state.networks);
 
   const stopContainer = (container: ContainerType) => {
     dispatch(
@@ -154,7 +151,7 @@ const Containers = (): JSX.Element => {
       return;
     }
     // alert msg if same network name is already available in network list
-    if (networkList.includes(network)) {
+    if (networkContainerList.map(el => el.networkName).includes(network)) {
       dispatch(
         createAlert(
           'Duplicate name already exists in the network list.',
@@ -167,7 +164,6 @@ const Containers = (): JSX.Element => {
       return;
     }
     // alert msg if there's a special character that is not accepted
-    // const pattern = /^[a-zA-Z0-9\\-_]+$/;
     const pattern = /^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,127}$/;
     if (!pattern.test(network)) {
       dispatch(
@@ -186,12 +182,7 @@ const Containers = (): JSX.Element => {
     fetchNewNetwork(network);
     setNetwork('');
   };
-  // console.log(runningList)
-
-  // attachedContainers('bridge');
-  // console.log(attachedContainers('alpha-'))
-
-
+ 
   // ADDED deleteNetwork
   async function deleteNetwork(name: string): Promise<void> {
     try {
@@ -240,21 +231,23 @@ const Containers = (): JSX.Element => {
     }
   }
 
-  //
-  const attachedContainers = (name) => {
-    // create empty array named attachedContainer
-    const attachedContainer = [];
-    // iterate the runningList state
-    runningList.forEach((container) => {
-      // check that container obj's Networks property has a value of passed in network name
-      if (container.Networks.includes(name)) {
-        // push the container's name to attachedContainer array
-        attachedContainer.push(` [${container.Names}] `);
+  // function that returns array with network's attached container name
+  const attachedContainers = (name: string): string[] => {
+    let attachedContainerList;
+    // iterate through networkContainerList
+    networkContainerList.forEach((el) => {
+      // if current network objects's networkName property have value of argument
+      if (el.networkName === name) {
+        // assign attachedContainerList to array that filled with attached container name
+        attachedContainerList = el.containers.map(
+          (el) => (el = ` [${el.containerName}] `)
+        );
       }
     });
-    // return attachedContainer
-    return attachedContainer;
+    // return array
+    return attachedContainerList;
   };
+
 
   // function to display which containers are attached to specific network
   // this will be invoked when user click the network name on the network list side bar
@@ -320,14 +313,24 @@ const Containers = (): JSX.Element => {
             </button>
             {showList && (
               <div className={styles.listHolder} >
-                {networkList.map((name: string, index: number) => {
-                  if (name !== 'bridge' && name !== 'docketeer_default') {
+                {networkContainerList.map((network: object, index: number) => {
+                  if (
+                    network.networkName !== 'bridge' &&
+                    network.networkName !== 'docketeer_default'
+                  ) {
                     return (
-                      <div className={styles.networkDiv} key={index} >
-                        <p id={styles.networkName} onClick={() => displayAttachedContainers(name)}>{name}</p>
+                      <div className={styles.networkDiv} key={index}>
+                        <p
+                          id={styles.networkName}
+                          onClick={() =>
+                            displayAttachedContainers(network.networkName)
+                          }
+                        >
+                          {network.networkName}
+                        </p>
                         <button
                           id={styles.networkDeleteButton}
-                          onClick={() => deleteNetwork(name)}
+                          onClick={() => deleteNetwork(network.networkName)}
                         >
                           DELETE
                         </button>
@@ -338,9 +341,11 @@ const Containers = (): JSX.Element => {
                       <div className={styles.networkDiv} key={index}>
                         <p
                           id={styles.networkName}
-                          onClick={() => displayAttachedContainers(name)}
+                          onClick={() =>
+                            displayAttachedContainers(network.networkName)
+                          }
                         >
-                          {name}
+                          {network.networkName}
                         </p>
                       </div>
                     );

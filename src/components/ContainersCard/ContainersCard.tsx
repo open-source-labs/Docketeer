@@ -27,9 +27,6 @@ const ContainersCard = ({
     containerName: string
   ): Promise<void> {
     try {
-      console.log('Current containerList', containerList);
-      console.log('Current container name', containerName);
-
       const response = await fetch('/api/command/networkConnect', {
         method: 'POST',
         body: JSON.stringify({

@@ -27,6 +27,8 @@ import {
 
 import { getVolumes, getVolumeContainersList } from '../reducers/volumeReducer';
 
+import { refreshNetworkList } from '../reducers/networkReducer';
+
 import {
   ImageObj,
   VolumeObj,
@@ -36,6 +38,7 @@ import {
   VolumeNameObj,
   ContainerType,
   StoppedListType,
+  NetworkListContainerType,
 } from '../../types';
 
 /**
@@ -57,6 +60,9 @@ const useSurvey = () => {
       },
       refreshImagesList(data: ImageObj[]) {
         dispatch(refreshImages(data));
+      },
+      refreshNetworkList(data: NetworkListContainerType[]) {
+        dispatch(refreshNetworkList(data));
       },
       getNetworkContainers(data: NetworkObj[]) {
         dispatch(getNetworkContainers(data));

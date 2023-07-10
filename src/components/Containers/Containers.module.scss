@@ -85,12 +85,17 @@
       margin-right: .25rem;
     }
   }
+  .networkDiv:hover {
+  border: 2px solid hsl(190, 72%, 36%);
 }
+}
+
 
 
 #networkName {
   margin-top: .25rem;
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .listHolder {

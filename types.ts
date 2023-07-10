@@ -73,14 +73,14 @@ export interface ContainerType {
 }
 
 // for networkReducer's initial state
-export interface NetworkListContainerType {
+export interface NetworkContainerListType {
   networkName: string;
   containers: object[];
 }
 
 // for networkReducer's action
 export interface NetworkStateType {
-  networkContainerList: NetworkListContainerType[];
+  networkContainerList: NetworkContainerListType[];
 }
 
 export interface StoppedListType extends ContainerType {
@@ -263,6 +263,9 @@ export interface ToggleDisplayProps {
   container: ContainerType;
 }
 
+export interface DataFromBackend {
+  
+}
 export interface ContainersCardsProps {
   containerList?: ContainerType[];
   stopContainer: (container: ContainerType) => void;

@@ -1,15 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
-import { ContainerType } from '../../../types';
+import React, { useState } from 'react';
+import { ContainerType, NetworkContainerListType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 import globalStyles from '../global.module.scss';
-
-// import { connect } from 'http2';
 
 /**
  * @module | Containers.tsx
@@ -18,15 +15,12 @@ import globalStyles from '../global.module.scss';
 
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
-
   const { runStopped, remove, stop } = useHelper();
   const [network, setNetwork] = useState('');
   const [showList, setShowList] = useState(false);
-
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
-  
   // networkList state from the networkReducer
   const { networkContainerList } = useAppSelector((state) => state.networks);
 
@@ -99,7 +93,6 @@ const Containers = (): JSX.Element => {
     setShowList(!showList);
   };
 
-  //
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
       const response = await fetch('/api/command/networkCreate', {
@@ -110,7 +103,6 @@ const Containers = (): JSX.Element => {
       // parse the reponse
       const dataFromBackend = await response.json();
       // if new network is succefully added
-      // we can also use if(dataFromBackend) as a condition here since prop hash has a value
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
@@ -120,8 +112,6 @@ const Containers = (): JSX.Element => {
           )
         );
       }
-      // Do we need this stderr handling part? I already add line#165 ~ 172 to handle the duplicated network name issue
-      // Is there any other possibility that backend send back the data with stderr?
       else if (dataFromBackend.error) {
         dispatch(
           createAlert(
@@ -182,8 +172,7 @@ const Containers = (): JSX.Element => {
     fetchNewNetwork(network);
     setNetwork('');
   };
- 
-  // ADDED deleteNetwork
+
   async function deleteNetwork(name: string): Promise<void> {
     try {
       const response = await fetch('/api/command/networkRemove', {
@@ -193,22 +182,15 @@ const Containers = (): JSX.Element => {
       });
       // parse the reponse
       const dataFromBackend = await response.json();
-      // if network is succefully removed
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
-            // string that shows on the alert
             'Network ' + name + ' is successfully removed',
-            // how long it will stay up in the alert window
             4,
-            // type of the alert
             'success'
           )
         );
       } else if (dataFromBackend.error) {
-        
-        // If server response { error: stderr } to the frontend which means container already exist in the network
-        // display the alert window with attached containers
         dispatch(
           createAlert(
             'Please detach ' +
@@ -236,7 +218,7 @@ const Containers = (): JSX.Element => {
     let attachedContainerList;
     // iterate through networkContainerList
     networkContainerList.forEach((el) => {
-      // if current network objects's networkName property have value of argument
+      // if current network objects's networkName property has a value which is matching the provided argument.
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
         attachedContainerList = el.containers.map(
@@ -249,14 +231,12 @@ const Containers = (): JSX.Element => {
   };
 
 
-  // function to display which containers are attached to specific network
-  // this will be invoked when user click the network name on the network list side bar
+  // function to display which containers are attached to a specific network
   const displayAttachedContainers = (name) => {
     // const var containerName is array returned from invocation of attachedContainers function with passed in network name argument
     const containerName = attachedContainers(name);
     // if containerName array has any length, which means there are attached containers available
     if (containerName.length) {
-      // display the alert window with this prompt
       dispatch(
         createAlert(
           'Currently ' +
@@ -278,10 +258,7 @@ const Containers = (): JSX.Element => {
         )
       );
     }
-
   };
-
-  // TODO: CREATE FUNCTIONALITY TO ADD NETWORK TO CONTAINER
 
   return (
     <div>
@@ -312,45 +289,47 @@ const Containers = (): JSX.Element => {
               {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
             </button>
             {showList && (
-              <div className={styles.listHolder} >
-                {networkContainerList.map((network: object, index: number) => {
-                  if (
-                    network.networkName !== 'bridge' &&
-                    network.networkName !== 'docketeer_default'
-                  ) {
-                    return (
-                      <div className={styles.networkDiv} key={index}>
-                        <p
-                          id={styles.networkName}
-                          onClick={() =>
-                            displayAttachedContainers(network.networkName)
-                          }
-                        >
-                          {network.networkName}
-                        </p>
-                        <button
-                          id={styles.networkDeleteButton}
-                          onClick={() => deleteNetwork(network.networkName)}
-                        >
-                          DELETE
-                        </button>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className={styles.networkDiv} key={index}>
-                        <p
-                          id={styles.networkName}
-                          onClick={() =>
-                            displayAttachedContainers(network.networkName)
-                          }
-                        >
-                          {network.networkName}
-                        </p>
-                      </div>
-                    );
+              <div className={styles.listHolder}>
+                {networkContainerList.map(
+                  (network: NetworkContainerListType, index: number) => {
+                    if (
+                      network.networkName !== 'bridge' &&
+                      network.networkName !== 'docketeer_default'
+                    ) {
+                      return (
+                        <div className={styles.networkDiv} key={index}>
+                          <p
+                            id={styles.networkName}
+                            onClick={() =>
+                              displayAttachedContainers(network.networkName)
+                            }
+                          >
+                            {network.networkName}
+                          </p>
+                          <button
+                            id={styles.networkDeleteButton}
+                            onClick={() => deleteNetwork(network.networkName)}
+                          >
+                            DELETE
+                          </button>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className={styles.networkDiv} key={index}>
+                          <p
+                            id={styles.networkName}
+                            onClick={() =>
+                              displayAttachedContainers(network.networkName)
+                            }
+                          >
+                            {network.networkName}
+                          </p>
+                        </div>
+                      );
+                    }
                   }
-                })}
+                )}
               </div>
             )}
           </div>
@@ -366,7 +345,6 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              // connectToNetwork={connectToNetwork}
               status="running"
             />
           </div>
@@ -380,7 +358,6 @@ const Containers = (): JSX.Element => {
               stopContainer={stopContainer}
               runContainer={runContainer}
               removeContainer={removeContainer}
-              // connectToNetwork={connectToNetwork}
               status="stopped"
             />
           </div>

@@ -38,7 +38,7 @@ import {
   VolumeNameObj,
   ContainerType,
   StoppedListType,
-  NetworkListContainerType,
+  NetworkContainerListType,
 } from '../../types';
 
 /**
@@ -61,7 +61,7 @@ const useSurvey = () => {
       refreshImagesList(data: ImageObj[]) {
         dispatch(refreshImages(data));
       },
-      refreshNetworkList(data: NetworkListContainerType[]) {
+      refreshNetworkList(data: NetworkContainerListType[]) {
         dispatch(refreshNetworkList(data));
       },
       getNetworkContainers(data: NetworkObj[]) {

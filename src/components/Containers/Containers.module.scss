@@ -34,22 +34,33 @@
   z-index: 1;
   top: 3.8rem;
   left: 0;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   background-color: #111;
   padding-top: 1rem;
   padding-left: 1rem;
+  padding-bottom: 2rem;
   transition: .5s;
   &:hover {
     width: 19rem;
   }
   .listHolder {
     margin-top: 1rem;
-  }
-  &::-webkit-scrollbar {
-      width: 10px;
-      background-color: rgb(41, 41, 41);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 35rem;
+    &::-webkit-scrollbar {
+        width: 10px;
+        background-color: rgb(41, 41, 41);
+      }
+    &::-webkit-scrollbar-thumb {
+        background-color: #111;
     }
+    :hover {
+      background-color: hsl(210, 16%, 35%);
+    }
+  }
+  
   input {
     margin-top: 2rem;
     width: 15rem;
@@ -57,6 +68,7 @@
   button{
     margin-top: .5rem;
     width: 15rem;
+    
   }
   .networkDiv{
     display: flex;

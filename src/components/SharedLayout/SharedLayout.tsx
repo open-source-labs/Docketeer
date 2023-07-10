@@ -170,6 +170,16 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
+                to="/home/network"
+              >
+                NETWORK
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
                 to="/home/images"
               >
                 IMAGES

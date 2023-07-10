@@ -13,7 +13,7 @@ import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
-
+import Network from './components/Network/Network';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,6 +91,7 @@ const App = () => {
         <Route path="/home/images" element={<Images imagesList={undefined} />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />
+        <Route path='/home/network' element={<Network />} />
       </Route>
     </Routes>
   );

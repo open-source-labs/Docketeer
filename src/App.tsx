@@ -94,7 +94,7 @@ const App = () => {
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />
         <Route path='/home/network' element={<Network />} />
-        <Route path='/home/*' element={<NotFound/>} />
+        <Route path='/home/*' element={<NotFound session={session} setSession={setSession} checkLogin={checkLogin} />} />
       </Route>
       <Route path='*' element={<NotFound/>} />
     </Routes>

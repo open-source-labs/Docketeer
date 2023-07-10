@@ -76,21 +76,23 @@ const RunningContainer = ({
       >
         <div className={styles.listHolder}>
           <h4>Network List for {Names}</h4>
-          {networkList.map((name: string, index: number) => {
+          <div className={styles.containerNetworks}>
+            {networkList.map((name: string, index: number) => {
             
-            return (
-              <div style={networkDiv} key={index}>
-                <p id={styles.networkName}>{name}</p>
-                {/* <button onClick={() => connectToNetwork(name, Names)}>
+              return (
+                <div style={networkDiv} key={index}>
+                  <p id={styles.networkName}>{name}</p>
+                  {/* <button onClick={() => connectToNetwork(name, Names)}>
                   Connect
                 </button>
                 <button onClick={() => disconnectFromNetwork(name, Names)}>
                   Disconnect
                 </button> */}
-                <ConnectOrDisconnect container={container} networkName={name} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} />
-              </div>
-            );
-          })}
+                  <ConnectOrDisconnect container={container} networkName={name} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} />
+                </div>
+              );
+            })}
+          </div>
           <div className={styles.buttonDiv}>
             <button className={globalStyles.buttonSmall} onClick={() => closeNetworkList()}>
               CLOSE

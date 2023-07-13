@@ -443,13 +443,16 @@ const commandController: CommandController = {
     
     // declare an output object
     const { networkContainers } = res.locals;
-    const networkListContainers : NetworkObject[] = [];
+    let networkListContainers: NetworkObject[] = [];
+    
+    // get all containers based on networkName
     const getContainersForNetwork = networkName => {
       return new Promise((resolve, reject) => {
         exec(`docker network inspect ${networkName} --format "{{json .}},"`, (error: Error | null, stdout: string, stderr: string) => {
           if (stderr) {
             console.log(`networkListContainers controller stderr: ${stderr}`);
             res.locals.result = { error: stderr };
+            reject({error: stderr});
             return next();
           }
           if (error) {
@@ -460,7 +463,8 @@ const commandController: CommandController = {
             .trim()
             .slice(0, -1)
             .replaceAll(' ', '')}`;
-          // access Containers property on the object at index 0 in the array
+          
+          // parse terminal output into a json object
           const currentNetwork = JSON.parse(dockerOutput).Containers;
           const containerList : Container[] = [];
           // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address 
@@ -479,21 +483,24 @@ const commandController: CommandController = {
       });
     };
     
-    for (let i = 0; i < networkContainers.length; i++) {
-      const networkName = networkContainers[i].Name;
+    // create an array of promises of all network objects
+    const containerPromises = networkContainers.map(async (network) => {
+      const networkName = network.Name;
       try {
         const containerList = await getContainersForNetwork(networkName);
-        // put the containerList in the networkObject
         const networkObject: NetworkObject = {
           networkName: networkName,
           containers: containerList,
         };
-        networkListContainers.push(networkObject);
-      }
-      catch (error) {
+        return networkObject;
+      } catch (error) {
         console.log('error in commandController.networkListContainers', error);
       }
-    }
+    });
+
+    // use Promise.all for concurrently starting all promises
+    networkListContainers = await Promise.all(containerPromises);
+
     res.locals.networkListContainers = networkListContainers;
     return next();
   },

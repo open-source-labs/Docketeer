@@ -4,74 +4,74 @@ import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import globalStyles from '../global.module.scss';
 
-  const rawData = {
-    nodes: [
-      {
-        name: 'network1',
-        category: 'network',
-      },
-      {
-        name: 'network2',
-        category: 'network',
-      },
-      {
-        name: 'container1',
-        category: 'container',
-      },
-      {
-        name: 'container2',
-        category: 'container',
-      },
-      {
-        name: 'network3',
-        category: 'network',
-      },
-      {
-        name: 'container3',
-        category: 'container',
-      },
-      {
-        name: 'container4',
-        category: 'container',
-      },
-      {
-        name: 'container5',
-        category: 'container',
-      },
-    ],
-    links: [
-      {
-        source: 'network1',
-        target: 'container1',
-        value: 23,
-      },
-      {
-        source: 'network1',
-        target: 'container2',
-        value: 45,
-      },
-      {
-        source: 'network2',
-        target: 'container1',
-        value: 23,
-      },
-      {
-        source: 'network1',
-        target: 'container3',
-        value: 23,
-      },
-      {
-        source: 'network1',
-        target: 'container4',
-        value: 45,
-      },
-      {
-        source: 'network1',
-        target: 'container5',
-        value: 23,
-      },
-    ],
-  };
+const rawData = {
+  nodes: [
+    {
+      name: 'network1',
+      category: 'network',
+    },
+    {
+      name: 'network2',
+      category: 'network',
+    },
+    {
+      name: 'container1',
+      category: 'container',
+    },
+    {
+      name: 'container2',
+      category: 'container',
+    },
+    {
+      name: 'network3',
+      category: 'network',
+    },
+    {
+      name: 'container3',
+      category: 'container',
+    },
+    {
+      name: 'container4',
+      category: 'container',
+    },
+    {
+      name: 'container5',
+      category: 'container',
+    },
+  ],
+  links: [
+    {
+      source: 'network1',
+      target: 'container1',
+      value: 1,
+    },
+    {
+      source: 'network1',
+      target: 'container2',
+      value: 1,
+    },
+    {
+      source: 'network2',
+      target: 'container1',
+      value: 1,
+    },
+    {
+      source: 'network1',
+      target: 'container3',
+      value: 1,
+    },
+    {
+      source: 'network1',
+      target: 'container4',
+      value: 1,
+    },
+    {
+      source: 'network1',
+      target: 'container5',
+      value: 1,
+    },
+  ],
+};
 
 const Network = (): JSX.Element => {
   // const { networkContainerList } = useAppSelector((state) => state.networks);
@@ -80,11 +80,15 @@ const Network = (): JSX.Element => {
   // manipulate data so that we have an array of all of our links between containers and networks
   // nodes
 
+
   useEffect(() => {
-    
+
+    d3.select(ref.current).select('svg').remove();
+
     const width = 1000;
     const height = 800;
     const format = d3.format(',.0f');
+
 
     const svg = d3
       .select(ref.current)
@@ -92,13 +96,13 @@ const Network = (): JSX.Element => {
       .attr('width', width)
       .attr('height', height)
       .attr('viewBox', [0, 0, width, height])
-      .attr('style', 'max-width: 100%; height: auto; font: 10px sans-serif;');
+      .attr('style', 'max-width: 100%; height: auto; font: 1.5rem sans-serif;');
 
     const sankey = d3Sankey()
       .nodeId((d) => d.name)
-      .nodeAlign(d3.sankeyLeft)
+      .nodeAlign(d3.sankeyJustify)
       .nodeWidth(15)
-      .nodePadding(10)
+      .nodePadding(30)
       .extent([
         [1, 5],
         [width - 1, height - 5],
@@ -128,22 +132,22 @@ const Network = (): JSX.Element => {
     const link = svg
       .append('g')
       .attr('fill', 'none')
-      .attr('stroke-opacity', 0.5)
+      .attr('stroke-opacity', 0.8)
       .selectAll()
       .data(links)
       .join('g')
-      .style('mix-blend-mode', 'multiply');
+      .style('mix-blend-mode', 'normal');
 
     link
       .append('path')
       .attr('d', sankeyLinkHorizontal())
-      .attr('stroke', 'red')
-      .attr('stroke-width', 40);
+      .attr('stroke', 'white')
+      .attr('stroke-width', d => d.width * .5);
 
     link
       .append('title')
       .text(
-        (d) => `${d.source.name} → ${d.target.name}\n${format(d.value)} TWh`
+        (d) => `${d.source.name} → ${d.target.name}\n${format(d.value)}`
       );
 
     svg
@@ -159,7 +163,7 @@ const Network = (): JSX.Element => {
 
   }, []);
 
-  return <div ref={ref}></div>;
+  return <div id="sankeyDiagram" ref={ref}></div>;
 };
 
 // };

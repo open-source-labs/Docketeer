@@ -1,18 +1,5 @@
-// .wrapper {
-//   display: grid;
-//   grid-template-columns: 1fr 1fr;
-//   gap: 2rem;
-//   margin: $default-page-margin;
-//   @media screen and (max-width: 1000px) {
-//     flex-direction: column;
-//   }
-  
-// }
-
 .wrapper {
   display: flex;
-  // flex-direction: column;
-  // margin: $default-page-margin;
   margin-top: 1rem;
   transition: margin-left .5s;
   .listHolder {
@@ -23,88 +10,6 @@
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
-
-
-}
-
-#networkList {
-  position: fixed;
-  height: 100%;
-  width: .3rem;
-  z-index: 1;
-  top: 3.8rem;
-  left: 0;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  background-color: #111;
-  padding-top: 1rem;
-  padding-left: 1rem;
-  padding-bottom: 2rem;
-  transition: .5s;
-  &:hover {
-    width: 19rem;
-  }
-  .listHolder {
-    margin-top: 1rem;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 35rem;
-    &::-webkit-scrollbar {
-        width: 10px;
-        background-color: rgb(41, 41, 41);
-      }
-    &::-webkit-scrollbar-thumb {
-        background-color: #111;
-    }
-    :hover {
-      background-color: hsl(210, 16%, 35%);
-    }
-  }
-  
-  input {
-    margin-top: 2rem;
-    width: 15rem;
-  }
-  button{
-    margin-top: .5rem;
-    width: 15rem;
-    
-  }
-  .networkDiv{
-    display: flex;
-    justify-content: space-between;
-    background-color: hsl(210, 15.2%, 18%);
-    margin-top: .5rem;
-    border: 2px solid rgb(214, 214, 214);
-    border-radius: .5rem;
-    width: 17rem;
-    height: 2.75rem;
-    padding-left: .5rem;
-    #networkName {
-      width: 12rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      // background-color: rgb(92, 51, 0);
-    }
-    #networkDeleteButton {
-      color: rgb(158, 30, 30);
-          // background-color: hsl(0, 0%, 13%);
-      font-weight: 700;
-      height: 1.5rem;
-      width: 3.5rem;
-      border-radius: .3rem;
-      margin-right: .25rem;
-    }
-  }
-}
-
-
-
-#networkName {
-  margin-top: .25rem;
-  font-size: 1.5rem;
-  cursor: pointer;
 }
 
 .listHolder {

@@ -6,7 +6,7 @@ import styles from './About.module.scss';
 const About = () => {
   return (
     <div className={styles.wrapper}>
-      <a href="https://www.docketeer.org/demo">
+      <a href="https://docketeer.io">
         <img
           className={styles.logo}
           src={Docketeer}

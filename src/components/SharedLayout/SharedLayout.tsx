@@ -172,7 +172,7 @@ function SharedLayout(): JSX.Element {
                 }
                 to="/home/network"
               >
-                NETWORK
+                NETWORKS
               </NavLink>
             </li>
             <li>

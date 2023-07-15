@@ -96,6 +96,15 @@ router.delete(
   },
 );
 
+// Route for running the docker network prune command
+router.delete(
+  '/dockerNetworkPrune',
+  commandController.dockerNetworkPrune,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.pruneNetworkMessage);
+  },
+);
+
 // Route to pull new images
 router.get(
   '/pullImage',
@@ -214,6 +223,16 @@ router.get(
     return res.status(200).json(res.locals.volumeContainers);
   },
 );
+
+router.post(
+  '/volumeRemove',
+  commandController.volumeRemove,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.volumeRemoved);
+  }
+);
+
+
 
 // Route to get all container logs
 router.post(

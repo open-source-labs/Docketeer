@@ -360,6 +360,30 @@ const commandController: CommandController = {
     );
   },
 
+  dockerNetworkPrune: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    exec(
+      'docker network prune --force',
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`handleNetworkPruneClick stderr: ${stderr}`);
+          return;
+        }
+        res.locals.pruneNetworkMessage = {
+          message: 'Remove all networks (both dangling and unreferenced)',
+        };
+        return next();
+      }
+    );
+  },
+
   pullImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker pull ${req.query.repo}`,
@@ -430,7 +454,6 @@ const commandController: CommandController = {
     res: Response,
     next: NextFunction
   ): Promise<void> => {
-
     type Container = {
       containerName: string;
       containerIP: string;
@@ -440,49 +463,54 @@ const commandController: CommandController = {
       networkName: string;
       containers: Container[] | any;
     };
-    
+
     // declare an output object
     const { networkContainers } = res.locals;
     let networkListContainers: NetworkObject[] = [];
-    
+
     // get all containers based on networkName
-    const getContainersForNetwork = networkName => {
+    const getContainersForNetwork = (networkName) => {
       return new Promise((resolve, reject) => {
-        exec(`docker network inspect ${networkName} --format "{{json .}},"`, (error: Error | null, stdout: string, stderr: string) => {
-          if (stderr) {
-            console.log(`networkListContainers controller stderr: ${stderr}`);
-            res.locals.result = { error: stderr };
-            reject({error: stderr});
-            return next();
-          }
-          if (error) {
-            console.log(`networkListContainers controller error: ${error.message}`);
-            return next();
-          }
-          const dockerOutput = `${stdout
-            .trim()
-            .slice(0, -1)
-            .replaceAll(' ', '')}`;
-          
-          // parse terminal output into a json object
-          const currentNetwork = JSON.parse(dockerOutput).Containers;
-          const containerList : Container[] = [];
-          // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address 
-          for (const hash in currentNetwork) {
-            // if hash, i.e. if container exists, then we do containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address
-            if (hash) {
-              const container: Container = {
-                containerName: currentNetwork[hash].Name,
-                containerIP: currentNetwork[hash].IPv4Address,
-              };        
-              containerList.push(container);
+        exec(
+          `docker network inspect ${networkName} --format "{{json .}},"`,
+          (error: Error | null, stdout: string, stderr: string) => {
+            if (stderr) {
+              console.log(`networkListContainers controller stderr: ${stderr}`);
+              res.locals.result = { error: stderr };
+              reject({ error: stderr });
+              return next();
             }
+            if (error) {
+              console.log(
+                `networkListContainers controller error: ${error.message}`
+              );
+              return next();
+            }
+            const dockerOutput = `${stdout
+              .trim()
+              .slice(0, -1)
+              .replaceAll(' ', '')}`;
+
+            // parse terminal output into a json object
+            const currentNetwork = JSON.parse(dockerOutput).Containers;
+            const containerList: Container[] = [];
+            // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address
+            for (const hash in currentNetwork) {
+              // if hash, i.e. if container exists, then we do containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address
+              if (hash) {
+                const container: Container = {
+                  containerName: currentNetwork[hash].Name,
+                  containerIP: currentNetwork[hash].IPv4Address,
+                };
+                containerList.push(container);
+              }
+            }
+            resolve(containerList);
           }
-          resolve(containerList);
-        });
+        );
       });
     };
-    
+
     // create an array of promises of all network objects
     const containerPromises = networkContainers.map(async (network) => {
       const networkName = network.Name;
@@ -579,7 +607,11 @@ const commandController: CommandController = {
     );
   },
 
-  networkDisconnect: (req: Request, res: Response, next: NextFunction): void => {
+  networkDisconnect: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
     const { networkName, containerName } = req.body;
 
     exec(
@@ -756,6 +788,30 @@ const commandController: CommandController = {
     // res.locals.containers = dockerOutput;
     // return next();
   },
+
+  volumeRemove: (req: Request, res: Response, next: NextFunction) => {
+    const volumeName = req.body.volumeName;
+    exec(
+      `docker volume rm ${volumeName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(
+            `Error removing volume '${volumeName}': ${error.message}`
+          );
+          return;
+        }
+        if (stderr) {
+          console.log(`removeVolume stderr: ${stderr}`);
+          return;
+        }
+        res.locals.volumeRemoved = { volume: stdout };
+        return next();
+      }
+    )
+  },
+
+
+
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {
     const containerLogs: { [k: string]: LogObject[] } = {

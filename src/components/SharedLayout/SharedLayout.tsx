@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
+import { createPrunePrompt } from '../../reducers/pruneReducer';
 
 // Importing helpers
 import useSurvey from '../../helpers/dispatch';
@@ -15,7 +16,7 @@ function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { handlePruneClick } = useHelper();
+  const { handlePruneClick, handleNetworkPruneClick } = useHelper();
   const { logoutUser } = useSurvey();
 
   const logOut = async (): Promise<void> => {
@@ -65,23 +66,28 @@ function SharedLayout(): JSX.Element {
     }
   };
 
-  const systemPrune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     {
       dispatch(
-        createPrompt(
-          // prompt (first argument in createPrompt)
-          'Are you sure you want to run system prune? This will remove all unused containers, networks, images (both dangling and unreferenced).',
-          // handleAccept (second argument in createPrompt)
+        createPrunePrompt(
+          // prompt (first argument in createPrunePrompt)
+          'Are you sure you want to run system / network prune? System prune will remove all unused containers, networks, images and Network prune will remove all unused networks only (both dangling and unreferenced).',
+          // handleSystemPrune (second argument in creatPrunePrompt)
           () => {
             handlePruneClick(e);
-            dispatch(createAlert('Performing system prune...', 5, 'success'));
+            dispatch(createAlert('Performing system prune...', 4, 'success'));
           },
-          // handleDeny (third argument in createPrompt)
+          // handleNetworkPrune (third argument in creatPrunePrompt)
+          () => {
+            handleNetworkPruneClick(e);
+            dispatch(createAlert('Performing network prune...', 4, 'success'));
+          },
+          // handleDeny (fourth argument in creatPrunePrompt)
           () => {
             dispatch(
               createAlert(
-                'The request to perform system prune has been cancelled.',
-                5,
+                'The request to perform system / network prune has been cancelled.',
+                4,
                 'warning'
               )
             );
@@ -90,7 +96,6 @@ function SharedLayout(): JSX.Element {
       );
     }
   };
-
   const { sessions, volumes } = useAppSelector((state) => state);
   const userData = sessions;
   const { arrayOfVolumeNames } = volumes;
@@ -216,7 +221,7 @@ function SharedLayout(): JSX.Element {
               </NavLink>
             </li>
             <li>
-              <a className={styles.navButton} onClick={(e) => systemPrune(e)}>
+              <a className={styles.navButton} onClick={(e) => prune(e)}>
                 SYSTEM PRUNE
               </a>
             </li>

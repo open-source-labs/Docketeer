@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Login.module.scss';
-import globalStyles from '../global.module.scss';
+import styles from 'src/components/Login/Login.module.scss';
+import globalStyles from 'src/components/global.module.scss';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/extended-light.png';

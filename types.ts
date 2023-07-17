@@ -75,8 +75,14 @@ export interface ContainerType {
 // for networkReducer's initial state
 export interface NetworkContainerListType {
   networkName: string;
-  containers: object[];
+  containers: NetworkAttachedContainersInfo[];
 }
+
+// Relates to above interfaces containers property 
+export interface NetworkAttachedContainersInfo {
+    containerName: string;
+    containerIP: string;
+  }
 
 // for networkReducer's action
 export interface NetworkStateType {
@@ -275,8 +281,10 @@ export interface ToggleDisplayProps {
 }
 
 export interface DataFromBackend {
-  
+  hash?: string,
+  error?: string,
 }
+
 export interface ContainersCardsProps {
   containerList?: ContainerType[];
   stopContainer: (container: ContainerType) => void;
@@ -323,7 +331,7 @@ export type MiddleWareFunction = (
 export interface ApiController {
   signupEmail: MiddleWareFunction;
   testing: MiddleWareFunction
-}``
+}
 
 export interface BcryptController {
   /**

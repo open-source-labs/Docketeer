@@ -149,6 +149,12 @@ Open up a new tab in your terminal. Run
 ```sh
 npm install
 ```
+Docketeer is using [d3-sankey](https://github.com/d3/d3-sankey) for data visualization, which is currently not being actively maintained. Running `npm install` would install `patch-package` and make sure to input `y` when you see the following prompt:
+```
+Need to install the following packages:
+  patch-package@7.0.2
+Ok to proceed? (y) 
+```
 and
 
 ```sh
@@ -337,8 +343,33 @@ If you are encountering the following error and are running an ad-blocker, disab
 ```sh
 ERR_BLOCKED_BY_CLIENT
 ```
+<br />
 
+#### Network Capacity
 
+By default, Docker can only create 31 networks. If you try to create more, you would encounter the following error:
+
+```
+Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network
+```
+
+To expand network capacity, add the following to `/etc/docker/daemon.json`
+
+```
+{
+  "default-address-pools" : [
+    {
+      "base" : "172.17.0.0/12",
+      "size" : 20
+    },
+    {
+      "base" : "192.168.0.0/16",
+      "size" : 24
+    }
+  ]
+}
+```
+For details, please read [The definitive guide to docker's default-address-pools option](https://straz.to/2021-09-08-docker-address-pools/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
 [contributors-url]: https://github.com/open-source-labs/Docketeer/graphs/contributors

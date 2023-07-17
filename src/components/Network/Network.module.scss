@@ -1,0 +1,130 @@
+.wrapper {
+  display: flex;
+  // margin-top: 1rem;
+  // transition: margin-left .5s;
+  // .listHolder {
+  //   display: flex;
+  //   flex-direction: column;
+  //   padding-left: 2rem;
+  // }
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+}
+
+#networkList {
+  position: relative;
+
+  height: 100%;
+  width: 19rem;
+  z-index: 1;
+  left: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: $background-bg;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 2rem;
+  transition: .5s;
+
+  .listHolder {
+    margin-top: 1rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 35rem;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: rgb(41, 41, 41);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #111;
+    }
+
+    :hover {
+      background-color: hsl(210, 16%, 35%);
+    }
+  }
+
+  input {
+    margin-top: 2rem;
+    width: 15rem;
+  }
+
+  button {
+    margin-top: .5rem;
+    width: 15rem;
+
+  }
+
+  .networkDiv {
+    display: flex;
+    justify-content: space-between;
+    background-color: hsl(210, 15.2%, 18%);
+    margin-top: .5rem;
+    border: 2px solid rgb(214, 214, 214);
+    border-radius: .5rem;
+    width: 17rem;
+    height: 2.75rem;
+    padding-left: .5rem;
+
+    #networkName {
+      width: 12rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-top: .25rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      // background-color: rgb(92, 51, 0);
+    }
+
+    #networkDeleteButton {
+      color: rgb(158, 30, 30);
+      // background-color: hsl(0, 0%, 13%);
+      font-weight: 700;
+      height: 1.5rem;
+      width: 3.5rem;
+      border-radius: .3rem;
+      margin-right: .25rem;
+    }
+  }
+}
+
+.listHolder {
+  display: flex;
+  flex-direction: column;
+}
+
+.sankeyDiagram {
+  margin-left: 10rem;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .containerList {
+    grid-template-columns: 1fr 1fr 1fr;
+    transform: all 0.2s ease-in-out;
+  }
+
+  .listHolder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .containerList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: 1fr;
+  }
+}

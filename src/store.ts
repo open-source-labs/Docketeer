@@ -8,6 +8,7 @@ import userReducer from './reducers/userReducer';
 import sessionReducer from './reducers/sessionReducer';
 import volumeReducer from './reducers/volumeReducer';
 import networkReducer from './reducers/networkReducer';
+import pruneReducer from './reducers/pruneReducer';
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     users: userReducer,
     alerts: alertReducer,
     networks: networkReducer,
+    pruneNetwork: pruneReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

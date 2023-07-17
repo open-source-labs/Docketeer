@@ -244,6 +244,17 @@ export interface AlertStateType {
   | null[];
 }
 
+export interface PruneStateType {
+  prunePromptList:
+    | [
+        prompt: string | null,
+        handleSystemPrune: (() => void) | null,
+        handleNetworkPrune: (() => void) | null,
+        handleDeny: (() => void) | null
+      ]
+    | null[];
+}
+
 export interface notificationStateType {
   phoneNumber: string;
   memoryNotificationList: Set<any>;
@@ -383,6 +394,11 @@ export interface CommandController {
   dockerPrune: MiddleWareFunction;
 
   /**
+   * @description executes docker network prune --force command to remove all unused networks (both dangling and unreferenced); passes a string to prop 'pruneNetworkMessage' in locals relaying the prune
+   */
+  dockerNetworkPrune: MiddleWareFunction;
+
+  /**
    * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
    * @note image's repo name grabbed from req.query
    */
@@ -465,6 +481,14 @@ export interface CommandController {
    * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
    */
   getLogs: MiddleWareFunction;
+
+  /**
+   * @description runs docker to remove selected volume
+   */
+  volumeRemove: MiddleWareFunction;
+
+
+
 }
 
 export interface ConfigController {

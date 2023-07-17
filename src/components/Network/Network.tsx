@@ -3,81 +3,13 @@ import * as d3 from 'd3';
 import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import { DataFromBackend, NetworkContainerListType } from '../../../types';
-import globalStyles from 'src/components/global.module.scss';
-import styles from 'src/components/Network/Network.module.scss';
+import globalStyles from '../global.module.scss';
+import styles from './Network.module.scss';
 
-const rawData = {
-  nodes: [
-    {
-      name: 'network1',
-      category: 'network',
-    },
-    {
-      name: 'network2',
-      category: 'network',
-    },
-    {
-      name: 'container1',
-      category: 'container',
-    },
-    {
-      name: 'container2',
-      category: 'container',
-    },
-    {
-      name: 'network3',
-      category: 'network',
-    },
-    {
-      name: 'container3',
-      category: 'container',
-    },
-    {
-      name: 'container4',
-      category: 'container',
-    },
-    {
-      name: 'container5',
-      category: 'container',
-    },
-  ],
-  links: [
-    {
-      source: 'network1',
-      target: 'container1',
-      value: 1,
-    },
-    {
-      source: 'network1',
-      target: 'container2',
-      value: 1,
-    },
-    {
-      source: 'network2',
-      target: 'container1',
-      value: 1,
-    },
-    {
-      source: 'network1',
-      target: 'container3',
-      value: 1,
-    },
-    {
-      source: 'network1',
-      target: 'container4',
-      value: 1,
-    },
-    {
-      source: 'network1',
-      target: 'container5',
-      value: 1,
-    },
-  ],
-};
+import { DataFromBackend, NetworkContainerListType } from '../../../types';
 
 const Network = (): JSX.Element => {
-  const [showList, setShowList] = useState(false);
+  const [showList, setShowList] = useState(true);
   const [network, setNetwork] = useState('');
   const [duplicated, setDuplicated] = useState(false);
   const { networkContainerList } = useAppSelector((state) => state.networks);
@@ -85,46 +17,40 @@ const Network = (): JSX.Element => {
   const dispatch = useAppDispatch();
   // Array of valid css colors long enough to cover all possible networks that can be created in Docker.
   const cssColors = [
-    'Tomato',
-    'Yellowgreen',
     'Aqua',
     'Aquamarine',
-    'Indigo',
-    'Springgreen',
-    'Seagreen',
-    'Purple',
-    'Teal',
-    'Skyblue',
     'BlueViolet',
-    'Slateblue',
     'CadetBlue',
     'Chartreuse',
     'Chocolate',
     'Coral',
     'CornflowerBlue',
-    'Lightskyblue',
     'Crimson',
-    'Firebrick',
     'DarkBlue',
     'DarkCyan',
-    'DarkGoldenRod',
-    'DarkGray',
-    'DarkGrey',
     'DarkGreen',
-    'DarkKhaki',
     'DarkMagenta',
-    'DarkOliveGreen',
     'DarkOrange',
     'DarkOrchid',
-    'Darkseagreen',
+    'DarkSeaGreen',
+    'DarkSlateGray',
+    'DodgerBlue',
+    'Firebrick',
+    'Indigo',
+    'Lightskyblue',
+    'MediumPurple',
+    'MediumSeaGreen',
+    'OliveDrab',
+    'Purple',
+    'Seagreen',
+    'Skyblue',
+    'Slateblue',
+    'Springgreen',
+    'Teal',
+    'Tomato',
+    'Yellowgreen',
   ];
 
-  // manipulate data so that we have an array of all of our links between containers and networks
-  const displayNetworkList = (): void => {
-    // update the networkList before displaying the network list
-    // networkContainers();
-    setShowList(!showList);
-  };
 
   // check the network name that user types in is already exist in current network list
   useEffect(() => {
@@ -293,6 +219,8 @@ const Network = (): JSX.Element => {
       const liveNodesObj = {};
       const liveNodes = [];
       const liveLinks = [];
+
+      // iterate through networkContainerList
       networkContainerList.forEach((network) => {
         // if containers is empty, add network to no containers list
         if (!network.containers.length) {
@@ -326,7 +254,7 @@ const Network = (): JSX.Element => {
       d3.select(ref.current).select('svg').remove();
 
       const width = 1000;
-      const height = 800;
+      const height = Math.min(750, liveLinks.length * 50);
       const format = d3.format(',.0f');
 
       const svg = d3
@@ -334,7 +262,7 @@ const Network = (): JSX.Element => {
         .append('svg')
         .attr('width', width)
         .attr('height', height)
-        .attr('viewBox', [0, -10, width, height])
+        .attr('viewBox', [0, 0, width, height])
         .attr(
           'style',
           'max-width: 100%; height: auto; font: 1rem Bai Jamjuree, sans-serif;'
@@ -361,7 +289,7 @@ const Network = (): JSX.Element => {
 
       const rect = svg
         .append('g')
-        .attr('stroke', '#000')
+        .attr('stroke', '#0F0F0F')
         .selectAll()
         .data(nodes)
         .join('rect')
@@ -371,8 +299,8 @@ const Network = (): JSX.Element => {
         .attr('width', (d) => d.x1 - d.x0)
         .attr('fill', (d) => {
           const color =
-            d.category === 'container' ? 'orange' : cssColors[nodes.indexOf(d)];
-          nodeColors[d.name] = color;
+            d.category === 'container' ? 'WhiteSmoke' :  'LightSlateGray' || cssColors[nodes.indexOf(d)]; // Switch color selection with cssColors[nodes.indexOf(d)] to have network nodes correspond with their path colors
+          nodeColors[d.name] = cssColors[nodes.indexOf(d)];
           return color;
         });
 
@@ -402,9 +330,7 @@ const Network = (): JSX.Element => {
         .selectAll()
         .data(nodes)
         .join('text')
-        // .attr('x', (d) => (d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6))
         .attr('x', (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
-        // .attr('y', (d) => (d.y1 + d.y0) / 2)
         .attr('y', (d) => d.y0 - 12)
         .attr('dy', '0.35em')
         .attr('text-anchor', (d) => (d.x0 < width / 2 ? 'start' : 'end'))
@@ -437,12 +363,6 @@ const Network = (): JSX.Element => {
             disabled={duplicated}
           >
             {duplicated ? 'DUPLICATED NETWORK NAME' : 'CREATE NEW NETWORK'}
-          </button>
-          <button
-            className={globalStyles.button1}
-            onClick={() => displayNetworkList()}
-          >
-            {showList ? 'HIDE NETWORK LIST' : 'DISPLAY NETWORK LIST'}
           </button>
           {showList && (
             <div className={styles.listHolder}>
@@ -490,7 +410,10 @@ const Network = (): JSX.Element => {
           )}
         </div>
       </div>
+      <div className={styles.listHolder}>
+        <h2 className={styles.sankeyTitle}>NETWORK CONNECTIONS</h2>
       <div id="sankeyDiagram" className={styles.sankeyDiagram} ref={ref}></div>
+      </div>
     </div>
   );
 };

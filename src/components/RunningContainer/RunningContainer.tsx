@@ -40,21 +40,6 @@ const RunningContainer = ({
     setIsOpen(false);
   };
 
-
-  // temporary styling for button
-  const buttonStyles = {
-    color: 'white',
-    border: '2px solid black',
-    backgroundColor: 'black',
-  };
-  const buttonDiv = {
-    marginTop: '20px',
-    marginLeft: '120px',
-  };
-  //
-  const networkDiv = {
-    marginTop: '10px',
-  };
   /* 
   current props for Modal
   isOpen => Boolean describing if the modal should be shown or not (isOpen state)
@@ -84,14 +69,8 @@ const RunningContainer = ({
             {networkContainerList.map(
               (network: NetworkContainerListType, index: number) => {
                 return (
-                  <div style={networkDiv} key={index}>
+                  <div className={styles.networkDiv} key={index}>
                     <p id={styles.networkName}>{network.networkName}</p>
-                    {/* <button onClick={() => connectToNetwork(name, Names)}>
-                  Connect
-                </button>
-                <button onClick={() => disconnectFromNetwork(name, Names)}>
-                  Disconnect
-                </button> */}
                     <ConnectOrDisconnect
                       container={container}
                       networkName={network.networkName}

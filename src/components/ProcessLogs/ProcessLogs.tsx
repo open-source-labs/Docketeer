@@ -15,8 +15,8 @@ import useSurvey from '../../helpers/dispatch';
 
 import { CSVLink } from 'react-csv';
 
-import styles from './ProcessLogs.module.scss';
-import globalStyles from '../global.module.scss';
+import styles from 'src/components/ProcessLogs/ProcessLogs.module.scss';
+import globalStyles from 'src/components/global.module.scss';
 
 /**
  * @module | Metrics.tsx

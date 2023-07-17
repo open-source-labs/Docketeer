@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Metrics.module.scss';
+import styles from 'src/components/Metrics/Metrics.module.scss';
 import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {

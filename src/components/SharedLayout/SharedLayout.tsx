@@ -10,7 +10,7 @@ import useHelper from '../../helpers/commands';
 import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../Alert/Alert';
-import styles from './SharedLayout.module.scss';
+import styles from 'src/components/SharedLayout/SharedLayout.module.scss';
 
 function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
@@ -222,7 +222,7 @@ function SharedLayout(): JSX.Element {
             </li>
             <li>
               <a className={styles.navButton} onClick={(e) => prune(e)}>
-                SYSTEM PRUNE
+                PRUNE
               </a>
             </li>
             <li>

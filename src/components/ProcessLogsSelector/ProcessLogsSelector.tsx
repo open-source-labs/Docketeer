@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './ProcessLogsSelector.module.scss';
-import globalStyles from '../global.module.scss';
+import styles from 'src/components/ProcessLogsSelector/ProcessLogsSelector.module.scss';
+import globalStyles from 'src/components/global.module.scss';
 import { ProcessLogsSelectorProps } from '../../../types';
 
 function ProcessLogsSelector({

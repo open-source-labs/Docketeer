@@ -4,8 +4,8 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import { ImageObj } from '../../../types';
 
-import styles from './Images.module.scss';
-import globalStyles from '../global.module.scss';
+import styles from 'src/components/Images/Images.module.scss';
+import globalStyles from 'src/components/global.module.scss';
 
 /**
  * @module | Images.tsx

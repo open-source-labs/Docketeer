@@ -1,12 +1,5 @@
 .wrapper {
   display: flex;
-  // margin-top: 1rem;
-  // transition: margin-left .5s;
-  // .listHolder {
-  //   display: flex;
-  //   flex-direction: column;
-  //   padding-left: 2rem;
-  // }
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
@@ -14,36 +7,33 @@
 
 #networkList {
   position: relative;
-
+  // box-shadow: rgba(255, 255, 255, 0.45) -5px 5px 5px 0px, rgba(177, 177, 177, 0.308) 5px -5px 10px 0px;
+  border: 2px solid rgb(214, 214, 214);
+  border-radius: .5rem;
   height: 100%;
   width: 19rem;
   z-index: 1;
   left: 0;
+  top: 1rem;
   overflow-y: hidden;
   overflow-x: hidden;
   background-color: $background-bg;
   padding-top: 1rem;
   padding-left: 1rem;
-  padding-bottom: 2rem;
-  transition: .5s;
-
+  padding-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
   .listHolder {
     margin-top: 1rem;
     overflow-y: scroll;
     overflow-x: hidden;
     height: 35rem;
-
     &::-webkit-scrollbar {
-      width: 10px;
+      width: 5px;
       background-color: rgb(41, 41, 41);
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #111;
-    }
-
-    :hover {
-      background-color: hsl(210, 16%, 35%);
+      background-color: #3d3d3d;
     }
   }
 
@@ -68,7 +58,10 @@
     width: 17rem;
     height: 2.75rem;
     padding-left: .5rem;
-
+    transition: all 0.3s ease-in-out;
+    &:hover {
+    background-color: hsl(210, 16%, 35%);
+    }
     #networkName {
       width: 12rem;
       text-overflow: ellipsis;
@@ -77,17 +70,25 @@
       margin-top: .25rem;
       font-size: 1.5rem;
       cursor: pointer;
-      // background-color: rgb(92, 51, 0);
     }
-
     #networkDeleteButton {
-      color: rgb(158, 30, 30);
-      // background-color: hsl(0, 0%, 13%);
+      color: rgb(148, 3, 3);
       font-weight: 700;
-      height: 1.5rem;
+      height: 2.2rem;
       width: 3.5rem;
-      border-radius: .3rem;
-      margin-right: .25rem;
+      margin-top: 0rem;
+      border: 1px;
+      padding-right: 3.5rem;
+      padding-left: .2rem;
+      z-index: 2;
+      border-radius: 0 .3rem .3rem 0;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        border-left: 2px solid rgb(214, 214, 214);
+        background-color: hsl(210, 15.2%, 18%);
+        color: rgb(238, 0, 0);
+        
+      }
     }
   }
 }
@@ -95,11 +96,12 @@
 .listHolder {
   display: flex;
   flex-direction: column;
+  .sankeyDiagram, .sankeyTitle {
+    margin-left: 2rem;
+    margin-top: 2rem;
+  }
 }
 
-.sankeyDiagram {
-  margin-left: 10rem;
-}
 
 @media screen and (max-width: $breakpoint-lg) {
   .wrapper {

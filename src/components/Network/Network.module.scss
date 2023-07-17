@@ -74,13 +74,12 @@
     #networkDeleteButton {
       color: rgb(148, 3, 3);
       font-weight: 700;
-      height: 2.2rem;
+      height: 2.5rem;
       width: 3.5rem;
-      margin-top: 0rem;
+      margin: 0px;
       border: 1px;
       padding-right: 3.5rem;
       padding-left: .2rem;
-      z-index: 2;
       border-radius: 0 .3rem .3rem 0;
       transition: all 0.2s ease-in-out;
       &:hover {

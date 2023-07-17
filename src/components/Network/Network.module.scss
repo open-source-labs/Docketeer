@@ -7,7 +7,9 @@
 
 #networkList {
   position: relative;
-  // box-shadow: rgba(255, 255, 255, 0.45) -5px 5px 5px 0px, rgba(177, 177, 177, 0.308) 5px -5px 10px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 2px solid rgb(214, 214, 214);
   border-radius: .5rem;
   height: 100%;
@@ -19,7 +21,6 @@
   overflow-x: hidden;
   background-color: $background-bg;
   padding-top: 1rem;
-  padding-left: 1rem;
   padding-bottom: 1rem;
   transition: all 0.3s ease-in-out;
   .listHolder {
@@ -28,24 +29,24 @@
     overflow-x: hidden;
     height: 35rem;
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 0;
       background-color: rgb(41, 41, 41);
     }
-
     &::-webkit-scrollbar-thumb {
       background-color: #3d3d3d;
     }
   }
 
   input {
+    align-self: center;
     margin-top: 2rem;
-    width: 15rem;
+    width: calc(16.5rem + 5px);
   }
 
   button {
+    align-self: center;
     margin-top: .5rem;
-    width: 15rem;
-
+    width: calc(16.5rem + 5px);
   }
 
   .networkDiv {
@@ -55,9 +56,9 @@
     margin-top: .5rem;
     border: 2px solid rgb(214, 214, 214);
     border-radius: .5rem;
-    width: 17rem;
+    width: 16.5rem;
     height: 2.75rem;
-    padding-left: .5rem;
+    padding: 0rem 0rem 0rem .5rem;
     transition: all 0.3s ease-in-out;
     &:hover {
     background-color: hsl(210, 16%, 35%);
@@ -67,35 +68,39 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      margin-top: .25rem;
-      font-size: 1.5rem;
+      margin-top: .6rem;
+      font-size: 1rem;
+      height: 2.5rem;
       cursor: pointer;
     }
+
+        // background-color: hsl(210, 15.2%, 18%);
+        
     #networkDeleteButton {
-      color: rgb(148, 3, 3);
+      color: rgb(238, 0, 0);
       font-weight: 700;
       height: 2.5rem;
       width: 3.5rem;
       margin: 0px;
-      border: 1px;
       padding-right: 3.5rem;
       padding-left: .2rem;
       border-radius: 0 .3rem .3rem 0;
       transition: all 0.2s ease-in-out;
       &:hover {
         border-left: 2px solid rgb(214, 214, 214);
-        background-color: hsl(210, 15.2%, 18%);
-        color: rgb(238, 0, 0);
-        
+        background-color: rgb(148, 3, 3);
+        color: rgb(214, 214, 214);
       }
     }
   }
 }
 
+
 .listHolder {
   display: flex;
   flex-direction: column;
   .sankeyDiagram, .sankeyTitle {
+    align-self: center;
     margin-left: 2rem;
     margin-top: 2rem;
   }

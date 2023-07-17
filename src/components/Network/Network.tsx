@@ -9,7 +9,6 @@ import styles from './Network.module.scss';
 import { DataFromBackend, NetworkContainerListType } from '../../../types';
 
 const Network = (): JSX.Element => {
-  const [showList, setShowList] = useState(true);
   const [network, setNetwork] = useState('');
   const [duplicated, setDuplicated] = useState(false);
   const { networkContainerList } = useAppSelector((state) => state.networks);
@@ -51,7 +50,6 @@ const Network = (): JSX.Element => {
     'Yellowgreen',
   ];
 
-
   // check the network name that user types in is already exist in current network list
   useEffect(() => {
     // populate the array that has all of the network name
@@ -76,7 +74,7 @@ const Network = (): JSX.Element => {
       });
       const dataFromBackend: DataFromBackend = await response.json();
 
-      if(dataFromBackend['hash']){
+      if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
             'New network ' + name + ' is successfully added',
@@ -225,8 +223,7 @@ const Network = (): JSX.Element => {
         // if containers is empty, add network to no containers list
         if (!network.containers.length) {
           networksWithNoContainers.push(network.networkName);
-        }
-        else {
+        } else {
           // add network to nodes object
           liveNodes.push({
             name: network.networkName,
@@ -253,7 +250,7 @@ const Network = (): JSX.Element => {
 
       d3.select(ref.current).select('svg').remove();
 
-      const width = 1000;
+      const width = 1100;
       const height = Math.min(750, liveLinks.length * 50);
       const format = d3.format(',.0f');
 
@@ -289,7 +286,8 @@ const Network = (): JSX.Element => {
 
       const rect = svg
         .append('g')
-        .attr('stroke', '#0F0F0F')
+        // .attr('stroke', '#FFFFFF')
+        // .attr('stroke-width', '2px')
         .selectAll()
         .data(nodes)
         .join('rect')
@@ -299,14 +297,20 @@ const Network = (): JSX.Element => {
         .attr('width', (d) => d.x1 - d.x0)
         .attr('fill', (d) => {
           const color =
-            d.category === 'container' ? 'WhiteSmoke' :  'LightSlateGray' || cssColors[nodes.indexOf(d)]; // Switch color selection with cssColors[nodes.indexOf(d)] to have network nodes correspond with their path colors
+            d.category === 'container'
+              ? 'WhiteSmoke'
+              : 'LightSlateGray';
           nodeColors[d.name] = cssColors[nodes.indexOf(d)];
           return color;
         });
 
       rect
         .append('title')
-        .text((d) => `${d.name}\n${format(d.value)} Connections`);
+        .text((d) =>
+          d.value > 1
+            ? `${d.name}\n${format(d.value)} Connections`
+            : `${d.name}\n1 Connection`
+        );
 
       const link = svg
         .append('g')
@@ -321,20 +325,24 @@ const Network = (): JSX.Element => {
         .append('path')
         .attr('d', sankeyLinkHorizontal())
         .attr('stroke', (d) => nodeColors[d.source.name])
-        .attr('stroke-width', (d) => d.width / 1);
+        .attr('stroke-width', (d) => d.width);
 
       link.append('title').text((d) => `${d.source.name} → ${d.target.name}}`);
 
       svg
-        .append('g')
+        .append("g")
         .selectAll()
         .data(nodes)
-        .join('text')
-        .attr('x', (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
-        .attr('y', (d) => d.y0 - 12)
-        .attr('dy', '0.35em')
-        .attr('text-anchor', (d) => (d.x0 < width / 2 ? 'start' : 'end'))
-        .text((d) => d.name);
+        .join("text")
+        .attr("x", (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
+        .attr("y", (d) => d.y0 - 12)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
+        .text((d) =>
+          d.name.length > 12
+            ? d.name.slice(0, 12).concat("...")
+            : d.name
+        );
     }
   }, [networkContainerList]);
 
@@ -364,59 +372,60 @@ const Network = (): JSX.Element => {
           >
             {duplicated ? 'DUPLICATED NETWORK NAME' : 'CREATE NEW NETWORK'}
           </button>
-          {showList && (
-            <div className={styles.listHolder}>
-              {networkContainerList.map(
-                (network: NetworkContainerListType, index: number) => {
-                  if (
-                    network.networkName !== 'bridge' &&
-                    network.networkName !== 'docketeer_default'
-                  ) {
-                    return (
-                      <div className={styles.networkDiv} key={index}>
-                        <p
-                          id={styles.networkName}
-                          onClick={() =>
-                            displayAttachedContainers(network.networkName)
-                          }
-                        >
-                          {network.networkName}
-                        </p>
-                        <button
-                          id={styles.networkDeleteButton}
-                          onClick={() => deleteNetwork(network.networkName)}
-                        >
-                          DELETE
-                        </button>
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className={styles.networkDiv} key={index}>
-                        <p
-                          id={styles.networkName}
-                          onClick={() =>
-                            displayAttachedContainers(network.networkName)
-                          }
-                        >
-                          {network.networkName}
-                        </p>
-                      </div>
-                    );
-                  }
+          <div className={styles.listHolder}>
+            {networkContainerList.map(
+              (network: NetworkContainerListType, index: number) => {
+                if (
+                  network.networkName !== 'bridge' &&
+                  network.networkName !== 'docketeer_default'
+                ) {
+                  return (
+                    <div className={styles.networkDiv} key={index}>
+                      <p
+                        id={styles.networkName}
+                        onClick={() =>
+                          displayAttachedContainers(network.networkName)
+                        }
+                      >
+                        {network.networkName}
+                      </p>
+                      <button
+                        id={styles.networkDeleteButton}
+                        onClick={() => deleteNetwork(network.networkName)}
+                      >
+                        DELETE
+                      </button>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className={styles.networkDiv} key={index}>
+                      <p
+                        id={styles.networkName}
+                        onClick={() =>
+                          displayAttachedContainers(network.networkName)
+                        }
+                      >
+                        {network.networkName}
+                      </p>
+                    </div>
+                  );
                 }
-              )}
-            </div>
-          )}
+              }
+            )}
+          </div>
         </div>
       </div>
       <div className={styles.listHolder}>
-        <h2 className={styles.sankeyTitle}>NETWORK CONNECTIONS</h2>
-      <div id="sankeyDiagram" className={styles.sankeyDiagram} ref={ref}></div>
+        <h2 className={styles.sankeyTitle}>CONNECTIONS</h2>
+        <div
+          id="sankeyDiagram"
+          className={styles.sankeyDiagram}
+          ref={ref}
+        ></div>
       </div>
     </div>
   );
 };
-
 
 export default Network;

@@ -7,8 +7,8 @@ import {
   NetworkContainerListType,
 } from '../../../types';
 import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
-import styles from './RunningContainer.module.scss';
-import globalStyles from '../global.module.scss';
+import styles from 'src/components/RunningContainer/RunningContainer.module.scss';
+import globalStyles from 'src/components/global.module.scss';
 
 /**
  * @module | RunningContainers.tsx

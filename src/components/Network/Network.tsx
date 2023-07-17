@@ -3,9 +3,10 @@ import * as d3 from 'd3';
 import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
+
+import { DataFromBackend, NetworkContainerListType } from '../../../types';
 
 const Network = (): JSX.Element => {
   const [showList, setShowList] = useState(true);
@@ -50,12 +51,6 @@ const Network = (): JSX.Element => {
     'Yellowgreen',
   ];
 
-  // // manipulate data so that we have an array of all of our links between containers and networks
-  // const displayNetworkList = () => {
-  //   // update the networkList before displaying the network list
-  //   // networkContainers();
-  //   setShowList(!showList);
-  // };
 
   // check the network name that user types in is already exist in current network list
   useEffect(() => {
@@ -69,7 +64,7 @@ const Network = (): JSX.Element => {
       // set the duplicate state as false if it is not
       setDuplicated(false);
     }
-    // dependancy is network state which is current value of input
+    // dependency is network state which is current value of input
   }, [network]);
 
   async function fetchNewNetwork(name: string): Promise<void> {
@@ -79,10 +74,9 @@ const Network = (): JSX.Element => {
         body: JSON.stringify({ networkName: name }),
         headers: { 'Content-Type': 'application/json' },
       });
-      // parse the reponse
-      const dataFromBackend = await response.json();
-      // if new network is succefully added
-      if (dataFromBackend.hasOwnProperty('hash')) {
+      const dataFromBackend: DataFromBackend = await response.json();
+
+      if(dataFromBackend['hash']){
         dispatch(
           createAlert(
             'New network ' + name + ' is successfully added',
@@ -129,7 +123,6 @@ const Network = (): JSX.Element => {
           'warning'
         )
       );
-      // clear the input field after displaying alert msg
       setNetwork('');
       return;
     }
@@ -146,9 +139,8 @@ const Network = (): JSX.Element => {
         body: JSON.stringify({ networkName: name }),
         headers: { 'Content-Type': 'application/json' },
       });
-      // parse the reponse
       const dataFromBackend = await response.json();
-      if (dataFromBackend.hasOwnProperty('hash')) {
+      if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
             'Network ' + name + ' is successfully removed',
@@ -182,8 +174,7 @@ const Network = (): JSX.Element => {
   // function that returns array with network's attached container name
   const attachedContainers = (name: string): string[] => {
     let attachedContainerList;
-    // iterate through networkContainerList
-    networkContainerList.forEach((el) => {
+    networkContainerList.forEach((el: NetworkContainerListType | any) => {
       // if current network objects's networkName property has a value which is matching the provided argument.
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
@@ -192,15 +183,12 @@ const Network = (): JSX.Element => {
         );
       }
     });
-    // return array
     return attachedContainerList;
   };
 
   // function to display which containers are attached to a specific network
-  const displayAttachedContainers = (name) => {
-    // const var containerName is array returned from invocation of attachedContainers function with passed in network name argument
-    const containerName = attachedContainers(name);
-    // if containerName array has any length, which means there are attached containers available
+  const displayAttachedContainers = (name: string) => {
+    const containerName: string[] = attachedContainers(name);
     if (containerName.length) {
       dispatch(
         createAlert(
@@ -214,7 +202,6 @@ const Network = (): JSX.Element => {
         )
       );
     } else {
-      // if there's no container attached to this network
       dispatch(
         createAlert(
           'Currently no container is attached to ' + name + ' network.',
@@ -232,20 +219,19 @@ const Network = (): JSX.Element => {
       const liveNodesObj = {};
       const liveNodes = [];
       const liveLinks = [];
+
       // iterate through networkContainerList
       networkContainerList.forEach((network) => {
         // if containers is empty, add network to no containers list
         if (!network.containers.length) {
           networksWithNoContainers.push(network.networkName);
         }
-        // otherwise,
         else {
           // add network to nodes object
           liveNodes.push({
             name: network.networkName,
             category: 'network',
           });
-          // iterate through the containers
           network.containers.forEach((container) => {
             // if it doesn't already exist in nodes object, add it to object and list
             if (!liveNodesObj[container.containerName]) {

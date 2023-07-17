@@ -4,8 +4,8 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { VolumeObj } from '../../../types';
 
-import globalStyles from '../global.module.scss';
-import styles from './VolumeHistory.module.scss';
+import globalStyles from 'src/components/global.module.scss';
+import styles from 'src/components/VolumeHistory/VolumeHistory.module.scss';
 import useHelper from '../../helpers/commands'; // added
 /**
  * @module | VolumeHistory.js

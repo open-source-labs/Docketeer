@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ConnectOrDisconnect.module.scss';
+import styles from 'src/components/ConnectOrDisconnect/ConnectOrDisconnect.module.scss';
 
 /**
  * @module | ConnectedOrDisconnect.tsx

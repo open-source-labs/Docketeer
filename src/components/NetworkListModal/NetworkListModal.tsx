@@ -55,7 +55,7 @@ const NetworkListModal = ({
       ariaHideApp={false}
     >
       <div className={styles.listHolder}>
-        <h4>Network List for {Names}</h4>
+        <h4>{Names} CONNECTIONS</h4>
         <div className={styles.containerNetworks}>
           {networkContainerList.map(
             (network: NetworkContainerListType, index: number) => {

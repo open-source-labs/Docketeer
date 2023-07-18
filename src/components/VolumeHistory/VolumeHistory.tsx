@@ -104,7 +104,6 @@ const VolumeHistory = (): JSX.Element => {
                     </div>
                   )}
                 </div>
-                {/* added */}
                 <button
                   className={globalStyles.button1}
                   onClick={() => handleClickRemoveVolume(volume)}

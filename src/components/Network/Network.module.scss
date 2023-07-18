@@ -1,8 +1,5 @@
 .wrapper {
   display: flex;
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
-  }
 }
 
 #networkList {
@@ -19,7 +16,7 @@
   top: 1rem;
   overflow-y: hidden;
   overflow-x: hidden;
-  background-color: $background-bg;
+  background: $background-bg;
   padding-top: 1rem;
   padding-bottom: 1rem;
   transition: all 0.3s ease-in-out;
@@ -72,10 +69,7 @@
       font-size: 1rem;
       height: 2.5rem;
       cursor: pointer;
-    }
-
-        // background-color: hsl(210, 15.2%, 18%);
-        
+    }   
     #networkDeleteButton {
       color: rgb(238, 0, 0);
       font-weight: 700;
@@ -112,25 +106,7 @@
     display: flex;
     flex-direction: column;
   }
-
-  .containerList {
-    grid-template-columns: 1fr 1fr 1fr;
-    transform: all 0.2s ease-in-out;
-  }
-
   .listHolder {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: $breakpoint-md) {
-  .containerList {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm) {
-  .containerList {
-    grid-template-columns: 1fr;
+    align-self: center;
   }
 }

@@ -54,7 +54,7 @@ const NetworkListModal = ({
       overlayClassName={styles.overlay}
       ariaHideApp={false}
     >
-      <div className={styles.listHolder}>
+      <div>
         <h4>{Names} CONNECTIONS</h4>
         <div className={styles.containerNetworks}>
           {networkContainerList.map(

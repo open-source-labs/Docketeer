@@ -1,8 +1,37 @@
-.disconnect {
-  color: red;
+
+.connectOrDisconnectButton {
+  border-radius: 0 .3rem .3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  .disconnect {
+    color: red;
+    font-weight: 700;
+    height: 2.5rem;
+    width: 5.5rem;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0 .3rem .3rem 0;
+    &:hover {
+      border-left: 2px solid rgb(214, 214, 214);
+      background-color: rgb(148, 3, 3);
+      color: rgb(214, 214, 214);
+    }
+  }
+
+  .connect {
+    color: green;
+    font-weight: 700;
+    height: 2.5rem;
+    width: 5.5rem;
+    margin-top: .09rem;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0 .3rem .3rem 0;
+    &:hover {
+      border-left: 2px solid rgb(214, 214, 214);
+      background-color: rgb(0, 94, 8);
+      color: rgb(214, 214, 214);
+    }
+  }
 }
 
-.connect {
-  color: green;
-  // background-color: aquamarine;
-}

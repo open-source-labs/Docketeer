@@ -22,9 +22,9 @@ const ConnectOrDisconnect = ({ container, networkName, connectToNetwork, disconn
 
 
   return (
-    <div>
+    <div className={styles.connectOrDisconnectButton}>
       {Button}
-    </div>
+   </div>
   );
 };
 

@@ -87,7 +87,7 @@ const RunningContainer = ({
               className={globalStyles.buttonSmall}
               onClick={() => openNetworkList()}
             >
-              NETWORK
+              NETWORKS
             </button>
           )}
         </div>

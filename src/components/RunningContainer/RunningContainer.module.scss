@@ -7,6 +7,7 @@
   word-wrap: break-word;
   width: 20rem;
   height: 15rem;
+  background: $background-bg;
 }
 
 .textHolder {
@@ -31,8 +32,7 @@
 .modal {
   h4 {
     padding: 1rem;
-    width: 20rem;
-    // font-size: 1.25rem;
+    font-size: 1.25rem;
     text-align: center;
     text-overflow: ellipsis;
     overflow-x: hidden;
@@ -46,28 +46,27 @@
   justify-content: center;
   align-items: center;
   height: 30rem;
-  width: 20rem;
+  width: 24rem;
   left: 40%;
   top: 30%;
   border-radius: 2rem;
+  padding-left: .5rem;
   .containerNetworks {
     overflow-y: scroll;
     height: 20rem;
-    width: 18rem;
+    width: 23rem;
     margin: 1rem;
+    justify-content: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     &::-webkit-scrollbar {
-        width: 10px;
-        background-color: rgb(41, 41, 41);
+        width: 2px;
+        background-color: rgb(49, 49, 49);
         margin-right: 1rem;
         height: 10rem;
       }
     &::-webkit-scrollbar-thumb {
-      background-color: rgb(34, 34, 34);
+      background-color: rgb(235, 235, 235);
     }
-  }
-  button {
-    margin-top: -1rem;
   }
 }
 
@@ -88,7 +87,28 @@
 }
 
 .networkDiv {
-  // display: flex;
-  // flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  background-color: hsl(210, 15.2%, 18%);
   margin-top: .5rem;
+  border: 2px solid rgb(214, 214, 214);
+  border-radius: .5rem;
+  width: 22rem;
+  height: 2.75rem;
+  padding: 0rem 0rem 0rem .5rem;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+      background-color: hsl(210, 16%, 35%);
+    }
+    #networkName {
+      width: 12rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-top: .6rem;
+      font-size: 1rem;
+      height: 2.5rem;
+      cursor: pointer;
+    }
+  
 }

@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
 import { useAppSelector } from '../../reducers/hooks';
-import {
-  ContainersCardsProps,
-  NetworkModal,
-  NetworkContainerListType,
-} from '../../../types';
-import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
+import { ContainersCardsProps } from '../../../types';
 import styles from 'src/components/RunningContainer/RunningContainer.module.scss';
 import globalStyles from 'src/components/global.module.scss';
+import NetworkListModal from '../NetworkListModal/NetworkListModal';
 
 /**
  * @module | RunningContainers.tsx
@@ -39,62 +34,6 @@ const RunningContainer = ({
   const closeNetworkList = () => {
     setIsOpen(false);
   };
-
-  /* 
-  current props for Modal
-  isOpen => Boolean describing if the modal should be shown or not (isOpen state)
-
-  onRequestClose => Function that will be run when the modal is requested to be closed (either by clicking on overlay or pressing ESC).
-
-  contentLabel => String indicating how the content container should be announced to screenreaders
-  
-  style => Object indicating styles to be used for the modal and it has two keys, `overlay` and `content`.
-           { overlay: {}, content: {} } 
-  */
-
-
-  const NetworkListModal = ({ Names }: NetworkModal): JSX.Element => {
-    return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={closeNetworkList}
-        contentLabel="Network List"
-        className={styles.modal}
-        overlayClassName={styles.overlay}
-        ariaHideApp={false}
-      >
-        <div className={styles.listHolder}>
-          <h4>{Names} CONNECTIONS</h4>
-          <div className={styles.containerNetworks}>
-            {networkContainerList.map(
-              (network: NetworkContainerListType, index: number) => {
-                return (
-                  <div className={styles.networkDiv} key={index}>
-                    <p id={styles.networkName}>{network.networkName}</p>
-                    <ConnectOrDisconnect
-                      container={container}
-                      networkName={network.networkName}
-                      connectToNetwork={connectToNetwork}
-                      disconnectFromNetwork={disconnectFromNetwork}
-                    />
-                  </div>
-                );
-              }
-            )}
-          </div>
-          <div className={styles.buttonDiv}>
-            <button
-              className={globalStyles.buttonSmall}
-              onClick={() => closeNetworkList()}
-            >
-              CLOSE
-            </button>
-          </div>
-        </div>
-      </Modal>
-    );
-  };
-
 
   return (
     <div key={key} className={styles.containerCard}>
@@ -153,7 +92,7 @@ const RunningContainer = ({
           )}
         </div>
       </div>
-      <NetworkListModal Names={container.Names} />
+      <NetworkListModal Names={container.Names} isOpen={isOpen} closeNetworkList={closeNetworkList} networkContainerList={networkContainerList} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} container={container} />
     </div>
   );
 };

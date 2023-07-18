@@ -114,7 +114,7 @@ router.get(
   },
 );
 
-// Route to get network container list
+// Route to get a list of networks
 router.get(
   '/networkContainers',
   commandController.networkContainers,
@@ -123,7 +123,7 @@ router.get(
   },
 );
 
-// Route to get network container list
+// Route to get a list of networks with the containers they are attached to 
 router.get(
   '/networkListContainers',
   commandController.networkContainers,
@@ -133,7 +133,7 @@ router.get(
   },
 );
 
-//
+// Route to create a new network
 router.post(
   '/networkCreate',
   commandController.networkCreate,
@@ -142,7 +142,7 @@ router.post(
   }
 );
 
-//
+// Route to remove a network 
 router.post(
   '/networkRemove',
   commandController.networkRemove,
@@ -151,7 +151,7 @@ router.post(
   }
 );
 
-//
+// Route to connect a container with a network
 router.post(
   '/networkConnect',
   commandController.networkConnect,
@@ -160,6 +160,7 @@ router.post(
   }
 );
 
+// Route to disconnect a container from a network 
 router.post(
   '/networkDisconnect',
   commandController.networkDisconnect,

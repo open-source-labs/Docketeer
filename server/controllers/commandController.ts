@@ -5,7 +5,6 @@ import {
   composeStacksDockerObject,
 } from '../../types';
 import { exec } from 'child_process';
-import { getNetworkContainers } from '../../src/reducers/composeReducer';
 
 /**
  * Parse all the stdout output into array to manipulate data properly.
@@ -409,6 +408,10 @@ const commandController: CommandController = {
     );
   },
 
+  /**
+   * @description runs terminal commands to return a list of user-defined networks and bridge, filtering out host and none networks.
+   */
+
   networkContainers: (
     req: Request,
     res: Response,
@@ -448,6 +451,10 @@ const commandController: CommandController = {
       }
     );
   },
+
+  /**
+   * @description runs terminal commands to return an array of network objects with a complete list of containers attached to it.
+   */
 
   networkListContainers: async (
     req: Request,
@@ -533,10 +540,12 @@ const commandController: CommandController = {
     return next();
   },
 
+  /**
+   * @description runs terminal command to create a new network.
+   */
+
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
-
-    // added below line
 
     exec(
       `docker network create ${networkName}`,
@@ -559,6 +568,10 @@ const commandController: CommandController = {
     );
   },
 
+  /**
+   * @description runs terminal commands to remove a network.
+   */
+
   networkRemove: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
 
@@ -576,12 +589,16 @@ const commandController: CommandController = {
           console.log(`networkRemove controller error: ${error.message}`);
           return next();
         }
-
+        
         res.locals.result = { hash: stdout };
         return next();
       }
     );
   },
+
+  /**
+   * @description runs terminal commands to connect a container with a network.
+   */
 
   networkConnect: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName, containerName } = req.body;
@@ -607,6 +624,10 @@ const commandController: CommandController = {
     );
   },
 
+  /**
+   * @description runs terminal commands to disconnect a container with a network.
+   */
+
   networkDisconnect: (
     req: Request,
     res: Response,
@@ -626,7 +647,6 @@ const commandController: CommandController = {
 
         if (error) {
           console.log(`networkDisconnect controller error: ${error.message}`);
-          // res.locals.result = { error: stderr };
           return next();
         }
 
@@ -807,11 +827,8 @@ const commandController: CommandController = {
         res.locals.volumeRemoved = { volume: stdout };
         return next();
       }
-    )
+    );
   },
-
-
-
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {
     const containerLogs: { [k: string]: LogObject[] } = {

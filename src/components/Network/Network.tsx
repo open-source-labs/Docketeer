@@ -192,31 +192,31 @@ const Network = (): JSX.Element => {
   };
 
   // function to display which containers are attached to a specific network
- const displayAttachedContainers = (name: string) => {
-   const containerName: string[] = attachedContainers(name);
-   const isAre = containerName.length > 1 ? 'are' : 'is';
-   if (containerName.length) {
-     dispatch(
-       createAlert(
-         "Currently " +
+  const displayAttachedContainers = (name: string) => {
+    const containerName: string[] = attachedContainers(name);
+    const isAre = containerName.length > 1 ? 'are' : 'is';
+    if (containerName.length) {
+      dispatch(
+        createAlert(
+          'Currently ' +
            containerName +
            `${isAre} attached to ` +
            name +
-           " network.",
-         4,
-         "success"
-       )
-     );
-   } else {
-     dispatch(
-       createAlert(
-         "Currently no container is attached to " + name + " network.",
-         4,
-         "success"
-       )
-     );
-   }
- };
+           ' network.',
+          4,
+          'success'
+        )
+      );
+    } else {
+      dispatch(
+        createAlert(
+          'Currently no container is attached to ' + name + ' network.',
+          4,
+          'success'
+        )
+      );
+    }
+  };
 
   // Render Sankey Diagram
   useEffect(() => {

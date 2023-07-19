@@ -120,7 +120,6 @@ export interface StoppedContainerObj extends ContainerType {
   Labels: string;
   LocalVolumes: string;
   Mounts: string;
-  Networks: string;
   Ports: string;
   Size: string;
   State: string;
@@ -435,6 +434,12 @@ export interface CommandController {
   networkContainers: MiddleWareFunction;
 
   /**
+   * @description List containers attached to each of the networks
+   */
+
+  networkListContainers: MiddleWareFunction;
+
+  /**
    * @description Display all networks based on docker-compose in a json object; when the user creates a new network
    */
 
@@ -457,12 +462,6 @@ export interface CommandController {
    */
 
   networkDisconnect: MiddleWareFunction;
-
-  /**
-   * @description List containers attached to each of the networks
-   */
-
-  networkListContainers: MiddleWareFunction;
 
   /**
    * @description inspects docker containers
@@ -511,9 +510,6 @@ export interface CommandController {
    * @description runs docker to remove selected volume
    */
   volumeRemove: MiddleWareFunction;
-
-
-
 }
 
 export interface ConfigController {

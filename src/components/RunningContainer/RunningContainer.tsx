@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { ContainersCardsProps } from '../../../types';
-import styles from 'src/components/RunningContainer/RunningContainer.module.scss';
-import globalStyles from 'src/components/global.module.scss';
+import styles from './RunningContainer.module.scss';
+import globalStyles from '../global.module.scss';
 import NetworkListModal from '../NetworkListModal/NetworkListModal';
 
 /**

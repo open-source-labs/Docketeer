@@ -1,8 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../reducers/hooks';
-
-import styles from 'src/components/Alert/Alert.module.scss';
-import globalStyles from 'src/components/global.module.scss';
+import styles from './Alert.module.scss';
+import globalStyles from '../global.module.scss';
 
 /**
  * @module | Alert.tsx

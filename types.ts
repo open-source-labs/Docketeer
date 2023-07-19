@@ -35,7 +35,6 @@ export interface UserInfo extends User {
 
 export interface SessionStateType extends UserInfo {
   isLoggedIn: boolean;
-  // userList: any[];
 }
 
 export interface RootState {
@@ -189,6 +188,7 @@ export interface LogsStateType {
 
 export type CSVDataType = string[];
 
+
 // ==============================================
 // VOLUME TYPES
 // ==============================================
@@ -290,15 +290,32 @@ export interface ContainersCardsProps {
   stopContainer: (container: ContainerType) => void;
   runContainer: (container: ContainerType) => void;
   removeContainer: (container: ContainerType) => void;
-  connectToNetwork: (network: string, container: string) => void;
-  disconnectFromNetwork: (network: string, container: string) => void;
+  connectToNetwork?: (network: string, container: string) => void;
+  disconnectFromNetwork?: (network: string, container: string) => void;
   container?: ContainerType;
   status: string;
-  key?: string;
+  key?: string | number;
 }
 
 export interface NetworkModal {
   Names: string;
+}
+
+export interface ConnectOrDisconnectProps {
+  container: ContainerType;
+  networkName: string;
+  connectToNetwork: (networkName: string, containerName: string) => void;
+  disconnectFromNetwork: (networkName: string, containerName: string) => void;
+}
+
+export interface NetworkListModalProps {
+  Names: string,
+  container: ContainerType,
+  isOpen: boolean,
+  connectToNetwork: (network: string, container: string) => void;
+  disconnectFromNetwork: (network: string, container: string) => void;
+  closeNetworkList: () => void;
+  networkContainerList: NetworkContainerListType[];
 }
 
 // ==========================================================

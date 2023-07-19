@@ -8,6 +8,13 @@ import styles from './Network.module.scss';
 
 import { DataFromBackend, NetworkContainerListType } from '../../../types';
 
+/**
+ * @module | Network.tsx
+ * @description | This component renders a tab for displaying and managing custom and default networks that Docker creates.
+ **/
+
+
+
 const Network = (): JSX.Element => {
   const [network, setNetwork] = useState('');
   const [duplicated, setDuplicated] = useState(false);
@@ -172,7 +179,7 @@ const Network = (): JSX.Element => {
   // function that returns array with network's attached container name
   const attachedContainers = (name: string): string[] => {
     let attachedContainerList;
-    networkContainerList.forEach((el: NetworkContainerListType | any) => {
+    networkContainerList.forEach((el: NetworkContainerListType) => {
       // if current network objects's networkName property has a value which is matching the provided argument.
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
@@ -330,17 +337,17 @@ const Network = (): JSX.Element => {
       link.append('title').text((d) => `${d.source.name} → ${d.target.name}}`);
 
       svg
-        .append("g")
+        .append('g')
         .selectAll()
         .data(nodes)
-        .join("text")
-        .attr("x", (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
-        .attr("y", (d) => d.y0 - 12)
-        .attr("dy", "0.35em")
-        .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
+        .join('text')
+        .attr('x', (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
+        .attr('y', (d) => d.y0 - 12)
+        .attr('dy', '0.35em')
+        .attr('text-anchor', (d) => (d.x0 < width / 2 ? 'start' : 'end'))
         .text((d) =>
           d.name.length > 12
-            ? d.name.slice(0, 12).concat("...")
+            ? d.name.slice(0, 12).concat('...')
             : d.name
         );
     }

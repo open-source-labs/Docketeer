@@ -18,7 +18,7 @@ const ContainersCard = ({
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
-
+  
   async function connectToNetwork(
     networkName: string,
     containerName: string
@@ -80,7 +80,9 @@ const ContainersCard = ({
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
-            containerName + ' was successfully disconnected from ' + networkName,
+            containerName +
+              ' was successfully disconnected from ' +
+              networkName,
             4,
             'success'
           )
@@ -110,7 +112,9 @@ const ContainersCard = ({
     return (
       <RunningContainer
         container={container}
-        key={i}
+        // {`image-${i}`}
+        // key={i}
+        key={`container-${i}`}
         stopContainer={stopContainer}
         runContainer={runContainer}
         removeContainer={removeContainer}

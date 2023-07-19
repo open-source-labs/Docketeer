@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import styles from 'src/components/SignUp/SignUp.module.scss';
-import globalStyles from 'src/components/global.module.scss';
+import styles from './SignUp.module.scss';
+import globalStyles from '../global.module.scss';
 import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

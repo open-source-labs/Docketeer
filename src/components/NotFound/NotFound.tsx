@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useSurvey from '../../helpers/dispatch';
 import useHelper from '../../helpers/commands';

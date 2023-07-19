@@ -112,8 +112,6 @@ const ContainersCard = ({
     return (
       <RunningContainer
         container={container}
-        // {`image-${i}`}
-        // key={i}
         key={`container-${i}`}
         stopContainer={stopContainer}
         runContainer={runContainer}

@@ -19,8 +19,8 @@ const ConnectOrDisconnect = ({ container, networkName, connectToNetwork, disconn
     return <button className={styles.disconnect} onClick={() => disconnectFromNetwork(networkName, container.Names)}> Disconnect </button>;
   };
 
-  const Button = container.Networks.includes(networkName) ? disconnectButton() : connectButton();
-
+  // check the networkName and assign the Button variable to the appropriate component depending on the condition
+  const Button = (networkName === 'docketeer_default') ? '' : (container.Networks.includes(networkName) ? disconnectButton() : connectButton());
 
   return (
     <div className={styles.connectOrDisconnectButton}>

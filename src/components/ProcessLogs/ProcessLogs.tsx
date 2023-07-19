@@ -30,7 +30,6 @@ const ProcessLogs = (): JSX.Element => {
     (state) => state.logs.containerLogs
   );
   const runningBtnList: any = getContainerNames(runningList);
-  console.log('processLogs 33', runningBtnList);
 
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {

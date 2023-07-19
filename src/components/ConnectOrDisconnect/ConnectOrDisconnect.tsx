@@ -1,12 +1,13 @@
 import React from 'react';
-import styles from 'src/components/ConnectOrDisconnect/ConnectOrDisconnect.module.scss';
+import styles from './ConnectOrDisconnect.module.scss';
+import { ConnectOrDisconnectProps } from '../../../types';
 
 /**
  * @module | ConnectedOrDisconnect.tsx
  * @description | This component renders either a connect or disconnect button, depending on whether the container is currently attached to the network.
  **/
 
-const ConnectOrDisconnect = ({ container, networkName, connectToNetwork, disconnectFromNetwork }: { container: object, networkName: string, connectToNetwork: Function, disconnectFromNetwork: Function}): JSX.Element => {
+const ConnectOrDisconnect = ({ container, networkName, connectToNetwork, disconnectFromNetwork }: ConnectOrDisconnectProps): JSX.Element => {
 
   // component that will rendered if the connected variable has a value of trueif the connected variable has a value of true
   const connectButton = () => {
@@ -24,7 +25,7 @@ const ConnectOrDisconnect = ({ container, networkName, connectToNetwork, disconn
   return (
     <div className={styles.connectOrDisconnectButton}>
       {Button}
-   </div>
+    </div>
   );
 };
 

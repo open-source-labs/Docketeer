@@ -1,12 +1,9 @@
 import React from 'react';
-
-import Docketeer from '../../../assets/dlogo-no-bg.png';
-import styles from 'src/components/About/About.module.scss';
+import styles from './About.module.scss';
 
 const About = () => {
   return (
     <div className={styles.wrapper}>
- 
       <div className={styles.section}>
         <h2>OUR TEAM</h2>
         <p>

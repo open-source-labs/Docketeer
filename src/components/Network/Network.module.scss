@@ -56,7 +56,7 @@
     width: 16.5rem;
     height: 2.75rem;
     padding: 0rem 0rem 0rem .5rem;
-    transition: all 0.3s ease-in-out;
+    transition: all .2s ease-in-out;
     &:hover {
     background-color: hsl(210, 16%, 35%);
     }
@@ -79,10 +79,11 @@
       padding-right: 3.5rem;
       padding-left: .2rem;
       border-radius: 0 .3rem .3rem 0;
-      transition: all 0.2s ease-in-out;
+      transition: all .2s ease-in-out;
       &:hover {
         border-left: 2px solid rgb(214, 214, 214);
-        background-color: rgb(148, 3, 3);
+        background: linear-gradient(to bottom, rgba(255, 0, 0, 0.3), rgba(253, 2, 2, 0.986)),
+                    linear-gradient(to right bottom, rgba(255, 255, 255, 0.39), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
         color: rgb(214, 214, 214);
       }
     }

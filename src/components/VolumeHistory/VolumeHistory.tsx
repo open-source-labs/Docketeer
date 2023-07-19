@@ -4,8 +4,8 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '../../reducers/hooks';
 import { VolumeObj } from '../../../types';
 
-import globalStyles from 'src/components/global.module.scss';
-import styles from 'src/components/VolumeHistory/VolumeHistory.module.scss';
+import globalStyles from '../global.module.scss';
+import styles from './VolumeHistory.module.scss';
 import useHelper from '../../helpers/commands'; // added
 /**
  * @module | VolumeHistory.js
@@ -52,9 +52,9 @@ const VolumeHistory = (): JSX.Element => {
   };
 
   const handleClickRemoveVolume = (
-    volumeName: any
+    volumeName: string
   ) => {
-    removeVolume(volumeName.vol_name);
+    removeVolume(volumeName);
   };
 
   return (
@@ -106,7 +106,7 @@ const VolumeHistory = (): JSX.Element => {
                 </div>
                 <button
                   className={globalStyles.button1}
-                  onClick={() => handleClickRemoveVolume(volume)}
+                  onClick={() => handleClickRemoveVolume(volume.vol_name)}
                 >
                   Remove Volume
                 </button>

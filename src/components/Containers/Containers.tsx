@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
-import { ContainerType, NetworkContainerListType } from '../../../types';
+import React from 'react';
+import { ContainerType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import styles from 'src/components/Containers/Containers.module.scss';
+import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
-import globalStyles from 'src/components/global.module.scss';
 
 /**
  * @module | Containers.tsx

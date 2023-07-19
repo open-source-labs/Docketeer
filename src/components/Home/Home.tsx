@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'src/components/Home/Home.module.scss';
+import styles from './Home.module.scss';
 import Docketeer from '../../../assets/dlogo-no-bg.png';
 
 /**

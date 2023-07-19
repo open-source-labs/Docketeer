@@ -12,6 +12,12 @@ import * as history from '../../helpers/volumeHistoryHelper';
 import Alert from '../Alert/Alert';
 import styles from 'src/components/SharedLayout/SharedLayout.module.scss';
 
+
+/**
+ * @module | SharedLayout.tsx
+ * @description | This component renders a navbar at the top that allows you to select which tab you would like to view.
+ **/
+
 function SharedLayout(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

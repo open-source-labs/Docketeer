@@ -35,7 +35,6 @@ export interface UserInfo extends User {
 
 export interface SessionStateType extends UserInfo {
   isLoggedIn: boolean;
-  // userList: any[];
 }
 
 export interface RootState {
@@ -69,6 +68,24 @@ export interface ContainerType {
   Names?: string;
   Image?: string;
   RunningFor?: string;
+  Networks?: string[];
+}
+
+// for networkReducer's initial state
+export interface NetworkContainerListType {
+  networkName: string;
+  containers: NetworkAttachedContainersInfo[];
+}
+
+// Relates to above interfaces containers property 
+export interface NetworkAttachedContainersInfo {
+    containerName: string;
+    containerIP: string;
+  }
+
+// for networkReducer's action
+export interface NetworkStateType {
+  networkContainerList: NetworkContainerListType[];
 }
 
 export interface StoppedListType extends ContainerType {
@@ -87,7 +104,7 @@ export interface StoppedListType extends ContainerType {
 export interface ContainerStateType {
   runningList: ContainerType[];
   stoppedList: StoppedListType[];
-  networkList: any[];
+  networkList: string[];
   composeStack: any[];
 }
 
@@ -103,11 +120,11 @@ export interface StoppedContainerObj extends ContainerType {
   Labels: string;
   LocalVolumes: string;
   Mounts: string;
-  Networks: string;
   Ports: string;
   Size: string;
   State: string;
   Status: string;
+  ModalOpen?: boolean;
 }
 
 export interface containersList {
@@ -170,6 +187,7 @@ export interface LogsStateType {
 
 export type CSVDataType = string[];
 
+
 // ==============================================
 // VOLUME TYPES
 // ==============================================
@@ -231,6 +249,17 @@ export interface AlertStateType {
   | null[];
 }
 
+export interface PruneStateType {
+  prunePromptList:
+    | [
+        prompt: string | null,
+        handleSystemPrune: (() => void) | null,
+        handleNetworkPrune: (() => void) | null,
+        handleDeny: (() => void) | null
+      ]
+    | null[];
+}
+
 export interface notificationStateType {
   phoneNumber: string;
   memoryNotificationList: Set<any>;
@@ -250,12 +279,46 @@ export interface ToggleDisplayProps {
   container: ContainerType;
 }
 
+export interface DataFromBackend {
+  hash?: string,
+  error?: string,
+}
+
 export interface ContainersCardsProps {
-  containerList: ContainerType[];
+  containerList?: ContainerType[];
   stopContainer: (container: ContainerType) => void;
   runContainer: (container: ContainerType) => void;
   removeContainer: (container: ContainerType) => void;
+  connectToNetwork?: (network: string, container: string) => void;
+  disconnectFromNetwork?: (network: string, container: string) => void;
+  container?: ContainerType;
   status: string;
+  key?: string | number;
+}
+
+export interface NetworkModal {
+  Names: string;
+}
+
+export interface ConnectOrDisconnectProps {
+  container: ContainerType;
+  networkName: string;
+  connectToNetwork: (networkName: string, containerName: string) => void;
+  disconnectFromNetwork: (networkName: string, containerName: string) => void;
+}
+
+export interface NetworkListModalProps {
+  Names: string,
+  container: ContainerType,
+  isOpen: boolean,
+  connectToNetwork: (network: string, container: string) => void;
+  disconnectFromNetwork: (network: string, container: string) => void;
+  closeNetworkList: () => void;
+  networkContainerList: NetworkContainerListType[];
+}
+
+export interface NotFoundProps {
+  session: boolean | undefined,
 }
 
 // ==========================================================
@@ -359,6 +422,11 @@ export interface CommandController {
   dockerPrune: MiddleWareFunction;
 
   /**
+   * @description executes docker network prune --force command to remove all unused networks (both dangling and unreferenced); passes a string to prop 'pruneNetworkMessage' in locals relaying the prune
+   */
+  dockerNetworkPrune: MiddleWareFunction;
+
+  /**
    * @description executes docker pull {repo} command to pull a new image; send a string to locals 'imgMessage'
    * @note image's repo name grabbed from req.query
    */
@@ -368,6 +436,36 @@ export interface CommandController {
    * @description Display all containers network based on docker-compose in a json object; when the application starts
    */
   networkContainers: MiddleWareFunction;
+
+  /**
+   * @description List containers attached to each of the networks
+   */
+
+  networkListContainers: MiddleWareFunction;
+
+  /**
+   * @description Display all networks based on docker-compose in a json object; when the user creates a new network
+   */
+
+  networkCreate: MiddleWareFunction;
+
+  /**
+   * @description Remove a network
+   */
+
+  networkRemove: MiddleWareFunction;
+
+  /**
+   * @description Connect a container to a network
+   */
+
+  networkConnect: MiddleWareFunction;
+
+  /**
+   * @description Connect a container to a network
+   */
+
+  networkDisconnect: MiddleWareFunction;
 
   /**
    * @description inspects docker containers
@@ -411,6 +509,11 @@ export interface CommandController {
    * @description runs docker logs with timestamps and presists 'containerLogs' though locals, invokes makeArrayOfObjects passing in stdout/err to add to the 'containerLogs' obj
    */
   getLogs: MiddleWareFunction;
+
+  /**
+   * @description runs docker to remove selected volume
+   */
+  volumeRemove: MiddleWareFunction;
 }
 
 export interface ConfigController {

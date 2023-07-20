@@ -6,13 +6,16 @@ import { VolumeObj } from '../../../types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
-
+import useHelper from '../../helpers/commands'; // added
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes
  **/
 
 const VolumeHistory = (): JSX.Element => {
+
+  const { removeVolume } = useHelper(); // added
+
   const [volumeName, setVolumeName]: [
     string,
     Dispatch<SetStateAction<string>>
@@ -46,6 +49,12 @@ const VolumeHistory = (): JSX.Element => {
     );
 
     setVolumeList(result);
+  };
+
+  const handleClickRemoveVolume = (
+    volumeName: string
+  ) => {
+    removeVolume(volumeName);
   };
 
   return (
@@ -95,6 +104,12 @@ const VolumeHistory = (): JSX.Element => {
                     </div>
                   )}
                 </div>
+                <button
+                  className={globalStyles.button1}
+                  onClick={() => handleClickRemoveVolume(volume.vol_name)}
+                >
+                  Remove Volume
+                </button>
               </div>
             );
           })}

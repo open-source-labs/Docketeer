@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAppSelector } from '../../reducers/hooks';
-
 import styles from './Alert.module.scss';
 import globalStyles from '../global.module.scss';
 
@@ -14,12 +13,14 @@ const Alert = (): JSX.Element => {
   // alertList = [time, Redux type] : object
   // promptList = [prompt msg, onClickFunc1, onClickFunc2] : object
   const { alertList, promptList } = useAppSelector((state) => state.alerts);
+  const { prunePromptList } = useAppSelector((state) => state.pruneNetwork);
 
   const alertType = alertList[1];
   const alertText = alertList[0];
   const promptText = promptList[0];
+  const prunePromptText = prunePromptList[0];
 
-  const alertExists = alertType || alertText || promptText;
+  const alertExists = alertType || alertText || promptText || prunePromptText;
 
   const svgs = {
     info: (
@@ -127,6 +128,32 @@ const Alert = (): JSX.Element => {
                 onClick={() => promptList[1]?.()}
               >
                 Accept
+              </button>
+            </div>
+          </div>
+        )}
+        {typeof prunePromptText === 'string' && (
+          <div className={styles.general}>
+            {svgs.prompt}
+            <p>{prunePromptText}</p>
+            <div className={styles.buttonHolder}>
+              <button
+                className={globalStyles.button1}
+                onClick={() => prunePromptList[1]?.()}
+              >
+                System Prune
+              </button>
+              <button
+                className={globalStyles.button1}
+                onClick={() => prunePromptList[2]?.()}
+              >
+                Network Prune
+              </button>
+              <button
+                className={globalStyles.button2}
+                onClick={() => prunePromptList[3]?.()}
+              >
+                Cancel
               </button>
             </div>
           </div>

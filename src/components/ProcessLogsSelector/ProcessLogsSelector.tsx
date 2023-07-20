@@ -3,14 +3,16 @@ import styles from './ProcessLogsSelector.module.scss';
 import globalStyles from '../global.module.scss';
 import { ProcessLogsSelectorProps } from '../../../types';
 
+/**
+ * @module | ProcessLogsSelector.tsx
+ * @description | This component renders checkboxes to select which process logs you would like to get.
+ **/
 function ProcessLogsSelector({
   containerList,
   handleCheck,
   btnIdList,
   status,
 }: ProcessLogsSelectorProps): JSX.Element {
-  // const [containerList, setContainerList] =
-  // useState<object[]>(defaultContainerList);
 
   return (
     <form className={styles.wrapper}>

@@ -16,6 +16,32 @@
   }
 }
 
+.duplicatedInput {
+  @keyframes shake {
+    0% {
+      margin-left: 0rem;
+    }
+    25% {
+      margin-left: 0.5rem;
+    }
+    75% {
+      margin-left: -0.5rem;
+    }
+    100% {
+      margin-left: 0rem;
+    }
+  }
+
+  animation: shake 0.2s ease-in-out 0s 1;
+  box-shadow: 0 0 0.8rem #ff0000;
+  @extend .input;
+
+  &Short {
+    @extend .input;
+    height: 1.25rem;
+  }
+}
+
 .radioForm {
   width: 100%;
   display: flex;
@@ -72,6 +98,14 @@
   &--small {
     font-size: 1.15rem;
   }
+}
+
+.duplicatedButton1 {
+  @extend .buttonBase;
+  height: 44px;
+  background-color: gray;
+  color: white;
+  cursor: auto;
 }
 
 .button2 {

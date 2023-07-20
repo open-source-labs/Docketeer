@@ -11,8 +11,10 @@ import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
+import NotFound from './components/NotFound/NotFound'
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
+import Network from './components/Network/Network';
 
 
 const App = () => {
@@ -20,6 +22,7 @@ const App = () => {
   const { updateSession } = useSurvey();
   const { checkCookie } = useHelper();
   const navigate = useNavigate();
+
 
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<boolean | undefined>(undefined);
@@ -90,7 +93,10 @@ const App = () => {
         <Route path="/home/images" element={<Images imagesList={undefined} />} />
         <Route path="/home/running" element={<Containers />} />
         <Route path="/home/" element={<Settings />} />
+        <Route path='/home/network' element={<Network />} />
+        <Route path='/home/*' element={<NotFound session={session} />} />
       </Route>
+      <Route path='*' element={<NotFound session={session} />} />
     </Routes>
   );
 };

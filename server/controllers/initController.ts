@@ -93,18 +93,5 @@ const initController: InitController = {
       return next(error);
     }
   },
-
-  // gitUrl: (req: Request, res: Response, next: NextFunction) => {
-  //   const parameter = [req.body.githubUrl];
-  //   db.query('SELECT github_url FROM containers where name = $1', parameter)
-  //     .then((data: any) => {
-  //       res.locals.url = data;
-  //       return next();
-  //     })
-  //     .catch((err: ServerError) => {
-  //       console.log(err);
-  //       if (err) return next(err);
-  //     });
-  // },
 };
 export default initController;

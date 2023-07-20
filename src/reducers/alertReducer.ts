@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // eslint-disable-next-line
 import { useAppDispatch } from './hooks';
 import { AlertStateType } from '../../types';
-
+import { setPrunePrompt } from './pruneReducer';
 
 const initialState: AlertStateType = {
   alertList: [],
@@ -54,6 +54,14 @@ export const createAlert = (
     useAppDispatch(
       // sending null to clear the prompt
       setPrompt({ prompt: null, handleAccept: null, handleDeny: null })
+    );
+    useAppDispatch(
+      setPrunePrompt({
+        prompt: null,
+        handleSystemPrune: null,
+        handleNetworkPrune: null,
+        handleDeny: null,
+      })
     );
 
     if (timeoutId) {

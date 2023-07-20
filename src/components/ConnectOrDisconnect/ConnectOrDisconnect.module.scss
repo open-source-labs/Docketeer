@@ -1,0 +1,39 @@
+
+.connectOrDisconnectButton {
+  border-radius: 0 .3rem .3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  .disconnect {
+    color: red;
+    font-weight: 700;
+    height: 2.5rem;
+    width: 5.5rem;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0 .3rem .3rem 0;
+    &:hover {
+      border-left: 2px solid rgb(214, 214, 214);
+      background: linear-gradient(to bottom, rgba(95, 0, 0, 0.404), rgba(168, 0, 0, 0.986)),
+                  linear-gradient(to right bottom, rgba(255, 255, 255, 0.39), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
+      color: rgb(214, 214, 214);
+    }
+  }
+
+  .connect {
+    color: green;
+    font-weight: 700;
+    height: 2.5rem;
+    width: 5.5rem;
+    margin-top: .09rem;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0 .3rem .3rem 0;
+    &:hover {
+      border-left: 2px solid rgb(214, 214, 214);
+      background: linear-gradient(to bottom, rgba(64, 255, 58, 0.103), rgba(1, 116, 11, 0.986)),
+                  linear-gradient(to right bottom, rgba(255, 255, 255, 0.39), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
+      color: rgb(214, 214, 214);
+    }
+  }
+}
+

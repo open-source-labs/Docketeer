@@ -38,9 +38,9 @@
   
    <br /> 
   <p align="center">
-  Docketeer is a developer-friendly application that provides a single interface for both container management & metric visualization.  
+  Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a>
     <br />
     <br />
     <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
@@ -64,9 +64,10 @@
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#in-development">In Development</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
   </ol>
 
 <!-- ABOUT THE PROJECT -->
@@ -76,13 +77,13 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
 
 </div>
 
 <br />
   <div align="center">
-    <img src="assets/FullDemo.gif" alt="Logo" width="fit" height="auto">
+    <img alt="Logo" src="assets/docketeer-peek.gif" width="fit" height="auto">
   </div>
 <br />
 
@@ -99,7 +100,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
-- Docketeer offers Node and kubelet metrics visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
+- Docketeer offers full networking capabilities: create and manage networks without touching the terminal. 
+- Docketeer offers Node and kubelet metric visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
 - Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
 - Docketeer is highly customizable, and developers can configure it to suit their specific needs.
 - It's a community-maintained project, with frequent updates and bug fixes.
@@ -115,7 +117,7 @@ The local configuration for Docketeer was setup to be as simple as possible for 
 Follow the steps below to get started with Docketeer.
 
 #### Prerequisites:
-You must have Docker Desktop installed!
+You must have Docker Desktop installed and running!
 <br></br>
 
 #### STEP 1 — Clone the repository
@@ -131,19 +133,6 @@ Making sure you're in your Docketeer directory, run:
 docker compose up
 ```
 
-#### STEP 2.5 — Need to set up your Kubernetes cluster to work with Docketeer?
-
-Open up a new tab in your terminal, run the following command, and then navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
-```sh
-npm run dev
-``` 
-
-If you haven't set up Prometheus-Operator with us before, click the first button to install. 
-<br />
-Otherwise, you can skip the first button and go on with the next two!
-<br />
-P.S. Make sure to keep this terminal open!
-
 #### STEP 3 — Navigate to localhost:4000 to sign-up & login!
 
 ```sh
@@ -152,14 +141,40 @@ http://localhost:4000
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Setting up Docketeer to work with a Kubernetes cluster
 
+Prerequisites: you must be running a Kubernetes cluster/kube.
+
+Open up a new tab in your terminal. Run 
+
+```sh
+npm install
+```
+Docketeer is using [d3-sankey](https://github.com/d3/d3-sankey) for data visualization, which is currently not being actively maintained. Running `npm install` would install `patch-package` and make sure to input `y` when you see the following prompt:
+```
+Need to install the following packages:
+  patch-package@7.0.2
+Ok to proceed? (y) 
+```
+and
+
+```sh
+npm run dev
+``` 
+
+Then, navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
+
+If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+<br />
+Otherwise, you can skip the first button and go on with the next two!
+<br />
+P.S. Make sure to keep this terminal open!
 
 <!-- IN DEVELOPMENT -->
 
 ## In Development
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
-- [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.
 - [ ] Expand Docker networking capabilities within Docketeer to provide more sophisticated networking configurations and better interoperability with other network tools.
 - [ ] Develop more advanced container configuration options within Docketeer, such as load balancing or high availability setups.
 - [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
@@ -167,7 +182,7 @@ http://localhost:4000
 - [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
 - [ ] Display additional metrics for Kubernetes clusters.
 
-See the [open issues](https://github.com/open-source-labs/Docketeer/issues) for a full list of proposed features (and known issues).
+See <a href="#troubleshooting">Troubleshooting</a> and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -189,10 +204,11 @@ Don't forget to give the project a star! Thanks again!
 
 Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob/master/CONTRIBUTING.md) for more information on how to purpose bugfixes and improvements to Docketeer.
 
-
+<br />
 
 ## <b>Read More</b>
 
+- [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
 - [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
 - [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
@@ -203,6 +219,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 - [Whale Hello There, Docketeer 4.0 is Here!](https://msscloudy.medium.com/whale-hello-there-docketeer-4-0-is-here-b78bd9d1df01)
 - [Our Journey Building Docketeer](https://betterprogramming.pub/our-journey-building-docketeer-an-open-source-docker-container-monitoring-and-visualization-tool-fb6c26d8908a)
 
+<br />
 
 <!-- LICENSE -->
 
@@ -267,6 +284,11 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Emily John [@emilyjohl](https://github.com/emilyjohl) | [LinkedIn](https://www.linkedin.com/in/emily-johl-5093ab137/)
 - Jaeni Lee [@jaenixlee](https://github.com/jaenixlee) | [LinkedIn](https://www.linkedin.com/in/jaenilee/)
 - Joseph Salgado [@Jaysalgado](https://github.com/Jaysalgado) | [LinkedIn](https://www.linkedin.com/in/joseph-salgado-76410620b/)
+- Michael (Kwon) Liu [@KwonJiyongGD](https://github.com/KwonJiyongGD) | [LinkedIn](https://www.linkedin.com/in/michael-kwon-liu/)
+- Garrett Allen [@garrettallen0](https://github.com/garrettallen0) | [LinkedIn](https://www.linkedin.com/in/garrettallen0/)
+- Adrian Kormier [@adriankormier](https://github.com/adriankormier) | [LinkedIn](https://www.linkedin.com/in/adrian-kormier/)
+- Shuai Shao [@shao-shuai](https://github.com/shao-shuai) | [LinkedIn](http://www.linkedin.com/in/shuai-sh/)
+- John Kim [@jayoo0621](https://github.com/jayoo0621) | [LinkedIn](https://www.linkedin.com/in/jayoo0621/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -274,6 +296,86 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Please ⭐️ this project if you found it helpful, thank you!
 
+<br />
+
+## Troubleshooting:
+
+<br />
+
+#### WSL
+
+There are some known issues running Docketeer through WSL. Using WindowsOS, MacOS, or Linux is recommended.
+
+<br />
+
+#### Linux
+
+If you are runing Docketeer in Linux and encounter the followeing errors, you might need to change some of your permissions.
+
+```sh
+grafana        |Error: ✗ failed to connect to database: failed to create SQLite database file "/var/lib/grafana/grafana.db": open /var/lib/grafana/grafana.db: permission denied
+```
+
+```sh
+prometheus     | ts=2023-07-05T23:48:01.612Z caller=query_logger.go:113 level=error component=activeQueryTracker msg="Failed to create directory for logging active queries"
+
+prometheus     | ts=2023-07-05T23:48:01.613Z caller=query_logger.go:91 level=error component=activeQueryTracker msg="Error opening query log file" file=/prometheus/data/queries.active err="open data/queries.active: no such file or directory"
+
+prometheus     | panic: Unable to create mmap-ed active query log
+```
+
+In order to do this, you need to change the permissions of data in ./imageConfigs/grafana and promDate under ./imageConfigs/prometheus. 
+
+ go to grafana under ./imageConfigs and change permission of data
+
+ ```sh
+cd ./imageConfigs/grafana
+chmod 771 data/
+```
+
+go to prometheus under ./imageConfigs and change permission of promDate
+
+```sh
+cd ./imageConfigs/prometheus
+chmod 777 promData/
+```
+
+<br />
+
+#### Ad-blocker
+
+If you are encountering the following error and are running an ad-blocker, disable your ad-blocker
+
+```sh
+ERR_BLOCKED_BY_CLIENT
+```
+<br />
+
+#### Network Capacity
+
+By default, Docker can only create 31 networks. If you try to create more, you would encounter the following error:
+
+```
+Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network
+```
+
+To expand network capacity, add the following to `/etc/docker/daemon.json`
+
+```
+{
+  "default-address-pools" : [
+    {
+      "base" : "172.17.0.0/12",
+      "size" : 20
+    },
+    {
+      "base" : "192.168.0.0/16",
+      "size" : 24
+    }
+  ]
+}
+```
+For details, please read [The definitive guide to docker's default-address-pools option](https://straz.to/2021-09-08-docker-address-pools/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
 [contributors-url]: https://github.com/open-source-labs/Docketeer/graphs/contributors
@@ -330,6 +432,6 @@ Please ⭐️ this project if you found it helpful, thank you!
 [Helm-url]: https://helm.sh/
 [Kubernetes]: https://img.shields.io/badge/kubernetes-3371e3?style=for-the-badge&logo=kubernetes&logoColor=white
 [Kubernetes-url]: https://kubernetes.io/
-
-
+[D3]: https://img.shields.io/badge/d3-red?style=for-the-badge&logo=d3.js
+[D3-url]: https://d3js.org/
 

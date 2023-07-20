@@ -14,7 +14,6 @@ import useSurvey from '../../helpers/dispatch';
 // import { buildOptionsObj } from '../../helpers/logs';
 
 import { CSVLink } from 'react-csv';
-
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
 
@@ -107,7 +106,6 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
-  // creates an array of log messages and saves it to state
   // creates an array of log messages and saves it to state
   const tableData = () => {
     const newRows: RowsDataType[] = [];

@@ -158,8 +158,6 @@ const convertArrToObj = (
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
 const commandController: CommandController = {
-
-
   getContainers: async (
     req: Request,
     res: Response,
@@ -171,6 +169,12 @@ const commandController: CommandController = {
     const dockerOutput: string[] = JSON.parse(
       `[${result.trim().slice(0, -1).replaceAll(' ', '')}]`
     );
+
+    // reformat networks property from a string to an array of strings
+    dockerOutput.forEach((el) => {
+      el['Networks'] = el['Networks'].split(',');
+    });
+
     res.locals.containers = dockerOutput;
     return next();
   },
@@ -355,6 +359,30 @@ const commandController: CommandController = {
     );
   },
 
+  dockerNetworkPrune: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    exec(
+      'docker network prune --force',
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(`${error.message}`);
+          return next(error);
+        }
+        if (stderr) {
+          console.log(`handleNetworkPruneClick stderr: ${stderr}`);
+          return;
+        }
+        res.locals.pruneNetworkMessage = {
+          message: 'Remove all networks (both dangling and unreferenced)',
+        };
+        return next();
+      }
+    );
+  },
+
   pullImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker pull ${req.query.repo}`,
@@ -379,6 +407,10 @@ const commandController: CommandController = {
       }
     );
   },
+
+  /**
+   * @description runs terminal commands to return a list of user-defined networks and bridge, filtering out host and none networks.
+   */
 
   networkContainers: (
     req: Request,
@@ -408,14 +440,217 @@ const commandController: CommandController = {
           Driver: string;
         };
 
-        // remove docker network defaults named: bridge, host, and none
+        // remove docker network defaults named: host and none
         const networkContainers: NetworkContainer[] = JSON.parse(
           dockerOutput
         ).filter(
-          ({ Name }: { Name: string }) =>
-            Name !== 'bridge' && Name !== 'host' && Name !== 'none'
+          ({ Name }: { Name: string }) => Name !== 'host' && Name !== 'none'
         );
         res.locals.networkContainers = networkContainers;
+        return next();
+      }
+    );
+  },
+
+  /**
+   * @description runs terminal commands to return an array of network objects with a complete list of containers attached to it.
+   */
+
+  networkListContainers: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    type Container = {
+      containerName: string;
+      containerIP: string;
+    };
+
+    type NetworkObject = {
+      networkName: string;
+      containers: Container[] | any;
+    };
+
+    // declare an output object
+    const { networkContainers } = res.locals;
+    let networkListContainers: NetworkObject[] = [];
+
+    // get all containers based on networkName
+    const getContainersForNetwork = (networkName) => {
+      return new Promise((resolve, reject) => {
+        exec(
+          `docker network inspect ${networkName} --format "{{json .}},"`,
+          (error: Error | null, stdout: string, stderr: string) => {
+            if (stderr) {
+              console.log(`networkListContainers controller stderr: ${stderr}`);
+              res.locals.result = { error: stderr };
+              reject({ error: stderr });
+              return next();
+            }
+            if (error) {
+              console.log(
+                `networkListContainers controller error: ${error.message}`
+              );
+              return next();
+            }
+            const dockerOutput = `${stdout
+              .trim()
+              .slice(0, -1)
+              .replaceAll(' ', '')}`;
+
+            // parse terminal output into a json object
+            const currentNetwork = JSON.parse(dockerOutput).Containers;
+            const containerList: Container[] = [];
+            // iterate through the object; on each iteration, create a key/value pair in the container list with a key given by the container name and a value of IP address
+            for (const hash in currentNetwork) {
+              // if hash, i.e. if container exists, then we do containerList[currentNetwork[hash].Name] = currentNetwork[hash].IPv4Address
+              if (hash) {
+                const container: Container = {
+                  containerName: currentNetwork[hash].Name,
+                  containerIP: currentNetwork[hash].IPv4Address,
+                };
+                containerList.push(container);
+              }
+            }
+            resolve(containerList);
+          }
+        );
+      });
+    };
+
+    // create an array of promises of all network objects
+    const containerPromises = networkContainers.map(async (network) => {
+      const networkName = network.Name;
+      try {
+        const containerList = await getContainersForNetwork(networkName);
+        const networkObject: NetworkObject = {
+          networkName: networkName,
+          containers: containerList,
+        };
+        return networkObject;
+      } catch (error) {
+        console.log('error in commandController.networkListContainers', error);
+      }
+    });
+
+    // use Promise.all for concurrently starting all promises
+    networkListContainers = await Promise.all(containerPromises);
+
+    res.locals.networkListContainers = networkListContainers;
+    return next();
+  },
+
+  /**
+   * @description runs terminal command to create a new network.
+   */
+
+  networkCreate: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName } = req.body;
+
+    exec(
+      `docker network create ${networkName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkCreate controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkCreate controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
+
+  /**
+   * @description runs terminal commands to remove a network.
+   */
+
+  networkRemove: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName } = req.body;
+
+    exec(
+      `docker network rm ${networkName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkRemove controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkRemove controller error: ${error.message}`);
+          return next();
+        }
+        
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
+
+  /**
+   * @description runs terminal commands to connect a container with a network.
+   */
+
+  networkConnect: (req: Request, res: Response, next: NextFunction): void => {
+    const { networkName, containerName } = req.body;
+
+    exec(
+      `docker network connect ${networkName} ${containerName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkConnect controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkConnect controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
+        return next();
+      }
+    );
+  },
+
+  /**
+   * @description runs terminal commands to disconnect a container with a network.
+   */
+
+  networkDisconnect: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void => {
+    const { networkName, containerName } = req.body;
+
+    exec(
+      `docker network disconnect ${networkName} ${containerName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        // shows terminal error as opposed to controller error above
+        if (stderr) {
+          console.log(`networkDisconnect controller stderr: ${stderr}`);
+          res.locals.result = { error: stderr };
+          return next();
+        }
+
+        if (error) {
+          console.log(`networkDisconnect controller error: ${error.message}`);
+          return next();
+        }
+
+        res.locals.result = { hash: stdout };
         return next();
       }
     );
@@ -490,7 +725,7 @@ const commandController: CommandController = {
           parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
             if (
               obj.Name.includes(
-                directoryNameArray[directoryNameArray.length - 1],
+                directoryNameArray[directoryNameArray.length - 1]
               )
             ) {
               obj.FilePath = req.body.filePath;
@@ -500,7 +735,7 @@ const commandController: CommandController = {
         }
         res.locals.output = parseDockerOutput;
         return next();
-      },
+      }
     );
   },
 
@@ -572,6 +807,27 @@ const commandController: CommandController = {
     );
     // res.locals.containers = dockerOutput;
     // return next();
+  },
+
+  volumeRemove: (req: Request, res: Response, next: NextFunction) => {
+    const volumeName = req.body.volumeName;
+    exec(
+      `docker volume rm ${volumeName}`,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.log(
+            `Error removing volume '${volumeName}': ${error.message}`
+          );
+          return;
+        }
+        if (stderr) {
+          console.log(`removeVolume stderr: ${stderr}`);
+          return;
+        }
+        res.locals.volumeRemoved = { volume: stdout };
+        return next();
+      }
+    );
   },
 
   getLogs: (req: Request, res: Response, next: NextFunction) => {

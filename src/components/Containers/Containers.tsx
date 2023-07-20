@@ -4,7 +4,6 @@ import { ContainerType } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 
@@ -15,9 +14,7 @@ import ContainersCard from '../ContainersCard/ContainersCard';
 
 const Containers = (): JSX.Element => {
   const dispatch = useAppDispatch();
-
   const { runStopped, remove, stop } = useHelper();
-
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
@@ -85,32 +82,35 @@ const Containers = (): JSX.Element => {
     );
   };
 
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.listHolder}>
-        <h2>RUNNING CONTAINERS</h2>
-        <p className={styles.count}>Count: {runningList.length}</p>
-        <div className={styles.containerList}>
-          <ContainersCard
-            containerList={runningList}
-            stopContainer={stopContainer}
-            runContainer={runContainer}
-            removeContainer={removeContainer}
-            status="running"
-          />
+    <div>
+      <div className={styles.wrapper}>
+        <div className={styles.listHolder}>
+          <h2>RUNNING CONTAINERS</h2>
+          <p className={styles.count}>Count: {runningList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={runningList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              status="running"
+            />
+          </div>
         </div>
-      </div>
-      <div className={styles.listHolder}>
-        <h2>STOPPED CONTAINERS</h2>
-        <p className={styles.count}>Count: {stoppedList.length}</p>
-        <div className={styles.containerList}>
-          <ContainersCard
-            containerList={stoppedList}
-            stopContainer={stopContainer}
-            runContainer={runContainer}
-            removeContainer={removeContainer}
-            status="stopped"
-          />
+        <div className={styles.listHolder}>
+          <h2>STOPPED CONTAINERS</h2>
+          <p className={styles.count}>Count: {stoppedList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={stoppedList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              status="stopped"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -96,6 +96,15 @@ router.delete(
   },
 );
 
+// Route for running the docker network prune command
+router.delete(
+  '/dockerNetworkPrune',
+  commandController.dockerNetworkPrune,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.pruneNetworkMessage);
+  },
+);
+
 // Route to pull new images
 router.get(
   '/pullImage',
@@ -105,13 +114,59 @@ router.get(
   },
 );
 
-// Route to get network container list
+// Route to get a list of networks
 router.get(
   '/networkContainers',
   commandController.networkContainers,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.networkContainers);
   },
+);
+
+// Route to get a list of networks with the containers they are attached to 
+router.get(
+  '/networkListContainers',
+  commandController.networkContainers,
+  commandController.networkListContainers,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.networkListContainers);
+  },
+);
+
+// Route to create a new network
+router.post(
+  '/networkCreate',
+  commandController.networkCreate,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
+
+// Route to remove a network 
+router.post(
+  '/networkRemove',
+  commandController.networkRemove,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
+
+// Route to connect a container with a network
+router.post(
+  '/networkConnect',
+  commandController.networkConnect,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
+);
+
+// Route to disconnect a container from a network 
+router.post(
+  '/networkDisconnect',
+  commandController.networkDisconnect,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.result);
+  }
 );
 
 // Route to inspect docker container
@@ -170,6 +225,16 @@ router.get(
   },
 );
 
+router.post(
+  '/volumeRemove',
+  commandController.volumeRemove,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.volumeRemoved);
+  }
+);
+
+
+
 // Route to get all container logs
 router.post(
   '/allLogs',
@@ -178,5 +243,6 @@ router.post(
     return res.status(201).json(res.locals.logs);
   },
 );
+
 
 export default router;

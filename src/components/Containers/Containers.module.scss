@@ -1,8 +1,12 @@
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin: $default-page-margin;
+  display: flex;
+  margin-top: 1rem;
+  transition: margin-left .5s;
+  .listHolder {
+      display: flex;
+      flex-direction: column;
+      padding-left: 2rem;
+    }
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
@@ -21,7 +25,7 @@
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
-  // transform: all 0.5s ease-in-out;
+  transform: all 0.5s ease-in-out;
   width: 100%;
 }
 

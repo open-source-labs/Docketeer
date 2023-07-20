@@ -115,7 +115,16 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
-
+      /* Refreshes networkContainerList[state in networkReducer] */
+      refreshNetwork() {
+        const { refreshNetworkList } = dispatch;
+        fetch('/api/command/networkListContainers')
+          .then((data: Response) => data.json())
+          .then((networkList) => {
+            refreshNetworkList(networkList);
+          })
+          .catch((err: Error): void => console.log(err));
+      },
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
@@ -229,6 +238,22 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
+
+      /* Handles Network Prune @param {*} e */
+      handleNetworkPruneClick(e) {
+        e.preventDefault();
+        fetch('/api/command/dockerNetworkPrune', {
+          method: 'DELETE',
+        })
+          .then((message) => {
+            if (message.status === 401) {
+              window.alert('Invalid permissions');
+              throw new Error(message);
+            }
+          })
+          .catch((err: Error): void => console.log(err));
+      },
+      
       /* Pulls image based on the repo you select @param {*} repo */
       pullImage(repo) {
         fetch(`/api/command/pullImage?repo=${repo}`)
@@ -247,11 +272,14 @@ const useHelper = () => {
       },
       /* Display all containers network based on docker-compose when the application starts */
       networkContainers() {
+        // Pass in container that button is clicked on
         const { getNetworkContainers } = dispatch;
         fetch('/api/command/networkContainers')
           .then((data: Response) => data.json())
           .then((networkContainers) => {
-            getNetworkContainers(networkContainers);
+            // grab the name of the network only using map method
+            networkContainers = networkContainers.map((el) => el.Name);
+            getNetworkContainers(networkContainers); // use passed in container to
           })
           .catch((err: Error): void => console.log(err));
       },
@@ -430,6 +458,23 @@ const useHelper = () => {
             console.log(err);
           });
       },
+
+      removeVolume(volumeName) {
+        console.log('commands.tsx line 463 =>', volumeName);
+        fetch('/api/command/volumeRemove', {
+          method: 'POST',
+          body: JSON.stringify({ volumeName: volumeName }),
+          headers: { 'Content-Type': 'application/json' },
+        })
+          .then((data: Response) => data.json())
+          .then((deletedVolumeNameFromBackEnd) => {
+            console.log(deletedVolumeNameFromBackEnd);
+          })
+          .catch((err: Error): void => {
+            console.log('Error in removeVolume', err);
+          });
+      },
+
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {

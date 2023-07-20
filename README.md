@@ -38,9 +38,9 @@
   
    <br /> 
   <p align="center">
-  Docketeer is a developer-friendly application that provides a single interface for both container management & metric visualization.  
+  Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a>
     <br />
     <br />
     <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
@@ -64,7 +64,7 @@
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#in-development">In Development</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
     <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -77,7 +77,7 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
 
 </div>
 
@@ -100,7 +100,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
-- Docketeer offers Node and kubelet metrics visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
+- Docketeer offers full networking capabilities: create and manage networks without touching the terminal. 
+- Docketeer offers Node and kubelet metric visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
 - Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
 - Docketeer is highly customizable, and developers can configure it to suit their specific needs.
 - It's a community-maintained project, with frequent updates and bug fixes.
@@ -174,7 +175,6 @@ P.S. Make sure to keep this terminal open!
 ## In Development
 
 - [ ] Support for more development frameworks and languages, such as Next.JS.
-- [ ] Improved support for Docker networking, including more advanced configurations and better integration with other network tools.
 - [ ] Expand Docker networking capabilities within Docketeer to provide more sophisticated networking configurations and better interoperability with other network tools.
 - [ ] Develop more advanced container configuration options within Docketeer, such as load balancing or high availability setups.
 - [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
@@ -208,6 +208,7 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## <b>Read More</b>
 
+- [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
 - [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
 - [Introducing Docketeer XI | The Latest Version Ready for Takeoff with a Splash!](https://medium.com/@saadh123/introducing-docketeer-xi-the-latest-version-ready-for-takeoff-with-a-splash-d5f40eacb29d)
 - [Enjoy the sleek new look of Docketeer X](https://medium.com/@ajschmidt225/enjoy-the-sleek-new-look-of-docketeer-x-34c1ccf8bb2b)
@@ -431,6 +432,6 @@ For details, please read [The definitive guide to docker's default-address-pools
 [Helm-url]: https://helm.sh/
 [Kubernetes]: https://img.shields.io/badge/kubernetes-3371e3?style=for-the-badge&logo=kubernetes&logoColor=white
 [Kubernetes-url]: https://kubernetes.io/
-
-
+[D3]: https://img.shields.io/badge/d3-red?style=for-the-badge&logo=d3.js
+[D3-url]: https://d3js.org/
 

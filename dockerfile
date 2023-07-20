@@ -15,11 +15,11 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 COPY package*.json ./
 
-# Run npm install to install app dependencies
-RUN npm install --yes
-
 # Copy the current directory contents into the container at /app
 COPY . .
+
+# Run npm install to install app dependencies
+RUN npm install --yes
 
 # Make port 4000 available to the world outside this container
 EXPOSE 4000

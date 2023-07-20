@@ -221,35 +221,32 @@ const Network = (): JSX.Element => {
   // Render Sankey Diagram
   useEffect(() => {
     if (networkContainerList.length > 0) {
-      const networksWithNoContainers = [];
-      const liveNodesObj = {};
+      const nodesObj = {};
       const liveNodes = [];
       const liveLinks = [];
 
       // iterate through networkContainerList
       networkContainerList.forEach((network) => {
-        // if containers is empty, add network to no containers list
-        if (!network.containers.length) {
-          networksWithNoContainers.push(network.networkName);
-        } else {
-          // add network to nodes object
+        // Ignore networks that are not connected to containers
+        if (network.containers.length) {
+          // Add network to nodes object
           liveNodes.push({
             name: network.networkName,
             category: 'network',
           });
           network.containers.forEach((container) => {
             // if it doesn't already exist in nodes object, add it to object and list
-            if (!liveNodesObj[container.containerName]) {
-              liveNodesObj[container.containerName] = true;
+            if (!nodesObj[container.containerName]) {
+              nodesObj[container.containerName] = true;
               liveNodes.push({
-                name: container.containerName,
+                name: container.containerName + ' ', // Blank space appended to container name in the case of container and network sharing the same name, which throws an error in d3-sankey.
                 category: 'container',
               });
             }
             // create a link object for each connection
             liveLinks.push({
               source: network.networkName,
-              target: container.containerName,
+              target: container.containerName + ' ',
               value: 1,
             });
           });
@@ -294,8 +291,6 @@ const Network = (): JSX.Element => {
 
       const rect = svg
         .append('g')
-        // .attr('stroke', '#FFFFFF')
-        // .attr('stroke-width', '2px')
         .selectAll()
         .data(nodes)
         .join('rect')

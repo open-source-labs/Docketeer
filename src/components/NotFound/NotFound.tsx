@@ -11,7 +11,7 @@ const NotFound = ( session  : NotFoundProps ): JSX.Element => {
     <div className={style.notFoundDiv}>
       <img src={questionDocketeer}></img>
       <h1 className={style.h1}>Oops! You seem to be lost!</h1>
-      <Link className={globalStyle.button1} to={session.session ? '/home/' : '/login'}> {session.session ? 'Go back to the Homepage!' : 'Go back to the Login page!'} </Link>
+      <Link className={globalStyle.button1} to={session.session ? '/home/' : '/login'}> {session.session ? 'Go back to the Home page!' : 'Go back to the Login page!'} </Link>
     </div>
   );
 };

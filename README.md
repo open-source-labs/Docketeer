@@ -83,9 +83,7 @@
 
 <br />
   <div align="center">
-    <video controls width="fit" height="auto">
-    <source src="assets/Docketeer-screen-grab.mp4" type="video/mp4" alt="Logo">
-    </video>
+    <img alt="Logo" src="assets/docketeer-peek.gif" width="fit" height="auto">
   </div>
 <br />
 

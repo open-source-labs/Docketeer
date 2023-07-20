@@ -1,23 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import useSurvey from '../../helpers/dispatch';
-import useHelper from '../../helpers/commands';
+import { NotFoundProps } from '../../../types';
+import questionDocketeer from '../../../assets/404page.png'; 
+import style from './NotFound.module.scss';
+import globalStyle from '../global.module.scss';
 
-const NotFound = ({session , checkLogin} : {session: boolean | undefined, checkLogin: any}): JSX.Element => {
+const NotFound = ( session  : NotFoundProps ): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { updateSession } = useSurvey();
-  const { checkCookie } = useHelper();
-
-  useEffect(() => {
-    checkLogin();
-  }, [checkCookie, updateSession]);
-
   return (
-    <div>
-      <h1>Oops! You seem to be lost.</h1>
-      <h2>{session ? 'Go back to the homepage!' : 'Go back to the login page!'}</h2>
-      <Link to={session ? '/home/' : '/login'}>{session ? 'Home' : 'Login'}</Link>
-      <Link to="/blog"></Link>
+    <div className={style.notFoundDiv}>
+      <img src={questionDocketeer}></img>
+      <h1 className={style.h1}>Oops! You seem to be lost!</h1>
+      <Link className={globalStyle.button1} to={session.session ? '/home/' : '/login'}> {session.session ? 'Go back to the Homepage!' : 'Go back to the Login page!'} </Link>
     </div>
   );
 };

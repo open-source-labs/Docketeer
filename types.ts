@@ -317,6 +317,10 @@ export interface NetworkListModalProps {
   networkContainerList: NetworkContainerListType[];
 }
 
+export interface NotFoundProps {
+  session: boolean | undefined,
+}
+
 // ==========================================================
 // Server-Side Typing
 // ==========================================================

@@ -82,7 +82,7 @@ const RunningContainer = ({
               </button>
             </>
           )}
-          {status === 'running' && (
+          {(status === 'running' && container.Names !== 'docketeer') && (
             <button
               className={globalStyles.buttonSmall}
               onClick={() => openNetworkList()}

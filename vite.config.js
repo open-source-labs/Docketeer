@@ -28,9 +28,11 @@ export default defineConfig({
   root: 'src/',
   build: {
     outDir: '../dist',
-    lib: {
-      entry: path.resolve(__dirname, 'src/renderer/index.ts'),
-    },
+    // `lib` WAS NOT ORIGINALLY COMMENTED, TESTING VITE CONFIGS
+
+    // lib: {
+    //   entry: path.resolve(__dirname, 'src/renderer/index.ts'),
+    // },
   },
   server: {
     port: 4000,

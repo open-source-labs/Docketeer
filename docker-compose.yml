@@ -80,7 +80,7 @@ services:
       - prometheus
 
   docketeer:
-    image: docketeerxiii/docketeer13:latest
+    image: ${DESKTOP_PLUGIN_IMAGE}
     container_name: docketeer
     ports:
       - '4000:4000'

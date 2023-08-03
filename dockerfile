@@ -7,11 +7,22 @@ WORKDIR /app
 # ENV PATH="/usr/local/bin:${PATH}"
 # COPY /usr/local/bin/docker /usr/local/bin/docker
 # changed to most recent version!
-ENV DOCKERVERSION=20.10.23 
+# ENV DOCKERVERSION=20.10.23 
 
-RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
-  && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
-  && rm docker-${DOCKERVERSION}.tgz
+# RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+#   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
+#   && rm docker-${DOCKERVERSION}.tgz
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
+LABEL org.opencontainers.image.title="Docketeer" \
+    org.opencontainers.image.description="Docketeer extension to show your container metrics" \
+    org.opencontainers.image.vendor="Docketeer team" \
+    com.docker.desktop.extension.api.version="0.3.0" \
+    com.docker.extension.screenshots="" \
+    com.docker.extension.detailed-description="" \
+    com.docker.extension.publisher-url="" \
+    com.docker.extension.additional-urls="" \
+    com.docker.extension.changelog=""
+
 
 COPY package*.json ./
 

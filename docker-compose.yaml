@@ -65,17 +65,15 @@ services:
     container_name: grafana
     ports:
       - '2999:3000'
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
     volumes:
       - ./imageConfigs/grafana/data:/var/lib/grafana
       - ./imageConfigs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./imageConfigs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
-    environment:
-      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
-      GF_AUTH_ANONYMOUS_ENABLED: 'true'
-
-
     depends_on:
       - prometheus
 

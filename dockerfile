@@ -33,7 +33,7 @@ COPY . .
 RUN npm install --yes
 
 # Make port 4000 available to the world outside this container
-EXPOSE 4000
+# EXPOSE 4000
 
 # Start the app
 # CMD ["npm", "start"]

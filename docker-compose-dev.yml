@@ -51,8 +51,8 @@ services:
     container_name: prometheus
     ports:
       - '9090:9090'
-
-    #can add volume here to persist the prometheus data.
+    volumes:
+      - ./imageConfigs/prometheus/promData:/prometheus
     depends_on:
       - node-exporter
     labels:
@@ -64,32 +64,27 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - 2999:3000
+      - '2999:3000'
     environment:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
-
     volumes:
       - ./imageConfigs/grafana/data:/var/lib/grafana
       - ./imageConfigs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./imageConfigs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./imageConfigs/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./imageConfigs/grafana/plugins:/var/lib/grafana/plugins
-
     depends_on:
       - prometheus
-  dev:
-    image: docketeerxii/docketeer-dev
-    container_name: docketeer-dev
-    build:
-      dockerfile: dockerfile.dev
+
+  docketeer:
+    image: ${DESKTOP_PLUGIN_IMAGE}
+    container_name: docketeer
     ports:
-      - 4000:4000
+      - '4000:4000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./:/app
-      - node_modules:/app/node_modules
-    command: npm run dev
+    command: npm start
 
 volumes:
   node_modules:

@@ -9,7 +9,7 @@
     "dashboard-tab": {
       "title": "Docketeer",
       "src": "index.html",
-      "root": "src"
+      "root": "ui"
     }
   }
 }

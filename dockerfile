@@ -1,8 +1,27 @@
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
+WORKDIR /backend
+COPY backend/package*.json .
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+COPY backend/. .
+
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
+WORKDIR /ui
+# cache packages in layer
+COPY ui/package.json /ui/package.json
+COPY ui/package-lock.json /ui/package-lock.json
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+# install
+COPY ui /ui
+RUN npm run build
 
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
-LABEL org.opencontainers.image.title="Docketeer" \
-    org.opencontainers.image.description="Docketeer extension to show your container metrics" \
-    org.opencontainers.image.vendor="Docketeer team" \
+LABEL org.opencontainers.image.title="Node sample" \
+    org.opencontainers.image.description="Docker extension with a node.js backend" \
+    org.opencontainers.image.vendor="Docker Inc." \
     com.docker.desktop.extension.api.version="0.3.0" \
     com.docker.extension.screenshots="" \
     com.docker.extension.detailed-description="" \
@@ -10,17 +29,10 @@ LABEL org.opencontainers.image.title="Docketeer" \
     com.docker.extension.additional-urls="" \
     com.docker.extension.changelog=""
 
+COPY --from=builder /backend backend
+COPY docker-compose.yaml .
+COPY metadata.json .
+COPY --from=client-builder /ui/build ui
 
-COPY package*.json ./
-
-# Copy the current directory contents into the container at /app
-COPY . .
-
-# Run npm install to install app dependencies
-RUN npm install --yes
-
-# Make port 4000 available to the world outside this container
-# EXPOSE 4000
-
-# Start the app
-# CMD ["npm", "start"]
+WORKDIR /backend
+CMD ["npm", "start"]

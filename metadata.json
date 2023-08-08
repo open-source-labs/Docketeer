@@ -9,10 +9,7 @@
     "dashboard-tab": {
       "title": "Docketeer",
       "src": "index.html",
-      "root": "src",
-      "backend": {
-        "socket": "backend.sock"
-      }
+      "root": "src"
     }
   }
 }

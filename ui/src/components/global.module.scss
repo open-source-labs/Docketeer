@@ -1,0 +1,201 @@
+.input {
+  height: 2.5rem;
+  align-self: start;
+  border: none;
+  border-radius: 5px;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: black;
+  background-color: color(light, light-gray);
+  box-shadow: $shadow;
+
+  &Short {
+    @extend .input;
+    height: 1.25rem;
+  }
+}
+
+.duplicatedInput {
+  @keyframes shake {
+    0% {
+      margin-left: 0rem;
+    }
+    25% {
+      margin-left: 0.5rem;
+    }
+    75% {
+      margin-left: -0.5rem;
+    }
+    100% {
+      margin-left: 0rem;
+    }
+  }
+
+  animation: shake 0.2s ease-in-out 0s 1;
+  box-shadow: 0 0 0.8rem #ff0000;
+  @extend .input;
+
+  &Short {
+    @extend .input;
+    height: 1.25rem;
+  }
+}
+
+.radioForm {
+  width: 100%;
+  display: flex;
+  // align-items: start;
+  justify-content: center;
+  padding: 0.25rem 0rem;
+  border-radius: 0.25rem;
+
+  // justify-content: space-around;
+  &[type='radio'] {
+    display: grid;
+    place-content: center;
+  }
+
+  label {
+    margin-right: 1rem;
+  }
+}
+
+.button1,
+.button2,
+.buttonSmall,
+.buttonBase {
+  color: color(light, tan);
+  align-self: start;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  border-radius: 5px;
+  padding: 0.25em 0.75em;
+  min-width: 10ch;
+  text-align: center;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.button1 {
+  min-height: 44px;
+  background-color: color(blue, dark);
+  text-shadow: 1px 1px 2px color(blue, dark);
+
+  &:hover,
+  &:active {
+    background-color: scale-color(color(blue, dark), $lightness: -10%);
+  }
+
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+
+.duplicatedButton1 {
+  @extend .buttonBase;
+  height: 44px;
+  background-color: gray;
+  color: white;
+  cursor: auto;
+}
+
+.button2 {
+  min-height: 44px;
+  // color: color(blue, light);
+  background-color: transparent;
+  border: 3px solid color(blue, dark);
+
+  &:hover,
+  &:active {
+    // background-color: scale-color(color(background, darkest), $lightness: 5%);
+    border-color: scale-color(color(blue, dark), $lightness: -15%);
+  }
+
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+
+.buttonSmall {
+  min-height: 2rem;
+  background-color: color(background, darkest);
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  outline-color: scale-color(color(background, darkest), $lightness: 0%);
+
+  &:hover,
+  &:active {
+    // background-color: scale-color(color(background, darkest), $lightness: 5%);
+    background-color: scale-color(color(background, darkest), $lightness: 5%);
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: scale-color(color(background, darkest), $lightness: -5%);
+  }
+
+  &:focus {
+    outline-style: solid;
+    outline-color: transparent;
+    box-shadow: 0 0 0 4px scale-color(color(blue, dark), $lightness: -40%);
+  }
+
+  &--small {
+    font-size: 1.15rem;
+  }
+}
+
+.buttonUsers {
+  @extend .buttonBase;
+  // min-height: 2rem;
+  background: none;
+  padding: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid color(light, base);
+  font-size: 0.9rem;
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: color(light, base);
+
+    th {
+      text-align: left;
+      color: color(background, dark);
+      padding: 0.5rem;
+      white-space: nowrap;
+      padding-right: 1rem;
+    }
+  }
+
+  tr:nth-child(even) {
+    display: inline-block;
+    // td:nth-child(even) {
+    background-color: color(background, light);
+    // }
+  }
+
+  td {
+    padding: 0.5rem;
+  }
+}

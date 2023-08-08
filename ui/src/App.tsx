@@ -10,7 +10,7 @@ import Home from './components/Home/Home';
 // import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 // import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 // import SharedLayout from './components/SharedLayout/SharedLayout';
-// import About from './components/About/About';
+import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 // import useSurvey from './helpers/dispatch';
 // import useHelper from './helpers/commands';
@@ -21,7 +21,7 @@ const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const { updateSession } = useSurvey();
   // const { checkCookie } = useHelper();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   // const [loading, setLoading] = useState(true);
@@ -61,17 +61,22 @@ const App = () => {
    * @returns {Promise<void>} navigates user to endpoint /home if they were logged in
    */
 
-  // const navigateToHome = async () => {
-  //   await checkLogin();
-  //   navigate('/home');
-  // };
+  const navigateToHome = async () => {
+    // await checkLogin();
+    navigate('/');
+  };
+  const navigateToAbout = async () => {
+    // await checkLogin();
+    navigate('/about');
+  };
 
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home navigateToAbout={navigateToAbout} />} />
+      <Route path="/about" element={<About navigateToHome={navigateToHome} />} />
       {/* <Route
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}

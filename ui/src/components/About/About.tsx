@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './About.module.scss';
 
-const About = () => {
+const About = (props: any) => {
   return (
     <div className={styles.wrapper}>
+      <button onClick={props.navigateToHome}>To Home</button>
       <div className={styles.section}>
         <h2>OUR TEAM</h2>
         <p>

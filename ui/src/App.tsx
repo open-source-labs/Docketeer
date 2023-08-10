@@ -9,7 +9,7 @@ import Home from './components/Home/Home';
 // import Settings from './components/Settings/Settings';
 // import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 // import ProcessLogs from './components/ProcessLogs/ProcessLogs';
-// import SharedLayout from './components/SharedLayout/SharedLayout';
+import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 // import useSurvey from './helpers/dispatch';
@@ -75,8 +75,10 @@ const App = () => {
   // }
   return (
     <Routes>
-      <Route path="/" element={<Home navigateToAbout={navigateToAbout} />} />
-      <Route path="/about" element={<About navigateToHome={navigateToHome} />} />
+      <Route path="/" element={<SharedLayout />}>
+        <Route path="/about" element={<About navigateToHome={navigateToHome} />} />
+        <Route path="/" element={<Home navigateToAbout={navigateToAbout} />} />
+      </Route>
       {/* <Route
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}

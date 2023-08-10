@@ -7,11 +7,10 @@ import Docketeer from '../../../assets/dlogo-no-bg.png';
  * @description | Handles client-side routing, pre-rendering of data, refreshing of data, etc...
  **/
 
-const Home = (props: any): JSX.Element => {
+const Home = (): JSX.Element => {
   return (
     <>
       <div className={styles.wrapper}>
-        <button onClick={props.navigateToAbout}>To About</button>
         <h2>Welcome to Docketeer!</h2>
         <a href="https://docketeer.io" >
           <img

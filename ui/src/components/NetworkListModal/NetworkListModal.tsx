@@ -1,7 +1,7 @@
 // NetworkListModal.tsx
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
-import { NetworkContainerListType, NetworkListModalProps } from '../../../types';
+import { NetworkContainerListType, NetworkListModalProps } from '../../../ui-types';
 import ConnectOrDisconnect from '../ConnectOrDisconnect/ConnectOrDisconnect';
 import styles from './NetworkListModal.module.scss';
 import globalStyles from '../global.module.scss';
@@ -19,7 +19,7 @@ const NetworkListModal = ({
   connectToNetwork,
   disconnectFromNetwork,
   closeNetworkList,
-  networkContainerList,
+  networkContainerList
 }: NetworkListModalProps): JSX.Element => {
   // Declare a variable 'scrollPosition' with an initial value of 0.
   let scrollPosition = 0;

@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Home from './components/Home/Home';
 // import Metrics from './components/Metrics/Metrics';
 // import Images from './components/Images/Images';
-// import Containers from './components/Containers/Containers';
+import Containers from './components/Containers/Containers';
 // import Settings from './components/Settings/Settings';
 // import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 // import ProcessLogs from './components/ProcessLogs/ProcessLogs';
@@ -76,8 +76,9 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
-        <Route path="/about" element={<About navigateToHome={navigateToHome} />} />
-        <Route path="/" element={<Home navigateToAbout={navigateToAbout} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/containers" element={<Containers />} />
+        <Route path="/about" element={<About />} />
       </Route>
       {/* <Route
         path="/"

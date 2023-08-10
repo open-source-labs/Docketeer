@@ -18,7 +18,7 @@ const Containers = (): JSX.Element => {
   // const { runningList, stoppedList } = useAppSelector(
   //   (state) => state.containers
   // );
-  const runningList = [{ ID: 'run', Names: 'does this appear' }];
+  const runningList = [{ ID: 'run', Names: 'does this appear', Image: 'image', RunningFor: 'runningfor', Networks: ['networks1', 'networks2'] }];
   const runStopped = true;
   const stoppedList = [{ ID: 'stop' }];
 

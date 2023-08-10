@@ -22,6 +22,7 @@ const RunningContainer = ({
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
   // const { networkContainerList } = useAppSelector((state) => state.networks);
+  const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
 
@@ -94,7 +95,15 @@ const RunningContainer = ({
           )}
         </div>
       </div>
-      {/* <NetworkListModal Names={container.Names} isOpen={isOpen} closeNetworkList={closeNetworkList} networkContainerList={networkContainerList} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} container={container} /> */}
+      {container.Names && connectToNetwork && disconnectFromNetwork && <NetworkListModal
+        Names={container.Names}
+        isOpen={isOpen}
+        closeNetworkList={closeNetworkList}
+        networkContainerList={networkContainerList}
+        connectToNetwork={connectToNetwork}
+        disconnectFromNetwork={disconnectFromNetwork}
+        container={container}
+      />}
     </div>
   );
 };

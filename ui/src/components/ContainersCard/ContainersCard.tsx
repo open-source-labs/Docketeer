@@ -108,32 +108,26 @@ const ContainersCard = ({
     }
   }
 
-  if (containerList) {
-    const RunningContainers = containerList.map((container: ContainerType, i: number) => {
-      return (
-        <RunningContainer
-          container={container}
-          key={`container-${i}`}
-          stopContainer={stopContainer}
-          runContainer={runContainer}
-          removeContainer={removeContainer}
-          connectToNetwork={connectToNetwork}
-          disconnectFromNetwork={disconnectFromNetwork}
-          status={status}/>
-      );
-    });
-    return (
-      <>
-        {RunningContainers}
-      </>
-    );
-  }
-  else {
-    return (
-      <p> no load </p>
-    )
-  }
+  if (!containerList) return (<p>no containerlist</p>)
 
+  const RunningContainers = containerList.map((container: ContainerType, i: number) => {
+    return (
+      <RunningContainer
+        container={container}
+        key={`container-${i}`}
+        stopContainer={stopContainer}
+        runContainer={runContainer}
+        removeContainer={removeContainer}
+        connectToNetwork={connectToNetwork}
+        disconnectFromNetwork={disconnectFromNetwork}
+        status={status}/>
+    );
+  });
+  return (
+    <>
+      {RunningContainers}
+    </>
+  );
 };
 
 export default ContainersCard;

@@ -34,6 +34,7 @@ COPY docker-compose.yaml .
 COPY metadata.json .
 COPY --from=client-builder /ui/build ui
 
+COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
 
 WORKDIR /backend

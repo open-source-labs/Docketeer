@@ -19,7 +19,7 @@ COPY ui /ui
 RUN npm run build
 
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
-LABEL org.opencontainers.image.title="Docketeer" \
+LABEL org.opencontainers.image.title="Remake Docketeer" \
     org.opencontainers.image.description="Docker extension for monitoring and managing your containers" \
     org.opencontainers.image.vendor="Docketeer team" \
     com.docker.desktop.extension.api.version="0.3.0" \
@@ -33,6 +33,8 @@ COPY --from=builder /backend backend
 COPY docker-compose.yaml .
 COPY metadata.json .
 COPY --from=client-builder /ui/build ui
+
+COPY imageConfigs/grafana grafana
 
 WORKDIR /backend
 CMD ["npm", "start"]

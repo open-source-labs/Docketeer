@@ -1,7 +1,11 @@
 version: '3.8'
 services:
-  docketeer:
+  remake-docketeer:
     image: ${DESKTOP_PLUGIN_IMAGE}
-    container_name: docketeer
+    container_name: remake-docketeer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - remake-docketeer-files:/grafana
+
+volumes:
+  remake-docketeer-files:

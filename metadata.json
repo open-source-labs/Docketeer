@@ -7,7 +7,7 @@
   },
   "ui": {
     "dashboard-tab": {
-      "title": "Docketeer",
+      "title": "Remake Docketeer",
       "src": "index.html",
       "root": "ui"
     }

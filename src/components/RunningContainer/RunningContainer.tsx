@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { useAppSelector } from '../../../../src/reducers/hooks';
-import { ContainersCardsProps } from '../../../ui-types';
+import { useAppSelector } from '../../reducers/hooks';
+import { ContainersCardsProps } from '../../../types';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';
 import NetworkListModal from '../NetworkListModal/NetworkListModal';
@@ -21,8 +21,7 @@ const RunningContainer = ({
   key
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
-  // const { networkContainerList } = useAppSelector((state) => state.networks);
-  const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
+  const { networkContainerList } = useAppSelector((state) => state.networks);
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,8 +34,6 @@ const RunningContainer = ({
   const closeNetworkList = () => {
     setIsOpen(false);
   };
-
-  if (!container) return (<p>no container</p>);
 
   return (
     <div key={key} className={styles.containerCard}>
@@ -95,15 +92,7 @@ const RunningContainer = ({
           )}
         </div>
       </div>
-      {container.Names && connectToNetwork && disconnectFromNetwork && <NetworkListModal
-        Names={container.Names}
-        isOpen={isOpen}
-        closeNetworkList={closeNetworkList}
-        networkContainerList={networkContainerList}
-        connectToNetwork={connectToNetwork}
-        disconnectFromNetwork={disconnectFromNetwork}
-        container={container}
-      />}
+      <NetworkListModal Names={container.Names} isOpen={isOpen} closeNetworkList={closeNetworkList} networkContainerList={networkContainerList} connectToNetwork={connectToNetwork} disconnectFromNetwork={disconnectFromNetwork} container={container} />
     </div>
   );
 };

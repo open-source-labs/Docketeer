@@ -1,7 +1,7 @@
 import React from 'react';
-// import { useAppDispatch } from '../../reducers/hooks';
-// import { createAlert } from '../../reducers/alertReducer';
-import { ContainerType, ContainersCardsProps } from '../../../ui-types';
+import { useAppDispatch } from '../../reducers/hooks';
+import { createAlert } from '../../reducers/alertReducer';
+import { ContainerType, ContainersCardsProps } from '../../../types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 
 /**
@@ -17,7 +17,7 @@ const ContainersCard = ({
   status
 }: ContainersCardsProps): JSX.Element => {
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   
   async function connectToNetwork(
     networkName: string,
@@ -34,31 +34,31 @@ const ContainersCard = ({
       });
       const dataFromBackend = await response.json();
       if (dataFromBackend.hasOwnProperty('hash')) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is successfully attached to the ' + networkName,
-        //     4,
-        //     'success'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName + ' is successfully attached to the ' + networkName,
+            4,
+            'success'
+          )
+        );
       } else if (dataFromBackend.error) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is already attached to the ' + networkName,
-        //     4,
-        //     'warning'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName + ' is already attached to the ' + networkName,
+            4,
+            'warning'
+          )
+        );
         return;
       }
     } catch (err) {
-      // dispatch(
-      //   createAlert(
-      //     'An error occurred while attaching to network : ' + err,
-      //     4,
-      //     'error'
-      //   )
-      // );
+      dispatch(
+        createAlert(
+          'An error occurred while attaching to network : ' + err,
+          4,
+          'error'
+        )
+      );
     }
   }
 
@@ -78,37 +78,35 @@ const ContainersCard = ({
       const dataFromBackend = await response.json();
       
       if (dataFromBackend.hasOwnProperty('hash')) {
-        // dispatch(
-        //   createAlert(
-        //     containerName +
-        //       ' was successfully disconnected from ' +
-        //       networkName,
-        //     4,
-        //     'success'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName +
+              ' was successfully disconnected from ' +
+              networkName,
+            4,
+            'success'
+          )
+        );
       } else if (dataFromBackend.error) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is not connected to ' + networkName,
-        //     4,
-        //     'warning'
-        //   )
-        // );
-        // return;
+        dispatch(
+          createAlert(
+            containerName + ' is not connected to ' + networkName,
+            4,
+            'warning'
+          )
+        );
+        return;
       }
     } catch (err) {
-      // dispatch(
-      //   createAlert(
-      //     'An error occurred while disconnecting from network : ' + err,
-      //     4,
-      //     'error'
-      //   )
-      // );
+      dispatch(
+        createAlert(
+          'An error occurred while disconnecting from network : ' + err,
+          4,
+          'error'
+        )
+      );
     }
   }
-
-  if (!containerList) return (<p>no containerlist</p>)
 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     return (
@@ -122,7 +120,8 @@ const ContainersCard = ({
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}/>
     );
-  });
+  }
+  );
   return (
     <>
       {RunningContainers}

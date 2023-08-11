@@ -1,5 +1,8 @@
 
-This is currently just stuff that doesn't work
+<h4>Last commit where Docketeer was browser based instead of an extension</h4>
+c927ee7835480fcfb815641b10f1ce98111af22a
+
+<h4>Below is mostly stuff that doesn't work</h4>
 
 <h2>Techs</h2>
 <h3>cAdvisor</h3>

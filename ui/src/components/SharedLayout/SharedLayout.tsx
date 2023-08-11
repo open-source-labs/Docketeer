@@ -202,7 +202,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/metrics"
+                to="/metrics"
               >
                 METRICS
               </NavLink>

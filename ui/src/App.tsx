@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 // import Login from './components/Login/Login';
 // import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
-// import Metrics from './components/Metrics/Metrics';
+import Metrics from './components/Metrics/Metrics';
 // import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 // import Settings from './components/Settings/Settings';
@@ -78,6 +78,7 @@ const App = () => {
       <Route path="/" element={<SharedLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/containers" element={<Containers />} />
+        <Route path="/metrics" element={<Metrics />} />
         <Route path="/about" element={<About />} />
       </Route>
       {/* <Route

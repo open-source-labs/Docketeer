@@ -1,0 +1,113 @@
+.wrapper {
+  display: flex;
+}
+
+#networkList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgb(214, 214, 214);
+  border-radius: .5rem;
+  height: 100%;
+  width: 19rem;
+  z-index: 1;
+  left: 0;
+  top: 1rem;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: $background-bg;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+  .listHolder {
+    margin-top: 1rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 35rem;
+    &::-webkit-scrollbar {
+      width: 0;
+      background-color: rgb(41, 41, 41);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #3d3d3d;
+    }
+  }
+
+  input {
+    align-self: center;
+    margin-top: 2rem;
+    width: calc(16.5rem + 5px);
+  }
+
+  button {
+    align-self: center;
+    margin-top: .5rem;
+    width: calc(16.5rem + 5px);
+  }
+
+  .networkDiv {
+    display: flex;
+    justify-content: space-between;
+    background-color: hsl(210, 15.2%, 18%);
+    margin-top: .5rem;
+    border: 2px solid rgb(214, 214, 214);
+    border-radius: .5rem;
+    width: 16.5rem;
+    height: 2.75rem;
+    padding: 0rem 0rem 0rem .5rem;
+    transition: all .2s ease-in-out;
+    &:hover {
+    background-color: hsl(210, 16%, 35%);
+    }
+    #networkName {
+      width: 12rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-top: .6rem;
+      font-size: 1rem;
+      height: 2.5rem;
+      cursor: pointer;
+    }   
+    #networkDeleteButton {
+      color: rgb(238, 0, 0);
+      font-weight: 700;
+      height: 2.5rem;
+      width: 3.5rem;
+      margin: 0px;
+      padding-right: 3.5rem;
+      padding-left: .2rem;
+      border-radius: 0 .3rem .3rem 0;
+      transition: all .2s ease-in-out;
+      &:hover {
+        border-left: 2px solid rgb(214, 214, 214);
+        background: linear-gradient(to bottom, rgba(95, 0, 0, 0.404), rgba(168, 0, 0, 0.986)),
+                    linear-gradient(to right bottom, rgba(255, 255, 255, 0.39), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0));
+        color: rgb(214, 214, 214);
+      }
+    }
+  }
+}
+
+
+.listHolder {
+  display: flex;
+  flex-direction: column;
+  .sankeyDiagram, .sankeyTitle {
+    align-self: center;
+    margin-left: 2rem;
+    margin-top: 2rem;
+  }
+}
+
+
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .listHolder {
+    align-self: center;
+  }
+}

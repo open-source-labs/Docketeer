@@ -693,3 +693,4 @@ export interface GlobalErrorObject {
   status: number;
   message: { err: string };
 }
+

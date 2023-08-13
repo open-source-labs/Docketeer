@@ -32,12 +32,12 @@ exec(
 
 // Importing routers...
 import apiRouter from './routes/apiRouter';
-// import commandRouter from './routes/commandRouter';
+import commandRouter from './routes/commandRouter';
 import initRouter from './routes/initRouter';
-// import loginRouter from './routes/loginRouter';
-// import logoutRouter from './routes/logoutRouter';
-// import setupRouter from './routes/setupRouter';
-// import signupRouter from './routes/signupRouter';
+import loginRouter from './routes/loginRouter';
+import logoutRouter from './routes/logoutRouter';
+import setupRouter from './routes/setupRouter';
+import signupRouter from './routes/signupRouter';
 
 // Enabling middleware...
 app.use(express.json());
@@ -52,11 +52,11 @@ app.use('/k8', (req: Request, res: Response) => {
 
 
 app.use('/gapi', apiRouter);
-// app.use('/command', commandRouter);
+app.use('/command', commandRouter);
 app.use('/init', initRouter);
 // app.use('/login', loginRouter);
 // app.use('/logout', logoutRouter);
-// app.use('/setup', setupRouter);
+app.use('/setup', setupRouter);
 // app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...

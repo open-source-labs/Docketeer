@@ -58,9 +58,9 @@ export const checkCurrentPassword: () => boolean = () => {
   const password = passwordInput.value;
   const passwordAlert = document.getElementById('current-password-alert');
   if (password === '') {
-    passwordAlert.innerHTML = 'Warning: Please enter your current password';
+    passwordAlert!.innerHTML = 'Warning: Please enter your current password';
   } else {
-    passwordAlert.innerHTML = '';
+    passwordAlert!.innerHTML = '';
   }
   return password !== '';
 };
@@ -80,9 +80,9 @@ export const confirmPassword: () => void = () => {
   );
 
   if (newPassword !== newPasswordConfirmation) {
-    passwordConfirmationAlert.innerHTML = 'Warning: Passwords do not match';
+    passwordConfirmationAlert!.innerHTML = 'Warning: Passwords do not match';
   } else {
-    passwordConfirmationAlert.innerHTML = '';
+    passwordConfirmationAlert!.innerHTML = '';
   }
   return newPassword === newPasswordConfirmation;
 };
@@ -104,7 +104,7 @@ export const handleEmailUpdate = () => {
   updateEmail(username, email);
 };
 
-export const updateEmail = (username, email) => {
+export const updateEmail = (username: string, email: string) => {
   fetch('/api/account/email', {
     method: 'POST',
     headers: {
@@ -142,14 +142,14 @@ export const handlePhoneUpdate = () => {
   updatePhone(username, newPhoneNumber);
 };
 
-export const checkPhone = (phone) => {
+export const checkPhone = (phone: any) => {
   const regex = /[+][1][\d]{10}$/;
   const phoneAlert = document.getElementById('update-phone-alert');
   if (phone.match(regex) === null) {
-    phoneAlert.innerHTML =
+    phoneAlert!.innerHTML =
       'Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900';
   } else {
-    phoneAlert.innerHTML = '';
+    phoneAlert!.innerHTML = '';
   }
   return phone.match(regex) !== null;
 };

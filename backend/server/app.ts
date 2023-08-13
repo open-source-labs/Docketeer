@@ -54,10 +54,10 @@ app.use('/k8', (req: Request, res: Response) => {
 app.use('/gapi', apiRouter);
 app.use('/command', commandRouter);
 app.use('/init', initRouter);
-// app.use('/login', loginRouter);
-// app.use('/logout', logoutRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/setup', setupRouter);
-// app.use('/signup', signupRouter);
+app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {

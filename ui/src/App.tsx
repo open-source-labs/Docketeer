@@ -19,40 +19,40 @@ import Network from './components/Network/Network';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { updateSession } = useSurvey();
-  const { checkCookie } = useHelper();
+  // const { updateSession } = useSurvey();
+  // const { checkCookie } = useHelper();
   const navigate = useNavigate();
 
 
-  const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<boolean | undefined>(undefined);
+  // const [loading, setLoading] = useState(true);
+  // const [session, setSession] = useState<boolean | undefined>(undefined);
   /**
    * updates user session to check if user is logged in by invoking checkCookie
    * @method
    * @params none
    * @returns {Promise<void>} returns a promise when successfully setting the session absed on cookies
    */
-  const checkLogin = async () => {
-    try {  
-      const data = await checkCookie();
-      if (data) {
-        updateSession();
-        setSession(true);
+  // const checkLogin = async () => {
+  //   try {  
+  //     const data = await checkCookie();
+  //     if (data) {
+  //       updateSession();
+  //       setSession(true);
       
-      } else {
-        setSession(false);
-      }
-      setLoading(false);
-    } catch (err) {
-      console.log('Cannot get uid key or API key:', err);
-      setSession(false);
-      setLoading(false);
-    }
-  };
+  //     } else {
+  //       setSession(false);
+  //     }
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log('Cannot get uid key or API key:', err);
+  //     setSession(false);
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    checkLogin();
-  }, [checkCookie, updateSession]);
+  // useEffect(() => {
+  //   checkLogin();
+  // }, [checkCookie, updateSession]);
   /**
    * checks if user was already logged in, and navigates them to home if cookie was already set
    * @method
@@ -62,16 +62,29 @@ const App = () => {
    */
 
   const navigateToHome = async () => {
-    await checkLogin();
-    navigate('/home');
+    // await checkLogin();
+    navigate('/');
+  };
+  const navigateToAbout = async () => {
+    // await checkLogin();
+    navigate('/about');
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
   return (
     <Routes>
-      <Route
+      <Route path="/" element={<SharedLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/containers" element={<Containers />} />
+        <Route path="/metrics" element={<Metrics />} />
+        <Route path="/about" element={<About />} />
+        <Route path='/home/network' element={<Network />} />
+        <Route path="/home/images" element={<Images />} />
+        <Route path="/home/logs" element={<ProcessLogs key={1} />} />
+      </Route>
+      {/* <Route
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
       />
@@ -90,15 +103,17 @@ const App = () => {
         <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
         <Route path="/home/about" element={<About />} />
-        <Route path="/home/images" element={<Images />} />
+        <Route path="/home/images" element={<Images imagesList={undefined} />} />
         <Route path="/home/running" element={<Containers />} />
-        {/* <Route path="/home/" element={<Settings />} /> */}
+        <Route path="/home/" element={<Settings />} />
         <Route path='/home/network' element={<Network />} />
-        {/* <Route path='/home/*' element={<NotFound session={session} />} /> */}
+        <Route path='/home/*' element={<NotFound session={session} />} />
       </Route>
-      {/* <Route path='*' element={<NotFound session={session} />} /> */}
+      <Route path='*' element={<NotFound session={session} />} /> */}
     </Routes>
   );
 };
+
+
 
 export default App;

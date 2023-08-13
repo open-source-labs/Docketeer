@@ -1,5 +1,5 @@
 import React from 'react';
-import AccountDisplay from '../../../ui/src/components/AccountDisplay/AccountDisplay';
+import AccountDisplay from '../AccountDisplay/AccountDisplay';
 
 /**
  * @module | Settings.tsx

@@ -4,17 +4,17 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 // import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
 import Metrics from './components/Metrics/Metrics';
-// import Images from './components/Images/Images';
+import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 // import Settings from './components/Settings/Settings';
-// import VolumeHistory from './components/VolumeHistory/VolumeHistory';
-// import ProcessLogs from './components/ProcessLogs/ProcessLogs';
+import VolumeHistory from './components/VolumeHistory/VolumeHistory';
+import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 // import useSurvey from './helpers/dispatch';
 // import useHelper from './helpers/commands';
-// import Network from './components/Network/Network';
+import Network from './components/Network/Network';
 
 
 const App = () => {
@@ -78,8 +78,12 @@ const App = () => {
       <Route path="/" element={<SharedLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/containers" element={<Containers />} />
+        <Route path="/home/images" element={<Images />} />
+        <Route path='/home/network' element={<Network />} />
         <Route path="/metrics" element={<Metrics />} />
         <Route path="/about" element={<About />} />
+        <Route path="/home/volume" element={<VolumeHistory />} />
+        <Route path="/home/logs" element={<ProcessLogs key={1} />} />
       </Route>
       {/* <Route
         path="/"

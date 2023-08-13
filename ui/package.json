@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
+    "d3": "^7.8.5",
+    "d3-sankey": "^0.12.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@docker/extension-api-client-types": "^0.3.4",
+    "@types/d3": "^7.4.0",
     "@types/node": "^20.4.8",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",

@@ -68,19 +68,19 @@ const Metrics = (): JSX.Element => {
         <div>
           <button
             className={styles.button}
-            // onClick={() => changePage('Node Exporter / Nodes')}
+            onClick={() => changePage('Node Exporter / Nodes')}
           >
             Node
           </button>
           <button
             className={styles.button}
-            // onClick={() => changePage('Kubernetes / Kubelet')}
+            onClick={() => changePage('Kubernetes / Kubelet')}
           >
             Kubelet
           </button>
           <iframe
             className={styles.metrics}
-            // src={`http://localhost:3000/d/${uidKey}/?orgId=1&refresh=10s&kiosk`}
+            src={`http://localhost:3000/d/${uidKey}/?orgId=1&refresh=10s&kiosk`}
           />
         </div>
       )}

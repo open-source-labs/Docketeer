@@ -30,12 +30,12 @@ export const filterOneProperty = (input: object[], filterInput: string) => {
  **/
 
 export const volumeByName = (
-  getVolumeContainers,
-  arrayOfVolumeNames,
-  getVolumeContainersList
+  getVolumeContainers: any,
+  arrayOfVolumeNames: any,
+  getVolumeContainersList: any
 ) => {
   let volumeName;
-  arrayOfVolumeNames.forEach((element) => {
+  arrayOfVolumeNames.forEach((element: any) => {
     volumeName = getVolumeContainers(element['Name'], getVolumeContainersList);
   });
   return volumeName;
@@ -47,16 +47,17 @@ export const volumeByName = (
  * @param {Array} dockerOutput
  **/
 
-export const listOfVolumeProperties = (volumeName, dockerOutput) => {
+export const listOfVolumeProperties = (volumeName: any, dockerOutput: any) => {
   const volumeList = {
     vol_name: volumeName,
-    containers: [],
+    containers: [] as { Names?: string[]; State?: string; Status?: string }[]
   };
-  let containerProperties = {};
+
 
   for (let i = 0; i < dockerOutput.length; i++) {
     const container = dockerOutput[i];
-
+    let containerProperties: { Names?: string[]; State?: string; Status?: string } = {};
+    
     for (const key in container) {
       if (key === 'Names') containerProperties['Names'] = container['Names'];
       if (key === 'State') containerProperties['State'] = container['State'];

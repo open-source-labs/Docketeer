@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ImagesStateType, ImageObj } from '../../../types';
+import { ImagesStateType, ImageObj } from '../../ui-types';
 
 const initialState: ImagesStateType = {
   imagesList: [],

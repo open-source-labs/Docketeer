@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { NetworkContainerListType, NetworkStateType } from '../../../types';
+import { NetworkContainerListType, NetworkStateType } from '../../ui-types';
 
 const initialState: NetworkStateType = {
   networkContainerList: [],

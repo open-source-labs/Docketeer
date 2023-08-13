@@ -12,8 +12,8 @@ import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
-// import useSurvey from './helpers/dispatch';
-// import useHelper from './helpers/commands';
+import useSurvey from './helpers/dispatch';
+import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
 
 
@@ -80,7 +80,7 @@ const App = () => {
         <Route path="/containers" element={<Containers />} />
         <Route path="/home/images" element={<Images />} />
         <Route path='/home/network' element={<Network />} />
-        <Route path="/metrics" element={<Metrics />} />
+        <Route path="/home/metrics" element={<Metrics key={1} />} />
         <Route path="/about" element={<About />} />
         <Route path="/home/volume" element={<VolumeHistory />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />

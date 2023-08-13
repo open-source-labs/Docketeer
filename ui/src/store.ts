@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import alertReducer from './reducers/alertReducer';
-import composeReducer from '../../src/reducers/composeReducer';
-import containerReducer from '../../src/reducers/containerReducer';
-import imageReducer from '../../src/reducers/imageReducer';
-import logReducer from '../../src/reducers/logReducer';
-import userReducer from '';
+import composeReducer from './reducers/composeReducer';
+import containerReducer from './reducers/containerReducer';
+import imageReducer from './reducers/imageReducer';
+import logReducer from './reducers/logReducer';
+import userReducer from './reducers/userReducer';
 import sessionReducer from './reducers/sessionReducer';
 import volumeReducer from './reducers/volumeReducer';
 import networkReducer from './reducers/networkReducer';

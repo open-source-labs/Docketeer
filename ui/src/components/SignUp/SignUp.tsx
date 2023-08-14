@@ -6,7 +6,7 @@ import useHelper from '../../helpers/commands';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/extended-light.png';
-import { SignUpValues } from '../../../types';
+import { SignUpValues } from '../../../ui-types';
 
 /**
  * @module | SignUp

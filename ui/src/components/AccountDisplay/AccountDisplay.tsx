@@ -23,12 +23,12 @@ const AccountDisplay = () => {
             <label className="label">
               <span className="label-text text-xs">Email</span>
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder={session.email}
               className="input input-bordered w-full max-w-xs"
               disabled
-            />
+            /> */}
           </div>
           <div className="form-control space-y-2">
             <label className="label">
@@ -41,7 +41,7 @@ const AccountDisplay = () => {
               disabled
             />
           </div>
-          <div className="form-control space-y-2">
+          {/* <div className="form-control space-y-2">
             <label className="label">
               <span className="label-text text-xs">Phone</span>
             </label>
@@ -51,7 +51,7 @@ const AccountDisplay = () => {
               className="input input-bordered w-full max-w-xs"
               disabled
             />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="card bg-neutral text-neutral-content rounded-lg">
@@ -64,11 +64,11 @@ const AccountDisplay = () => {
             <label className="label">
               <span className="label-text text-xs">Email</span>
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder={session.email}
               className="input input-bordered w-full max-w-xs"
-            />
+            /> */}
             <button
               className="btn btn-primary w-full max-w-xs"
               onClick={() => handleEmailUpdate()}
@@ -80,11 +80,11 @@ const AccountDisplay = () => {
             <label className="label">
               <span className="label-text text-xs">Phone</span>
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder={session.phone}
               className="input input-bordered w-full max-w-xs"
-            />
+            /> */}
             <button
               className="btn btn-primary w-full max-w-xs"
               onClick={() => handlePhoneUpdate()}

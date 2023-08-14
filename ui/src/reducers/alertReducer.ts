@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // eslint-disable-next-line
 import { useAppDispatch } from './hooks';
-import { AlertStateType } from '../../../types';
+import { AlertStateType } from '../../ui-types';
 import { setPrunePrompt } from './pruneReducer';
 
 const initialState: AlertStateType = {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // eslint-disable-next-line
 import { useAppDispatch } from './hooks';
-import { PruneStateType } from '../../../types';
+import { PruneStateType } from '../../ui-types';
 
 const initialState: PruneStateType = {
   prunePromptList: [],

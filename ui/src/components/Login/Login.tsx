@@ -5,7 +5,7 @@ import globalStyles from '../global.module.scss';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/extended-light.png';
-import { UserInfo } from '../../../types';
+import { UserInfo } from '../../../ui-types';
 import { createAlert } from '../../reducers/alertReducer';
 import { useAppDispatch } from '../../reducers/hooks';
 import useSurvey from '../../helpers/dispatch';

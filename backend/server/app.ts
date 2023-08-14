@@ -1,30 +1,18 @@
+// import/prep for our server and type declarations
 import express, { Request, Response } from 'express';
-import fs from 'fs';
+import { ServerError, GlobalErrorObject } from '../backend-types';
 import cors from 'cors';
 import { exec } from 'child_process';
+import cookieParser from 'cookie-parser';
 import * as path from 'path';
-import { ServerError, GlobalErrorObject } from './backend-types';
-const cookieParser = require('cookie-parser');
-// const PORT = process.env.PORT || 3003;
-const SOCKETFILE = '/run/guest-services/backend.sock';
+
 const app = express();
 
-try {
-  fs.unlinkSync(SOCKETFILE);
-  console.log('Deleted the UNIX file.');
-}
-catch (err) {
-  console.log('Did not need to delete the UNIX socket file.');
-}
-
+// allow requests from other domains
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use('/test', (req, res) => {
-  res.status(200).json({ message: 'does this go through /test route'});
-})
 
 // run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
 exec(
@@ -42,15 +30,20 @@ exec(
   }
 );
 
-import apiRouter from './server/routes/apiRouter';
-import commandRouter from './server/routes/commandRouter';
-import initRouter from './server/routes/initRouter';
-import loginRouter from './server/routes/loginRouter';
-import logoutRouter from './server/routes/logoutRouter';
-import setupRouter from './server/routes/setupRouter';
-import signupRouter from './server/routes/signupRouter';
+// Importing routers...
+import apiRouter from './routes/apiRouter';
+import commandRouter from './routes/commandRouter';
+import initRouter from './routes/initRouter';
+import loginRouter from './routes/loginRouter';
+import logoutRouter from './routes/logoutRouter';
+import setupRouter from './routes/setupRouter';
+import signupRouter from './routes/signupRouter';
 
+// Enabling middleware...
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('SetupApp'));
+
 
 // Defining routers...
 app.use('/k8', (req: Request, res: Response) => {
@@ -88,6 +81,4 @@ app.get(
   }
 );
 
-app.listen(SOCKETFILE, (): void => {
-  console.log(`Listening on port ${SOCKETFILE}`);
-});
+export default app;

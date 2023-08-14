@@ -3,7 +3,7 @@ import {
   ContainerStateType,
   ContainerType,
   StoppedListType,
-} from '../../../types';
+} from '../../ui-types';
 
 const initialState: ContainerStateType = {
   runningList: [],

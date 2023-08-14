@@ -12,8 +12,8 @@ import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
-import useSurvey from './helpers/dispatch';
-import useHelper from './helpers/commands';
+// import useSurvey from './helpers/dispatch';
+// import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
 
 
@@ -75,7 +75,7 @@ const App = () => {
   // }
   return (
     <Routes>
-      <Route path="/" element={<SharedLayout />}>
+      {/* <Route path="/" element={<SharedLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/containers" element={<Containers />} />
         <Route path="/metrics" element={<Metrics />} />
@@ -84,7 +84,7 @@ const App = () => {
         <Route path="/home/images" element={<Images />} />
         <Route path="/home/logs" element={<ProcessLogs key={1} />} />
       </Route>
-      {/* <Route
+      <Route
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
       />
@@ -93,23 +93,27 @@ const App = () => {
         path="/login"
         element={<Login navigateToHome={navigateToHome} />}
       />
-      <Route path="/userSignup" element={<SignUp />} />
-      <Route
+      <Route path="/userSignup" element={<SignUp />} /> */}
+      {/* <Route
         path="/home"
         element={session ? <SharedLayout /> : <Navigate to="/login" />}
-      >
+      > */}
+      <Route
+        path="/"
+        element={<SharedLayout />}
+      >      
         <Route index element={<Home />} />
-        <Route path="/home/volume" element={<VolumeHistory />} />
-        <Route path="/home/metrics" element={<Metrics key={1} />} />
-        <Route path="/home/logs" element={<ProcessLogs key={1} />} />
-        <Route path="/home/about" element={<About />} />
-        <Route path="/home/images" element={<Images imagesList={undefined} />} />
-        <Route path="/home/running" element={<Containers />} />
-        <Route path="/home/" element={<Settings />} />
-        <Route path='/home/network' element={<Network />} />
-        <Route path='/home/*' element={<NotFound session={session} />} />
+        <Route path="volume" element={<VolumeHistory />} />
+        <Route path="metrics" element={<Metrics key={1} />} />
+        <Route path="logs" element={<ProcessLogs key={1} />} />
+        <Route path="about" element={<About />} />
+        <Route path="images" element={<Images />} />
+        <Route path="containers" element={<Containers />} />
+        {/* <Route path="" element={<Settings />} /> */}
+        <Route path='network' element={<Network />} />
+        {/* <Route path='*' element={<NotFound session={session} />} /> */}
       </Route>
-      <Route path='*' element={<NotFound session={session} />} /> */}
+      {/* <Route path='*' element={<NotFound session={session} />} /> */}
     </Routes>
   );
 };

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { ContainerType } from '../../../ui-types';
-// import { useAppSelector, useAppDispatch } from '../../../../src/reducers/hooks';
-// import useHelper from '../../../../src/helpers/commands';
-// import { createAlert, createPrompt } from '../../../../src/reducers/alertReducer';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
+import useHelper from '../../helpers/commands';
+import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
 
@@ -13,76 +13,76 @@ import ContainersCard from '../ContainersCard/ContainersCard';
  **/
 
 const Containers = (): JSX.Element => {
-  // const dispatch = useAppDispatch();
-  // const { runStopped, remove, stop } = useHelper();
-  // const { runningList, stoppedList } = useAppSelector(
-  //   (state) => state.containers
-  // );
-  const runningList = [{ ID: 'run', Names: 'does this appear', Image: 'image', RunningFor: 'runningfor', Networks: ['networks1', 'networks2'] }];
-  const runStopped = true;
-  const stoppedList = [{ ID: 'stop' }];
+  const dispatch = useAppDispatch();
+  const { runStopped, remove, stop } = useHelper();
+  const { runningList, stoppedList } = useAppSelector(
+    (state) => state.containers
+  );
+  // const runningList = [{ ID: 'run', Names: 'does this appear', Image: 'image', RunningFor: 'runningfor', Networks: ['networks1', 'networks2'] }];
+  // const runStopped = true;
+  // const stoppedList = [{ ID: 'stop' }];
 
   const stopContainer = (container: ContainerType) => {
-    // dispatch(
-    //   createPrompt(
-    //     `Are you sure you want to stop ${container.Names}?`,
-    //     () => {
-    //       stop(container.ID);
-    //       dispatch(createAlert(`Stopping ${container.Names}...`, 5, 'error'));
-    //     },
-    //     () => {
-    //       dispatch(
-    //         createAlert(
-    //           `The request to stop ${container.Names} has been cancelled.`,
-    //           5,
-    //           'warning'
-    //         )
-    //       );
-    //     }
-    //   )
-    // );
+    dispatch(
+      createPrompt(
+        `Are you sure you want to stop ${container.Names}?`,
+        () => {
+          stop(container.ID);
+          dispatch(createAlert(`Stopping ${container.Names}...`, 5, 'error'));
+        },
+        () => {
+          dispatch(
+            createAlert(
+              `The request to stop ${container.Names} has been cancelled.`,
+              5,
+              'warning'
+            )
+          );
+        }
+      )
+    );
   };
 
   const runContainer = (container: ContainerType) => {
-    // dispatch(
-    //   createPrompt(
-    //     `Are you sure you want to run ${container.Names}?`,
-    //     () => {
-    //       runStopped(container['ID']);
-    //       dispatch(createAlert(`Running ${container.Names}...`, 5, 'success'));
-    //     },
-    //     () => {
-    //       dispatch(
-    //         createAlert(
-    //           `The request to run ${container.Names} has been cancelled.`,
-    //           5,
-    //           'warning'
-    //         )
-    //       );
-    //     }
-    //   )
-    // );
+    dispatch(
+      createPrompt(
+        `Are you sure you want to run ${container.Names}?`,
+        () => {
+          runStopped(container['ID']);
+          dispatch(createAlert(`Running ${container.Names}...`, 5, 'success'));
+        },
+        () => {
+          dispatch(
+            createAlert(
+              `The request to run ${container.Names} has been cancelled.`,
+              5,
+              'warning'
+            )
+          );
+        }
+      )
+    );
   };
 
   const removeContainer = (container: ContainerType) => {
-    // dispatch(
-    //   createPrompt(
-    //     `Are you sure you want to remove ${container.Names}?`,
-    //     () => {
-    //       remove(container['ID']);
-    //       dispatch(createAlert(`Removing ${container.Names}...`, 5, 'success'));
-    //     },
-    //     () => {
-    //       dispatch(
-    //         createAlert(
-    //           `The request to remove ${container.Names} has been cancelled.`,
-    //           5,
-    //           'warning'
-    //         )
-    //       );
-    //     }
-    //   )
-    // );
+    dispatch(
+      createPrompt(
+        `Are you sure you want to remove ${container.Names}?`,
+        () => {
+          remove(container['ID']);
+          dispatch(createAlert(`Removing ${container.Names}...`, 5, 'success'));
+        },
+        () => {
+          dispatch(
+            createAlert(
+              `The request to remove ${container.Names} has been cancelled.`,
+              5,
+              'warning'
+            )
+          );
+        }
+      )
+    );
   };
 
 

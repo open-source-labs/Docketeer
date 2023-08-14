@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
-// import useHelper from '../../../../src/helpers/commands';
+// import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {
   // const { getKey, getUid } = useHelper();

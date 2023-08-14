@@ -2,15 +2,9 @@
  * @module | settingsHelper.tsx
  * @description | Contains helper functions facilitating updates to account information (AccountDisplay, Settings, etc.)
  **/
-<<<<<<< HEAD
-// import useSurvey from '../helpers/dispatch';
-import store from '../store';
-// const { updateUser } = useSurvey();
-=======
 import useSurvey from '../helpers/dispatch';
 import store from '../store';
 const { updateUser } = useSurvey();
->>>>>>> be5bc5e4bccacb174234519f48cf4ed78b9cc4c5
 
 export const handlePasswordChange = () => {
   const currentPasswordHolder = document.getElementById(
@@ -64,15 +58,9 @@ export const checkCurrentPassword: () => boolean = () => {
   const password = passwordInput.value;
   const passwordAlert = document.getElementById('current-password-alert');
   if (password === '') {
-<<<<<<< HEAD
-    passwordAlert.innerHTML = 'Warning: Please enter your current password';
-  } else {
-    passwordAlert.innerHTML = '';
-=======
     passwordAlert!.innerHTML = 'Warning: Please enter your current password';
   } else {
     passwordAlert!.innerHTML = '';
->>>>>>> be5bc5e4bccacb174234519f48cf4ed78b9cc4c5
   }
   return password !== '';
 };
@@ -92,15 +80,9 @@ export const confirmPassword: () => void = () => {
   );
 
   if (newPassword !== newPasswordConfirmation) {
-<<<<<<< HEAD
-    passwordConfirmationAlert.innerHTML = 'Warning: Passwords do not match';
-  } else {
-    passwordConfirmationAlert.innerHTML = '';
-=======
     passwordConfirmationAlert!.innerHTML = 'Warning: Passwords do not match';
   } else {
     passwordConfirmationAlert!.innerHTML = '';
->>>>>>> be5bc5e4bccacb174234519f48cf4ed78b9cc4c5
   }
   return newPassword === newPasswordConfirmation;
 };
@@ -122,11 +104,7 @@ export const handleEmailUpdate = () => {
   updateEmail(username, email);
 };
 
-<<<<<<< HEAD
-export const updateEmail = (username, email) => {
-=======
 export const updateEmail = (username: string, email: string) => {
->>>>>>> be5bc5e4bccacb174234519f48cf4ed78b9cc4c5
   fetch('/api/account/email', {
     method: 'POST',
     headers: {
@@ -164,16 +142,6 @@ export const handlePhoneUpdate = () => {
   updatePhone(username, newPhoneNumber);
 };
 
-<<<<<<< HEAD
-export const checkPhone = (phone) => {
-  const regex = /[+][1][\d]{10}$/;
-  const phoneAlert = document.getElementById('update-phone-alert');
-  if (phone.match(regex) === null) {
-    phoneAlert.innerHTML =
-      'Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900';
-  } else {
-    phoneAlert.innerHTML = '';
-=======
 export const checkPhone = (phone: any) => {
   const regex = /[+][1][\d]{10}$/;
   const phoneAlert = document.getElementById('update-phone-alert');
@@ -182,7 +150,6 @@ export const checkPhone = (phone: any) => {
       'Warning: Please enter valid phone number with country code (+1).\nExample: +12345678900';
   } else {
     phoneAlert!.innerHTML = '';
->>>>>>> be5bc5e4bccacb174234519f48cf4ed78b9cc4c5
   }
   return phone.match(regex) !== null;
 };

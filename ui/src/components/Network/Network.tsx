@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
-// import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
-// import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-// import { createAlert } from '../../reducers/alertReducer';
+import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
+import { createAlert } from '../../reducers/alertReducer';
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 
-// import { DataFromBackend, NetworkContainerListType } from '/../../types';
+import { DataFromBackend, NetworkContainerListType } from '../../../ui-types';
 
 /**
  * @module | Network.tsx

@@ -1,12 +1,12 @@
-/* eslint-disable react/prop-types */
+// /* eslint-disable react/prop-types */
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
 import React, { useState, Dispatch, SetStateAction } from 'react';
-// import { useAppSelector } from '../../../../src/reducers/hooks';
-// import { VolumeObj } from '../../../../types';
+import { useAppSelector } from '../../reducers/hooks';
+import { VolumeObj } from '../../../ui-types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
-// import useHelper from '../../../../src/helpers/commands'; // added
+import useHelper from '../../helpers/commands'; // added
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes
@@ -29,16 +29,16 @@ const VolumeHistory = (): JSX.Element => {
   //   (state) => state.volumes.volumeContainersList
   // );
 
-  /*
-  RVH = Render Volume History
-  This function takes in a volumeContainerList from state
-  volumeContainerList is an array of VolumeObj
-  VolumeObj is an object with a vol_name and containers property
-  containers is an array of objects -> NEED TO TYPE THIS
-  these objs should have a Names, State, and Status property
-  */
+  // /*
+  // RVH = Render Volume History
+  // This function takes in a volumeContainerList from state
+  // volumeContainerList is an array of VolumeObj
+  // VolumeObj is an object with a vol_name and containers property
+  // containers is an array of objects -> NEED TO TYPE THIS
+  // these objs should have a Names, State, and Status property
+  // */
 
-  // Initializes the volume history tab to be the list of volumes
+  // // Initializes the volume history tab to be the list of volumes
   // let renderList = renderVolumeHistory(volumeContainersList);
 
   // const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -60,7 +60,7 @@ const VolumeHistory = (): JSX.Element => {
   return (
     // <div className={styles.wrapper}>
     //   <div className={styles.searchHolder}>
-        <h2>SEARCH VOLUME HISTORY</h2>
+    //    <h2>SEARCH VOLUME HISTORY</h2>
     //     <input
     //       className={globalStyles.input}
     //       type="text"
@@ -78,7 +78,7 @@ const VolumeHistory = (): JSX.Element => {
     //     </button>
     //   </div>
     //   <div className={styles.volumesHolder}>
-    //     <h2>VOLUMES</h2>
+        <h2>VOLUMES</h2>
     //     <div className={styles.volumesDisplay}>
     //       {volumeContainersList.map((volume: VolumeObj, i: number) => {
     //         return (

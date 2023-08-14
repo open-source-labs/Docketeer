@@ -14,7 +14,6 @@
     "@docker/extension-api-client": "^0.3.4",
     "@reduxjs/toolkit": "^1.9.5",
     "d3": "^7.8.5",
-    "d3-sankey": "^0.12.3",
     "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@docker/extension-api-client-types": "^0.3.4",
     "@types/d3": "^7.4.0",
+    "@types/d3-sankey": "^0.12.1",
     "@types/express": "^4.17.17",
     "@types/node": "^20.4.8",
     "@types/react": "^18.2.18",
@@ -32,6 +32,7 @@
     "@types/react-modal": "^3.16.0",
     "@vitejs/plugin-react": "^4.0.4",
     "css-loader": "^6.8.1",
+    "d3-sankey": "^0.12.3",
     "react-router-dom": "^6.14.2",
     "sass": "^1.64.2",
     "style-loader": "^3.3.3",

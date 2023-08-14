@@ -9,7 +9,7 @@ import useSurvey from '../../helpers/dispatch';
 import useHelper from '../../helpers/commands';
 import * as history from '../../helpers/volumeHistoryHelper';
 
-import Alert from '../../components/Alert/Alert';
+// import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
 
 
@@ -116,7 +116,7 @@ function SharedLayout(): JSX.Element {
     getVolumeContainers,
   } = useHelper();
 
-  Deconstructs dispatch functions from custom hook
+  // Deconstructs dispatch functions from custom hook
   const { getVolumeContainerList } = useSurvey();
 
   useEffect(() => {
@@ -129,7 +129,7 @@ function SharedLayout(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  Changes in arrayOfVolumeNames will run history.volumeByName
+  // Changes in arrayOfVolumeNames will run history.volumeByName
   useEffect(() => {
     history.volumeByName(
       getVolumeContainers,
@@ -140,7 +140,7 @@ function SharedLayout(): JSX.Element {
   }, [arrayOfVolumeNames]);
 
 
-  Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
+  // Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
   useEffect(() => {
     const interval = setInterval(() => {
       refreshRunning();
@@ -182,7 +182,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/network"
+                to="/network"
               >
                 NETWORKS
               </NavLink>
@@ -192,7 +192,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/images"
+                to="/images"
               >
                 IMAGES
               </NavLink>
@@ -212,7 +212,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/volume"
+                to="/volume"
               >
                 VOLUME HISTORY
               </NavLink>
@@ -222,7 +222,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/home/logs"
+                to="/logs"
               >
                 PROCESS LOGS
               </NavLink>

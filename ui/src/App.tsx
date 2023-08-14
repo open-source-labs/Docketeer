@@ -7,7 +7,7 @@ import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 // import Settings from './components/Settings/Settings';
-import VolumeHistory from './components/VolumeHistory/VolumeHistory';
+import VolumeHistory from './components/VolumeHistory/VolumeHistory'; // need to fix types
 import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
@@ -104,13 +104,13 @@ const App = () => {
       >      
         <Route index element={<Home />} />
         <Route path="volume" element={<VolumeHistory />} />
-        <Route path="metrics" element={<Metrics key={1} />} />
-        <Route path="logs" element={<ProcessLogs key={1} />} />
-        <Route path="about" element={<About />} />
-        <Route path="images" element={<Images />} />
-        <Route path="containers" element={<Containers />} />
+        <Route path="/metrics" element={<Metrics key={1} />} />
+        <Route path="/logs" element={<ProcessLogs key={1} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/images" element={<Images />} />
+        <Route path="/containers" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}
-        <Route path='network' element={<Network />} />
+        <Route path='/network' element={<Network />} />
         {/* <Route path='*' element={<NotFound session={session} />} /> */}
       </Route>
       {/* <Route path='*' element={<NotFound session={session} />} /> */}

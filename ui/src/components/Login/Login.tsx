@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import globalStyles from '../global.module.scss';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/extended-light.png';
@@ -25,6 +26,8 @@ const Login = (props: loginProps): JSX.Element => {
   const updateUserInfo = (userInfo: UserInfo) => updateUser(userInfo);
   const dispatch = useAppDispatch();
   const { checkCookie } = useHelper();
+  
+  const ddClient = createDockerDesktopClient();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -48,8 +51,17 @@ const Login = (props: loginProps): JSX.Element => {
   ): Promise<void> => {
     try {
       // login user with fetch request
-      const response = await fetch('/api/login', {
-        method: 'POST',
+      // const response = await fetch('/api/login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     username,
+      //     password,
+      //   }),
+      // });
+      const response: any = await ddClient.extension.vm?.service?.post('/login', {
         headers: {
           'Content-Type': 'application/json',
         },

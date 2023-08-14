@@ -12,47 +12,47 @@ import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
-// import useSurvey from './helpers/dispatch';
-// import useHelper from './helpers/commands';
+import useSurvey from './helpers/dispatch';
+import useHelper from './helpers/commands';
 // import Network from './components/Network/Network';
 
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const { updateSession } = useSurvey();
-  // const { checkCookie } = useHelper();
+  const { updateSession } = useSurvey();
+  const { checkCookie } = useHelper();
   const navigate = useNavigate();
 
 
-  // const [loading, setLoading] = useState(true);
-  // const [session, setSession] = useState<boolean | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<boolean | undefined>(undefined);
   /**
    * updates user session to check if user is logged in by invoking checkCookie
    * @method
    * @params none
    * @returns {Promise<void>} returns a promise when successfully setting the session absed on cookies
    */
-  // const checkLogin = async () => {
-  //   try {  
-  //     const data = await checkCookie();
-  //     if (data) {
-  //       updateSession();
-  //       setSession(true);
+  const checkLogin = async () => {
+    try {  
+      const data = await checkCookie();
+      if (data) {
+        updateSession();
+        setSession(true);
       
-  //     } else {
-  //       setSession(false);
-  //     }
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.log('Cannot get uid key or API key:', err);
-  //     setSession(false);
-  //     setLoading(false);
-  //   }
-  // };
+      } else {
+        setSession(false);
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log('Cannot get uid key or API key:', err);
+      setSession(false);
+      setLoading(false);
+    }
+  };
 
-  // useEffect(() => {
-  //   checkLogin();
-  // }, [checkCookie, updateSession]);
+  useEffect(() => {
+    checkLogin();
+  }, [checkCookie, updateSession]);
   /**
    * checks if user was already logged in, and navigates them to home if cookie was already set
    * @method
@@ -88,20 +88,20 @@ const App = () => {
         path="/"
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
       />
-      :
+      : */}
       <Route
         path="/login"
         element={<Login navigateToHome={navigateToHome} />}
       />
-      <Route path="/userSignup" element={<SignUp />} /> */}
-      {/* <Route
-        path="/home"
-        element={session ? <SharedLayout /> : <Navigate to="/login" />}
-      > */}
+      <Route path="/userSignup" element={<SignUp />} />
       <Route
         path="/"
+        element={session ? <SharedLayout /> : <Navigate to="/login" />}
+      >
+      {/* <Route
+        path="/"
         element={<SharedLayout />}
-      >      
+      >       */}
         <Route index element={<Home />} />
         <Route path="volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />

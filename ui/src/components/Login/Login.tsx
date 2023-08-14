@@ -58,6 +58,15 @@ const Login = (props: loginProps): JSX.Element => {
           password,
         }),
       });
+  // TODO replace current fetch with something similar to below testFunc because Docker extension
+  // function testFunc() {
+  //   ddClient.extension.vm?.service?.get('/test')
+  //     .then((response: any) => {
+  //       console.log(response);
+  //       setTestState(response.message);
+  //     })
+  //     .catch((err: any) => console.log('testfunc error: ' + err));
+  // }      
 
       const data = await checkCookie();
 

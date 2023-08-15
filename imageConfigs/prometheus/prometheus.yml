@@ -3,12 +3,22 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: 'docker_container_metrics'
+  # - job_name: 'docker_container_metrics'
+  #   static_configs:
+  #     - targets: ['host.docker.internal:3333']
+  - job_name: prometheus
     static_configs:
-      - targets: ['host.docker.internal:3333']
+      - targets: ['localhost:9090']
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['host.docker.internal:9323']
+    metrics_path: '/metrics'
+    params:
+      format: ['prometheus']
+  - job_name: 'node-exporter' 
+      static_configs:
+        - targets: ['node-exporter:9100']
   # Below is just test stuff, it's just prometheus scraping itself so you can see how it works
   # Uncomment the below lines, build and install the extension, then go to localhost:9090/graph, execute promhttp_metric_handler_requests_total
-  # - job_name: prometheus
-  #   static_configs:
-  #     - targets: ['localhost:9090']
+  
 

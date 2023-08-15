@@ -89,19 +89,19 @@ const App = () => {
         element={session ? <Navigate to="/home" /> : <Navigate to="/login" />}
       />
       : */}
-      <Route
+      {/* <Route
         path="/login"
         element={<Login navigateToHome={navigateToHome} />}
       />
-      <Route path="/userSignup" element={<SignUp />} />
-      <Route
-        path="/"
-        element={session ? <SharedLayout /> : <Navigate to="/login" />}
-      >
+      <Route path="/userSignup" element={<SignUp />} /> */}
       {/* <Route
         path="/"
+        element={session ? <SharedLayout /> : <Navigate to="/login" />}
+      > */}
+      <Route
+        path="/"
         element={<SharedLayout />}
-      >       */}
+      >      
         <Route index element={<Home />} />
         <Route path="volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />

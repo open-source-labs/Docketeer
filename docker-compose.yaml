@@ -13,6 +13,8 @@ services:
     ports:
       - 4000:4000
 
+  # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
+  # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -24,9 +26,8 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /etc/machine-id:/etc/machine-id:ro
-    labels:
-      org_prometheus_starter: 'true'
-      org_prometheus_starter_path: '/metrics'
+    networks:
+      - monitoring
 
   # Collects additional metrics that are then sent to prometheus 
   node-exporter:
@@ -67,10 +68,6 @@ services:
     depends_on:
       - node-exporter
       - cadvisor
-    labels:
-      org_prometheus_starter: 'true'
-      org_prometheus_starter_port: '9090'
-      org_prometheus_starter_path: '/metrics'
 
   # Displays metrics gathered from containers at localhost:2999
   grafana:

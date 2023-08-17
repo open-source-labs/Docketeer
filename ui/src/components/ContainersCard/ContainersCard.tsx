@@ -1,8 +1,9 @@
 import React from 'react';
-// import { useAppDispatch } from '../../reducers/hooks';
-// import { createAlert } from '../../reducers/alertReducer';
+import { useAppDispatch } from '../../reducers/hooks';
+import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 /**
  * @module | ContainersCard.tsx
@@ -17,14 +18,15 @@ const ContainersCard = ({
   status
 }: ContainersCardsProps): JSX.Element => {
 
-  // const dispatch = useAppDispatch();
-  
+  const dispatch = useAppDispatch();
+  const ddClient = createDockerDesktopClient();
+
   async function connectToNetwork(
     networkName: string,
     containerName: string
   ): Promise<void> {
     try {
-      const response = await fetch('/api/command/networkConnect', {
+      const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
         method: 'POST',
         body: JSON.stringify({
           networkName: networkName,
@@ -34,31 +36,31 @@ const ContainersCard = ({
       });
       const dataFromBackend = await response.json();
       if (dataFromBackend.hasOwnProperty('hash')) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is successfully attached to the ' + networkName,
-        //     4,
-        //     'success'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName + ' is successfully attached to the ' + networkName,
+            4,
+            'success'
+          )
+        );
       } else if (dataFromBackend.error) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is already attached to the ' + networkName,
-        //     4,
-        //     'warning'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName + ' is already attached to the ' + networkName,
+            4,
+            'warning'
+          )
+        );
         return;
       }
     } catch (err) {
-      // dispatch(
-      //   createAlert(
-      //     'An error occurred while attaching to network : ' + err,
-      //     4,
-      //     'error'
-      //   )
-      // );
+      dispatch(
+        createAlert(
+          'An error occurred while attaching to network : ' + err,
+          4,
+          'error'
+        )
+      );
     }
   }
 
@@ -67,7 +69,7 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      const response = await fetch('/api/command/networkDisconnect', {
+      const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
         method: 'POST',
         body: JSON.stringify({
           networkName: networkName,
@@ -75,40 +77,39 @@ const ContainersCard = ({
         }),
         headers: { 'Content-Type': 'application/json' },
       });
+
       const dataFromBackend = await response.json();
       
       if (dataFromBackend.hasOwnProperty('hash')) {
-        // dispatch(
-        //   createAlert(
-        //     containerName +
-        //       ' was successfully disconnected from ' +
-        //       networkName,
-        //     4,
-        //     'success'
-        //   )
-        // );
+        dispatch(
+          createAlert(
+            containerName +
+              ' was successfully disconnected from ' +
+              networkName,
+            4,
+            'success'
+          )
+        );
       } else if (dataFromBackend.error) {
-        // dispatch(
-        //   createAlert(
-        //     containerName + ' is not connected to ' + networkName,
-        //     4,
-        //     'warning'
-        //   )
-        // );
-        // return;
+        dispatch(
+          createAlert(
+            containerName + ' is not connected to ' + networkName,
+            4,
+            'warning'
+          )
+        );
+        return;
       }
     } catch (err) {
-      // dispatch(
-      //   createAlert(
-      //     'An error occurred while disconnecting from network : ' + err,
-      //     4,
-      //     'error'
-      //   )
-      // );
+      dispatch(
+        createAlert(
+          'An error occurred while disconnecting from network : ' + err,
+          4,
+          'error'
+        )
+      );
     }
   }
-
-  if (!containerList) return (<p>no containerlist</p>)
 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     return (
@@ -122,7 +123,8 @@ const ContainersCard = ({
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}/>
     );
-  });
+  }
+  );
   return (
     <>
       {RunningContainers}

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
+import { sankey as d3Sankey, sankeyLinkHorizontal, sankeyJustify } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import globalStyles from '../global.module.scss';
@@ -221,8 +221,8 @@ const Network = (): JSX.Element => {
   };
 
   // Render Sankey Diagram
-  // TODO resolve possibly deprecated d3-sankey methods
-  // TODO specify 'any' types
+  // TODO resolve sankeyJustify functionality, line 280
+  // * You will notice many 'any' type declarations. d3-sankey allows user-defined properties. As a result, TypeScript will try to find a a type such as 'd.name' that does not exist in the d3Sankey TS index. This is the reasoning behind so many 'any' type declarations, but could be amended in the future by aligning the types with what is available in d3Sankey TS index
   useEffect(() => {
     if (networkContainerList.length > 0) {
       const nodesObj = {};
@@ -276,8 +276,8 @@ const Network = (): JSX.Element => {
         .style('fill', 'white');
 
       const sankey = d3Sankey()
-        .nodeId((d) => d.name)
-        .nodeAlign(d3.sankeyJustify)
+        .nodeId((d: any) => d.name)
+        .nodeAlign((d: any) => sankeyJustify(d, 1))
         .nodeWidth(15)
         .nodePadding(40)
         .extent([
@@ -286,8 +286,8 @@ const Network = (): JSX.Element => {
         ]);
 
       const { nodes, links } = sankey({
-        nodes: liveNodes.map((d) => Object.assign({}, d)),
-        links: liveLinks.map((d) => Object.assign({}, d)),
+        nodes: liveNodes.map((d) => ({ ...d })),
+        links: liveLinks.map((d) => ({ ...d })),
       });
 
       // nodeColors will be populated below when each node is assigned a color, and later used to color the path from the network to the container.
@@ -298,11 +298,11 @@ const Network = (): JSX.Element => {
         .selectAll()
         .data(nodes)
         .join('rect')
-        .attr('x', (d) => d.x0)
-        .attr('y', (d) => d.y0)
-        .attr('height', (d) => d.y1 - d.y0)
-        .attr('width', (d) => d.x1 - d.x0)
-        .attr('fill', (d) => {
+        .attr('x', (d: any) => d.x0)
+        .attr('y', (d: any) => d.y0)
+        .attr('height', (d: any) => d.y1 - d.y0)
+        .attr('width', (d: any) => d.x1 - d.x0)
+        .attr('fill', (d: any) => {
           const color =
             d.category === 'container'
               ? 'WhiteSmoke'
@@ -313,7 +313,7 @@ const Network = (): JSX.Element => {
 
       rect
         .append('title')
-        .text((d) =>
+        .text((d: any) =>
           d.value > 1
             ? `${d.name}\n${format(d.value)} Connections`
             : `${d.name}\n1 Connection`
@@ -331,21 +331,21 @@ const Network = (): JSX.Element => {
       link
         .append('path')
         .attr('d', sankeyLinkHorizontal())
-        .attr('stroke', (d) => nodeColors[d.source.name])
-        .attr('stroke-width', (d) => d.width);
+        .attr('stroke', (d: any) => nodeColors[d.source.name])
+        .attr('stroke-width', (d: any) => d.width);
 
-      link.append('title').text((d) => `${d.source.name} → ${d.target.name}}`);
+      link.append('title').text((d: any) => `${d.source.name} → ${d.target.name}}`);
 
       svg
         .append('g')
         .selectAll()
         .data(nodes)
         .join('text')
-        .attr('x', (d) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
-        .attr('y', (d) => d.y0 - 12)
+        .attr('x', (d: any) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
+        .attr('y', (d: any) => d.y0 - 12)
         .attr('dy', '0.35em')
         .attr('text-anchor', (d) => (d.x0 < width / 2 ? 'start' : 'end'))
-        .text((d) =>
+        .text((d: any) =>
           d.name.length > 12
             ? d.name.slice(0, 12).concat('...')
             : d.name

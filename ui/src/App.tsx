@@ -14,7 +14,7 @@ import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
-// import Network from './components/Network/Network';
+import Network from './components/Network/Network';
 
 
 const App = () => {
@@ -110,7 +110,7 @@ const App = () => {
         <Route path="/images" element={<Images imagesList={[]}/>} />
         <Route path="/containers" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}
-        {/* <Route path='/network' element={<Network />} /> */}
+        <Route path='/network' element={<Network />} />
         {/* <Route path='*' element={<NotFound session={session} />} /> */}
       </Route>
       {/* <Route path='*' element={<NotFound session={session} />} /> */}

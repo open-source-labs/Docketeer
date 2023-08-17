@@ -1,0 +1,84 @@
+.wrapper {
+  margin: $default-page-margin;
+  height: 100%;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.button {
+  background-color: #212121;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.button:hover {
+  background-color: hsl(190, 72%, 36%);
+  box-shadow: 0 12px 16px 0 rgba(243, 8, 8, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.metrics {
+  width: 100%;
+  height: calc(95vh - (60px + 6rem));
+  min-height: 20rem;
+  border: 0px;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .metrics {
+    height: calc(100vh - (6rem));
+  }
+}
+
+.switch[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.toggle {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 80px;
+  height: 40px;
+  background: rgb(90, 98, 206);
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.toggle:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+.switch:checked+.toggle {
+  background: #bada55;
+}
+
+.switch:checked+.toggle:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+.toggle:active:after {
+  width: 40px;
+}

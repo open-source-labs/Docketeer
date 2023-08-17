@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "@types/*": ["types/*"],
+      "@backend/*": ["Backend/*"],
+      "@ui/*": ["UI/*"],
+      "bcryptjs": ["node_modules/bcryptjs"]
+    }
+  },
+  "include": ["./**/*"]
+}
+
+
+

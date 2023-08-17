@@ -16,5 +16,5 @@
     "noImplicitAny": false,
     "strictNullChecks": false
   },
-  "include": ["src/**/*", "server/**/*", "SetupApp/**/*", "global.d.ts", "ui/src/components/Home", "backend/server.ts", "server/app.ts", "ui/src/components/SignUp", "ui/Login", "ui/src/components/AccountDisplay", "ui/src/components/Settings", "ui/src/components/Settings", "ui/src/components/AccountDisplay"]
+  // "include": ["src/**/*", "server/**/*", "SetupApp/**/*", "global.d.ts", "ui/src/components/Home", "backend/server.ts", "server/app.ts", "ui/src/components/SignUp", "ui/Login", "ui/src/components/AccountDisplay", "ui/src/components/Settings", "ui/src/components/Settings", "ui/src/components/AccountDisplay"]
 }

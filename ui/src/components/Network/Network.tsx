@@ -1,21 +1,21 @@
-import React, { useRef, useEffect, useState } from 'react';
-import * as d3 from 'd3';
+// import React, { useRef, useEffect, useState } from 'react';
+// import * as d3 from 'd3';
 // import { sankey as d3Sankey, sankeyLinkHorizontal } from 'd3-sankey';
 // import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 // import { createAlert } from '../../reducers/alertReducer';
-import globalStyles from '../global.module.scss';
-import styles from './Network.module.scss';
+// import globalStyles from '../global.module.scss';
+// import styles from './Network.module.scss';
 
-// import { DataFromBackend, NetworkContainerListType } from '/../../types';
+// import { DataFromBackend, NetworkContainerListType } from '../../../ui-types';
 
-/**
- * @module | Network.tsx
- * @description | This component renders a tab for displaying and managing custom and default networks that Docker creates.
- **/
+// /**
+//  * @module | Network.tsx
+//  * @description | This component renders a tab for displaying and managing custom and default networks that Docker creates.
+//  **/
 
 
 
-const Network = (): JSX.Element => {
+// const Network = (): JSX.Element => {
 //   const [network, setNetwork] = useState('');
 //   const [duplicated, setDuplicated] = useState(false);
 //   const { networkContainerList } = useAppSelector((state) => state.networks);
@@ -183,8 +183,9 @@ const Network = (): JSX.Element => {
 //       // if current network objects's networkName property has a value which is matching the provided argument.
 //       if (el.networkName === name) {
 //         // assign attachedContainerList to array that filled with attached container name
+//         // TODO resolve any bruh
 //         attachedContainerList = el.containers.map(
-//           (el) => (el = ` [${el.containerName}] `)
+//           (el: any) => (el = ` [${el.containerName}] `)
 //         );
 //       }
 //     });
@@ -219,11 +220,12 @@ const Network = (): JSX.Element => {
 //   };
 
 //   // Render Sankey Diagram
+//   // TODO resolve any bruh
 //   useEffect(() => {
 //     if (networkContainerList.length > 0) {
 //       const nodesObj = {};
-//       const liveNodes = [];
-//       const liveLinks = [];
+//       const liveNodes: any[] = [];
+//       const liveLinks: any[] = [];
 
 //       // iterate through networkContainerList
 //       networkContainerList.forEach((network) => {
@@ -349,86 +351,86 @@ const Network = (): JSX.Element => {
 //     }
 //   }, [networkContainerList]);
 
-  return (
-    // <div className={styles.wrapper}>
-    //   <div className={styles.listHolder}>
-    //     <div id={styles.networkList}>
-          <h2>NETWORKS</h2>
-    //       <input
-    //         className={
-    //           duplicated ? globalStyles.duplicatedInput : globalStyles.input
-    //         }
-    //         type="text"
-    //         id="newNetwork"
-    //         value={network}
-    //         placeholder="Input network name here..."
-    //         onChange={(e) => {
-    //           setNetwork(e.target.value);
-    //         }}
-    //       />
-    //       <button
-    //         className={
-    //           duplicated ? globalStyles.duplicatedButton1 : globalStyles.button1
-    //         }
-    //         onClick={() => createNewNetwork()}
-    //         disabled={duplicated}
-    //       >
-    //         {duplicated ? 'DUPLICATED NETWORK NAME' : 'CREATE NEW NETWORK'}
-    //       </button>
-    //       <div className={styles.listHolder}>
-    //         {networkContainerList.map(
-    //           (network: NetworkContainerListType, index: number) => {
-    //             if (
-    //               network.networkName !== 'bridge' &&
-    //               network.networkName !== 'docketeer_default'
-    //             ) {
-    //               return (
-    //                 <div className={styles.networkDiv} key={index}>
-    //                   <p
-    //                     id={styles.networkName}
-    //                     onClick={() =>
-    //                       displayAttachedContainers(network.networkName)
-    //                     }
-    //                   >
-    //                     {network.networkName}
-    //                   </p>
-    //                   <button
-    //                     id={styles.networkDeleteButton}
-    //                     onClick={() => deleteNetwork(network.networkName)}
-    //                   >
-    //                     DELETE
-    //                   </button>
-    //                 </div>
-    //               );
-    //             } else {
-    //               return (
-    //                 <div className={styles.networkDiv} key={index}>
-    //                   <p
-    //                     id={styles.networkName}
-    //                     onClick={() =>
-    //                       displayAttachedContainers(network.networkName)
-    //                     }
-    //                   >
-    //                     {network.networkName}
-    //                   </p>
-    //                 </div>
-    //               );
-    //             }
-    //           }
-    //         )}
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <div className={styles.listHolder}>
-    //     <h2 className={styles.sankeyTitle}>CONNECTIONS</h2>
-    //     <div
-    //       id="sankeyDiagram"
-    //       className={styles.sankeyDiagram}
-    //       ref={ref}
-    //     ></div>
-    //   </div>
-    // </div>
-  );
-};
+//   return (
+//     <div className={styles.wrapper}>
+//       <div className={styles.listHolder}>
+//         <div id={styles.networkList}>
+//           <h2>NETWORKS</h2>
+//           <input
+//             className={
+//               duplicated ? globalStyles.duplicatedInput : globalStyles.input
+//             }
+//             type="text"
+//             id="newNetwork"
+//             value={network}
+//             placeholder="Input network name here..."
+//             onChange={(e) => {
+//               setNetwork(e.target.value);
+//             }}
+//           />
+//           <button
+//             className={
+//               duplicated ? globalStyles.duplicatedButton1 : globalStyles.button1
+//             }
+//             onClick={() => createNewNetwork()}
+//             disabled={duplicated}
+//           >
+//             {duplicated ? 'DUPLICATED NETWORK NAME' : 'CREATE NEW NETWORK'}
+//           </button>
+//           <div className={styles.listHolder}>
+//             {networkContainerList.map(
+//               (network: NetworkContainerListType, index: number) => {
+//                 if (
+//                   network.networkName !== 'bridge' &&
+//                   network.networkName !== 'docketeer_default'
+//                 ) {
+//                   return (
+//                     <div className={styles.networkDiv} key={index}>
+//                       <p
+//                         id={styles.networkName}
+//                         onClick={() =>
+//                           displayAttachedContainers(network.networkName)
+//                         }
+//                       >
+//                         {network.networkName}
+//                       </p>
+//                       <button
+//                         id={styles.networkDeleteButton}
+//                         onClick={() => deleteNetwork(network.networkName)}
+//                       >
+//                         DELETE
+//                       </button>
+//                     </div>
+//                   );
+//                 } else {
+//                   return (
+//                     <div className={styles.networkDiv} key={index}>
+//                       <p
+//                         id={styles.networkName}
+//                         onClick={() =>
+//                           displayAttachedContainers(network.networkName)
+//                         }
+//                       >
+//                         {network.networkName}
+//                       </p>
+//                     </div>
+//                   );
+//                 }
+//               }
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//       <div className={styles.listHolder}>
+//         <h2 className={styles.sankeyTitle}>CONNECTIONS</h2>
+//         <div
+//           id="sankeyDiagram"
+//           className={styles.sankeyDiagram}
+//           ref={ref}
+//         ></div>
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Network;
+// export default Network;

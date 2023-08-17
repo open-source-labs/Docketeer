@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import styles from './SignUp.module.scss';
 import globalStyles from '../global.module.scss';
 import useHelper from '../../helpers/commands';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Docketeer from '../../../assets/extended-light.png';
@@ -23,10 +24,13 @@ const SignUp = (): JSX.Element => {
   const navigate = useNavigate();
   const { createNewUser } = useHelper();
 
+  const ddClient = createDockerDesktopClient();
+
   const checkDbInit = () => {
-    fetch('/api/db')
-      .then((response) => response.json())
-      .then((data) => console.log(data))
+    ddClient.extension.vm?.service?.get('/db')
+      .then((response: any) => console.log(response))
+      // .then((data) => console.log(data))
+
       .catch((err) => {
         console.log(err);
       });

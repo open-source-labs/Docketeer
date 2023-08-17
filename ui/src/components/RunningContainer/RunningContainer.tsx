@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useAppSelector } from '../../../../src/reducers/hooks';
+// import { useAppSelector } from '../../reducers/hooks';
 import { ContainersCardsProps } from '../../../ui-types';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';

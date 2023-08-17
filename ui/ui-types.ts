@@ -155,20 +155,21 @@ export interface LogObject {
   containerName: string;
 }
 
+// TODO find why optional parameters are currently needed
 export interface ProcessLogsSelectorProps {
-  containerList: ContainerType[];
-  handleCheck: (name: string) => void;
-  btnIdList: {
+  containerList?: ContainerType[];
+  handleCheck?: (name: string) => void;
+  btnIdList?: {
     Names?: boolean;
   }[];
-  status: string;
+  status?: string;
 }
 
-export interface ProcessLogsSelectorProps {
-  containerList: ContainerType[];
-  handleCheck: (name: string) => void;
-  btnIdList: { Names?: boolean }[];
-}
+// export interface ProcessLogsSelectorProps {
+//   containerList: ContainerType[];
+//   handleCheck: (name: string) => void;
+//   btnIdList: { Names?: boolean }[];
+// }
 
 export interface stdType {
   containerName: string;

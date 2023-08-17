@@ -50,14 +50,17 @@ export const volumeByName = (
 export const listOfVolumeProperties = (volumeName: any, dockerOutput: any) => {
   const volumeList = {
     vol_name: volumeName,
-    containers: [] as { Names?: string[]; State?: string; Status?: string }[]
+    containers: [] as {
+      Names?: string[];
+      State?: string;
+      Status?: string;
+    }[],
   };
-
 
   for (let i = 0; i < dockerOutput.length; i++) {
     const container = dockerOutput[i];
     let containerProperties: { Names?: string[]; State?: string; Status?: string } = {};
-    
+
     for (const key in container) {
       if (key === 'Names') containerProperties['Names'] = container['Names'];
       if (key === 'State') containerProperties['State'] = container['State'];

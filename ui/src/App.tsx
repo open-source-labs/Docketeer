@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import Login from './components/Login/Login';
-import SignUp from './components/SignUp/SignUp';
+// import Login from './components/Login/Login';
+// import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
 import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';

@@ -6,7 +6,12 @@ c927ee7835480fcfb815641b10f1ce98111af22a
 
 <h2>Techs</h2>
 <h3>cAdvisor</h3>
-cAdvisor has been deprecated and we won't need it anymore once Docketeer is a Docker desktop extension, we should be able to get the info from the docker sock itself instead of needing this inbetween.
+cAdvisor will be deprecated on May 15, 2024 so this should be replaced with something else.
+It scrapes all the container metrics and then has them aggregated to prometheus through host.docker.internal:8080 to be displayed on grafana dashboard
+
+<h3>Grafana</h3>
+Displays the metric data aggregated by Prometheus, Node-exporter, cAdvisor
+There is currently an issue where clicking on a graph will cause everything to refresh and show no data forcing you to click off and back on the tab
 
 <h2>Files</h2>
 Any files with a '?' are tentatively in their sections, need to search deeper to be sure

@@ -19,40 +19,40 @@ import useHelper from './helpers/commands';
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { updateSession } = useSurvey();
-  const { checkCookie } = useHelper();
+  // const { updateSession } = useSurvey();
+  // const { checkCookie } = useHelper();
   const navigate = useNavigate();
 
 
-  const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<boolean | undefined>(undefined);
+  // const [loading, setLoading] = useState(true);
+  // const [session, setSession] = useState<boolean | undefined>(undefined);
   /**
    * updates user session to check if user is logged in by invoking checkCookie
    * @method
    * @params none
    * @returns {Promise<void>} returns a promise when successfully setting the session absed on cookies
    */
-  const checkLogin = async () => {
-    try {  
-      const data = await checkCookie();
-      if (data) {
-        updateSession();
-        setSession(true);
+  // const checkLogin = async () => {
+  //   try {  
+  //     const data = await checkCookie();
+  //     if (data) {
+  //       updateSession();
+  //       setSession(true);
       
-      } else {
-        setSession(false);
-      }
-      setLoading(false);
-    } catch (err) {
-      console.log('Cannot get uid key or API key:', err);
-      setSession(false);
-      setLoading(false);
-    }
-  };
+  //     } else {
+  //       setSession(false);
+  //     }
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log('Cannot get uid key or API key:', err);
+  //     setSession(false);
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    checkLogin();
-  }, [checkCookie, updateSession]);
+  // useEffect(() => {
+  //   checkLogin();
+  // }, [checkCookie, updateSession]);
   /**
    * checks if user was already logged in, and navigates them to home if cookie was already set
    * @method
@@ -103,11 +103,11 @@ const App = () => {
         element={<SharedLayout />}
       >      
         <Route index element={<Home />} />
-        <Route path="volume" element={<VolumeHistory />} />
+        <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/images" element={<Images imagesList/>} />
+        <Route path="/images" element={<Images imagesList={[]}/>} />
         <Route path="/containers" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}
         {/* <Route path='/network' element={<Network />} /> */}

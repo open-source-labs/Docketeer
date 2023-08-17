@@ -12,11 +12,12 @@ import globalStyles from '../global.module.scss';
  **/
 
 // eslint-disable-next-line react/prop-types
-const Images = ({ imagesList: ImagesStateType }): JSX.Element => {
+const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
 // const Images = () => {
   // imagesList for testing purposes only
+  // * above comment left by previous iteration. resolved type errors in order to test
   const reduxImagesList = useAppSelector((state) => state.images.imagesList);
-  const imagesList = ImagesStateType ? [ImagesStateType] : reduxImagesList;
+  imagesList = imagesList.length ? imagesList : reduxImagesList;
   const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();

@@ -1,0 +1,108 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: $default-page-margin;
+  input {
+    margin-right: 0.5rem;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+.runningContainersHolder {
+  display: flex;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.runningList {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  margin-bottom: 1rem;
+}
+
+.selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.buttonHolder {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  button {
+    margin-right: 1rem;
+  }
+}
+
+.runningLeft {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 1rem;
+  p {
+    margin: 1rem 0;
+  }
+  form {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+.runningRight {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-left: 1rem;
+
+  p {
+    padding-bottom: 1rem;
+  }
+}
+
+.dropdownForm {
+  margin-top: 0.5rem;
+  label {
+    margin-right: 0.5rem;
+  }
+  display: flex;
+  select,
+  input {
+    &[id='num'] {
+      width: 8ch;
+      margin-bottom: 0px;
+    }
+  }
+  select {
+    font-size: 0.75rem;
+    text-align: left;
+  }
+}
+
+.logsHolder {
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.tableHolder {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid color(light, base);
+  margin-bottom: 2rem;
+  max-height: 50vh;
+
+  table {
+    border: none;
+  }
+}
+
+@media screen and (max-width: calc($breakpoint-lg - 40px)) {
+  .selectors {
+    grid-template-columns: 1fr;
+  }
+}

@@ -23,7 +23,7 @@ const VolumeHistory = (): JSX.Element => {
   const [volumeList, setVolumeList]: [
     VolumeObj[],
     Dispatch<SetStateAction<VolumeObj[]>>
-  ] = useState([]);
+  ] = useState<VolumeObj[]>([]);
 
   const volumeContainersList = useAppSelector(
     (state) => state.volumes.volumeContainersList
@@ -44,8 +44,9 @@ const VolumeHistory = (): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    const result = volumeList.filter((vol) =>
-      vol['Names'].includes(volumeName)
+    const result = volumeContainersList.filter((vol) =>
+      vol.containers.some(container => container.Names.includes(volumeName)
+      )
     );
 
     setVolumeList(result);

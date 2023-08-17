@@ -63,12 +63,13 @@ export interface userReducerStateType {
 // CONTAINER TYPES
 // ==============================================
 // Stopped containers have a Names key and running containers have a Name key
+// ! Names and Networks had optional parameters `?`, possibly unnecessary so removed
 export interface ContainerType {
   ID: string;
-  Names?: string;
+  Names: string;
   Image?: string;
   RunningFor?: string;
-  Networks?: string[];
+  Networks: string[];
 }
 
 // for networkReducer's initial state
@@ -155,12 +156,12 @@ export interface LogObject {
   containerName: string;
 }
 
-// TODO find why optional parameters are currently needed
+
 export interface ProcessLogsSelectorProps {
   containerList?: ContainerType[];
   handleCheck?: (name: string) => void;
   btnIdList?: {
-    Names?: boolean;
+    Names: boolean;
   }[];
   status?: string;
 }
@@ -194,8 +195,8 @@ export type CSVDataType = string[];
 // ==============================================
 export interface VolumeContainerObj {
   Names: string;
-  State?: string | undefined;
-  Status?: string | undefined;
+  State?: string;
+  Status?: string;
 }
 
 export interface VolumeObj {

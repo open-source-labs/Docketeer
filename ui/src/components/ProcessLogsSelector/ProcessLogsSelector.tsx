@@ -8,10 +8,10 @@ import { ProcessLogsSelectorProps } from '../../../ui-types';
  * @description | This component renders checkboxes to select which process logs you would like to get.
  **/
 function ProcessLogsSelector({
-  containerList,
+  containerList = [],
   handleCheck,
-  btnIdList,
-  status,
+  btnIdList = [],
+  status = '',
 }: ProcessLogsSelectorProps): JSX.Element {
   return (
     <form className={styles.wrapper}>
@@ -26,7 +26,7 @@ function ProcessLogsSelector({
                 value={container.Names}
                 checked={btnIdList[container.Names] === true}
                 onChange={(e) => {
-                  handleCheck(e.target.id);
+                  handleCheck?.(e.target.id);
                 }}
               />
               <label htmlFor={container.Names}>{container.Names}</label>

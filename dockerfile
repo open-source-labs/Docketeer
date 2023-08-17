@@ -40,7 +40,6 @@ COPY --from=client-builder /ui/build ui
 
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
-COPY imageConfigs/node-exporter node-exporter
 COPY imageConfigs/postgres postgres
 
 # Starts the application

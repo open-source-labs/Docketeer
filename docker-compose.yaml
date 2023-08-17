@@ -11,54 +11,41 @@ services:
       - docketeer-postgres-db:/postgres
     ports:
       - 4000:4000
-
-  db:
-    image: docketeerxii/postgres
-    container_name: docketeerdb
-    ports:
-      - '5432:5432'
-    volumes:
-      - docketeer-postgres-db:/postgres
-    environment:
-      POSTGRES_DB: 'docketeer-db'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
       
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    ports:
-      - '9100:9100'
-    command: 
-      - --path.procfs=/host/proc
-      - --path.sysfs=/host/sys
-      - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
-    volumes:
-      #system info for linux machines
-      - /proc:/host/proc:ro
-      # also for linux
-      - /sys:/host/sys:ro
-      #root
-      - /:/rootfs:ro
-    depends_on:
-      - db
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: node-exporter
+  #   restart: unless-stopped
+  #   ports:
+  #     - 9100:9100
+  #   volumes:
+  #     #system info for linux machines
+  #     - /proc:/host/proc:ro
+  #     # also for linux
+  #     - /sys:/host/sys:ro
+  #     #root
+  #     - /:/rootfs:ro
+  #   commands:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.rootfs=/rootfs'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  #   networks:
+  #     - monitoring
 
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    restart: unless-stopped
     ports:
       - 9090:9090
+    volumes:
+      - ./imageConfigs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - docketeer-prometheus-data:/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-      - docketeer-prometheus-data:/prometheus
-      - docketeer-prometheus-files:/etc/prometheus
-    depends_on:
-      - node-exporter
-    labels:
-      org_prometheus_starter: 'true'
-      org_prometheus_starter_port: '9090'
-      org_prometheus_starter_path: '/metrics'
+    # depends_on:
+    #   - node-exporter
 
   grafana:
     image: grafana/grafana:latest
@@ -73,9 +60,24 @@ services:
       - prometheus
 
 
+networks:
+  monitoring:
+    driver: bridge
 
 volumes:
-  docketeer-prometheus-data:
+  docketeer-prometheus-data: {}
   docketeer-prometheus-files:
   docketeer-grafana-files:
   docketeer-postgres-db:
+
+  # db:
+  #   image: postgres:latest
+  #   container_name: docketeerdb
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - docketeer-postgres-db:/postgres
+  #   environment:
+  #     POSTGRES_DB: 'docketeer-db'
+  #     POSTGRES_USER: 'postgres'
+  #     POSTGRES_PASSWORD: 'postgres'

@@ -1,28 +1,48 @@
-# Use an official Node.js runtime as a parent image
-FROM node
-# Set the working directory to /app
-WORKDIR /app
+# Builds everything from backend folder
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
+WORKDIR /backend
+COPY backend/package*.json .
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+COPY backend/. .
 
-# Set the PATH env variable
-# ENV PATH="/usr/local/bin:${PATH}"
-# COPY /usr/local/bin/docker /usr/local/bin/docker
-# changed to most recent version!
-ENV DOCKERVERSION=20.10.23 
+# Builds everything in UI folder
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
+WORKDIR /ui
+# cache packages in layer
+COPY ui/package.json /ui/package.json
+COPY ui/package-lock.json /ui/package-lock.json
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+# install
+COPY ui /ui
+RUN npm run build
 
-RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
-  && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
-  && rm docker-${DOCKERVERSION}.tgz
+# Creates the working directory for the extension
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
+LABEL org.opencontainers.image.title="Remake Docketeer" \
+    org.opencontainers.image.description="Docker extension for monitoring and managing your containers" \
+    org.opencontainers.image.vendor="Docketeer team" \
+    com.docker.desktop.extension.api.version="0.3.0" \
+    com.docker.extension.screenshots="" \
+    com.docker.extension.detailed-description="" \
+    com.docker.extension.publisher-url="" \
+    com.docker.extension.additional-urls="" \
+    com.docker.extension.changelog=""
 
-COPY package*.json ./
+# Copies necessary files into extension directory
+COPY --from=builder /backend backend
+COPY docker-compose.yaml .
+COPY metadata.json .
+COPY --from=client-builder /ui/build ui
 
-# Copy the current directory contents into the container at /app
-COPY . .
+COPY imageConfigs/prometheus prometheus
+COPY imageConfigs/grafana grafana
+COPY imageConfigs/node-exporter node-exporter
+COPY imageConfigs/postgres postgres
 
-# Run npm install to install app dependencies
-RUN npm install --yes
-
-# Make port 4000 available to the world outside this container
-EXPOSE 4000
-
-# Start the app
-# CMD ["npm", "start"]
+# Starts the application
+WORKDIR /backend
+CMD ["npm", "start"]

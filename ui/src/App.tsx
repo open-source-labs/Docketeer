@@ -93,8 +93,8 @@ const App = () => {
         path="/login"
         element={<Login navigateToHome={navigateToHome} />}
       />
-      <Route path="/userSignup" element={<SignUp />} />
-      <Route
+      <Route path="/userSignup" element={<SignUp />} /> */}
+      {/* <Route
         path="/"
         element={session ? <SharedLayout /> : <Navigate to="/login" />}
       > */}

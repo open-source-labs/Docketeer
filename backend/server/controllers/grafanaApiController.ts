@@ -1,5 +1,4 @@
 import { GrafanaApiController } from '../../backend-types';
-import fetch from 'node-fetch';
 
 interface GrafanaResponse {
   key: string;

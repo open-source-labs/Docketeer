@@ -17,19 +17,19 @@ const Metrics = (): JSX.Element => {
     * @async
     * @returns {promise} returns promise when api key and uid key is successfully set
     */
-    const fetchKey = async () => {
-      try {
-        const key = await getKey();
-        console.log('key', key)
-        setApiKey(key);
-        const uid = await getUid(key, currentPage);
-        console.log('uid', uid)
-        setUidKey(uid);
-      } catch (err) {
-        console.log('Cannot get uid key or api key', err);
-      }
-    };
-    fetchKey();
+    // const fetchKey = async () => {
+    //   try {
+    //     const key = await getKey();
+    //     console.log('key', key)
+    //     setApiKey(key);
+    //     const uid = await getUid(key, currentPage);
+    //     console.log('uid', uid)
+    //     setUidKey(uid);
+    //   } catch (err) {
+    //     console.log('Cannot get uid key or api key', err);
+    //   }
+    // };
+    // fetchKey();
   }, []);
 
   const handleToggle = () => {
@@ -42,9 +42,9 @@ const Metrics = (): JSX.Element => {
     * @returns {promise} returns promise when dashboard and uid key is successfully set
   */
   const changePage = async (dashboard: any) => {
-    setCurrentPage(dashboard);
-    const uid = await getUid(apiKey, dashboard);
-    setUidKey(uid);
+    // setCurrentPage(dashboard);
+    // const uid = await getUid(apiKey, dashboard);
+    // setUidKey(uid);
   };
 
   return (

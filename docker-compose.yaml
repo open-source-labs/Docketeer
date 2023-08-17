@@ -1,11 +1,12 @@
 version: '3.8'
 
 services:
-  # The extenions UI/Backend
+  # The extenion's UI/Backend
   remake-docketeer:
     image: ${DESKTOP_PLUGIN_IMAGE}
     container_name: remake-docketeer
     volumes:
+      # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-prometheus-files:/prometheus
       - docketeer-grafana-files:/grafana
@@ -62,6 +63,7 @@ services:
       - docketeer-prometheus-files:/etc/prometheus
       - docketeer-prometheus-data:/prometheus
     command:
+      # Tells prometheus to use the config file from ./imageConfigs/prometheus
       - --config.file=/etc/prometheus/prometheus.yml
     networks:
       - monitoring

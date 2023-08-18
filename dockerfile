@@ -30,7 +30,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
     org.opencontainers.image.vendor="Docketeer team" \
     com.docker.desktop.extension.api.version="0.3.0" \
     com.docker.extension.screenshots="" \
-    com.docker.desktop.extension.icon="https://github.com/oslabs-beta/docketeer-extension/blob/dev/ui/assets/dlogo-no-bg.png?raw=true" \
+    com.docker.desktop.extension.icon="https://github.com/oslabs-beta/docketeer-extension/blob/dev/ui/assets/docketeer-logo-light.png?raw=true" \
     com.docker.extension.detailed-description="" \
     com.docker.extension.publisher-url="" \
     com.docker.extension.additional-urls="" \

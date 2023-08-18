@@ -277,7 +277,7 @@ const Network = (): JSX.Element => {
 
       const sankey = d3Sankey()
         .nodeId((d: any) => d.name)
-        .nodeAlign((d: any) => sankeyJustify(d, 1))
+        // .nodeAlign((d: any) => sankeyJustify(d, 1))
         .nodeWidth(15)
         .nodePadding(40)
         .extent([

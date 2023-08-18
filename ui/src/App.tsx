@@ -8,7 +8,7 @@ import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 // import Settings from './components/Settings/Settings';
 import VolumeHistory from './components/VolumeHistory/VolumeHistory'; // need to fix types
-import ProcessLogs from './components/ProcessLogsSelector/ProcessLogsSelector';
+import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';

@@ -26,7 +26,7 @@ function ProcessLogsSelector({
                 value={container.Names}
                 checked={btnIdList[container.Names] === true}
                 onChange={(e) => {
-                  handleCheck?.(e.target.id);
+                  handleCheck(e.target.id);
                 }}
               />
               <label htmlFor={container.Names}>{container.Names}</label>

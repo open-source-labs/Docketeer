@@ -286,8 +286,8 @@ const Network = (): JSX.Element => {
         ]);
 
       const { nodes, links } = sankey({
-        nodes: liveNodes.map((d) => ({ ...d })),
-        links: liveLinks.map((d) => ({ ...d })),
+        nodes: liveNodes.map((d: any) => ({ ...d })),
+        links: liveLinks.map((d: any) => ({ ...d })),
       });
 
       // nodeColors will be populated below when each node is assigned a color, and later used to color the path from the network to the container.
@@ -344,7 +344,7 @@ const Network = (): JSX.Element => {
         .attr('x', (d: any) => (d.x0 < width / 2 ? d.x1 - 12 : d.x0 + 12))
         .attr('y', (d: any) => d.y0 - 12)
         .attr('dy', '0.35em')
-        .attr('text-anchor', (d) => (d.x0 < width / 2 ? 'start' : 'end'))
+        .attr('text-anchor', (d: any) => (d.x0 < width / 2 ? 'start' : 'end'))
         .text((d: any) =>
           d.name.length > 12
             ? d.name.slice(0, 12).concat('...')

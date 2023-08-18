@@ -42,7 +42,7 @@ const useHelper = () => {
         return fetch('/api/login/checkCookie', {
           method: 'GET',
         })
-          .then((res) => res.json())
+          .then((res) => res)
           .then((data) => {
             return data;
           })
@@ -63,7 +63,7 @@ const useHelper = () => {
         })
           .then((res) => {
             console.log('Response received:', res); // Log the response object
-            return res.json();
+            return res;
           })
           .then((data) => {
             return data;
@@ -76,7 +76,7 @@ const useHelper = () => {
         return fetch('/api/gapi/key', {
           method: 'GET',
         })
-          .then((res) => res.json())
+          .then((res) => res)
           .then((data) => {
             return data;
           })
@@ -89,7 +89,7 @@ const useHelper = () => {
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
         ddClient.extension.vm?.service?.get('/command/refreshRunning')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((runningContainers) => {
             refreshRunningContainers(runningContainers);
           })
@@ -99,7 +99,7 @@ const useHelper = () => {
       refreshStopped() {
         const { refreshStoppedContainers } = dispatch;
         ddClient.extension.vm?.service?.get('/command/refreshStopped')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((stoppedContainers) => {
             refreshStoppedContainers(stoppedContainers);
           })
@@ -109,7 +109,7 @@ const useHelper = () => {
       refreshImages() {
         const { refreshImagesList } = dispatch;
         ddClient.extension.vm?.service?.get('/command/refreshImages')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((imagesList) => {
             refreshImagesList(imagesList);
           })
@@ -119,7 +119,7 @@ const useHelper = () => {
       refreshNetwork() {
         const { refreshNetworkList } = dispatch;
         ddClient.extension.vm?.service?.get('/command/networkListContainers')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((networkList) => {
             refreshNetworkList(networkList);
           })
@@ -136,7 +136,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((message) => {
@@ -156,7 +156,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((message) => {
@@ -174,7 +174,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((message) => {
@@ -198,7 +198,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((newRunningList) => {
@@ -262,7 +262,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((message) => {
@@ -275,7 +275,7 @@ const useHelper = () => {
         // Pass in container that button is clicked on
         const { getNetworkContainers } = dispatch;
         ddClient.extension.vm?.service?.get('/command/networkContainers')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((networkContainers) => {
             // grab the name of the network only using map method
             networkContainers = networkContainers.map((el) => el.Name);
@@ -301,7 +301,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((dockerOutput) => {
@@ -313,7 +313,7 @@ const useHelper = () => {
       dockerComposeStacks() {
         const { getContainerStacks } = dispatch;
         ddClient.extension.vm?.service?.get('/command/composeStacks')
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
           })
@@ -337,7 +337,7 @@ const useHelper = () => {
               window.alert('Invalid permissions');
               throw new Error(message);
             } else {
-              return message.json();
+              return message;
             }
           })
           .then((dockerOutput) => {
@@ -414,7 +414,7 @@ const useHelper = () => {
             timezone: offsetTimeZoneInHours,
           }),
         })
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((response) => {
             console.log(response);
             return;
@@ -433,14 +433,14 @@ const useHelper = () => {
             githubUrl: container,
           }),
         });
-        return await response.json();
+        return await response;
       },
       */
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;
         ddClient.extension.vm?.service?.get('/command/allDockerVolumes')
-          .then((volumes: Response) => volumes.json())
+          .then((volumes: Response) => volumes)
           .then((dockerVolumes) => {
             return getVolumes(filterOneProperty(dockerVolumes, 'Name'));
           })
@@ -452,7 +452,7 @@ const useHelper = () => {
       getVolumeContainers(volumeName) {
         const { getVolumeContainerList } = dispatch;
         ddClient.extension.vm?.service?.get(`/command/volumeContainers?volumeName=${volumeName}`)
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((volumeContainers) => {
             return getVolumeContainerList(
               listOfVolumeProperties(volumeName, volumeContainers)
@@ -470,7 +470,7 @@ const useHelper = () => {
           body: JSON.stringify({ volumeName: volumeName }),
           headers: { 'Content-Type': 'application/json' },
         })
-          .then((data: Response) => data.json())
+          .then((data: Response) => data)
           .then((deletedVolumeNameFromBackEnd) => {
             console.log(deletedVolumeNameFromBackEnd);
           })
@@ -483,11 +483,12 @@ const useHelper = () => {
       async getLogs(optionsObj) {
         try {
           const response: Response = await ddClient.extension.vm?.service?.post('/command/allLogs', {
-            method: 'post',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),
           });
-          const parsedResponse = await response.json();
+          console.log(response);
+          const parsedResponse = response;
           return parsedResponse;
         } catch {
           console.log(err);

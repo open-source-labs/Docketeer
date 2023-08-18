@@ -84,7 +84,6 @@ const useHelper = () => {
             console.log('Error when fetching api key', error);
           });
       },
-
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
@@ -128,9 +127,7 @@ const useHelper = () => {
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
-        ddClient.extension.vm?.service?.delete(`/command/removeContainer?id=${containerID}`, {
-          method: 'DELETE',
-        })
+        ddClient.extension.vm?.service?.delete(`/command/removeContainer?id=${containerID}`)
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -186,13 +183,7 @@ const useHelper = () => {
       /* Runs an image from the pulled images list in image tab @param {*} container */
       runIm(container) {
         const { refreshRunningContainers } = dispatch;
-        ddClient.extension.vm?.service?.post('/command/runImage', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(container),
-        })
+        ddClient.extension.vm?.service?.post('/command/runImage', container)
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -211,9 +202,7 @@ const useHelper = () => {
 
       removeIm(id) {
         const { refreshImages } = dispatch;
-        ddClient.extension.vm?.service?.delete(`/command/removeImage?id=${id}`, {
-          method: 'DELETE',
-        })
+        ddClient.extension.vm?.service?.delete(`/command/removeImage?id=${id}`)
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -227,9 +216,7 @@ const useHelper = () => {
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        ddClient.extension.vm?.service?.delete('/command/dockerPrune', {
-          method: 'DELETE',
-        })
+        ddClient.extension.vm?.service?.delete('/command/dockerPrune')
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -242,9 +229,7 @@ const useHelper = () => {
       /* Handles Network Prune @param {*} e */
       handleNetworkPruneClick(e) {
         e.preventDefault();
-        ddClient.extension.vm?.service?.delete('/command/dockerNetworkPrune', {
-          method: 'DELETE',
-        })
+        ddClient.extension.vm?.service?.delete('/command/dockerNetworkPrune')
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -287,15 +272,9 @@ const useHelper = () => {
       dockerComposeUp(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
         ddClient.extension.vm?.service?.post('/command/composeUp', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
             filePath: filePath,
             ymlFileName: ymlFileName,
-          }),
-        })
+          })
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -323,15 +302,9 @@ const useHelper = () => {
       dockerComposeDown(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
         ddClient.extension.vm?.service?.post('/command/composeDown', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
             filePath: filePath,
             ymlFileName: ymlFileName,
-          }),
-        })
+          })
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -389,13 +362,7 @@ const useHelper = () => {
             });
           }
           ddClient.extension.vm?.service?.post('/api/init/addMetrics', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              containers: (object = containerParameters),
-            }),
+            containers: (object = containerParameters)
           }).catch((err: Error): void => {
             console.log(err);
           });
@@ -405,15 +372,7 @@ const useHelper = () => {
         const currentTime = new Date();
         const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
         const ddClient = createDockerDesktopClient();
-         ddClient.extension.vm?.service?.post('/init/timezone', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            timezone: offsetTimeZoneInHours,
-          }),
-        })
+        ddClient.extension.vm?.service?.post('/init/timezone', {timezone: offsetTimeZoneInHours})
           .then((data: Response) => data)
           .then((response) => {
             console.log(response);
@@ -424,16 +383,8 @@ const useHelper = () => {
           });
       },
       async getContainerGitUrl(container) {
-        const response: Response = await ddClient.extension.vm?.service?.post('/init/github', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            githubUrl: container,
-          }),
-        });
-        return await response;
+        const response: Response = await ddClient.extension.vm?.service?.post('/init/github', { githubUrl: container })
+        return response;
       },
       */
       /* Docker command to retrieve the list of running volumes */
@@ -465,11 +416,7 @@ const useHelper = () => {
 
       removeVolume(volumeName) {
         console.log('commands.tsx line 463 =>', volumeName);
-        ddClient.extension.vm?.service?.post('/command/volumeRemove', {
-          method: 'POST',
-          body: JSON.stringify({ volumeName: volumeName }),
-          headers: { 'Content-Type': 'application/json' },
-        })
+        ddClient.extension.vm?.service?.post('/command/volumeRemove', volumeName)
           .then((data: Response) => data)
           .then((deletedVolumeNameFromBackEnd) => {
             console.log(deletedVolumeNameFromBackEnd);
@@ -478,16 +425,10 @@ const useHelper = () => {
             console.log('Error in removeVolume', err);
           });
       },
-
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {
-          const response: Response = await ddClient.extension.vm?.service?.post('/command/allLogs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(optionsObj),
-          });
-          console.log(response);
+          const response: Response = await ddClient.extension.vm?.service?.post('/command/allLogs', optionsObj)
           const parsedResponse = response;
           return parsedResponse;
         } catch {

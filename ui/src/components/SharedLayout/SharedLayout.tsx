@@ -23,54 +23,54 @@ function SharedLayout(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const { handlePruneClick, handleNetworkPruneClick } = useHelper();
-  const { logoutUser } = useSurvey();
+  // const { logoutUser } = useSurvey();
 
-  const logOut = async (): Promise<void> => {
-    logoutUser();
+  // const logOut = async (): Promise<void> => {
+  //   logoutUser();
 
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userData.username,
-        }),
-      });
-      await response.json();
-    } catch (err) {
-      console.log(err);
-    }
+  //   try {
+  //     const response = await fetch('/api/logout', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         username: userData.username,
+  //       }),
+  //     });
+  //     await response.json();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
 
-    navigate('/login');
-  };
+  //   navigate('/login');
+  // };
 
-  const handleLogOut = () => {
-    {
-      dispatch(
-        createPrompt(
-          // prompt (first argument in createPrompt)
-          'Are you sure you want to log out of Docketeer?',
-          // handleAccept (second argument in createPrompt)
-          () => {
-            logOut();
-            dispatch(createAlert('Logging out...', 5, 'success'));
-          },
-          // handleDeny (third argument in createPrompt)
-          () => {
-            dispatch(
-              createAlert(
-                'The request to logout has been cancelled.',
-                5,
-                'warning'
-              )
-            );
-          }
-        )
-      );
-    }
-  };
+  // const handleLogOut = () => {
+  //   {
+  //     dispatch(
+  //       createPrompt(
+  //         // prompt (first argument in createPrompt)
+  //         'Are you sure you want to log out of Docketeer?',
+  //         // handleAccept (second argument in createPrompt)
+  //         () => {
+  //           logOut();
+  //           dispatch(createAlert('Logging out...', 5, 'success'));
+  //         },
+  //         // handleDeny (third argument in createPrompt)
+  //         () => {
+  //           dispatch(
+  //             createAlert(
+  //               'The request to logout has been cancelled.',
+  //               5,
+  //               'warning'
+  //             )
+  //           );
+  //         }
+  //       )
+  //     );
+  //   }
+  // };
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     {
@@ -102,8 +102,9 @@ function SharedLayout(): JSX.Element {
       );
     }
   };
-  const { sessions, volumes } = useAppSelector((state) => state);
-  const userData = sessions;
+  // const { sessions, volumes } = useAppSelector((state) => state);
+  const { volumes } = useAppSelector((state) => state);
+  // const userData = sessions;
   const { arrayOfVolumeNames } = volumes;
 
   const {

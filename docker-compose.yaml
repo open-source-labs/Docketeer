@@ -1,10 +1,12 @@
-version: '3'
+version: '3.8'
 
 services:
+  # The extenion's UI/Backend
   remake-docketeer:
     image: ${DESKTOP_PLUGIN_IMAGE}
     container_name: remake-docketeer
     volumes:
+      # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-prometheus-files:/prometheus
       - docketeer-grafana-files:/grafana
@@ -12,27 +14,30 @@ services:
     ports:
       - 4000:4000
 
-  db:
-    image: docketeerxii/postgres
-    container_name: docketeerdb
+  # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
+  # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
+  cadvisor:
+    # Must use v0.47.1 instead of latest, latest does not work for macOS
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    container_name: cadvisor
     ports:
-      - '5432:5432'
+      - 8080:8080
     volumes:
-      - docketeer-postgres-db:/postgres
-    environment:
-      POSTGRES_DB: 'docketeer-db'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-      
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro
+    networks:
+      - monitoring
+
+  # Collects additional metrics that are then sent to prometheus 
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
+    restart: unless-stopped
     ports:
-      - '9100:9100'
-    command: 
-      - --path.procfs=/host/proc
-      - --path.sysfs=/host/sys
-      - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
+      - 9100:9100
     volumes:
       #system info for linux machines
       - /proc:/host/proc:ro
@@ -40,26 +45,34 @@ services:
       - /sys:/host/sys:ro
       #root
       - /:/rootfs:ro
-    depends_on:
-      - db
+    command:
+      - --path.procfs=/host/proc
+      - --path.rootfs=/rootfs
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    networks:
+      - monitoring
 
+  # Collects metrics and makes them available at localhost:9090
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    restart: unless-stopped
     ports:
       - 9090:9090
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - docketeer-prometheus-data:/prometheus
       - docketeer-prometheus-files:/etc/prometheus
+      - docketeer-prometheus-data:/prometheus
+    command:
+      # Tells prometheus to use the config file from ./imageConfigs/prometheus
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
     depends_on:
       - node-exporter
-    labels:
-      org_prometheus_starter: 'true'
-      org_prometheus_starter_port: '9090'
-      org_prometheus_starter_path: '/metrics'
+      - cadvisor
 
+  # Displays metrics gathered from containers at localhost:2999
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -73,9 +86,24 @@ services:
       - prometheus
 
 
+networks:
+  monitoring:
+    driver: bridge
 
 volumes:
-  docketeer-prometheus-data:
+  docketeer-prometheus-data: {}
   docketeer-prometheus-files:
   docketeer-grafana-files:
   docketeer-postgres-db:
+
+  # db:
+  #   image: postgres:latest
+  #   container_name: docketeerdb
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - docketeer-postgres-db:/postgres
+  #   environment:
+  #     POSTGRES_DB: 'docketeer-db'
+  #     POSTGRES_USER: 'postgres'
+  #     POSTGRES_PASSWORD: 'postgres'

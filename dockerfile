@@ -20,6 +20,9 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 COPY ui /ui
 RUN npm run build
 
+
+
+
 # Creates the working directory for the extension
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
 LABEL org.opencontainers.image.title="Remake Docketeer" \
@@ -32,6 +35,16 @@ LABEL org.opencontainers.image.title="Remake Docketeer" \
     com.docker.extension.additional-urls="" \
     com.docker.extension.changelog=""
 
+# Installs curl
+RUN apk --no-cache add curl
+
+# Update dockerversion to the most recent version
+# Installs docker to the image so it can run exec commands on the backend
+ENV DOCKERVERSION=24.0.5
+RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+  && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
+  && rm docker-${DOCKERVERSION}.tgz
+
 # Copies necessary files into extension directory
 COPY --from=builder /backend backend
 COPY docker-compose.yaml .
@@ -40,7 +53,6 @@ COPY --from=client-builder /ui/build ui
 
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
-COPY imageConfigs/node-exporter node-exporter
 COPY imageConfigs/postgres postgres
 
 # Starts the application

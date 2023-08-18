@@ -21,8 +21,12 @@ This was originally for storing user info but having moved Docketeer to an exten
 There were also some functions in commands.tsx that are commented out to write metrics to the database but whichever iteration did that didn't get to fully implement them so they are unused and commented out. 
 
 <h2>Unused/Unimplemented Files</h2>
-All unused files will either be in the top directory or UNUSED-FILES<br />
+All unused files will either be in the top level of the directory or in UNUSED-FILES<br />
 Many files are currently unused as we did not have time to do full implementation of them or were just dangling and unused when we began working on Docketeer as of Docketeer 14.<br />
+The package.json and package-lock.json of the top level directory and not used in the containers. They are currently just for reference but in future could be used for npm modules required by the Jest tests.<br />
 All user account creation or login/logout functionality has been either commented out or moved into UNUSED-FILES<br />
 Postgres that was primarily used for user data has been completely removed and related functions in commands.tsx are commented out and files are moved to UNUSED-FILES
+
+<h2>Tests</h2>
+Tests are not correctly implemented for the extension version of Docketeer. Extremely unlikely any pass and will need to be redone.
 

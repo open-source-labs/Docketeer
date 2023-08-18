@@ -19,11 +19,11 @@ import { refreshImages } from '../reducers/imageReducer';
 
 import { getLogs } from '../reducers/logReducer';
 
-import {
-  updateSession,
-  updateUser,
-  logoutUser,
-} from '../reducers/sessionReducer';
+// import {
+//   updateSession,
+//   updateUser,
+//   logoutUser,
+// } from '../reducers/sessionReducer';
 
 import { getVolumes, getVolumeContainersList } from '../reducers/volumeReducer';
 
@@ -67,12 +67,12 @@ const useSurvey = () => {
       getNetworkContainers(data: NetworkObj[]) {
         dispatch(getNetworkContainers(data));
       },
-      updateSession() {
-        dispatch(updateSession());
-      },
-      logoutUser() {
-        dispatch(logoutUser());
-      },
+      // updateSession() {
+      //   dispatch(updateSession());
+      // },
+      // logoutUser() {
+      //   dispatch(logoutUser());
+      // },
       getVolumes(data: VolumeNameObj[]) {
         dispatch(getVolumes(data));
       },
@@ -93,9 +93,9 @@ const useSurvey = () => {
       // Note: refreshImagesList, refreshRunningContainers (both already exported)
       // Dispatch functions used in Settings.tsx
       // Note: removeMemory..., removeCpu..., and removeStopped... were previously declared in Settings but not used
-      updateUser(userInfo: UserInfo) {
-        dispatch(updateUser(userInfo));
-      },
+      // updateUser(userInfo: UserInfo) {
+      //   dispatch(updateUser(userInfo));
+      // },
 
       // Dispatch functions used in Yml.tsx
       getContainerStacks(data: any) {

@@ -4,8 +4,8 @@ import composeReducer from './reducers/composeReducer';
 import containerReducer from './reducers/containerReducer';
 import imageReducer from './reducers/imageReducer';
 import logReducer from './reducers/logReducer';
-import userReducer from './reducers/userReducer';
-import sessionReducer from './reducers/sessionReducer';
+// import userReducer from './reducers/userReducer';
+// import sessionReducer from './reducers/sessionReducer';
 import volumeReducer from './reducers/volumeReducer';
 import networkReducer from './reducers/networkReducer';
 import pruneReducer from './reducers/pruneReducer';
@@ -15,10 +15,10 @@ const store = configureStore({
     containers: containerReducer,
     images: imageReducer,
     composes: composeReducer,
-    sessions: sessionReducer,
+    // sessions: sessionReducer,
     volumes: volumeReducer,
     logs: logReducer,
-    users: userReducer,
+    // users: userReducer,
     alerts: alertReducer,
     networks: networkReducer,
     pruneNetwork: pruneReducer,

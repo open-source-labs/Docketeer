@@ -19,7 +19,8 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
-      /* funcs to help w/ creating new users */
+      /*
+      // funcs to help w/ creating new users
       createNewUser(username: string, password: string) {
         fetch('/api/signup', {
           method: 'POST',
@@ -50,6 +51,7 @@ const useHelper = () => {
             console.log('error when fetching cookie', error);
           });
       },
+      */
       getUid(apiKey: string, dashboard: string): Promise<string> {
         return fetch('/api/gapi/uidkey', {
           method: 'POST',
@@ -318,7 +320,10 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
-      /* Writes metric stats into database */
+      /*
+      // These commands were created but the only one called is writeToDb in SharedLayout.tsx
+
+      // Writes metric stats into database
       writeToDb() {
         const interval = 150000;
         setInterval(() => {
@@ -383,6 +388,7 @@ const useHelper = () => {
         const response: Response = await ddClient.extension.vm?.service?.post('/init/github', { githubUrl: container })
         return response;
       },
+      */
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;

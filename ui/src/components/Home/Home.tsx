@@ -10,27 +10,13 @@ import Docketeer from '../../../assets/dlogo-no-bg.png';
 
 const Home = (): JSX.Element => {
 
-  const [testState, setTestState] = useState('Click')
-
   const ddClient = createDockerDesktopClient();
-
-  // Even though I'm sending this through a route that does .json({ message: 'string' }) I don't need to parse it
-  // It comes back as a normal object for some reason
-  function testFunc() {
-    ddClient.extension.vm?.service?.get('/test')
-      .then((response: any) => {
-        console.log(response);
-        setTestState(response.message);
-      })
-      .catch((err: any) => console.log('testfunc error: ' + err));
-  }
 
   return (
     <>
       <div className={styles.wrapper}>
-        <button onClick={testFunc} style={{color: "orange"}}>{testState}</button>
         <h2>Welcome to Docketeer!</h2>
-        <a href="https://docketeer.io" >
+        <a onClick={() => ddClient.host.openExternal("https://docketeer.io")} >
           <img
             className={styles.logo}
             src={Docketeer}

@@ -111,7 +111,7 @@ function SharedLayout(): JSX.Element {
     refreshStopped,
     refreshImages,
     refreshNetwork,
-    writeToDb,
+    // writeToDb, writes to the database but the database is never used anywhere
     getAllDockerVolumes,
     getVolumeContainers,
   } = useHelper();
@@ -124,7 +124,7 @@ function SharedLayout(): JSX.Element {
     refreshStopped();
     refreshImages();
     refreshNetwork();
-    writeToDb();
+    // writeToDb(); writes to the database but the database is never used anywhere
     getAllDockerVolumes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

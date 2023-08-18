@@ -161,7 +161,7 @@ export interface ProcessLogsSelectorProps {
   containerList?: ContainerType[];
   handleCheck?: (name: string) => void;
   btnIdList?: {
-    Names: boolean;
+    Names?: boolean;
   }[];
   status?: string;
 }

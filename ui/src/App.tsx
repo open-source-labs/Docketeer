@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import Login from './components/Login/Login';
-import SignUp from './components/SignUp/SignUp';
+// import Login from './components/Login/Login';
+// import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
 import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';
@@ -14,7 +14,7 @@ import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
-// import Network from './components/Network/Network';
+import Network from './components/Network/Network';
 
 
 const App = () => {
@@ -110,7 +110,7 @@ const App = () => {
         <Route path="/images" element={<Images imagesList={[]}/>} />
         <Route path="/containers" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}
-        {/* <Route path='/network' element={<Network />} /> */}
+        <Route path='/network' element={<Network />} />
         {/* <Route path='*' element={<NotFound session={session} />} /> */}
       </Route>
       {/* <Route path='*' element={<NotFound session={session} />} /> */}

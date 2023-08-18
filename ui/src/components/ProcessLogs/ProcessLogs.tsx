@@ -72,6 +72,7 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   // takes in a btnIdList, passes that into buildObptionObj
+  // TODO discover source of error here
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter((el) => idList[el] === true);
 
@@ -81,7 +82,7 @@ const ProcessLogs = (): JSX.Element => {
       idArr,
       createTimeFrameStr(timeFrameNum, timeFrame)
     );
-    const containerLogs = await getLogs(optionsObj);
+    const containerLogs: any = await getLogs(optionsObj);
 
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);

@@ -13,8 +13,6 @@ services:
       - docketeer-postgres-db:/postgres
     ports:
       - 4000:4000
-    depends_on:
-      - db 
 
   # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
   # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor

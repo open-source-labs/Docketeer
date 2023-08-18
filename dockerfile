@@ -50,6 +50,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 COPY --from=builder /backend backend
 COPY docker-compose.yaml .
 COPY metadata.json .
+COPY docketeer.svg .
 COPY --from=client-builder /ui/build ui
 
 # Creates and copies files to folders that docker-compose will use create named volumes from

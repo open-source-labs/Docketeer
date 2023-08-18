@@ -9,7 +9,7 @@ import useSurvey from '../../helpers/dispatch';
 import useHelper from '../../helpers/commands';
 import * as history from '../../helpers/volumeHistoryHelper';
 
-// import Alert from '../../components/Alert/Alert';
+import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
 
 
@@ -260,7 +260,7 @@ function SharedLayout(): JSX.Element {
           </ul> */}
         </div>
       </nav>
-      {/* <Alert /> */}
+      <Alert />
       <Outlet />
     </div>
   );

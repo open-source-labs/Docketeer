@@ -1,7 +1,11 @@
 import React from 'react';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 import styles from './About.module.scss';
 
 const About = () => {
+
+  const ddClient = createDockerDesktopClient();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.section}>
@@ -33,7 +37,7 @@ const About = () => {
       <footer className={styles.footer}>
         <a
           className={styles.footerIcons}
-          href="https://github.com/open-source-labs/Docketeer"
+          onClick={() => ddClient.host.openExternal("https://github.com/open-source-labs/Docketeer")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +50,10 @@ const About = () => {
           </svg>
         </a>
 
-        <a className={styles.footerIcons} href="mailto:docketeerxii@gmail.com">
+        <a
+          className={styles.footerIcons}
+          href="mailto:docketeerxii@gmail.com"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="42"
@@ -62,7 +69,7 @@ const About = () => {
 
         <a
           className={styles.footerIcons}
-          href="https://www.linkedin.com/company/docketeer/"
+          onClick={() => ddClient.host.openExternal("https://www.linkedin.com/company/docketeer/")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   # The extenion's UI/Backend
-  remake-docketeer:
+  docketeer:
     image: ${DESKTOP_PLUGIN_IMAGE}
-    container_name: remake-docketeer
+    container_name: docketeer
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock

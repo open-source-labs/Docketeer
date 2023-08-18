@@ -1,7 +1,7 @@
 {
   "name": "ui",
   "version": "1.0.0",
-  "description": "",
+  "description": "Front end of Dockerteer extension",
   "main": "index.js",
   "scripts": {
     "build": "tsc && vite build",

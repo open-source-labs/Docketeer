@@ -25,11 +25,12 @@ RUN npm run build
 
 # Creates the working directory for the extension
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
-LABEL org.opencontainers.image.title="Remake Docketeer" \
-    org.opencontainers.image.description="Docker extension for monitoring and managing your containers" \
+LABEL org.opencontainers.image.title="Docketeer" \
+    org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, and networks" \
     org.opencontainers.image.vendor="Docketeer team" \
     com.docker.desktop.extension.api.version="0.3.0" \
     com.docker.extension.screenshots="" \
+    com.docker.desktop.extension.icon="https://github.com/oslabs-beta/docketeer-extension/blob/dev/ui/assets/dlogo-no-bg.png?raw=true" \
     com.docker.extension.detailed-description="" \
     com.docker.extension.publisher-url="" \
     com.docker.extension.additional-urls="" \
@@ -38,7 +39,7 @@ LABEL org.opencontainers.image.title="Remake Docketeer" \
 # Installs curl
 RUN apk --no-cache add curl
 
-# Update dockerversion to the most recent version
+# Update the DOCKERVERSION to the most recent version, check dates on https://download.docker.com/linux/static/stable/x86_64/
 # Installs docker to the image so it can run exec commands on the backend
 ENV DOCKERVERSION=24.0.5
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
@@ -51,6 +52,7 @@ COPY docker-compose.yaml .
 COPY metadata.json .
 COPY --from=client-builder /ui/build ui
 
+# Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
 COPY imageConfigs/postgres postgres

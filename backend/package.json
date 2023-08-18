@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Back end of Docketeer extension",
   "main": "dist/server.js",
   "scripts": {
     "start": "tsc && node dist/server.js",

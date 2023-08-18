@@ -19,7 +19,8 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
-      /* funcs to help w/ creating new users */
+      /*
+      // funcs to help w/ creating new users
       createNewUser(username: string, password: string) {
         fetch('/api/signup', {
           method: 'POST',
@@ -50,6 +51,7 @@ const useHelper = () => {
             console.log('error when fetching cookie', error);
           });
       },
+      */
       getUid(apiKey: string, dashboard: string): Promise<string> {
         return fetch('/api/gapi/uidkey', {
           method: 'POST',

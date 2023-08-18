@@ -6,12 +6,12 @@ import {
 import { useMemo } from 'react';
 import useSurvey from './dispatch';
 import { useAppSelector } from '../reducers/hooks';
-
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 /**
  * @module | commands.tsx
  * @description | Organizes all server-communication throughout client-side into a single custom hook exportable into individual components
  **/
-
+const ddClient = createDockerDesktopClient();
 const useHelper = () => {
   const dispatch = useSurvey();
 
@@ -88,7 +88,7 @@ const useHelper = () => {
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
-        fetch('/api/command/refreshRunning')
+        ddClient.extension.vm?.service?.get('/command/refreshRunning')
           .then((data: Response) => data.json())
           .then((runningContainers) => {
             refreshRunningContainers(runningContainers);
@@ -98,7 +98,7 @@ const useHelper = () => {
       /* Refreshes stopped containers */
       refreshStopped() {
         const { refreshStoppedContainers } = dispatch;
-        fetch('/api/command/refreshStopped')
+        ddClient.extension.vm?.service?.get('/command/refreshStopped')
           .then((data: Response) => data.json())
           .then((stoppedContainers) => {
             refreshStoppedContainers(stoppedContainers);
@@ -108,7 +108,7 @@ const useHelper = () => {
       /* Refreshes images */
       refreshImages() {
         const { refreshImagesList } = dispatch;
-        fetch('/api/command/refreshImages')
+        ddClient.extension.vm?.service?.get('/command/refreshImages')
           .then((data: Response) => data.json())
           .then((imagesList) => {
             refreshImagesList(imagesList);
@@ -118,7 +118,7 @@ const useHelper = () => {
       /* Refreshes networkContainerList[state in networkReducer] */
       refreshNetwork() {
         const { refreshNetworkList } = dispatch;
-        fetch('/api/command/networkListContainers')
+        ddClient.extension.vm?.service?.get('/command/networkListContainers')
           .then((data: Response) => data.json())
           .then((networkList) => {
             refreshNetworkList(networkList);
@@ -128,7 +128,7 @@ const useHelper = () => {
       /* Removes stopped containers @param {*} containerID */
       remove(containerID: string) {
         const { removeContainer } = dispatch;
-        fetch(`/api/command/removeContainer?id=${containerID}`, {
+        ddClient.extension.vm?.service?.delete(`/command/removeContainer?id=${containerID}`, {
           method: 'DELETE',
         })
           .then((message) => {
@@ -148,7 +148,7 @@ const useHelper = () => {
       /* Stops a container on what user selects @param {*} id */
       stop(id) {
         const { stopRunningContainer } = dispatch;
-        fetch(`/api/command/stopContainer?id=${id}`, {
+        ddClient.extension.vm?.service?.delete(`/command/stopContainer?id=${id}`, {
           method: 'DELETE',
         })
           .then((message) => {
@@ -168,7 +168,7 @@ const useHelper = () => {
       /* Starts a stopped container in containers tab @param {*} id */
       runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
-        fetch(`/api/command/runStopped?id=${id}`)
+        ddClient.extension.vm?.service?.get(`/command/runStopped?id=${id}`)
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -186,7 +186,7 @@ const useHelper = () => {
       /* Runs an image from the pulled images list in image tab @param {*} container */
       runIm(container) {
         const { refreshRunningContainers } = dispatch;
-        fetch('/api/command/runImage', {
+        ddClient.extension.vm?.service?.post('/command/runImage', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ const useHelper = () => {
 
       removeIm(id) {
         const { refreshImages } = dispatch;
-        fetch(`/api/command/removeImage?id=${id}`, {
+        ddClient.extension.vm?.service?.delete(`/command/removeImage?id=${id}`, {
           method: 'DELETE',
         })
           .then((message) => {
@@ -227,7 +227,7 @@ const useHelper = () => {
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        fetch('/api/command/dockerPrune', {
+        ddClient.extension.vm?.service?.delete('/command/dockerPrune', {
           method: 'DELETE',
         })
           .then((message) => {
@@ -242,7 +242,7 @@ const useHelper = () => {
       /* Handles Network Prune @param {*} e */
       handleNetworkPruneClick(e) {
         e.preventDefault();
-        fetch('/api/command/dockerNetworkPrune', {
+        ddClient.extension.vm?.service?.delete('/command/dockerNetworkPrune', {
           method: 'DELETE',
         })
           .then((message) => {
@@ -256,7 +256,7 @@ const useHelper = () => {
       
       /* Pulls image based on the repo you select @param {*} repo */
       pullImage(repo) {
-        fetch(`/api/command/pullImage?repo=${repo}`)
+        ddClient.extension.vm?.service?.get(`/command/pullImage?repo=${repo}`)
           .then((message) => {
             if (message.status === 401) {
               window.alert('Invalid permissions');
@@ -274,7 +274,7 @@ const useHelper = () => {
       networkContainers() {
         // Pass in container that button is clicked on
         const { getNetworkContainers } = dispatch;
-        fetch('/api/command/networkContainers')
+        ddClient.extension.vm?.service?.get('/command/networkContainers')
           .then((data: Response) => data.json())
           .then((networkContainers) => {
             // grab the name of the network only using map method
@@ -286,7 +286,7 @@ const useHelper = () => {
       /* Compose up a docker container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeUp(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeUp', {
+        ddClient.extension.vm?.service?.post('/command/composeUp', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -312,7 +312,7 @@ const useHelper = () => {
       /* Get list of running container networks */
       dockerComposeStacks() {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeStacks')
+        ddClient.extension.vm?.service?.get('/command/composeStacks')
           .then((data: Response) => data.json())
           .then((dockerOutput) => {
             getContainerStacks(dockerOutput);
@@ -322,7 +322,7 @@ const useHelper = () => {
       /* Compose down selected container network @param {*} filePath @param {*} ymlFileName */
       dockerComposeDown(filePath, ymlFileName) {
         const { getContainerStacks } = dispatch;
-        fetch('/api/command/composeDown', {
+        ddClient.extension.vm?.service?.post('/command/composeDown', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -385,7 +385,7 @@ const useHelper = () => {
               };
             });
           }
-          fetch('/api/init/addMetrics', {
+          ddClient.extension.vm?.service?.post('/api/init/addMetrics', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -401,8 +401,8 @@ const useHelper = () => {
       setDbSessionTimeZone() {
         const currentTime = new Date();
         const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-
-        fetch('/api/init/timezone', {
+        const ddClient = createDockerDesktopClient();
+         ddClient.extension.vm?.service?.post('/init/timezone', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -421,7 +421,7 @@ const useHelper = () => {
           });
       },
       async getContainerGitUrl(container) {
-        const response: Response = await fetch('/api/init/github', {
+        const response: Response = await ddClient.extension.vm?.service?.post('/init/github', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -435,7 +435,7 @@ const useHelper = () => {
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;
-        fetch('/api/command/allDockerVolumes')
+        ddClient.extension.vm?.service?.get('/command/allDockerVolumes')
           .then((volumes: Response) => volumes.json())
           .then((dockerVolumes) => {
             return getVolumes(filterOneProperty(dockerVolumes, 'Name'));
@@ -447,7 +447,7 @@ const useHelper = () => {
       /* Docker command to retrieve the list of containers running in specified volume @param {string} volumeName */
       getVolumeContainers(volumeName) {
         const { getVolumeContainerList } = dispatch;
-        fetch(`/api/command/volumeContainers?volumeName=${volumeName}`)
+        ddClient.extension.vm?.service?.get(`/command/volumeContainers?volumeName=${volumeName}`)
           .then((data: Response) => data.json())
           .then((volumeContainers) => {
             return getVolumeContainerList(
@@ -461,7 +461,7 @@ const useHelper = () => {
 
       removeVolume(volumeName) {
         console.log('commands.tsx line 463 =>', volumeName);
-        fetch('/api/command/volumeRemove', {
+        ddClient.extension.vm?.service?.post('/command/volumeRemove', {
           method: 'POST',
           body: JSON.stringify({ volumeName: volumeName }),
           headers: { 'Content-Type': 'application/json' },
@@ -478,7 +478,7 @@ const useHelper = () => {
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {
-          const response: Response = await fetch('/api/command/allLogs', {
+          const response: Response = await ddClient.extension.vm?.service?.post('/command/allLogs', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(optionsObj),

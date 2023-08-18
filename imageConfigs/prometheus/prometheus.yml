@@ -23,3 +23,4 @@ scrape_configs:
   - job_name: docker_container_metrics
     static_configs:
       - targets: ['host.docker.internal:9323']
+

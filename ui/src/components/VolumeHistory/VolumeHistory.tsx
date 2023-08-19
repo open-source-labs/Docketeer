@@ -56,11 +56,13 @@ const VolumeHistory = (): JSX.Element => {
       return volObj['vol_name'].includes(volumeName);
     });
   
-    console.log(result);
-    
-    setFilterVolumeList(result);
-    setVolumeName('');
-    setDisableShowAll(true);
+    if (result.length > 0) {
+      setFilterVolumeList(result);
+      setVolumeName('');
+      setDisableShowAll(true);
+    } else {
+      setVolumeName('');
+    }
   };
 
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {

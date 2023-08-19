@@ -27,15 +27,11 @@ const ContainersCard = ({
   ): Promise<void> {
     try {
       const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
-        method: 'POST',
-        body: JSON.stringify({
-          networkName: networkName,
-          containerName: containerName,
-        }),
-        headers: { 'Content-Type': 'application/json' },
+        networkName: networkName,
+        containerName: containerName,
       });
-      const dataFromBackend = await response.json();
-      if (dataFromBackend.hasOwnProperty('hash')) {
+      const dataFromBackend = response;
+      if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
             containerName + ' is successfully attached to the ' + networkName,
@@ -70,17 +66,13 @@ const ContainersCard = ({
   ): Promise<void> {
     try {
       const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
-        method: 'POST',
-        body: JSON.stringify({
-          networkName: networkName,
-          containerName: containerName,
-        }),
-        headers: { 'Content-Type': 'application/json' },
+        networkName: networkName,
+        containerName: containerName,
       });
 
-      const dataFromBackend = await response.json();
+      const dataFromBackend = response;
       
-      if (dataFromBackend.hasOwnProperty('hash')) {
+      if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
             containerName +

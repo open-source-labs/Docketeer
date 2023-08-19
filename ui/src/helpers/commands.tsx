@@ -416,17 +416,7 @@ const useHelper = () => {
           });
       },
 
-      removeVolume(volumeName) {
-        console.log('commands.tsx line 463 =>', volumeName);
-        ddClient.extension.vm?.service?.post('/command/volumeRemove', volumeName)
-          .then((data: Response) => data)
-          .then((deletedVolumeNameFromBackEnd) => {
-            console.log(deletedVolumeNameFromBackEnd);
-          })
-          .catch((err: Error): void => {
-            console.log('Error in removeVolume', err);
-          });
-      },
+
       /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
       async getLogs(optionsObj) {
         try {

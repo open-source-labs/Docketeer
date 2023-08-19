@@ -3,7 +3,7 @@
  * @description Routes all requests to APIs
  */
 
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import commandController from '../controllers/commandController';
 
 const router = Router();
@@ -227,6 +227,10 @@ router.get(
 
 router.post(
   '/volumeRemove',
+  (req: Request, res: Response, next: NextFunction) => {
+    console.log('in commandRouter');
+    return next();
+  },
   commandController.volumeRemove,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.volumeRemoved);

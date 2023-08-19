@@ -7,6 +7,11 @@
   }
 }
 
+.buttonHolder {
+  display: flex;
+  gap: 10px;
+}
+
 .searchHolder {
   display: flex;
   flex-direction: column;

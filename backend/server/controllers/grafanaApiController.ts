@@ -8,15 +8,16 @@ interface GrafanaResponse {
 // use 'http://host.docker.internal:3000/api/auth/keys' when docker composing up, docker compose up
 const grafanaApiController: GrafanaApiController = {
   getApi: async (req: any, res: any, next: any): Promise<void> => {
+    console.log('entered')
     try {
       const response = await fetch(
-        'http://host.docker.internal:3000/api/auth/keys',
+        'http://host.docker.internal:2999/api/auth/keys',
         {
           method: 'POST',
           // mode: 'no-cors',
           headers: {
             Authorization:
-              'Basic ' + Buffer.from('admin:prom-operator').toString('base64'),
+              'Basic ' + Buffer.from('admin:admin').toString('base64'),
             Accept: '*/*',
             'Content-Type': 'application/json',
           },
@@ -29,7 +30,6 @@ const grafanaApiController: GrafanaApiController = {
       );
       const data = (await response.json()) as GrafanaResponse;
       res.locals.key = data.key;
-
       return next();
     } catch (error) {
       console.log('Error:', error);
@@ -48,9 +48,11 @@ const grafanaApiController: GrafanaApiController = {
   // `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(dashboard)}` use when docker compose up
   getUid: async (req: any, res: any, next: any): Promise<void> => {
     const { key, dashboard }: { key: string; dashboard: string } = req.body;
+    console.log('entered')
+    console.log(123234, key, dashboard)
     try {
       const response = await fetch(
-        `http://host.docker.internal:3000/api/search?query=${encodeURIComponent(
+        `http://host.docker.internal:2999/api/search?query=${encodeURIComponent(
           dashboard
         )}`,
         {
@@ -63,6 +65,7 @@ const grafanaApiController: GrafanaApiController = {
       );
       const data: any = await response.json();
       const uidKey: any = data[0].uid;
+      console.log(uidKey)
       res.locals.uid = uidKey;
       return next();
     } catch (err) {

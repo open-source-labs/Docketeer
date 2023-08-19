@@ -21,8 +21,13 @@ export const volumeSlice = createSlice({
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {
       state.volumeContainersList.push(action.payload);
     },
+    removeVolume: (state, action: PayloadAction<string>) => {
+      state.volumeContainersList = state.volumeContainersList.filter(
+        (volume) => volume.vol_name !== action.payload
+      )
+    }
   },
 });
 
-export const { getVolumes, getVolumeContainersList } = volumeSlice.actions;
+export const { getVolumes, getVolumeContainersList, removeVolume } = volumeSlice.actions;
 export default volumeSlice.reducer;

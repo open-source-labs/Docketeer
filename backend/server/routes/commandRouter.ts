@@ -3,7 +3,7 @@
  * @description Routes all requests to APIs
  */
 
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import commandController from '../controllers/commandController';
 
 const router = Router();

@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { useAppSelector } from '../../reducers/hooks';
-import { VolumeObj } from '../../../ui-types';
+import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
+import { DataFromBackend, VolumeObj } from '../../../ui-types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
 import useHelper from '../../helpers/commands'; // added
+import { createDockerDesktopClient } from '@docker/extension-api-client';
+import { createAlert } from '../../reducers/alertReducer';
+import { removeVolume } from '../../reducers/volumeReducer';
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes
  **/
 
 const VolumeHistory = (): JSX.Element => {
-
-  const { removeVolume } = useHelper(); // added
-
   const [volumeName, setVolumeName]: [
     string,
     Dispatch<SetStateAction<string>>
@@ -28,6 +28,9 @@ const VolumeHistory = (): JSX.Element => {
   const volumeContainersList = useAppSelector(
     (state) => state.volumes.volumeContainersList
   );
+
+  const dispatch = useAppDispatch();
+  const ddClient = createDockerDesktopClient();
 
   /*
   RVH = Render Volume History
@@ -45,17 +48,47 @@ const VolumeHistory = (): JSX.Element => {
     e.preventDefault();
 
     const result = volumeContainersList.filter((vol) =>
-      vol.containers.some(container => container.Names.includes(volumeName)
-      )
-    );
-
+      vol['Names'].includes(volumeName));
+    
     setVolumeList(result);
   };
 
-  const handleClickRemoveVolume = (
-    volumeName: string
-  ) => {
-    removeVolume(volumeName);
+  const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
+    const volObject = { volumeName: volumeName }
+    try {
+      const response = await ddClient.extension.vm?.service?.post('/command/volumeRemove', volObject);
+
+      const dataFromBackend: DataFromBackend = response;
+      if (dataFromBackend['volume']) {
+        dispatch(
+          createAlert(
+            'Removing volume ' + volumeName + '...',
+            4,
+            'success'
+          )
+        );
+
+        dispatch(removeVolume(volumeName))
+        
+      } else if (dataFromBackend.error) {
+        dispatch(
+          createAlert(
+            'Error from docker : ' + dataFromBackend.error,
+            4,
+            'warning'
+          )
+        );
+        return;
+      }
+    } catch (err) {
+      dispatch(
+        createAlert(
+          'An error occurred while removing a volume: ' + err,
+          4,
+          'error'
+        )
+      );
+    }
   };
 
   return (

@@ -810,7 +810,8 @@ const commandController: CommandController = {
   },
 
   volumeRemove: (req: Request, res: Response, next: NextFunction) => {
-    const volumeName = req.body.volumeName;
+    const { volumeName } = req.body;
+    
     exec(
       `docker volume rm ${volumeName}`,
       (error: Error | null, stdout: string, stderr: string) => {

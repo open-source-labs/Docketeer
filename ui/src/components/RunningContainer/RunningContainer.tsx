@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useAppSelector } from '../../reducers/hooks';
+import { useAppSelector } from '../../reducers/hooks';
 import { ContainersCardsProps } from '../../../ui-types';
 import styles from './RunningContainer.module.scss';
 import globalStyles from '../global.module.scss';
@@ -21,8 +21,8 @@ const RunningContainer = ({
   key
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
-  // const { networkContainerList } = useAppSelector((state) => state.networks);
-  const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
+  const { networkContainerList } = useAppSelector((state) => state.networks);
+  // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
 

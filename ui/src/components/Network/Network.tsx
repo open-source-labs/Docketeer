@@ -7,6 +7,7 @@ import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 
 import { DataFromBackend, NetworkContainerListType, NetworkAttachedContainersInfo } from '../../../ui-types';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 /**
  * @module | Network.tsx
@@ -21,6 +22,7 @@ const Network = (): JSX.Element => {
   const { networkContainerList } = useAppSelector((state) => state.networks);
   const ref = useRef();
   const dispatch = useAppDispatch();
+  const ddClient = createDockerDesktopClient();
   // Array of valid css colors long enough to cover all possible networks that can be created in Docker.
   const cssColors = [
     'Aqua',
@@ -74,17 +76,13 @@ const Network = (): JSX.Element => {
 
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
-      const response = await fetch('/api/command/networkCreate', {
-        method: 'POST',
-        body: JSON.stringify({ networkName: name }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const dataFromBackend: DataFromBackend = await response.json();
+      const response = await ddClient.extension.vm?.service?.post('/command/networkCreate', { networkName: name })
+      const dataFromBackend: DataFromBackend = response;
 
       if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
-            'New network ' + name + ' is successfully added',
+            'New network ' + name + ' being added...',
             4,
             'success'
           )
@@ -139,21 +137,18 @@ const Network = (): JSX.Element => {
 
   async function deleteNetwork(name: string): Promise<void> {
     try {
-      const response = await fetch('/api/command/networkRemove', {
-        method: 'POST',
-        body: JSON.stringify({ networkName: name }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const dataFromBackend = await response.json();
+      const response = await ddClient.extension.vm?.service?.post('/command/networkRemove', { networkName: name })
+      const dataFromBackend: DataFromBackend = response;
+      console.log(response);
       if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
-            'Network ' + name + ' is successfully removed',
+            'Removing ' + name + ' network...',
             4,
             'success'
           )
         );
-      } else if (dataFromBackend.error) {
+      } else {
         dispatch(
           createAlert(
             'Please detach ' +
@@ -212,7 +207,7 @@ const Network = (): JSX.Element => {
     } else {
       dispatch(
         createAlert(
-          'Currently no container is attached to ' + name + ' network.',
+          'No container attached to ' + name + ' network.',
           4,
           'success'
         )

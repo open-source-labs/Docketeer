@@ -47,8 +47,13 @@ const VolumeHistory = (): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    const result = volumeContainersList.filter((vol) =>
-      vol['Names'].includes(volumeName));
+    console.log(volumeContainersList);
+
+    const result = volumeContainersList.filter((volObj) => {
+      return volObj['vol_name'].includes(volumeName);
+    });
+  
+    console.log(result);
     
     setVolumeList(result);
   };
@@ -60,16 +65,7 @@ const VolumeHistory = (): JSX.Element => {
 
       const dataFromBackend: DataFromBackend = response;
       if (dataFromBackend['volume']) {
-        dispatch(
-          createAlert(
-            'Removing volume ' + volumeName + '...',
-            4,
-            'success'
-          )
-        );
-
         dispatch(removeVolume(volumeName))
-        
       } else if (dataFromBackend.error) {
         dispatch(
           createAlert(
@@ -114,7 +110,7 @@ const VolumeHistory = (): JSX.Element => {
       <div className={styles.volumesHolder}>
         <h2>VOLUMES</h2>
         <div className={styles.volumesDisplay}>
-          {volumeContainersList.map((volume: VolumeObj, i: number) => {
+          {(volumeList.length > 0 ? volumeList : volumeContainersList).map((volume: VolumeObj, i: number) => {
             return (
               <div className={`${styles.volumesCard} ${styles.card}`} key={i}>
                 <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>

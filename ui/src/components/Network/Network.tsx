@@ -139,7 +139,6 @@ const Network = (): JSX.Element => {
     try {
       const response = await ddClient.extension.vm?.service?.post('/command/networkRemove', { networkName: name })
       const dataFromBackend: DataFromBackend = response;
-      console.log(response);
       if (dataFromBackend['hash']) {
         dispatch(
           createAlert(

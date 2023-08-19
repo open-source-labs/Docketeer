@@ -24,7 +24,7 @@
 .containerList {
   display: grid;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   transform: all 0.5s ease-in-out;
   width: 100%;
 }
@@ -45,7 +45,7 @@
 
 @media screen and (max-width: $breakpoint-md) {
   .containerList {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 

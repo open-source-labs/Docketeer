@@ -32,7 +32,7 @@
 .imageHolder {
   display: grid;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .imageCard {
@@ -42,6 +42,7 @@
   flex-direction: column;
   word-wrap: break-word;
   background: $background-bg;
+  max-width: 5rem;
 }
 
 .image {
@@ -65,13 +66,13 @@
 
 @media screen and (max-width: $breakpoint-lg) {
   .imageHolder {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
 @media screen and (max-width: $breakpoint-md) {
   .imageHolder {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 

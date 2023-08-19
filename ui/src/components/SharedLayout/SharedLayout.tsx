@@ -158,7 +158,7 @@ function SharedLayout(): JSX.Element {
       <nav className={styles.navBar}>
         <div className={styles.navSpacer}>
           <ul className={styles.navLeft}>
-            <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
@@ -167,13 +167,16 @@ function SharedLayout(): JSX.Element {
               >
                 HOME
               </NavLink>
+            </li> */}
+            <li>
+              <img src="https://i.ibb.co/TcykXH1/Screenshot-2023-08-18-at-6-44-27-PM.png" alt="Screenshot-2023-08-18-at-6-44-27-PM" width="50" height="50"></img> 
             </li>
             <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/containers"
+                to="/"
               >
                 CONTAINERS
               </NavLink>
@@ -233,7 +236,7 @@ function SharedLayout(): JSX.Element {
                 PRUNE
               </a>
             </li> */}
-            <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
@@ -242,7 +245,7 @@ function SharedLayout(): JSX.Element {
               >
                 ABOUT
               </NavLink>
-            </li>
+            </li> */}
           </ul>
           {/* <ul className={styles.navRight}>
             <li>

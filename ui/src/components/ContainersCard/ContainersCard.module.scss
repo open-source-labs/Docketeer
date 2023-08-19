@@ -1,12 +1,32 @@
 .containerCard {
-  @extend .card;
   transition: 0.2s;
   position: relative;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  width: 20rem;
-  height: 15rem;
+  // width: 500px;
+  // height: 15rem;
+
+
+
+  background-color: color(background, base);
+    // background: $background-bg;
+    // box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  min-width: 500px !important;
+  padding: 1rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color(light, base);
+    // border-color: color(background, base);
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
+  background-color: pink !important;
 }
 
 .textHolder {

@@ -170,7 +170,7 @@ const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.imageSearchHolder}>
+      {/* <div className={styles.imageSearchHolder}>
         <h2>IMAGE REPOSITORY</h2>
         <input
           className={globalStyles.input}
@@ -183,7 +183,7 @@ const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
         <button className={globalStyles.button1} onClick={() => handleClick()}>
           PULL
         </button>
-      </div>
+      </div> */}
       <div className={styles.availableImagesHolder}>
         <h2>AVAILABLE IMAGES</h2>
         <div className={styles.imageHolder}>

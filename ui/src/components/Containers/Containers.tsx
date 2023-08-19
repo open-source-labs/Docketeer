@@ -90,6 +90,7 @@ const Containers = (): JSX.Element => {
     <div>
       <div className={styles.wrapper}>
         <div className={styles.listHolder}>
+          <iframe src="http://localhost:2999/d-solo/PBFA97CFB590B2093/containermetrics?orgId=1&refresh=10s&panelId=75" width="900" height="200"></iframe>
           <h2>RUNNING CONTAINERS</h2>
           <p className={styles.count}>Count: {runningList.length}</p>
           <div className={styles.containerList}>
@@ -102,7 +103,7 @@ const Containers = (): JSX.Element => {
             />
           </div>
         </div>
-        <div className={styles.listHolder}>
+        {/* <div className={styles.listHolder}>
           <h2>STOPPED CONTAINERS</h2>
           <p className={styles.count}>Count: {stoppedList.length}</p>
           <div className={styles.containerList}>
@@ -114,7 +115,20 @@ const Containers = (): JSX.Element => {
               status="stopped"
             />
           </div>
-        </div>
+        </div> */}
+
+        {/* <div className={styles.listHolder}>
+          <p className={styles.count}>Count: {stoppedList.length}</p>
+          <div className={styles.containerList}>
+            <ContainersCard
+              containerList={stoppedList}
+              stopContainer={stopContainer}
+              runContainer={runContainer}
+              removeContainer={removeContainer}
+              status="stopped"
+            />
+          </div>
+        </div> */}
       </div>
     </div>
   );

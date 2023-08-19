@@ -102,13 +102,14 @@ const App = () => {
         path="/"
         element={<SharedLayout />}
       >      
-        <Route index element={<Home />} />
+         <Route path="/" element={<Containers />} />
+        {/* <Route index element={<Home />} /> */}
         <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
         <Route path="/about" element={<About />} />
         <Route path="/images" element={<Images imagesList={[]}/>} />
-        <Route path="/containers" element={<Containers />} />
+        <Route path="/" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}
         <Route path='/network' element={<Network />} />
         {/* <Route path='*' element={<NotFound session={session} />} /> */}

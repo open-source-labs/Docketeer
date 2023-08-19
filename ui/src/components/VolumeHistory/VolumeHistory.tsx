@@ -20,7 +20,7 @@ const VolumeHistory = (): JSX.Element => {
     string,
     Dispatch<SetStateAction<string>>
   ] = useState('');
-  const [volumeList, setVolumeList]: [
+  const [filterVolumeList, setFilterVolumeList]: [
     VolumeObj[],
     Dispatch<SetStateAction<VolumeObj[]>>
   ] = useState<VolumeObj[]>([]);
@@ -28,6 +28,8 @@ const VolumeHistory = (): JSX.Element => {
   const volumeContainersList = useAppSelector(
     (state) => state.volumes.volumeContainersList
   );
+
+  const [disableShowAll, setDisableShowAll] = useState(false);
 
   const dispatch = useAppDispatch();
   const ddClient = createDockerDesktopClient();
@@ -45,12 +47,22 @@ const VolumeHistory = (): JSX.Element => {
   // let renderList = renderVolumeHistory(volumeContainersList);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (volumeName === '') return;
     e.preventDefault();
 
-    const result = volumeContainersList.filter((vol) =>
-      vol['Names'].includes(volumeName));
-    
-    setVolumeList(result);
+    console.log(volumeContainersList);
+
+    const result = volumeContainersList.filter((volObj) => {
+      return volObj['vol_name'].includes(volumeName);
+    });
+  
+    if (result.length > 0) {
+      setFilterVolumeList(result);
+      setVolumeName('');
+      setDisableShowAll(true);
+    } else {
+      setVolumeName('');
+    }
   };
 
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
@@ -60,16 +72,7 @@ const VolumeHistory = (): JSX.Element => {
 
       const dataFromBackend: DataFromBackend = response;
       if (dataFromBackend['volume']) {
-        dispatch(
-          createAlert(
-            'Removing volume ' + volumeName + '...',
-            4,
-            'success'
-          )
-        );
-
         dispatch(removeVolume(volumeName))
-        
       } else if (dataFromBackend.error) {
         dispatch(
           createAlert(
@@ -91,6 +94,12 @@ const VolumeHistory = (): JSX.Element => {
     }
   };
 
+  const handleShowAllClick = () => {
+    setFilterVolumeList([]);
+    setDisableShowAll(false);
+    setVolumeName('');
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.searchHolder}>
@@ -104,17 +113,26 @@ const VolumeHistory = (): JSX.Element => {
             setVolumeName(e.target.value);
           }}
         />
-        <button
-          className={globalStyles.button1}
-          onClick={(e) => handleClick(e)}
-        >
-          FIND
-        </button>
+        <div className={styles.buttonHolder}>
+          <button
+            className={globalStyles.button1}
+            onClick={(e) => handleClick(e)}
+          >
+            FIND
+          </button>
+          <button
+            className={`${globalStyles.button2} ${disableShowAll ? '' : globalStyles.disabledButton}`}
+            disabled={!disableShowAll}
+            onClick={handleShowAllClick}
+          >
+          SHOW ALL
+          </button>
+        </div>
       </div>
       <div className={styles.volumesHolder}>
         <h2>VOLUMES</h2>
         <div className={styles.volumesDisplay}>
-          {volumeContainersList.map((volume: VolumeObj, i: number) => {
+          {(filterVolumeList.length > 0 ? filterVolumeList : volumeContainersList).map((volume: VolumeObj, i: number) => {
             return (
               <div className={`${styles.volumesCard} ${styles.card}`} key={i}>
                 <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>

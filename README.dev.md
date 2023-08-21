@@ -36,7 +36,7 @@ Tests are not correctly implemented for the extension version of Docketeer. Extr
 <h2>Other Known Issues/ToDo</h2>
 <strong>Grafana</strong> dashboard contaienr metric tiles get super crammed when you have a lot of containers and are unreadable<br />
 <strong>Grafana</strong> dashboard does not remove containers that have been completely deleted and they still appear on the dashboard<br />
-<strong>Kubernetes</strong> is currently not implemented in the extension version. The way it works on the browser version requires it have access outside of containers which is difficult to do with an extension. We got a slightly working version by using the 'host' metadata.json block to download kubectl and helm binaries that could interact with the host's kubernetes cluster but accessing the metrics after that point was extremely difficult. There is also the issue of bloated image size due to needing a specific binary version for each operating system<br />
+<strong>Kubernetes</strong> is currently not implemented in the extension version. The way it works on the browser version requires it have access outside of containers which is difficult to do with an extension. We got a slightly working version by using the 'host' metadata.json block to download kubectl and helm binaries that could interact with the host's kubernetes cluster but accessing the metrics after that point was extremely difficult. There is also the issue of bloated image size due to needing a specific binary version for each operating system.<br />
 <strong>Networks page</strong> the network lines get fatter the more network connections you have. Should probably make the size of them consistent.
 
 <h2>Who worked on what</h2>

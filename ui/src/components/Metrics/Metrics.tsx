@@ -9,30 +9,51 @@ const Metrics = (): JSX.Element => {
   // const [apiKey, setApiKey] = useState('');
   // const [uidKey, setUidKey] = useState('');
   // const [currentPage, setCurrentPage] = useState('Node Exporter / Nodes');
-  const [metricsDiv, setMetricsDiv] = useState(<div><p>Containers are still booting. Please wait.</p><p>If nothing loads after a few seconds try clicking another tab and back to this one to refresh.</p></div>);
   // const button = toggleKubernetes === 1 ? 'Containers' : 'Kubernetes Cluster';
 
-  // useEffect(() => {
-  //   /** 
-  //   * @description Retrieves the API and UID key 
-  //   * @method
-  //   * @async
-  //   * @returns {promise} returns promise when api key and uid key is successfully set
-  //   */
-  //   const fetchKey = async () => {
-  //     try {
-  //       const key = await getKey();
-  //       console.log('key', key)
-  //       setApiKey(key);
-  //       const uid = await getUid(key, currentPage);
-  //       console.log('uid', uid)
-  //       setUidKey(uid);
-  //     } catch (err) {
-  //       console.log('Cannot get uid key or api key', err);
-  //     }
-  //   };
-  //   fetchKey();
-  // }, []);
+  // This is up here to define it before the metricsDiv state so it can be passed into the button
+  const checkGrafana = async () => {
+    const grafStatus = await checkGrafanaConnection();
+    if (grafStatus) {
+      setMetricsDiv(
+        <iframe
+          className={styles.metrics}
+          src="http://localhost:2999/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk"
+        />
+      );
+    }
+  }
+  const [metricsDiv, setMetricsDiv] = useState(
+    <div>
+      <p>Containers are still booting.</p>
+      <button className={styles.button} onClick={checkGrafana}>Click to refresh</button>
+    </div>
+  );
+
+  useEffect(() => {
+    /** 
+    * @description Retrieves the API and UID key 
+    * @method
+    * @async
+    * @returns {promise} returns promise when api key and uid key is successfully set
+    */
+    // const fetchKey = async () => {
+    //   try {
+    //     const key = await getKey();
+    //     console.log('key', key)
+    //     setApiKey(key);
+    //     const uid = await getUid(key, currentPage);
+    //     console.log('uid', uid)
+    //     setUidKey(uid);
+    //   } catch (err) {
+    //     console.log('Cannot get uid key or api key', err);
+    //   }
+    // };
+    // fetchKey();
+
+    // Checks to see if the grafana container is running
+    checkGrafana();
+  }, []);
 
   // const handleToggle = () => {
   //   setToggleKubernetes((prevFrame) => (prevFrame === 1 ? 2 : 1));
@@ -49,18 +70,8 @@ const Metrics = (): JSX.Element => {
   //   setUidKey(uid);
   // };
 
-  const checkGrafana = async () => {
-    const grafStatus = await checkGrafanaConnection();
-    if (grafStatus) {
-      setMetricsDiv(
-        <iframe
-          className={styles.metrics}
-          src="http://localhost:2999/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk"
-        />
-      );
-    }
-  }
-  checkGrafana();
+  
+  
 
   return (
     <div className={styles.wrapper}>

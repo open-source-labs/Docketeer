@@ -34,3 +34,14 @@ Tests are not correctly implemented for the extension version of Docketeer. Extr
 <strong>Grafana</strong> dashboard contaienr metric tiles get super crammed when you have a lot of containers and are unreadable<br />
 <strong>Grafana</strong> dashboard does not remove containers that have been completely deleted and they still appear on the dashboard<br />
 <strong>Kubernetes</strong> is currently not implemented in the extension version. The way it works on the browser version requires it have access outside of containers which is difficult to do with an extension. We got a slightly working version by using the 'host' metadata.json block to download kubectl and helm binaries that could interact with the host's kubernetes cluster but accessing the metrics after that point was extremely difficult. There is also the issue of bloated image size due to needing a specific binary version for each operating system<br />
+
+<h2>Who worked on what</h2>
+<h4>Docketeer XIV</h2>
+<ol>
+  <li>Ported the browser version of docketeer into an extension for docker desktop.</li>
+  <li>We managed to get all functionality excluding kubernetes monitoring to the extension.</li>
+  <li>Opted to not include user functionality in the extension version.</li>
+  <li>Restructured the file system and completely redid the dockerfile and docker-compose files to significantly reduce file size.</li>
+  <li>Home and about pages information has been moved to the docker extension detailed description.</li>
+  <li>Improved documentation and added dev readme</li>
+</ol>

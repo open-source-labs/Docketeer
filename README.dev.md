@@ -37,6 +37,11 @@ Tests are not correctly implemented for the extension version of Docketeer. Extr
 
 <h2>Who worked on what</h2>
 <h4>Docketeer XIV</h2>
+<h5>Browser</h5>
+<ol>
+  <li>Updated deprecated dependencies and removed some unused dependencies</li>
+</ol>
+<h5>Extension</h5>
 <ol>
   <li>Ported the browser version of docketeer into an extension for docker desktop.</li>
   <li>We managed to get all functionality excluding kubernetes monitoring to the extension.</li>

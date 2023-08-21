@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 // import Login from './components/Login/Login';
 // import SignUp from './components/SignUp/SignUp';
-import Home from './components/Home/Home';
+// import Home from './components/Home/Home';
 import Metrics from './components/Metrics/Metrics';
 import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
@@ -10,7 +10,7 @@ import Containers from './components/Containers/Containers';
 import VolumeHistory from './components/VolumeHistory/VolumeHistory'; // need to fix types
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
-import About from './components/About/About';
+// import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
@@ -102,11 +102,11 @@ const App = () => {
         path="/"
         element={<SharedLayout />}
       >      
-        <Route index element={<Home />} />
+        <Route index element={<Metrics />} />
         <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
-        <Route path="/about" element={<About />} />
+        {/* <Route path="/about" element={<About />} /> */}
         <Route path="/images" element={<Images imagesList={[]}/>} />
         <Route path="/containers" element={<Containers />} />
         {/* <Route path="" element={<Settings />} /> */}

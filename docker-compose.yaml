@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # The extenion's UI/Backend
   docketeer:
+    # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     image: ${DESKTOP_PLUGIN_IMAGE}
     container_name: docketeer
     volumes:
@@ -22,13 +23,12 @@ services:
     ports:
       - 8080:8080
     volumes:
+      # Applies the bind mounts in ro (read only) and rw (read write) to be able to scrape containers
       - /:/rootfs:ro
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /etc/machine-id:/etc/machine-id:ro
-    networks:
-      - monitoring
 
   # Collects additional metrics that are then sent to prometheus 
   node-exporter:
@@ -45,12 +45,11 @@ services:
       #root
       - /:/rootfs:ro
     command:
+      # Set up the node-exporter to scrape resource metrics
       - --path.procfs=/host/proc
       - --path.rootfs=/rootfs
       - --path.sysfs=/host/sys
       - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
-    networks:
-      - monitoring
 
   # Collects metrics and makes them available at localhost:9090
   prometheus:
@@ -65,13 +64,11 @@ services:
     command:
       # Tells prometheus to use the config file from ./imageConfigs/prometheus
       - --config.file=/etc/prometheus/prometheus.yml
-    networks:
-      - monitoring
     depends_on:
       - node-exporter
       - cadvisor
 
-  # Displays metrics gathered from containers at localhost:2999
+  # Displays metrics gathered from containers at localhost:2999, 3000 is for kubernetes which is not set up for the extension
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -83,11 +80,6 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
-
-
-networks:
-  monitoring:
-    driver: bridge
 
 volumes:
   docketeer-prometheus-data:

@@ -10,7 +10,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-prometheus-files:/prometheus
       - docketeer-grafana-files:/grafana
-      - docketeer-postgres-db:/postgres
     ports:
       - 4000:4000
 

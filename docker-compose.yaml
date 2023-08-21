@@ -91,19 +91,7 @@ networks:
     driver: bridge
 
 volumes:
-  docketeer-prometheus-data: {}
+  docketeer-prometheus-data:
   docketeer-prometheus-files:
   docketeer-grafana-files:
   docketeer-postgres-db:
-
-  # db:
-  #   image: postgres:latest
-  #   container_name: docketeerdb
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - docketeer-postgres-db:/postgres
-  #   environment:
-  #     POSTGRES_DB: 'docketeer-db'
-  #     POSTGRES_USER: 'postgres'
-  #     POSTGRES_PASSWORD: 'postgres'

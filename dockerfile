@@ -56,7 +56,6 @@ COPY --from=client-builder /ui/build ui
 # Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
-COPY imageConfigs/postgres postgres
 
 # Starts the application
 WORKDIR /backend

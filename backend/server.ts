@@ -43,12 +43,12 @@ exec(
   }
 );
 
-import apiRouter from './server/routes/apiRouter';
+// import apiRouter from './server/routes/apiRouter';
 import commandRouter from './server/routes/commandRouter';
 // import initRouter from './server/routes/initRouter';
 // import loginRouter from './server/routes/loginRouter';
 // import logoutRouter from './server/routes/logoutRouter';
-import setupRouter from './server/routes/setupRouter';
+// import setupRouter from './server/routes/setupRouter';
 // import signupRouter from './server/routes/signupRouter';
 
 app.use(express.static('SetupApp'));
@@ -59,12 +59,12 @@ app.use('/k8', (req: Request, res: Response) => {
 });
 
 
-app.use('/gapi', apiRouter);
+// app.use('/gapi', apiRouter);
 app.use('/command', commandRouter);
 // app.use('/init', initRouter);
 // app.use('/login', loginRouter);
 // app.use('/logout', logoutRouter);
-app.use('/setup', setupRouter);
+// app.use('/setup', setupRouter);
 // app.use('/signup', signupRouter);
 
 // Handling requests to unknown endpoints...

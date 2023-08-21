@@ -52,6 +52,8 @@ const useHelper = () => {
           });
       },
       */
+      /*
+      // Kubernetes | gets the key and uid of the grafana dashboard that is forwarded to localhost:3000
       getUid(apiKey: string, dashboard: string): Promise<string> {
         return fetch('/api/gapi/uidkey', {
           method: 'POST',
@@ -86,6 +88,7 @@ const useHelper = () => {
             console.log('Error when fetching api key', error);
           });
       },
+      */
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;

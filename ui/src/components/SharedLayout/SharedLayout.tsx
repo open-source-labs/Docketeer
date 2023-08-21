@@ -228,11 +228,11 @@ function SharedLayout(): JSX.Element {
                 PROCESS LOGS
               </NavLink>
             </li>
-            {/* <li>
+            <li>
               <a className={styles.navButton} onClick={(e) => prune(e)}>
                 PRUNE
               </a>
-            </li> */}
+            </li>
             {/* <li>
               <NavLink
                 className={({ isActive }) =>

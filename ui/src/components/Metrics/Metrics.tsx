@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
-// import useHelper from '../../helpers/commands';
+import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {
   // const { getKey, getUid } = useHelper();
+  const { checkGrafanaConnection } = useHelper();
   // const [toggleKubernetes, setToggleKubernetes] = useState(1);
   // const [apiKey, setApiKey] = useState('');
   // const [uidKey, setUidKey] = useState('');
   // const [currentPage, setCurrentPage] = useState('Node Exporter / Nodes');
+  const [metricsDiv, setMetricsDiv] = useState(<div><p>Containers are still booting. Please wait.</p><p>If nothing loads after a few seconds try clicking another tab and back to this one to refresh.</p></div>);
   // const button = toggleKubernetes === 1 ? 'Containers' : 'Kubernetes Cluster';
 
   // useEffect(() => {
@@ -47,15 +49,25 @@ const Metrics = (): JSX.Element => {
   //   setUidKey(uid);
   // };
 
-  return (
-    <div className={styles.wrapper}>
-      <h2>METRICS DASHBOARD</h2>
-      {/* If reimplementing kubernetes deleted the below div + iframe and uncomment all the rest */}
-      <div>
+  const checkGrafana = async () => {
+    const grafStatus = await checkGrafanaConnection();
+    if (grafStatus) {
+      setMetricsDiv(
         <iframe
           className={styles.metrics}
           src="http://localhost:2999/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk"
         />
+      );
+    }
+  }
+  checkGrafana();
+
+  return (
+    <div className={styles.wrapper}>
+      <h2>METRICS DASHBOARD</h2>
+      {/* If reimplementing kubernetes deleted the below div and uncomment all the rest */}
+      <div>
+        {metricsDiv}
       </div>
       {/* <input
         type="checkbox"

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import styles from './Home.module.scss';
-import Docketeer from '../../../assets/dlogo-no-bg.png';
+// import Docketeer from '../../../assets/dlogo-no-bg.png';
 
 /**
  * @module | Home.tsx
@@ -19,7 +19,7 @@ const Home = (): JSX.Element => {
         <a onClick={() => ddClient.host.openExternal("https://docketeer.io")} >
           <img
             className={styles.logo}
-            src={Docketeer}
+            // src={Docketeer}
             alt="footer-product-logo"
           />
         </a>

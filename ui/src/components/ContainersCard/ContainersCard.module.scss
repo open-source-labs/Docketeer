@@ -2,7 +2,7 @@
   transition: 0.2s;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1.5fr .5fr;
+  grid-template-columns: 1.2fr 1.6fr .2fr;
   // flex-direction: column;
   word-wrap: break-word;
   // width: 500px;
@@ -29,56 +29,70 @@
 
 }
 
-.containerTextHolder {
-  margin-bottom: 2rem;
-  border: 1px solid white;
+h2 {
+  font-size: larger;
+}
+
+.textSpacing {
+  margin-bottom: 16px;
 }
 
 .containerMetricHolder {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px;
+  // border: 1px solid white;
+}
+
+.metricText {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
   gap: 10px;
-  border: 1px solid white;
+}
+
+.metricSubtext {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
 }
 
 .buttonHolder {
   display: flex;
   justify-content: space-between;
-  border: 1px solid white;
+  // border: 1px solid white;
 }
 
 .buttonSpacer {
   // position: absolute;
   // bottom: 1rem;
   // left: 1rem;
-
+  padding-top: 11px;
   display: flex;
   flex-direction: column;
+
   button {
     margin-right: 0.5rem;
   }
 }
 
-.metricText {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
 .buttonSmall {
-    min-height: 2rem;
-    background-color: #212121;
-    padding: 0.25rem;
-    font-size: .75rem;
-    cursor: pointer;
-    outline-color: #212121;
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 15px;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
+  color: white;
 }
 
 .buttonSmallBottom {
-    min-height: 2rem;
-    background-color: #212121;
-    padding: 0.25rem;
-    font-size: .75rem;
-    cursor: pointer;
-    outline-color: #212121;
+  margin-top: 20px;
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 15px;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
+  color: white;
 }

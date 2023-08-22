@@ -11,7 +11,7 @@ import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
-
+import docketeerLogo from '../../../assets/docketeer-logo-light.png';
 
 /**
  * @module | SharedLayout.tsx
@@ -169,7 +169,7 @@ function SharedLayout(): JSX.Element {
               </NavLink>
             </li> */}
             <li>
-              <img src="https://i.ibb.co/TcykXH1/Screenshot-2023-08-18-at-6-44-27-PM.png" alt="Screenshot-2023-08-18-at-6-44-27-PM" width="50" height="50"></img> 
+              <img src={docketeerLogo} alt="docketeer-logo" width="50" height="50"></img> 
             </li>
             <li>
               <NavLink

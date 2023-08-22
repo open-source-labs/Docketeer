@@ -1,11 +1,12 @@
 .wrapper {
   display: flex;
+  justify-content: center;
   margin-top: 1rem;
   transition: margin-left .5s;
   .listHolder {
       display: flex;
       flex-direction: column;
-      padding-left: 2rem;
+      // padding-left: 2rem;
     }
   @media screen and (max-width: 1000px) {
     flex-direction: column;

@@ -46,11 +46,11 @@ const RunningContainer = ({
 
 
       <div className={styles.containerTextHolder}>
-        <h2>{container.Names}</h2>
-        <p>
+        <h2 className={styles.textSpacing}>{container.Names}</h2>
+        <p className={styles.textSpacing}>
           <strong>Image:</strong> {container.Image}
         </p>
-        <p>
+        <p className={styles.textSpacing}>
           <strong>ID:</strong> {container.ID}
         </p>
         {status === 'running' && (
@@ -74,19 +74,13 @@ const RunningContainer = ({
             {metrics && metrics.CPUPerc}
           </div>
           <div className={styles.metricSubtext}>
-            <h5>PID</h5>
-            {metrics && metrics.PIDs}
-          </div>
-        </div>
-        <div className={styles.metricText}>
-          <div className={styles.metricSubtext}>
             <h5>MEM Usage</h5>
             {metrics && metrics.MemUsage}
           </div>
           <div className={styles.metricSubtext}>
             <h5>MEM %</h5>
             {metrics && metrics.MemPerc}
-          </div>
+          </div>          
         </div>
         <div className={styles.metricText}>
           <div className={styles.metricSubtext}>
@@ -97,16 +91,18 @@ const RunningContainer = ({
             <h5>BLOCK I/O</h5>
             {metrics && metrics.BlockIO}
           </div>
+          <div className={styles.metricSubtext}>
+            <h5>PID</h5>
+            {metrics && metrics.PIDs}
+          </div>
         </div>
       </div>
-
-
-
+      
       <div className={styles.buttonHolder}>
         <div className={styles.buttonSpacer}>
           {status === 'running' && (
             <button
-              className={globalStyles.buttonSmall}
+              className={styles.buttonSmall}
               onClick={() => stopContainer(container)}
             >
               STOP
@@ -128,7 +124,7 @@ const RunningContainer = ({
               </button>
             </>
           )}
-          {(status === 'running' && container.Names !== 'docketeer') && (
+          {(status === 'running') && (
             <button
               className={styles.buttonSmallBottom}
               onClick={() => openNetworkList()}

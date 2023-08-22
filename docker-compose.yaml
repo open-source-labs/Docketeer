@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # The extenion's UI/Backend
+  # The extension's UI/Backend
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     image: ${DESKTOP_PLUGIN_IMAGE}
@@ -9,8 +9,8 @@ services:
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
-      - docketeer-prometheus-files:/prometheus
-      - docketeer-grafana-files:/grafana
+      - docketeer-ext-prometheus-files:/prometheus
+      - docketeer-ext-grafana-files:/grafana
     ports:
       - 4000:4000
 
@@ -59,8 +59,8 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - docketeer-prometheus-files:/etc/prometheus
-      - docketeer-prometheus-data:/prometheus
+      - docketeer-ext-prometheus-files:/etc/prometheus
+      - docketeer-ext-prometheus-data:/prometheus
     command:
       # Tells prometheus to use the config file from ./imageConfigs/prometheus
       - --config.file=/etc/prometheus/prometheus.yml
@@ -75,14 +75,13 @@ services:
     ports:
       - 2999:3000
     volumes:
-      - docketeer-grafana-files:/etc/grafana
+      - docketeer-ext-grafana-files:/etc/grafana
     environment:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
 
 volumes:
-  docketeer-prometheus-data:
-  docketeer-prometheus-files:
-  docketeer-grafana-files:
-  docketeer-postgres-db:
+  docketeer-ext-prometheus-data:
+  docketeer-ext-prometheus-files:
+  docketeer-ext-grafana-files:

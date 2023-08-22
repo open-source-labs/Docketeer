@@ -148,13 +148,14 @@ const ContainersCard = ({
 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
     // const metrics = containerMetrics[0]
-    console.log('cl', containerMetrics)
-    console.log('cm', containerList)
     // console.log(123123, container)
     let metrics = null;
     if (containerMetrics !== undefined) {
-        for (const item of containerMetrics) {
-            if (item.ID === container.ID) {
+      for (const item of containerMetrics) {
+        console.log('item', item)
+        console.log('container', container)
+          if (item.Container === container.ID) {
+              console.log(12342134234)
                   metrics = item;
                   break;
             }

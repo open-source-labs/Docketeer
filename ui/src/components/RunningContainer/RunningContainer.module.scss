@@ -1,8 +1,9 @@
 .containerCard {
   transition: 0.2s;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr .5fr;
+    // flex-direction: column;
     word-wrap: break-word;
     // width: 500px;
     // height: 15rem;
@@ -28,21 +29,66 @@
 
 }
 
-.textHolder {
+.containerTextHolder {
   margin-bottom: 2rem;
+  border: 1px solid white;
+}
+.containerTextHolder p {
+  margin-bottom: 5px;
+}
+.containerMetricHolder {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 15px;
+  border: 1px solid white;
+}
+
+.metricText {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  gap: 10px;
+}
+
+.metricSubtext {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
 }
 
 .buttonHolder {
   display: flex;
   justify-content: space-between;
+  border: 1px solid white;
 }
 
 .buttonSpacer {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
+  // position: absolute;
+  // bottom: 1rem;
+  // left: 1rem;
+  display: flex;
+  flex-direction: column;
 
   button {
     margin-right: 0.5rem;
   }
+}
+
+.buttonSmall {
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 0.25rem;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
+}
+
+.buttonSmallBottom {
+  margin-top: 20px;
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 0.25rem;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
 }

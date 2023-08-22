@@ -36,8 +36,12 @@ tailwind.config.cjs (currently is called in vite.config.js but never used. Tailw
 <h2>Tests</h2>
 Currently only passes about half the tests. There are files you have to alter the routes for when testing to see if they work such as grafanaApiController.ts. We did not focus on the testing so we're not sure what all needs to be changed with it.
 
+<h2>Notes</h2>
+<h3>Deployment</h3>
+There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything to dockerhub for you.
+
 <h2>Other Known Issues/ToDo</h2>
-<strong>File size:</strong> Extremely bloated file size due to the dockerfile just grabbing everything and adding it to the image. There's also still a ton of dependencies that are unused and forgotten. This all causes it take and extremely long time to compose and build to test any changes you make significantly slowing down development speed.<br />
+<strong>File size:</strong> Extremely bloated file size due to the dockerfile just grabbing everything and adding it to the image. There's also still a ton of dependencies that are unused and forgotten. This all causes it take and extremely long time to compose and build to test any changes you make significantly slowing down development speed. The extension version has had major restructuring to its file structure but we ran out of time to restructure the browser version as well.<br />
 <strong>Grafana:</strong> Dashboard container metric tiles get super crammed when you have a lot of containers and are unreadable. The current stat style doesn't seem to have any options to set your own column sizing making it difficult to keep them readable.<br />
 <strong>Grafana:</strong> Dashboard does not remove containers that have been completely deleted and they still appear on the dashboard<br />
 <strong>Kubernetes:</strong> Current implementation is completely detached from the app itself. You have to have an entirely seperate session running to do the setup for it. Should find some way to have it all in the container but interacting with the kubernetes clusters from inside a container was pretty difficult and we couldn't find a good way to do it.<br />

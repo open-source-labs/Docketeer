@@ -38,12 +38,12 @@ Currently only passes about half the tests. There are files you have to alter th
 
 <h2>Other Known Issues/ToDo</h2>
 <strong>File size:</strong> Extremely bloated file size due to the dockerfile just grabbing everything and adding it to the image. There's also still a ton of dependencies that are unused and forgotten. This all causes it take and extremely long time to compose and build to test any changes you make significantly slowing down development speed.<br />
-<strong>Grafana:</strong> Dashboard container metric tiles get super crammed when you have a lot of containers and are unreadable<br />
+<strong>Grafana:</strong> Dashboard container metric tiles get super crammed when you have a lot of containers and are unreadable. The current stat style doesn't seem to have any options to set your own column sizing making it difficult to keep them readable.<br />
 <strong>Grafana:</strong> Dashboard does not remove containers that have been completely deleted and they still appear on the dashboard<br />
 <strong>Kubernetes:</strong> Current implementation is completely detached from the app itself. You have to have an entirely seperate session running to do the setup for it. Should find some way to have it all in the container but interacting with the kubernetes clusters from inside a container was pretty difficult and we couldn't find a good way to do it.<br />
 <strong>Typescript:</strong> Current coverage is quite messy. There are a lot of 'any' tags and things that use implicit any that we did not have time to fix.<br />
 <strong>Code cleanup:</strong> There's a lot of commented out code everywhere that was never fully implemented.<br />
-<strong>Operating systems:</strong> Only really seems to work on macs and no other operating systems consistently. Even macs are inconsistent with it working. One of the issues is how the current images being used are built without using commands for multi platform builds. Another is that bind mounts are used in the docker-compose which regularly throws errors for windows users trying to compose and I couldn't figure out why.
+<strong>Operating systems:</strong> Only really seems to work on macs and no other operating systems consistently. Even macs are inconsistent with it working. One of the issues is how the current images being used are built without using commands for multi platform builds we updated that but another is that bind mounts are used in the docker-compose which regularly throws errors for windows users trying to compose and I couldn't figure out why.
 
 <h2>Who worked on what</h2>
 <h4>Docketeer XIV</h2>

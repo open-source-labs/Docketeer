@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   db:
-    container_name: docketeerdb
-    image: docketeerxii/postgres
+    container_name: docketeer-db
+    image: docketeerxiv/postgres:latest
     restart: always
     ports:
       - '5432:5432'
@@ -15,8 +15,8 @@ services:
       POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.47.1
-    container_name: cadvisor
+    image: docketeerxiv/cadvisor:latest
+    container_name: docketeer-cadvisor
     ports:
       - '8080:8080'
 
@@ -32,8 +32,8 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   node-exporter:
-    image: docketeerxii/nodeex
-    container_name: node-exporter
+    image: docketeerxiv/node-exporter
+    container_name: docketeer-node-exporter
     ports:
       - '9100:9100'
     volumes:
@@ -47,8 +47,8 @@ services:
       - db
 
   prometheus:
-    image: docketeerxii/prometheus
-    container_name: prometheus
+    image: docketeerxiv/prometheus:latest
+    container_name: docketeer-prometheus
     ports:
       - '9090:9090'
     volumes:
@@ -61,8 +61,8 @@ services:
       org_prometheus_starter_path: '/metrics'
 
   grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
+    image: docketeerxiv/grafana:latest
+    container_name: docketeer-grafana
     ports:
       - '2999:3000'
     environment:
@@ -80,7 +80,7 @@ services:
       - prometheus
 
   docketeer:
-    image: docketeerxiii/docketeer13:latest
+    image: docketeerxiv/docketeer:latest
     container_name: docketeer
     ports:
       - '4000:4000'

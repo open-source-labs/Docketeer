@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import { ContainerType, ContainersCardsProps } from '../../../ui-types';
+import { ContainerType, ContainersCardsProps, DockerStats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 
@@ -10,6 +10,14 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
  **/
 
+
+
+
+
+
+/**
+ * A custom hook which gets the stats of all Docker containers.
+ */
 const ContainersCard = ({
   containerList,
   stopContainer,
@@ -19,7 +27,42 @@ const ContainersCard = ({
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
-  const ddClient = createDockerDesktopClient();
+  const [containerMetrics, setContainerMetrics] = useState<DockerStats[]>();
+  const ddClient = createDockerDesktopClient(); 
+
+
+  useEffect(() => {
+    let newData: DockerStats[] = [];
+    const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
+    const result = ddClient.docker.cli.exec(
+      'stats',
+      ['--all', '--no-trunc', '--format', '{{ json . }}'],
+      {
+        stream: {
+          onOutput(data) {
+            if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
+              setContainerMetrics(newData);
+              newData = [];
+              newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
+            } else {
+              newData.push(JSON.parse(data.stdout ?? ''));
+            }
+          },
+          onError(error) {
+            console.error(error);
+          },
+          splitOutputLines: true,
+        },
+      }
+    );
+
+    // Clean-up function
+    return () => {
+      result.close();
+      newData = [];
+    };
+  }, [ddClient]);
+
 
   async function connectToNetwork(
     networkName: string,
@@ -104,9 +147,26 @@ const ContainersCard = ({
   }
 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
+    // const metrics = containerMetrics[0]
+    console.log('cl', containerMetrics)
+    console.log('cm', containerList)
+    // console.log(123123, container)
+    let metrics = null;
+    if (containerMetrics !== undefined) {
+        for (const item of containerMetrics) {
+            if (item.ID === container.ID) {
+                  metrics = item;
+                  break;
+            }
+        }
+    }
+
+
+    // console.log(123423143214, metrics)
     return (
       <RunningContainer
         container={container}
+        metrics={metrics}
         key={`container-${i}`}
         stopContainer={stopContainer}
         runContainer={runContainer}

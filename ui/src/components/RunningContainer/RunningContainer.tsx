@@ -12,6 +12,7 @@ import NetworkListModal from '../NetworkListModal/NetworkListModal';
 
 const RunningContainer = ({
   container,
+  metrics,
   stopContainer,
   runContainer,
   removeContainer,
@@ -37,7 +38,7 @@ const RunningContainer = ({
   };
 
   if (!container) return (<p>no container</p>);
-
+  
   return (
     <div key={key} className={styles.containerCard}>
       <div className={styles.textHolder}>
@@ -47,6 +48,7 @@ const RunningContainer = ({
         </p>
         <p>
           <strong>ID:</strong> {container.ID}
+          {metrics && metrics.CPUPerc}
         </p>
         {status === 'running' && (
           <p>

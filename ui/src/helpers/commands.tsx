@@ -52,6 +52,8 @@ const useHelper = () => {
           });
       },
       */
+      /*
+      // Kubernetes | gets the key and uid of the grafana dashboard that is forwarded to localhost:3000
       getUid(apiKey: string, dashboard: string): Promise<string> {
         const { refreshRunningContainers } = dispatch;
         ddClient.extension.vm?.service?.post('/gapi/uidkey', {
@@ -74,6 +76,7 @@ const useHelper = () => {
             console.log('Error when fetching api key', error);
           });
       },
+      */
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
@@ -415,6 +418,16 @@ const useHelper = () => {
           console.log(err);
         }
       },
+
+      async checkGrafanaConnection() {
+        try {
+          const response: Response = await fetch('http://localhost:2999/')
+          return (response.status === 200);
+        } catch (error) {
+          console.log('Error occured when in commands.tsx checkGrafanaConnection:');
+          Object.entries(error).forEach(el => console.log(el));
+        }
+        }
     }),
     [dispatch]
   );

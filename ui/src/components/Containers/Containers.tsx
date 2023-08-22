@@ -14,7 +14,7 @@ import ContainersCard from '../ContainersCard/ContainersCard';
  **/
 
 const Containers = (): JSX.Element => {
-  const { getKey, getUid } = useHelper();
+  // const { getKey, getUid } = useHelper();
   const [apiKey, setApiKey] = useState('');
   const [uidKey, setUidKey] = useState('');
   const [activeButton, setActiveButton] = useState(1)
@@ -89,33 +89,30 @@ const Containers = (): JSX.Element => {
       )
     );
   };
-  function toggle(e) {
-   console.log('e', e)
-  }
 
 
 
-  useEffect(() => {
-    /** 
-    * @description Retrieves the API and UID key 
-    * @method
-    * @async
-    * @returns {promise} returns promise when api key and uid key is successfully set
-    */
-    const fetchKey = async () => {
-      try {
-        const key = await getKey();
-        console.log('key', key)
-        setApiKey(key);
-        const uid = await getUid(key, 'Containers');
-        console.log('uid', uid)
-        setUidKey(uid);
-      } catch (err) {
-        console.log('Cannot get uid key or api key', err);
-      }
-    };
-    fetchKey();
-  }, []);
+  // useEffect(() => {
+  //   /** 
+  //   * @description Retrieves the API and UID key 
+  //   * @method
+  //   * @async
+  //   * @returns {promise} returns promise when api key and uid key is successfully set
+  //   */
+  //   const fetchKey = async () => {
+  //     try {
+  //       const key = await getKey();
+  //       console.log('key', key)
+  //       setApiKey(key);
+  //       const uid = await getUid(key, 'Containers');
+  //       console.log('uid', uid)
+  //       setUidKey(uid);
+  //     } catch (err) {
+  //       console.log('Cannot get uid key or api key', err);
+  //     }
+  //   };
+  //   fetchKey();
+  // }, []);
 
 
   return (

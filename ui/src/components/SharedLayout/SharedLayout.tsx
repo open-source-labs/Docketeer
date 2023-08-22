@@ -11,7 +11,7 @@ import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
-import docketeerLogo from '../../../assets/docketeer-logo-light.png';
+import docketeerLogo from '../../assets/docketeer-logo-light.png';
 
 /**
  * @module | SharedLayout.tsx
@@ -159,6 +159,7 @@ function SharedLayout(): JSX.Element {
         <div className={styles.navSpacer}>
           <ul className={styles.navLeft}>
             {/* <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
@@ -210,16 +211,6 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/metrics"
-              >
-                METRICS
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
                 to="/volume"
               >
                 VOLUME HISTORY
@@ -235,11 +226,11 @@ function SharedLayout(): JSX.Element {
                 PROCESS LOGS
               </NavLink>
             </li>
-            {/* <li>
+            <li>
               <a className={styles.navButton} onClick={(e) => prune(e)}>
                 PRUNE
               </a>
-            </li> */}
+            </li> 
             {/* <li>
               <NavLink
                 className={({ isActive }) =>

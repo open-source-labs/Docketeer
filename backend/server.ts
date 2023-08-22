@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const SOCKETFILE = '/run/guest-services/backend.sock';
 const app = express();
 
+// Resets the docker socket, prevents the issue of VM socket being in use error but not always
 try {
   fs.unlinkSync(SOCKETFILE);
   console.log('Deleted the UNIX file.');
@@ -22,22 +23,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// run commands in an exec (terminal instance); restarts containers running from the docketeerx/docketeer image using their ID
-exec(
-  'docker container ls -a --format "table {{.ID}}\t{{.Names}}" | grep docketeerx/docketeer | cut -d" " -f1 | cut -f1 | xargs -I{} docker container restart -t 0 {}',
-  (error: Error | null, stdout: string, stderr: string): void => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  }
-);
 
 // import apiRouter from './server/routes/apiRouter';
 import commandRouter from './server/routes/commandRouter';

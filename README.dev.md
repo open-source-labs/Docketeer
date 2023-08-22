@@ -34,7 +34,9 @@ Postgres that was primarily used for user data has been completely removed and r
 Tests are not correctly implemented for the extension version of Docketeer. Extremely unlikely any pass and will need to be redone.
 
 <h2>Other Known Issues/ToDo</h2>
-<strong>Grafana:</strong> Dashboard contaienr metric tiles get super crammed when you have a lot of containers and are unreadable<br />
+<strong>Docker:</strong> During development would often get this error when installing the extension:<br /> installation could not be completed due to: forwarding VM socket "/run/guest-services/docketeer/backend.sock" to "\\\\.\\pipe\\dockerExtensions-docketeer-backend": open \\.\pipe\dockerExtensions-docketeer-backend: Access is denied.<br />
+Would just have to restart docker desktop to get rid of it but it's annoying. <br />
+<strong>Grafana:</strong> Dashboard container metric tiles get super crammed when you have a lot of containers and are unreadable<br />
 <strong>Grafana:</strong> Dashboard does not remove containers that have been completely deleted and they still appear on the dashboard<br />
 <strong>Grafana:</strong> Takes a moment to load metrics page when clicking off the tab and back to it because it does a fetch to check the connection then creates the element to show metrics that has to connect again.<br />
 <strong>Kubernetes:</strong> Is currently not implemented in the extension version. The way it works on the browser version requires it have access outside of containers which is difficult to do with an extension. We got a slightly working version by using the 'host' metadata.json block to download kubectl and helm binaries that could interact with the host's kubernetes cluster but accessing the metrics after that point was extremely difficult. There is also the issue of bloated image size due to needing a specific binary version for each operating system.<br />
@@ -42,12 +44,14 @@ Tests are not correctly implemented for the extension version of Docketeer. Extr
 <strong>D3 sankey patch:</strong> We aren't sure if this is being installed or not on the extension and haven't tested if it runs without this existing. Should see if it's stil necessary<br />
 <strong>Typescript:</strong> Current coverage is quite messy. There are a lot of 'any' tags to things that used implicit any in the browser version that we did not have time to fix.<br />
 <strong>Code cleanup:</strong> There's a lot of commented out code everywhere that either was never fully implemented or part of login functionality.<br />
+<strong>UX:</strong> There's nothing to show users that something is still loading on any of the pages.
 
 <h2>Who worked on what</h2>
 <h4>Docketeer XIV</h2>
 <h5>Browser</h5>
 <ol>
   <li>Updated deprecated dependencies and removed some unused dependencies</li>
+  <li>Added documentation to .yml files and added dev readme</li>
 </ol>
 <h5>Extension</h5>
 <ol>

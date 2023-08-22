@@ -5,7 +5,7 @@ services:
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     image: ${DESKTOP_PLUGIN_IMAGE}
-    container_name: docketeer
+    container_name: docketeer-ext
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
@@ -21,7 +21,7 @@ services:
     # The docketeer image uploaded is on v0.47.1
     # Extension and browser version are using the same image
     image: docketeerxiv/cadvisor-extension:latest
-    container_name: docketeer-cadvisor
+    container_name: docketeer-ext-cadvisor
     ports:
       - 8080:8080
     volumes:
@@ -35,7 +35,7 @@ services:
   # Collects additional metrics that are then sent to prometheus 
   node-exporter:
     image: docketeerxiv/node-exporter-extension:latest
-    container_name: docketeer-node-exporter
+    container_name: docketeer-ext-node-exporter
     restart: unless-stopped
     ports:
       - 9100:9100
@@ -57,7 +57,7 @@ services:
   # Collects metrics and makes them available at localhost:9090
   prometheus:
     image: docketeerxiv/prometheus-extension:latest
-    container_name: docketeer-prometheus
+    container_name: docketeer-ext-prometheus
     restart: unless-stopped
     ports:
       - 9090:9090
@@ -75,7 +75,7 @@ services:
   # Displays metrics gathered from containers at localhost:2999, 3000 is for kubernetes which is not set up for the extension
   grafana:
     image: docketeerxiv/grafana-extension:latest
-    container_name: docketeer-grafana
+    container_name: docketeer-ext-grafana
     ports:
       - 2999:3000
     volumes:

@@ -1,8 +1,4 @@
 
-<h4>Last commit where Docketeer was browser based instead of an extension</h4>
-c927ee7835480fcfb815641b10f1ce98111af22a
-
-
 <h2>Techs</h2>
 <h3>Prometheus</h3>
 Collects and aggregates the data scraped from Node-exporter and cAdvisor then exposes it's port on 9090 for Grafana to display.<br />
@@ -46,6 +42,12 @@ Would just have to restart docker desktop to get rid of it but it's annoying. <b
 <strong>Code cleanup:</strong> There's a lot of commented out code everywhere that either was never fully implemented or part of login functionality.<br />
 <strong>UX:</strong> There's nothing to show users that something is still loading on any of the pages.
 
+<h2>Notes</h2>
+<h3>Deployment</h3>
+There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything for you.
+<h4>Last commit where Docketeer was browser based instead of an extension</h4>
+c927ee7835480fcfb815641b10f1ce98111af22a
+
 <h2>Who worked on what</h2>
 <h4>Docketeer XIV</h2>
 <h5>Browser</h5>
@@ -61,4 +63,5 @@ Would just have to restart docker desktop to get rid of it but it's annoying. <b
   <li>Restructured the file system and completely redid the dockerfile and docker-compose files to significantly reduce file size.</li>
   <li>Home and about pages information has been moved to the docker extension detailed description.</li>
   <li>Added documentation to .yml files and added dev readme</li>
+  <li>Created a makefile for easier deployment and development</li>
 </ol>

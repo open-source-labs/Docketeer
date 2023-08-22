@@ -1,3 +1,5 @@
+# This file is for the kubernetes implementation
+# It's applied to the prometheus-grafana pod that is created by helm
 apiVersion: v1
 data:
   grafana.ini: |

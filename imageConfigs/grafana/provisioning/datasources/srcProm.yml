@@ -1,5 +1,6 @@
 apiVersion: 1
 
+# Tells grafana where to look and what for to get metrics
 datasources:
   - name: Prometheus
     type: prometheus

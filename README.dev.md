@@ -56,5 +56,5 @@ Tests are not correctly implemented for the extension version of Docketeer. Extr
   <li>Opted to not include user functionality in the extension version.</li>
   <li>Restructured the file system and completely redid the dockerfile and docker-compose files to significantly reduce file size.</li>
   <li>Home and about pages information has been moved to the docker extension detailed description.</li>
-  <li>Improved documentation and added dev readme</li>
+  <li>Added documentation to .yml files and added dev readme</li>
 </ol>

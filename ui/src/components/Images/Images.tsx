@@ -12,8 +12,8 @@ import globalStyles from '../global.module.scss';
  **/
 
 // eslint-disable-next-line react/prop-types
-const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
-// const Images = () => {
+const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
+  // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
   const reduxImagesList = useAppSelector((state) => state.images.imagesList);
@@ -22,100 +22,100 @@ const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
   const dispatch = useAppDispatch();
   const { runIm, removeIm, pullImage } = useHelper();
 
-  const handleClick = () => {
-    if (!repo) {
-      dispatch(
-        createAlert(
-          'Please enter an image name prior to attempting to pull.',
-          5,
-          'error'
-        )
-      );
-      return;
-    } else {
-      let existingRepo = false;
-      if (repo.includes(':')) {
-        const splitRepo = repo.split(':');
-        imagesList.map((el) => {
-          if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
-            existingRepo = true;
-            return;
-          }
-        });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (existingRepo === true) {
-          dispatch(
-            createAlert(
-              'This image already exists within your Docketeer image collection.',
-              5,
-              'error'
-            )
-          );
-          return;
-        } else {
-          dispatch(
-            createPrompt(
-              `Are you sure you want to pull ${repo}?`,
-              () => {
-                pullImage(repo);
-                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-              },
-              () => {
-                dispatch(
-                  createAlert(
-                    `The request to pull ${repo} has been cancelled.`,
-                    5,
-                    'warning'
-                  )
-                );
-              }
-            )
-          );
-          return;
-        }
-      } else {
-        imagesList.map((el) => {
-          if (el.reps === repo && el.tag === 'latest') {
-            existingRepo = true;
-            return;
-          }
-        });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (existingRepo === true) {
-          dispatch(
-            createAlert(
-              'This image already exists within your Docketeer image collection.',
-              5,
-              'error'
-            )
-          );
-          return;
-        } else {
-          dispatch(
-            createPrompt(
-              `Are you sure you want to pull ${repo}?`,
-              () => {
-                pullImage(repo);
-                dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-              },
-              () => {
-                dispatch(
-                  createAlert(
-                    `The request to pull ${repo} has been cancelled.`,
-                    5,
-                    'warning'
-                  )
-                );
-              }
-            )
-          );
-          return;
-        }
-      }
-    }
-  };
+  // const handleClick = () => {
+  //   if (!repo) {
+  //     dispatch(
+  //       createAlert(
+  //         'Please enter an image name prior to attempting to pull.',
+  //         5,
+  //         'error'
+  //       )
+  //     );
+  //     return;
+  //   } else {
+  //     let existingRepo = false;
+  //     if (repo.includes(':')) {
+  //       const splitRepo = repo.split(':');
+  //       imagesList.map((el) => {
+  //         if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
+  //           existingRepo = true;
+  //           return;
+  //         }
+  //       });
+  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //       // @ts-ignore
+  //       if (existingRepo === true) {
+  //         dispatch(
+  //           createAlert(
+  //             'This image already exists within your Docketeer image collection.',
+  //             5,
+  //             'error'
+  //           )
+  //         );
+  //         return;
+  //       } else {
+  //         dispatch(
+  //           createPrompt(
+  //             `Are you sure you want to pull ${repo}?`,
+  //             () => {
+  //               pullImage(repo);
+  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+  //             },
+  //             () => {
+  //               dispatch(
+  //                 createAlert(
+  //                   `The request to pull ${repo} has been cancelled.`,
+  //                   5,
+  //                   'warning'
+  //                 )
+  //               );
+  //             }
+  //           )
+  //         );
+  //         return;
+  //       }
+  //     } else {
+  //       imagesList.map((el) => {
+  //         if (el.reps === repo && el.tag === 'latest') {
+  //           existingRepo = true;
+  //           return;
+  //         }
+  //       });
+  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //       // @ts-ignore
+  //       if (existingRepo === true) {
+  //         dispatch(
+  //           createAlert(
+  //             'This image already exists within your Docketeer image collection.',
+  //             5,
+  //             'error'
+  //           )
+  //         );
+  //         return;
+  //       } else {
+  //         dispatch(
+  //           createPrompt(
+  //             `Are you sure you want to pull ${repo}?`,
+  //             () => {
+  //               pullImage(repo);
+  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
+  //             },
+  //             () => {
+  //               dispatch(
+  //                 createAlert(
+  //                   `The request to pull ${repo} has been cancelled.`,
+  //                   5,
+  //                   'warning'
+  //                 )
+  //               );
+  //             }
+  //           )
+  //         );
+  //         return;
+  //       }
+  //     }
+  //   }
+  // };
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src =
@@ -170,20 +170,6 @@ const Images = ({ imagesList }: ImagesStateType ): JSX.Element => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.imageSearchHolder}>
-        <h2>IMAGE REPOSITORY</h2>
-        <input
-          className={globalStyles.input}
-          type="text"
-          placeholder="Search…"
-          onChange={(e) => {
-            setRepo(e.target.value);
-          }}
-        />
-        <button className={globalStyles.button1} onClick={() => handleClick()}>
-          PULL
-        </button>
-      </div>
       <div className={styles.availableImagesHolder}>
         <h2>AVAILABLE IMAGES</h2>
         <div className={styles.imageHolder}>

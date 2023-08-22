@@ -55,33 +55,21 @@ const useHelper = () => {
       /*
       // Kubernetes | gets the key and uid of the grafana dashboard that is forwarded to localhost:3000
       getUid(apiKey: string, dashboard: string): Promise<string> {
-        return fetch('/api/gapi/uidkey', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        const { refreshRunningContainers } = dispatch;
+        ddClient.extension.vm?.service?.post('/gapi/uidkey', {
             key: apiKey,
             dashboard: dashboard,
-          }),
-        })
-          .then((res) => {
-            console.log('Response received:', res); // Log the response object
-            return res;
           })
           .then((data) => {
+            console.log('Response received:', data);
             return data;
           })
-          .catch((error) => {
-            console.log('Error when fetching uid key', error);
-          });
+          .catch((err: Error): void => console.log(err));
       },
       getKey(): Promise<string> {
-        return fetch('/api/gapi/key', {
-          method: 'GET',
-        })
-          .then((res) => res)
+        return ddClient.extension.vm?.service?.get('/gapi/key')
           .then((data) => {
+            console.log('data', data)
             return data;
           })
           .catch((error) => {

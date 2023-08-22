@@ -1,28 +1,118 @@
 .containerCard {
-  @extend .card;
   transition: 0.2s;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.8fr) minmax(20px, .2fr);
+  // flex-direction: column;
   word-wrap: break-word;
-  width: 20rem;
-  height: 15rem;
+  // width: 500px;
+  // height: 15rem;
+
+  background-color: color(background, base);
+  // background: $background-bg;
+  // box-shadow: $shadow;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  width: 65rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color(light, base);
+  // border-color: color(background, base);
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
+
 }
 
-.textHolder {
-  margin-bottom: 2rem;
+h2 {
+  font-size: larger;
+}
+
+.textSpacing {
+  margin-bottom: 16px;
+}
+
+.containerMetricHolder {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px;
+  // border: 1px solid white;
+}
+
+.metricText {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  gap: 10px;
+}
+
+.metricSubtext {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
 }
 
 .buttonHolder {
   display: flex;
   justify-content: space-between;
+  // border: 1px solid white;
 }
 
 .buttonSpacer {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
+  // position: absolute;
+  // bottom: 1rem;
+  // left: 1rem;
+  padding-top: 11px;
+  display: flex;
+  flex-direction: column;
+
   button {
     margin-right: 0.5rem;
   }
+}
+
+.buttonSmall {
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 15px;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
+  color: white;
+}
+
+.buttonSmallBottom {
+  margin-top: 20px;
+  min-height: 2rem;
+  background-color: #212121;
+  padding: 15px;
+  font-size: .75rem;
+  cursor: pointer;
+  outline-color: #212121;
+  color: white;
+}
+
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+  }
+  .containerCard {
+      transition: 0.2s;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
+  }
+
+  .buttonSmall {
+    padding: 4px;
+  }
+  .buttonSmallBottom {
+    padding: 4px;
+  } 
 }

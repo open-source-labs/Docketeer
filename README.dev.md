@@ -51,6 +51,8 @@ Currently only passes about half the tests. There are files you have to alter th
 <ol>
   <li>Updated deprecated dependencies and removed some unused dependencies</li>
   <li>Added documentation to .yml files and added dev readme</li>
+  <li>Created a makefile for easier deployment and development</li>
+  <li>
 </ol>
 <h5>Extension</h5>
 <ol>
@@ -60,4 +62,5 @@ Currently only passes about half the tests. There are files you have to alter th
   <li>Restructured the file system and completely redid the dockerfile and docker-compose files to significantly reduce file size.</li>
   <li>Home and about pages information has been moved to the docker extension detailed description.</li>
   <li>Added documentation to .yml files and added dev readme</li>
+  <li>Created a makefile for easier deployment and development</li>
 </ol>

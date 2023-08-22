@@ -211,6 +211,16 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
+                to="/metrics"
+              >
+                METRICS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
                 to="/volume"
               >
                 VOLUME HISTORY

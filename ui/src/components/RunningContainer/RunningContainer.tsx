@@ -41,10 +41,6 @@ const RunningContainer = ({
   
   return (
     <div key={key} className={styles.containerCard}>
-
-
-
-
       <div className={styles.containerTextHolder}>
         <h2 className={styles.textSpacing}>{container.Names}</h2>
         <p className={styles.textSpacing}>
@@ -66,38 +62,38 @@ const RunningContainer = ({
       </div>
 
 
-
-      <div className={styles.containerMetricHolder}>
-        <div className={styles.metricText}>
-          <div className={ styles.metricSubtext }>
-            <h5>CPU</h5>
-            {metrics && metrics.CPUPerc}
+      {status === 'running' && (
+        <div className={styles.containerMetricHolder}>
+          <div className={styles.metricText}>
+            <div className={styles.metricSubtext}>
+              <h5>CPU</h5>
+              {metrics && metrics.CPUPerc}
+            </div>
+            <div className={styles.metricSubtext}>
+              <h5>MEM Usage</h5>
+              {metrics && metrics.MemUsage}
+            </div>
+            <div className={styles.metricSubtext}>
+              <h5>MEM %</h5>
+              {metrics && metrics.MemPerc}
+            </div>
           </div>
-          <div className={styles.metricSubtext}>
-            <h5>MEM Usage</h5>
-            {metrics && metrics.MemUsage}
+          <div className={styles.metricText}>
+            <div className={styles.metricSubtext}>
+              <h5>NET I/O</h5>
+              {metrics && metrics.NetIO}
+            </div>
+            <div className={styles.metricSubtext}>
+              <h5>BLOCK I/O</h5>
+              {metrics && metrics.BlockIO}
+            </div>
+            <div className={styles.metricSubtext}>
+              <h5>PID</h5>
+              {metrics && metrics.PIDs}
+            </div>
           </div>
-          <div className={styles.metricSubtext}>
-            <h5>MEM %</h5>
-            {metrics && metrics.MemPerc}
-          </div>          
         </div>
-        <div className={styles.metricText}>
-          <div className={styles.metricSubtext}>
-            <h5>NET I/O</h5>
-            {metrics && metrics.NetIO}
-          </div>
-          <div className={styles.metricSubtext}>
-            <h5>BLOCK I/O</h5>
-            {metrics && metrics.BlockIO}
-          </div>
-          <div className={styles.metricSubtext}>
-            <h5>PID</h5>
-            {metrics && metrics.PIDs}
-          </div>
-        </div>
-      </div>
-      
+      )}
       <div className={styles.buttonHolder}>
         <div className={styles.buttonSpacer}>
           {status === 'running' && (
@@ -124,7 +120,7 @@ const RunningContainer = ({
               </button>
             </>
           )}
-          {(status === 'running') && (
+          {status === 'running' && (
             <button
               className={styles.buttonSmallBottom}
               onClick={() => openNetworkList()}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import { ContainerType, ContainersCardsProps, DockerStats } from '../../../ui-types';
+import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 
@@ -27,12 +27,12 @@ const ContainersCard = ({
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
-  const [containerMetrics, setContainerMetrics] = useState<DockerStats[]>();
+  const [containerMetrics, setContainerMetrics] = useState<stats[]>();
   const ddClient = createDockerDesktopClient(); 
 
 
   useEffect(() => {
-    let newData: DockerStats[] = [];
+    let newData: stats[] = [];
     const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
     const result = ddClient.docker.cli.exec(
       'stats',

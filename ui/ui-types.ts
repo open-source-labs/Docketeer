@@ -66,7 +66,7 @@ export interface userReducerStateType {
 // ! Names and Networks had optional parameters `?`, possibly unnecessary so removed
 export interface ContainerType {
   ID: string;
-  metrics?: DockerStats;
+  metrics?: stats;
   Names: string;
   Image?: string;
   RunningFor?: string;
@@ -136,7 +136,7 @@ export interface containersList {
 
 
 
-export interface DockerStats {
+export interface stats {
   BlockIO: string;
   CPUPerc: string;
   Container: string;
@@ -304,7 +304,7 @@ export interface DataFromBackend {
 
 export interface ContainersCardsProps {
   containerList?: ContainerType[];
-  metrics?: DockerStats;
+  metrics?: stats;
   stopContainer: (container: ContainerType) => void;
   runContainer: (container: ContainerType) => void;
   removeContainer: (container: ContainerType) => void;

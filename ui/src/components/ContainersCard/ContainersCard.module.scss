@@ -2,7 +2,7 @@
   transition: 0.2s;
   position: relative;
   display: grid;
-  grid-template-columns: 1.2fr 1.6fr .2fr;
+  grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.8fr) minmax(20px, .2fr);
   // flex-direction: column;
   word-wrap: break-word;
   // width: 500px;
@@ -95,4 +95,24 @@ h2 {
   cursor: pointer;
   outline-color: #212121;
   color: white;
+}
+
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+  }
+  .containerCard {
+      transition: 0.2s;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
+  }
+
+  .buttonSmall {
+    padding: 4px;
+  }
+  .buttonSmallBottom {
+    padding: 4px;
+  } 
 }

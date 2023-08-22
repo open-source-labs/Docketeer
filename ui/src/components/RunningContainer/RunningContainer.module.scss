@@ -2,7 +2,8 @@
   transition: 0.2s;
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1.8fr .2fr;
+    grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
+    justify-content: center;
     // flex-direction: column;
     word-wrap: break-word;
     // width: 500px;
@@ -17,7 +18,7 @@
     height: 100%;
     width: 100%;
     padding: 1rem;
-    width: 65rem;
+    // width: 65rem;
     gap: 1rem;
     border-width: 2px;
     border-style: solid;
@@ -80,7 +81,7 @@ h5 {
 .buttonSmall {
   min-height: 2rem;
   background-color: #212121;
-  padding: 15px;
+  padding: 10px;
   font-size: .75rem;
   cursor: pointer;
   outline-color: #212121;
@@ -91,9 +92,30 @@ h5 {
   margin-top: 20px;
   min-height: 2rem;
   background-color: #212121;
-  padding: 15px;
+  padding: 10px;
   font-size: .75rem;
   cursor: pointer;
   outline-color: #212121;
   color: white;
+}
+
+
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+  }
+
+  .containerCard {
+    transition: 0.2s;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(208px, 1.6fr) minmax(32px, .4fr);
+  }
+    .buttonSmall {
+      padding: 4px;
+    }
+    .buttonSmallBottom {
+      padding: 4px;
+    } 
 }

@@ -15,6 +15,7 @@ services:
       POSTGRES_PASSWORD: 'postgres'
 
   cadvisor:
+    # Make sure your uploaded image is gcr.io/cadvisor/cadvisor:v0.47.1, latest isn't built for all platforms
     image: docketeerxiv/cadvisor:latest
     container_name: docketeer-cadvisor
     ports:

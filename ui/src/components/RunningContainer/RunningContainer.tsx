@@ -36,7 +36,6 @@ const RunningContainer = ({
   const closeNetworkList = () => {
     setIsOpen(false);
   };
-  console.log('met', metrics)
   if (!container) return (<p>no container</p>);
   
   return (

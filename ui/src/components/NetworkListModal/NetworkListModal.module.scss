@@ -15,18 +15,21 @@
   justify-content: center;
   align-items: center;
   height: 30rem;
-  width: 24rem;
+  width: 34rem;
   left: 40%;
   top: 30%;
   border-radius: 2rem;
   padding-left: .5rem;
   .containerNetworks {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
     overflow-y: scroll;
     height: 20rem;
-    width: 23rem;
     margin: 1rem;
-    justify-content: center;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    justify-content: flex-start;
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     &::-webkit-scrollbar {
         width: 2px;
         background-color: rgb(49, 49, 49);
@@ -57,7 +60,7 @@
 
 .networkDiv {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: hsl(210, 15.2%, 18%);
   margin-top: .5rem;
   border: 2px solid rgb(214, 214, 214);

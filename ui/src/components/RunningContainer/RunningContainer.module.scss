@@ -29,6 +29,34 @@
     transition: all 0.3s ease-in-out;
 }
 
+
+
+.containerCardStopped {
+  transition: 0.2s;
+  position: relative;
+  display: flex;
+  word-wrap: break-word;
+  background-color: color(background, base);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color(light, base);
+  border-image: initial;
+  transition: border 350ms ease 100ms, background-image 200ms ease;
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+
+
+
 // .containerTextHolder {
 
 // }
@@ -61,7 +89,7 @@ h5 {
 
 .buttonHolder {
   display: flex;
-  justify-content: space-between;
+  margin-left: auto;
   // border: 1px solid white;
 }
 
@@ -77,6 +105,8 @@ h5 {
     margin-right: 0.5rem;
   }
 }
+
+
 
 .buttonSmall {
   min-height: 2rem;

@@ -173,7 +173,7 @@ function SharedLayout(): JSX.Element {
               <NavLink
               to="/"
               >
-                <img src={docketeerLogo} alt="docketeer-logo" width="45" height="45"></img>
+                <img className={styles.logo} src={docketeerLogo} alt="docketeer-logo" width="45" height="45"></img>
               </NavLink>
             </li>
             <li>

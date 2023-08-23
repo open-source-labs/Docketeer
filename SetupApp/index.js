@@ -1,3 +1,4 @@
+// This file is for the buttons to do kubernetes monitoring setup
 document.addEventListener('DOMContentLoaded', () => {
   const promInstall = document.querySelector('#prom');
   const grafInstall = document.querySelector('#metrics');

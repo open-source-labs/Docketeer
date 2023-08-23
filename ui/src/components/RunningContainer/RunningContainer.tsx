@@ -39,7 +39,7 @@ const RunningContainer = ({
   if (!container) return (<p>no container</p>);
   
   return (
-    <div key={key} className={styles.containerCard}>
+    <div key={key} className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
       <div className={styles.containerTextHolder}>
         <h2 className={styles.textSpacing}>{container.Names}</h2>
         <p className={styles.textSpacing}>
@@ -59,7 +59,6 @@ const RunningContainer = ({
           </p>
         )}
       </div>
-
 
       {status === 'running' && (
         <div className={styles.containerMetricHolder}>
@@ -112,7 +111,7 @@ const RunningContainer = ({
                 RUN
               </button>
               <button
-                className={styles.buttonSmall}
+                className={styles.buttonSmallBottom}
                 onClick={() => removeContainer(container)}
               >
                 REMOVE

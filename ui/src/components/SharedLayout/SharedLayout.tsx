@@ -169,7 +169,7 @@ function SharedLayout(): JSX.Element {
                 HOME
               </NavLink>
             </li> */}
-            <li>
+            <li className="logo">
               <NavLink
               to="/"
               >

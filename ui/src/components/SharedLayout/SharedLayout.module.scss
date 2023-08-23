@@ -87,6 +87,14 @@ $navbar-transition: transform 0.3s ease-in-out;
   }
 }
 
+
+
+@media screen and (max-width: $breakpoint-sm) {
+  .logo {
+    display: none;
+  }
+}
+
 // @media screen and (max-width: $breakpoint-lg) {
 //   .wrapper {
 //     margin-top: 1rem;

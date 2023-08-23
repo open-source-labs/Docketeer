@@ -146,7 +146,7 @@ const Containers = (): JSX.Element => {
             />
           </div>
         </div>
-        <div className={styles.listHolder}>
+        <div className={styles.listHolderStopped}>
           <h2>STOPPED CONTAINERS</h2>
           <p className={styles.count}>Count: {stoppedList.length}</p>
           <div className={styles.containerList}>

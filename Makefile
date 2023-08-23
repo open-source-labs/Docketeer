@@ -69,7 +69,7 @@ push-cadvisor: push-postgres
 	docker pull $(CADVISOR_IMAGE):$(CADVISOR_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(CADVISOR_VER) --tag=$(CADVISOR_IMAGE):$(CADVISOR_VER) -f $(CADVISOR_DOCKERFILE_PATH) .
 
 push-postgres: prepare-buildx
-	docker pull $(CADVISOR_IMAGE):$(CADVISOR_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(CADVISOR_VER) --tag=$(CADVISOR_IMAGE):$(CADVISOR_VER) -f $(CADVISOR_DOCKERFILE_PATH) .
+	docker pull $(POSTRGRES_IMAGE):$(POSTGRES_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(POSTGRES_VER) --tag=$(POSTGRES_IMAGE):$(POSTGRES_VER) -f $(POSTGRES_DOCKERFILE_PATH) .
 
 
 help: ## Show this help

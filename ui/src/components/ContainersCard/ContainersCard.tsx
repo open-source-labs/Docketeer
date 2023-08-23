@@ -28,6 +28,7 @@ const ContainersCard = ({
 
   useEffect(() => {
     let newData: stats[] = [];
+    // This is unicode by the way
     const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
     const result = ddClient.docker.cli.exec(
       'stats',

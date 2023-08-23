@@ -11,7 +11,7 @@ import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
-import docketeerLogo from '../../assets/docketeer-logo-light.png';
+import docketeerLogo from '../../../assets/docketeer-logo-light.png';
 
 /**
  * @module | SharedLayout.tsx

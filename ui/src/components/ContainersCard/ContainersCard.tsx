@@ -10,11 +10,6 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
  **/
 
-
-
-
-
-
 /**
  * A custom hook which gets the stats of all Docker containers.
  */

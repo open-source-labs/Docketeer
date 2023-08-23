@@ -147,23 +147,17 @@ const ContainersCard = ({
   }
 
   const RunningContainers = containerList.map((container: ContainerType, i: number) => {
-    // const metrics = containerMetrics[0]
-    // console.log(123123, container)
     let metrics = null;
     if (containerMetrics !== undefined) {
       for (const item of containerMetrics) {
-        console.log('item', item)
-        console.log('container', container)
-          if (item.Container === container.ID) {
-              console.log(12342134234)
-                  metrics = item;
-                  break;
-            }
+        if (item.Container === container.ID) {
+          metrics = item;
+          break;
         }
+      }
     }
 
 
-    // console.log(123423143214, metrics)
     return (
       <RunningContainer
         container={container}

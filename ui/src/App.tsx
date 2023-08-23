@@ -12,8 +12,8 @@ import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 // import About from './components/About/About';
 // import NotFound from './components/NotFound/NotFound';
-import useSurvey from './helpers/dispatch';
-import useHelper from './helpers/commands';
+// import useSurvey from './helpers/dispatch';
+// import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
 
 
@@ -60,15 +60,6 @@ const App = () => {
    * @params none
    * @returns {Promise<void>} navigates user to endpoint /home if they were logged in
    */
-
-  const navigateToHome = async () => {
-    // await checkLogin();
-    navigate('/');
-  };
-  const navigateToAbout = async () => {
-    // await checkLogin();
-    navigate('/about');
-  };
 
   // if (loading) {
   //   return <div>Loading...</div>;

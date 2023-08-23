@@ -38,7 +38,7 @@ Currently only passes about half the tests. There are files you have to alter th
 
 <h2>Notes</h2>
 <h3>Deployment</h3>
-There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything to dockerhub for you.
+There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything to dockerhub for you.<strong>If you build from ARM64 architecture for multiplatform the windows version will not be able work properly. The core gets dumped on launch and can't run exec commands.</strong>
 
 <h2>Other Known Issues/ToDo</h2>
 <strong>File size:</strong> Extremely bloated file size due to the dockerfile just grabbing everything and adding it to the image. There's also still a ton of dependencies that are unused and forgotten. This all causes it take and extremely long time to compose and build to test any changes you make significantly slowing down development speed. The extension version has had major restructuring to its file structure but we ran out of time to restructure the browser version as well.<br />

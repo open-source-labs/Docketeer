@@ -36,7 +36,7 @@ const ContainersCard = ({
       if (dataFromBackend.hasOwnProperty('hash')) {
         dispatch(
           createAlert(
-            containerName + ' is successfully attached to the ' + networkName,
+            containerName + ' has been successfully attached to the ' + networkName + '...',
             4,
             'success'
           )
@@ -44,7 +44,7 @@ const ContainersCard = ({
       } else if (dataFromBackend.error) {
         dispatch(
           createAlert(
-            containerName + ' is already attached to the ' + networkName,
+            containerName + ' is already attached to ' + networkName + '...',
             4,
             'warning'
           )

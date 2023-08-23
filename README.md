@@ -260,57 +260,6 @@ Please ⭐️ this project if you found it helpful, thank you!
 
 ## Troubleshooting:
 
-<br />
-
-#### WSL
-
-There are some known issues running Docketeer through WSL. Using WindowsOS, MacOS, or Linux is recommended.
-
-<br />
-
-#### Linux
-
-If you are runing Docketeer in Linux and encounter the followeing errors, you might need to change some of your permissions.
-
-```sh
-grafana        |Error: ✗ failed to connect to database: failed to create SQLite database file "/var/lib/grafana/grafana.db": open /var/lib/grafana/grafana.db: permission denied
-```
-
-```sh
-prometheus     | ts=2023-07-05T23:48:01.612Z caller=query_logger.go:113 level=error component=activeQueryTracker msg="Failed to create directory for logging active queries"
-
-prometheus     | ts=2023-07-05T23:48:01.613Z caller=query_logger.go:91 level=error component=activeQueryTracker msg="Error opening query log file" file=/prometheus/data/queries.active err="open data/queries.active: no such file or directory"
-
-prometheus     | panic: Unable to create mmap-ed active query log
-```
-
-In order to do this, you need to change the permissions of data in ./imageConfigs/grafana and promDate under ./imageConfigs/prometheus. 
-
- go to grafana under ./imageConfigs and change permission of data
-
- ```sh
-cd ./imageConfigs/grafana
-chmod 771 data/
-```
-
-go to prometheus under ./imageConfigs and change permission of promDate
-
-```sh
-cd ./imageConfigs/prometheus
-chmod 777 promData/
-```
-
-<br />
-
-#### Ad-blocker
-
-If you are encountering the following error and are running an ad-blocker, disable your ad-blocker
-
-```sh
-ERR_BLOCKED_BY_CLIENT
-```
-<br />
-
 #### Network Capacity
 
 By default, Docker can only create 31 networks. If you try to create more, you would encounter the following error:

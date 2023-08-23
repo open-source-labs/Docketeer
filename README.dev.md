@@ -44,7 +44,9 @@ Would just have to restart docker desktop to get rid of it but it's annoying. <b
 
 <h2>Notes</h2>
 <h3>Deployment</h3>
-There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything to dockerhub for you.
+There is a makefile for easy deployment, just make sure to update the versions in it and the docker-compose then do 'make push-extension' and it will push everything to dockerhub for you.<br />
+<strong>If you build from ARM64 architecture for multiplatform the windows version will not be able work properly. The core gets dumped on launch and can't run exec commands.</strong>
+
 <h4>Last commit where Docketeer was browser based instead of an extension</h4>
 c927ee7835480fcfb815641b10f1ce98111af22a
 

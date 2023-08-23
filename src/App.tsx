@@ -11,7 +11,7 @@ import VolumeHistory from './components/VolumeHistory/VolumeHistory';
 import ProcessLogs from './components/ProcessLogs/ProcessLogs';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import About from './components/About/About';
-import NotFound from './components/NotFound/NotFound'
+import NotFound from './components/NotFound/NotFound';
 import useSurvey from './helpers/dispatch';
 import useHelper from './helpers/commands';
 import Network from './components/Network/Network';

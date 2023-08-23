@@ -1,0 +1,96 @@
+.wrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  transition: margin-left .5s;
+  margin-top: 10px;
+  .listHolder {
+      display: flex;
+      flex-direction: column;
+      // padding-left: 2rem;
+    }
+}
+
+.listHolder {
+  display: flex;
+  flex-direction: column;
+}
+.listHolderStopped {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.count {
+  margin-bottom: 1rem;
+}
+
+.containerList {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(480px, 1fr);
+  transform: all 0.5s ease-in-out;
+  width: 100%;
+}
+
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-color: #e3e6e8;
+  border: 2px;
+  border-radius: 2px;
+  height: 50px;
+  margin-bottom: 5px;
+  padding-top: 18px;
+  margin-left: 10px;
+}
+
+.toggle {
+  display: grid;
+  grid-template-columns: .9fr .1fr;
+  margin-left: 5px;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.active {
+  background-color: #272e35;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: white;
+  border-radius: 10px;
+}
+.notActive {
+  color: white;
+}
+@media screen and (max-width: $breakpoint-lg) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+  }
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+    transform: all 0.2s ease-in-out;
+  }
+  .listHolder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .containerList {
+    grid-template-columns: minmax(480px, 1fr);
+  }
+}

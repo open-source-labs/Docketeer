@@ -3,18 +3,24 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: 'prometheus'
+  # Exposes port for data to be queried by grafana, can be viewed at localhost:9090/metrics, or queried at localhost:9090/graph
+  - job_name: prometheus
+    scrape_interval: 5s
     static_configs:
       - targets: ['prometheus:9090']
-  - job_name: 'cadvisor'
-    static_configs:
-      - targets: ['cadvisor:8080']
-  - job_name: 'docker'
-    static_configs:
-      - targets: ['host.docker.internal:9323']
-    metrics_path: '/metrics'
-    params:
-      format: ['prometheus']
-  - job_name: 'node-exporter'
+
+  # Adds the data from prom/node-exporter to localhost:9090/graph
+  - job_name: node
     static_configs:
       - targets: ['node-exporter:9100']
+
+  # Scrapes all of the container metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+  
+  # Currently unsure is necessary, still experimenting
+  - job_name: docker_container_metrics
+    static_configs:
+      - targets: ['host.docker.internal:9323']
+

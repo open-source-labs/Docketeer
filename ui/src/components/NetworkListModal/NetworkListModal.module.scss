@@ -23,13 +23,12 @@
   .containerNetworks {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
-    overflow-y: scroll;
+    overflow-x: auto;
     height: 20rem;
     margin: 1rem;
     justify-content: flex-start;
-    // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     &::-webkit-scrollbar {
         width: 2px;
         background-color: rgb(49, 49, 49);

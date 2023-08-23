@@ -30,13 +30,13 @@ LABEL org.opencontainers.image.title="Docketeer" \
   org.opencontainers.image.description="Docker extension for monitoring and managing your containers, images, and networks" \
   org.opencontainers.image.vendor="Docketeer team" \
   com.docker.desktop.extension.api.version="0.3.0" \
-  com.docker.desktop.extension.icon="ui/assets/docketeer-logo-light.png" \
-  com.docker.extension.screenshots='[{"alt":"Containers page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-containers-page.png"}, \
-  {"alt":"Network page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-network-page.png"}, \
-  {"alt":"Image page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-image-page.png"}, \
-  {"alt":"Metrics page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-network-page.png"}, \
-  {"alt":"Volume History page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-volume-page.png"}, \
-  {"alt":"Process Logs page", "url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/cleanup/comments/assets/docketeer-processlogs-page.png"}]' \
+  com.docker.desktop.extension.icon="https://github.com/open-source-labs/Docketeer/blob/master/assets/docketeer-logo-light.png?raw=true" \
+  com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-containers-page.png"}, \
+  {"alt":"Network page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-network-page.png"}, \
+  {"alt":"Image page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-image-page.png"}, \
+  {"alt":"Metrics page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-network-page.png"}, \
+  {"alt":"Volume History page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-volume-page.png"}, \
+  {"alt":"Process Logs page","url":"https://raw.githubusercontent.com/oslabs-beta/docketeer-extension/master/assets/docketeer-processlogs-page.png"}]' \
   com.docker.extension.detailed-description="<h3>Description</h3> \
   <p>Greetings, fellow space traveler! We're thrilled that you've chosen our application to help you navigate and explore the vast universe of Docker infrastructure. As a Docketeer, you know that real-time tracking of metrics and logs is essential for staying ahead of potential issues and optimizing your workflows. Our extension provides you with the tools you need to take control of your Docker images, containers, volumes, and logs. With an intuitive interface, you can easily make the necessary adjustments to ensure a smooth journey through the cosmos of your Docker environment.</p> \
   <h4>About us</h4> \

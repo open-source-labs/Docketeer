@@ -40,11 +40,10 @@
   <p align="center">
   Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a>
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a><br />
+    <a href="https://github.com/oslabs-beta/docketeer-extension"><strong>See the extension version's code here!»</strong></a>
     <br />
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
-    ·
     <a href="https://github.com/open-source-labs/Docketeer/issues">Report Bug</a>
     ·
     <a href="https://github.com/open-source-labs/Docketeer/issues">Request Feature</a>
@@ -77,31 +76,32 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Helm][Helm]][Helm-url][![Kubernetes][Kubernetes]][Kubernetes-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
 
 </div>
 
 <br />
   <div align="center">
-    <img alt="Logo" src="assets/docketeer-peek.gif" width="fit" height="auto">
+    <img alt="Containers page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
+    <img alt="Network page" src="assets\docketeer-network-page.png" width="fit" height="auto">
+    <img alt="Metrics page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
   </div>
 <br />
 
 
-Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data, along with Kubernetes cluster data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
+Docketeer is an open source initiative comprising contributions from dozens of talented and passionate software engineers. Our application provides a simple interface to manage Docker resources & visualize both host and container metric data. Docketeer is a containerized application that can be deployed alongside your application cluster with hardly any effort. To learn more about our application and how to get started, keep reading!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Features:
 
-- Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
+- Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
 - Allows you to filter through both your running and stopped container logs. 
-- Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
+- Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
-- Docketeer offers full networking capabilities: create and manage networks without touching the terminal. 
-- Docketeer offers Node and kubelet metric visualizations for your Kubernetes clusters, along with an easy set up process to get your cluster connected to the application. 
+- Docketeer offers full networking capabilities: create and manage networks without touching the terminal.  
 - Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
 - Docketeer is highly customizable, and developers can configure it to suit their specific needs.
 - It's a community-maintained project, with frequent updates and bug fixes.
@@ -113,62 +113,17 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 ## Installation
 
-The local configuration for Docketeer was setup to be as simple as possible for the end-user. <br />
-Follow the steps below to get started with Docketeer.
-
-#### Prerequisites:
-You must have Docker Desktop installed and running!
-<br></br>
-
-#### STEP 1 — Clone the repository
-
-```sh
-git clone https://github.com/open-source-labs/Docketeer.git
-```
-
-#### STEP 2 — Docker compose up
-
-Making sure you're in your Docketeer directory, run:
-```sh
-docker compose up
-```
-
-#### STEP 3 — Navigate to localhost:4000 to sign-up & login!
-
-```sh
-http://localhost:4000
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Setting up Docketeer to work with a Kubernetes cluster
-
-Prerequisites: you must be running a Kubernetes cluster/kube.
-
-Open up a new tab in your terminal. Run 
-
-```sh
-npm install
-```
-Docketeer is using [d3-sankey](https://github.com/d3/d3-sankey) for data visualization, which is currently not being actively maintained. Running `npm install` would install `patch-package` and make sure to input `y` when you see the following prompt:
-```
-Need to install the following packages:
-  patch-package@7.0.2
-Ok to proceed? (y) 
-```
-and
-
-```sh
-npm run dev
-``` 
-
-Then, navigate to [localhost:4001/api/k8](http://localhost:4001/api/k8):
-
-If you haven't set up Prometheus-Operator with us before, click the first button to install. 
+#### Open your Docker Desktop and search 'Docketeer' and install the extension!
 <br />
-Otherwise, you can skip the first button and go on with the next two!
-<br />
-P.S. Make sure to keep this terminal open!
+
+#### If you would like to install from the Github repo follow these steps
+##### NOTE: Doing it this way will use the official image versions of grafana/prometheus/cadvisor/node-exporter  and the extension will be the unpublished version
+STEP 1 — Clone the repository<br />
+STEP 2 — Navigate to the top level directory of Docketeer-extension and run the following commands: 
+```sh
+docker build -t docketeer-extension -f dockerfile.dev .
+docker extension install docketeer-extension
+```
 
 <!-- IN DEVELOPMENT -->
 
@@ -180,6 +135,7 @@ P.S. Make sure to keep this terminal open!
 - [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
+- [ ] Implement the Kubernetes metric monitoring from the browser version to the extension version.
 - [ ] Display additional metrics for Kubernetes clusters.
 
 See <a href="#troubleshooting">Troubleshooting</a> and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
@@ -289,6 +245,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Adrian Kormier [@adriankormier](https://github.com/adriankormier) | [LinkedIn](https://www.linkedin.com/in/adrian-kormier/)
 - Shuai Shao [@shao-shuai](https://github.com/shao-shuai) | [LinkedIn](http://www.linkedin.com/in/shuai-sh/)
 - John Kim [@jayoo0621](https://github.com/jayoo0621) | [LinkedIn](https://www.linkedin.com/in/jayoo0621/)
+- Tristan Keester [@ronagens](https://github.com/ronagens) | [LinkedIn](https://www.linkedin.com/in/tristan-keester/)
+- Tristan Krause [@tristanyuukio](https://github.com/tristanyukio) | [LinkedIn](https://www.linkedin.com/in/krausetristan)
+- Grant Schussler [@gschussler](https://github.com/gschussler) | [LinkedIn](https://www.linkedin.com/in/grant-schussler/)
+- Jacob Melendez [@JacobAMelendez](https://github.com/JacobAMelendez) | [LinkedIn](https://www.linkedin.com/in/jacob-melendez-72245278)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -299,57 +259,6 @@ Please ⭐️ this project if you found it helpful, thank you!
 <br />
 
 ## Troubleshooting:
-
-<br />
-
-#### WSL
-
-There are some known issues running Docketeer through WSL. Using WindowsOS, MacOS, or Linux is recommended.
-
-<br />
-
-#### Linux
-
-If you are runing Docketeer in Linux and encounter the followeing errors, you might need to change some of your permissions.
-
-```sh
-grafana        |Error: ✗ failed to connect to database: failed to create SQLite database file "/var/lib/grafana/grafana.db": open /var/lib/grafana/grafana.db: permission denied
-```
-
-```sh
-prometheus     | ts=2023-07-05T23:48:01.612Z caller=query_logger.go:113 level=error component=activeQueryTracker msg="Failed to create directory for logging active queries"
-
-prometheus     | ts=2023-07-05T23:48:01.613Z caller=query_logger.go:91 level=error component=activeQueryTracker msg="Error opening query log file" file=/prometheus/data/queries.active err="open data/queries.active: no such file or directory"
-
-prometheus     | panic: Unable to create mmap-ed active query log
-```
-
-In order to do this, you need to change the permissions of data in ./imageConfigs/grafana and promDate under ./imageConfigs/prometheus. 
-
- go to grafana under ./imageConfigs and change permission of data
-
- ```sh
-cd ./imageConfigs/grafana
-chmod 771 data/
-```
-
-go to prometheus under ./imageConfigs and change permission of promDate
-
-```sh
-cd ./imageConfigs/prometheus
-chmod 777 promData/
-```
-
-<br />
-
-#### Ad-blocker
-
-If you are encountering the following error and are running an ad-blocker, disable your ad-blocker
-
-```sh
-ERR_BLOCKED_BY_CLIENT
-```
-<br />
 
 #### Network Capacity
 

@@ -81,7 +81,7 @@ services:
       - prometheus
 
   docketeer:
-    image: docketeerxiv/docketeer:latest
+    image: docketeerxiv/docketeer:14.0.0
     container_name: docketeer
     ports:
       - '4000:4000'

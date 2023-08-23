@@ -327,58 +327,6 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
-      "description": "",
-      "gridPos": {
-        "h": 1,
-        "w": 1,
-        "x": 23,
-        "y": 3
-      },
-      "id": 77,
-      "options": {
-        "activeTheme": "Transparent",
-        "disableThemePicker": true,
-        "themes": [
-          {
-            "name": "Transparent",
-            "styles": [
-              {
-                "props": {
-                  "theme": "default"
-                },
-                "type": "basetheme"
-              },
-              {
-                "props": {
-                  "url": ""
-                },
-                "type": "bgimage"
-              },
-              {
-                "props": {
-                  "url": ""
-                },
-                "type": "url"
-              },
-              {
-                "props": {
-                  "text": "body, .panel-container, .dashboard-container, main { background-color: rgba(0,0,0,0)!important; }"
-                },
-                "type": "style"
-              }
-            ]
-          }
-        ]
-      },
-      "pluginVersion": "0.2.1",
-      "transparent": true,
-      "type": "yesoreyeram-boomtheme-panel"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
       "fieldConfig": {
         "defaults": {
           "decimals": 1,

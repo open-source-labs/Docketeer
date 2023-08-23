@@ -48,8 +48,8 @@ h1 {
 
 body {
   padding-top: 60px;
-  padding-left: 50px;
-  padding-right: 50px;
+  // padding-left: 50px;
+  // padding-right: 50px;
   font-family: 'Bai Jamjuree', sans-serif;
   // font-family: 'Quicksand', sans-serif;
   // font-family: 'Inter', -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
@@ -89,6 +89,6 @@ body {
   body {
     margin: 0 auto;
     max-width: $breakpoint-uw;
-    padding-left: $sidebar-width;
+    // padding-left: $sidebar-width;
   }
 }

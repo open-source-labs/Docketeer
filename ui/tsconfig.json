@@ -16,6 +16,6 @@
     "noImplicitAny": false,
     "strictNullChecks": false
   },
-  "include": ["src", "src/helpers"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

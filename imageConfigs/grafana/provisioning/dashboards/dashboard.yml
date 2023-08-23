@@ -6,11 +6,7 @@ providers:
     folder: ''
     type: file
     disableDeletion: false
-    editable: true
+    editable: false
     allowUiUpdates: true
     options:
       path: /etc/grafana/provisioning/dashboards
-
-
-
-

@@ -84,7 +84,7 @@ const Network = (): JSX.Element => {
       if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
-            'New network ' + name + ' is successfully added',
+            'New network ' + name + ' has been successfully added...',
             4,
             'success'
           )
@@ -92,7 +92,7 @@ const Network = (): JSX.Element => {
       } else if (dataFromBackend.error) {
         dispatch(
           createAlert(
-            'Error from the docker : ' + dataFromBackend.error,
+            'Error from the docker: ' + dataFromBackend.error,
             4,
             'warning'
           )
@@ -102,7 +102,7 @@ const Network = (): JSX.Element => {
     } catch (err) {
       dispatch(
         createAlert(
-          'An error occurred while creating a new network : ' + err,
+          'An error occurred while creating a new network: ' + err,
           4,
           'error'
         )
@@ -148,7 +148,7 @@ const Network = (): JSX.Element => {
       if (dataFromBackend['hash']) {
         dispatch(
           createAlert(
-            'Network ' + name + ' is successfully removed',
+            'Network ' + name + ' has been successfully removed',
             4,
             'success'
           )
@@ -168,7 +168,7 @@ const Network = (): JSX.Element => {
     } catch (err) {
       dispatch(
         createAlert(
-          'An error occurred while removing the network : ' + err,
+          'An error occurred while removing the network: ' + err,
           4,
           'error'
         )

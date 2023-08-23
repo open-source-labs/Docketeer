@@ -40,7 +40,9 @@
   <p align="center">
   Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
-    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a>
+    <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a><br />
+    <a href="https://github.com/oslabs-beta/docketeer-extension"><strong>See the extension version's code here!»</strong></a>
+    <br />
     <br />
     <br />
     <a href="https://github.com/open-source-labs/Docketeer#about-the-project">View Demo</a>
@@ -94,10 +96,10 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 ### Features:
 
-- Docketeer is a Docker developer tool that's available as an open-source project on GitHub.
+- Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
 - Allows you to filter through both your running and stopped container logs. 
-- Docketeer provides an easy-to-use command-line interface for managing Docker containers, images, and networks.
+- Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
 - Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
 - Docketeer offers full networking capabilities: create and manage networks without touching the terminal. 
@@ -143,7 +145,7 @@ http://localhost:4000
 
 ## Setting up Docketeer to work with a Kubernetes cluster
 
-Prerequisites: you must be running a Kubernetes cluster/kube.
+Prerequisites: you must be running a Kubernetes cluster/kube, have kubectl and helm installed.
 
 Open up a new tab in your terminal. Run 
 
@@ -180,6 +182,7 @@ P.S. Make sure to keep this terminal open!
 - [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
+- [ ] Implement the Kubernetes metric monitoring from the browser version to the extension version.
 - [ ] Display additional metrics for Kubernetes clusters.
 
 See <a href="#troubleshooting">Troubleshooting</a> and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
@@ -289,6 +292,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Adrian Kormier [@adriankormier](https://github.com/adriankormier) | [LinkedIn](https://www.linkedin.com/in/adrian-kormier/)
 - Shuai Shao [@shao-shuai](https://github.com/shao-shuai) | [LinkedIn](http://www.linkedin.com/in/shuai-sh/)
 - John Kim [@jayoo0621](https://github.com/jayoo0621) | [LinkedIn](https://www.linkedin.com/in/jayoo0621/)
+- Tristan Keester [@ronangens](https://github.com/ronagens) | [LinkedIn](https://www.linkedin.com/in/tristan-keester/)
+- Tristan Krause [@tristanyuukio](https://github.com/tristanyukio) | [LinkedIn](https://www.linkedin.com/in/krausetristan)
+- Grant Schussler [@gschussler](https://github.com/gschussler) | [LinkedIn](https://www.linkedin.com/in/grant-schussler/)
+- Jacob Melendez [@JacobAMelendez](https://github.com/JacobAMelendez) | [LinkedIn](https://www.linkedin.com/in/jacob-melendez-72245278)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

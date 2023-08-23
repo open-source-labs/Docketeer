@@ -1,17 +1,18 @@
 # Use an official Node.js runtime as a parent image
-FROM node
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16
 # Set the working directory to /app
 WORKDIR /app
 
-# Set the PATH env variable
-# ENV PATH="/usr/local/bin:${PATH}"
-# COPY /usr/local/bin/docker /usr/local/bin/docker
-# changed to most recent version!
-ENV DOCKERVERSION=20.10.23 
+# Installs curl
+RUN apk --no-cache add curl
 
+# Update the DOCKERVERSION to the most recent version, check dates on https://download.docker.com/linux/static/stable/x86_64/
+# Installs docker to the image so it can run exec commands on the backend
+ENV DOCKERVERSION=24.0.5
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
   && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
+
 
 COPY package*.json ./
 

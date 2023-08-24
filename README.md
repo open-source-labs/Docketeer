@@ -41,7 +41,7 @@
   Docketeer is a developer-friendly application that provides a single interface for container and network management as well as metric visualization.  
     <br />
     <a href="https://github.com/open-source-labs/Docketeer"><strong>Explore the code & contribute here!»</strong></a><br />
-    <a href="https://github.com/oslabs-beta/docketeer-extension"><strong>See the extension version's code here!»</strong></a>
+    <a href="https://github.com/open-source-labs/docketeer-extension"><strong>See the extension version's code here!»</strong></a>
     <br />
     <br />
     <br />

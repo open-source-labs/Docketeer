@@ -43,7 +43,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   <p>As a team of passionate engineers, we are dedicated to improving the workflow of developers as they explore the vast universe of Docker infrastructure. We know that space travel can be complex and challenging, but with the right tools and support, you can navigate the stars with ease.</p> \
   <p>Our mission is to provide Docketeers like you with the tools and support you need to make your Docker journey as smooth as possible. We strive to make our application intuitive, powerful, and user-friendly so that you can focus on exploring the Docker universe without worrying about the technical details.</p>" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
-  com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/oslabs-beta/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
+  com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
   com.docker.extension.changelog="<p>Extension changelog<ul><li>Launch!</li></ul></p>"
 

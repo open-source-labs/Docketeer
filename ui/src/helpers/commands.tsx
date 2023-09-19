@@ -421,7 +421,7 @@ const useHelper = () => {
 
       async checkGrafanaConnection() {
         try {
-          const response: Response = await fetch('http://localhost:2999/')
+          const response: Response = await fetch('http://localhost:49155/');
           return (response.status === 200);
         } catch (error) {
           console.log('Error occured when in commands.tsx checkGrafanaConnection:');

@@ -92,9 +92,9 @@ const Containers = (): JSX.Element => {
     
           <div className={styles.toggle}>
             <div>
-              {activeButton === 1 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=75" width="100%"></iframe>}
-              {activeButton === 2 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
-              {activeButton === 3 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
+              {activeButton === 1 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=75" width="100%"></iframe>}
+              {activeButton === 2 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
+              {activeButton === 3 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
             </div>
             <div className={styles.buttons}>
               <button className={activeButton === 1 ? styles.active : styles.notActive} onClick={() => setActiveButton(1)}>Memory</button>

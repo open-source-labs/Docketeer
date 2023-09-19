@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import fs from 'fs';
-import cors from 'cors';
+//import cors from 'cors';
 import { exec } from 'child_process';
 import * as path from 'path';
 import { ServerError, GlobalErrorObject } from './backend-types';
@@ -19,7 +19,7 @@ catch (err) {
   console.log('Did not need to delete the UNIX socket file.');
 }
 
-app.use(cors());
+//app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,7 +47,18 @@ app.use('/command', commandRouter);
 // app.use('/logout', logoutRouter);
 // app.use('/setup', setupRouter);
 // app.use('/signup', signupRouter);
-
+app.get('/api/grafana', async(req, res, next) => {
+  try {
+    const result = await fetch('http://grafana:3000/');
+    if (result.ok) return next();
+    throw Error('Error fetching from grafana')
+  } catch (err) {
+    console.log(err);
+    return next(err)
+  }
+}, (req, res) => {
+  return res.status(200).send();
+})
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {
   return res
@@ -56,7 +67,7 @@ app.use('/', (req: Request, res: Response): Response => {
 });
 
 // Handling global errors...
-app.get(
+app.use(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: ServerError, req: Request, res: Response): Response => {

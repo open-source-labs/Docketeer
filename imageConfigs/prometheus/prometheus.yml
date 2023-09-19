@@ -17,7 +17,7 @@ scrape_configs:
   # Scrapes all of the container metrics
   - job_name: 'cadvisor'
     static_configs:
-      - targets: ['host.docker.internal:8080']
+      - targets: ['cadvisor:8080']
   
   # Currently unsure is necessary, still experimenting
   - job_name: docker_container_metrics

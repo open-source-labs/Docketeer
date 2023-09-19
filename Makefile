@@ -23,7 +23,7 @@ clean:
 
 
 img_prune:
-	docker image prune -a
+	docker image prune -af
 
 clr_cache:
 	docker buildx prune -f

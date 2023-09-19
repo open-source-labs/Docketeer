@@ -26,8 +26,10 @@ services:
     # The docketeer image uploaded is on gcr.io/cadvisor/cadvisor:v0.47.1
     image: gcr.io/cadvisor/cadvisor:v0.47.1
     container_name: docketeer-ext-cadvisor
+    expose:
+      - 8080
     ports:
-      - 8080:8080
+      - 49158:8080
     volumes:
       # Applies the bind mounts in ro (read only) and rw (read write) to be able to scrape containers
       - /:/rootfs:ro
@@ -41,8 +43,10 @@ services:
     image: prom/node-exporter:latest
     container_name: docketeer-ext-node-exporter
     restart: unless-stopped
+    expose:
+      - 9100
     ports:
-      - 9100:9100
+      - 49157:9100
     volumes:
       #system info for linux machines
       - /proc:/host/proc:ro
@@ -63,8 +67,10 @@ services:
     image: prom/prometheus:latest
     container_name: docketeer-ext-prometheus
     restart: unless-stopped
+    expose:
+      - 9090
     ports:
-      - 9090:9090
+      - 49156:9090
     volumes:
       - docketeer-ext-prometheus-files:/etc/prometheus
       - docketeer-ext-prometheus-data:/prometheus
@@ -80,8 +86,10 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: docketeer-ext-grafana
+    expose:
+      - 3000
     ports:
-      - 2999:3000
+      - 49155:3000
     volumes:
       - docketeer-ext-grafana-files:/etc/grafana
     environment:

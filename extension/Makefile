@@ -28,6 +28,10 @@ BUILDER=buildx-multi-arch
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
+dev:
+	docker build -t docketeer-extension -f dockerfile.dev ..
+	docker extension install docketeer-extension 
+	docker extension dev debug docketeer-extension
 build-extension: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(TAG) .
 

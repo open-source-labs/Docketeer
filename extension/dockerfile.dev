@@ -61,7 +61,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 # Copies necessary files into extension directory
 COPY --from=builder /backend backend
 # Copies over the dev compose file and renames it so when installing as extension it is recognized
-COPY docker-compose-dev.yaml docker-compose.yaml
+COPY extension/docker-compose-dev.yaml docker-compose.yaml
 COPY metadata.json .
 COPY docketeer.svg .
 COPY --from=client-builder /ui/build ui

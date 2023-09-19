@@ -421,7 +421,7 @@ const useHelper = () => {
 
       async checkGrafanaConnection() {
         try {
-          const response: Response = await ddClient.extension.vm?.service?.get('/api/grafana');
+          const response: Response = await fetch('http://localhost:2999/');
           return (response.status === 200);
         } catch (error) {
           console.log('Error occured when in commands.tsx checkGrafanaConnection:');

@@ -6,6 +6,7 @@ import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
+import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 
 /**
@@ -83,7 +84,7 @@ const Containers = (): JSX.Element => {
       )
     );
   };
-
+  const ddClient = createDockerDesktopClient();
   return (
     <div>
       <div className={styles.wrapper}>
@@ -92,7 +93,7 @@ const Containers = (): JSX.Element => {
     
           <div className={styles.toggle}>
             <div>
-              {activeButton === 1 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=75" width="100%"></iframe>}
+              {activeButton === 1 && <iframe src='http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=75' width="100%"></iframe>}
               {activeButton === 2 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
               {activeButton === 3 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
             </div>

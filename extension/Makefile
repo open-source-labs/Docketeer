@@ -5,7 +5,7 @@ ITERATION?=docketeerxiv
 
 # Make sure to update versions to whatever the latest is
 EXTENSION_IMAGE?=$(ITERATION)/docketeer-extension
-TAG?=14.0.0
+TAG?=15.0.0
 
 GRAFANA_IMAGE?=$(ITERATION)/grafana-extension
 GRAFANA_VER?=latest
@@ -33,6 +33,7 @@ dev:
 	docker extension install docketeer-extension 
 	docker extension dev debug docketeer-extension
 
+#use rarely
 hardclean: clean img_prune clr_cache
 
 clean:
@@ -42,19 +43,21 @@ img_prune:
 clr_cache:
 	docker buildx prune -f 
 
-build-extension: ## Build service image to be deployed as a desktop extension
-	docker build --tag=$(EXTENSION_IMAGE):$(TAG) .
+prod: install-ext validate-ext debug-ext
 
-install-extension: build-extension ## Install the extension
+build-ext: ## Build service image to be deployed as a desktop extension
+	docker build --tag=$(EXTENSION_IMAGE):$(TAG) -f dockerfile ..
+
+install-ext: build-ext ## Install the extension
 	docker extension install $(EXTENSION_IMAGE):$(TAG) -f
 
-update-extension: build-extension ## Update the extension
+update-ext: build-ext ## Update the extension
 	docker extension update $(EXTENSION_IMAGE):$(TAG) -f
 
-update-debug-extension: update-extension # Update the extension and put it into debug mode
+update-debug-ext: update-ext # Update the extension and put it into debug mode
 	docker extension dev debug $(EXTENSION_IMAGE):$(TAG)
 
-validate-extension: ## Make sure you have the multiplatform image created, need it to made to pass this
+validate-ext: install-ext## Make sure you have the multiplatform image created, need it to made to pass this
 	docker extension validate $(EXTENSION_IMAGE):$(TAG)
 
 prepare-buildx: ## Create buildx builder for multi-arch build, if not exists

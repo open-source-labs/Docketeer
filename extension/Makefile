@@ -32,6 +32,16 @@ dev:
 	docker build -t docketeer-extension -f dockerfile.dev ..
 	docker extension install docketeer-extension 
 	docker extension dev debug docketeer-extension
+
+hardclean: clean img_prune clr_cache
+
+clean:
+	docker extension rm docketeer-extension
+img_prune:
+	docker image prune -af
+clr_cache:
+	docker buildx prune -f 
+
 build-extension: ## Build service image to be deployed as a desktop extension
 	docker build --tag=$(EXTENSION_IMAGE):$(TAG) .
 

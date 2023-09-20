@@ -221,7 +221,7 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-                to="/metrics"
+                to="/K8Metrics"
               >
                 KUBERNETES METRICS
               </NavLink>

@@ -52,6 +52,9 @@ const makeArrayOfObjects = (
       const logArray = element.split(' ');
 
       // extract timestamp from logArray
+      /**
+       * @todo find index position of the first z and save it for the filtering
+       */
       let timeStamp: string | undefined = logArray.find((el) =>
         el.endsWith('Z')
       );
@@ -68,6 +71,9 @@ const makeArrayOfObjects = (
       }
 
       // parse remaining array to create readable message
+      /**
+       * @todo fix this as typing z will break code
+       */
       let logMsg: string = logArray.filter((el) => !el.endsWith('Z')).join(' ');
 
       // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'

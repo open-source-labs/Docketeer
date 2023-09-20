@@ -59,7 +59,11 @@ const ProcessLogs = (): JSX.Element => {
     tableData();
   }, [counter, csvData.length]);
 
-  // helper func to create a single object to send to the backend
+  /**
+   * @abstract Takes array of nums and a timeframe and creates an object with container names 
+   *           since a timeframe expressed as a string
+   * @todo if (timeframe) could be source of error?
+   */
   const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
     const optionsObj = {
       containerNames: containerNames,

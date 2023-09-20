@@ -28,9 +28,15 @@ BUILDER=buildx-multi-arch
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
-dev:
+dev: build-dev install-dev dev-tools
+
+install-dev:
+	docker extension install docketeer-extension 	
+
+build-dev:
 	docker build -t docketeer-extension -f dockerfile.dev ..
-	docker extension install docketeer-extension 
+
+dev-tools:
 	docker extension dev debug docketeer-extension
 
 #use rarely
@@ -42,6 +48,11 @@ img_prune:
 	docker image prune -af
 clr_cache:
 	docker buildx prune -f 
+
+reload: build-dev update dev-tools
+
+update: 
+	docker extension update docketeer-extension
 
 prod: install-ext validate-ext debug-ext
 

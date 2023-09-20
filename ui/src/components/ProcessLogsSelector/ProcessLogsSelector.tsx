@@ -19,7 +19,7 @@ function ProcessLogsSelector({
         <legend>{status.toUpperCase()} CONTAINERS</legend>
         {containerList.map((container, i) => {
           return (
-            <div key={i}>
+            <div key={`checkbox_${i}`}>
               <input
                 type="checkbox"
                 id={container.Names}

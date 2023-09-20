@@ -13,7 +13,7 @@ const Metrics = (): JSX.Element => {
 
   // This is up here to define it before the metricsDiv state so it can be passed into the button
   const checkGrafana = async () => {
-    const grafStatus = await checkGrafanaConnection();
+    const grafStatus = true;  //await checkGrafanaConnection();
     if (grafStatus) {
       setMetricsDiv(
         <iframe

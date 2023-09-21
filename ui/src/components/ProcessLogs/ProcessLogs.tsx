@@ -18,7 +18,7 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import useHelper from '../../helpers/commands';
 import useSurvey from '../../helpers/dispatch';
-
+import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
@@ -30,10 +30,15 @@ import { todo } from 'node:test';
  **/
 
 const ProcessLogs = (): JSX.Element => {
+  //STATE
+  const { searchWord } = useAppSelector((store)=> store.logs)
   const { runningList, stoppedList } = useAppSelector(
     state => state.containers,
   );
   const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
+  //DISPATCH
+  const dispatch = useAppDispatch();
+
   const runningBtnList: any = getContainerNames(runningList);
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
@@ -52,7 +57,7 @@ const ProcessLogs = (): JSX.Element => {
   // end date
   const [stopDate, setStopDate] = useState<Dayjs | null>(null);
   // process log rows
-  const [rows, setRows] = useState([] as JSX.Element[]);
+  const [rows, setRows] = useState([]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
   ] as CSVDataType[]);
@@ -65,7 +70,6 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     tableData();
@@ -191,8 +195,43 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    setRows(newRows as keyof typeof setRows);
-    setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
+    setRows(newRows);
+    // setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
+  };
+
+  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
+
+  const toCSVArray = (csvObj) => {
+    const csvArray = new Array(csvObj.length);
+    csvObj.forEach((element, index) => {
+      csvArray[index] = [];
+      csvArray[index].push(element.container);
+      csvArray[index].push(element.type);
+      csvArray[index].push(element.time);
+      csvArray[index].push(element.message);
+
+    })
+    return csvArray;
+  }
+
+  useEffect(() => {
+    setFilteredDisplay(rows);
+    setCsvData(toCSVArray(rows));
+  }, [rows.length]);
+  const toggleDisplay = (e) => {
+    if (e.key === 'Enter') {
+      if (!searchWord.length) {
+        setFilteredDisplay(rows);
+        return;
+      }
+      if (rows.length) {
+        const re = new RegExp(searchWord, "i");
+        const filtered = rows.filter((row) => re.test(row.message));
+        setFilteredDisplay(filtered)
+        const csvArray = toCSVArray(filtered);
+        setCsvData(csvArray);
+      }
+    }
   };
 
   return (
@@ -225,6 +264,9 @@ const ProcessLogs = (): JSX.Element => {
                 />
               </LocalizationProvider>
             </ThemeProvider>
+          </div>
+          <div className={'keyword-search'}>
+            <input type="text" value={searchWord} onChange={(e) => { dispatch(setSearchWord(e.target.value)) }} onKeyDown={toggleDisplay} />
           </div>
           {/* Container Checkbox Selector */}
           <div className={styles.selectors}>
@@ -269,7 +311,7 @@ const ProcessLogs = (): JSX.Element => {
                 <th>MESSAGE</th>
               </tr>
             </thead>
-            {rows.map((row: any, i) => {
+            {filteredDisplay.map((row: any, i) => {
               return (
                 <tbody key={`row-${i}`}>
                   <tr>

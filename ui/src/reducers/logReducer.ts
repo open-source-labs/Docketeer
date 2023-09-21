@@ -6,6 +6,7 @@ const initialState: LogsStateType = {
     stdout: [],
     stderr: [],
   },
+  searchWord: ''
 };
 
 export const logSlice = createSlice({
@@ -15,8 +16,11 @@ export const logSlice = createSlice({
     getLogs: (state, action: PayloadAction<ContainerLogsType>) => {
       state.containerLogs = action.payload;
     },
+    setSearchWord: (state, action: PayloadAction<string>) => {
+      state.searchWord = action.payload;
+    }
   },
 });
 
-export const { getLogs } = logSlice.actions;
+export const { getLogs, setSearchWord } = logSlice.actions;
 export default logSlice.reducer;

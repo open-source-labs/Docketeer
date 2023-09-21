@@ -201,6 +201,7 @@ export interface ContainerLogsType {
 
 export interface LogsStateType {
   containerLogs: ContainerLogsType;
+  searchWord: string
 }
 
 export type CSVDataType = string[];

@@ -5,7 +5,7 @@ dayjs.extend(dayjsPluginUTC);
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { ThemeProvider, createTheme } from '@mui/system';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
@@ -47,9 +47,6 @@ const ProcessLogs = (): JSX.Element => {
   }
 
   const [btnIdList, setBtnIdList] = useState<Array<object>>(runningBtnList);
-  const [timeFrameNum, setTimeFrameNum] = useState<string>('');
-  const [timeFrame, setTimeFrame] = useState<string>('');
-  // );
   // start date
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   // end date
@@ -62,6 +59,11 @@ const ProcessLogs = (): JSX.Element => {
   const [counter, setCounter] = useState(0);
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
   const dispatch = useAppDispatch();
 
@@ -72,12 +74,9 @@ const ProcessLogs = (): JSX.Element => {
   /**
    * @abstract Takes array of nums and a timeframe and creates an object with container names
    *           since a timeframe expressed as a string
-   * @todo if (timeframe) could be source of error?
-   * @toBeReplaced with timespace, null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
-   *
    * input: container names: array of strings, startDate: dayJs | null, stopDate: dayJs | null
+   * null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
    * output: optionsObj
-   *
    */
   const buildOptionsObj = (
     containerNames: string[],
@@ -85,52 +84,45 @@ const ProcessLogs = (): JSX.Element => {
     startD?: string,
     stopD?: string,
   ) => {
-    // create optionsObj, container names are selected containers,
+    // create optionsObj, container names are selected containers, start time, stop time, offset is local utc offset in minutes
     const optionsObj = {
       containerNames: containerNames,
       start: startD,
       stop: stopD,
       offset: offset,
     };
-
     return optionsObj;
   };
 
-  // takes in a btnIdList, passes that into buildObptionObj
   /**
-   * @todo: remove console log tests after linkined with the backend
-   * input: idList, Object => btnIdList,
+   * @abstract: takes in a btnIdList, passes that into buildObptionObj
+   * input: idList, Object, passing in btnIdList
    */
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
-
-    dispatch(createAlert('Loading process log information...', 2, 'success'));
+    // pop-up
+    dispatch(createAlert('Loading process log information...', 1, 'success'));
 
     const optionsObj = buildOptionsObj(
       idArr,
       date.getTimezoneOffset().toString(),
-      startDate.format('YYYY-MM-DDTHH:mm:ss'),
-      stopDate.format('YYYY-MM-DDTHH:mm:ss'),
+      startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') : null,
+      stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') : null,
     );
     // console.log(optionsObj); // console.log test
-    const containerLogs: any = await getLogs(optionsObj);
 
-    getContainerLogsDispatcher(containerLogs);
+    const containerLogs: any = await getLogs(optionsObj);
+    getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
 
     return containerLogs;
-    // return; // console.log test
   };
 
   /**
-   * @toBeReplaced or deleted
-   **/
-  // // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
-  const createTimeFrameStr = (num, option) =>
-    option === 'd' ? `${num * 24}h` : `${num}${option}`;
-
-  // Handle checkboxes
+   * @abstract: Handle Checkboxes, changes boolean in btnIdList when passed in a name
+   * Input: name, String
+   */
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
 
@@ -143,7 +135,12 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
-  // creates an array of log messages and saves it to state
+  /**
+   * @abstract: Creates an array of log messages and saves it to state
+   * Input: none
+   * Output: setsRows: for process logs table, setCsvData: chooses CSV data
+   * @todo: possibly changed the data for more functionality.
+   */
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -206,29 +203,30 @@ const ProcessLogs = (): JSX.Element => {
           {/* <div>Count: {runningList.length}</div> */}
           <p>
             Please choose the container(s) you would like to view process logs
-            for and optionally select the time frame.
+            for and optionally select the timeframe.
           </p>
-          {/* date selectors */}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-              label='Start'
-              value={startDate}
-              sx={{ width: '200px' }}
-              onChange={newStart => {
-                setStartDate(newStart);
-              }}
-            />
-          </LocalizationProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-              label='Stop'
-              value={stopDate}
-              sx={{ width: '200px' }}
-              onChange={newStop => {
-                setStopDate(newStop);
-              }}
-            />
-          </LocalizationProvider>
+          {/* Timeframe Selector */}
+          <div>
+            <ThemeProvider theme={darkTheme}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label='Timeframe Start'
+                  value={startDate}
+                  sx={{ width: '225px' }}
+                  onChange={newStart => setStartDate(newStart)}
+                />
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label='Timeframe Stop'
+                  value={stopDate}
+                  sx={{ width: '225px' }}
+                  onChange={newStop => setStopDate(newStop)}
+                />
+              </LocalizationProvider>
+            </ThemeProvider>
+          </div>
+          {/* Container Checkbox Selector */}
           <div className={styles.selectors}>
             <ProcessLogsSelector
               containerList={runningList}
@@ -243,7 +241,6 @@ const ProcessLogs = (): JSX.Element => {
               status='Stopped'
             />
           </div>
-
           <div className={styles.buttonHolder}>
             <button
               className={globalStyles.button1}

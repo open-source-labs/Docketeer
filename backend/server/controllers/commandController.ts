@@ -35,6 +35,7 @@ const convert = (stdout: string): string[][] => {
  */
 
 function convertDates(dateString: string, offset: number) {
+  if (!offset) offset = 0;
   const utcDate = new Date(dateString);
   const localDate = utcDate.getTime() - offset * 60 * 60 * 1000;
   const localDateObj = new Date(localDate);
@@ -869,19 +870,19 @@ const commandController: CommandController = {
       stdout: [],
       stderr: [],
     };
-      const { containerNames, since, until } = req.body;
-      const optionsObj = { containerNames, since, until };
+      const { containerNames, since, until, offset } = req.body;
+      // string string string number
+      const optionsObj = { containerNames, since, until, offset };
 
     // iterate through containerIds array in optionsObj
-    
       for (let i = 0; i < optionsObj.containerNames.length; i++) {
         // build inputCommandString to get logs from command line
         let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t`;
         if (optionsObj.since) inputCommandString += ` --since ${optionsObj.since}`;
         if (optionsObj.until) inputCommandString += ` --until ${optionsObj.until}`;
         const { stdout, stderr } = await execAsync(inputCommandString);
-        containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], 240)];
-        containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], 240)];
+        containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], offset)];
+        containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], offset)];
       }
       res.locals.logs = containerLogs;
       return next();

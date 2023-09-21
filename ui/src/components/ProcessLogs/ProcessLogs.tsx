@@ -107,8 +107,8 @@ const ProcessLogs = (): JSX.Element => {
     const optionsObj = buildOptionsObj(
       idArr,
       date.getTimezoneOffset().toString(),
-      startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') : null,
-      stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') : null,
+      startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
+      stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
     // console.log(optionsObj); // console.log test
 

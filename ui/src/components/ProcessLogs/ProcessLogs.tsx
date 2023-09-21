@@ -74,41 +74,59 @@ const ProcessLogs = (): JSX.Element => {
    *           since a timeframe expressed as a string
    * @todo if (timeframe) could be source of error?
    * @toBeReplaced with timespace, null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
+   *
+   * input: container names: array of strings, startDate: dayJs | null, stopDate: dayJs | null
+   * output: optionsObj
+   *
    */
-  const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
+  const buildOptionsObj = (
+    containerNames: string[],
+    offset: string,
+    startD?: string,
+    stopD?: string,
+  ) => {
+    // create optionsObj, container names are selected containers,
     const optionsObj = {
       containerNames: containerNames,
-      since: timeFrame,
+      start: startD,
+      stop: stopD,
+      offset: offset,
     };
-
-    if (timeFrame) optionsObj.since = timeFrame;
 
     return optionsObj;
   };
 
   // takes in a btnIdList, passes that into buildObptionObj
-  // TODO discover source of error here
+  /**
+   * @todo: remove console log tests after linkined with the backend
+   * input: idList, Object => btnIdList,
+   */
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
+    const date = new Date();
 
-    dispatch(createAlert('Loading process log information...', 5, 'success'));
+    dispatch(createAlert('Loading process log information...', 2, 'success'));
 
     const optionsObj = buildOptionsObj(
       idArr,
-      createTimeFrameStr(timeFrameNum, timeFrame),
+      date.getTimezoneOffset().toString(),
+      startDate.format('YYYY-MM-DDTHH:mm:ss'),
+      stopDate.format('YYYY-MM-DDTHH:mm:ss'),
     );
+    // console.log(optionsObj); // console.log test
     const containerLogs: any = await getLogs(optionsObj);
 
     getContainerLogsDispatcher(containerLogs);
     setCounter(counter + 1);
 
     return containerLogs;
+    // return; // console.log test
   };
 
   /**
-   * @toBeReplaced
+   * @toBeReplaced or deleted
    **/
-  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
+  // // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
   const createTimeFrameStr = (num, option) =>
     option === 'd' ? `${num * 24}h` : `${num}${option}`;
 
@@ -190,62 +208,27 @@ const ProcessLogs = (): JSX.Element => {
             Please choose the container(s) you would like to view process logs
             for and optionally select the time frame.
           </p>
-          <form className={styles.dropdownForm}>
-            <label htmlFor='num'>TIME FRAME:</label>
-            <input
-              className={globalStyles.inputShort}
-              type='text'
-              id='num'
-              onChange={e => setTimeFrameNum(e.target.value)}
+          {/* date selectors */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              label='Start'
+              value={startDate}
+              sx={{ width: '200px' }}
+              onChange={newStart => {
+                setStartDate(newStart);
+              }}
             />
-            <select
-              className={globalStyles.inputShort}
-              id='time-select'
-              value={timeFrame}
-              onChange={e => setTimeFrame(e.target.value)}>
-              <option id='default' value={undefined}></option>
-              <option id='minutes' value='m'>
-                MINUTES
-              </option>
-              <option id='hours' value='h'>
-                HOURS
-              </option>
-              <option id='days' value='d'>
-                DAYS
-              </option>
-            </select>
-            {/* date selector test */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
-                label='Start'
-                value={startDate}
-                sx={{ width: '200px' }}
-                onChange={newStart => {
-                  setStartDate(newStart);
-                  const date = new Date();
-                  console.log('startDate: ', startDate);
-                  console.log(
-                    'date selected: ',
-                    newStart.format('YYYY-MM-DDTHH:mm:ss'),
-                    ' utc offset: ',
-                    date.getTimezoneOffset(),
-                  );
-                }}
-              />
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
-                label='Stop'
-                value={stopDate}
-                sx={{ width: '200px' }}
-                onChange={newStop => {
-                  setStopDate(newStop);
-                  console.log(newStop.local().format());
-                  console.log(stopDate);
-                }}
-              />
-            </LocalizationProvider>
-          </form>
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              label='Stop'
+              value={stopDate}
+              sx={{ width: '200px' }}
+              onChange={newStop => {
+                setStopDate(newStop);
+              }}
+            />
+          </LocalizationProvider>
           <div className={styles.selectors}>
             <ProcessLogsSelector
               containerList={runningList}

@@ -15,6 +15,8 @@ import SharedLayout from './components/SharedLayout/SharedLayout';
 // import useSurvey from './helpers/dispatch';
 // import useHelper from './helpers/commands';
 import Network from './components/Network/Network';
+//import K8Metrics component 
+import K8Metrics from './components/K8Metrics/K8Metrics'
 
 
 const App = () => {
@@ -97,6 +99,7 @@ const App = () => {
         {/* <Route index element={<Home />} /> */}
         <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />
+        <Route path="/k8metrics" element = {<K8Metrics/>} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/images" element={<Images imagesList={[]}/>} />

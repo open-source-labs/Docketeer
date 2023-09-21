@@ -4,8 +4,9 @@ import {
   LogObject,
   composeStacksDockerObject,
 } from '../../backend-types';
+import util from 'util';
 import { exec } from 'child_process';
-
+const execAsync = util.promisify(exec);
 /**
  * Parse all the stdout output into array to manipulate data properly.
  *
@@ -33,72 +34,56 @@ const convert = (stdout: string): string[][] => {
  * @returns {object} optionsObj
  */
 
-const makeArrayOfObjects = (
-  string: string,
-  containerName: string
-): LogObject[] => {
-  // Creates an array from the input string of logs
-  const arrayOfObjects: LogObject[] = string
-    .trim()
-    .split('\n')
-    // mutates the array of logs to be more readable
-    .map((element: string): LogObject => {
-      const obj: LogObject = {
-        timeStamp: '',
-        logMsg: '',
-        containerName: '',
-      };
+function convertDates(dateString: string, offset: number) {
+  if (!offset) offset = 0;
+  const utcDate = new Date(dateString);
+  const localDate = utcDate.getTime() - offset * 60 * 60 * 1000;
+  const localDateObj = new Date(localDate);
 
-      const logArray = element.split(' ');
+  function padZero(value: number) {
+    return value < 10 ? '0' + value : value;
+  }
 
-      // extract timestamp from logArray
-      /**
-       * @todo find index position of the first z and save it for the filtering
-       */
-      let timeStamp: string | undefined = logArray.find((el) =>
-        el.endsWith('Z')
-      );
+  const year = localDateObj.getFullYear();
+  const month = padZero(localDateObj.getMonth() + 1);  // Months are 0-indexed
+  const day = padZero(localDateObj.getDate());
+  const hours = padZero(localDateObj.getHours());
+  const minutes = padZero(localDateObj.getMinutes());
+  const seconds = padZero(localDateObj.getSeconds());
 
-      // if there is a timestamp, parse it (if statement isn't really neccessary, but TS complains)
-      if (timeStamp) {
-        timeStamp = timeStamp.replace(/t(s)?=/, '');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-        // parse GMT string to be readable local date and time
-        // this is hardcoded to EST, docker containers are set to UTC and have no way to knowing what your local time is
-        obj.timeStamp = new Date(timeStamp).toLocaleString('en-US', {
-          timeZone: 'America/New_York',
-        });
-      }
+}
 
-      // parse remaining array to create readable message
-      /**
-       * @todo fix this as typing z will break code
-       */
-      let logMsg: string = logArray.filter((el) => !el.endsWith('Z')).join(' ');
+const makeArrayOfObjects = (stringToMatch: string, container: string, offset: number): LogObject[] => {
+  const regex = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z)/g
+  // Match regex and get the start and stop positions with timestamp
+  // Let index = 0;
+  if (!stringToMatch || stringToMatch.length === 0) {
+    return [];
+  }
+  const infoArr: LogObject[] = [];
+  let index: number = 0;
+  let timeStampEndIndex: number = 0;
+  // let timeStampEnd
+  // while we get regex, push timestamp into array like [{timestamp: timestamp}]
+  let myMatch: RegExpExecArray | null;
+  while ((myMatch = regex.exec(stringToMatch)) !== null) {
+    if (index !== 0) {
+      // get the message up to newest match and add to index-1 msg
+      infoArr[index - 1].logMsg = stringToMatch.slice(timeStampEndIndex + 1, myMatch.index);
+    }
 
-      // messages with duplicate time&date have form: '<Time/Date> [num/notice] actual msg'
-      const closingIndex: number = logMsg.indexOf(']');
-      if (closingIndex >= 0) {
-        logMsg = logMsg.slice(closingIndex + 1).trim();
-      }
-
-      // after removing [num/notice], some logs also have 'LOG:' before the actual msg
-      if (logMsg.slice(0, 4) === 'LOG:') {
-        logMsg = logMsg.slice(4);
-      }
-
-      obj.logMsg = logMsg.trim();
-      obj.containerName = containerName;
-
-      return obj;
-    });
-
-  // filter out empty messages
-  const arrayOfLogs: LogObject[] = arrayOfObjects.filter(
-    (obj: LogObject): boolean => obj.logMsg !== ''
-  );
-  return arrayOfLogs;
-};
+    // 
+    infoArr.push({ timeStamp: convertDates(myMatch[0], offset), logMsg: '', containerName: container });
+    timeStampEndIndex = regex.lastIndex;
+    index++
+  }
+  // update last string
+  if (infoArr.length === 0) return [];
+  infoArr[infoArr.length - 1].logMsg = stringToMatch.slice(timeStampEndIndex + 1);
+  return infoArr;
+}
 
 /**
  * Formats an input num to round to 2 decimal plames
@@ -837,44 +822,37 @@ const commandController: CommandController = {
     );
   },
 
-  getLogs: (req: Request, res: Response, next: NextFunction) => {
+  getLogs: async (req: Request, res: Response, next: NextFunction) => {
+    try {
     const containerLogs: { [k: string]: LogObject[] } = {
       stdout: [],
       stderr: [],
     };
-    const optionsObj: { [k: string]: string[] } = req.body;
+      const { containerNames, start, stop, offset } = req.body;
+      // string string string number
+      const optionsObj = { containerNames, start, stop, offset };
 
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerNames.length; i++) {
-      // build inputCommandString to get logs from command line
-      let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t `;
-      if (optionsObj.since)
-        inputCommandString += `--since ${optionsObj.since} `;
-
-      exec(
-        inputCommandString,
-        (error: Error | null, stdout: string, stderr: string) => {
-          if (error) {
-            console.log(
-              'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
-            );
-            return next(error);
-          }
-          containerLogs.stdout = [
-            ...containerLogs.stdout,
-            ...makeArrayOfObjects(stdout, optionsObj.containerNames[i]),
-          ];
-          containerLogs.stderr = [
-            ...containerLogs.stderr,
-            ...makeArrayOfObjects(stderr, optionsObj.containerNames[i]),
-          ];
-          res.locals.logs = containerLogs;
-          if (i === optionsObj.containerNames.length - 1) return next();
-        }
-      );
+      for (let i = 0; i < optionsObj.containerNames.length; i++) {
+        // build inputCommandString to get logs from command line
+        let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t`;
+        if (optionsObj.start) inputCommandString += ` --since ${optionsObj.start}`;
+        if (optionsObj.stop) inputCommandString += ` --until ${optionsObj.stop}`;
+        const { stdout, stderr } = await execAsync(inputCommandString);
+        containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], offset)];
+        containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], offset)];
+      }
+      res.locals.logs = containerLogs;
+      return next();
+    } catch (err) {
+      const errObj = {
+        log: { 'getLogs Error: ': err },
+        status: 500,
+        message: {error: 'getLogs Error retrieving logs'}
+      }
+      return next(errObj);
     }
   },
 };
-
 // export controller here
 export default commandController;

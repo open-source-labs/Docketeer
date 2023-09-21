@@ -822,48 +822,6 @@ const commandController: CommandController = {
     );
   },
 
-//   getLogs: (req: Request, res: Response, next: NextFunction) => {
-//     const containerLogs: { [k: string]: LogObject[] } = {
-//       stdout: [],
-//       stderr: [],
-//     };
-//     const optionsObj: { [k: string]: string[] } = req.body;
-
-//     // iterate through containerIds array in optionsObj
-//     for (let i = 0; i < optionsObj.containerNames.length; i++) {
-//       // build inputCommandString to get logs from command line
-//       let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t `;
-//       if (optionsObj.since)
-//         inputCommandString += `--since ${optionsObj.since} `;
-
-//       exec(
-//         inputCommandString,
-//         (error: Error | null, stdout: string, stderr: string) => {
-//           if (error) {
-//             console.log(
-//               'Please enter a valid rfc3339 date, Unix timestamp, or Go duration string'
-//             );
-//             return next(error);
-//           }
-//           containerLogs.stdout = [
-//             ...containerLogs.stdout,
-//             ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], 240),
-//           ];
-//           containerLogs.stderr = [
-//             ...containerLogs.stderr,
-//             ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], 240),
-//           ];
-//           console.log(containerLogs);
-//           res.locals.logs = containerLogs;
-//           console.log(optionsObj.containerNames);
-//           console.log(i);
-//           return;
-//         }
-//       );
-//     }
-//     return next();
-//   },
-// };
   getLogs: async (req: Request, res: Response, next: NextFunction) => {
     try {
     const containerLogs: { [k: string]: LogObject[] } = {

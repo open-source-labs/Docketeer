@@ -870,16 +870,16 @@ const commandController: CommandController = {
       stdout: [],
       stderr: [],
     };
-      const { containerNames, since, until, offset } = req.body;
+      const { containerNames, start, stop, offset } = req.body;
       // string string string number
-      const optionsObj = { containerNames, since, until, offset };
+      const optionsObj = { containerNames, start, stop, offset };
 
     // iterate through containerIds array in optionsObj
       for (let i = 0; i < optionsObj.containerNames.length; i++) {
         // build inputCommandString to get logs from command line
         let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t`;
-        if (optionsObj.since) inputCommandString += ` --since ${optionsObj.since}`;
-        if (optionsObj.until) inputCommandString += ` --until ${optionsObj.until}`;
+        if (optionsObj.start) inputCommandString += ` --since ${optionsObj.start}`;
+        if (optionsObj.stop) inputCommandString += ` --until ${optionsObj.stop}`;
         const { stdout, stderr } = await execAsync(inputCommandString);
         containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], offset)];
         containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], offset)];

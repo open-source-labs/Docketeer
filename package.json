@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
+    "@mui/material": "^5.14.10",
+    "@mui/styled-engine-sc": "^5.14.10",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "d3": "^7.8.5",
@@ -41,7 +43,8 @@
     "redux-thunk": "^2.4.1",
     "regenerator-runtime": "^0.13.11",
     "semver": "^7.5.4",
-    "simple-update-notifier": "^2.0.0"
+    "simple-update-notifier": "^2.0.0",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

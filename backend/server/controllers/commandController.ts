@@ -25,6 +25,26 @@ const convert = (stdout: string): string[][] => {
   return result;
 };
 
+function toUTC(dateString: string, offset: number) {
+  if (!offset) offset = 0;
+  const date = new Date(dateString);
+  const utc = date.getTime() + offset * 60 * 1000;
+  const utcDate = new Date(utc);
+
+  function padZero(value: number) {
+    return value < 10 ? '0' + value : value;
+  }
+
+  const year = utcDate.getFullYear();
+  const month = padZero(utcDate.getMonth() + 1);  // Months are 0-indexed
+  const day = padZero(utcDate.getDate());
+  const hours = padZero(utcDate.getHours());
+  const minutes = padZero(utcDate.getMinutes());
+  const seconds = padZero(utcDate.getSeconds());
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+
+}
 /**
  * Use user input to build options object to pass to getLogs()
  * Helper function to build options object based on the radio button selected in the process logs tab.
@@ -37,7 +57,7 @@ const convert = (stdout: string): string[][] => {
 function convertDates(dateString: string, offset: number) {
   if (!offset) offset = 0;
   const utcDate = new Date(dateString);
-  const localDate = utcDate.getTime() - offset * 60 * 60 * 1000;
+  const localDate = utcDate.getTime() - offset * 60 * 1000;
   const localDateObj = new Date(localDate);
 
   function padZero(value: number) {
@@ -836,8 +856,8 @@ const commandController: CommandController = {
       for (let i = 0; i < optionsObj.containerNames.length; i++) {
         // build inputCommandString to get logs from command line
         let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t`;
-        if (optionsObj.start) inputCommandString += ` --since ${optionsObj.start}`;
-        if (optionsObj.stop) inputCommandString += ` --until ${optionsObj.stop}`;
+        if (optionsObj.start) inputCommandString += ` --since ${toUTC(optionsObj.start, offset)}`;
+        if (optionsObj.stop) inputCommandString += ` --until ${toUTC(optionsObj.stop, offset)}`;
         const { stdout, stderr } = await execAsync(inputCommandString);
         containerLogs.stdout = [...containerLogs.stdout, ...makeArrayOfObjects(stdout, optionsObj.containerNames[i], offset)];
         containerLogs.stderr = [...containerLogs.stderr, ...makeArrayOfObjects(stderr, optionsObj.containerNames[i], offset)];

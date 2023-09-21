@@ -1,4 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import dayjsPluginUTC from 'dayjs-plugin-utc';
+dayjs.extend(dayjsPluginUTC);
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -7,52 +15,56 @@ import {
   stdType,
 } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-
 import { createAlert } from '../../reducers/alertReducer';
 import useHelper from '../../helpers/commands';
 import useSurvey from '../../helpers/dispatch';
-// import { buildOptionsObj } from '../../helpers/logs';
 
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
+import { todo } from 'node:test';
 
 /**
  * @module | Metrics.tsx
  * @description | Provides process logs for running containers & additional configuration options
-**/
+ **/
 
 const ProcessLogs = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
-    (state) => state.containers
+    state => state.containers,
   );
-  const { stdout, stderr } = useAppSelector(
-    (state) => state.logs.containerLogs
-  );
+  const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
   const runningBtnList: any = getContainerNames(runningList);
-
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
   function getContainerNames(containerList: ContainerType[]): {
     name: string;
     value: boolean;
   } {
     // type assertion saying treat {} as { name: string; value: boolean; }
-    const newObj = {} as { name: string; value: boolean; };
+    const newObj = {} as { name: string; value: boolean };
     containerList.forEach(({ Names }) => (newObj[Names] = false));
     return newObj;
   }
 
   const [btnIdList, setBtnIdList] = useState<Array<object>>(runningBtnList);
-  const [timeFrameNum, setTimeFrameNum] = useState<string>('');
-  const [timeFrame, setTimeFrame] = useState<string>('');
+  // start date
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  // end date
+  const [stopDate, setStopDate] = useState<Dayjs | null>(null);
+  // process log rows
   const [rows, setRows] = useState([] as JSX.Element[]);
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
   ] as CSVDataType[]);
   const [counter, setCounter] = useState(0);
-
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -60,45 +72,57 @@ const ProcessLogs = (): JSX.Element => {
   }, [counter, csvData.length]);
 
   /**
-   * @abstract Takes array of nums and a timeframe and creates an object with container names 
+   * @abstract Takes array of nums and a timeframe and creates an object with container names
    *           since a timeframe expressed as a string
-   * @todo if (timeframe) could be source of error?
+   * input: container names: array of strings, startDate: dayJs | null, stopDate: dayJs | null
+   * null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
+   * output: optionsObj
    */
-  const buildOptionsObj = (containerNames: string[], timeFrame?: string) => {
+  const buildOptionsObj = (
+    containerNames: string[],
+    offset: string,
+    startD?: string,
+    stopD?: string,
+  ) => {
+    // create optionsObj, container names are selected containers, start time, stop time, offset is local utc offset in minutes
     const optionsObj = {
       containerNames: containerNames,
-      since: timeFrame,
+      start: startD,
+      stop: stopD,
+      offset: offset,
     };
-
-    if (timeFrame) optionsObj.since = timeFrame;
-
     return optionsObj;
   };
 
-  // takes in a btnIdList, passes that into buildObptionObj
-  // TODO discover source of error here
+  /**
+   * @abstract: takes in a btnIdList, passes that into buildObptionObj
+   * input: idList, Object, passing in btnIdList
+   */
   const handleGetLogs = async (idList: object) => {
-    const idArr = Object.keys(idList).filter((el) => idList[el] === true);
-
-    dispatch(createAlert('Loading process log information...', 5, 'success'));
+    const idArr = Object.keys(idList).filter(el => idList[el] === true);
+    const date = new Date();
+    // pop-up
+    dispatch(createAlert('Loading process log information...', 1, 'success'));
 
     const optionsObj = buildOptionsObj(
       idArr,
-      createTimeFrameStr(timeFrameNum, timeFrame)
+      date.getTimezoneOffset().toString(),
+      startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
+      stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
-    const containerLogs: any = await getLogs(optionsObj);
+    // console.log(optionsObj); // console.log test
 
-    getContainerLogsDispatcher(containerLogs);
+    const containerLogs: any = await getLogs(optionsObj);
+    getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
 
     return containerLogs;
   };
 
-  // create the time frame string to be used in the docker logs command (e.g. 'docker logs <containerName> --since <timeFrameStr>')
-  const createTimeFrameStr = (num, option) =>
-    option === 'd' ? `${num * 24}h` : `${num}${option}`;
-
-  // Handle checkboxes
+  /**
+   * @abstract: Handle Checkboxes, changes boolean in btnIdList when passed in a name
+   * Input: name, String
+   */
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
 
@@ -111,7 +135,12 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
-  // creates an array of log messages and saves it to state
+  /**
+   * @abstract: Creates an array of log messages and saves it to state
+   * Input: none
+   * Output: setsRows: for process logs table, setCsvData: chooses CSV data
+   * @todo: possibly changed the data for more functionality.
+   */
   const tableData = () => {
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -121,7 +150,7 @@ const ProcessLogs = (): JSX.Element => {
     if (stdout.length) {
       stdout.forEach((log: stdType) => {
         const currCont = combinedList.find(
-          (el: ContainerType) => el.Names === log['containerName']
+          (el: ContainerType) => el.Names === log['containerName'],
         );
         if (currCont) {
           newRows.push({
@@ -143,7 +172,7 @@ const ProcessLogs = (): JSX.Element => {
     if (stderr.length) {
       stderr.forEach((log: stdType) => {
         const currCont = combinedList.find(
-          (el: ContainerType) => el.Names === log['containerName']
+          (el: ContainerType) => el.Names === log['containerName'],
         );
         if (currCont) {
           newRows.push({
@@ -174,61 +203,55 @@ const ProcessLogs = (): JSX.Element => {
           {/* <div>Count: {runningList.length}</div> */}
           <p>
             Please choose the container(s) you would like to view process logs
-            for and optionally select the time frame.
+            for and optionally select the timeframe.
           </p>
-          <form className={styles.dropdownForm}>
-            <label htmlFor="num">TIME FRAME:</label>
-            <input
-              className={globalStyles.inputShort}
-              type="text"
-              id="num"
-              onChange={(e) => setTimeFrameNum(e.target.value)}
-            />
-            <select
-              className={globalStyles.inputShort}
-              id="time-select"
-              value={timeFrame}
-              onChange={(e) => setTimeFrame(e.target.value)}
-            >
-              <option id="default" value={undefined}></option>
-              <option id="minutes" value="m">
-                MINUTES
-              </option>
-              <option id="hours" value="h">
-                HOURS
-              </option>
-              <option id="days" value="d">
-                DAYS
-              </option>
-            </select>
-          </form>
+          {/* Timeframe Selector */}
+          <div>
+            <ThemeProvider theme={darkTheme}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label='Timeframe Start'
+                  value={startDate}
+                  sx={{ width: '225px' }}
+                  onChange={newStart => setStartDate(newStart)}
+                />
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label='Timeframe Stop'
+                  value={stopDate}
+                  sx={{ width: '225px' }}
+                  onChange={newStop => setStopDate(newStop)}
+                />
+              </LocalizationProvider>
+            </ThemeProvider>
+          </div>
+          {/* Container Checkbox Selector */}
           <div className={styles.selectors}>
             <ProcessLogsSelector
               containerList={runningList}
               handleCheck={handleCheck}
               btnIdList={btnIdList}
-              status="Running"
+              status='Running'
             />
             <ProcessLogsSelector
               containerList={stoppedList}
               handleCheck={handleCheck}
               btnIdList={btnIdList}
-              status="Stopped"
+              status='Stopped'
             />
           </div>
-
           <div className={styles.buttonHolder}>
             <button
               className={globalStyles.button1}
-              type="button"
-              id="getlogs-btn"
+              type='button'
+              id='getlogs-btn'
               onClick={() => {
                 handleGetLogs(btnIdList);
-              }}
-            >
+              }}>
               GET LOGS
             </button>
-            <button className={globalStyles.button2} type="button">
+            <button className={globalStyles.button2} type='button'>
               <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
             </button>
           </div>

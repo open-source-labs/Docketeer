@@ -8,6 +8,11 @@ dev: dev_ext
 	docker extension dev debug ${TAG}
 	docker extension dev ui-source ${TAG} http://localhost:${VITE_DEV_PORT}
 
+reload: build_dev
+	docker extension update ${TAG}
+	docker extension dev debug ${TAG}
+	docker extension dev ui-source ${TAG} http://localhost:${VITE_DEV_PORT}
+
 dev_ext: build_dev
 	docker extension install docketeer-extension
 

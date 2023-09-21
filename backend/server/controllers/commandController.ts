@@ -886,8 +886,12 @@ const commandController: CommandController = {
       res.locals.logs = containerLogs;
       return next();
     } catch (err) {
-      console.log(err);
-      return next(err);
+      const errObj = {
+        log: { 'getLogs Error: ': err },
+        status: 500,
+        message: {error: 'getLogs Error retrieving logs'}
+      }
+      return next(errObj);
     }
   },
 };

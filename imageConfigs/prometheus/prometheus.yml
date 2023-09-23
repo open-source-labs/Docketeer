@@ -18,9 +18,19 @@ scrape_configs:
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor:8080']
-  
-  # Currently unsure is necessary, still experimenting
-  - job_name: docker_container_metrics
-    static_configs:
-      - targets: ['host.docker.internal:9323']
 
+  - job_name: 'federate'
+    scrape_interval: 15s
+
+    honor_labels: true
+    metrics_path: '/federate'
+
+    params:
+      'match[]':
+        - '{job="kubernetes-apiservers"}'
+        - '{job="kubernetes-nodes"}'
+        - '{job="kubernetes-nodes-cadvisor"}'
+        
+    static_configs:
+      - targets:
+        - 'localhost:9090'

@@ -6,7 +6,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -22,7 +21,7 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
-import { todo } from 'node:test';
+// import { todo } from 'node:test';
 
 /**
  * @module | Metrics.tsx
@@ -30,13 +29,14 @@ import { todo } from 'node:test';
  **/
 
 const ProcessLogs = (): JSX.Element => {
-  //STATE
-  const { searchWord } = useAppSelector((store)=> store.logs)
+  // STATE
+  const { searchWord } = useAppSelector(store => store.logs);
+  // Redux toolkit, useAppSelector -
   const { runningList, stoppedList } = useAppSelector(
     state => state.containers,
   );
   const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
-  //DISPATCH
+  // DISPATCH
   const dispatch = useAppDispatch();
 
   const runningBtnList: any = getContainerNames(runningList);
@@ -58,6 +58,7 @@ const ProcessLogs = (): JSX.Element => {
   const [stopDate, setStopDate] = useState<Dayjs | null>(null);
   // process log rows
   const [rows, setRows] = useState([]);
+  // csvData state
   const [csvData, setCsvData] = useState([
     ['container', 'type', 'time', 'message'],
   ] as CSVDataType[]);
@@ -70,7 +71,10 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
-
+  /**
+   * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
+   * 2nd step in rendering logs
+   */
   useEffect(() => {
     tableData();
   }, [counter, csvData.length]);
@@ -101,6 +105,7 @@ const ProcessLogs = (): JSX.Element => {
   /**
    * @abstract: takes in a btnIdList, passes that into buildObptionObj
    * input: idList, Object, passing in btnIdList
+   * 1st step in getting logs.
    */
   const handleGetLogs = async (idList: object) => {
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
@@ -125,7 +130,6 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract: Handle Checkboxes, changes boolean in btnIdList when passed in a name
-   * Input: name, String
    */
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
@@ -143,12 +147,14 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract: Creates an array of log messages and saves it to state
    * Input: none
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
-   * @todo: possibly changed the data for more functionality.
+   * 3rd step in get logs
    */
   const tableData = () => {
+    // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
 
+    // combined list of running and stopped containers
     const combinedList = [...runningList, ...stoppedList];
 
     if (stdout.length) {
@@ -162,7 +168,7 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stdout',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: Math.random() * 100,
+            id: Math.random() * 100, // why?
           });
           newCSV.push([
             currCont.Names,
@@ -184,7 +190,7 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stderr',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: Math.random() * 100,
+            id: Math.random() * 100, // why?
           });
           newCSV.push([
             currCont.Names,
@@ -195,13 +201,17 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    setRows(newRows);
-    // setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
+    setRows(newRows); // sets  Rows to newRows, populated with the forEach functions
+    // setCsvData([['container', 'type', 'time', 'message'], ...newCSV]); // <- commented out, why
   };
 
   const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
-  const toCSVArray = (csvObj) => {
+  /**
+   * @abstract returns array with container, type, time, message when passed in an array
+   * final step in get rows. result is passed into setCsvData
+   */
+  const toCSVArray = csvObj => {
     const csvArray = new Array(csvObj.length);
     csvObj.forEach((element, index) => {
       csvArray[index] = [];
@@ -209,25 +219,34 @@ const ProcessLogs = (): JSX.Element => {
       csvArray[index].push(element.type);
       csvArray[index].push(element.time);
       csvArray[index].push(element.message);
-
-    })
+    });
     return csvArray;
-  }
+  };
 
+  /**
+   * @abstract use effect, rerender on change to rows.length
+   * 4th step in get rows. Tehcnically happens as rows are updating, and doesn't render rows.
+   */
   useEffect(() => {
     setFilteredDisplay(rows);
     setCsvData(toCSVArray(rows));
   }, [rows.length]);
-  const toggleDisplay = (e) => {
+
+  /**
+   * @abstract sorting row data i search
+   * @param e
+   * @returns nothing
+   */
+  const toggleDisplay = e => {
     if (e.key === 'Enter') {
       if (!searchWord.length) {
         setFilteredDisplay(rows);
         return;
       }
       if (rows.length) {
-        const re = new RegExp(searchWord, "i");
-        const filtered = rows.filter((row) => re.test(row.message));
-        setFilteredDisplay(filtered)
+        const re = new RegExp(searchWord, 'i');
+        const filtered = rows.filter(row => re.test(row.message));
+        setFilteredDisplay(filtered);
         const csvArray = toCSVArray(filtered);
         setCsvData(csvArray);
       }
@@ -266,7 +285,14 @@ const ProcessLogs = (): JSX.Element => {
             </ThemeProvider>
           </div>
           <div className={'keyword-search'}>
-            <input type="text" value={searchWord} onChange={(e) => { dispatch(setSearchWord(e.target.value)) }} onKeyDown={toggleDisplay} />
+            <input
+              type='text'
+              value={searchWord}
+              onChange={e => {
+                dispatch(setSearchWord(e.target.value));
+              }}
+              onKeyDown={toggleDisplay}
+            />
           </div>
           {/* Container Checkbox Selector */}
           <div className={styles.selectors}>
@@ -311,18 +337,29 @@ const ProcessLogs = (): JSX.Element => {
                 <th>MESSAGE</th>
               </tr>
             </thead>
-            {filteredDisplay.map((row: any, i) => {
-              return (
-                <tbody key={`row-${i}`}>
-                  <tr>
-                    <td>{row.container}</td>
-                    <td>{row.type}</td>
-                    <td>{row.time}</td>
-                    <td>{row.message}</td>
-                  </tr>
-                </tbody>
-              );
-            })}
+            {filteredDisplay
+              .map((row: any, i) => {
+                return (
+                  <tbody key={`row-${i}`}>
+                    <tr>
+                      <td>
+                        <label htmlFor='export'>
+                          <input
+                            className='export'
+                            type='checkbox'
+                            onChange={e => console.log(e.target.value)}
+                          />
+                        </label>
+                        {row.container}
+                      </td>
+                      <td>{row.type}</td>
+                      <td>{row.time}</td>
+                      <td>{row.message}</td>
+                    </tr>
+                  </tbody>
+                );
+              })
+              .reverse()}
           </table>
         </div>
       </div>

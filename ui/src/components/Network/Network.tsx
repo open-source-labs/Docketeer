@@ -1,12 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import { sankey as d3Sankey, sankeyLinkHorizontal, sankeyJustify } from 'd3-sankey';
+import {
+  sankey as d3Sankey,
+  sankeyLinkHorizontal,
+  sankeyJustify,
+} from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 
-import { DataFromBackend, NetworkContainerListType, NetworkAttachedContainersInfo } from '../../../ui-types';
+import {
+  DataFromBackend,
+  NetworkContainerListType,
+  NetworkAttachedContainersInfo,
+} from '../../../ui-types';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 /**
@@ -14,12 +22,10 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
  * @description | This component renders a tab for displaying and managing custom and default networks that Docker creates.
  **/
 
-
-
 const Network = (): JSX.Element => {
   const [network, setNetwork] = useState('');
   const [duplicated, setDuplicated] = useState(false);
-  const { networkContainerList } = useAppSelector((state) => state.networks);
+  const { networkContainerList } = useAppSelector(state => state.networks);
   const ref = useRef();
   const dispatch = useAppDispatch();
   const ddClient = createDockerDesktopClient();
@@ -62,7 +68,7 @@ const Network = (): JSX.Element => {
   // check the network name that user types in is already exist in current network list
   useEffect(() => {
     // populate the array that has all of the network name
-    const networkNameList = networkContainerList.map((el) => el.networkName);
+    const networkNameList = networkContainerList.map(el => el.networkName);
     // if network name array has what user type in
     if (networkNameList.includes(network)) {
       // set the duplicate state as true
@@ -76,24 +82,23 @@ const Network = (): JSX.Element => {
 
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
-      const response = await ddClient.extension.vm?.service?.post('/command/networkCreate', { networkName: name })
+      const response = await ddClient.extension.vm?.service?.post(
+        '/command/networkCreate',
+        { networkName: name },
+      );
       const dataFromBackend: DataFromBackend = response;
 
       if (dataFromBackend['hash']) {
         dispatch(
-          createAlert(
-            'New network ' + name + ' being added...',
-            4,
-            'success'
-          )
+          createAlert('New network ' + name + ' being added...', 4, 'success'),
         );
       } else if (dataFromBackend.error) {
         dispatch(
           createAlert(
             'Error from the docker : ' + dataFromBackend.error,
             4,
-            'warning'
-          )
+            'warning',
+          ),
         );
         return;
       }
@@ -102,8 +107,8 @@ const Network = (): JSX.Element => {
         createAlert(
           'An error occurred while creating a new network : ' + err,
           4,
-          'error'
-        )
+          'error',
+        ),
       );
     }
   }
@@ -123,8 +128,8 @@ const Network = (): JSX.Element => {
         createAlert(
           'The network name must start with an alphanumerical character and can contain alphanumerical characters, hypens, or underscores.',
           5,
-          'warning'
-        )
+          'warning',
+        ),
       );
       setNetwork('');
       return;
@@ -137,16 +142,13 @@ const Network = (): JSX.Element => {
 
   async function deleteNetwork(name: string): Promise<void> {
     try {
-      const response = await ddClient.extension.vm?.service?.post('/command/networkRemove', { networkName: name })
+      const response = await ddClient.extension.vm?.service?.post(
+        '/command/networkRemove',
+        { networkName: name },
+      );
       const dataFromBackend: DataFromBackend = response;
       if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert(
-            'Removing ' + name + ' network...',
-            4,
-            'success'
-          )
-        );
+        dispatch(createAlert('Removing ' + name + ' network...', 4, 'success'));
       } else {
         dispatch(
           createAlert(
@@ -154,8 +156,8 @@ const Network = (): JSX.Element => {
               attachedContainers(name) +
               ' container(s) before deleting this network.',
             4,
-            'warning'
-          )
+            'warning',
+          ),
         );
         return;
       }
@@ -164,23 +166,22 @@ const Network = (): JSX.Element => {
         createAlert(
           'An error occurred while removing the network : ' + err,
           4,
-          'error'
-        )
+          'error',
+        ),
       );
     }
   }
 
   // function that returns array with network's attached container name
   const attachedContainers = (name: string): string[] => {
-    let attachedContainerList: string[] = [];
+    const attachedContainerList: string[] = [];
     networkContainerList.forEach((el: NetworkContainerListType) => {
       // if current network objects's networkName property has a value which is matching the provided argument.
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
         // * specified 'any' type for containerEl
-        el.containers.forEach(
-          (containerEl: NetworkAttachedContainersInfo) => {
-            attachedContainerList.push(`[${containerEl.containerName}]`);
+        el.containers.forEach((containerEl: NetworkAttachedContainersInfo) => {
+          attachedContainerList.push(`[${containerEl.containerName}]`);
         });
       }
     });
@@ -195,21 +196,21 @@ const Network = (): JSX.Element => {
       dispatch(
         createAlert(
           'Currently ' +
-           containerName +
-           `${isAre} attached to ` +
-           name +
-           ' network.',
+            containerName +
+            `${isAre} attached to ` +
+            name +
+            ' network.',
           4,
-          'success'
-        )
+          'success',
+        ),
       );
     } else {
       dispatch(
         createAlert(
           'No container attached to ' + name + ' network.',
           4,
-          'success'
-        )
+          'success',
+        ),
       );
     }
   };
@@ -224,7 +225,7 @@ const Network = (): JSX.Element => {
       const liveLinks: any[] = [];
 
       // iterate through networkContainerList
-      networkContainerList.forEach((network) => {
+      networkContainerList.forEach(network => {
         // Ignore networks that are not connected to containers
         if (network.containers.length) {
           // Add network to nodes object
@@ -232,7 +233,7 @@ const Network = (): JSX.Element => {
             name: network.networkName,
             category: 'network',
           });
-          network.containers.forEach((container) => {
+          network.containers.forEach(container => {
             // if it doesn't already exist in nodes object, add it to object and list
             if (!nodesObj[container.containerName]) {
               nodesObj[container.containerName] = true;
@@ -265,7 +266,7 @@ const Network = (): JSX.Element => {
         .attr('viewBox', [0, 0, width, height])
         .attr(
           'style',
-          'max-width: 100%; height: auto; font: 1rem Bai Jamjuree, sans-serif;'
+          'max-width: 100%; height: auto; font: 1rem Bai Jamjuree, sans-serif;',
         )
         .style('fill', 'white');
 
@@ -298,9 +299,7 @@ const Network = (): JSX.Element => {
         .attr('width', (d: any) => d.x1 - d.x0)
         .attr('fill', (d: any) => {
           const color =
-            d.category === 'container'
-              ? 'WhiteSmoke'
-              : 'LightSlateGray';
+            d.category === 'container' ? 'WhiteSmoke' : 'LightSlateGray';
           nodeColors[d.name] = cssColors[nodes.indexOf(d)];
           return color;
         });
@@ -310,7 +309,7 @@ const Network = (): JSX.Element => {
         .text((d: any) =>
           d.value > 1
             ? `${d.name}\n${format(d.value)} Connections`
-            : `${d.name}\n1 Connection`
+            : `${d.name}\n1 Connection`,
         );
 
       const link = svg
@@ -328,7 +327,9 @@ const Network = (): JSX.Element => {
         .attr('stroke', (d: any) => nodeColors[d.source.name])
         .attr('stroke-width', (d: any) => d.width);
 
-      link.append('title').text((d: any) => `${d.source.name} → ${d.target.name}}`);
+      link
+        .append('title')
+        .text((d: any) => `${d.source.name} → ${d.target.name}}`);
 
       svg
         .append('g')
@@ -340,9 +341,7 @@ const Network = (): JSX.Element => {
         .attr('dy', '0.35em')
         .attr('text-anchor', (d: any) => (d.x0 < width / 2 ? 'start' : 'end'))
         .text((d: any) =>
-          d.name.length > 12
-            ? d.name.slice(0, 12).concat('...')
-            : d.name
+          d.name.length > 12 ? d.name.slice(0, 12).concat('...') : d.name,
         );
     }
   }, [networkContainerList]);
@@ -356,11 +355,11 @@ const Network = (): JSX.Element => {
             className={
               duplicated ? globalStyles.duplicatedInput : globalStyles.input
             }
-            type="text"
-            id="newNetwork"
+            type='text'
+            id='newNetwork'
             value={network}
-            placeholder="Input network name here..."
-            onChange={(e) => {
+            placeholder='Input network name here...'
+            onChange={e => {
               setNetwork(e.target.value);
             }}
           />
@@ -369,8 +368,7 @@ const Network = (): JSX.Element => {
               duplicated ? globalStyles.duplicatedButton1 : globalStyles.button1
             }
             onClick={() => createNewNetwork()}
-            disabled={duplicated}
-          >
+            disabled={duplicated}>
             {duplicated ? 'DUPLICATED NETWORK NAME' : 'CREATE NEW NETWORK'}
           </button>
           <div className={styles.listHolder}>
@@ -378,7 +376,9 @@ const Network = (): JSX.Element => {
               (network: NetworkContainerListType, index: number) => {
                 if (
                   network.networkName !== 'bridge' &&
-                  network.networkName !== 'docketeer_default'
+                  network.networkName !== 'docketeer_default' &&
+                  network.networkName !==
+                    'docketeer-extension-desktop-extension_default'
                 ) {
                   return (
                     <div className={styles.networkDiv} key={index}>
@@ -386,14 +386,12 @@ const Network = (): JSX.Element => {
                         id={styles.networkName}
                         onClick={() =>
                           displayAttachedContainers(network.networkName)
-                        }
-                      >
+                        }>
                         {network.networkName}
                       </p>
                       <button
                         id={styles.networkDeleteButton}
-                        onClick={() => deleteNetwork(network.networkName)}
-                      >
+                        onClick={() => deleteNetwork(network.networkName)}>
                         DELETE
                       </button>
                     </div>
@@ -405,14 +403,13 @@ const Network = (): JSX.Element => {
                         id={styles.networkName}
                         onClick={() =>
                           displayAttachedContainers(network.networkName)
-                        }
-                      >
+                        }>
                         {network.networkName}
                       </p>
                     </div>
                   );
                 }
-              }
+              },
             )}
           </div>
         </div>
@@ -420,10 +417,9 @@ const Network = (): JSX.Element => {
       <div className={styles.listHolder}>
         <h2 className={styles.sankeyTitle}>CONNECTIONS</h2>
         <div
-          id="sankeyDiagram"
+          id='sankeyDiagram'
           className={styles.sankeyDiagram}
-          ref={ref}
-        ></div>
+          ref={ref}></div>
       </div>
     </div>
   );

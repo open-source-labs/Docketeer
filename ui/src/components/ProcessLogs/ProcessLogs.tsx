@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import dayjsPluginUTC from 'dayjs-plugin-utc';
 dayjs.extend(dayjsPluginUTC);
@@ -38,6 +38,7 @@ const ProcessLogs = (): JSX.Element => {
   const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
   // DISPATCH
   const dispatch = useAppDispatch();
+  // const checked = useRef<boolean | null>();
 
   const runningBtnList: any = getContainerNames(runningList);
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
@@ -60,8 +61,9 @@ const ProcessLogs = (): JSX.Element => {
   const [rows, setRows] = useState([]);
   // csvData state
   const [csvData, setCsvData] = useState([
-    ['container', 'type', 'time', 'message'],
+    [true, 'container', 'type', 'time', 'message'],
   ] as CSVDataType[]);
+
   const [counter, setCounter] = useState(0);
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
@@ -71,20 +73,30 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
+  const [checked, setChecked] = useState([]); // checked state?
+
+  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
+
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
-   * 2nd step in rendering logs
    */
   useEffect(() => {
+    console.log('get logs clicked'); // test
     tableData();
-  }, [counter, csvData.length]);
+  }, [counter]);
+
+  /**
+   * @abstract use effect, rerender on change to rows.length
+   */
+  useEffect(() => {
+    console.log('rows.length changed', rows.length);
+    setFilteredDisplay(rows);
+    setCsvData(toCSVArray(rows));
+  }, [rows.length]);
 
   /**
    * @abstract Takes array of nums and a timeframe and creates an object with container names
    *           since a timeframe expressed as a string
-   * input: container names: array of strings, startDate: dayJs | null, stopDate: dayJs | null
-   * null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
-   * output: optionsObj
    */
   const buildOptionsObj = (
     containerNames: string[],
@@ -104,10 +116,9 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract: takes in a btnIdList, passes that into buildObptionObj
-   * input: idList, Object, passing in btnIdList
-   * 1st step in getting logs.
    */
   const handleGetLogs = async (idList: object) => {
+    console.log('handleGetLogs()');
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
     // pop-up
@@ -143,13 +154,31 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
+  const handleCheckedLogs = (row: number, e: boolean) => {
+    console.log('handleCheckedLogs()', row, e);
+    csvData[row][0] = e;
+    console.log(csvData[row]);
+  };
+
+  let csvSent = []; // create type
+
+  const handleCsv = () => {
+    const newCsvSent: CSVDataType[] = []; // add type later
+    for (let i = 0; i < csvData.length; i++) {
+      if (csvData[i][0] === true) {
+        newCsvSent.push(csvData[i].slice(1));
+      }
+    }
+    csvSent = newCsvSent;
+    console.log('csvSent: ', csvSent);
+  };
+
   /**
    * @abstract: Creates an array of log messages and saves it to state
-   * Input: none
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
-   * 3rd step in get logs
    */
   const tableData = () => {
+    console.log('tableData()');
     // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -171,6 +200,7 @@ const ProcessLogs = (): JSX.Element => {
             id: Math.random() * 100, // why?
           });
           newCSV.push([
+            true,
             currCont.Names,
             'stdout',
             log['timeStamp'],
@@ -193,6 +223,7 @@ const ProcessLogs = (): JSX.Element => {
             id: Math.random() * 100, // why?
           });
           newCSV.push([
+            true,
             currCont.Names,
             'stderr',
             log['timeStamp'],
@@ -202,40 +233,28 @@ const ProcessLogs = (): JSX.Element => {
       });
     }
     setRows(newRows); // sets  Rows to newRows, populated with the forEach functions
-    // setCsvData([['container', 'type', 'time', 'message'], ...newCSV]); // <- commented out, why
   };
-
-  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
   /**
    * @abstract returns array with container, type, time, message when passed in an array
-   * final step in get rows. result is passed into setCsvData
    */
   const toCSVArray = csvObj => {
+    console.log('toCSVArray()');
     const csvArray = new Array(csvObj.length);
     csvObj.forEach((element, index) => {
       csvArray[index] = [];
+      csvArray[index].push(true);
       csvArray[index].push(element.container);
       csvArray[index].push(element.type);
       csvArray[index].push(element.time);
       csvArray[index].push(element.message);
     });
+
     return csvArray;
   };
 
   /**
-   * @abstract use effect, rerender on change to rows.length
-   * 4th step in get rows. Tehcnically happens as rows are updating, and doesn't render rows.
-   */
-  useEffect(() => {
-    setFilteredDisplay(rows);
-    setCsvData(toCSVArray(rows));
-  }, [rows.length]);
-
-  /**
    * @abstract sorting row data i search
-   * @param e
-   * @returns nothing
    */
   const toggleDisplay = e => {
     if (e.key === 'Enter') {
@@ -319,9 +338,11 @@ const ProcessLogs = (): JSX.Element => {
               }}>
               GET LOGS
             </button>
-            <button className={globalStyles.button2} type='button'>
-              <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
-            </button>
+            <CSVLink data={csvSent} onClick={handleCsv}>
+              <button className={globalStyles.button2} type='button'>
+                DOWNLOAD CSV
+              </button>
+            </CSVLink>
           </div>
         </div>
       </div>
@@ -331,6 +352,8 @@ const ProcessLogs = (): JSX.Element => {
           <table className={globalStyles.table}>
             <thead>
               <tr>
+                <th>EXPORT</th>
+                {/* export test */}
                 <th>CONTAINER</th>
                 <th>LOG TYPE</th>
                 <th>TIMESTAMP</th>
@@ -343,15 +366,17 @@ const ProcessLogs = (): JSX.Element => {
                   <tbody key={`row-${i}`}>
                     <tr>
                       <td>
-                        <label htmlFor='export'>
-                          <input
-                            className='export'
-                            type='checkbox'
-                            onChange={e => console.log(e.target.value)}
-                          />
-                        </label>
-                        {row.container}
+                        <input
+                          id={`log-entry-box-${i}`}
+                          className='export'
+                          type='checkbox'
+                          defaultChecked
+                          // checked={checked[i]}
+                          // ref={checked}
+                          onChange={e => handleCheckedLogs(i, e.target.checked)}
+                        />
                       </td>
+                      <td>{row.container}</td>
                       <td>{row.type}</td>
                       <td>{row.time}</td>
                       <td>{row.message}</td>

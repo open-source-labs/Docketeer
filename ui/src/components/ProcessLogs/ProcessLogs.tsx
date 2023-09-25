@@ -73,7 +73,7 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
-  const [checked, setChecked] = useState([]); // checked state?
+  const [checked, setChecked] = useState([]); // checkbox array state, needed for select all
 
   const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
@@ -157,7 +157,14 @@ const ProcessLogs = (): JSX.Element => {
   const handleCheckedLogs = (row: number, e: boolean) => {
     console.log('handleCheckedLogs()', row, e);
     csvData[row][0] = e;
-    console.log(csvData[row]);
+    checked[row] = e;
+    console.log(
+      'csvDate row',
+      csvData[row],
+      `checkedArray ${row}`,
+      checked,
+      checked[row],
+    );
   };
 
   let csvSent = []; // create type
@@ -241,6 +248,7 @@ const ProcessLogs = (): JSX.Element => {
   const toCSVArray = csvObj => {
     console.log('toCSVArray()');
     const csvArray = new Array(csvObj.length);
+    const checkedArray = [];
     csvObj.forEach((element, index) => {
       csvArray[index] = [];
       csvArray[index].push(true);
@@ -248,7 +256,11 @@ const ProcessLogs = (): JSX.Element => {
       csvArray[index].push(element.type);
       csvArray[index].push(element.time);
       csvArray[index].push(element.message);
+      checkedArray.push(true);
     });
+
+    console.log('checkedArray', checkedArray);
+    setChecked(checkedArray);
 
     return csvArray;
   };
@@ -305,6 +317,7 @@ const ProcessLogs = (): JSX.Element => {
           </div>
           <div className={'keyword-search'}>
             <input
+              className={globalStyles.input}
               type='text'
               value={searchWord}
               onChange={e => {
@@ -370,8 +383,8 @@ const ProcessLogs = (): JSX.Element => {
                           id={`log-entry-box-${i}`}
                           className='export'
                           type='checkbox'
-                          defaultChecked
-                          // checked={checked[i]}
+                          // defaultChecked
+                          checked={checked[i]}
                           // ref={checked}
                           onChange={e => handleCheckedLogs(i, e.target.checked)}
                         />

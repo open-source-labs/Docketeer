@@ -18,7 +18,7 @@ const Metrics = (): JSX.Element => {
       setMetricsDiv(
         <iframe
           className={styles.metrics}
-          src="http://localhost:49155/d/h5LcytHGz/system?orgId=1&refresh=10s&kiosk"
+          src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5m&kiosk"
         />
       );
     }

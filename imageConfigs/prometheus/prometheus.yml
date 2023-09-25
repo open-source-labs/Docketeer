@@ -7,30 +7,31 @@ scrape_configs:
   - job_name: prometheus
     scrape_interval: 5s
     static_configs:
-      - targets: ['prometheus:9090']
+      - targets: ['localhost:9090', 'node-exporter:9100', 'cadvisor:8080']
 
   # Adds the data from prom/node-exporter to localhost:9090/graph
-  - job_name: node
-    static_configs:
-      - targets: ['node-exporter:9100']
+  # - job_name: node
+  #   static_configs:
+  #     - targets: ['node-exporter:9100']
 
-  # Scrapes all of the container metrics
-  - job_name: 'cadvisor'
-    static_configs:
-      - targets: ['cadvisor:8080']
+  # # Scrapes all of the container metrics
+  # - job_name: 'cadvisor'
+  #   static_configs:
+  #     - targets: ['cadvisor:8080']
 
   - job_name: 'federate'
-    scrape_interval: 15s
-
-    honor_labels: true
     metrics_path: '/federate'
-
+    scrape_interval: 15s
+    honor_labels: true
     params:
       'match[]':
         - '{job="kubernetes-apiservers"}'
         - '{job="kubernetes-nodes"}'
         - '{job="kubernetes-nodes-cadvisor"}'
-        
+        - '{job="kubernetes-service-endpoints"}'
     static_configs:
       - targets:
-        - 'localhost:9090'
+        - 'host.docker.internal:45555'
+    relabel_configs:
+      - target_label: 'federation'
+        replacement: 'true'

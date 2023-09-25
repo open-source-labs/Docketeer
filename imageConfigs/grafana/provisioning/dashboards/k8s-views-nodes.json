@@ -154,7 +154,7 @@
             "uid": "${datasource}"
           },
           "exemplar": false,
-          "expr": "avg(1-rate(node_cpu_seconds_total{mode=\"idle\", instance=\"$instance\"}[$__rate_interval]))",
+          "expr": "avg(1-rate(node_cpu_seconds_total{mode=\"idle\", instance=\"$instance\", federation=\"true\"}[$__rate_interval]))",
           "instant": true,
           "interval": "$resolution",
           "legendFormat": "",

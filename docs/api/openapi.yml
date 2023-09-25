@@ -1,0 +1,303 @@
+openapi: 3.0.0
+info:
+  title: Docketeer Extension API
+  description: API for managing Docketeer resources.
+  version: 1.0.0
+
+paths:
+
+  # Container endpoints
+  /api/docker/container/running:
+    get:
+      tags:
+        - container
+      summary: List all running containers
+      responses:
+        '200':
+          description: List of running containers
+
+  /api/docker/container/stopped:
+    get:
+      tags:
+        - container
+      summary: List all stopped containers
+      responses:
+        '200':
+          description: List of stopped containers
+
+  /api/docker/container/{id}/inspect:
+    get:
+      tags:
+        - container
+      summary: Inspect a container by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Container ID
+      responses:
+        '200':
+          description: Container details
+          content:
+            application/json:
+              schema:
+                $ref: 
+
+  /api/docker/container/start:
+    post:
+      tags:
+        - container
+      summary: Start a container
+      requestBody:
+        description: Container start parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                containerId:
+                  type: string
+                  description: ID of the container to start
+      responses:
+        '200':
+          description: Container started
+
+  /api/docker/container/stop:
+    post:
+      tags:
+        - container
+      summary: Stop a container
+      requestBody:
+        description: Container stop parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                containerId:
+                  type: string
+                  description: ID of the container to stop
+      responses:
+        '200':
+          description: Container stopped
+
+  /api/docker/container/{id}:
+    delete:
+      tags:
+        - container
+      summary: Delete a container by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Container ID
+      responses:
+        '204':
+          description: Container deleted
+
+  # Image endpoints
+  /api/docker/image:
+    get:
+      tags:
+        - image
+      summary: List all images
+      responses:
+        '200':
+          description: List of images
+
+  /api/docker/image/{id}:
+    get:
+      tags:
+        - image
+      summary: Get image by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Image ID
+      responses:
+        '200':
+          description: Image details
+
+    delete:
+      tags:
+        - image
+      summary: Delete an image by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Image ID
+      responses:
+        '204':
+          description: Image deleted
+
+  /api/docker/image/run:
+    post:
+      tags:
+        - image
+      summary: Run an image
+      requestBody:
+        description: Image run parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageId:
+                  type: string
+                  description: ID of the image to run
+      responses:
+        '200':
+          description: Image ran
+
+  # Network endpoints
+  /api/docker/network:
+    get:
+      tags:
+        - network
+      summary: List all networks
+      responses:
+        '200':
+          description: List of networks
+    delete:
+      summary: Delete all networks
+      responses:
+        '204':
+          description: Networks deleted
+
+  /api/docker/network:
+    post:
+      tags:
+        - network
+      summary: Create a network
+      requestBody:
+        description: Network creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                networkName:
+                  type: string
+                  description: Name of the network to create
+      responses:
+        '201':
+          description: Network created
+
+
+  /api/docker/network/{id}:
+    delete:
+      tags:
+        - network
+      summary: Delete a network by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Network ID
+      responses:
+        '204':
+          description: Network deleted
+
+  /api/docker/network/container:
+    post:
+      tags:
+        - network
+      summary: Add container to network
+      requestBody:
+        description: Container to network parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                containerId:
+                  type: string
+                  description: ID of the container to add
+                networkId:
+                  type: string
+                  description: ID of the network
+      responses:
+        '200':
+          description: Container added to network
+
+  /api/docker/network/{id}/container/{containerId}:
+    delete:
+      tags:
+        - network
+      summary: Remove container from network by IDs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Network ID
+      - name: containerId
+        in: path
+        required: true
+        description: Container ID
+      responses:
+        '204':
+          description: Container removed from network
+
+  # Volume endpoints
+  /api/docker/volume:
+    get:
+      tags:
+        - volume
+      summary: List all volumes
+      responses:
+        '200':
+          description: List of volumes
+
+  /api/docker/volume/{id}/containers:
+    get:
+      tags:
+        - volume
+      summary: List containers associated with volume by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Volume ID
+      responses:
+        '200':
+          description: List of containers for a volume
+
+  /api/docker/volume/remove:
+    post:
+      tags:
+        - volume
+      summary: Remove a volume
+      requestBody:
+        description: Volume removal parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                volumeId:
+                  type: string
+                  description: ID of the volume to remove
+      responses:
+        '204':
+          description: Volume removed
+
+  # System endpoints
+  /api/docker/system:
+    delete:
+      tags:
+        - system
+      summary: Clear system (perhaps pruning unused resources?)
+      responses:
+        '204':
+          description: System cleared
+
+# components:
+#   schemas:

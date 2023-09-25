@@ -320,6 +320,7 @@ const ProcessLogs = (): JSX.Element => {
               className={globalStyles.input}
               type='text'
               value={searchWord}
+              placeholder='Search log messages...'
               onChange={e => {
                 dispatch(setSearchWord(e.target.value));
               }}
@@ -385,7 +386,6 @@ const ProcessLogs = (): JSX.Element => {
                           type='checkbox'
                           // defaultChecked
                           checked={checked[i]}
-                          // ref={checked}
                           onChange={e => handleCheckedLogs(i, e.target.checked)}
                         />
                       </td>

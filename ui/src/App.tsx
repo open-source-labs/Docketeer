@@ -99,7 +99,7 @@ const App = () => {
         {/* <Route index element={<Home />} /> */}
         <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics key={1} />} />
-        <Route path="/k8metrics" element = {<K8Metrics/>} />
+        <Route path="/K8Metrics" element = {<K8Metrics/>} />
         <Route path="/logs" element={<ProcessLogs key={1} />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/images" element={<Images imagesList={[]}/>} />

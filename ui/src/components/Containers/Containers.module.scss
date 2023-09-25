@@ -5,6 +5,8 @@
   flex-direction: column;
   transition: margin-left .5s;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
   .listHolder {
       display: flex;
       flex-direction: column;
@@ -78,9 +80,7 @@
     grid-template-columns: minmax(480px, 1fr);
     transform: all 0.2s ease-in-out;
   }
-  .listHolder {
-    width: 100%;
-  }
+  
 }
 
 @media screen and (max-width: $breakpoint-md) {

@@ -80,6 +80,9 @@ $navbar-transition: transform 0.3s ease-in-out;
   .navBar {
     padding: 0;
   }
+  .navButton {
+    text-align:center;
+  }
   .navSpacer {
     max-width: $breakpoint-uw;
     margin: 0 auto;
@@ -92,7 +95,9 @@ $navbar-transition: transform 0.3s ease-in-out;
   .logo {
     display: none;
   }
-
+ .navButton {
+   text-align: center;
+ }
   .navBar {
     padding: 0px;
   }
@@ -102,6 +107,9 @@ $navbar-transition: transform 0.3s ease-in-out;
   .logo {
     display: none;
   }
+     .navButton {
+       text-align: center;
+     }
   .navBar {
     padding: 0px;
   }

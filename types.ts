@@ -1,63 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
-// ==============================================
-// USER TYPES
-// ==============================================
-interface UserBase {
-  username: string;
-  password: string;
-}
 
-interface User extends UserBase {
-  username: string;
-  password: string;
-  // changed role_id from number to string check if that broke anything (from previous group)
-}
-
-// ? not used anymore?
-export interface SignUpValues extends UserBase {
-  passwordConfirmation: string;
-  showPassword: boolean;
-}
-
-export interface UserInfo extends User {
-  // removed password property on userInfo as it's not being used.
-  // changed id from number type to string type so see if that breaks anything
-  _id: string;
-  // changed memthreshold from string to string to align with sessionState in sessions reducer. see if it broke something
-  mem_threshold: string;
-  // changed cpu threshold from string to string let's see what happens
-  cpu_threshold: string;
-  // changed container_stops from boolean to string so let's see what happens
-  container_stops: string;
-  token: string;
-}
-
-export interface SessionStateType extends UserInfo {
-  isLoggedIn: boolean;
-}
-
-export interface RootState {
-  session: {
-    isLoggedIn?: boolean;
-    role: string;
-  };
-}
-
-export interface userStateType {
-  userList: UserInfo[];
-}
-
-export interface userReducerStateType {
-  name: string;
-  email: string;
-  phone: string;
-  role: string;
-  contact_pref: string;
-  mem_threshold: string;
-  cpu_threshold: string;
-  container_stops: boolean;
-}
 
 // ==============================================
 // CONTAINER TYPES

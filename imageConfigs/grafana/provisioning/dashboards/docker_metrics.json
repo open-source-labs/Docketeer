@@ -43,7 +43,6 @@
   ],
   "id": null,
   "title": "Docker and system monitoring",
-  "uid": "docker_metrics",
   "description": "A simple overview of the most important Docker host and container metrics. (cAdvisor/Prometheus)",
   "uid": "metrics_monitoring",
   "tags": [],

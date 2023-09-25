@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import dayjsPluginUTC from 'dayjs-plugin-utc';
 dayjs.extend(dayjsPluginUTC);
@@ -6,7 +6,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
 import ProcessLogsSelector from '../ProcessLogsSelector/ProcessLogsSelector';
 import {
   ContainerType,
@@ -22,7 +21,7 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
-import { todo } from 'node:test';
+// import { todo } from 'node:test';
 
 /**
  * @module | Metrics.tsx
@@ -30,14 +29,16 @@ import { todo } from 'node:test';
  **/
 
 const ProcessLogs = (): JSX.Element => {
-  //STATE
-  const { searchWord } = useAppSelector((store)=> store.logs)
+  // STATE
+  const { searchWord } = useAppSelector(store => store.logs);
+  // Redux toolkit, useAppSelector -
   const { runningList, stoppedList } = useAppSelector(
     state => state.containers,
   );
   const { stdout, stderr } = useAppSelector(state => state.logs.containerLogs);
-  //DISPATCH
+  // DISPATCH
   const dispatch = useAppDispatch();
+  // const checked = useRef<boolean | null>();
 
   const runningBtnList: any = getContainerNames(runningList);
   // helper func for handling the checkboxes, checking a box sets the property to true & vice versa
@@ -58,9 +59,11 @@ const ProcessLogs = (): JSX.Element => {
   const [stopDate, setStopDate] = useState<Dayjs | null>(null);
   // process log rows
   const [rows, setRows] = useState([]);
+  // csvData state
   const [csvData, setCsvData] = useState([
-    ['container', 'type', 'time', 'message'],
+    [true, 'container', 'type', 'time', 'message'],
   ] as CSVDataType[]);
+
   const [counter, setCounter] = useState(0);
   const { getContainerLogsDispatcher } = useSurvey();
   const { getLogs } = useHelper();
@@ -70,17 +73,30 @@ const ProcessLogs = (): JSX.Element => {
     },
   });
 
+  const [checked, setChecked] = useState([]); // checkbox array state, needed for select all
 
+  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
+
+  /**
+   * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
+   */
   useEffect(() => {
+    console.log('get logs clicked'); // test
     tableData();
-  }, [counter, csvData.length]);
+  }, [counter]);
+
+  /**
+   * @abstract use effect, rerender on change to rows.length
+   */
+  useEffect(() => {
+    console.log('rows.length changed', rows.length);
+    setFilteredDisplay(rows);
+    setCsvData(toCSVArray(rows));
+  }, [rows.length]);
 
   /**
    * @abstract Takes array of nums and a timeframe and creates an object with container names
    *           since a timeframe expressed as a string
-   * input: container names: array of strings, startDate: dayJs | null, stopDate: dayJs | null
-   * null values gets all logs, start will since, stop would be until, start and stop would be a timeframe
-   * output: optionsObj
    */
   const buildOptionsObj = (
     containerNames: string[],
@@ -100,9 +116,9 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract: takes in a btnIdList, passes that into buildObptionObj
-   * input: idList, Object, passing in btnIdList
    */
   const handleGetLogs = async (idList: object) => {
+    console.log('handleGetLogs()');
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
     // pop-up
@@ -125,7 +141,6 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract: Handle Checkboxes, changes boolean in btnIdList when passed in a name
-   * Input: name, String
    */
   const handleCheck = (name: string) => {
     const newBtnIdList = { ...btnIdList };
@@ -139,16 +154,43 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
+  const handleCheckedLogs = (row: number, e: boolean) => {
+    console.log('handleCheckedLogs()', row, e);
+    csvData[row][0] = e;
+    checked[row] = e;
+    console.log(
+      'csvDate row',
+      csvData[row],
+      `checkedArray ${row}`,
+      checked,
+      checked[row],
+    );
+  };
+
+  let csvSent = []; // create type
+
+  const handleCsv = () => {
+    const newCsvSent: CSVDataType[] = []; // add type later
+    for (let i = 0; i < csvData.length; i++) {
+      if (csvData[i][0] === true) {
+        newCsvSent.push(csvData[i].slice(1));
+      }
+    }
+    csvSent = newCsvSent;
+    console.log('csvSent: ', csvSent);
+  };
+
   /**
    * @abstract: Creates an array of log messages and saves it to state
-   * Input: none
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
-   * @todo: possibly changed the data for more functionality.
    */
   const tableData = () => {
+    console.log('tableData()');
+    // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
 
+    // combined list of running and stopped containers
     const combinedList = [...runningList, ...stoppedList];
 
     if (stdout.length) {
@@ -162,9 +204,10 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stdout',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: Math.random() * 100,
+            id: Math.random() * 100, // why?
           });
           newCSV.push([
+            true,
             currCont.Names,
             'stdout',
             log['timeStamp'],
@@ -184,9 +227,10 @@ const ProcessLogs = (): JSX.Element => {
             type: 'stderr',
             time: log['timeStamp'],
             message: log['logMsg'],
-            id: Math.random() * 100,
+            id: Math.random() * 100, // why?
           });
           newCSV.push([
+            true,
             currCont.Names,
             'stderr',
             log['timeStamp'],
@@ -195,39 +239,45 @@ const ProcessLogs = (): JSX.Element => {
         }
       });
     }
-    setRows(newRows);
-    // setCsvData([['container', 'type', 'time', 'message'], ...newCSV]);
+    setRows(newRows); // sets  Rows to newRows, populated with the forEach functions
   };
 
-  const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
-
-  const toCSVArray = (csvObj) => {
+  /**
+   * @abstract returns array with container, type, time, message when passed in an array
+   */
+  const toCSVArray = csvObj => {
+    console.log('toCSVArray()');
     const csvArray = new Array(csvObj.length);
+    const checkedArray = [];
     csvObj.forEach((element, index) => {
       csvArray[index] = [];
+      csvArray[index].push(true);
       csvArray[index].push(element.container);
       csvArray[index].push(element.type);
       csvArray[index].push(element.time);
       csvArray[index].push(element.message);
+      checkedArray.push(true);
+    });
 
-    })
+    console.log('checkedArray', checkedArray);
+    setChecked(checkedArray);
+
     return csvArray;
-  }
+  };
 
-  useEffect(() => {
-    setFilteredDisplay(rows);
-    setCsvData(toCSVArray(rows));
-  }, [rows.length]);
-  const toggleDisplay = (e) => {
+  /**
+   * @abstract sorting row data i search
+   */
+  const toggleDisplay = e => {
     if (e.key === 'Enter') {
       if (!searchWord.length) {
         setFilteredDisplay(rows);
         return;
       }
       if (rows.length) {
-        const re = new RegExp(searchWord, "i");
-        const filtered = rows.filter((row) => re.test(row.message));
-        setFilteredDisplay(filtered)
+        const re = new RegExp(searchWord, 'i');
+        const filtered = rows.filter(row => re.test(row.message));
+        setFilteredDisplay(filtered);
         const csvArray = toCSVArray(filtered);
         setCsvData(csvArray);
       }
@@ -266,7 +316,15 @@ const ProcessLogs = (): JSX.Element => {
             </ThemeProvider>
           </div>
           <div className={'keyword-search'}>
-            <input type="text" value={searchWord} onChange={(e) => { dispatch(setSearchWord(e.target.value)) }} onKeyDown={toggleDisplay} />
+            <input
+              className={globalStyles.input}
+              type='text'
+              value={searchWord}
+              onChange={e => {
+                dispatch(setSearchWord(e.target.value));
+              }}
+              onKeyDown={toggleDisplay}
+            />
           </div>
           {/* Container Checkbox Selector */}
           <div className={styles.selectors}>
@@ -293,9 +351,11 @@ const ProcessLogs = (): JSX.Element => {
               }}>
               GET LOGS
             </button>
-            <button className={globalStyles.button2} type='button'>
-              <CSVLink data={csvData}>DOWNLOAD CSV</CSVLink>
-            </button>
+            <CSVLink data={csvSent} onClick={handleCsv}>
+              <button className={globalStyles.button2} type='button'>
+                DOWNLOAD CSV
+              </button>
+            </CSVLink>
           </div>
         </div>
       </div>
@@ -305,24 +365,39 @@ const ProcessLogs = (): JSX.Element => {
           <table className={globalStyles.table}>
             <thead>
               <tr>
+                <th>EXPORT</th>
+                {/* export test */}
                 <th>CONTAINER</th>
                 <th>LOG TYPE</th>
                 <th>TIMESTAMP</th>
                 <th>MESSAGE</th>
               </tr>
             </thead>
-            {filteredDisplay.map((row: any, i) => {
-              return (
-                <tbody key={`row-${i}`}>
-                  <tr>
-                    <td>{row.container}</td>
-                    <td>{row.type}</td>
-                    <td>{row.time}</td>
-                    <td>{row.message}</td>
-                  </tr>
-                </tbody>
-              );
-            })}
+            {filteredDisplay
+              .map((row: any, i) => {
+                return (
+                  <tbody key={`row-${i}`}>
+                    <tr>
+                      <td>
+                        <input
+                          id={`log-entry-box-${i}`}
+                          className='export'
+                          type='checkbox'
+                          // defaultChecked
+                          checked={checked[i]}
+                          // ref={checked}
+                          onChange={e => handleCheckedLogs(i, e.target.checked)}
+                        />
+                      </td>
+                      <td>{row.container}</td>
+                      <td>{row.type}</td>
+                      <td>{row.time}</td>
+                      <td>{row.message}</td>
+                    </tr>
+                  </tbody>
+                );
+              })
+              .reverse()}
           </table>
         </div>
       </div>

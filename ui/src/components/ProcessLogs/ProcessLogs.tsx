@@ -167,7 +167,9 @@ const ProcessLogs = (): JSX.Element => {
     );
   };
 
-  let csvSent = []; // create type
+  // let csvSent = []; // create type
+
+  const [csvSent, setCSVSent] = useState([]);
 
   const handleCsv = () => {
     const newCsvSent: CSVDataType[] = []; // add type later
@@ -176,7 +178,7 @@ const ProcessLogs = (): JSX.Element => {
         newCsvSent.push(csvData[i].slice(1));
       }
     }
-    csvSent = newCsvSent;
+    setCSVSent(newCsvSent);
     console.log('csvSent: ', csvSent);
   };
 

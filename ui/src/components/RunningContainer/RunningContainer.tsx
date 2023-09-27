@@ -42,6 +42,7 @@ const RunningContainer = ({
     <div key={key} className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
       <div className={styles.containerTextHolder}>
         <h2 className={styles.textSpacing}>{container.Names}</h2>
+        <div className = {styles.flexSpacing}>
         <p className={styles.textSpacing}>
           <strong>Image:</strong> {container.Image}
         </p>
@@ -58,6 +59,7 @@ const RunningContainer = ({
             <strong>Stopped: </strong> {container.RunningFor}
           </p>
         )}
+        </div>
       </div>
 
       {status === 'running' && (

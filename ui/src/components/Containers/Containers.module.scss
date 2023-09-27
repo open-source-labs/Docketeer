@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
 .wrapper {
   margin-top: 10px;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  font-family: 'Raleway';
   transition: margin-left .5s;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
   .listHolder {
       display: flex;
       flex-direction: column;
@@ -78,9 +83,7 @@
     grid-template-columns: minmax(480px, 1fr);
     transform: all 0.2s ease-in-out;
   }
-  .listHolder {
-    width: 100%;
-  }
+  
 }
 
 @media screen and (max-width: $breakpoint-md) {

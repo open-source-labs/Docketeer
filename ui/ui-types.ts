@@ -79,11 +79,11 @@ export interface NetworkContainerListType {
   containers: NetworkAttachedContainersInfo[];
 }
 
-// Relates to above interfaces containers property 
+// Relates to above interfaces containers property
 export interface NetworkAttachedContainersInfo {
-    containerName: string;
-    containerIP: string;
-  }
+  containerName: string;
+  containerIP: string;
+}
 
 // for networkReducer's action
 export interface NetworkStateType {
@@ -134,8 +134,6 @@ export interface containersList {
   stoppedList: any[];
 }
 
-
-
 export interface stats {
   BlockIO: string;
   CPUPerc: string;
@@ -147,7 +145,6 @@ export interface stats {
   NetIO: string;
   PIDs: string;
 }
-
 
 // ==============================================
 // IMAGE TYPES
@@ -171,7 +168,6 @@ export interface LogObject {
   logMsg: string;
   containerName: string;
 }
-
 
 export interface ProcessLogsSelectorProps {
   containerList?: ContainerType[];
@@ -201,11 +197,10 @@ export interface ContainerLogsType {
 
 export interface LogsStateType {
   containerLogs: ContainerLogsType;
-  searchWord: string
+  searchWord: string;
 }
 
-export type CSVDataType = string[];
-
+export type CSVDataType = any[]; // change
 
 // ==============================================
 // VOLUME TYPES
@@ -260,12 +255,12 @@ export interface notificationList {
 export interface AlertStateType {
   alertList: (string | null)[];
   promptList:
-  | [
-    prompt: string | null,
-    handleAccept: (() => void) | null,
-    handleDeny: (() => void) | null
-  ]
-  | null[];
+    | [
+        prompt: string | null,
+        handleAccept: (() => void) | null,
+        handleDeny: (() => void) | null,
+      ]
+    | null[];
 }
 
 export interface PruneStateType {
@@ -274,7 +269,7 @@ export interface PruneStateType {
         prompt: string | null,
         handleSystemPrune: (() => void) | null,
         handleNetworkPrune: (() => void) | null,
-        handleDeny: (() => void) | null
+        handleDeny: (() => void) | null,
       ]
     | null[];
 }
@@ -299,8 +294,8 @@ export interface ToggleDisplayProps {
 }
 
 export interface DataFromBackend {
-  hash?: string,
-  error?: string,
+  hash?: string;
+  error?: string;
 }
 
 export interface ContainersCardsProps {
@@ -328,9 +323,9 @@ export interface ConnectOrDisconnectProps {
 }
 
 export interface NetworkListModalProps {
-  Names: string,
-  container: ContainerType,
-  isOpen: boolean,
+  Names: string;
+  container: ContainerType;
+  isOpen: boolean;
   connectToNetwork: (network: string, container: string) => void;
   disconnectFromNetwork: (network: string, container: string) => void;
   closeNetworkList: () => void;
@@ -338,7 +333,7 @@ export interface NetworkListModalProps {
 }
 
 export interface NotFoundProps {
-  session: boolean | undefined,
+  session: boolean | undefined;
 }
 
 // ==========================================================
@@ -362,7 +357,7 @@ export type SqlQuery = {
 export type MiddleWareFunction = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => void;
 
 // ==========================================================
@@ -370,7 +365,7 @@ export type MiddleWareFunction = (
 // ==========================================================
 export interface ApiController {
   signupEmail: MiddleWareFunction;
-  testing: MiddleWareFunction
+  testing: MiddleWareFunction;
 }
 
 export interface BcryptController {
@@ -540,7 +535,7 @@ export interface ConfigController {
   configureThresholds: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   updateContactPref: (req: Request, res: Response, next: NextFunction) => void;
   updateCPUThreshold: (req: Request, res: Response, next: NextFunction) => void;
@@ -555,8 +550,8 @@ export interface GrafanaApiController {
   getApi?: RequestHandler;
 
   /**
- * @description Gets dashboard UID from Grafana API using API key
- */
+   * @description Gets dashboard UID from Grafana API using API key
+   */
   getUid?: RequestHandler;
 }
 
@@ -585,49 +580,49 @@ export interface SettingsController {
   addContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   deleteContainerSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   notificationSettings: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addPhoneNumber: (req: Request, res: Response, next: NextFunction) => void;
   notificationFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   monitoringFrequency: (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => void;
   addGitLinks: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface SetupController {
   /**
- * @description Installs Prometheus Operator on user's cluster   
- * @note Only needs to install once
- */
+   * @description Installs Prometheus Operator on user's cluster
+   * @note Only needs to install once
+   */
   promInstall: MiddleWareFunction;
 
   /**
-   * @description Applys prometheus-grafana.yml on cluster  
-   * @note 
+   * @description Applys prometheus-grafana.yml on cluster
+   * @note
    */
   applyGraf: MiddleWareFunction;
 
   /**
- * @description Port forwards prometheus-grafana pod to 3000
- * @note Must check for prometheus-grafana deployment
- */
+   * @description Port forwards prometheus-grafana pod to 3000
+   * @note Must check for prometheus-grafana deployment
+   */
   portForward: MiddleWareFunction;
 }
 
@@ -669,7 +664,7 @@ export interface UserController {
    * @note Extract the username and password from req.body. Any errors get passed onto an error object.
    */
   verifyUser: MiddleWareFunction;
-  
+
   /**
    * @description  adds a cookie to our user's browser to signify they are logged in
    */
@@ -713,4 +708,3 @@ export interface GlobalErrorObject {
   status: number;
   message: { err: string };
 }
-

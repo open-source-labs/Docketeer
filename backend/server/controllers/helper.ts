@@ -1,11 +1,26 @@
 import { LogObject } from "backend-types";
-interface controllerHelpersType {
-  toUTC: (dateString: string, offset: number) => string;
-  convertDates: (utcString: string, offset: number) => string;
-  parseLogString: (stringToMatch: string, container: string, offset: number) => LogObject[];
-}
 
-const controllerHelpers: controllerHelpersType = {} as controllerHelpersType;
+
+// interface controllerHelpersType {
+//   execAsync: typeof execAsync;
+//   toUTC: (dateString: string, offset: number) => string;
+//   convertDates: (utcString: string, offset: number) => string;
+//   parseLogString: (stringToMatch: string, container: string, offset: number) => LogObject[];
+// }
+
+// const controllerHelpers: controllerHelpersType = {} as controllerHelpersType;
+
+/**
+ * @abstract Spawns an execution terminal but does so asynchronously.
+ *           Therefore, we can await response. 
+ *           *** This is preferred over using regular exec***
+ *           Please read the docs below
+ * @link https://nodejs.org/api/child_process.html#child_processexeccommand-options-callback
+ * @returns {Promise}
+ */
+import util from 'util';
+import { exec } from 'child_process';
+export const execAsync = util.promisify(exec);
 
 
 
@@ -19,7 +34,7 @@ const controllerHelpers: controllerHelpersType = {} as controllerHelpersType;
  * @returns {string} Represents date in YYYY-MM-DDTHH:MM:SSZ ie. UTC time
  */
 
-controllerHelpers.toUTC = function(dateString: string, offset: number): string {
+export const toUTC = (dateString: string, offset: number): string => {
   if (!offset) offset = 0;
   const date = new Date(dateString);
   const utc = date.getTime() + offset * 60 * 1000;
@@ -49,7 +64,7 @@ controllerHelpers.toUTC = function(dateString: string, offset: number): string {
  * @param offset The integer offset for your timezone (from frontend)
  * @returns {string} Represents date in YYYY-MM-DD HH:MM:SS for your timezone
  */
-controllerHelpers.convertDates = function(utcString: string, offset: number): string {
+export const convertDates = (utcString: string, offset: number): string => {
   if (!offset) offset = 0;
   const utcDate = new Date(utcString);
   const localDate = utcDate.getTime() - offset * 60 * 1000;
@@ -81,7 +96,7 @@ controllerHelpers.convertDates = function(utcString: string, offset: number): st
  * @param offset Time zone off set from UTC for a users timezone ie. EST-4 = 240
  * @returns An array of log Objects
  */
-controllerHelpers.parseLogString = function(stringToMatch: string, container: string, offset: number): LogObject[]{
+export const parseLogString = (stringToMatch: string, container: string, offset: number): LogObject[]=>{
   const regex = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z)/g
   // Match regex and get the start and stop positions with timestamp
   // Let index = 0;
@@ -101,7 +116,7 @@ controllerHelpers.parseLogString = function(stringToMatch: string, container: st
     }
 
     // 
-    infoArr.push({ timeStamp: controllerHelpers.convertDates(myMatch[0], offset), logMsg: '', containerName: container });
+    infoArr.push({ timeStamp: convertDates(myMatch[0], offset), logMsg: '', containerName: container });
     timeStampEndIndex = regex.lastIndex;
     index++
   }
@@ -111,5 +126,3 @@ controllerHelpers.parseLogString = function(stringToMatch: string, container: st
   return infoArr;
 }
 
-
-export default controllerHelpers;

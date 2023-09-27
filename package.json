@@ -1,12 +1,10 @@
 {
   "name": "docketeer",
   "productName": "Docketeer",
-  "version": "12.0.0",
+  "version": "15.0.0",
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
-  "author": "Docketeer",
-  "main": "dist/DocketeerElectron.js",
-  "scripts": {},
+  "author": "Docketeer",  "scripts": {},
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
     "@mui/material": "^5.14.10",

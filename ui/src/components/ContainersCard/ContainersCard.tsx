@@ -4,7 +4,7 @@ import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
-
+import PageSwitch from './PageSwitch';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -13,12 +13,13 @@ import { createDockerDesktopClient } from '@docker/extension-api-client';
 /**
  * A custom hook which gets the stats of all Docker containers.
  */
+type containerType = number
 const ContainersCard = ({
   containerList,
   stopContainer,
   runContainer,
   removeContainer,
-  status
+  status,
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
@@ -168,9 +169,16 @@ const ContainersCard = ({
     );
   }
   );
+  const [currentPage, setPage] = useState(1)
+  const [contPerPage, setCont] = useState(5)
+  //index of last container on each page
+  const lastContainerI = contPerPage * currentPage
+  const firstContainerI = lastContainerI - contPerPage
+  const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI)
   return (
     <>
-      {RunningContainers}
+      {slicedRunningContainers}
+      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {contPerPage}/>
     </>
   );
 };

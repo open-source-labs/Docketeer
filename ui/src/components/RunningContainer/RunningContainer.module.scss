@@ -52,7 +52,28 @@
   transition: all 0.3s ease-in-out;
 }
 
+.containerTextHolder {
+  display:flex;
+  flex-direction: column;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
 
+.containerTextHolder h2 {
+  white-space: nowrap;
+    overflow:scroll
+}
+.containerTextHolder h2::-webkit-scrollbar {
+  display:none;
+}
+
+// .flexSpacing {
+//   display: flex;
+//   flex-direction:column;
+//   justify-content:space-around
+
+// }
 
 
 

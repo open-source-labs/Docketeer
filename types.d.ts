@@ -1,0 +1,22 @@
+export interface ContainerPS {
+  ID: string;
+  Command?: string;
+  CreatedAt: string;
+  Image?: string;
+  Labels?: string[];
+  LocalVolumes?: string;
+  Mounts?: string;
+  Names?: string;
+  Networks?: string[];
+  Ports?: string[];
+  RunningFor?: string;
+  Size?: string;
+  State: string; //tells if running
+  Status?: string;
+}
+
+export interface LogObject {
+  timeStamp: string;
+  logMsg: string;
+  containerName: string;
+}

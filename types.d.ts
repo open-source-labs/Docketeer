@@ -20,3 +20,27 @@ export interface LogObject {
   logMsg: string;
   containerName: string;
 }
+
+export interface VolumeType{
+  Availability?: string;
+  Driver?: string;
+  Group?: string;
+  Labels?: string;
+  Links?: string;
+  Mountpoint?: string;
+  Name: string;
+  Scope?: string;
+  Size?: string;
+  Status?: string;
+}
+
+export interface NetworkType{
+  CreatedAt?: string;
+  Driver: string;
+  ID: string;
+  IPv6?: string;
+  Internal?: string;
+  Labels?: string;
+  Name: string;
+  Scope?: string;
+}

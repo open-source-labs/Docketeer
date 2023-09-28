@@ -10,10 +10,6 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "strictNullChecks": false,
-    "outDir": "dist",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["./*"]
+    "baseUrl": "./"
     }
-    }
-}
+} 

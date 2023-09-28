@@ -64,6 +64,8 @@ COPY --from=builder /backend backend
 COPY docker-compose-test.yaml docker-compose.yaml
 COPY metadata.json .
 COPY docketeer.svg .
+COPY types.d.ts .
+COPY tsconfig.json .
 COPY --from=client-builder /ui ui
 
 # Creates and copies files to folders that docker-compose will use create named volumes from

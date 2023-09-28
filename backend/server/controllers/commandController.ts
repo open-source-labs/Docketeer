@@ -422,7 +422,7 @@ const commandController: CommandController = {
   /**
    * @description runs terminal commands to return a list of user-defined networks and bridge, filtering out host and none networks.
    */
-
+  /**@done */
   networkContainers: (
     req: Request,
     res: Response,
@@ -467,6 +467,7 @@ const commandController: CommandController = {
    * @description runs terminal commands to return an array of network objects with a complete list of containers attached to it.
    */
 
+  /**@notyetimplemented */
   networkListContainers: async (
     req: Request,
     res: Response,
@@ -487,6 +488,7 @@ const commandController: CommandController = {
     let networkListContainers: NetworkObject[] = [];
 
     // get all containers based on networkName
+    
     const getContainersForNetwork = (networkName: string) => {
       return new Promise((resolve, reject) => {
         exec(
@@ -554,7 +556,7 @@ const commandController: CommandController = {
   /**
    * @description runs terminal command to create a new network.
    */
-
+  /**@done */
   networkCreate: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
 
@@ -583,6 +585,7 @@ const commandController: CommandController = {
    * @description runs terminal commands to remove a network.
    */
 
+  /**@done */
   networkRemove: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName } = req.body;
 
@@ -610,7 +613,7 @@ const commandController: CommandController = {
   /**
    * @description runs terminal commands to connect a container with a network.
    */
-
+  /**@done */
   networkConnect: (req: Request, res: Response, next: NextFunction): void => {
     const { networkName, containerName } = req.body;
 
@@ -638,7 +641,7 @@ const commandController: CommandController = {
   /**
    * @description runs terminal commands to disconnect a container with a network.
    */
-
+  /**@done */
   networkDisconnect: (
     req: Request,
     res: Response,
@@ -666,7 +669,7 @@ const commandController: CommandController = {
       }
     );
   },
-
+  /**@partiallyimplemented */
   inspectDockerContainer: (
     req: Request,
     res: Response,
@@ -709,6 +712,7 @@ const commandController: CommandController = {
     return next();
   },
 
+  /**@notyetimplemented */
   composeStacks: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       'docker network ls --filter "label=com.docker.compose.network" --format "{{json .}},"',
@@ -750,6 +754,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@notyetimplemented */
   composeDown: async (
     req: Request,
     res: Response,
@@ -771,6 +776,7 @@ const commandController: CommandController = {
     return next();
   },
 
+  /**@done */
   getAllDockerVolumes: async (
     req: Request,
     res: Response,
@@ -796,7 +802,7 @@ const commandController: CommandController = {
       }
     );
   },
-
+  /**@done */
   getVolumeContainers: (req: Request, res: Response, next: NextFunction) => {
     exec(
       `docker ps -a --filter volume=${req.query.volumeName} --format "{{json .}},"`,
@@ -820,6 +826,7 @@ const commandController: CommandController = {
     // return next();
   },
 
+  /**@done */
   volumeRemove: (req: Request, res: Response, next: NextFunction) => {
     const { volumeName } = req.body;
     
@@ -842,6 +849,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@done */
   getLogs: async (req: Request, res: Response, next: NextFunction) => {
     try {
     const containerLogs: { [k: string]: LogObject[] } = {
@@ -866,7 +874,7 @@ const commandController: CommandController = {
       return next();
     } catch (err) {
       const errObj = {
-        log: { 'getLogs Error: ': err },
+        log: JSON.stringify({ 'getLogs Error: ': err }),
         status: 500,
         message: {error: 'getLogs Error retrieving logs'}
       }

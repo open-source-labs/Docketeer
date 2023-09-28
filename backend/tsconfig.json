@@ -5,7 +5,7 @@
     "module": "CommonJS"
   },
   "include": [
-    "./../*.ts",
+    "./**/*.ts",
     "./backend-types.d.ts",
     "./../types.d.ts"
   ]

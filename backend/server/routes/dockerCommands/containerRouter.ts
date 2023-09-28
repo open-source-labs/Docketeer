@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import commandController from 'server/controllers/commandController';
+import containerController from '../../controllers/dockerControllers/containersController';
 const router = Router();
 
 /**
@@ -8,7 +8,9 @@ const router = Router();
  * @param 
  * @returns
  */
-router.get('/running');
+router.get('/running', containerController.getContainers, (req, res) => {
+  return res.status(200).json(res.locals.containers);
+});
 
 /**
  * @abstract 

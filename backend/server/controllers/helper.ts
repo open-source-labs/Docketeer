@@ -1,4 +1,4 @@
-import { LogObject } from "backend-types";
+import { LogObject } from "types";
 
 
 // interface controllerHelpersType {

@@ -7,22 +7,54 @@ import { ServerError } from 'backend/backend-types';
 
 interface ContainerController {
   /**
- * @method
- * @abstract Gets the list of containers running on your local machine
- * @returns @param {ContainerPS[]} res.locals.containers An array of the containers
- */
+   * @method
+   * @abstract Gets the list of containers on your local machine
+   * @returns @param {ContainerPS[]} res.locals.containers An array of the containers
+   */
   getContainers: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
- * @method
- * @abstract Gets the log for a list of containers between the start and stop time
- *           Converts this time to the users local time based on the offset provided
- * @param {string[]} req.body.containerNames An array of names of containers to check
- * @param {string} req.body.start Must check if empty. Start time in format YYYY-MM-DDTHH:MM:SSZ
- * @param {string} req.body.stop Must check if empty. Stop time in format YYYY-MM-DDTHH:MM:SSZ
- * @param {number} req.body.offset Integer for the offset of local time to UTC. Ex. EST4 = 240
- * @returns @param {object<string, LogObject[]>} res.locals.logs
- */
+   * @method
+   * @abstract Gets a list of stopped containers 
+   * @returns @param {ContainerPS[]} res.locals.containers 
+   */
+  getStoppedContainers: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  
+  /**
+   * @method
+   * @abstract Runs a stop container based on id
+   * @param {string} req.body.id
+   * @returns {void}
+   */
+  runContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  
+  /**
+   * @method
+   * @abstract Stops a runningcontainer based on id
+   * @param {string} req.body.id
+   * @returns {void}
+   */
+  stopContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+  /**
+   * @method
+   * @abstract Removes a container based on id
+   * @param {string} req.params.id 
+   * @returns {void}
+   */
+  removeContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+
+  /**
+   * @method
+   * @abstract Gets the log for a list of containers between the start and stop time
+   *           Converts this time to the users local time based on the offset provided
+   * @param {string[]} req.body.containerNames An array of names of containers to check
+   * @param {string} req.body.start Must check if empty. Start time in format YYYY-MM-DDTHH:MM:SSZ
+   * @param {string} req.body.stop Must check if empty. Stop time in format YYYY-MM-DDTHH:MM:SSZ
+   * @param {number} req.body.offset Integer for the offset of local time to UTC. Ex. EST4 = 240
+   * @returns @param {object<string, LogObject[]>} res.locals.logs
+   */
   getAllLogs: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
   /**
@@ -62,6 +94,82 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
     return next(errObj);
   }
 }
+
+containerController.getStoppedContainers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { stdout, stderr } = await execAsync('docker ps -f "status=exited" --format "{{json .}},"');
+    if (stderr.length) throw new Error(stderr);
+    const containers: ContainerPS[] = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
+    res.locals.containers = containers;
+    return next();
+  } catch (error) {
+    const errObj = {
+      log: JSON.stringify({ 'containerController.getStoppedContainers Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.getStoppedContainers error' }
+    };
+    return next(errObj);
+  }
+}
+
+
+containerController.runContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { id } = req.body;
+    const { stdout, stderr } = await execAsync(`docker start ${id}`);
+    if (stderr.length) throw new Error(stderr);
+    
+    // Remove once verified
+    console.log(stdout);
+    return next();
+  } catch (error) {
+    const errObj = {
+      log: JSON.stringify({ 'containerController.runContainer Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.runContainer error' }
+    };
+    return next(errObj);
+  }
+}
+
+containerController.stopContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { id } = req.body;
+    const { stdout, stderr } = await execAsync(`docker stop ${id}`);
+    if (stderr.length) throw new Error(stderr);
+
+    // Remove once verified
+    console.log(stdout);
+    return next();
+  } catch (error) {
+    const errObj = {
+      log: JSON.stringify({ 'containerController.stopContainer Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.stopContainer error' }
+    };
+    return next(errObj);
+  }
+}
+
+containerController.removeContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { stdout, stderr } = await execAsync(`docker rm ${id}`);
+    if (stderr.length) throw new Error(stderr);
+
+    // remove once verified
+    console.log(stdout);
+    return next();
+  } catch (error) {
+    const errObj = {
+      log: JSON.stringify({ 'containerController.removeContainer Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.removeContainer error' }
+    };
+    return next(errObj);
+  }
+}
+
 
 
 containerController.getAllLogs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

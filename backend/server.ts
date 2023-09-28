@@ -3,7 +3,7 @@ import fs from 'fs';
 //import cors from 'cors';
 import { exec } from 'child_process';
 import * as path from 'path';
-import { ServerError, GlobalErrorObject } from './backend-types';
+import { ServerError } from './backend-types';
 const cookieParser = require('cookie-parser');
 
 // const PORT = process.env.PORT || 3003;
@@ -71,7 +71,7 @@ app.use(
   '/',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: ServerError, req: Request, res: Response): Response => {
-    const defaultErr: GlobalErrorObject = {
+    const defaultErr: ServerError = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,
       message: { err: 'An error occurred' },

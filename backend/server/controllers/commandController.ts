@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  CommandController,
-  LogObject,
-  composeStacksDockerObject,
-} from '../../backend-types';
+// import {
+//   CommandController,
+//   LogObject,
+//   composeStacksDockerObject,
+// } from '../../backend-types';
 import util from 'util';
 import { exec } from 'child_process';
 const execAsync = util.promisify(exec);
@@ -75,14 +75,14 @@ function convertDates(dateString: string, offset: number) {
 
 }
 
-const makeArrayOfObjects = (stringToMatch: string, container: string, offset: number): LogObject[] => {
+const makeArrayOfObjects = (stringToMatch: string, container: string, offset: number): any[]/**was LogObject[] */ => {
   const regex = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z)/g
   // Match regex and get the start and stop positions with timestamp
   // Let index = 0;
   if (!stringToMatch || stringToMatch.length === 0) {
     return [];
   }
-  const infoArr: LogObject[] = [];
+  const infoArr: any[] = []; // was LogObject
   let index: number = 0;
   let timeStampEndIndex: number = 0;
   // let timeStampEnd
@@ -168,7 +168,10 @@ const convertArrToObj = (
 /**
  * @description runs terminal commands through execs to interact with our containers, images, volumes, and networks
  */
-const commandController: CommandController = {
+/**
+ * @done
+ */
+const commandController /**CommandController*/ = {
   getContainers: async (
     req: Request,
     res: Response,
@@ -213,6 +216,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@done */
   refreshStopped: async (
     req: Request,
     res: Response,
@@ -228,6 +232,10 @@ const commandController: CommandController = {
     return next();
   },
 
+  /**
+   * @done
+   * @notes Need to reimplement frontend of this
+   */
   refreshImages: async (
     req: Request,
     res: Response,
@@ -259,6 +267,7 @@ const commandController: CommandController = {
     return next();
   },
 
+  /**@done */
   remove: async (
     req: Request,
     res: Response,
@@ -308,6 +317,9 @@ const commandController: CommandController = {
     );
   },
 
+  /**
+   * @done
+   */
   runStopped: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker start ${req.query.id}`,
@@ -329,6 +341,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@done */
   removeImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker rmi -f ${req.query.id}`,
@@ -349,6 +362,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@done */
   dockerPrune: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       'docker system prune --force',
@@ -370,6 +384,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@done */
   dockerNetworkPrune: (
     req: Request,
     res: Response,
@@ -394,6 +409,7 @@ const commandController: CommandController = {
     );
   },
 
+  /**@notyetimplemented */
   pullImage: (req: Request, res: Response, next: NextFunction): void => {
     exec(
       `docker pull ${req.query.repo}`,
@@ -737,7 +753,7 @@ const commandController: CommandController = {
         // if container network was composed through the application, add a filePath and ymlFileName property to its container network object
         if (req.body.filePath && req.body.ymlFileName) {
           const directoryNameArray: string[] = req.body.filePath.split('/');
-          parseDockerOutput.forEach((obj: composeStacksDockerObject): void => {
+          parseDockerOutput.forEach((obj: any/**composeStacksDockerObject*/): void => {
             if (
               obj.Name.includes(
                 directoryNameArray[directoryNameArray.length - 1]
@@ -852,7 +868,7 @@ const commandController: CommandController = {
   /**@done */
   getLogs: async (req: Request, res: Response, next: NextFunction) => {
     try {
-    const containerLogs: { [k: string]: LogObject[] } = {
+    const containerLogs: { [k: string]: any } = {
       stdout: [],
       stderr: [],
     };

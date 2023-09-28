@@ -54,6 +54,15 @@ interface NetworkController {
    * @returns @param {ContainerPS[]} res.locals.containers
    */
   getContainersOnNetwork: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+  /**
+   * @method
+   * @todo Needs to be implemented
+   * @abstract Prunes the docker network forcefully
+   * @returns
+   */
+  prune: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
 }
 
 const networkController: NetworkController = {} as NetworkController;
@@ -168,4 +177,24 @@ networkController.getContainersOnNetwork = async (req: Request, res: Response, n
   }
 }
 
+/**
+ * @todo make sure implementation works
+ */
+networkController.prune = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { stdout, stderr } = await execAsync('docker network prune --force');
+    if (stderr.length) throw new Error(stderr);
+
+    // Print stdout for now
+    console.log(stdout);
+    return next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: JSON.stringify({ 'networkController.prune Error: ': error }),
+      status: 500,
+      message: { err: 'networkController.prune error' }
+    }
+    return next(errObj);
+  }
+ }
 export default networkController;

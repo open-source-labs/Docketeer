@@ -1,15 +1,15 @@
 // Types
 import { Request, Response, NextFunction } from 'express';
-import { ContainerList, LogObject } from 'backend-types';
-import { CommandController } from 'backend-types';
+import { ContainerPS, LogObject } from 'types';
 import { execAsync, toUTC, parseLogString } from '../helper';
+import { ServerError } from 'backend/backend-types';
 
 
 interface ContainerController {
   /**
  * @method
  * @abstract Gets the list of containers running on your local machine
- * @returns @param {ContainerList[]} res.locals.containers An array of the containers
+ * @returns @param {ContainerPS[]} res.locals.containers An array of the containers
  */
   getContainers: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
@@ -21,11 +21,17 @@ interface ContainerController {
  * @param {string} req.body.start Must check if empty. Start time in format YYYY-MM-DDTHH:MM:SSZ
  * @param {string} req.body.stop Must check if empty. Stop time in format YYYY-MM-DDTHH:MM:SSZ
  * @param {number} req.body.offset Integer for the offset of local time to UTC. Ex. EST4 = 240
- * @returns {object<string, LogObject[]>}
+ * @returns @param {object<string, LogObject[]>} res.locals.logs
  */
   getAllLogs: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  
+  /**
+   * @method
+   * @todo write logic to actually parse the string?
+   * @abstract
+   * @param {string} req.query.id required
+   * @returns @param {} res.locals.containerDetails
+   */
   inspectContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
 
@@ -37,7 +43,7 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
     if (stderr.length) console.log(stderr);
 
     // Get list of containers in proper format
-    const containers: ContainerList[] = JSON.parse(
+    const containers: ContainerPS[] = JSON.parse(
       `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
     ).forEach((element: any, index: number, array: any[]): void => {
       element['Networks'] = element['Networks'].split(',');
@@ -47,11 +53,11 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
     });
     res.locals.containers = containers;
     return next();
-  } catch (err) {
+  } catch (error) {
     const errObj = {
-      log: { 'commandController.getContainers Error: ': err },
+      log: JSON.stringify({ 'containerController.getContainers Error: ': error }),
       status: 500,
-      message: { err: 'commandController.getContainers error' }
+      message: { err: 'containerController.getContainers error' }
     };
     return next(errObj);
   }
@@ -80,11 +86,42 @@ containerController.getAllLogs = async (req: Request, res: Response, next: NextF
     }
     res.locals.logs = containerLogs;
     return next();
-  } catch (err) {
-    const errObj = {
-      log: { 'getLogs Error: ': err },
+  } catch (error) {
+    const errObj: ServerError = {
+      log: JSON.stringify({ 'containerController.getAllLogs Error: ': error }),
       status: 500,
-      message: { error: 'getLogs Error retrieving logs' }
+      message: { err: 'containerController.getAllLogs Error retrieving logs' }
+    }
+    return next(errObj);
+  }
+}
+
+/**
+ * @todo finish implementing
+ */
+containerController.inspectContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { stdout, stderr } = await execAsync(`docker inspect ${id}`);
+    if (stderr.length) throw new Error('Incorrect user request.')
+    
+    
+    /**@todo make a type */
+    const arrayOfMetrics = JSON.parse(stdout);
+    if (arrayOfMetrics.length === 0) {
+      console.log('No container exists for that id');
+      return next(); // move this next
+    }
+    if (arrayOfMetrics.length > 1) throw new Error('Multiple containers exist for provided id');
+    
+    res.locals.containerDetails = arrayOfMetrics[0];
+
+    return next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: JSON.stringify({ 'containerController.inspectContainer Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.inspectContainer Error retrieving logs' }
     }
     return next(errObj);
   }

@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "jsx": "react",
+    "target": "es2021",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
-    "lib": ["dom", "es2021"],
     "allowJs": true,
     "sourceMap": true,
-    "outDir": "./dist",
     "strict": true,
-    "moduleResolution": "node",
-    "removeComments": true,
-    "noEmit": false,
-    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "noImplicitAny": true,
-    "strictNullChecks": false
-  },
-  // "include": ["src/**/*", "server/**/*", "SetupApp/**/*", "global.d.ts", "ui/src/components/Home", "backend/server.ts", "server/app.ts", "ui/src/components/SignUp", "ui/Login", "ui/src/components/AccountDisplay", "ui/src/components/Settings", "ui/src/components/Settings", "ui/src/components/AccountDisplay"]
+    "strictNullChecks": false,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["./*"]
+    }
+    }
 }

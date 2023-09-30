@@ -13,7 +13,7 @@ import PageSwitch from './PageSwitch';
 /**
  * A custom hook which gets the stats of all Docker containers.
  */
-type containerType = number
+type containerType = number;
 const ContainersCard = ({
   containerList,
   stopContainer,
@@ -28,6 +28,7 @@ const ContainersCard = ({
 
 
   useEffect(() => {
+    console.log('ddClient Changed');
     let newData: stats[] = [];
     // This is unicode by the way
     const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
@@ -169,12 +170,12 @@ const ContainersCard = ({
     );
   }
   );
-  const [currentPage, setPage] = useState(1)
-  const [contPerPage, setCont] = useState(5)
-  //index of last container on each page
-  const lastContainerI = contPerPage * currentPage
-  const firstContainerI = lastContainerI - contPerPage
-  const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI)
+  const [currentPage, setPage] = useState(1);
+  const [contPerPage, setCont] = useState(5);
+  // index of last container on each page
+  const lastContainerI = contPerPage * currentPage;
+  const firstContainerI = lastContainerI - contPerPage;
+  const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
   return (
     <>
       {slicedRunningContainers}

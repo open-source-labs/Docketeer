@@ -21,6 +21,7 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
+import { set } from 'immer/dist/internal';
 // import { todo } from 'node:test';
 
 /**
@@ -30,6 +31,7 @@ import globalStyles from '../global.module.scss';
 
 const ProcessLogs = (): JSX.Element => {
   // STATE
+  console.log('re-render');
   const { searchWord } = useAppSelector(store => store.logs);
   // Redux toolkit, useAppSelector -
   const { runningList, stoppedList } = useAppSelector(
@@ -130,7 +132,6 @@ const ProcessLogs = (): JSX.Element => {
       startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
-    // console.log(optionsObj); // console.log test
 
     const containerLogs: any = await getLogs(optionsObj);
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
@@ -154,17 +155,29 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
+  const [selectAll, setSelectAll] = useState(false);
+
   const handleCheckedLogs = (row: number, e: boolean) => {
-    console.log('handleCheckedLogs()', row, e);
+    // console.log('handleCheckedLogs()', row, e);
     csvData[row][0] = e;
-    checked[row] = e;
-    console.log(
-      'csvDate row',
-      csvData[row],
-      `checkedArray ${row}`,
-      checked,
-      checked[row],
-    );
+    const newChecked = checked.map((c, i) => {
+      if (i === row) {
+        return e;
+      } else {
+        return c;
+      }
+    });
+    setChecked(newChecked);
+    let isAllSelect = true;
+    for (let i = 0; i < newChecked.length; i++) {
+      console.log(`checked ${newChecked[i]}`);
+      if (!newChecked[i]) {
+        isAllSelect = false;
+      }
+    }
+    console.log(isAllSelect);
+    setSelectAll(isAllSelect);
+
   };
 
   // let csvSent = []; // create type
@@ -179,7 +192,7 @@ const ProcessLogs = (): JSX.Element => {
       }
     }
     setCSVSent(newCsvSent);
-    console.log('csvSent: ', csvSent);
+    // console.log('csvSent: ', csvSent);
   };
 
   /**
@@ -187,7 +200,7 @@ const ProcessLogs = (): JSX.Element => {
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
    */
   const tableData = () => {
-    console.log('tableData()');
+    // console.log('tableData()');
     // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -261,7 +274,8 @@ const ProcessLogs = (): JSX.Element => {
       checkedArray.push(true);
     });
 
-    console.log('checkedArray', checkedArray);
+    // console.log('checkedArray', checkedArray);
+    setSelectAll(true);
     setChecked(checkedArray);
 
     return csvArray;
@@ -284,6 +298,13 @@ const ProcessLogs = (): JSX.Element => {
         setCsvData(csvArray);
       }
     }
+  };
+
+  const handleSelectAll = e => {
+    // if csvArray is empty, do nothing,
+    // else, use map to create a copy of the csvData/Array, either is fine
+    // array is all true, csvData is
+    console.log('i dont do anything yet');
   };
 
   return (
@@ -364,6 +385,12 @@ const ProcessLogs = (): JSX.Element => {
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
+        <input
+          className='selectAll'
+          type='checkbox'
+          checked={selectAll}
+          onChange={e => handleSelectAll(e)}
+        />
         <div className={styles.tableHolder}>
           <table className={globalStyles.table}>
             <thead>
@@ -388,6 +415,7 @@ const ProcessLogs = (): JSX.Element => {
                           type='checkbox'
                           // defaultChecked
                           checked={checked[i]}
+                          // checked={csvData[i][0]}
                           onChange={e => handleCheckedLogs(i, e.target.checked)}
                         />
                       </td>

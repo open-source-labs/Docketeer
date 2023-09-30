@@ -5,7 +5,6 @@
 
 import { Router, Request, Response, NextFunction } from 'express';
 import commandController from '../controllers/commandController';
-
 const router = Router();
 
 // ==========================================================
@@ -187,7 +186,6 @@ router.post(
     return res.status(201).json(res.locals.output);
   },
 );
-
 // Route to compose DOWN a docker file
 router.post(
   '/composeDown',
@@ -197,7 +195,6 @@ router.post(
     return res.status(201).json(res.locals.output);
   },
 );
-
 // Route to get list of container networks
 router.get(
   '/composeStacks',
@@ -206,7 +203,6 @@ router.get(
     return res.status(200).json(res.locals.output);
   },
 );
-
 // Route to get all Docker Volumes
 router.get(
   '/allDockerVolumes',
@@ -215,7 +211,6 @@ router.get(
     return res.status(200).json(res.locals.dockerVolumes);
   },
 );
-
 // Route to get all containers running in specified volume
 router.get(
   '/volumeContainers',
@@ -224,7 +219,6 @@ router.get(
     return res.status(200).json(res.locals.volumeContainers);
   },
 );
-
 router.post(
   '/volumeRemove',
   commandController.volumeRemove,
@@ -232,9 +226,6 @@ router.post(
     return res.status(200).json(res.locals.volumeRemoved);
   }
 );
-
-
-
 // Route to get all container logs
 router.post(
   '/allLogs',
@@ -243,6 +234,4 @@ router.post(
     return res.status(201).json(res.locals.logs);
   },
 );
-
-
 export default router;

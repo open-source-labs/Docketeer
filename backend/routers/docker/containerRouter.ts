@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import containerController from '../../controllers/dockerControllers/containersController';
+import containerController from '../../controllers/docker/containersController';
 const router = Router();
 
 /**
@@ -18,8 +18,16 @@ router.get('/running', containerController.getContainers, (req, res) => {
  * @param 
  * @returns
  */
-router.get('/stopped');
+router.get('/stopped', containerController.getStoppedContainers, (req, res) => {
+  return res.status(200).json(res.locals.containers);
+});
 
+/**
+ * 
+ */
+router.get('/logs', containerController.getAllLogs, (req, res) => {
+  return res.status(200).json(res.locals.logs);
+})
 /**
  * @abstract 
  * @todo 
@@ -34,7 +42,9 @@ router.get('/:id/inspect');
  * @param 
  * @returns
  */
-router.post('/start');
+router.post('/start', containerController.runContainer, (req, res) => {
+  return res.sendStatus(201);
+});
 
 /**
  * @abstract 
@@ -42,7 +52,7 @@ router.post('/start');
  * @param 
  * @returns
  */
-router.post('/stop');
+// router.post('/stop');
 
 /**
  * @abstract 
@@ -50,6 +60,8 @@ router.post('/stop');
  * @param 
  * @returns
  */
-router.delete('/:id');
+router.delete('/:id', containerController.removeContainer, (req, res) => {
+  return res.sendStatus(204);
+});
 
 export default router;

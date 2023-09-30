@@ -1,4 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import networkController from '../../controllers/docker/networksController';
 const router = Router();
 
 /**
@@ -7,15 +8,25 @@ const router = Router();
  * @param
  * @returns
  */
-router.get('/');
+router.get('/', networkController.getNetworks, (req, res) => {
+  return res.status(200).json(res.locals.containers);
+});
 
 /**
- * @abstract
+ * 
+ */
+router.get('/container', networkController.getContainersOnNetwork, (req, res) => {
+  return res.status(200).json(res.locals.containers);
+})
+/**
+ * @abstract network prune
  * @todo
  * @param
  * @returns
  */
-router.delete('/');
+router.delete('/prune', networkController.prune, (req, res) => {
+  return res.sendStatus(204);
+});
 
 /**
  * @abstract 

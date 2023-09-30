@@ -49,13 +49,13 @@ interface ContainerController {
    * @method
    * @abstract Gets the log for a list of containers between the start and stop time
    *           Converts this time to the users local time based on the offset provided
-   * @param {string[]} req.body.containerNames An array of names of containers to check
-   * @param {string} req.body.start Must check if empty. Start time in format YYYY-MM-DDTHH:MM:SSZ
-   * @param {string} req.body.stop Must check if empty. Stop time in format YYYY-MM-DDTHH:MM:SSZ
-   * @param {number} req.body.offset Integer for the offset of local time to UTC. Ex. EST4 = 240
+   * @param {string[]} req.query.containerNames An array of names of containers to check
+   * @param {string} req.query.start Must check if empty. Start time in format YYYY-MM-DDTHH:MM:SSZ
+   * @param {string} req.query.stop Must check if empty. Stop time in format YYYY-MM-DDTHH:MM:SSZ
+   * @param {number} req.query.offset Integer for the offset of local time to UTC. Ex. EST4 = 240
    * @returns @param {object<string, LogObject[]>} res.locals.logs
    */
-  getAllLogs: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  getAllLogs: (req: Request<unknown, unknown, unknown, logsQuery>, res: Response, next: NextFunction) => Promise<void>;
 
   /**
    * @method
@@ -76,12 +76,12 @@ containerController.getContainers = async (req: Request, res: Response, next: Ne
 
     // Get list of containers in proper format
     const containers: ContainerPS[] = JSON.parse(
-      `[${stdout.trim().slice(0, -1).replaceAll(' ', '')}]`
-    ).forEach((element: any, index: number, array: any[]): void => {
+      `[${stdout.trim().slice(0, -1)}]`
+    )
+    containers.forEach((element: any): void => {
       element['Networks'] = element['Networks'].split(',');
       element['Labels'] = element['Labels'].split(',');
       element['Ports'] = element['Ports'].split(',');
-      array[index] = element;
     });
     res.locals.containers = containers;
     return next();
@@ -115,6 +115,7 @@ containerController.getStoppedContainers = async (req: Request, res: Response, n
 
 containerController.runContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    console.log(req.body);
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker start ${id}`);
     if (stderr.length) throw new Error(stderr);
@@ -170,27 +171,38 @@ containerController.removeContainer = async (req: Request, res: Response, next: 
   }
 }
 
+interface logsQuery {
+  containerNames: string;
+  start: string;
+  stop: string;
+  offset: number;
+}
 
-
-containerController.getAllLogs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+containerController.getAllLogs = async (req: Request<unknown, unknown, unknown, logsQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
     const containerLogs: { [k: string]: LogObject[] } = {
       stdout: [],
       stderr: [],
     };
-    const { containerNames, start, stop, offset } = req.body;
+    let { containerNames, start, stop, offset } = req.query;
     // string string string number
-    const optionsObj = { containerNames, start, stop, offset };
-
+    const containerList = containerNames.split(',');
+    if (start === 'null') {
+      start = null;
+    }
+    if (stop === 'null') {
+      stop = null;
+    }
+    const optionsObj = { containerList, start, stop, offset };
     // iterate through containerIds array in optionsObj
-    for (let i = 0; i < optionsObj.containerNames.length; i++) {
+    for (let i = 0; i < optionsObj.containerList.length; i++) {
       // build inputCommandString to get logs from command line
-      let inputCommandString = `docker logs ${optionsObj.containerNames[i]} -t`;
+      let inputCommandString = `docker logs ${optionsObj.containerList[i]} -t`;
       if (optionsObj.start) inputCommandString += ` --since ${toUTC(optionsObj.start, offset)}`;
       if (optionsObj.stop) inputCommandString += ` --until ${toUTC(optionsObj.stop, offset)}`;
       const { stdout, stderr } = await execAsync(inputCommandString);
-      containerLogs.stdout = [...containerLogs.stdout, ...parseLogString(stdout, optionsObj.containerNames[i], offset)];
-      containerLogs.stderr = [...containerLogs.stderr, ...parseLogString(stderr, optionsObj.containerNames[i], offset)];
+      containerLogs.stdout = [...containerLogs.stdout, ...parseLogString(stdout, optionsObj.containerList[i], offset)];
+      containerLogs.stderr = [...containerLogs.stderr, ...parseLogString(stderr, optionsObj.containerList[i], offset)];
     }
     res.locals.logs = containerLogs;
     return next();

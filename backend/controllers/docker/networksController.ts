@@ -167,6 +167,7 @@ networkController.disconnectContainerFromNetwork = async (req: Request, res: Res
 networkController.getContainersOnNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     
+    res.status(500).json('Not Yet Implemented');
   } catch (error) {
     const errObj: ServerError = {
       log: JSON.stringify({ 'networkController.getContainersOnNetwork Error: ': error }),

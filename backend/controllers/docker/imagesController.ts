@@ -49,7 +49,6 @@ imageController.getImages = async (req: Request, res: Response, next: NextFuncti
     const { stdout, stderr } = await execAsync('docker images --format "{{json .}},"');
     if (stderr.length) throw new Error(stderr);
     const images: ImageType = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
-    console.log('images', images);
     res.locals.images = images;
     return next();
   } catch (error) {

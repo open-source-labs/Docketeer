@@ -31,7 +31,7 @@ NO_COLOR   = \033[m
 dev: build-dev install-dev dev-tools
 
 install-dev:
-	docker extension install docketeer-extension 	
+	docker extension install docketeer-extension -f
 
 build-dev:
 	docker build -t docketeer-extension -f dockerfile.dev ..

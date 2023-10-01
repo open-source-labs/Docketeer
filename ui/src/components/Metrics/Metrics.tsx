@@ -4,7 +4,6 @@ import useHelper from '../../helpers/commands';
 
 const Metrics = (): JSX.Element => {
   // const { getKey, getUid } = useHelper();
-  const { checkGrafanaConnection } = useHelper();
   // const [toggleKubernetes, setToggleKubernetes] = useState(1);
   // const [apiKey, setApiKey] = useState('');
   // const [uidKey, setUidKey] = useState('');

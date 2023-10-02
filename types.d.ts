@@ -89,3 +89,8 @@ export interface ImageType{
   UniqueSize?: string;
   VirtualSize?: string;
 }
+
+export interface NetworkAndContainer{
+  networkName: string;
+  containers: NetworkContainerType[];
+}

@@ -14,13 +14,13 @@ import ContainersCard from '../ContainersCard/ContainersCard';
  **/
 
 const Containers = (): JSX.Element => {
-  const [activeButton, setActiveButton] = useState(1)
+  const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
   const { runStopped, remove, stop } = useHelper();
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
-
+  console.log('re-render');
   const stopContainer = (container: ContainerType) => {
     dispatch(
       createPrompt(

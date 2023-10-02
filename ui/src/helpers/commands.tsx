@@ -19,64 +19,6 @@ const useHelper = () => {
 
   const actions = useMemo(
     () => ({
-      /*
-      // funcs to help w/ creating new users
-      createNewUser(username: string, password: string) {
-        fetch('/api/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
-        })
-          .then(() => {
-            actions.getUpdatedUserList();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-      checkCookie(): Promise<string> {
-        return fetch('/api/login/checkCookie', {
-          method: 'GET',
-        })
-          .then((res) => res)
-          .then((data) => {
-            return data;
-          })
-          .catch((error) => {
-            console.log('error when fetching cookie', error);
-          });
-      },
-      */
-      /*
-      // Kubernetes | gets the key and uid of the grafana dashboard that is forwarded to localhost:3000
-      getUid(apiKey: string, dashboard: string): Promise<string> {
-        const { refreshRunningContainers } = dispatch;
-        ddClient.extension.vm?.service?.post('/gapi/uidkey', {
-            key: apiKey,
-            dashboard: dashboard,
-          })
-          .then((data) => {
-            console.log('Response received:', data);
-            return data;
-          })
-          .catch((err: Error): void => console.log(err));
-      },
-      getKey(): Promise<string> {
-        return ddClient.extension.vm?.service?.get('/gapi/key')
-          .then((data) => {
-            console.log('data', data)
-            return data;
-          })
-          .catch((error) => {
-            console.log('Error when fetching api key', error);
-          });
-      },
-      */
       /* Refreshes running containers */
       refreshRunning() {
         const { refreshRunningContainers } = dispatch;
@@ -313,73 +255,6 @@ const useHelper = () => {
       },
       /*
       // These commands were created but the only one called is writeToDb in SharedLayout.tsx
-
-      // Writes metric stats into database
-      writeToDb() {
-        const interval = 150000;
-        setInterval(() => {
-          const runningContainers = state.containers.runningList;
-
-          const stoppedContainers = state.containers.stoppedList;
-
-          if (!runningContainers.length) return;
-          const containerParameters: object = {};
-
-          runningContainers.forEach((container: RunningListType) => {
-            containerParameters[container.Name] = {
-              ID: container.ID,
-              names: container.Name,
-              Image: container.Image,
-              cpu: container.CPUPerc,
-              mem: container.MemPerc,
-              memuse: container.MemUsage,
-              net: container.NetIO,
-              block: container.BlockIO,
-              pid: container.PIDs,
-              timestamp: 'current_timestamp',
-            };
-          });
-          if (stoppedContainers.length >= 1) {
-            stoppedContainers.forEach((container) => {
-              containerParameters[container.Names] = {
-                ID: container.ID,
-                names: container.Names,
-                cpu: '0.00%',
-                mem: '0.00%',
-                memuse: '0.00MiB/0.00MiB',
-                net: '0.00kB/0.00kB',
-                block: '0.00kB/0.00kB',
-                pid: '0',
-                timestamp: 'current_timestamp',
-              };
-            });
-          }
-          ddClient.extension.vm?.service?.post('/api/init/addMetrics', {
-            containers: (object = containerParameters)
-          }).catch((err: Error): void => {
-            console.log(err);
-          });
-        }, interval);
-      },
-      setDbSessionTimeZone() {
-        const currentTime = new Date();
-        const offsetTimeZoneInHours = currentTime.getTimezoneOffset() / 60;
-        const ddClient = createDockerDesktopClient();
-        ddClient.extension.vm?.service?.post('/init/timezone', {timezone: offsetTimeZoneInHours})
-          .then((data: Response) => data)
-          .then((response) => {
-            console.log(response);
-            return;
-          })
-          .catch((err: Error): void => {
-            console.log(err);
-          });
-      },
-      async getContainerGitUrl(container) {
-        const response: Response = await ddClient.extension.vm?.service?.post('/init/github', { githubUrl: container })
-        return response;
-      },
-      */
       /* Docker command to retrieve the list of running volumes */
       getAllDockerVolumes() {
         const { getVolumes } = dispatch;

@@ -11,6 +11,7 @@ services:
     container_name: docketeer-ext
     environment:
       - MODE=browser
+      - NODE_PATH=/root_node_modules/node_modules:/ui_node_modules/node_modules:/backend_node_modules/node_modules
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock

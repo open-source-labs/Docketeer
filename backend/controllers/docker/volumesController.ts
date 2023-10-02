@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, VolumeType } from 'types';
+import { ContainerPS, VolumeType } from '../../../types';
 import { execAsync } from '../helper';
-import { ServerError } from 'backend/backend-types';
+import { ServerError } from '../../backend-types';
 
 interface VolumeController{
   /**

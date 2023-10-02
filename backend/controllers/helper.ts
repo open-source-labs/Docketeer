@@ -1,14 +1,4 @@
-import { ContainerPS, LogObject, NetworkContainerType, NetworkInspect, NetworkType } from "types";
-
-
-// interface controllerHelpersType {
-//   execAsync: typeof execAsync;
-//   toUTC: (dateString: string, offset: number) => string;
-//   convertDates: (utcString: string, offset: number) => string;
-//   parseLogString: (stringToMatch: string, container: string, offset: number) => LogObject[];
-// }
-
-// const controllerHelpers: controllerHelpersType = {} as controllerHelpersType;
+import { ContainerPS, LogObject, NetworkContainerType, NetworkInspect, NetworkType } from "../../types";
 
 /**
  * @abstract Spawns an execution terminal but does so asynchronously.
@@ -21,7 +11,6 @@ import { ContainerPS, LogObject, NetworkContainerType, NetworkInspect, NetworkTy
 import util from 'util';
 import { exec } from 'child_process';
 export const execAsync = util.promisify(exec);
-
 
 
 /**

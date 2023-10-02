@@ -2,7 +2,19 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "paths": {
+    "*": [
+      "../backend_node_modules/node_modules/*",
+      "../node_modules/*"
+    ]
+  },
+  "typeRoots": [
+    "../backend_node_modules/node_modules/@types",
+    "../node_modules/@types"
+  ]
   },
   "include": [
     "./**/*.ts",

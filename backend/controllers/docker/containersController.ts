@@ -1,8 +1,8 @@
 // Types
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, LogObject } from 'types';
+import { ContainerPS, LogObject } from '../../../types';
 import { execAsync, toUTC, parseLogString } from '../helper';
-import { ServerError } from 'backend/backend-types';
+import { ServerError } from '../../backend-types';
 
 
 interface ContainerController {

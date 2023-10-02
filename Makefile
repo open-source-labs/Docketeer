@@ -4,20 +4,8 @@ TAG=docketeer-extension
 #Currently this is a fixed port and this flag doesn't actually change anything
 VITE_DEV_PORT=4000
 
-dev: dev_ext
-	docker extension dev debug ${TAG}
-	docker extension dev ui-source ${TAG} http://localhost:${VITE_DEV_PORT}
-
-reload: build_dev
-	docker extension update ${TAG}
-	docker extension dev debug ${TAG}
-	docker extension dev ui-source ${TAG} http://localhost:${VITE_DEV_PORT}
-
-dev_ext: build_dev
-	docker extension install docketeer-extension -f
-
-build_dev:
-	docker build -t ${TAG} -f dockerfile.test .
+dev:
+	docker compose -f docker-compose-test.yaml up
 
 #Removes dangling images, cache records, and unused images
 hardclean: clean img_prune clr_cache

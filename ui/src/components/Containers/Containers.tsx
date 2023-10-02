@@ -20,7 +20,6 @@ const Containers = (): JSX.Element => {
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
-  console.log('re-render');
   const stopContainer = (container: ContainerType) => {
     dispatch(
       createPrompt(

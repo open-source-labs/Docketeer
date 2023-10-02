@@ -10,6 +10,7 @@ import useHelper from '../../helpers/commands'; // added
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { createAlert } from '../../reducers/alertReducer';
 import { removeVolume } from '../../reducers/volumeReducer';
+import Client from '../../models/Client';
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes
@@ -68,15 +69,17 @@ const VolumeHistory = (): JSX.Element => {
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
     const volObject = { volumeName: volumeName }
     try {
-      const response = await ddClient.extension.vm?.service?.post('/command/volumeRemove', volObject);
+      const isSuccess = await Client.VolumeService.removeVolume(volumeName);
+      // const response = await ddClient.extension.vm?.service?.post('/command/volumeRemove', volObject);
 
-      const dataFromBackend: DataFromBackend = response;
-      if (dataFromBackend['volume']) {
+        // const dataFromBackend: DataFromBackend = response;
+      
+      if (isSuccess) {
         dispatch(removeVolume(volumeName))
-      } else if (dataFromBackend.error) {
+      } else {
         dispatch(
           createAlert(
-            'Error from docker : ' + dataFromBackend.error,
+            `Error from docker Volumes: ${volumeName} Could not be removed`,
             4,
             'warning'
           )

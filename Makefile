@@ -14,7 +14,7 @@ reload: build_dev
 	docker extension dev ui-source ${TAG} http://localhost:${VITE_DEV_PORT}
 
 dev_ext: build_dev
-	docker extension install docketeer-extension
+	docker extension install docketeer-extension -f
 
 build_dev:
 	docker build -t ${TAG} -f dockerfile.test .

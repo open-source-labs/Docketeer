@@ -2,9 +2,10 @@ import React, { SyntheticEvent, useState } from 'react';
 import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import { ImageObj, ImagesStateType } from '../../../ui-types';
+import { ImagesStateType } from '../../../ui-types';
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
+import { ImageType } from 'types';
 
 /**
  * @module | Images.tsx
@@ -18,9 +19,9 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
   // * above comment left by previous iteration. resolved type errors in order to test
   const reduxImagesList = useAppSelector((state) => state.images.imagesList);
   imagesList = imagesList.length ? imagesList : reduxImagesList;
-  const [repo, setRepo] = useState('');
+  // const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
-  const { runIm, removeIm, pullImage } = useHelper();
+  const { runIm, removeIm } = useHelper();
 
   // const handleClick = () => {
   //   if (!repo) {
@@ -122,19 +123,19 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
       'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
   };
 
-  const runImage = (image: ImageObj) => {
+  const runImage = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
-          `Are you sure you want to run ${image.reps}?`,
+          `Are you sure you want to run ${image.Repository}?`,
           () => {
             runIm(image);
-            dispatch(createAlert(`Running ${image.reps}...`, 5, 'success'));
+            dispatch(createAlert(`Running ${image.Repository}...`, 5, 'success'));
           },
           () => {
             dispatch(
               createAlert(
-                `The request to run ${image.reps} has been cancelled.`,
+                `The request to run ${image.Repository} has been cancelled.`,
                 5,
                 'warning'
               )
@@ -145,19 +146,19 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
     }
   };
 
-  const removeImage = (image: ImageObj) => {
+  const removeImage = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
-          `Are you sure you want to remove ${image.reps}?`,
+          `Are you sure you want to remove ${image.Repository}?`,
           () => {
-            removeIm(image.imgid);
-            dispatch(createAlert(`Removing ${image.reps}...`, 5, 'success'));
+            removeIm(image.ID);
+            dispatch(createAlert(`Removing ${image.Repository}...`, 5, 'success'));
           },
           () => {
             dispatch(
               createAlert(
-                `The request to remove ${image.reps} has been cancelled.`,
+                `The request to remove ${image.Repository} has been cancelled.`,
                 5,
                 'warning'
               )
@@ -180,15 +181,15 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
                   <figure>
                     <img
                       className={styles.image}
-                      src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
+                      src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.Repository}-logo.png`}
                       onError={handleError}
                     />
                   </figure>
                   <div>
-                    <h2>{image.reps}</h2>
-                    <p>{image.tag}</p>
-                    <p>{`Image ID: ${image.imgid}`}</p>
-                    <p>{`Image Size: ${image.size}`}</p>
+                    <h2>{image.Repository}</h2>
+                    <p>{image.Tag}</p>
+                    <p>{`Image ID: ${image.ID}`}</p>
+                    <p>{`Image Size: ${image.Size}`}</p>
                   </div>
                   <div className={styles.buttonHolder}>
                     <div className={styles.buttonSpacer}>

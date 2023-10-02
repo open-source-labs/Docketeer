@@ -16,6 +16,7 @@ import {
   NetworkAttachedContainersInfo,
 } from '../../../ui-types';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
+import { NetworkAndContainer } from 'types';
 
 /**
  * @module | Network.tsx
@@ -177,13 +178,13 @@ const Network = (): JSX.Element => {
   // function that returns array with network's attached container name
   const attachedContainers = (name: string): string[] => {
     const attachedContainerList: string[] = [];
-    networkContainerList.forEach((el: NetworkContainerListType) => {
+    networkContainerList.forEach((el: NetworkAndContainer) => {
       // if current network objects's networkName property has a value which is matching the provided argument.
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
         // * specified 'any' type for containerEl
-        el.containers.forEach((containerEl: NetworkAttachedContainersInfo) => {
-          attachedContainerList.push(`[${containerEl.containerName}]`);
+        el.containers.forEach((containerEl) => {
+          attachedContainerList.push(`[${containerEl.Name}]`);
         });
       }
     });
@@ -237,17 +238,17 @@ const Network = (): JSX.Element => {
           });
           network.containers.forEach(container => {
             // if it doesn't already exist in nodes object, add it to object and list
-            if (!nodesObj[container.containerName]) {
-              nodesObj[container.containerName] = true;
+            if (!nodesObj[container.Name]) {
+              nodesObj[container.Name] = true;
               liveNodes.push({
-                name: container.containerName + ' ', // Blank space appended to container name in the case of container and network sharing the same name, which throws an error in d3-sankey.
+                name: container.Name + ' ', // Blank space appended to container name in the case of container and network sharing the same name, which throws an error in d3-sankey.
                 category: 'container',
               });
             }
             // create a link object for each connection
             liveLinks.push({
               source: network.networkName,
-              target: container.containerName + ' ',
+              target: container.Name + ' ',
               value: 1,
             });
           });

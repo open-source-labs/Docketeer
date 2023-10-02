@@ -59,6 +59,7 @@ const useHelper = () => {
       //   .then((data: Response) => data)
         Client.NetworkService.getAllContainersOnAllNetworks()
           .then((networkList) => {
+            console.log('Containers', networkList);
             refreshNetworkList(networkList);
           })
           .catch((err: Error): void => console.log(err));

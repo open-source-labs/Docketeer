@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { ImageType, NetworkContainerType } from 'types';
+import { ImageType, NetworkAndContainer, NetworkContainerType } from 'types';
 
 // ==============================================
 // USER TYPES
@@ -88,7 +88,7 @@ export interface NetworkAttachedContainersInfo {
 
 // for networkReducer's action
 export interface NetworkStateType {
-  networkContainerList: NetworkContainerType[];
+  networkContainerList: NetworkAndContainer[];
 }
 
 export interface StoppedListType extends ContainerType {

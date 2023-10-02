@@ -1,7 +1,7 @@
 export interface ContainerPS {
   ID: string;
   Command?: string;
-  CreatedAt: string;
+  CreatedAt?: string;
   Image?: string;
   Labels?: string[];
   LocalVolumes?: string;
@@ -11,7 +11,7 @@ export interface ContainerPS {
   Ports?: string[];
   RunningFor?: string;
   Size?: string;
-  State: string; //tells if running
+  State?: string; //tells if running
   Status?: string;
 }
 
@@ -45,6 +45,37 @@ export interface NetworkType{
   Scope?: string;
 }
 
+export interface NetworkContainerType extends ContainerPS{
+  Name: string;
+  EndpointID: string;
+  MacAddress: string;
+  IPv4Address: string;
+  IPv6Address: string;
+}
+
+export interface NetworkInspect{
+  Name: string;
+  Id: string;
+  Created?: string;
+  Scope?: string;
+  Driver?: string;
+  EnableIPv6?: boolean;
+  IPAM?: {
+    Driver?: string;
+    Options: object;
+    Config?: { Subnet?: string, Gateway?: string }[];
+  }
+  Internal?: boolean;
+  Attachable?: boolean;
+  Ingress?: boolean;
+  ConfigFrom?: { Network?: string };
+  ConfigOnly?: boolean;
+  Containers: {
+    [key: string]: NetworkContainerType;
+  }
+  Options?: object;
+  Labels?: object;
+}
 export interface ImageType{
   Containers?: string;
   CreatedAt?: string;

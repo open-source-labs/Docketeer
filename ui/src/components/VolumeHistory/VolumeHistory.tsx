@@ -7,7 +7,6 @@ import { DataFromBackend, VolumeObj } from '../../../ui-types';
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
 import useHelper from '../../helpers/commands'; // added
-import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { createAlert } from '../../reducers/alertReducer';
 import { removeVolume } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
@@ -33,7 +32,6 @@ const VolumeHistory = (): JSX.Element => {
   const [disableShowAll, setDisableShowAll] = useState(false);
 
   const dispatch = useAppDispatch();
-  const ddClient = createDockerDesktopClient();
 
   /*
   RVH = Render Volume History
@@ -70,7 +68,6 @@ const VolumeHistory = (): JSX.Element => {
     const volObject = { volumeName: volumeName }
     try {
       const isSuccess = await Client.VolumeService.removeVolume(volumeName);
-      // const response = await ddClient.extension.vm?.service?.post('/command/volumeRemove', volObject);
 
         // const dataFromBackend: DataFromBackend = response;
       

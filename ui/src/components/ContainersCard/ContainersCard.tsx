@@ -3,7 +3,6 @@ import { useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
 /**
@@ -25,40 +24,47 @@ const ContainersCard = ({
 
   const dispatch = useAppDispatch();
   const [containerMetrics, setContainerMetrics] = useState<stats[]>();
-  const ddClient = createDockerDesktopClient(); 
 
-
+  let ddClient;
   useEffect(() => {
-    let newData: stats[] = [];
-    // This is unicode by the way
-    const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
-    const result = ddClient.docker.cli.exec(
-      'stats',
-      ['--all', '--no-trunc', '--format', '{{ json . }}'],
-      {
-        stream: {
-          onOutput(data) {
-            if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
-              setContainerMetrics(newData);
-              newData = [];
-              newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
-            } else {
-              newData.push(JSON.parse(data.stdout ?? ''));
-            }
-          },
-          onError(error) {
-            console.error(error);
-          },
-          splitOutputLines: true,
-        },
+    async function displayMetrics() {
+      try {
+        let newData: stats[] = [];
+        // This is unicode by the way
+        const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
+        const { createDockerDesktopClient } = await import("@docker/extension-api-client");
+        ddClient = createDockerDesktopClient();
+        const result = ddClient.docker.cli.exec(
+          'stats',
+          ['--all', '--no-trunc', '--format', '{{ json . }}'],
+          {
+            stream: {
+              onOutput(data) {
+                if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
+                  setContainerMetrics(newData);
+                  newData = [];
+                  newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
+                } else {
+                  newData.push(JSON.parse(data.stdout ?? ''));
+                }
+              },
+              onError(error) {
+                console.error(error);
+              },
+              splitOutputLines: true,
+            },
+          }
+        );
+        // Clean-up function
+        // return () => {
+        //   result.close();
+        //   newData = [];
+        // };
+      } catch (error) {
+        console.log(`Can't import ddClient`);
       }
-    );
-
-    // Clean-up function
-    return () => {
-      result.close();
-      newData = [];
-    };
+    }
+  
   }, [ddClient]);
 
 
@@ -68,29 +74,7 @@ const ContainersCard = ({
   ): Promise<void> {
     try {
       await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
-      // const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
-      //   networkName: networkName,
-      //   containerName: containerName,
-      // });
-      // const dataFromBackend = response;
-      // if (dataFromBackend['hash']) {
-      //   dispatch(
-      //     createAlert(
-      //       containerName + ' is successfully attached to the ' + networkName,
-      //       4,
-      //       'success'
-      //     )
-      //   );
-      // } else if (dataFromBackend.error) {
-      //   dispatch(
-      //     createAlert(
-      //       containerName + ' is already attached to the ' + networkName,
-      //       4,
-      //       'warning'
-      //     )
-      //   );
-      //   return;
-      // }
+
     } catch (err) {
       dispatch(
         createAlert(
@@ -108,33 +92,7 @@ const ContainersCard = ({
   ): Promise<void> {
     try {
       await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
-      // const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
-      //   networkName: networkName,
-      //   containerName: containerName,
-      // });
 
-      // const dataFromBackend = response;
-      
-      // if (dataFromBackend['hash']) {
-      //   dispatch(
-      //     createAlert(
-      //       containerName +
-      //         ' was successfully disconnected from ' +
-      //         networkName,
-      //       4,
-      //       'success'
-      //     )
-      //   );
-      // } else if (dataFromBackend.error) {
-      //   dispatch(
-      //     createAlert(
-      //       containerName + ' is not connected to ' + networkName,
-      //       4,
-      //       'warning'
-      //     )
-      //   );
-      //   return;
-      // }
     } catch (err) {
       dispatch(
         createAlert(

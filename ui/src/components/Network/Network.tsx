@@ -15,7 +15,6 @@ import {
   NetworkContainerListType,
   NetworkAttachedContainersInfo,
 } from '../../../ui-types';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { NetworkAndContainer } from 'types';
 
 /**
@@ -29,7 +28,6 @@ const Network = (): JSX.Element => {
   const { networkContainerList } = useAppSelector(state => state.networks);
   const ref = useRef();
   const dispatch = useAppDispatch();
-  const ddClient = createDockerDesktopClient();
   // Array of valid css colors long enough to cover all possible networks that can be created in Docker.
   const cssColors = [
     'Aqua',

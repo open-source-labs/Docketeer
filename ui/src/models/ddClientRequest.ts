@@ -1,7 +1,4 @@
-import { createDockerDesktopClient } from "@docker/extension-api-client";
 import { RequestConfig } from "@docker/extension-api-client-types/dist/v0";
-
-const ddClient = createDockerDesktopClient();
 
 class DdFetchError extends Error {
   statusCode: number;
@@ -15,13 +12,26 @@ class DdFetchError extends Error {
 }
 
 export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
-  if (!ddClient.extension?.vm?.service?.request) {
+  let ddClient;
+
+  try {
+    const { createDockerDesktopClient } = await import("@docker/extension-api-client");
+    ddClient = createDockerDesktopClient();
+  } catch (error) {
+    console.error("Failed to create Docker Desktop Client:", error.message);
+    ddClient = null;
+  }
+
+  if (!ddClient || !ddClient.extension?.vm?.service?.request) {
     console.log("Can't Bind ddClient, using Fetch");
-    const result = await fetch(options.url, {
+    const fetchOptions: RequestInit = {
       method: options.method.toUpperCase(),
       headers: options.headers,
-      body: options.data
-    });
+    };
+    if (fetchOptions.method !== 'GET' && fetchOptions.method !== 'DELETE') {
+      fetchOptions.body = options.data; 
+    }
+    const result = await fetch(options.url, fetchOptions);
 
     if (!result.ok) {
       let errorMessage;
@@ -39,6 +49,7 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
 
   return ddClient.extension.vm.service.request(options) as Promise<T>;
 };
+
 
 export const encodeQuery = (dict: { [key: string]: string }): string => {
   let query = '';

@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
-
+import Client from '../../models/Client';
 import {
   DataFromBackend,
   NetworkContainerListType,
@@ -82,26 +82,27 @@ const Network = (): JSX.Element => {
 
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
-      const response = await ddClient.extension.vm?.service?.post(
-        '/command/networkCreate',
-        { networkName: name },
-      );
-      const dataFromBackend: DataFromBackend = response;
+      await Client.NetworkService.createNetwork(name);
+      // const response = await ddClient.extension.vm?.service?.post(
+      //   '/command/networkCreate',
+      //   { networkName: name },
+      // );
+      // const dataFromBackend: DataFromBackend = response;
 
-      if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert('New network ' + name + ' being added...', 4, 'success'),
-        );
-      } else if (dataFromBackend.error) {
-        dispatch(
-          createAlert(
-            'Error from the docker : ' + dataFromBackend.error,
-            4,
-            'warning',
-          ),
-        );
-        return;
-      }
+      // if (dataFromBackend['hash']) {
+      //   dispatch(
+      //     createAlert('New network ' + name + ' being added...', 4, 'success'),
+      //   );
+      // } else if (dataFromBackend.error) {
+      //   dispatch(
+      //     createAlert(
+      //       'Error from the docker : ' + dataFromBackend.error,
+      //       4,
+      //       'warning',
+      //     ),
+      //   );
+      //   return;
+      // }
     } catch (err) {
       dispatch(
         createAlert(
@@ -142,25 +143,26 @@ const Network = (): JSX.Element => {
 
   async function deleteNetwork(name: string): Promise<void> {
     try {
-      const response = await ddClient.extension.vm?.service?.post(
-        '/command/networkRemove',
-        { networkName: name },
-      );
-      const dataFromBackend: DataFromBackend = response;
-      if (dataFromBackend['hash']) {
-        dispatch(createAlert('Removing ' + name + ' network...', 4, 'success'));
-      } else {
-        dispatch(
-          createAlert(
-            'Please detach ' +
-              attachedContainers(name) +
-              ' container(s) before deleting this network.',
-            4,
-            'warning',
-          ),
-        );
-        return;
-      }
+      await Client.NetworkService.deleteNetwork(name);
+      // const response = await ddClient.extension.vm?.service?.post(
+      //   '/command/networkRemove',
+      //   { networkName: name },
+      // );
+      // const dataFromBackend: DataFromBackend = response;
+      // if (dataFromBackend['hash']) {
+      //   dispatch(createAlert('Removing ' + name + ' network...', 4, 'success'));
+      // } else {
+      //   dispatch(
+      //     createAlert(
+      //       'Please detach ' +
+      //         attachedContainers(name) +
+      //         ' container(s) before deleting this network.',
+      //       4,
+      //       'warning',
+      //     ),
+      //   );
+      //   return;
+      // }
     } catch (err) {
       dispatch(
         createAlert(

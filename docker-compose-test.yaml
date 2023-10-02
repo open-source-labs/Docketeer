@@ -16,6 +16,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
+      - backend:/backend
+      - ui:/ui
       # - ${PWD}/ui:/ui
 
     ports:
@@ -79,8 +81,6 @@ services:
     volumes:
       - docketeer-ext-prometheus-files:/etc/prometheus
       - docketeer-ext-prometheus-data:/prometheus
-      - backend:/backend
-      - ui:/ui
     # Tells prometheus to use the config file from ./imageConfigs/prometheus
     # Dockerfile handles this if you're using the uploaded images
     command:

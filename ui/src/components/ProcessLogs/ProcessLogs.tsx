@@ -21,6 +21,8 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
+import { set } from 'immer/dist/internal';
+import { textAlign } from '@mui/system';
 // import { todo } from 'node:test';
 
 /**
@@ -77,11 +79,12 @@ const ProcessLogs = (): JSX.Element => {
 
   const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
+  const [csvSent, setCSVSent] = useState([]);
+
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
    */
   useEffect(() => {
-    console.log('get logs clicked'); // test
     tableData();
   }, [counter]);
 
@@ -89,7 +92,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract use effect, rerender on change to rows.length
    */
   useEffect(() => {
-    console.log('rows.length changed', rows.length);
     setFilteredDisplay(rows);
     setCsvData(toCSVArray(rows));
   }, [rows.length]);
@@ -118,7 +120,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract: takes in a btnIdList, passes that into buildObptionObj
    */
   const handleGetLogs = async (idList: object) => {
-    console.log('handleGetLogs()');
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
     // pop-up
@@ -130,7 +131,6 @@ const ProcessLogs = (): JSX.Element => {
       startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
-    // console.log(optionsObj); // console.log test
 
     const containerLogs: any = await getLogs(optionsObj);
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
@@ -154,22 +154,37 @@ const ProcessLogs = (): JSX.Element => {
     setBtnIdList(newBtnIdList);
   };
 
+  const [selectAll, setSelectAll] = useState(false);
+
+  /**
+   * @abstract handles individual log check in Process Logs.
+   * 
+   */
   const handleCheckedLogs = (row: number, e: boolean) => {
-    console.log('handleCheckedLogs()', row, e);
+    // modify in csvData array
     csvData[row][0] = e;
-    checked[row] = e;
-    console.log(
-      'csvDate row',
-      csvData[row],
-      `checkedArray ${row}`,
-      checked,
-      checked[row],
-    );
+    // create a new checked array with the change
+    const newChecked = checked.map((c, i) => {
+      if (i === row) {
+        return e;
+      } else {
+        return c;
+      }
+    });
+    setChecked(newChecked);
+
+    // check if all boxes are the same.
+    let isAllSelect = true;
+    for (let i = 0; i < newChecked.length; i++) {
+      if (!newChecked[i]) {
+        isAllSelect = false;
+        break;
+      }
+    }
+    setSelectAll(isAllSelect);
   };
 
-  // let csvSent = []; // create type
-
-  const [csvSent, setCSVSent] = useState([]);
+  
 
   const handleCsv = () => {
     const newCsvSent: CSVDataType[] = []; // add type later
@@ -179,7 +194,6 @@ const ProcessLogs = (): JSX.Element => {
       }
     }
     setCSVSent(newCsvSent);
-    console.log('csvSent: ', csvSent);
   };
 
   /**
@@ -187,7 +201,6 @@ const ProcessLogs = (): JSX.Element => {
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
    */
   const tableData = () => {
-    console.log('tableData()');
     // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -248,7 +261,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract returns array with container, type, time, message when passed in an array
    */
   const toCSVArray = csvObj => {
-    console.log('toCSVArray()');
     const csvArray = new Array(csvObj.length);
     const checkedArray = [];
     csvObj.forEach((element, index) => {
@@ -261,7 +273,7 @@ const ProcessLogs = (): JSX.Element => {
       checkedArray.push(true);
     });
 
-    console.log('checkedArray', checkedArray);
+    setSelectAll(true);
     setChecked(checkedArray);
 
     return csvArray;
@@ -283,6 +295,28 @@ const ProcessLogs = (): JSX.Element => {
         const csvArray = toCSVArray(filtered);
         setCsvData(csvArray);
       }
+    }
+  };
+
+  /**
+   * @abstract handles select all checkbox toggle. 
+   * takes in a boolean
+   */
+  const handleSelectAll = (e: boolean) => {
+    // Starts if csvData is populated
+
+    
+    if (csvData) {
+      // create a copy of Checked Array all e
+      const checkedArray = new Array(checked.length).fill(e);
+      // modify csvData array boolean to be all e
+      csvData.forEach(element => {
+        element[0] = e;
+      });
+
+      // set checked array and select all state to re-render
+      setSelectAll(e);
+      setChecked(checkedArray);
     }
   };
 
@@ -364,6 +398,13 @@ const ProcessLogs = (): JSX.Element => {
       </div>
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
+        <input
+          id='selectAll'
+          type='checkbox'
+          checked={selectAll}
+          onChange={e => handleSelectAll(e.target.checked)}
+        />
+        <label htmlFor='selectAll' >Select All</label>
         <div className={styles.tableHolder}>
           <table className={globalStyles.table}>
             <thead>
@@ -381,12 +422,14 @@ const ProcessLogs = (): JSX.Element => {
                 return (
                   <tbody key={`row-${i}`}>
                     <tr>
-                      <td>
+                      <td
+                        style={{
+                          verticalAlign: 'middle',
+                        }}>
                         <input
                           id={`log-entry-box-${i}`}
                           className='export'
                           type='checkbox'
-                          // defaultChecked
                           checked={checked[i]}
                           onChange={e => handleCheckedLogs(i, e.target.checked)}
                         />

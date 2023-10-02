@@ -142,16 +142,17 @@ function SharedLayout(): JSX.Element {
 
 
   // Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshRunning();
-      refreshStopped();
-      refreshImages();
-      refreshNetwork();
-    }, 5000);
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     refreshRunning();
+  //     refreshStopped();
+  //     refreshImages();
+  //     refreshNetwork();
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+  console.log('render');
 
   return (
     <div className={styles.wrapper}>
@@ -171,7 +172,7 @@ function SharedLayout(): JSX.Element {
             </li> */}
             <li>
               <NavLink
-              to="/"
+                to="/"
               >
                 <img className={styles.logo} src={docketeerLogo} alt="docketeer-logo" width="45" height="45"></img>
               </NavLink>
@@ -216,7 +217,7 @@ function SharedLayout(): JSX.Element {
                 CONTAINER METRICS
               </NavLink>
             </li>
-                 <li>
+            <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton

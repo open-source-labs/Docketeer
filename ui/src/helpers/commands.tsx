@@ -5,19 +5,14 @@ import {
 } from './volumeHistoryHelper';
 import { useMemo } from 'react';
 import useSurvey from './dispatch';
-import { useAppSelector } from '../reducers/hooks';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
 import Client from '../models/Client';
 import { ImageType } from 'types';
 /**
  * @module | commands.tsx
  * @description | Organizes all server-communication throughout client-side into a single custom hook exportable into individual components
  **/
-const ddClient = createDockerDesktopClient();
 const useHelper = () => {
   const dispatch = useSurvey();
-
-  const state = useAppSelector((state) => state);
 
   const actions = useMemo(
     () => ({

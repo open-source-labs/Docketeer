@@ -1,4 +1,4 @@
-import { LogObject } from "types";
+import { ContainerPS, LogObject, NetworkContainerType, NetworkInspect, NetworkType } from "types";
 
 
 // interface controllerHelpersType {
@@ -127,4 +127,26 @@ export const parseLogString = (stringToMatch: string, container: string, offset:
 }
 
 
-//export const parseContainerMetrics = (containerMetrics)
+export const getContainersOnNetwork = async (networkId: string): Promise<NetworkContainerType[]> => {
+  try {
+    const { stdout, stderr } = await execAsync(`docker network inspect ${networkId} --format json`);
+    if (stderr.length) throw new Error(stderr);
+    const data: NetworkInspect[] = JSON.parse(stdout);
+    const containers: NetworkContainerType[] = [];
+    const ContainersObj = data[0].Containers;
+    for (let key in ContainersObj) {
+      const container: NetworkContainerType = {
+        ID: key,
+        Name: ContainersObj[key].Name,
+        EndpointID: ContainersObj[key].EndpointID,
+        IPv4Address: ContainersObj[key].IPv4Address,
+        IPv6Address: ContainersObj[key].IPv6Address,
+        MacAddress: ContainersObj[key].MacAddress
+      };
+      containers.push(container);
+    }
+    return containers;
+  } catch (error) {
+    console.error(`Error Extracting Containers from network ${networkId} with Error: `, error);
+  }
+}

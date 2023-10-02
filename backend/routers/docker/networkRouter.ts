@@ -9,13 +9,13 @@ const router = Router();
  * @returns
  */
 router.get('/', networkController.getNetworks, (req, res) => {
-  return res.status(200).json(res.locals.containers);
+  return res.status(200).json(res.locals.networks);
 });
 
 /**
  * 
  */
-router.get('/container', networkController.getContainersOnNetwork, (req, res) => {
+router.get('/container', networkController.getNetworks, networkController.getContainersOnNetwork, (req, res) => {
   return res.status(200).json(res.locals.containers);
 })
 /**
@@ -34,7 +34,9 @@ router.delete('/prune', networkController.prune, (req, res) => {
  * @param 
  * @returns
  */
-router.post('/');
+router.post('/', networkController.createNetwork, (req, res)=>{
+  return res.sendStatus(201);
+});
 
 /**
  * @abstract 
@@ -50,7 +52,9 @@ router.delete('/:id');
  * @param 
  * @returns
  */
-router.post('/container');
+router.post('/container', networkController.connectContainerToNetwork, (req, res) => {
+  return res.sendStatus(201);
+});
 
 /**
  * @abstract 
@@ -58,6 +62,8 @@ router.post('/container');
  * @param 
  * @returns
  */
-router.delete('/:id/container/:containerId');
+router.delete('/:id/container/:containerId', networkController.disconnectContainerFromNetwork, (req, res) => {
+  return res.sendStatus(204);
+});
 
 export default router;

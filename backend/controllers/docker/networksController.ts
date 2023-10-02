@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, NetworkType } from 'types';
-import { execAsync } from '../helper';
+import { ContainerPS, NetworkContainerType, NetworkType } from 'types';
+import { execAsync, getContainersOnNetwork } from '../helper';
 import { ServerError } from 'backend/backend-types';
 
 interface NetworkController {
@@ -50,8 +50,8 @@ interface NetworkController {
    * @method
    * @todo Needs to be implemented
    * @abstract Gets all the containers running on a given network based on network name
-   * @param {string} req.params.networkName
-   * @returns @param {ContainerPS[]} res.locals.containers
+   * @param {string} res.locals.networks
+   * @returns @param {NetworkContainerType[]} res.locals.networkContainers
    */
   getContainersOnNetwork: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
@@ -166,8 +166,12 @@ networkController.disconnectContainerFromNetwork = async (req: Request, res: Res
  */
 networkController.getContainersOnNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    
-    res.status(500).json('Not Yet Implemented');
+    const allContainers: NetworkContainerType[] = [];
+    for (const network of res.locals.networks) {
+      allContainers.push(... await getContainersOnNetwork(network));
+    }
+    res.locals.networkContainers = allContainers;
+    return next();
   } catch (error) {
     const errObj: ServerError = {
       log: JSON.stringify({ 'networkController.getContainersOnNetwork Error: ': error }),

@@ -22,6 +22,7 @@ import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
 import { set } from 'immer/dist/internal';
+import { textAlign } from '@mui/system';
 // import { todo } from 'node:test';
 
 /**
@@ -31,7 +32,6 @@ import { set } from 'immer/dist/internal';
 
 const ProcessLogs = (): JSX.Element => {
   // STATE
-  console.log('re-render');
   const { searchWord } = useAppSelector(store => store.logs);
   // Redux toolkit, useAppSelector -
   const { runningList, stoppedList } = useAppSelector(
@@ -79,11 +79,12 @@ const ProcessLogs = (): JSX.Element => {
 
   const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
+  const [csvSent, setCSVSent] = useState([]);
+
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
    */
   useEffect(() => {
-    console.log('get logs clicked'); // test
     tableData();
   }, [counter]);
 
@@ -91,7 +92,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract use effect, rerender on change to rows.length
    */
   useEffect(() => {
-    console.log('rows.length changed', rows.length);
     setFilteredDisplay(rows);
     setCsvData(toCSVArray(rows));
   }, [rows.length]);
@@ -120,7 +120,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract: takes in a btnIdList, passes that into buildObptionObj
    */
   const handleGetLogs = async (idList: object) => {
-    console.log('handleGetLogs()');
     const idArr = Object.keys(idList).filter(el => idList[el] === true);
     const date = new Date();
     // pop-up
@@ -157,9 +156,14 @@ const ProcessLogs = (): JSX.Element => {
 
   const [selectAll, setSelectAll] = useState(false);
 
+  /**
+   * @abstract handles individual log check in Process Logs.
+   * 
+   */
   const handleCheckedLogs = (row: number, e: boolean) => {
-    // console.log('handleCheckedLogs()', row, e);
+    // modify in csvData array
     csvData[row][0] = e;
+    // create a new checked array with the change
     const newChecked = checked.map((c, i) => {
       if (i === row) {
         return e;
@@ -168,21 +172,19 @@ const ProcessLogs = (): JSX.Element => {
       }
     });
     setChecked(newChecked);
+
+    // check if all boxes are the same.
     let isAllSelect = true;
     for (let i = 0; i < newChecked.length; i++) {
-      console.log(`checked ${newChecked[i]}`);
       if (!newChecked[i]) {
         isAllSelect = false;
+        break;
       }
     }
-    console.log(isAllSelect);
     setSelectAll(isAllSelect);
-
   };
 
-  // let csvSent = []; // create type
-
-  const [csvSent, setCSVSent] = useState([]);
+  
 
   const handleCsv = () => {
     const newCsvSent: CSVDataType[] = []; // add type later
@@ -192,7 +194,6 @@ const ProcessLogs = (): JSX.Element => {
       }
     }
     setCSVSent(newCsvSent);
-    // console.log('csvSent: ', csvSent);
   };
 
   /**
@@ -200,7 +201,6 @@ const ProcessLogs = (): JSX.Element => {
    * Output: setsRows: for process logs table, setCsvData: chooses CSV data
    */
   const tableData = () => {
-    // console.log('tableData()');
     // declare const newRows, and newCSV which are arrays of RowsDataType and CSVDataType
     const newRows: RowsDataType[] = [];
     const newCSV: CSVDataType[] = [];
@@ -261,7 +261,6 @@ const ProcessLogs = (): JSX.Element => {
    * @abstract returns array with container, type, time, message when passed in an array
    */
   const toCSVArray = csvObj => {
-    console.log('toCSVArray()');
     const csvArray = new Array(csvObj.length);
     const checkedArray = [];
     csvObj.forEach((element, index) => {
@@ -274,7 +273,6 @@ const ProcessLogs = (): JSX.Element => {
       checkedArray.push(true);
     });
 
-    // console.log('checkedArray', checkedArray);
     setSelectAll(true);
     setChecked(checkedArray);
 
@@ -300,11 +298,26 @@ const ProcessLogs = (): JSX.Element => {
     }
   };
 
-  const handleSelectAll = e => {
-    // if csvArray is empty, do nothing,
-    // else, use map to create a copy of the csvData/Array, either is fine
-    // array is all true, csvData is
-    console.log('i dont do anything yet');
+  /**
+   * @abstract handles select all checkbox toggle. 
+   * takes in a boolean
+   */
+  const handleSelectAll = (e: boolean) => {
+    // Starts if csvData is populated
+
+    
+    if (csvData) {
+      // create a copy of Checked Array all e
+      const checkedArray = new Array(checked.length).fill(e);
+      // modify csvData array boolean to be all e
+      csvData.forEach(element => {
+        element[0] = e;
+      });
+
+      // set checked array and select all state to re-render
+      setSelectAll(e);
+      setChecked(checkedArray);
+    }
   };
 
   return (
@@ -386,11 +399,12 @@ const ProcessLogs = (): JSX.Element => {
       <div className={styles.logsHolder}>
         <h2>CONTAINER PROCESS LOGS</h2>
         <input
-          className='selectAll'
+          id='selectAll'
           type='checkbox'
           checked={selectAll}
-          onChange={e => handleSelectAll(e)}
+          onChange={e => handleSelectAll(e.target.checked)}
         />
+        <label htmlFor='selectAll' >Select All</label>
         <div className={styles.tableHolder}>
           <table className={globalStyles.table}>
             <thead>
@@ -408,14 +422,15 @@ const ProcessLogs = (): JSX.Element => {
                 return (
                   <tbody key={`row-${i}`}>
                     <tr>
-                      <td>
+                      <td
+                        style={{
+                          verticalAlign: 'middle',
+                        }}>
                         <input
                           id={`log-entry-box-${i}`}
                           className='export'
                           type='checkbox'
-                          // defaultChecked
                           checked={checked[i]}
-                          // checked={csvData[i][0]}
                           onChange={e => handleCheckedLogs(i, e.target.checked)}
                         />
                       </td>

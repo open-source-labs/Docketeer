@@ -152,6 +152,7 @@ function SharedLayout(): JSX.Element {
   //   return () => clearInterval(interval);
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
+  console.log('render');
 
   return (
     <div className={styles.wrapper}>

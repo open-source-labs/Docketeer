@@ -24,14 +24,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-import commandRouter from './server/routes/commandRouter';
 import containerRouter from './routers/docker/containerRouter';
 import imageRouter from './routers/docker/imageRouter';
 import volumeRouter from './routers/docker/volumeRouter';
 import networkRouter from './routers/docker/networkRouter';
 import systemRouter from './routers/docker/systemRouter';
 
-app.use('/command', commandRouter);
 app.use('/api/docker/container', containerRouter);
 app.use('/api/docker/image', imageRouter);
 app.use('/api/docker/volume', volumeRouter);

@@ -3,11 +3,11 @@ import { ContainerPS, LogObject } from "types";
 
 export const ContainerService = {
   async getRunningContainers(): Promise<ContainerPS[]> {
-    return apiRequest('/api/docker/container/running');
+    return await apiRequest<ContainerPS[]>('/api/docker/container/running');
   },
 
   async getStoppedContainers(): Promise<ContainerPS[]> {
-    return apiRequest('/api/docker/container/stopped'); 
+    return await apiRequest('/api/docker/container/stopped'); 
   },
 
   async removeContainer(containerId: string): Promise<boolean> {

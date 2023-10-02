@@ -29,7 +29,6 @@ const ContainersCard = ({
 
 
   useEffect(() => {
-    console.log('ddClient Changed');
     let newData: stats[] = [];
     // This is unicode by the way
     const TERMINAL_CLEAR_CODE = '\x1B[2J[H';

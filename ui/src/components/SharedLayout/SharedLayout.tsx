@@ -23,54 +23,6 @@ function SharedLayout(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const { handlePruneClick, handleNetworkPruneClick } = useHelper();
-  // const { logoutUser } = useSurvey();
-
-  // const logOut = async (): Promise<void> => {
-  //   logoutUser();
-
-  //   try {
-  //     const response = await fetch('/api/logout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         username: userData.username,
-  //       }),
-  //     });
-  //     await response.json();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-
-  //   navigate('/login');
-  // };
-
-  // const handleLogOut = () => {
-  //   {
-  //     dispatch(
-  //       createPrompt(
-  //         // prompt (first argument in createPrompt)
-  //         'Are you sure you want to log out of Docketeer?',
-  //         // handleAccept (second argument in createPrompt)
-  //         () => {
-  //           logOut();
-  //           dispatch(createAlert('Logging out...', 5, 'success'));
-  //         },
-  //         // handleDeny (third argument in createPrompt)
-  //         () => {
-  //           dispatch(
-  //             createAlert(
-  //               'The request to logout has been cancelled.',
-  //               5,
-  //               'warning'
-  //             )
-  //           );
-  //         }
-  //       )
-  //     );
-  //   }
-  // };
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     {
@@ -139,20 +91,6 @@ function SharedLayout(): JSX.Element {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayOfVolumeNames]);
-
-
-  // Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     refreshRunning();
-  //     refreshStopped();
-  //     refreshImages();
-  //     refreshNetwork();
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  console.log('render');
 
   return (
     <div className={styles.wrapper}>

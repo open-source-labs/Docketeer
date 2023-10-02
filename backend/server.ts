@@ -1,25 +1,29 @@
 import express, { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
-//import cors from 'cors';
-import { exec } from 'child_process';
-import * as path from 'path';
 import { ServerError } from './backend-types';
-const cookieParser = require('cookie-parser');
+import process from 'process';
+import cookieParser from 'cookie-parser';
 
 // const PORT = process.env.PORT || 3003;
-const SOCKETFILE = '/run/guest-services/backend.sock';
+let SOCKETFILE: string;
+if (process.env.MODE === 'browser') {
+  SOCKETFILE = '3000';
+} else {
+  SOCKETFILE = '/run/guest-services/backend.sock';
+
+  // Resets the docker socket, prevents the issue of VM socket being in use error but not always
+  try {
+    fs.unlinkSync(SOCKETFILE);
+    console.log('Deleted the UNIX file.');
+  }
+  catch (err) {
+    console.log('Did not need to delete the UNIX socket file.');
+  }
+}
+
+
+
 const app = express();
-
-// Resets the docker socket, prevents the issue of VM socket being in use error but not always
-try {
-  fs.unlinkSync(SOCKETFILE);
-  console.log('Deleted the UNIX file.');
-}
-catch (err) {
-  console.log('Did not need to delete the UNIX socket file.');
-}
-
-//app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

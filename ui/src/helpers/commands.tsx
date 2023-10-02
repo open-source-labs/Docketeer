@@ -55,8 +55,9 @@ const useHelper = () => {
       /**@todo Check if this is even used... */
       refreshNetwork() {
         const { refreshNetworkList } = dispatch;
-        ddClient.extension.vm?.service?.get('/command/networkListContainers')
-          .then((data: Response) => data)
+        // ddClient.extension.vm?.service?.get('/command/networkListContainers')
+      //   .then((data: Response) => data)
+        Client.NetworkService.getAllContainersOnAllNetworks()
           .then((networkList) => {
             refreshNetworkList(networkList);
           })
@@ -138,26 +139,28 @@ const useHelper = () => {
       /* Handles System Prune @param {*} e */
       handlePruneClick(e) {
         e.preventDefault();
-        ddClient.extension.vm?.service?.delete('/api/docker/system/prune')
-          .then((message) => {
-            if (message.status === 401) {
-              window.alert('Invalid permissions');
-              throw new Error(message);
-            }
-          })
+        // ddClient.extension.vm?.service?.delete('/api/docker/system/prune')
+        //   .then((message) => {
+        //     if (message.status === 401) {
+        //       window.alert('Invalid permissions');
+        //       throw new Error(message);
+        //     }
+        //   })
+        Client.NetworkService.pruneNetwork()
           .catch((err: Error): void => console.log(err));
       },
 
       /* Handles Network Prune @param {*} e */
       handleNetworkPruneClick(e) {
         e.preventDefault();
-        ddClient.extension.vm?.service?.delete('/api/docker/network/prune')
-          .then((message) => {
-            if (message.status === 401) {
-              window.alert('Invalid permissions');
-              throw new Error(message);
-            }
-          })
+        // ddClient.extension.vm?.service?.delete('/api/docker/network/prune')
+        //   .then((message) => {
+        //     if (message.status === 401) {
+        //       window.alert('Invalid permissions');
+        //       throw new Error(message);
+        //     }
+        //   })
+        Client.SystemService.pruneSystem()
           .catch((err: Error): void => console.log(err));
       },
       
@@ -182,8 +185,9 @@ const useHelper = () => {
       networkContainers() {
         // Pass in container that button is clicked on
         const { getNetworkContainers } = dispatch;
-        ddClient.extension.vm?.service?.get('/api/docker/network')
-          .then((data: Response) => data)
+        // ddClient.extension.vm?.service?.get('/api/docker/network')
+        //   .then((data: Response) => data)
+        Client.NetworkService.getNetworks()
           .then((networkContainers) => {
             // grab the name of the network only using map method
             networkContainers = networkContainers.map((el) => el.Name);

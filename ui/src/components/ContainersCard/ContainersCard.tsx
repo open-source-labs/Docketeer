@@ -5,6 +5,7 @@ import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import PageSwitch from './PageSwitch';
+import Client from '../../models/Client';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -66,29 +67,30 @@ const ContainersCard = ({
     containerName: string
   ): Promise<void> {
     try {
-      const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
-        networkName: networkName,
-        containerName: containerName,
-      });
-      const dataFromBackend = response;
-      if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert(
-            containerName + ' is successfully attached to the ' + networkName,
-            4,
-            'success'
-          )
-        );
-      } else if (dataFromBackend.error) {
-        dispatch(
-          createAlert(
-            containerName + ' is already attached to the ' + networkName,
-            4,
-            'warning'
-          )
-        );
-        return;
-      }
+      await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      // const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
+      //   networkName: networkName,
+      //   containerName: containerName,
+      // });
+      // const dataFromBackend = response;
+      // if (dataFromBackend['hash']) {
+      //   dispatch(
+      //     createAlert(
+      //       containerName + ' is successfully attached to the ' + networkName,
+      //       4,
+      //       'success'
+      //     )
+      //   );
+      // } else if (dataFromBackend.error) {
+      //   dispatch(
+      //     createAlert(
+      //       containerName + ' is already attached to the ' + networkName,
+      //       4,
+      //       'warning'
+      //     )
+      //   );
+      //   return;
+      // }
     } catch (err) {
       dispatch(
         createAlert(
@@ -105,33 +107,34 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
-        networkName: networkName,
-        containerName: containerName,
-      });
+      await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
+      // const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
+      //   networkName: networkName,
+      //   containerName: containerName,
+      // });
 
-      const dataFromBackend = response;
+      // const dataFromBackend = response;
       
-      if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert(
-            containerName +
-              ' was successfully disconnected from ' +
-              networkName,
-            4,
-            'success'
-          )
-        );
-      } else if (dataFromBackend.error) {
-        dispatch(
-          createAlert(
-            containerName + ' is not connected to ' + networkName,
-            4,
-            'warning'
-          )
-        );
-        return;
-      }
+      // if (dataFromBackend['hash']) {
+      //   dispatch(
+      //     createAlert(
+      //       containerName +
+      //         ' was successfully disconnected from ' +
+      //         networkName,
+      //       4,
+      //       'success'
+      //     )
+      //   );
+      // } else if (dataFromBackend.error) {
+      //   dispatch(
+      //     createAlert(
+      //       containerName + ' is not connected to ' + networkName,
+      //       4,
+      //       'warning'
+      //     )
+      //   );
+      //   return;
+      // }
     } catch (err) {
       dispatch(
         createAlert(

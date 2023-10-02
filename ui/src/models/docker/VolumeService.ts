@@ -12,5 +12,15 @@ export const VolumeService = {
       console.error(`Error fetching containers for volume ${volumeName}`);
       return [];
     }
+  },
+
+  async removeVolume(volumeId: string): Promise<boolean> {
+    try {
+      await apiRequest(`/api/docker/volume/${volumeId}`, 'DELETE');
+      return true;
+    } catch (error) {
+      console.error(`Could not delete volume by ID: ${volumeId}`);
+      return false;
+    }
   }
 }

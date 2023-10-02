@@ -16,8 +16,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
-      - backend:/backend
-      - ui:/ui
+      - ${PWD}/backend:/backend
+      - ${PWD}/ui:/ui
       # - ${PWD}/ui:/ui
 
     ports:

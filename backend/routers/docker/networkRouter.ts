@@ -16,7 +16,7 @@ router.get('/', networkController.getNetworks, (req, res) => {
  * 
  */
 router.get('/container', networkController.getNetworks, networkController.getContainersOnNetwork, (req, res) => {
-  return res.status(200).json(res.locals.containers);
+  return res.status(200).json(res.locals.networksAndContainers);
 })
 /**
  * @abstract network prune
@@ -44,7 +44,9 @@ router.post('/', networkController.createNetwork, (req, res)=>{
  * @param 
  * @returns
  */
-router.delete('/:id');
+router.delete('/:id', networkController.removeNetwork, (req, res) => {
+  return res.sendStatus(204);
+});
 
 /**
  * @abstract 

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, NetworkContainerType, NetworkType } from 'types';
+import { ContainerPS, NetworkAndContainer, NetworkContainerType, NetworkType } from 'types';
 import { execAsync, getContainersOnNetwork } from '../helper';
 import { ServerError } from 'backend/backend-types';
 
@@ -23,7 +23,7 @@ interface NetworkController {
   /**
    * @method
    * @abstract Removes a network
-   * @param {string} req.body.networkName
+   * @param {string} req.params.id
    * @returns {void}
    */
   removeNetwork: (req: Request, res: Response, next: NextFunction) => Promise<void>;
@@ -51,7 +51,7 @@ interface NetworkController {
    * @todo Needs to be implemented
    * @abstract Gets all the containers running on a given network based on network name
    * @param {string} res.locals.networks
-   * @returns @param {NetworkContainerType[]} res.locals.networkContainers
+   * @returns @param {NetworkAndContainer[]} res.locals.networkContainers
    */
   getContainersOnNetwork: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
@@ -105,8 +105,8 @@ networkController.createNetwork = async (req: Request, res: Response, next: Next
 
 networkController.removeNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { networkName } = req.body;
-    const { stdout, stderr } = await execAsync(`docker network rm ${networkName}`);
+    const { id } = req.params;
+    const { stdout, stderr } = await execAsync(`docker network rm ${id}`);
     if (stderr.length) throw new Error(stderr);
 
     //Delete once verified
@@ -162,15 +162,19 @@ networkController.disconnectContainerFromNetwork = async (req: Request, res: Res
 }
 
 /**
- * @todo: implement
+ * @todo: Map NetworkType to res.locals.networks
  */
 networkController.getContainersOnNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const allContainers: NetworkContainerType[] = [];
+    const allContainers: NetworkAndContainer[] = [];
     for (const network of res.locals.networks) {
-      allContainers.push(... await getContainersOnNetwork(network));
+      allContainers.push({
+        networkName: network.Name,
+        containers: await getContainersOnNetwork(network.ID)
+      });
     }
-    res.locals.networkContainers = allContainers;
+    res.locals.networksAndContainers = allContainers;
+    console.log(res.locals.networksAndContainers)
     return next();
   } catch (error) {
     const errObj: ServerError = {

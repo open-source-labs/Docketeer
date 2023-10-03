@@ -5,7 +5,7 @@ TAG=docketeer-extension
 VITE_DEV_PORT=4000
 
 dev:
-	docker compose -f docker-compose-test.yaml up
+	docker compose -f docker-compose-test.yaml up -d
 
 #Removes dangling images, cache records, and unused images
 hardclean: clean img_prune clr_cache

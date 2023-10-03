@@ -1,24 +1,22 @@
 # The only difference between this and regular is it copies the docker-compose-dev.yml instead of the normal one
 # Builds everything from backend folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
-WORKDIR /backend
+WORKDIR /backend_node_modules
 COPY backend/package*.json .
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-  npm set cache /usr/src/app/.npm && \
-  npm ci
+RUN npm install
+WORKDIR /backend
 COPY backend/. .
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
-WORKDIR /ui
+WORKDIR /ui_node_modules
 # cache packages in layer
-COPY ui/package.json /ui/package.json
-COPY ui/package-lock.json /ui/package-lock.json
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-  npm set cache /usr/src/app/.npm && \
-  npm ci
+COPY ui/package.json .
+COPY ui/package-lock.json .
+RUN npm install
 # install
-COPY ui /ui
+WORKDIR /ui
+COPY ui/. /ui
 #RUN npm run build
 
 
@@ -60,6 +58,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 # Copies necessary files into extension directory
 COPY --from=builder /backend backend
+COPY --from=builder /backend_node_modules backend_node_modules
 # Copies over the dev compose file and renames it so when installing as extension it is recognized
 COPY docker-compose-test.yaml docker-compose.yaml
 COPY metadata.json .
@@ -67,10 +66,16 @@ COPY docketeer.svg .
 COPY types.d.ts .
 COPY tsconfig.json .
 COPY --from=client-builder /ui ui
+COPY --from=client-builder /ui_node_modules ui_node_modules
 
 # Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
+WORKDIR /root_node_modules
+COPY package*.json .
+RUN npm install
+ENV PATH /backend_node_modules/node_modules/.bin:/ui_node_modules/node_modules/.bin:/root_node_modules/node_modules/.bin:$PATH
+
 
 # Starts the application
 WORKDIR /backend

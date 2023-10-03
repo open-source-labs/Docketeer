@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { execAsync } from '../helper';
-import { ServerError } from 'backend/backend-types';
+import { ServerError } from '../../backend-types';
 
 interface SystemController {
   /**

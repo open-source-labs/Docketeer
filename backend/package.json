@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"nodemon server.ts\" \"npm run dev --prefix ../ui\""
+    "dev": "concurrently \"npx nodemon server.ts\" \"npm run dev --prefix ../ui\""
   },
   "keywords": [],
   "author": "",
@@ -16,8 +16,8 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.3",
-    "@types/express": "^4.17.17",
+    "@types/cookie-parser": "^1.4.4",
+    "@types/express": "^4.17.18",
     "@types/node-fetch": "^2.6.4",
     "@types/pg": "^8.10.2",
     "concurrently": "^8.2.1",

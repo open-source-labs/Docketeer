@@ -4,20 +4,26 @@ services:
   # The extension's UI/Backend
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
-    image: ${DESKTOP_PLUGIN_IMAGE}
-    # build:
-    #   context: .
-    #   dockerfile: dockerfile.test
+    # image: ${DESKTOP_PLUGIN_IMAGE}
+    build:
+      context: .
+      dockerfile: dockerfile.test
     container_name: docketeer-ext
+    environment:
+      - MODE=browser
+      - NODE_PATH=/root_node_modules/node_modules:/ui_node_modules/node_modules:/backend_node_modules/node_modules
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
+      - ${PWD}/backend:/backend
+      - ${PWD}/ui:/ui
       # - ${PWD}/ui:/ui
 
     ports:
       - 4000:4000
+      - 3000:3000
 
   # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
   # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
@@ -61,6 +67,8 @@ services:
       - --path.rootfs=/rootfs
       - --path.sysfs=/host/sys
       - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+      - --log.level=error
+
 
   # Collects metrics and makes them available at localhost:9090
   prometheus:
@@ -78,6 +86,7 @@ services:
     # Dockerfile handles this if you're using the uploaded images
     command:
       - --config.file=/etc/prometheus/prometheus.yml
+      - --log.level=error
     depends_on:
       - node-exporter
       - cadvisor

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { ContainerPS, NetworkAndContainer, NetworkContainerType, NetworkType } from 'types';
+import { ContainerPS, NetworkAndContainer, NetworkContainerType, NetworkType } from '../../../types';
 import { execAsync, getContainersOnNetwork } from '../helper';
-import { ServerError } from 'backend/backend-types';
+import { ServerError } from '../../backend-types';
 
 interface NetworkController {
   /**

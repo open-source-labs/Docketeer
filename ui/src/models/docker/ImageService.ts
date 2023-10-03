@@ -1,5 +1,5 @@
 import { ddClientRequest, encodeQuery, apiRequest } from "../ddClientRequest";
-import { ImageType, ContainerPS } from "types";
+import { ImageType, ContainerPS } from "../../../../types";
 export const ImageService = {
   async getImages(): Promise<ImageType[]> {
     const images = await apiRequest<ImageType[]>('/api/docker/image');

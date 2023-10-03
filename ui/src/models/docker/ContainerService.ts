@@ -1,5 +1,5 @@
 import { ddClientRequest, encodeQuery, apiRequest } from "../ddClientRequest";
-import { ContainerPS, LogObject } from "types";
+import { ContainerPS, LogObject } from "../../../../types";
 
 export const ContainerService = {
   async getRunningContainers(): Promise<ContainerPS[]> {

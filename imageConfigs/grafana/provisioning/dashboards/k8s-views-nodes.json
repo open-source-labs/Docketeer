@@ -628,7 +628,7 @@
             "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "sum(machine_cpu_cores{node=\"$node\", federation=\"true\"})",
+          "expr": "sum(machine_cpu_cores{federation=\"true\"})",
           "interval": "$resolution",
           "legendFormat": "",
           "refId": "A"
@@ -751,7 +751,7 @@
             "uid": "${datasource}"
           },
           "exemplar": true,
-          "expr": "machine_memory_bytes{node=\"$node\", federation=\"true\"}",
+          "expr": "machine_memory_bytes{federation=\"true\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",

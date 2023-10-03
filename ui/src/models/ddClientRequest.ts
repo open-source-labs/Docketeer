@@ -18,7 +18,7 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
     const { createDockerDesktopClient } = await import("@docker/extension-api-client");
     ddClient = createDockerDesktopClient();
   } catch (error) {
-    console.error("Failed to create Docker Desktop Client:", error.message);
+    console.error("Failed to create Docker Desktop Client");
     ddClient = null;
   }
 

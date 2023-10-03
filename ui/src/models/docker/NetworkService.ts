@@ -1,5 +1,5 @@
 import { ddClientRequest, encodeQuery, apiRequest } from "../ddClientRequest";
-import { ImageType, NetworkType, NetworkContainerType } from "types";
+import { ImageType, NetworkType, NetworkContainerType } from "../../../../types";
 export const NetworkService = {
   async getNetworks(): Promise<NetworkType[]>{
     return await apiRequest('/api/docker/network');

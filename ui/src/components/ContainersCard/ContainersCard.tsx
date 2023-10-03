@@ -64,6 +64,8 @@ const ContainersCard = ({
         console.log(`Can't import ddClient`);
       }
     }
+    displayMetrics();
+
   
   }, [ddClient]);
 

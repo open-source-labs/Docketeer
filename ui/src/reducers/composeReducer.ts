@@ -21,7 +21,7 @@ export const composeSlice = createSlice({
       const composeStackUpdater = (
         firstArray: [],
         secondArray: [],
-        outputArray = []
+        outputArray: any = []
       ) => {
         firstArray.forEach((element) => {
           if (JSON.stringify(secondArray).includes(JSON.stringify(element))) {

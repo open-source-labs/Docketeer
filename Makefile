@@ -8,11 +8,7 @@ dev:
 	docker compose -f docker-compose-test.yaml up -d
 
 #Removes dangling images, cache records, and unused images
-hardclean: clean img_prune clr_cache
-
-clean:
-	docker extension rm ${TAG}
-
+hardclean: img_prune clr_cache
 
 
 img_prune:

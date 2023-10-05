@@ -7,6 +7,12 @@
   }
 }
 
+.iframeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
 .button {
   background-color: #212121;
   border: none;

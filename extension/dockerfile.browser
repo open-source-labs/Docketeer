@@ -1,0 +1,37 @@
+FROM node:18.12-alpine3.16
+COPY package*.json ./
+RUN npm install
+
+WORKDIR /ui
+COPY ui/package*.json ./
+RUN npm install
+
+WORKDIR /backend
+COPY backend/package*.json ./
+RUN npm install
+
+
+#COPY ./extension/docker-compose-browser.yaml docker-compose.yaml
+
+WORKDIR /
+RUN apk --no-cache add curl
+
+# Update the DOCKERVERSION to the most recent version, check dates on https://download.docker.com/linux/static/stable/x86_64/
+# Installs docker to the image so it can run exec commands on the backend
+ENV DOCKERVERSION=24.0.5
+RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+  && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 -C /usr/local/bin docker/docker \
+  && rm docker-${DOCKERVERSION}.tgz
+
+COPY metadata.json .
+COPY docketeer.svg .
+COPY types.d.ts .
+COPY tsconfig.json .
+
+COPY imageConfigs/prometheus /prometheus
+COPY imageConfigs/grafana /grafana
+EXPOSE 3000
+EXPOSE 4000
+# Starts the application
+WORKDIR /backend
+CMD ["npm", "run", "dev"]

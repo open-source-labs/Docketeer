@@ -13,7 +13,7 @@ INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
 browser-dev:
-	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d --tag docketeer-dev-browser
+	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d
 
 browser-down:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml down

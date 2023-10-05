@@ -1,23 +1,30 @@
-# The only difference between this and regular is it copies the docker-compose-dev.yml instead of the normal one
 # Builds everything from backend folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS builder
-WORKDIR /backend_node_modules
-COPY backend/package*.json .
-RUN npm install
+WORKDIR /
+COPY types.d.ts .
+COPY tsconfig.json .
 WORKDIR /backend
+COPY backend/package*.json .
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
 COPY backend/. .
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
-WORKDIR /ui_node_modules
-# cache packages in layer
-COPY ui/package.json .
-COPY ui/package-lock.json .
-RUN npm install
-# install
+WORKDIR /
+COPY types.d.ts .
+COPY tsconfig.json .
 WORKDIR /ui
-COPY ui/. /ui
-#RUN npm run build
+# cache packages in layer
+COPY ui/package.json /ui/package.json
+COPY ui/package-lock.json /ui/package-lock.json
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+# install
+COPY ui /ui
+RUN npm run build
 
 
 
@@ -42,7 +49,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   <p>As a team of passionate engineers, we are dedicated to improving the workflow of developers as they explore the vast universe of Docker infrastructure. We know that space travel can be complex and challenging, but with the right tools and support, you can navigate the stars with ease.</p> \
   <p>Our mission is to provide Docketeers like you with the tools and support you need to make your Docker journey as smooth as possible. We strive to make our application intuitive, powerful, and user-friendly so that you can focus on exploring the Docker universe without worrying about the technical details.</p>" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
-  com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/oslabs-beta/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
+  com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
   com.docker.extension.changelog="<p>Extension changelog<ul><li>Launch!</li></ul></p>"
 
@@ -58,25 +65,17 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 # Copies necessary files into extension directory
 COPY --from=builder /backend backend
-COPY --from=builder /backend_node_modules backend_node_modules
-# Copies over the dev compose file and renames it so when installing as extension it is recognized
-COPY docker-compose-test.yaml docker-compose.yaml
+COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
 COPY metadata.json .
 COPY docketeer.svg .
 COPY types.d.ts .
 COPY tsconfig.json .
-COPY --from=client-builder /ui ui
-COPY --from=client-builder /ui_node_modules ui_node_modules
+COPY --from=client-builder /ui/build ui
 
 # Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus
 COPY imageConfigs/grafana grafana
-WORKDIR /root_node_modules
-COPY package*.json .
-RUN npm install
-ENV PATH /backend_node_modules/node_modules/.bin:/ui_node_modules/node_modules/.bin:/root_node_modules/node_modules/.bin:$PATH
-
 
 # Starts the application
 WORKDIR /backend
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]

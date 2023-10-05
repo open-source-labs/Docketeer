@@ -78,4 +78,4 @@ COPY imageConfigs/grafana grafana
 
 # Starts the application
 WORKDIR /backend
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

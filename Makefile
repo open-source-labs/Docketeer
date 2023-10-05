@@ -4,9 +4,10 @@ ITERATION?=docketeerxv
 # Make sure to update versions to whatever the latest is
 EXTENSION_IMAGE?=$(ITERATION)/docketeer-extension
 TAG?=15.0.0
-
+DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
 BUILDER=buildx-multi-arch
+VITE_DEV_PORT=4000
 
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
@@ -17,22 +18,24 @@ browser-dev:
 browser-down:
 	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml down
 
-extension-dev: build-dev install-dev dev-tools
+extension-dev: build-extension-dev install-extension-dev dev-tools
 
-install-dev:
-	docker extension install docketeer-extension-dev -f
+install-extension-dev:
+	docker extension install ${DEV_EXTENSION_NAME} -f
 
-build-extension:
-	docker build -t docketeer-extension-dev -f dockerfile.dev ..
+build-extension-dev:
+	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dockerfile.dev .
 
 dev-tools:
-	docker extension dev debug docketeer-extension-dev
+	docker extension dev debug ${DEV_EXTENSION_NAME}
+	docker extension dev ui-source ${DEV_EXTENSION_NAME} http://localhost:${VITE_DEV_PORT}
 
 #use rarely
-hardclean: clean img_prune clr_cache
+hardclean: img_prune clr_cache
 
-clean:
-	docker extension rm docketeer-extension
+remove-dev-extension:
+	docker extension rm ${DEV_EXTENSION_NAME}
+	
 img_prune:
 	docker image prune -af
 clr_cache:

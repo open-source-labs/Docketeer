@@ -6,24 +6,23 @@ COPY backend/package*.json .
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \
-    npm ci
-COPY backend/. .
+    npm install
+COPY backend/. ./
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
 WORKDIR /ui
-COPY types.d.ts /
-COPY tsconfig.json /
+
 
 # cache packages in layer
 COPY ui/package.json /ui/package.json
 COPY ui/package-lock.json /ui/package-lock.json
 RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \
-    npm ci
+    npm install
 # install
-COPY ui /ui
-RUN npm run build
+COPY ui/. ./
+# RUN npm run build
 
 
 
@@ -70,7 +69,7 @@ COPY metadata.json .
 COPY docketeer.svg .
 COPY types.d.ts .
 COPY tsconfig.json .
-COPY --from=client-builder /ui/build ui
+COPY --from=client-builder /ui ui
 
 # Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus

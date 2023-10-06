@@ -169,7 +169,8 @@ const useHelper = () => {
         try{
           const { containerNames, start, stop, offset } = optionsObj;
           return await Client.ContainerService.getLogs(containerNames, start, stop, offset);
-        } catch (error){
+        } catch (error) {
+          console.error('Error getting logs in commands', error);
           return [];
         }
        

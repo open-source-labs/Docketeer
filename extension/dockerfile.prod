@@ -9,6 +9,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \
     npm ci
 COPY backend/. .
+RUN npm run build
 
 # Builds everything in UI folder
 FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
@@ -64,14 +65,16 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
   && rm docker-${DOCKERVERSION}.tgz
 
 # Copies necessary files into extension directory
-COPY --from=builder /backend backend
 COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
 COPY extension/dockerfile.postgres /extension/dockerfile.postgres
 COPY metadata.json .
 COPY docketeer.svg .
 COPY types.d.ts .
 COPY tsconfig.json .
-COPY --from=client-builder /ui/build ui
+COPY --from=builder /backend/dist /backend/dist
+COPY --from=builder /backend/package*.json /backend/
+COPY --from=builder /backend/node_modules /backend/node_modules
+COPY --from=client-builder /ui/build /ui
 
 # Creates and copies files to folders that docker-compose will use create named volumes from
 COPY imageConfigs/prometheus prometheus

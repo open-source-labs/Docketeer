@@ -9,9 +9,10 @@ CREATE TABLE datasource(
   id serial PRIMARY KEY NOT NULL,
   type_of integer REFERENCES endpoint_type(id) NOT NULL,
   url varchar NOT NULL,
+  endpoint varchar,
   ssh_key varchar,
   match varchar,
-  jobname varchar
+  jobname varchar NOT NULL
 );
 
 CREATE TABLE dashboards(

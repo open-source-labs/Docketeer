@@ -135,7 +135,7 @@ const ProcessLogs = (): JSX.Element => {
     const containerLogs: any = await getLogs(optionsObj);
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
-
+    
     return containerLogs;
   };
 
@@ -207,7 +207,6 @@ const ProcessLogs = (): JSX.Element => {
 
     // combined list of running and stopped containers
     const combinedList = [...runningList, ...stoppedList];
-
     if (stdout.length) {
       stdout.forEach((log: stdType) => {
         const currCont = combinedList.find(
@@ -286,6 +285,8 @@ const ProcessLogs = (): JSX.Element => {
     if (e.key === 'Enter') {
       if (!searchWord.length) {
         setFilteredDisplay(rows);
+        const csvArray = toCSVArray(rows);
+        setCsvData(csvArray);
         return;
       }
       if (rows.length) {

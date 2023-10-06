@@ -169,7 +169,8 @@ const useHelper = () => {
         try{
           const { containerNames, start, stop, offset } = optionsObj;
           return await Client.ContainerService.getLogs(containerNames, start, stop, offset);
-        } catch (error){
+        } catch (error) {
+          console.log('error found: ', error)
           return [];
         }
        

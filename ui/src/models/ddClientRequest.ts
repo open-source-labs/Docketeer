@@ -46,6 +46,7 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
 
     return result.json() as Promise<T>;
   }
+  console.log('run image!')
 
   return ddClient.extension.vm.service.request(options) as Promise<T>;
 };

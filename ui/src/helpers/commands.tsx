@@ -74,6 +74,14 @@ const useHelper = () => {
           })
           .catch((err: Error): void => console.log(err));
       },
+      bashContainer(id: string) {
+        Client.ContainerService.bashContainer(id)
+          .then((message) => {
+            console.log({ message });
+            console.log('bashStep1')
+            bashContainer(id);
+          }).catch((err: Error): void => console.log(err));
+      },
       /* Starts a stopped container in containers tab @param {*} id */
       runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
@@ -95,6 +103,8 @@ const useHelper = () => {
 
           .catch((err: Error): void => console.log(err));
       },
+
+
       /* Removes an image from pulled images list in image tab @param {*} id */
 
       removeIm(id) {

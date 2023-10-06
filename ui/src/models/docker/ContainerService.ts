@@ -30,6 +30,16 @@ export const ContainerService = {
     }
   },
 
+  async bashContainer(containerId: string): Promise<boolean> {
+    try {
+      await apiRequest(`/api/docker/container/bashed/${containerId}`)
+      return true
+    } catch (error) {
+      console.error(`Failed to exec into container with ID ${containerId}`)
+      return false
+    }
+  },
+
   async stopContainer(containerId: string): Promise<boolean> {
     try {
       await apiRequest(`/api/docker/container/${containerId}/stop`, 'POST');

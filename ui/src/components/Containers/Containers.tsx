@@ -6,7 +6,12 @@ import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
-
+import {
+  filterOneProperty,
+  listOfVolumeProperties,
+} from '../../helpers/volumeHistoryHelper';
+import { useMemo } from 'react';
+import Client from '../../models/Client';
 
 /**
  * @module | Containers.tsx
@@ -17,6 +22,14 @@ const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
   const { runStopped, remove, stop } = useHelper();
+  // const { bashContainer } = useHelper();
+  // console.log(`FromUseHelper ${bashContainer}`)
+   const bashContainer = (id: string) => {
+        Client.ContainerService.bashContainer(id)
+          .then((message) => {
+            bashContainer(id);
+          }).catch((err: Error): void => console.log(err));
+   }
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
@@ -83,6 +96,9 @@ const Containers = (): JSX.Element => {
     );
   };
 
+
+  
+
   return (
     <div>
       <div className={styles.wrapper}>
@@ -109,6 +125,7 @@ const Containers = (): JSX.Element => {
               containerList={runningList}
               stopContainer={stopContainer}
               runContainer={runContainer}
+              bashContainer = {bashContainer}
               removeContainer={removeContainer}
               status="running"
             />
@@ -122,6 +139,7 @@ const Containers = (): JSX.Element => {
               containerList={stoppedList}
               stopContainer={stopContainer}
               runContainer={runContainer}
+              bashContainer = {bashContainer}
               removeContainer={removeContainer}
               status="stopped"
             />

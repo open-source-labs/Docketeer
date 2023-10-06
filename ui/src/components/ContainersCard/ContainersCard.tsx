@@ -5,6 +5,12 @@ import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
+import {
+  filterOneProperty,
+  listOfVolumeProperties,
+} from '../../helpers/volumeHistoryHelper';
+import { useMemo } from 'react';
+
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -19,6 +25,7 @@ const ContainersCard = ({
   stopContainer,
   runContainer,
   removeContainer,
+  bashContainer,
   status,
 }: ContainersCardsProps): JSX.Element => {
 
@@ -126,6 +133,7 @@ const ContainersCard = ({
         stopContainer={stopContainer}
         runContainer={runContainer}
         removeContainer={removeContainer}
+        bashContainer = {bashContainer}
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}/>

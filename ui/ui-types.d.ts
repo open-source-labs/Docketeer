@@ -245,6 +245,7 @@ export interface ContainersCardsProps {
   connectToNetwork?: (network: string, container: string) => void;
   disconnectFromNetwork?: (network: string, container: string) => void;
   container?: ContainerType;
+  bashContainer: (container: any) => void;
   status: string;
   key?: string | number;
 }

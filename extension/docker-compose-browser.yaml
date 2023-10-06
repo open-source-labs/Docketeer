@@ -108,6 +108,23 @@ services:
     depends_on:
       - prometheus
       - docketeer
+  
+  postgres:
+    build:
+      context: ..
+      dockerfile: ./extension/dockerfile.postgres
+    image: docketeer-postgres
+    container_name: docketeer-ext-postgres
+    expose:
+      - 5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=docketeer
+    depends_on:
+      - docketeer
 
 volumes:
   docketeer-ext-prometheus-data:
@@ -115,3 +132,4 @@ volumes:
   docketeer-ext-grafana-files:
   backend_node:
   ui_node:
+  postgres_volume:

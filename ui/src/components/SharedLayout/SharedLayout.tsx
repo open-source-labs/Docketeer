@@ -19,7 +19,7 @@ import docketeerLogo from '../../../assets/docketeer-logo-light.png';
  **/
 
 function SharedLayout(): JSX.Element {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { handlePruneClick, handleNetworkPruneClick } = useHelper();

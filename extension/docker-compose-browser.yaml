@@ -4,23 +4,39 @@ services:
   # The extension's UI/Backend
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
-    image: ${DESKTOP_PLUGIN_IMAGE}
+    # image: ${DESKTOP_PLUGIN_IMAGE}
+    build:
+      context: ..
+      dockerfile: extension/dockerfile.browser
+    image: docketeer/docketeer-extension:dev
     container_name: docketeer-ext
+    environment:
+      - MODE=browser
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
-    
+      - ${PWD}/backend:/backend
+      - ${PWD}/ui:/ui
+      - backend_node:/backend/node_modules
+      - ui_node:/ui/node_modules
+
+    ports:
+      - 4000:4000
+      - 3000:3000
+
   # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
   # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
     # The docketeer image uploaded is on gcr.io/cadvisor/cadvisor:v0.47.1
-    image: docketeerxiv/cadvisor-extension:latest
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
     container_name: docketeer-ext-cadvisor
     expose:
       - 8080
+    ports:
+      - 49158:8080
     volumes:
       # Applies the bind mounts in ro (read only) and rw (read write) to be able to scrape containers
       - /:/rootfs:ro
@@ -31,11 +47,13 @@ services:
 
   # Collects additional metrics that are then sent to prometheus 
   node-exporter:
-    image: docketeerxiv/node-exporter-extension:latest
+    image: prom/node-exporter:latest
     container_name: docketeer-ext-node-exporter
     restart: unless-stopped
     expose:
       - 9100
+    ports:
+      - 49157:9100
     volumes:
       #system info for linux machines
       - /proc:/host/proc:ro
@@ -45,33 +63,39 @@ services:
       - /:/rootfs:ro
     # Set up the node-exporter to scrape resource metrics
     # Dockerfile handles this if you're using the uploaded images
-    # command:
-    #   - --path.procfs=/host/proc
-    #   - --path.rootfs=/rootfs
-    #   - --path.sysfs=/host/sys
-    #   - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    command:
+      - --path.procfs=/host/proc
+      - --path.rootfs=/rootfs
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+      - --log.level=error
+
 
   # Collects metrics and makes them available at localhost:9090
   prometheus:
-    image: docketeerxiv/prometheus-extension:latest
+    image: prom/prometheus:latest
     container_name: docketeer-ext-prometheus
     restart: unless-stopped
     expose:
       - 9090
+    ports:
+      - 49156:9090
     volumes:
       - docketeer-ext-prometheus-files:/etc/prometheus
       - docketeer-ext-prometheus-data:/prometheus
     # Tells prometheus to use the config file from ./imageConfigs/prometheus
     # Dockerfile handles this if you're using the uploaded images
-    # command:
-    #   - --config.file=/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --log.level=error
     depends_on:
       - node-exporter
       - cadvisor
+      - docketeer
 
   # Displays metrics gathered from containers at localhost:2999, 3000 is for kubernetes which is not set up for the extension
   grafana:
-    image: docketeerxiv/grafana-extension:latest
+    image: grafana/grafana:latest
     container_name: docketeer-ext-grafana
     expose:
       - 3000
@@ -83,8 +107,11 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
+      - docketeer
 
 volumes:
   docketeer-ext-prometheus-data:
   docketeer-ext-prometheus-files:
   docketeer-ext-grafana-files:
+  backend_node:
+  ui_node:

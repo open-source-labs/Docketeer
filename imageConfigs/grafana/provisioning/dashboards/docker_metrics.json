@@ -52,7 +52,7 @@
   "sharedCrosshair": true,
   "hideControls": false,
   "time": {
-    "from": "now-24h",
+    "from": "now-16h",
     "to": "now"
   },
   "timepicker": {
@@ -68,17 +68,7 @@
       "2h",
       "1d"
     ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "templating": {
     "list": [
@@ -223,7 +213,7 @@
   "annotations": {
     "list": []
   },
-  "refresh": "5m",
+  "refresh": "5s",
   "schemaVersion": 13,
   "version": 57,
   "links": [],
@@ -291,12 +281,13 @@
           },
           "targets": [
             {
-              "expr": "time() - node_boot_time{instance=~\"$server:.*\"}",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "",
+              "expr": "node_time_seconds - node_boot_time_seconds",
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Uptime",
               "refId": "A",
-              "step": 1800
+              "step": 30
             }
           ],
           "thresholds": "",
@@ -370,6 +361,8 @@
           "targets": [
             {
               "expr": "count(rate(container_last_seen{name=~\".+\"}[$interval]))",
+              "instant": true,
+              "interval": "",
               "intervalFactor": 2,
               "refId": "A",
               "step": 1800
@@ -446,11 +439,11 @@
           },
           "targets": [
             {
-              "expr": "min((node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} - node_filesystem_free{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} )/ node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"})",
+              "expr": "round(sum(container_fs_usage_bytes) by (container_name) / sum(container_fs_limit_bytes) by (container_name), 0.001)\n",
               "hide": false,
-              "intervalFactor": 2,
+              "intervalFactor": 1,
               "refId": "A",
-              "step": 1800
+              "step": 1
             }
           ],
           "thresholds": "0.75, 0.90",
@@ -476,10 +469,10 @@
             "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "Prometheus",
-          "decimals": 0,
+          "decimals": 1,
           "editable": true,
           "error": false,
-          "format": "percent",
+          "format": "percentunit",
           "gauge": {
             "maxValue": 100,
             "minValue": 0,
@@ -524,13 +517,13 @@
           },
           "targets": [
             {
-              "expr": "((node_memory_MemTotal{instance=~\"$server:.*\"} - node_memory_MemAvailable{instance=~\"$server:.*\"}) / node_memory_MemTotal{instance=~\"$server:.*\"}) * 100",
-              "intervalFactor": 2,
+              "expr": "round(((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)), 0.001)",
+              "intervalFactor": 1,
               "refId": "A",
-              "step": 1800
+              "step": 1
             }
           ],
-          "thresholds": "70, 90",
+          "thresholds": "0.75, 0.9",
           "title": "Memory",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -631,12 +624,12 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "datasource": "Prometheus",
-          "decimals": 0,
+          "decimals": 1,
           "editable": true,
           "error": false,
           "format": "percentunit",
           "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": false,
             "thresholdLabels": false,
@@ -916,17 +909,11 @@
             "conditions": [
               {
                 "evaluator": {
-                  "params": [
-                    1.25
-                  ],
+                  "params": [1.25],
                   "type": "gt"
                 },
                 "query": {
-                  "params": [
-                    "A",
-                    "5m",
-                    "now"
-                  ]
+                  "params": ["A", "5m", "now"]
                 },
                 "reducer": {
                   "params": [],
@@ -1032,17 +1019,11 @@
             "conditions": [
               {
                 "evaluator": {
-                  "params": [
-                    850000000000
-                  ],
+                  "params": [850000000000],
                   "type": "gt"
                 },
                 "query": {
-                  "params": [
-                    "A",
-                    "5m",
-                    "now"
-                  ]
+                  "params": ["A", "5m", "now"]
                 },
                 "reducer": {
                   "params": [],
@@ -1160,17 +1141,11 @@
             "conditions": [
               {
                 "evaluator": {
-                  "params": [
-                    10000000000
-                  ],
+                  "params": [10000000000],
                   "type": "gt"
                 },
                 "query": {
-                  "params": [
-                    "A",
-                    "5m",
-                    "now"
-                  ]
+                  "params": ["A", "5m", "now"]
                 },
                 "reducer": {
                   "params": [],
@@ -1987,10 +1962,7 @@
               ],
               "decimals": 2,
               "pattern": "/.*/",
-              "thresholds": [
-                "10000000",
-                " 25000000"
-              ],
+              "thresholds": ["10000000", " 25000000"],
               "type": "number",
               "unit": "decbytes"
             }
@@ -2056,10 +2028,7 @@
               ],
               "decimals": 2,
               "pattern": "/.*/",
-              "thresholds": [
-                "80",
-                "90"
-              ],
+              "thresholds": ["80", "90"],
               "type": "number",
               "unit": "percent"
             }
@@ -2124,10 +2093,7 @@
               ],
               "decimals": 2,
               "pattern": "/.*/",
-              "thresholds": [
-                "10000000",
-                " 25000000"
-              ],
+              "thresholds": ["10000000", " 25000000"],
               "type": "number",
               "unit": "decbytes"
             }

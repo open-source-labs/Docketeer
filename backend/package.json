@@ -4,7 +4,8 @@
   "description": "Back end of Docketeer extension",
   "main": "dist/server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
+    "start": "node dist/server.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npx nodemon server.ts\" \"npm run dev --prefix ../ui\""
   },

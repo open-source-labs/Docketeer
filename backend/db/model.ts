@@ -1,7 +1,8 @@
 import pg from 'pg';
 
 const config: pg.PoolConfig = {
-  user: 'postgres',
+  user: 'admin',
+  password: 'admin',
   database: 'docketeer',
   host: 'postgres',
   port: 5432

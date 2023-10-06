@@ -52,7 +52,7 @@
   "sharedCrosshair": true,
   "hideControls": false,
   "time": {
-    "from": "now-12h",
+    "from": "now-16h",
     "to": "now"
   },
   "timepicker": {
@@ -439,11 +439,11 @@
           },
           "targets": [
             {
-              "expr": "min((node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} - node_filesystem_free{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"} )/ node_filesystem_size{fstype=~\"xfs|ext4\",instance=~\"$server:.*\"})",
+              "expr": "round(sum(container_fs_usage_bytes) by (container_name) / sum(container_fs_limit_bytes) by (container_name), 0.001)\n",
               "hide": false,
-              "intervalFactor": 2,
+              "intervalFactor": 1,
               "refId": "A",
-              "step": 1800
+              "step": 1
             }
           ],
           "thresholds": "0.75, 0.90",
@@ -469,10 +469,10 @@
             "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "Prometheus",
-          "decimals": 0,
+          "decimals": 1,
           "editable": true,
           "error": false,
-          "format": "percent",
+          "format": "percentunit",
           "gauge": {
             "maxValue": 100,
             "minValue": 0,
@@ -517,13 +517,13 @@
           },
           "targets": [
             {
-              "expr": "round((1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))*100)",
+              "expr": "round(((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)), 0.001)",
               "intervalFactor": 1,
               "refId": "A",
               "step": 1
             }
           ],
-          "thresholds": "70, 90",
+          "thresholds": "0.75, 0.9",
           "title": "Memory",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -624,12 +624,12 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "datasource": "Prometheus",
-          "decimals": 0,
+          "decimals": 1,
           "editable": true,
           "error": false,
           "format": "percentunit",
           "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": false,
             "thresholdLabels": false,

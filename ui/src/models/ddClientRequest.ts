@@ -30,6 +30,7 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
       fetchOptions.body = JSON.stringify(options.data); 
     }
     if (!options.headers) {
+      console.log('ran');
       fetchOptions.headers=options.headers
     }
     console.log(fetchOptions)

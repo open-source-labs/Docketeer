@@ -33,10 +33,8 @@ const volumeController: VolumeController = {} as VolumeController;
 
 volumeController.getContainersOnVolume = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { volume } = req.params;
-    console.log(volume);
-    const { stdout, stderr } = await execAsync(`docker ps -a --filter volume=${volume} --format "{{json .}},"`);
-    console.log('getVols', stdout);
+    const { id } = req.params;
+    const { stdout, stderr } = await execAsync(`docker ps -a --filter volume=${id} --format "{{json .}},"`);
     if (stderr.length) throw new Error(stderr);
     const containers: ContainerPS[] = JSON.parse(`[${stdout.trim().slice(0, -1)}]`);
     res.locals.containers = containers;

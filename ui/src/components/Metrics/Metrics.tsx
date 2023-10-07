@@ -14,8 +14,10 @@ const Metrics = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.iframeHeader}>
-        <h2>METRICS DASHBOARD</h2>
-        <div className={styles.iframeControl}>
+        <h2>
+          METRICS DASHBOARD
+        </h2>
+        <div>
           <button className={styles.button} onClick={handleHome}>
             HOME
           </button>

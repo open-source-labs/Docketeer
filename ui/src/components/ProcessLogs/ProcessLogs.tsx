@@ -208,51 +208,56 @@ const ProcessLogs = (): JSX.Element => {
 
     // combined list of running and stopped containers
     const combinedList = [...runningList, ...stoppedList];
-    if (stdout.length) {
-      stdout.forEach((log: stdType) => {
-        const currCont = combinedList.find(
-          (el: ContainerType) => el.Names === log['containerName'],
-        );
-        if (currCont) {
-          newRows.push({
-            container: currCont.Names,
-            type: 'stdout',
-            time: log['timeStamp'],
-            message: log['logMsg'],
-            id: Math.random() * 100, // why?
-          });
-          newCSV.push([
-            true,
-            currCont.Names,
-            'stdout',
-            log['timeStamp'],
-            log['logMsg'],
-          ]);
-        }
-      });
-    }
-    if (stderr.length) {
-      stderr.forEach((log: stdType) => {
-        const currCont = combinedList.find(
-          (el: ContainerType) => el.Names === log['containerName'],
-        );
-        if (currCont) {
-          newRows.push({
-            container: currCont.Names,
-            type: 'stderr',
-            time: log['timeStamp'],
-            message: log['logMsg'],
-            id: Math.random() * 100, // why?
-          });
-          newCSV.push([
-            true,
-            currCont.Names,
-            'stderr',
-            log['timeStamp'],
-            log['logMsg'],
-          ]);
-        }
-      });
+    // if s
+    if (stdout && stderr) {
+      if (stdout.length) {
+        stdout.forEach((log: stdType) => {
+          const currCont = combinedList.find(
+            (el: ContainerType) => el.Names === log['containerName'],
+          );
+          if (currCont) {
+            newRows.push({
+              container: currCont.Names,
+              type: 'stdout',
+              time: log['timeStamp'],
+              message: log['logMsg'],
+              id: Math.random() * 100, // why?
+            });
+            newCSV.push([
+              true,
+              currCont.Names,
+              'stdout',
+              log['timeStamp'],
+              log['logMsg'],
+            ]);
+          }
+        });
+      }
+      if (stderr.length) {
+        stderr.forEach((log: stdType) => {
+          const currCont = combinedList.find(
+            (el: ContainerType) => el.Names === log['containerName'],
+          );
+          if (currCont) {
+            newRows.push({
+              container: currCont.Names,
+              type: 'stderr',
+              time: log['timeStamp'],
+              message: log['logMsg'],
+              id: Math.random() * 100, // why?
+            });
+            newCSV.push([
+              true,
+              currCont.Names,
+              'stderr',
+              log['timeStamp'],
+              log['logMsg'],
+            ]);
+          }
+        });
+      }
+    } else {
+      console.log('Undefined stdout/stderr: ', stdout, stderr);
     }
     setRows(newRows); // sets  Rows to newRows, populated with the forEach functions
   };

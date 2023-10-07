@@ -23,6 +23,7 @@ import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
 import { set } from 'immer/dist/internal';
 import { textAlign } from '@mui/system';
+import Client from '../../models/Client';
 // import { todo } from 'node:test';
 
 /**
@@ -102,7 +103,7 @@ const ProcessLogs = (): JSX.Element => {
    */
   const buildOptionsObj = (
     containerNames: string[],
-    offset: string,
+    offset: number,
     startD?: string,
     stopD?: string,
   ) => {
@@ -127,12 +128,12 @@ const ProcessLogs = (): JSX.Element => {
 
     const optionsObj = buildOptionsObj(
       idArr,
-      date.getTimezoneOffset().toString(),
+      date.getTimezoneOffset(),
       startDate ? startDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
 
-    const containerLogs: any = await getLogs(optionsObj);
+    const containerLogs: any = await Client.ContainerService.getLogs(optionsObj.containerNames, optionsObj.start, optionsObj.stop, optionsObj.offset);
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
     

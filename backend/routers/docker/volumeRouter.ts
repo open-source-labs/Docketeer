@@ -19,7 +19,7 @@ router.get('/', volumeController.getVolumes, (req, res) => {
  * @returns
  */
 router.get('/:id/containers', volumeController.getContainersOnVolume, (req, res) => {
-  return res.status(200).json(res.locals.volumes);
+  return res.status(200).json(res.locals.containers);
 });
 
 /**

@@ -9,8 +9,8 @@ export const VolumeService = {
     try {
       return await apiRequest(`/api/docker/volume/${volumeName}/containers`, 'GET');
     } catch (error) {
-      console.error(`Error fetching containers for volume ${volumeName}`);
-      return [];
+      console.error(`Error fetching containers for volume ${volumeName}:`, error);
+      throw error;
     }
   },
 
@@ -19,7 +19,7 @@ export const VolumeService = {
       await apiRequest(`/api/docker/volume/${volumeId}`, 'DELETE');
       return true;
     } catch (error) {
-      console.error(`Could not delete volume by ID: ${volumeId}`);
+      console.error(`Could not delete volume by ID: ${volumeId}:`, error);
       return false;
     }
   }

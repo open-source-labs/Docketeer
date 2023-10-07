@@ -18,7 +18,6 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
     const { createDockerDesktopClient } = await import("@docker/extension-api-client");
     ddClient = createDockerDesktopClient();
   } catch (error) {
-    console.error("Failed to create Docker Desktop Client");
     ddClient = null;
   }
 
@@ -63,7 +62,6 @@ export const apiRequest = async<T>(url: string, method: 'GET' | 'POST' | 'DELETE
   try {
     return await ddClientRequest({ method, url, data: body, headers });
   } catch (error) {
-    console.error(`API ${method} request to ${url} failed`, error);
-    throw error;  // Or return a default value if that's preferable
+    throw error; 
   }
 }

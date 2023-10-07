@@ -153,7 +153,6 @@ const useHelper = () => {
 
         Client.VolumeService.getContainersOnVolume(volumeName)
           .then((volumeContainers) => {
-            console.log(volumeContainers);
             return getVolumeContainerList(
               listOfVolumeProperties(volumeName, volumeContainers)
             );
@@ -162,20 +161,6 @@ const useHelper = () => {
             console.log(err);
           });
       },
-
-
-      /* Builds and child_process.executes a docker logs command to generate logs @param {object} optionsObj @returns {object} containerLogs */
-      async getLogs(optionsObj): Promise<LogObject[]> {
-        try{
-          const { containerNames, start, stop, offset } = optionsObj;
-          return await Client.ContainerService.getLogs(containerNames, start, stop, offset);
-        } catch (error) {
-          console.log('error found: ', error)
-          return [];
-        }
-       
-  
-      }
 
     }),
     [dispatch]

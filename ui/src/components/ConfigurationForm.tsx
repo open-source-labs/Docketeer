@@ -18,7 +18,7 @@ const ConfigurationForm = (): React.JSX.Element => {
   const options: React.JSX.Element[] = [];
   for (let opt of typeOptions) {
     options.push(
-      <option value={opt.id}>{opt.type_of}</option>
+      <option key={`optid_${opt.id}`} value={opt.id}>{opt.type_of}</option>
     )
   }
 

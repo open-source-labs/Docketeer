@@ -1942,6 +1942,7 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "grid": {},
           "gridPos": {
             "h": 10,
             "w": 12,
@@ -2014,6 +2015,7 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "grid": {},
           "gridPos": {
             "h": 10,
             "w": 12,
@@ -2085,6 +2087,7 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "grid": {},
           "gridPos": {
             "h": 7,
             "w": 12,

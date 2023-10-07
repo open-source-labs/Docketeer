@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './ProcessLogsSelector.module.scss';
 import globalStyles from '../global.module.scss';
 import { ProcessLogsSelectorProps } from '../../../ui-types';
@@ -13,6 +13,7 @@ function ProcessLogsSelector({
   btnIdList = [],
   status = '',
 }: ProcessLogsSelectorProps): JSX.Element {
+
   return (
     <form className={styles.wrapper}>
       <fieldset className={globalStyles.radioForm}>

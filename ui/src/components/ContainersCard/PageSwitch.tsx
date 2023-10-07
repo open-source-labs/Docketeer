@@ -8,11 +8,11 @@ interface PageSwitchI {
 
 
 const PageSwitch = ({totalContainers, contPerPage, setPage}: PageSwitchI): JSX.Element  => {
-  const pages = [];
+  const pages: number[] = [];
   for (let i = 1; i <= Math.ceil(totalContainers / contPerPage); i++) {
     pages.push(i);
   }
-  const [isActive, setActive] = useState(null)
+  const [isActive, setActive] = useState(0)
     const handleClick = (pageNumber:number) => {
       setActive(pageNumber);
       setPage(pageNumber);
@@ -27,4 +27,4 @@ const PageSwitch = ({totalContainers, contPerPage, setPage}: PageSwitchI): JSX.E
   )
 }
 
-export default PageSwitch
+export default PageSwitch;

@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import containerController from '../../controllers/docker/containersController';
-import { resourceLimits } from 'worker_threads';
 const router = Router();
 
 /**

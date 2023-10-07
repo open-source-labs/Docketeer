@@ -439,14 +439,14 @@
           },
           "targets": [
             {
-              "expr": "round(sum(container_fs_usage_bytes) by (container_name) / sum(container_fs_limit_bytes) by (container_name), 0.001)\n",
+              "expr": "round(sum(container_fs_usage_bytes) by (container_name) / sum(container_fs_limit_bytes) by (container_name), 0.001)",
               "hide": false,
               "intervalFactor": 1,
               "refId": "A",
               "step": 1
             }
           ],
-          "thresholds": "0.75, 0.90",
+          "thresholds": "0.50, 0.90",
           "title": "Disk space",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -474,7 +474,7 @@
           "error": false,
           "format": "percentunit",
           "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -517,13 +517,13 @@
           },
           "targets": [
             {
-              "expr": "round(((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)), 0.001)",
+              "expr": "round((1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)), 0.001)",
               "intervalFactor": 1,
               "refId": "A",
               "step": 1
             }
           ],
-          "thresholds": "0.75, 0.9",
+          "thresholds": "0.5, 0.9",
           "title": "Memory",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -546,12 +546,12 @@
             "rgba(245, 54, 54, 0.9)"
           ],
           "datasource": "Prometheus",
-          "decimals": 0,
+          "decimals": 1,
           "editable": true,
           "error": false,
-          "format": "decbytes",
+          "format": "percentunit",
           "gauge": {
-            "maxValue": 500000000,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -594,14 +594,14 @@
           },
           "targets": [
             {
-              "expr": "(node_memory_SwapTotal{instance=~'$server:.*'} - node_memory_SwapFree{instance=~'$server:.*'})",
-              "intervalFactor": 2,
+              "expr": "round((1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)), 0.001)",
+              "intervalFactor": 1,
               "legendFormat": "",
               "refId": "A",
-              "step": 1800
+              "step": 1
             }
           ],
-          "thresholds": "400000000",
+          "thresholds": "0.5, 0.9",
           "title": "Swap",
           "type": "singlestat",
           "valueFontSize": "80%",
@@ -672,10 +672,10 @@
           },
           "targets": [
             {
-              "expr": "node_load1{instance=~\"$server:.*\"} / count by(job, instance)(count by(job, instance, cpu)(node_cpu{instance=~\"$server:.*\"}))",
+              "expr": "sum(node_load1{container_name=~\".*\"}) by (container_name)",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 1800
+              "step": 1
             }
           ],
           "thresholds": "0.8,0.9",

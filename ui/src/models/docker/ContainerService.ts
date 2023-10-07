@@ -15,7 +15,7 @@ export const ContainerService = {
       await apiRequest(`/api/docker/container/${containerId}`, 'DELETE');
       return true;
     } catch (error) {
-      console.error(`Failed to remove container with ID ${containerId}`);
+      console.error(error);
       return false;
     }
   },
@@ -25,7 +25,7 @@ export const ContainerService = {
       await apiRequest(`/api/docker/container/${containerId}/start`, 'POST');
       return true
     } catch (error) {
-      console.error(`Failed to start container with ID ${containerId}`);
+      console.error(error);
       return false;
     }
   },
@@ -35,21 +35,20 @@ export const ContainerService = {
       await apiRequest(`/api/docker/container/${containerId}/stop`, 'POST');
       return true;
     } catch (error) {
-      console.error(`Failed to stop container ${containerId}`);
+      console.error(error);
       return false;
     }
   },
 
-  async getLogs(containerList: string[], start: string, stop: string, offset: number): Promise<LogObject[]>{
+  async getLogs(containerList: string[], start?: string, stop?: string, offset?: number): Promise<{[key: string]: LogObject[]}>{
     try {
       const containerString = containerList.join(",");
       const query = encodeQuery({ containerNames: containerString, start, stop, offset: String(offset) })
-      console.log('Query: ', query);
-      const logs: LogObject[] = await apiRequest(`/api/docker/container/logs?${query}`);
+      const logs: {[key: string]: LogObject[]} = await apiRequest(`/api/docker/container/logs?${query}`);
       return logs;
     } catch (error) {
-      console.error(`Failed to get Logs`);
-      return [];
+      console.error(error);
+      return {stdout: [], stderr: []};
     }
   }
 }

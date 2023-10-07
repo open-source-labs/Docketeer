@@ -10,6 +10,7 @@ export const NetworkService = {
       await apiRequest('/api/docker/network', 'POST', { networkName });
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   },
@@ -19,7 +20,7 @@ export const NetworkService = {
       const data: NetworkContainerType[] = await apiRequest('/api/docker/network/container');
       return data;
     } catch (error) {
-      console.error('Couldn\'t fetch all containers on all networks');
+      console.error('Couldn\'t fetch all containers on all networks:', error);
       return [];
     }
   },
@@ -29,6 +30,7 @@ export const NetworkService = {
       await apiRequest('/api/docker/network/container', 'POST', {networkName: networkId, containerName: containerId})
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   },
@@ -38,6 +40,7 @@ export const NetworkService = {
       await apiRequest(`/api/docker/network/${networkId}/container/${containerId}`, 'DELETE');
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   },
@@ -48,6 +51,7 @@ export const NetworkService = {
       await apiRequest('/api/docker/network/prune', 'DELETE');
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   },
@@ -57,6 +61,7 @@ export const NetworkService = {
       await apiRequest(`/api/docker/network/${idOrName}`, 'DELETE');
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
@@ -68,6 +73,7 @@ export const SystemService = {
       await apiRequest('/api/docker/system/prune', 'DELETE');
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }

@@ -174,7 +174,6 @@ networkController.getContainersOnNetwork = async (req: Request, res: Response, n
       });
     }
     res.locals.networksAndContainers = allContainers;
-    console.log(res.locals.networksAndContainers)
     return next();
   } catch (error) {
     const errObj: ServerError = {

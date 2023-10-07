@@ -235,7 +235,7 @@
           "decimals": 0,
           "editable": true,
           "error": false,
-          "format": "s",
+          "format": "dthms",
           "gauge": {
             "maxValue": 100,
             "minValue": 0,
@@ -672,7 +672,7 @@
           },
           "targets": [
             {
-              "expr": "sum(node_load1{container_name=~\".*\"}) by (container_name)",
+              "expr": "sum(node_load1) by (instance)",
               "intervalFactor": 2,
               "refId": "A",
               "step": 1
@@ -909,116 +909,6 @@
             "conditions": [
               {
                 "evaluator": {
-                  "params": [1.25],
-                  "type": "gt"
-                },
-                "query": {
-                  "params": ["A", "5m", "now"]
-                },
-                "reducer": {
-                  "params": [],
-                  "type": "avg"
-                },
-                "type": "query"
-              }
-            ],
-            "executionErrorState": "alerting",
-            "frequency": "60s",
-            "handler": 1,
-            "name": "Panel Title alert",
-            "noDataState": "keep_state",
-            "notifications": [
-              {
-                "id": 1
-              }
-            ]
-          },
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Prometheus",
-          "decimals": 0,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "id": 28,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 2,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "node_load1{instance=~\"$server:.*\"} / count by(job, instance)(count by(job, instance, cpu)(node_cpu{instance=~\"$server:.*\"}))",
-              "intervalFactor": 2,
-              "refId": "A",
-              "step": 600
-            }
-          ],
-          "thresholds": [
-            {
-              "colorMode": "critical",
-              "fill": true,
-              "line": true,
-              "op": "gt",
-              "value": 1.25
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Load",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": false,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "percentunit",
-              "label": null,
-              "logBase": 1,
-              "max": "1.50",
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "alert": {
-            "conditions": [
-              {
-                "evaluator": {
                   "params": [850000000000],
                   "type": "gt"
                 },
@@ -1084,7 +974,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_filesystem_size{fstype=\"aufs\"} - node_filesystem_free{fstype=\"aufs\"}",
+              "expr": "node_filesystem_size_bytes - node_filesystem_free_bytes",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Used Disk Space",
@@ -1239,7 +1129,7 @@
               "step": 20
             },
             {
-              "expr": "node_memory_Buffers",
+              "expr": "node_memory_Buffers_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "node_memory_Dirty",
@@ -1247,7 +1137,7 @@
               "step": 30
             },
             {
-              "expr": "node_memory_MemFree",
+              "expr": "node_memory_MemFree_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{__name__}}",
@@ -1255,7 +1145,7 @@
               "step": 20
             },
             {
-              "expr": "node_memory_MemAvailable",
+              "expr": "node_memory_MemAvailable_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "Available Memory",
@@ -1263,7 +1153,7 @@
               "step": 20
             },
             {
-              "expr": "node_memory_MemTotal - node_memory_MemAvailable",
+              "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Unavailable Memory",
@@ -1271,7 +1161,7 @@
               "step": 600
             },
             {
-              "expr": "node_memory_Inactive",
+              "expr": "node_memory_Inactive_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{__name__}}",
@@ -1279,7 +1169,7 @@
               "step": 30
             },
             {
-              "expr": "node_memory_KernelStack",
+              "expr": "node_memory_KernelStack_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{__name__}}",
@@ -1287,7 +1177,7 @@
               "step": 30
             },
             {
-              "expr": "node_memory_Active",
+              "expr": "node_memory_Active_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{__name__}}",
@@ -1295,7 +1185,7 @@
               "step": 30
             },
             {
-              "expr": "node_memory_MemTotal - (node_memory_Active + node_memory_MemFree + node_memory_Inactive)",
+              "expr": "node_memory_MemTotal_bytes - (node_memory_Active_bytes + node_memory_MemFree_bytes + node_memory_Inactive_bytes)",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "Unknown",
@@ -1303,7 +1193,7 @@
               "step": 40
             },
             {
-              "expr": "node_memory_MemFree + node_memory_Inactive ",
+              "expr": "node_memory_MemFree_bytes + node_memory_Inactive_bytes ",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "{{__name__}}",
@@ -1319,7 +1209,7 @@
               "step": 30
             },
             {
-              "expr": "node_memory_Inactive + node_memory_MemFree + node_memory_MemAvailable",
+              "expr": "node_memory_Inactive_bytes + node_memory_MemFree_bytes + node_memory_MemAvailable_bytes",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "",
@@ -1406,19 +1296,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "-sum(rate(node_disk_bytes_read[$interval])) by (device)",
+              "expr": "-sum(irate(node_disk_read_bytes_total[1m])) by (device)",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "OUT on /{{device}}",
-              "metric": "node_disk_bytes_read",
+              "metric": "node_disk_read_bytes_total",
               "refId": "A",
               "step": 600
             },
             {
-              "expr": "sum(rate(node_disk_bytes_written[$interval])) by (device)",
+              "expr": "sum(irate(node_disk_written_bytes_total[1m])) by (device)",
               "intervalFactor": 2,
               "legendFormat": "IN on /{{device}}",
-              "metric": "",
+              "metric": "node_disk_written_bytes_total",
               "refId": "B",
               "step": 600
             }
@@ -1446,6 +1336,116 @@
               "label": null,
               "logBase": 1,
               "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "alert": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [1.25],
+                  "type": "gt"
+                },
+                "query": {
+                  "params": ["A", "5m", "now"]
+                },
+                "reducer": {
+                  "params": [],
+                  "type": "avg"
+                },
+                "type": "query"
+              }
+            ],
+            "executionErrorState": "alerting",
+            "frequency": "60s",
+            "handler": 1,
+            "name": "Panel Title alert",
+            "noDataState": "keep_state",
+            "notifications": [
+              {
+                "id": 1
+              }
+            ]
+          },
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Prometheus",
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "id": 28,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "node_load1",
+              "intervalFactor": 2,
+              "refId": "A",
+              "step": 600
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "critical",
+              "fill": true,
+              "line": true,
+              "op": "gt",
+              "value": 1.25
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Load",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": false,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percentunit",
+              "label": null,
+              "logBase": 1,
+              "max": "1.50",
               "min": null,
               "show": true
             },
@@ -1942,6 +1942,12 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 31
+          },
           "id": 37,
           "links": [],
           "pageSize": null,
@@ -2008,6 +2014,12 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 31
+          },
           "id": 35,
           "links": [],
           "pageSize": null,
@@ -2073,6 +2085,12 @@
           "editable": true,
           "error": false,
           "fontSize": "100%",
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 24
+          },
           "id": 36,
           "links": [],
           "pageSize": null,

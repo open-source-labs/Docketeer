@@ -12,6 +12,7 @@ services:
     container_name: docketeer-ext
     environment:
       - MODE=browser
+      - STATUS=development
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock

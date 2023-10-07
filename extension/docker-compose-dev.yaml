@@ -6,6 +6,8 @@ services:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     image: ${DESKTOP_PLUGIN_IMAGE}
     container_name: docketeer-ext
+    environment:
+      - STATUS=development   
     volumes:
       # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
       - /var/run/docker.sock:/var/run/docker.sock

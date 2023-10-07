@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import containerController from '../../controllers/docker/containersController';
+import { resourceLimits } from 'worker_threads';
 const router = Router();
 
 /**
@@ -52,7 +53,9 @@ router.post('/start', containerController.runContainer, (req, res) => {
  * @param 
  * @returns
  */
-// router.post('/stop');
+router.post('/stop', containerController.stopContainer, (req, res) => {
+  return res.sendStatus(203);
+});
 
 /**
  * @abstract 

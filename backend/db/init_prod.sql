@@ -30,3 +30,10 @@ CREATE TABLE services(
 
 INSERT INTO endpoint_type (type_of) VALUES ('Docker');
 INSERT INTO endpoint_type (type_of) VALUES ('Kubernetes');
+ALTER TABLE endpoint_type OWNER TO admin;
+ALTER TABLE datasource OWNER TO admin;
+ALTER TABLE dashboards OWNER TO admin;
+ALTER TABLE services OWNER TO admin;
+
+INSERT INTO datasource (type_of, url, endpoint, match, jobname)
+VALUES (2, 'http://localhost:45555', '/federation', '{job="kubernetes-apiservers"},{job="kubernetes-nodes"},{job="kubernetes-nodes-cadvisor"},{job="kubernetes-service-endpoints"}', 'federate');

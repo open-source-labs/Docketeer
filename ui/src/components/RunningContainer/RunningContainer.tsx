@@ -18,8 +18,7 @@ const RunningContainer = ({
   removeContainer,
   connectToNetwork,
   disconnectFromNetwork,
-  status,
-  key
+  status
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
   const { networkContainerList } = useAppSelector((state) => state.networks);
@@ -39,7 +38,7 @@ const RunningContainer = ({
   if (!container) return (<p>no container</p>);
   
   return (
-    <div key={key} className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
+    <div className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
       <div className={styles.containerTextHolder}>
         <h2 className={styles.textSpacing}>{container.Names}</h2>
         <div className = {styles.flexSpacing}>

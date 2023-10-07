@@ -22,8 +22,8 @@ export const ContainerService = {
 
   async runContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/${containerId}/start`, 'POST');
-      return true
+      await apiRequest(`/api/docker/container/start`, 'POST', {id: containerId});
+      return true;
     } catch (error) {
       console.error(error);
       return false;
@@ -32,7 +32,7 @@ export const ContainerService = {
 
   async stopContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/${containerId}/stop`, 'POST');
+      await apiRequest(`/api/docker/container/stop`, 'POST', {id: containerId});
       return true;
     } catch (error) {
       console.error(error);

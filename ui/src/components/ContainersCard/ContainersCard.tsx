@@ -128,15 +128,15 @@ const ContainersCard = ({
   }
   );
   const [currentPage, setPage] = useState(1);
-  const [contPerPage, setCont] = useState(5);
+  const COUNT_PER_PAGE = 5;
   // index of last container on each page
-  const lastContainerI = contPerPage * currentPage;
-  const firstContainerI = lastContainerI - contPerPage;
+  const lastContainerI = COUNT_PER_PAGE * currentPage;
+  const firstContainerI = lastContainerI - COUNT_PER_PAGE;
   const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
   return (
     <>
       {slicedRunningContainers}
-      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {contPerPage}/>
+      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {COUNT_PER_PAGE}/>
     </>
   );
 };

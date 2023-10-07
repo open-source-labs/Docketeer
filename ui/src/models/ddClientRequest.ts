@@ -25,11 +25,14 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
     console.log("Can't Bind ddClient, using Fetch");
     const fetchOptions: RequestInit = {
       method: options.method.toUpperCase(),
-      headers: options.headers,
     };
     if (fetchOptions.method !== 'GET' && fetchOptions.method !== 'DELETE') {
-      fetchOptions.body = options.data; 
+      fetchOptions.body = JSON.stringify(options.data); 
     }
+    if (!options.headers) {
+      fetchOptions.headers=options.headers
+    }
+    console.log(fetchOptions)
     const result = await fetch(options.url, fetchOptions);
 
     if (!result.ok) {
@@ -60,6 +63,7 @@ export const encodeQuery = (dict: { [key: string]: string }): string => {
 
 export const apiRequest = async<T>(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body: any = {}, headers: any = {}): Promise<T> => {
   try {
+    console.log(body);
     return await ddClientRequest({ method, url, data: body, headers });
   } catch (error) {
     throw error; 

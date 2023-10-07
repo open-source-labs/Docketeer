@@ -2,11 +2,10 @@
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
-import { DataFromBackend, VolumeObj } from '../../../ui-types';
+import { VolumeObj } from '../../../ui-types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
-import useHelper from '../../helpers/commands'; // added
 import { createAlert } from '../../reducers/alertReducer';
 import { removeVolume } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
@@ -138,8 +137,8 @@ const VolumeHistory = (): JSX.Element => {
                 <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>
                 <div>
                   {volume.containers.length ? (
-                    volume.containers.map((container) => (
-                      <div key={`vol-${i}`}>
+                    volume.containers.map((container, j) => (
+                      <div key={`vol-${j}`}>
                         <strong>Container: </strong>
                         {container.Names}
                         <br />

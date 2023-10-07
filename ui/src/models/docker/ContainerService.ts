@@ -44,7 +44,6 @@ export const ContainerService = {
     try {
       const containerString = containerList.join(",");
       const query = encodeQuery({ containerNames: containerString, start, stop, offset: String(offset) })
-      console.log('Query: ', query);
       const logs: {[key: string]: LogObject[]} = await apiRequest(`/api/docker/container/logs?${query}`);
       return logs;
     } catch (error) {

@@ -13,7 +13,6 @@ import Client from '../../models/Client';
 /**
  * A custom hook which gets the stats of all Docker containers.
  */
-type containerType = number;
 const ContainersCard = ({
   containerList,
   stopContainer,
@@ -34,7 +33,7 @@ const ContainersCard = ({
         const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
         const { createDockerDesktopClient } = await import("@docker/extension-api-client");
         ddClient = createDockerDesktopClient();
-        const result = ddClient.docker.cli.exec(
+        ddClient.docker.cli.exec(
           'stats',
           ['--all', '--no-trunc', '--format', '{{ json . }}'],
           {
@@ -55,11 +54,7 @@ const ContainersCard = ({
             },
           }
         );
-        // Clean-up function
-        // return () => {
-        //   result.close();
-        //   newData = [];
-        // };
+       
       } catch (error) {
         console.log(`Can't import ddClient`);
       }

@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ContainersCard.module.scss';
-interface PageSwitch {
+interface PageSwitchI {
   totalContainers: number,
   contPerPage: number,
-  setPage: any;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
-const PageSwitch = ({totalContainers, contPerPage, setPage}): JSX.Element  => {
-  let pages = []
+const PageSwitch = ({totalContainers, contPerPage, setPage}: PageSwitchI): JSX.Element  => {
+  const pages = [];
   for (let i = 1; i <= Math.ceil(totalContainers / contPerPage); i++) {
-    pages.push(i)
+    pages.push(i);
   }
   const [isActive, setActive] = useState(null)
     const handleClick = (pageNumber:number) => {
       setActive(pageNumber);
-      setPage(pageNumber)
+      setPage(pageNumber);
   };
   return (
     <div className = {styles.pageNumber}>
-    {pages.map((pageNumber, i): any => {
+    {pages.map((pageNumber, i) => {
       return <button className={`${styles.buttonNumber} ${
             isActive === pageNumber ? styles.activeButton : ''
           }`} onClick={() => { handleClick(pageNumber)}} key = {i}>{pageNumber}</button>

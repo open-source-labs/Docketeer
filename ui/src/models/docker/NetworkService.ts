@@ -1,13 +1,13 @@
-import { ddClientRequest, encodeQuery, apiRequest } from "../ddClientRequest";
+import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { ImageType, NetworkType, NetworkContainerType } from "../../../../types";
 export const NetworkService = {
   async getNetworks(): Promise<NetworkType[]>{
-    return await apiRequest('/api/docker/network');
+    return await ddClientRequest('/api/docker/network');
   },
 
   async createNetwork(networkName: string): Promise<boolean>{
     try {
-      await apiRequest('/api/docker/network', 'POST', { networkName });
+      await ddClientRequest('/api/docker/network', 'POST', { networkName });
       return true;
     } catch (error) {
       console.error(error);
@@ -17,7 +17,7 @@ export const NetworkService = {
 
   async getAllContainersOnAllNetworks(): Promise<NetworkContainerType[]>{
     try {
-      const data: NetworkContainerType[] = await apiRequest('/api/docker/network/container');
+      const data: NetworkContainerType[] = await ddClientRequest('/api/docker/network/container');
       return data;
     } catch (error) {
       console.error('Couldn\'t fetch all containers on all networks:', error);
@@ -27,7 +27,7 @@ export const NetworkService = {
 
   async connectContainerToNetwork(networkId: string, containerId: string): Promise<boolean>{
     try {
-      await apiRequest('/api/docker/network/container', 'POST', {networkName: networkId, containerName: containerId})
+      await ddClientRequest('/api/docker/network/container', 'POST', {networkName: networkId, containerName: containerId})
       return true;
     } catch (error) {
       console.error(error);
@@ -37,7 +37,7 @@ export const NetworkService = {
 
   async disconnectContainerFromNetwork(networkId: string, containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/network/${networkId}/container/${containerId}`, 'DELETE');
+      await ddClientRequest(`/api/docker/network/${networkId}/container/${containerId}`, 'DELETE');
       return true;
     } catch (error) {
       console.error(error);
@@ -48,7 +48,7 @@ export const NetworkService = {
 
   async pruneNetwork(): Promise<boolean>{
     try {
-      await apiRequest('/api/docker/network/prune', 'DELETE');
+      await ddClientRequest('/api/docker/network/prune', 'DELETE');
       return true;
     } catch (error) {
       console.error(error);
@@ -58,7 +58,7 @@ export const NetworkService = {
 
   async deleteNetwork(idOrName: string): Promise<boolean>{
     try {
-      await apiRequest(`/api/docker/network/${idOrName}`, 'DELETE');
+      await ddClientRequest(`/api/docker/network/${idOrName}`, 'DELETE');
       return true;
     } catch (error) {
       console.error(error);
@@ -70,7 +70,7 @@ export const NetworkService = {
 export const SystemService = {
   async pruneSystem(): Promise<boolean>{
     try {
-      await apiRequest('/api/docker/system/prune', 'DELETE');
+      await ddClientRequest('/api/docker/system/prune', 'DELETE');
       return true;
     } catch (error) {
       console.error(error);

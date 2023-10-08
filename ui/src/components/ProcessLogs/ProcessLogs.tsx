@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import dayjsPluginUTC from 'dayjs-plugin-utc';
 dayjs.extend(dayjsPluginUTC);
@@ -21,8 +21,6 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
-import { set } from 'immer/dist/internal';
-import { textAlign } from '@mui/system';
 import Client from '../../models/Client';
 // import { todo } from 'node:test';
 
@@ -69,10 +67,12 @@ const ProcessLogs = (): JSX.Element => {
 
   const [counter, setCounter] = useState(0);
   const { getContainerLogsDispatcher } = useSurvey();
-  const { getLogs } = useHelper();
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
+    },
+    typography: {
+      fontFamily: 'Raleway',
     },
   });
 
@@ -81,6 +81,13 @@ const ProcessLogs = (): JSX.Element => {
   const [filteredDisplay, setFilteredDisplay] = useState<any>([]);
 
   const [csvSent, setCSVSent] = useState([]);
+
+  const { refreshRunning, refreshStopped } = useHelper();
+
+  useEffect(() => {
+    refreshRunning();
+    refreshStopped();
+  }, []);
 
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
@@ -133,10 +140,15 @@ const ProcessLogs = (): JSX.Element => {
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
 
-    const containerLogs: any = await Client.ContainerService.getLogs(optionsObj.containerNames, optionsObj.start, optionsObj.stop, optionsObj.offset);
+    const containerLogs: any = await Client.ContainerService.getLogs(
+      optionsObj.containerNames,
+      optionsObj.start,
+      optionsObj.stop,
+      optionsObj.offset,
+    );
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
-    
+
     return containerLogs;
   };
 
@@ -159,7 +171,7 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract handles individual log check in Process Logs.
-   * 
+   *
    */
   const handleCheckedLogs = (row: number, e: boolean) => {
     // modify in csvData array
@@ -184,8 +196,6 @@ const ProcessLogs = (): JSX.Element => {
     }
     setSelectAll(isAllSelect);
   };
-
-  
 
   const handleCsv = () => {
     const newCsvSent: CSVDataType[] = []; // add type later
@@ -306,13 +316,12 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   /**
-   * @abstract handles select all checkbox toggle. 
+   * @abstract handles select all checkbox toggle.
    * takes in a boolean
    */
   const handleSelectAll = (e: boolean) => {
     // Starts if csvData is populated
 
-    
     if (csvData) {
       // create a copy of Checked Array all e
       const checkedArray = new Array(checked.length).fill(e);
@@ -411,13 +420,12 @@ const ProcessLogs = (): JSX.Element => {
           checked={selectAll}
           onChange={e => handleSelectAll(e.target.checked)}
         />
-        <label htmlFor='selectAll' >Select All</label>
+        <label htmlFor='selectAll'>Select All</label>
         <div className={styles.tableHolder}>
           <table className={globalStyles.table}>
             <thead>
               <tr>
                 <th>EXPORT</th>
-                {/* export test */}
                 <th>CONTAINER</th>
                 <th>LOG TYPE</th>
                 <th>TIMESTAMP</th>

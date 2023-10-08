@@ -4,12 +4,12 @@ import styles from './Metrics.module.scss';
 const Metrics = (): JSX.Element => {
 
 
-  const [resetIframe, setResetIframe] = useState<Boolean>(true);
+  const [resetIframe, setResetIframe] = useState<boolean>(true);
 
   const handleHome = (): void => {
     // const iframe = document.querySelector('iframe')?.contentWindow?.history;
     setResetIframe(resetIframe ? false : true);
-  }
+  };
 
   return (
     <div className={styles.wrapper}>

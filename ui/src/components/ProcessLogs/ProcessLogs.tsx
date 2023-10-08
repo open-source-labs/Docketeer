@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import dayjsPluginUTC from 'dayjs-plugin-utc';
 dayjs.extend(dayjsPluginUTC);
@@ -21,8 +21,6 @@ import { setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
-import { set } from 'immer/dist/internal';
-import { textAlign } from '@mui/system';
 import Client from '../../models/Client';
 // import { todo } from 'node:test';
 
@@ -69,7 +67,6 @@ const ProcessLogs = (): JSX.Element => {
 
   const [counter, setCounter] = useState(0);
   const { getContainerLogsDispatcher } = useSurvey();
-  const { getLogs } = useHelper();
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -87,7 +84,6 @@ const ProcessLogs = (): JSX.Element => {
   useEffect(() => {
     refreshRunning();
     refreshStopped();
-    console.log('process logs useEffect');
   }, []);
 
   /**

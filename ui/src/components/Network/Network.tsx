@@ -11,7 +11,6 @@ import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 import Client from '../../models/Client';
 import {
-  DataFromBackend,
   NetworkContainerListType,
   NetworkAttachedContainersInfo,
 } from '../../../ui-types';
@@ -63,6 +62,12 @@ const Network = (): JSX.Element => {
     'Tomato',
     'Yellowgreen',
   ];
+
+  const { refreshNetwork } = useHelper();
+
+  useEffect((): void => {
+    refreshNetwork();
+  }, []);
 
   // check the network name that user types in is already exist in current network list
   useEffect(() => {
@@ -181,7 +186,7 @@ const Network = (): JSX.Element => {
       if (el.networkName === name) {
         // assign attachedContainerList to array that filled with attached container name
         // * specified 'any' type for containerEl
-        el.containers.forEach((containerEl) => {
+        el.containers.forEach(containerEl => {
           attachedContainerList.push(`[${containerEl.Name}]`);
         });
       }

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
-import { DataFromBackend, VolumeObj } from '../../../ui-types';
+import { VolumeObj } from '../../../ui-types';
 
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
@@ -28,6 +28,12 @@ const VolumeHistory = (): JSX.Element => {
   const volumeContainersList = useAppSelector(
     (state) => state.volumes.volumeContainersList
   );
+
+  const { getAllDockerVolumes } = useHelper();
+
+  useEffect(() => {
+    getAllDockerVolumes();
+  }, []);
 
   const [disableShowAll, setDisableShowAll] = useState(false);
 
@@ -65,14 +71,11 @@ const VolumeHistory = (): JSX.Element => {
   };
 
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
-    const volObject = { volumeName: volumeName }
+    const volObject = { volumeName: volumeName };
     try {
       const isSuccess = await Client.VolumeService.removeVolume(volumeName);
-
-        // const dataFromBackend: DataFromBackend = response;
-      
       if (isSuccess) {
-        dispatch(removeVolume(volumeName))
+        dispatch(removeVolume(volumeName));
       } else {
         dispatch(
           createAlert(

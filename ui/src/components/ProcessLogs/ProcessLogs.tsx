@@ -71,6 +71,9 @@ const ProcessLogs = (): JSX.Element => {
     palette: {
       mode: 'dark',
     },
+    typography: {
+      fontFamily: 'Raleway',
+    },
   });
 
   const [checked, setChecked] = useState([]); // checkbox array state, needed for select all
@@ -423,7 +426,6 @@ const ProcessLogs = (): JSX.Element => {
             <thead>
               <tr>
                 <th>EXPORT</th>
-                {/* export test */}
                 <th>CONTAINER</th>
                 <th>LOG TYPE</th>
                 <th>TIMESTAMP</th>

@@ -82,6 +82,14 @@ const ProcessLogs = (): JSX.Element => {
 
   const [csvSent, setCSVSent] = useState([]);
 
+  const { refreshRunning, refreshStopped } = useHelper();
+
+  useEffect(() => {
+    refreshRunning();
+    refreshStopped();
+    console.log('process logs useEffect');
+  }, []);
+
   /**
    * @abstract run tableData function when counter, csvData.length is changed (not when setCsvData is used)
    */
@@ -133,10 +141,15 @@ const ProcessLogs = (): JSX.Element => {
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
 
-    const containerLogs: any = await Client.ContainerService.getLogs(optionsObj.containerNames, optionsObj.start, optionsObj.stop, optionsObj.offset);
+    const containerLogs: any = await Client.ContainerService.getLogs(
+      optionsObj.containerNames,
+      optionsObj.start,
+      optionsObj.stop,
+      optionsObj.offset,
+    );
     getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
     setCounter(counter + 1);
-    
+
     return containerLogs;
   };
 
@@ -159,7 +172,7 @@ const ProcessLogs = (): JSX.Element => {
 
   /**
    * @abstract handles individual log check in Process Logs.
-   * 
+   *
    */
   const handleCheckedLogs = (row: number, e: boolean) => {
     // modify in csvData array
@@ -184,8 +197,6 @@ const ProcessLogs = (): JSX.Element => {
     }
     setSelectAll(isAllSelect);
   };
-
-  
 
   const handleCsv = () => {
     const newCsvSent: CSVDataType[] = []; // add type later
@@ -306,13 +317,12 @@ const ProcessLogs = (): JSX.Element => {
   };
 
   /**
-   * @abstract handles select all checkbox toggle. 
+   * @abstract handles select all checkbox toggle.
    * takes in a boolean
    */
   const handleSelectAll = (e: boolean) => {
     // Starts if csvData is populated
 
-    
     if (csvData) {
       // create a copy of Checked Array all e
       const checkedArray = new Array(checked.length).fill(e);
@@ -411,7 +421,7 @@ const ProcessLogs = (): JSX.Element => {
           checked={selectAll}
           onChange={e => handleSelectAll(e.target.checked)}
         />
-        <label htmlFor='selectAll' >Select All</label>
+        <label htmlFor='selectAll'>Select All</label>
         <div className={styles.tableHolder}>
           <table className={globalStyles.table}>
             <thead>

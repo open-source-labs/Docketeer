@@ -7,6 +7,7 @@ import {
 } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
+import useHelper from '../../helpers/commands';
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 import Client from '../../models/Client';
@@ -65,7 +66,7 @@ const Network = (): JSX.Element => {
 
   const { refreshNetwork } = useHelper();
 
-  useEffect((): void => {
+  useEffect(() => {
     refreshNetwork();
   }, []);
 
@@ -87,26 +88,6 @@ const Network = (): JSX.Element => {
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
       await Client.NetworkService.createNetwork(name);
-      // const response = await ddClient.extension.vm?.service?.post(
-      //   '/command/networkCreate',
-      //   { networkName: name },
-      // );
-      // const dataFromBackend: DataFromBackend = response;
-
-      // if (dataFromBackend['hash']) {
-      //   dispatch(
-      //     createAlert('New network ' + name + ' being added...', 4, 'success'),
-      //   );
-      // } else if (dataFromBackend.error) {
-      //   dispatch(
-      //     createAlert(
-      //       'Error from the docker : ' + dataFromBackend.error,
-      //       4,
-      //       'warning',
-      //     ),
-      //   );
-      //   return;
-      // }
     } catch (err) {
       dispatch(
         createAlert(
@@ -148,25 +129,6 @@ const Network = (): JSX.Element => {
   async function deleteNetwork(name: string): Promise<void> {
     try {
       await Client.NetworkService.deleteNetwork(name);
-      // const response = await ddClient.extension.vm?.service?.post(
-      //   '/command/networkRemove',
-      //   { networkName: name },
-      // );
-      // const dataFromBackend: DataFromBackend = response;
-      // if (dataFromBackend['hash']) {
-      //   dispatch(createAlert('Removing ' + name + ' network...', 4, 'success'));
-      // } else {
-      //   dispatch(
-      //     createAlert(
-      //       'Please detach ' +
-      //         attachedContainers(name) +
-      //         ' container(s) before deleting this network.',
-      //       4,
-      //       'warning',
-      //     ),
-      //   );
-      //   return;
-      // }
     } catch (err) {
       dispatch(
         createAlert(
@@ -383,8 +345,7 @@ const Network = (): JSX.Element => {
                 if (
                   network.networkName !== 'bridge' &&
                   network.networkName !== 'docketeer_default' &&
-                  network.networkName !==
-                    'docketeer-extension-desktop-extension_default'
+                  !network.networkName.includes('extension_default')
                 ) {
                   return (
                     <div className={styles.networkDiv} key={index}>

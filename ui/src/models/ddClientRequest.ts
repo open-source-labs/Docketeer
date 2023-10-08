@@ -1,5 +1,13 @@
-import { RequestConfig } from "@docker/extension-api-client-types/dist/v0";
+// These are needed for fetch. Otherwise the default was being set to plain text
+// These values are overwritten by whatever the user supplies using spread operator
+// {...DEFAULT_HEADERS, ...userHeaders}
+const DEFAULT_HEADERS = {
+  "Content-Type": "application/json"
+}
 
+/**
+ * @abstract Error to match the format the DockerDesktopClient Gives
+ */
 class DdFetchError extends Error {
   statusCode: number;
 
@@ -11,7 +19,12 @@ class DdFetchError extends Error {
   }
 }
 
-export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
+/**
+ * @abstract Wrapper function for ddClient and fetch. Tests whether the application is running in browser
+ *           versus docker desktop and either will use ddClient or fetch. Returns a uniform response across
+ *           either instance
+ */
+export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body: any = {}, headers: any = {}): Promise<T> => {
   let ddClient;
 
   try {
@@ -21,21 +34,22 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
     ddClient = null;
   }
 
+  // If we are debugging in browser, ddClient won't bind so use fetch
   if (!ddClient || !ddClient.extension?.vm?.service?.request) {
     console.log("Can't Bind ddClient, using Fetch");
     const fetchOptions: RequestInit = {
-      method: options.method.toUpperCase(),
+      method: method.toUpperCase(),
     };
     if (fetchOptions.method !== 'GET' && fetchOptions.method !== 'DELETE') {
-      fetchOptions.body = JSON.stringify(options.data); 
+      fetchOptions.body = JSON.stringify(body); 
     }
-    if (!options.headers) {
-      console.log('ran');
-      fetchOptions.headers=options.headers
-    }
-    console.log(fetchOptions)
-    const result = await fetch(options.url, fetchOptions);
+   
+   
+    fetchOptions.headers = {...DEFAULT_HEADERS, ...headers}
+    
+    const result = await fetch(url, fetchOptions);
 
+    // Handle error message return to format the same as ddClient error messages
     if (!result.ok) {
       let errorMessage;
       try {
@@ -50,23 +64,20 @@ export const ddClientRequest = async<T>(options: RequestConfig): Promise<T> => {
     return result.json() as Promise<T>;
   }
 
-  return ddClient.extension.vm.service.request(options) as Promise<T>;
+  // If we are running as docker desktop extension, above is skipped and just routed to ddClient
+  return ddClient.extension.vm.service.request({method, url, data:body, headers}) as Promise<T>;
 };
 
-
+/**
+ * @abstract Encodes an object into uri string ie. 
+ *           {containers: docketeer, uptime: 5 min -> containers=docketeer&uptime=5%20min
+ * @param dict key value pair used to construct query.
+ * @returns {string} Encoded string for a uri query
+ */
 export const encodeQuery = (dict: { [key: string]: string }): string => {
   let query = '';
   for (let key in dict) {
     query += `${key}=${encodeURIComponent(dict[key])}&`
   }
   return query.slice(0, -1);
-}
-
-export const apiRequest = async<T>(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body: any = {}, headers: any = {}): Promise<T> => {
-  try {
-    console.log(body);
-    return await ddClientRequest({ method, url, data: body, headers });
-  } catch (error) {
-    throw error; 
-  }
 }

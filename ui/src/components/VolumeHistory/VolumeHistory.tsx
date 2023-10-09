@@ -3,12 +3,12 @@
 import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import { VolumeObj } from '../../../ui-types';
-
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
 import { createAlert } from '../../reducers/alertReducer';
 import { removeVolume } from '../../reducers/volumeReducer';
-import Client from '../../models/Client';
+import Client from '../../models/Client'
+import useHelper from '../../helpers/commands';
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes

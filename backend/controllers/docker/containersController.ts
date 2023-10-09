@@ -121,12 +121,11 @@ containerController.getStoppedContainers = async (req: Request, res: Response, n
 }
 
 containerController.bashContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  console.log(req.body)
-    console.log(req.params)
   try {
     console.log('You have bashed')
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker exec -it ${id} /bin/sh`)
+    if (stderr.length) throw new Error(stderr);
     return next()
   } catch (error) {
     console.log('Oh no, no bash')

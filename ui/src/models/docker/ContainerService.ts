@@ -32,6 +32,7 @@ export const ContainerService = {
 
   async bashContainer(containerId: string): Promise<boolean> {
     try {
+      console.log(containerId)
       await ddClientRequest(`/api/docker/container/bashed`, 'POST', {id: containerId})
       return true
     } catch (error) {

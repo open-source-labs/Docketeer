@@ -21,17 +21,54 @@ import Client from '../../models/Client';
 const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  const { runStopped, remove, stop, refreshRunning, refreshStopped, bashContainer } = useHelper();
+  const [stateChange, changeState] = useState(0)
+  const { runStopped, remove, stop, bashContainer, refreshRunning, refreshStopped} = useHelper();
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
 
+  const stopWrapper = async(id: string) => {
+    const wasStopped = await stop(id);
+    if (wasStopped) {
+      refreshStopped();
+      refreshRunning();
+    }
+  }
+
+  const startWrapper = async(id: string) => {
+    const wasStopped = await runStopped(id);
+    if (wasStopped) {
+      refreshStopped();
+      refreshRunning();
+    }
+  }
+
+
+//   const {
+//     refreshRunning,
+//     refreshStopped,
+//     refreshImages,
+//     refreshNetwork,
+//     getAllDockerVolumes,
+//     getVolumeContainers,
+//   } = useHelper();
+
+//  useEffect(() => {
+//     refreshRunning();
+//     refreshStopped();
+//     refreshImages();
+//     refreshNetwork();
+//     getAllDockerVolumes();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [stateChange]);
+
   const stopContainer = (container: ContainerType) => {
+    changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to stop ${container.Names}?`,
         () => {
-          stop(container.ID);
+          stopWrapper(container.ID);
           dispatch(createAlert(`Stopping ${container.Names}...`, 5, 'error'));
         },
         () => {
@@ -48,11 +85,12 @@ const Containers = (): JSX.Element => {
   };
 
   const runContainer = (container: ContainerType) => {
+    changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to run ${container.Names}?`,
         () => {
-          runStopped(container['ID']);
+          startWrapper(container['ID']);
           dispatch(createAlert(`Running ${container.Names}...`, 5, 'success'));
         },
         () => {
@@ -69,6 +107,7 @@ const Containers = (): JSX.Element => {
   };
 
   const removeContainer = (container: ContainerType) => {
+    changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to remove ${container.Names}?`,

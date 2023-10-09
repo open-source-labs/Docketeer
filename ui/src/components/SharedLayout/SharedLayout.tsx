@@ -163,16 +163,6 @@ function SharedLayout(): JSX.Element {
                 VOLUME HISTORY
               </NavLink>
             </li>
-             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/console"
-              >
-                CONSOLE
-              </NavLink>
-            </li>
             <li>
               <NavLink
                 className={({ isActive }) =>

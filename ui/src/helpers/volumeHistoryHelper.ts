@@ -42,7 +42,7 @@ export const volumeByName = (
 };
 
 /**
- * Stores the list of all containers in their respective volume — edit this fucntion for the details of containers as needed
+ * Stores the list oef all containers in their respective volume — edit this fucntion for the details of containers as needed
  * @param {string} volumeName
  * @param {Array} dockerOutput
  **/

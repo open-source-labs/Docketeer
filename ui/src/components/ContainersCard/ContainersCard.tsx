@@ -9,8 +9,7 @@ import {
   filterOneProperty,
   listOfVolumeProperties,
 } from '../../helpers/volumeHistoryHelper';
-import { useMemo } from 'react';
-
+import useHelper from '../../helpers/commands';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -71,13 +70,16 @@ const ContainersCard = ({
   
   }, [ddClient]);
 
-
+  const { refreshNetwork } = useHelper();
   async function connectToNetwork(
     networkName: string,
     containerName: string
   ): Promise<void> {
     try {
-      await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      const result = await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      if (result) {
+        refreshNetwork();
+      }
 
     } catch (err) {
       dispatch(
@@ -95,8 +97,10 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
-
+      const result = await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
+      if (result) {
+        refreshNetwork();
+      }
     } catch (err) {
       dispatch(
         createAlert(

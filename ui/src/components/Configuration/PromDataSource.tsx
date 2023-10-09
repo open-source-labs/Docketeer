@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../reducers/hooks';
-
+import { useAppSelector } from '../../reducers/hooks'
+import styles from '../RunningContainer/RunningContainer.module.scss'
 
 const PromDataSource = ({ index }: any): React.JSX.Element => {
   
@@ -9,7 +9,7 @@ const PromDataSource = ({ index }: any): React.JSX.Element => {
 
 
   return (
-    <div>
+    <div className={styles.containerCard}>
       <div>
         <b>Job Name: </b> <span>{promDataSource.jobname}</span>
       </div>

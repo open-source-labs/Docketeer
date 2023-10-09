@@ -19,7 +19,6 @@ import { useMemo } from 'react';
 /**
  * A custom hook which gets the stats of all Docker containers.
  */
-type containerType = number;
 const ContainersCard = ({
   containerList,
   stopContainer,
@@ -41,7 +40,7 @@ const ContainersCard = ({
         const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
         const { createDockerDesktopClient } = await import("@docker/extension-api-client");
         ddClient = createDockerDesktopClient();
-        const result = ddClient.docker.cli.exec(
+        ddClient.docker.cli.exec(
           'stats',
           ['--all', '--no-trunc', '--format', '{{ json . }}'],
           {
@@ -62,11 +61,7 @@ const ContainersCard = ({
             },
           }
         );
-        // Clean-up function
-        // return () => {
-        //   result.close();
-        //   newData = [];
-        // };
+       
       } catch (error) {
         console.log(`Can't import ddClient`);
       }
@@ -141,15 +136,15 @@ const ContainersCard = ({
   }
   );
   const [currentPage, setPage] = useState(1);
-  const [contPerPage, setCont] = useState(5);
+  const COUNT_PER_PAGE = 5;
   // index of last container on each page
-  const lastContainerI = contPerPage * currentPage;
-  const firstContainerI = lastContainerI - contPerPage;
+  const lastContainerI = COUNT_PER_PAGE * currentPage;
+  const firstContainerI = lastContainerI - COUNT_PER_PAGE;
   const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
   return (
     <>
       {slicedRunningContainers}
-      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {contPerPage}/>
+      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {COUNT_PER_PAGE}/>
     </>
   );
 };

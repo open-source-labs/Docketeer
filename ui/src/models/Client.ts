@@ -2,7 +2,8 @@ import { ContainerService } from "./docker/ContainerService";
 import { VolumeService } from "./docker/VolumeService";
 import { ImageService } from "./docker/ImageService";
 import { NetworkService, SystemService } from "./docker/NetworkService";
-import { ddClientRequest, apiRequest, encodeQuery } from "./ddClientRequest";
+import { ConfigService } from "./prometheus/configService";
+import { ddClientRequest, encodeQuery } from "./ddClientRequest";
 
 export default {
   ContainerService,
@@ -10,9 +11,9 @@ export default {
   ImageService,
   NetworkService,
   SystemService,
+  ConfigService,
   API: {
     ddClientRequest,
-    apiRequest,
     encodeQuery
   }
 }

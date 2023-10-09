@@ -21,18 +21,11 @@ import Client from '../../models/Client';
 const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  const { runStopped, remove, stop } = useHelper();
-  // const { bashContainer } = useHelper();
-  // console.log(`FromUseHelper ${bashContainer}`)
-   const bashContainer = (id: string) => {
-        Client.ContainerService.bashContainer(id)
-          .then((message) => {
-            bashContainer(id);
-          }).catch((err: Error): void => console.log(err));
-   }
+  const { runStopped, remove, stop, refreshRunning, refreshStopped } = useHelper();
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+
   const stopContainer = (container: ContainerType) => {
     dispatch(
       createPrompt(

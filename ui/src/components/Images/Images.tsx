@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
@@ -17,106 +17,15 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
   // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
-  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
+  const reduxImagesList = useAppSelector(state => state.images.imagesList);
   imagesList = imagesList.length ? imagesList : reduxImagesList;
   // const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
-  const { runIm, removeIm } = useHelper();
+  const { refreshImages, runIm, removeIm } = useHelper();
 
-  // const handleClick = () => {
-  //   if (!repo) {
-  //     dispatch(
-  //       createAlert(
-  //         'Please enter an image name prior to attempting to pull.',
-  //         5,
-  //         'error'
-  //       )
-  //     );
-  //     return;
-  //   } else {
-  //     let existingRepo = false;
-  //     if (repo.includes(':')) {
-  //       const splitRepo = repo.split(':');
-  //       imagesList.map((el) => {
-  //         if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
-  //           existingRepo = true;
-  //           return;
-  //         }
-  //       });
-  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //       // @ts-ignore
-  //       if (existingRepo === true) {
-  //         dispatch(
-  //           createAlert(
-  //             'This image already exists within your Docketeer image collection.',
-  //             5,
-  //             'error'
-  //           )
-  //         );
-  //         return;
-  //       } else {
-  //         dispatch(
-  //           createPrompt(
-  //             `Are you sure you want to pull ${repo}?`,
-  //             () => {
-  //               pullImage(repo);
-  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-  //             },
-  //             () => {
-  //               dispatch(
-  //                 createAlert(
-  //                   `The request to pull ${repo} has been cancelled.`,
-  //                   5,
-  //                   'warning'
-  //                 )
-  //               );
-  //             }
-  //           )
-  //         );
-  //         return;
-  //       }
-  //     } else {
-  //       imagesList.map((el) => {
-  //         if (el.reps === repo && el.tag === 'latest') {
-  //           existingRepo = true;
-  //           return;
-  //         }
-  //       });
-  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //       // @ts-ignore
-  //       if (existingRepo === true) {
-  //         dispatch(
-  //           createAlert(
-  //             'This image already exists within your Docketeer image collection.',
-  //             5,
-  //             'error'
-  //           )
-  //         );
-  //         return;
-  //       } else {
-  //         dispatch(
-  //           createPrompt(
-  //             `Are you sure you want to pull ${repo}?`,
-  //             () => {
-  //               pullImage(repo);
-  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-  //             },
-  //             () => {
-  //               dispatch(
-  //                 createAlert(
-  //                   `The request to pull ${repo} has been cancelled.`,
-  //                   5,
-  //                   'warning'
-  //                 )
-  //               );
-  //             }
-  //           )
-  //         );
-  //         return;
-  //       }
-  //     }
-  //   }
-  // };
+  useEffect((): void => {
+    refreshImages();
+  }, []);
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src =
@@ -130,18 +39,20 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
           `Are you sure you want to run ${image.Repository}?`,
           () => {
             runIm(image);
-            dispatch(createAlert(`Running ${image.Repository}...`, 5, 'success'));
+            dispatch(
+              createAlert(`Running ${image.Repository}...`, 5, 'success'),
+            );
           },
           () => {
             dispatch(
               createAlert(
                 `The request to run ${image.Repository} has been cancelled.`,
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
@@ -153,18 +64,20 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
           `Are you sure you want to remove ${image.Repository}?`,
           () => {
             removeIm(image.ID);
-            dispatch(createAlert(`Removing ${image.Repository}...`, 5, 'success'));
+            dispatch(
+              createAlert(`Removing ${image.Repository}...`, 5, 'success'),
+            );
           },
           () => {
             dispatch(
               createAlert(
                 `The request to remove ${image.Repository} has been cancelled.`,
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
@@ -195,14 +108,12 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
                     <div className={styles.buttonSpacer}>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => runImage(image)}
-                      >
+                        onClick={() => runImage(image)}>
                         RUN
                       </button>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => removeImage(image)}
-                      >
+                        onClick={() => removeImage(image)}>
                         REMOVE
                       </button>
                     </div>

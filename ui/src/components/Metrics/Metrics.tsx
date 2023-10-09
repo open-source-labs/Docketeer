@@ -3,14 +3,32 @@ import styles from './Metrics.module.scss';
 
 const Metrics = (): JSX.Element => {
 
+
+  const [resetIframe, setResetIframe] = useState<boolean>(true);
+
+  const handleHome = (): void => {
+    // const iframe = document.querySelector('iframe')?.contentWindow?.history;
+    setResetIframe(resetIframe ? false : true);
+  };
+
   return (
     <div className={styles.wrapper}>
-      <h2>METRICS DASHBOARD</h2>
-      {/* If reimplementing kubernetes deleted the below div and uncomment all the rest */}
+      <div className={styles.iframeHeader}>
+        <h2>
+          METRICS DASHBOARD
+        </h2>
+        <div>
+          <button className={styles.button} onClick={handleHome}>
+            HOME
+          </button>
+        </div>
+      </div>
       <div>
         <iframe
+          key={resetIframe}
+          id='iframe'
           className={styles.metrics}
-          src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5m&kiosk"
+          src='http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=5m&kiosk'
         />
       </div>
     </div>

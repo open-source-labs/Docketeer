@@ -64,7 +64,6 @@ function SharedLayout(): JSX.Element {
     refreshStopped,
     refreshImages,
     refreshNetwork,
-    // writeToDb, writes to the database but the database is never used anywhere
     getAllDockerVolumes,
     getVolumeContainers,
   } = useHelper();
@@ -77,7 +76,6 @@ function SharedLayout(): JSX.Element {
     refreshStopped();
     refreshImages();
     refreshNetwork();
-    // writeToDb(); writes to the database but the database is never used anywhere
     getAllDockerVolumes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -97,17 +95,7 @@ function SharedLayout(): JSX.Element {
       <nav className={styles.navBar}>
         <div className={styles.navSpacer}>
           <ul className={styles.navLeft}>
-            {/* <li>
-            {/* <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/"
-              >
-                HOME
-              </NavLink>
-            </li> */}
+         
             <li>
               <NavLink
                 to="/"
@@ -195,36 +183,23 @@ function SharedLayout(): JSX.Element {
                 PROCESS LOGS
               </NavLink>
             </li>
+           
+            <li>
+              <NavLink
+                className={({ isActive }) => 
+                  isActive ? styles.active : styles.navButton
+                }
+              to="/configuration">
+                CONFIGURATIONS
+              </NavLink>
+            </li>
             <li>
               <a className={styles.navButton} onClick={(e) => prune(e)}>
                 PRUNE
               </a>
             </li> 
-            {/* <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/about"
-              >
-                ABOUT
-              </NavLink>
-            </li> */}
           </ul>
-          {/* <ul className={styles.navRight}>
-            <li>
-              {userData.username && (
-                <span
-                  className={styles.userName}
-                >{`${userData.username}`}</span>
-              )}
-            </li>
-            <li>
-              <a className={styles.navButton} onClick={() => handleLogOut()}>
-                LOGOUT
-              </a>
-            </li>
-          </ul> */}
+        
         </div>
       </nav>
       <Alert />

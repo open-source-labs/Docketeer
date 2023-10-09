@@ -1,5 +1,17 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { ImageType, NetworkAndContainer, NetworkContainerType } from 'types';
+import { EndpointType, ImageType, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
+
+
+// =============================================
+// Reducers
+// =============================================
+
+export interface ConfigurationState {
+  prometheusDataSources: PromDataSource[];
+  typeOfEndpoint: EndpointType[];
+  entryForm: PromDataSource;
+}
+
 
 // ==============================================
 // CONTAINER TYPES

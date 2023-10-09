@@ -1,38 +1,38 @@
-import { ddClientRequest, encodeQuery, apiRequest } from "../ddClientRequest";
+import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { ContainerPS, LogObject } from "../../../../types";
 
 export const ContainerService = {
   async getRunningContainers(): Promise<ContainerPS[]> {
-    return await apiRequest<ContainerPS[]>('/api/docker/container/running');
+    return await ddClientRequest<ContainerPS[]>('/api/docker/container/running');
   },
 
   async getStoppedContainers(): Promise<ContainerPS[]> {
-    return await apiRequest('/api/docker/container/stopped'); 
+    return await ddClientRequest('/api/docker/container/stopped'); 
   },
 
   async removeContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/${containerId}`, 'DELETE');
+      await ddClientRequest(`/api/docker/container/${containerId}`, 'DELETE');
       return true;
     } catch (error) {
-      console.error(`Failed to remove container with ID ${containerId}`);
+      console.error(error);
       return false;
     }
   },
 
   async runContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/${containerId}/start`, 'POST');
-      return true
+      await ddClientRequest(`/api/docker/container/start`, 'POST', {id: containerId});
+      return true;
     } catch (error) {
-      console.error(`Failed to start container with ID ${containerId}`);
+      console.error(error);
       return false;
     }
   },
 
   async bashContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/bashed/${containerId}`)
+      await ddClientRequest(`/api/docker/container/bashed`, 'POST', {id: containerId})
       return true
     } catch (error) {
       console.error(`Failed to exec into container with ID ${containerId}`)
@@ -42,24 +42,23 @@ export const ContainerService = {
 
   async stopContainer(containerId: string): Promise<boolean> {
     try {
-      await apiRequest(`/api/docker/container/${containerId}/stop`, 'POST');
+      await ddClientRequest(`/api/docker/container/stop`, 'POST', {id: containerId});
       return true;
     } catch (error) {
-      console.error(`Failed to stop container ${containerId}`);
+      console.error(error);
       return false;
     }
   },
 
-  async getLogs(containerList: string[], start: string, stop: string, offset: number): Promise<LogObject[]>{
+  async getLogs(containerList: string[], start?: string, stop?: string, offset?: number): Promise<{[key: string]: LogObject[]}>{
     try {
       const containerString = containerList.join(",");
       const query = encodeQuery({ containerNames: containerString, start, stop, offset: String(offset) })
-      console.log('Query: ', query);
-      const logs: LogObject[] = await apiRequest(`/api/docker/container/logs?${query}`);
+      const logs: {[key: string]: LogObject[]} = await ddClientRequest(`/api/docker/container/logs?${query}`);
       return logs;
     } catch (error) {
-      console.error(`Failed to get Logs`);
-      return [];
+      console.error(error);
+      return {stdout: [], stderr: []};
     }
   }
 }

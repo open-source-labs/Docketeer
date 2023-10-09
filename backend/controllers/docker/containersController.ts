@@ -140,13 +140,9 @@ containerController.bashContainer = async (req: Request, res: Response, next: Ne
 
 containerController.runContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    console.log(req.body);
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker start ${id}`);
     if (stderr.length) throw new Error(stderr);
-    
-    // Remove once verified
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj = {
@@ -163,9 +159,6 @@ containerController.stopContainer = async (req: Request, res: Response, next: Ne
     const { id } = req.body;
     const { stdout, stderr } = await execAsync(`docker stop ${id}`);
     if (stderr.length) throw new Error(stderr);
-
-    // Remove once verified
-    console.log(stdout);
     return next();
   } catch (error) {
     const errObj = {

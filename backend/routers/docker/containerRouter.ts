@@ -22,8 +22,8 @@ router.get('/stopped', containerController.getStoppedContainers, (req, res) => {
   return res.status(200).json(res.locals.containers);
 });
 
-router.get('/bashed/:id', containerController.bashContainer, (req: any, res: any) => {
-  return res.status(200)
+router.post('/bashed', containerController.bashContainer, (req: any, res: any) => {
+  return res.status(201)
 })
 /**
  * 
@@ -55,7 +55,9 @@ router.post('/start', containerController.runContainer, (req, res) => {
  * @param 
  * @returns
  */
-// router.post('/stop');
+router.post('/stop', containerController.stopContainer, (req, res) => {
+  return res.sendStatus(203);
+});
 
 /**
  * @abstract 

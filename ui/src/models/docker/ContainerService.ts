@@ -30,6 +30,17 @@ export const ContainerService = {
     }
   },
 
+  async bashContainer(containerId: string): Promise<boolean> {
+    try {
+      console.log(containerId)
+      await ddClientRequest(`/api/docker/container/bashed`, 'POST', {id: containerId})
+      return true
+    } catch (error) {
+      console.error(`Failed to exec into container with ID ${containerId}`)
+      return false
+    }
+  },
+
   async stopContainer(containerId: string): Promise<boolean> {
     try {
       await ddClientRequest(`/api/docker/container/stop`, 'POST', {id: containerId});

@@ -65,24 +65,32 @@ const useHelper = () => {
           .catch((err) => console.log(err));
       },
       /* Stops a container on what user selects @param {*} id */
-      stop(id: string) {
+      async stop(id: string) {
         const { stopRunningContainer } = dispatch;
-        Client.ContainerService.stopContainer(id)  
-          .then((message) => {
-            console.log({ message });
-            stopRunningContainer(id);
-          })
-          .catch((err: Error): void => console.log(err));
+        
+        const result = await Client.ContainerService.stopContainer(id)
+        if (result) stopRunningContainer(id);
+        return result;
+        // let final = 
+        //   .then((message) => {
+        //       if (message) {
+        //       refreshRunning()
+        //       refreshStopped()
+        //     }
+        //     console.log({ message });
+        //     stopRunningContainer(id);
+        //   })
+        //   .catch((err: Error): void => console.log(err));
+      },
+      async bashContainer(id: string)  {
+        await Client.ContainerService.bashContainer(id)  
       },
       /* Starts a stopped container in containers tab @param {*} id */
-      runStopped(id: string) {
+      async runStopped(id: string) {
         const { runStoppedContainer } = dispatch;
-        Client.ContainerService.runContainer(id)  
-          .then((message) => {
-            console.log({ message });
-            runStoppedContainer(id);
-          })
-          .catch((err: Error): void => console.log(err));
+        const result = await Client.ContainerService.runContainer(id)
+        if (result) runStoppedContainer(id);
+        return result;
       },
       /* Runs an image from the pulled images list in image tab @param {*} container */
       runIm(image: ImageType) {
@@ -95,6 +103,8 @@ const useHelper = () => {
 
           .catch((err: Error): void => console.log(err));
       },
+
+
       /* Removes an image from pulled images list in image tab @param {*} id */
 
       removeIm(id) {

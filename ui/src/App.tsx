@@ -23,7 +23,8 @@ const App = (): React.JSX.Element => {
         <Route path="/metrics" element={<Metrics />} />
         <Route path="/K8Metrics" element = {<K8Metrics/>} />
         <Route path="/logs" element={<ProcessLogs />} />
-        <Route path="/images" element={<Images imagesList={[]}/>} />
+        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/images" element={<Images />} />
         <Route path='/network' element={<Network />} />
         <Route path='/configuration' element={<Configuration />} />
       </Route>

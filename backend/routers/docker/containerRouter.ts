@@ -22,6 +22,9 @@ router.get('/stopped', containerController.getStoppedContainers, (req, res) => {
   return res.status(200).json(res.locals.containers);
 });
 
+router.post('/bashed', containerController.bashContainer, (req: any, res: any) => {
+  return res.status(201)
+})
 /**
  * 
  */

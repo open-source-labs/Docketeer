@@ -63,6 +63,7 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'D
 
     return result.json() as Promise<T>;
   }
+  console.log('run image!')
 
   // If we are running as docker desktop extension, above is skipped and just routed to ddClient
   return ddClient.extension.vm.service.request({method, url, data:body, headers}) as Promise<T>;

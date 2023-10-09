@@ -7,6 +7,9 @@ export default defineConfig({
   base: "./",
   build: {
     outDir: "build",
+     rollupOptions: {
+       external: ['xterm'],
+    }
   },
   css: {
     preprocessorOptions: {

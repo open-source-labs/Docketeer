@@ -17,6 +17,7 @@ const RunningContainer = ({
   runContainer,
   removeContainer,
   connectToNetwork,
+  bashContainer,
   disconnectFromNetwork,
   status
 }: ContainersCardsProps): JSX.Element => {
@@ -25,7 +26,6 @@ const RunningContainer = ({
   // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
-
   // function for opening the modal
   const openNetworkList = () => {
     setIsOpen(true);
@@ -120,12 +120,19 @@ const RunningContainer = ({
             </>
           )}
           {status === 'running' && (
+            <>
             <button
               className={styles.buttonSmallBottom}
               onClick={() => openNetworkList()}
             >
               NETWORKS
             </button>
+              <button
+                className={styles.buttonSmallBottom}
+                onClick={() => bashContainer(container)}>
+                CONSOLE
+            </button>
+            </>
           )}
         </div>
       </div>

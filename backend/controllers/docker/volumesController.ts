@@ -22,7 +22,7 @@ interface VolumeController{
   /**
    * @method
    * @abstract Removes a volume from docker.(?Must be detached from running containers first?)
-   * @param {string} req.body.volumeName
+   * @param {string} req.params
    * @returns
    */
   removeVolume: (req: Request, res: Response, next: NextFunction) => Promise<void>;
@@ -68,8 +68,8 @@ volumeController.getVolumes = async (req: Request, res: Response, next: NextFunc
 
 volumeController.removeVolume = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { volumeName } = req.body;
-    const { stdout, stderr } = await execAsync(`docker volume rm ${volumeName}`);
+    const { id } = req.params;
+    const { stdout, stderr } = await execAsync(`docker volume rm ${id}`);
     if (stderr.length) throw new Error(stderr);
 
     /**@todo Remove this console log once verified */

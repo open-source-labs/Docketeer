@@ -30,4 +30,9 @@ router.get('/:id/containers', volumeController.getContainersOnVolume, (req, res)
  */
 router.post('/remove');
 
+
+router.delete('/:id', volumeController.removeVolume, (req, res) => {
+  return res.sendStatus(204);
+})
+
 export default router;

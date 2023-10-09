@@ -5,6 +5,11 @@ import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
+import {
+  filterOneProperty,
+  listOfVolumeProperties,
+} from '../../helpers/volumeHistoryHelper';
+import useHelper from '../../helpers/commands';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -18,6 +23,7 @@ const ContainersCard = ({
   stopContainer,
   runContainer,
   removeContainer,
+  bashContainer,
   status,
 }: ContainersCardsProps): JSX.Element => {
 
@@ -64,13 +70,16 @@ const ContainersCard = ({
   
   }, [ddClient]);
 
-
+  const { refreshNetwork } = useHelper();
   async function connectToNetwork(
     networkName: string,
     containerName: string
   ): Promise<void> {
     try {
-      await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      const result = await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      if (result) {
+        refreshNetwork();
+      }
 
     } catch (err) {
       dispatch(
@@ -88,8 +97,10 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
-
+      const result = await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
+      if (result) {
+        refreshNetwork();
+      }
     } catch (err) {
       dispatch(
         createAlert(
@@ -121,6 +132,7 @@ const ContainersCard = ({
         stopContainer={stopContainer}
         runContainer={runContainer}
         removeContainer={removeContainer}
+        bashContainer = {bashContainer}
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}/>

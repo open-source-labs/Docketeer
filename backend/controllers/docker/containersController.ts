@@ -25,7 +25,7 @@ interface ContainerController {
  * @abstract opens up container in virtual terminal/command line, opens up a bin/sh (shell)
  * 
  */
-  bashContainer: (req: Request, res: Response, next:NextFunction) => Promise<void>
+
   /**
    * @method
    * @abstract Runs a stop container based on id
@@ -42,6 +42,8 @@ interface ContainerController {
    */
   stopContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
+
+  bashContainer: (req: Request, res: Response, next: NextFunction) => Promise<void>;
   /**
    * @method
    * @abstract Removes a container based on id
@@ -152,7 +154,25 @@ containerController.runContainer = async (req: Request, res: Response, next: Nex
     };
     return next(errObj);
   }
-}
+},
+  containerController.bashContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  console.log(req.body)
+    console.log(req.params)
+  try {
+    console.log('You have bashed')
+    const { id } = req.body;
+    const { stdout, stderr } = await execAsync(`docker exec -it ${id} /bin/sh`)
+    return next()
+  } catch (error) {
+    console.log('Oh no, no bash')
+    const errObj = {
+      log: JSON.stringify({ 'containerController.bashContainer Error: ': error }),
+      status: 500,
+      message: { err: 'containerController.bashContainer error' }
+    };
+    return next(errObj);
+  }
+},
 
 containerController.stopContainer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

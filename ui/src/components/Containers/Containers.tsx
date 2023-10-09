@@ -21,7 +21,7 @@ import Client from '../../models/Client';
 const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  const { runStopped, remove, stop, refreshRunning, refreshStopped } = useHelper();
+  const { runStopped, remove, stop, refreshRunning, refreshStopped, bashContainer } = useHelper();
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );

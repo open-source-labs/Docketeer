@@ -71,16 +71,6 @@ const useHelper = () => {
         const result = await Client.ContainerService.stopContainer(id)
         if (result) stopRunningContainer(id);
         return result;
-        // let final = 
-        //   .then((message) => {
-        //       if (message) {
-        //       refreshRunning()
-        //       refreshStopped()
-        //     }
-        //     console.log({ message });
-        //     stopRunningContainer(id);
-        //   })
-        //   .catch((err: Error): void => console.log(err));
       },
       async bashContainer(id: string)  {
         await Client.ContainerService.bashContainer(id)  

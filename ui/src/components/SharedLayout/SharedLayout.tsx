@@ -25,7 +25,7 @@ function SharedLayout(): JSX.Element {
   const { handlePruneClick, handleNetworkPruneClick } = useHelper();
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    {
+    e.preventDefault();
       dispatch(
         createPrunePrompt(
           // prompt (first argument in createPrunePrompt)
@@ -52,7 +52,7 @@ function SharedLayout(): JSX.Element {
           }
         )
       );
-    }
+    
   };
   // const { sessions, volumes } = useAppSelector((state) => state);
   const { volumes } = useAppSelector((state) => state);
@@ -165,11 +165,8 @@ function SharedLayout(): JSX.Element {
             </li>
             <li>
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/logs"
-              >
+                className={({ isActive }) => isActive ? styles.active : styles.navButton}
+                to="/logs">
                 PROCESS LOGS
               </NavLink>
             </li>

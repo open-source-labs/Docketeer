@@ -16,8 +16,7 @@ services:
     ports:
       - 4000:4000
 
-  # Scrapes all the container metrics, cAdvisor will be deprecated at May 15, 2024 so this will need to be replaced at some point
-  # https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor
+
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
     # The docketeer image uploaded is on gcr.io/cadvisor/cadvisor:v0.47.1

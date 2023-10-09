@@ -67,12 +67,7 @@ const useSurvey = () => {
       getNetworkContainers(data: NetworkObj[]) {
         dispatch(getNetworkContainers(data));
       },
-      // updateSession() {
-      //   dispatch(updateSession());
-      // },
-      // logoutUser() {
-      //   dispatch(logoutUser());
-      // },
+
       getVolumes(data: VolumeNameObj[]) {
         dispatch(getVolumes(data));
       },
@@ -89,13 +84,6 @@ const useSurvey = () => {
       stopRunningContainer(id: string) {
         dispatch(stopRunningContainer(id));
       },
-      // Dispatch functions used in Images.tsx
-      // Note: refreshImagesList, refreshRunningContainers (both already exported)
-      // Dispatch functions used in Settings.tsx
-      // Note: removeMemory..., removeCpu..., and removeStopped... were previously declared in Settings but not used
-      // updateUser(userInfo: UserInfo) {
-      //   dispatch(updateUser(userInfo));
-      // },
 
       // Dispatch functions used in Yml.tsx
       getContainerStacks(data: any) {

@@ -46,7 +46,6 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'D
    
    
     fetchOptions.headers = {...DEFAULT_HEADERS, ...headers}
-    
     const result = await fetch(url, fetchOptions);
 
     // Handle error message return to format the same as ddClient error messages
@@ -61,9 +60,8 @@ export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'D
       throw new DdFetchError(errorMessage, result.status);
     }
 
-    return result.json() as Promise<T>;
+    return result.json().catch(err=>'no json') as Promise<T>;
   }
-  console.log('run image!')
 
   // If we are running as docker desktop extension, above is skipped and just routed to ddClient
   return ddClient.extension.vm.service.request({method, url, data:body, headers}) as Promise<T>;

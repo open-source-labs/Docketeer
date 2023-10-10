@@ -1,17 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ContainerType } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
-import {
-  filterOneProperty,
-  listOfVolumeProperties,
-} from '../../helpers/volumeHistoryHelper';
-import { useMemo } from 'react';
 import Client from '../../models/Client';
+import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
 
 /**
  * @module | Containers.tsx
@@ -21,49 +16,40 @@ import Client from '../../models/Client';
 const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  const [stateChange, changeState] = useState(0)
-  const { runStopped, remove, stop, bashContainer, refreshRunning, refreshStopped} = useHelper();
+
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
 
+  const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id); 
+
   const stopWrapper = async(id: string) => {
-    const wasStopped = await stop(id);
+    const wasStopped = await Client.ContainerService.stopContainer(id);
     if (wasStopped) {
-      refreshStopped();
-      refreshRunning();
+      dispatch(fetchStoppedContainers());
+      dispatch(fetchRunningContainers());
     }
   }
 
   const startWrapper = async(id: string) => {
-    const wasStopped = await runStopped(id);
-    if (wasStopped) {
-      refreshStopped();
-      refreshRunning();
+    const wasStarted = await Client.ContainerService.runContainer(id);
+    if (wasStarted) {
+      dispatch(fetchStoppedContainers());
+      dispatch(fetchRunningContainers());
+    }
+  }
+
+  const removeWrapper = async (containerId: string) => {
+    const wasRemoved = await Client.ContainerService.removeContainer(containerId);
+    if (wasRemoved) {
+      dispatch(fetchRunningContainers());
+      dispatch(fetchStoppedContainers());
     }
   }
 
 
-//   const {
-//     refreshRunning,
-//     refreshStopped,
-//     refreshImages,
-//     refreshNetwork,
-//     getAllDockerVolumes,
-//     getVolumeContainers,
-//   } = useHelper();
-
-//  useEffect(() => {
-//     refreshRunning();
-//     refreshStopped();
-//     refreshImages();
-//     refreshNetwork();
-//     getAllDockerVolumes();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [stateChange]);
-
   const stopContainer = (container: ContainerType) => {
-    changeState(prev => prev+1)
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to stop ${container.Names}?`,
@@ -85,7 +71,7 @@ const Containers = (): JSX.Element => {
   };
 
   const runContainer = (container: ContainerType) => {
-    changeState(prev => prev+1)
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to run ${container.Names}?`,
@@ -107,12 +93,12 @@ const Containers = (): JSX.Element => {
   };
 
   const removeContainer = (container: ContainerType) => {
-    changeState(prev => prev+1)
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to remove ${container.Names}?`,
         () => {
-          remove(container['ID']);
+          removeWrapper(container['ID']);
           dispatch(createAlert(`Removing ${container.Names}...`, 5, 'success'));
         },
         () => {

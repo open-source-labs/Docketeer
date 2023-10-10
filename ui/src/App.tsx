@@ -20,11 +20,11 @@ const App = (): React.JSX.Element => {
       >      
         <Route path="/" element={<Containers />} />
         <Route path="/volume" element={<VolumeHistory />} />
-        <Route path="/metrics" element={<Metrics key={1} />} />
+        <Route path="/metrics" element={<Metrics />} />
         <Route path="/K8Metrics" element = {<K8Metrics/>} />
-        <Route path="/logs" element={<ProcessLogs key={1} />} />
+        <Route path="/logs" element={<ProcessLogs />} />
         {/* <Route path="/about" element={<About />} /> */}
-        <Route path="/images" element={<Images imagesList={[]}/>} />
+        <Route path="/images" element={<Images />} />
         <Route path='/network' element={<Network />} />
         <Route path='/configuration' element={<Configuration />} />
       </Route>

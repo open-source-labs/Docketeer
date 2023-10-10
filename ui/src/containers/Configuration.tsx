@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../reducers/hooks';
 import { setEndpointTypes, setPrometheusDataSources } from '../reducers/configurationReducer';
 import Client from '../models/Client';
-import PromDataSource from '../components/PromDataSource';
-import ConfigurationForm from '../components/ConfigurationForm';
+import PromDataSource from '../components/Configuration/PromDataSource';
+import ConfigurationForm from '../components/Configuration/ConfigurationForm';
 
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();

@@ -15,13 +15,12 @@ import {
 } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import useHelper from '../../helpers/commands';
-import useSurvey from '../../helpers/dispatch';
-import { setSearchWord } from '../../reducers/logReducer';
+import { setLogs, setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
 import globalStyles from '../global.module.scss';
 import Client from '../../models/Client';
+import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
 // import { todo } from 'node:test';
 
 /**
@@ -66,7 +65,6 @@ const ProcessLogs = (): JSX.Element => {
   ] as CSVDataType[]);
 
   const [counter, setCounter] = useState(0);
-  const { getContainerLogsDispatcher } = useSurvey();
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -82,11 +80,10 @@ const ProcessLogs = (): JSX.Element => {
 
   const [csvSent, setCSVSent] = useState([]);
 
-  const { refreshRunning, refreshStopped } = useHelper();
 
   useEffect(() => {
-    refreshRunning();
-    refreshStopped();
+    dispatch(fetchRunningContainers())
+    dispatch(fetchStoppedContainers());
   }, []);
 
   /**
@@ -140,13 +137,13 @@ const ProcessLogs = (): JSX.Element => {
       stopDate ? stopDate.format('YYYY-MM-DDTHH:mm:ss') + 'Z' : null,
     );
 
-    const containerLogs: any = await Client.ContainerService.getLogs(
+    const containerLogs  = await Client.ContainerService.getLogs(
       optionsObj.containerNames,
       optionsObj.start,
       optionsObj.stop,
       optionsObj.offset,
     );
-    getContainerLogsDispatcher(containerLogs); // Custom object type in ./ui/ui-types.ts
+    dispatch(setLogs(containerLogs))
     setCounter(counter + 1);
 
     return containerLogs;

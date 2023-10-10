@@ -86,7 +86,8 @@ const Network = (): JSX.Element => {
 
   async function fetchNewNetwork(name: string): Promise<void> {
     try {
-      await Client.NetworkService.createNetwork(name);
+      const success = await Client.NetworkService.createNetwork(name);
+      if (success) dispatch(fetchNetworkAndContainer());
     } catch (err) {
       dispatch(
         createAlert(

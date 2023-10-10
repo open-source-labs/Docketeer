@@ -1,5 +1,5 @@
 import { ddClientRequest, encodeQuery } from "../ddClientRequest";
-import { NetworkAndContainer, NetworkType, NetworkContainerType } from "../../../../types";
+import { NetworkAndContainer, NetworkType } from "../../../../types";
 export const NetworkService = {
   async getNetworks(): Promise<NetworkType[]>{
     return await ddClientRequest('/api/docker/network');
@@ -17,7 +17,7 @@ export const NetworkService = {
 
   async getAllContainersOnAllNetworks(): Promise<NetworkAndContainer[]>{
     try {
-      const data: NetworkContainerType[] = await ddClientRequest('/api/docker/network/container');
+      const data: NetworkAndContainer[] = await ddClientRequest('/api/docker/network/container');
       return data;
     } catch (error) {
       console.error('Couldn\'t fetch all containers on all networks:', error);

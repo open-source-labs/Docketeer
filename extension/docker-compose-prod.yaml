@@ -84,7 +84,7 @@ services:
   postgres:
     build:
       context: ..
-      dockerfile: ./extension/dockerfile.postgres
+      dockerfile: extension/dockerfile.postgres
     image: docketeer-postgres
     container_name: docketeer-ext-postgres
     expose:

@@ -69,7 +69,6 @@ const VolumeHistory = (): JSX.Element => {
   };
 
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
-    const volObject = { volumeName: volumeName };
     try {
       const isSuccess = await Client.VolumeService.removeVolume(volumeName);
       if (isSuccess) {

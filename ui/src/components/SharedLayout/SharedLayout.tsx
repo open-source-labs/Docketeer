@@ -17,6 +17,7 @@ import { fetchImages } from '../../reducers/imageReducer';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 import { fetchAllDockerVolumes } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
+import { ContainerPS, VolumeType } from '../../../../types';
 
 /**
  * @module | SharedLayout.tsx
@@ -98,6 +99,15 @@ function SharedLayout(): JSX.Element {
   }, []);
 
   // Changes in arrayOfVolumeNames will run history.volumeByName
+  // const setVolumeAndContainer = (volumes: VolumeType[]) => {
+  //   const volsAndContainers: { [key: string]: ContainerPS[] } = {};
+  //   volumes.forEach(async (volume) => {
+  //     const containers = await Client.VolumeService.getContainersOnVolume(volume.Name);
+  //     volsAndContainers[volume["Name"]] = containers;
+  //   });
+  //   dispatch()
+  // }
+
   useEffect(() => {
     history.volumeByName(
       getVolumeContainers,

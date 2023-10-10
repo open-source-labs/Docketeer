@@ -49,9 +49,7 @@ const useSurvey = () => {
 
   const actions = useMemo(
     () => ({
-      getNetworkContainers(data: NetworkObj[]) {
-        dispatch(getNetworkContainers(data));
-      },
+  
 
       getVolumeContainerList(data: VolumeObj) {
         dispatch(getVolumeContainersList(data));

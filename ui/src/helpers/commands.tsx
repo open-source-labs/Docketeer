@@ -22,19 +22,19 @@ const useHelper = () => {
       /* Display all containers network based on docker-compose when the application starts */
  
       /* Docker command to retrieve the list of containers running in specified volume @param {string} volumeName */
-      getVolumeContainers(volumeName: string) {
-        const { getVolumeContainerList } = dispatch;
+      // getVolumeContainers(volumeName: string) {
+      //   const { getVolumeContainerList } = dispatch;
 
-        Client.VolumeService.getContainersOnVolume(volumeName)
-          .then((volumeContainers) => {
-            return getVolumeContainerList(
-              listOfVolumeProperties(volumeName, volumeContainers)
-            );
-          })
-          .catch((err: Error): void => {
-            console.log(err);
-          });
-      },
+      //   Client.VolumeService.getContainersOnVolume(volumeName)
+      //     .then((volumeContainers) => {
+      //       return getVolumeContainerList(
+      //         listOfVolumeProperties(volumeName, volumeContainers)
+      //       );
+      //     })
+      //     .catch((err: Error): void => {
+      //       console.log(err);
+      //     });
+      // },
 
     }),
     [dispatch]

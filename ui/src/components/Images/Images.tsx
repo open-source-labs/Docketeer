@@ -1,8 +1,6 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
-import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import { ImagesStateType } from '../../../ui-types';
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
 import { ImageType } from 'types';

@@ -3,15 +3,21 @@ import { VolumeStateType, VolumeObj, VolumeNameObj } from '../../ui-types';
 import { ContainerPS, VolumeType } from '../../../types';
 import Client from '../models/Client';
 
-/*
- * @param {Array} arrayOfVolumeNames List of volumes running
- * @param {nested Objects} volumeContainersList Containers running under each volume
- */
-
 const initialState: VolumeStateType = {
-  arrayOfVolumeNames: [],
+  volumes: [],
   volumeContainersList: [],
 };
+
+export const getAllContainersOnVolumes = async () => {
+  const volumes = await Client.VolumeService.getAllVolumes();
+  const allVolsPromises = volumes.map(async (volume) => {
+    const containers = await Client.VolumeService.getContainersOnVolume(volume.Name);
+    return { volName: volume["Name"], containers: containers };
+  });
+
+  const allVols: VolumeObj[] = await Promise.all(allVolsPromises);
+  return allVols;
+}
 
 export const fetchAllDockerVolumes = createAsyncThunk(
   'volumes/setVolumes',
@@ -21,41 +27,31 @@ export const fetchAllDockerVolumes = createAsyncThunk(
   }
 )
 
-export const fetchContainersOnVolumes = createAsyncThunk(
+export const fetchAllContainersOnVolumes = createAsyncThunk(
   'volumes/setContainersOnVolumes',
-  async (volumes: VolumeType[]) => {
-    const volsAndContainers: { [key: string]: ContainerPS[] } = {};
-    volumes.forEach(async (volume) => {
-      const containers = await Client.VolumeService.getContainersOnVolume(volume.Name);
-      volsAndContainers[volume["Name"]] = containers;
-    });
-    return volsAndContainers;
-  }
+  getAllContainersOnVolumes
 )
 
 export const volumeSlice = createSlice({
   name: 'volumes',
   initialState,
   reducers: {
-    getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {
-      state.volumeContainersList.push(action.payload);
-    },
     removeVolume: (state, action: PayloadAction<string>) => {
-      state.volumeContainersList = state.volumeContainersList.filter(
-        (volume) => volume.vol_name !== action.payload
-      )
+      state.volumeContainersList = state.volumeContainersList.filter(element => {
+        element.volName !== action.payload
+      })
     }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchAllDockerVolumes.fulfilled, (state, action) => {
-        state.arrayOfVolumeNames = action.payload;
+        state.volumes = action.payload;
       })
-      .addCase(fetchContainersOnVolumes.fulfilled, (state, action) => {
+      .addCase(fetchAllContainersOnVolumes.fulfilled, (state, action) => {
         state.volumeContainersList = action.payload;
     })
   },
 });
 
-export const { getVolumeContainersList, removeVolume } = volumeSlice.actions;
+export const { removeVolume } = volumeSlice.actions;
 export default volumeSlice.reducer;

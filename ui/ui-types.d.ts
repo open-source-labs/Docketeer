@@ -161,8 +161,8 @@ export interface VolumeContainerObj {
 }
 
 export interface VolumeObj {
-  vol_name: string;
-  containers: VolumeContainerObj[];
+  volName: string;
+  containers: ContainerPS[];
 }
 
 export interface VolumeNameObj {
@@ -170,7 +170,7 @@ export interface VolumeNameObj {
 }
 
 export interface VolumeStateType {
-  arrayOfVolumeNames: VolumeNameObj[];
+  volumes: VolumeNameObj[];
   volumeContainersList: VolumeObj[];
 }
 

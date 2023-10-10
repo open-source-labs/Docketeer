@@ -27,5 +27,4 @@ export const imageSlice = createSlice({
   }
 });
 
-// export const { refreshImages } = imageSlice.actions;
 export default imageSlice.reducer;

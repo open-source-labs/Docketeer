@@ -1,28 +1,22 @@
 /* eslint-disable react/prop-types */
 // we import Dispatch and SetStateAction to type declare the result of invoking useState
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
 import { VolumeObj } from '../../../ui-types';
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
 import { createAlert } from '../../reducers/alertReducer';
-import { fetchAllDockerVolumes, removeVolume } from '../../reducers/volumeReducer';
+import { fetchAllContainersOnVolumes, getAllContainersOnVolumes, removeVolume } from '../../reducers/volumeReducer';
 import Client from '../../models/Client'
-import useHelper from '../../helpers/commands';
+import SingleVolume from './SingleVolume';
 /**
  * @module | VolumeHistory.js
  * @description | Provides information regarding volumes
  **/
 
 const VolumeHistory = (): JSX.Element => {
-  const [volumeName, setVolumeName]: [
-    string,
-    Dispatch<SetStateAction<string>>
-  ] = useState('');
-  const [filterVolumeList, setFilterVolumeList]: [
-    VolumeObj[],
-    Dispatch<SetStateAction<VolumeObj[]>>
-  ] = useState<VolumeObj[]>([]);
+  const [volumeName, setVolumeName]  = useState('');
+  const [filterVolumeList, setFilterVolumeList] = useState<VolumeObj[]>([]);
 
   const volumeContainersList = useAppSelector(
     (state) => state.volumes.volumeContainersList
@@ -30,7 +24,8 @@ const VolumeHistory = (): JSX.Element => {
 
 
   useEffect(() => {
-    dispatch(fetchAllDockerVolumes())
+    dispatch(fetchAllContainersOnVolumes());
+    setFilterVolumeList(volumeContainersList);
   }, []);
 
   const [disableShowAll, setDisableShowAll] = useState(false);
@@ -50,22 +45,21 @@ const VolumeHistory = (): JSX.Element => {
   // let renderList = renderVolumeHistory(volumeContainersList);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (volumeName === '') return;
+    
     e.preventDefault();
+    if (volumeName === '') {
+      // Show all volumes;
+      setFilterVolumeList(volumeContainersList);
 
+    }
     console.log(volumeContainersList);
 
     const result = volumeContainersList.filter((volObj) => {
-      return volObj['vol_name'].includes(volumeName);
+      return volObj['volName'].toLowerCase().includes(volumeName.toLowerCase());
     });
-  
-    if (result.length > 0) {
-      setFilterVolumeList(result);
-      setVolumeName('');
-      setDisableShowAll(true);
-    } else {
-      setVolumeName('');
-    }
+    
+    setFilterVolumeList(result);
+
   };
 
   const handleClickRemoveVolume = async (volumeName: string): Promise<void> => {
@@ -73,6 +67,7 @@ const VolumeHistory = (): JSX.Element => {
       const isSuccess = await Client.VolumeService.removeVolume(volumeName);
       if (isSuccess) {
         dispatch(removeVolume(volumeName));
+        setFilterVolumeList(await getAllContainersOnVolumes());
       } else {
         dispatch(
           createAlert(
@@ -99,6 +94,24 @@ const VolumeHistory = (): JSX.Element => {
     setDisableShowAll(false);
     setVolumeName('');
   };
+
+  const displayFullName = () => {
+    //
+  }
+
+  const volumeComponents: React.JSX.Element[] = [];
+  filterVolumeList.forEach((element, index) => {
+    volumeComponents.push(
+      <SingleVolume
+        key={`vol_${index}`}
+        containers={element.containers}
+        volName={element.volName}
+        onHover={displayFullName}
+        removeClick={handleClickRemoveVolume}
+      />
+    )
+  })
+
 
   return (
     <div className={styles.wrapper}>
@@ -132,10 +145,14 @@ const VolumeHistory = (): JSX.Element => {
       <div className={styles.volumesHolder}>
         <h2>VOLUMES</h2>
         <div className={styles.volumesDisplay}>
-          {(filterVolumeList.length > 0 ? filterVolumeList : volumeContainersList).map((volume: VolumeObj, i: number) => {
+          {
+          volumeComponents
+          /* {(filterVolumeList.length > 0 ? filterVolumeList : volumeContainersList).map((volume: VolumeObj, i: number) => {
             return (
               <div className={`${styles.volumesCard} ${styles.card}`} key={i}>
-                <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>
+                <div onMouseOver={displayFullName}>
+                  <h3>{`${volume.vol_name.substring(0, 20)}...`}</h3>
+                </div>
                 <div>
                   {volume.containers.length ? (
                     volume.containers.map((container, j) => (
@@ -164,7 +181,7 @@ const VolumeHistory = (): JSX.Element => {
                 </button>
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>

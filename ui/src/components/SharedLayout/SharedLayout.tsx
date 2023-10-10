@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import { Outlet, useNavigate, NavLink } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import { createAlert, createPrompt } from '../../reducers/alertReducer';
+import { createAlert } from '../../reducers/alertReducer';
 import { createPrunePrompt } from '../../reducers/pruneReducer';
 
-// Importing helpers
-import useSurvey from '../../helpers/dispatch';
-import useHelper from '../../helpers/commands';
-import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
@@ -15,9 +11,8 @@ import docketeerLogo from '../../../assets/docketeer-logo-light.png';
 import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
 import { fetchImages } from '../../reducers/imageReducer';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
-import { fetchAllDockerVolumes } from '../../reducers/volumeReducer';
+import { fetchAllContainersOnVolumes, fetchAllDockerVolumes } from '../../reducers/volumeReducer';
 import Client from '../../models/Client';
-import { ContainerPS, VolumeType } from '../../../../types';
 
 /**
  * @module | SharedLayout.tsx
@@ -71,51 +66,21 @@ function SharedLayout(): JSX.Element {
       );
     
   };
-  // const { sessions, volumes } = useAppSelector((state) => state);
-  const { volumes } = useAppSelector((state) => state);
-  // const userData = sessions;
-  const { arrayOfVolumeNames } = volumes;
-
-  const {
-    // refreshStopped,
-    
-    // getAllDockerVolumes,
-    getVolumeContainers,
-  } = useHelper();
-
-  // Deconstructs dispatch functions from custom hook
-  const { getVolumeContainerList } = useSurvey();
+  const { volumes } = useAppSelector((state) => state.volumes);
 
   useEffect(() => {
-    // refreshRunning();
     dispatch(fetchRunningContainers());
-    // refreshStopped();
     dispatch(fetchStoppedContainers());
     dispatch(fetchImages());
     dispatch(fetchNetworkAndContainer());
-    // getAllDockerVolumes();
     dispatch(fetchAllDockerVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Changes in arrayOfVolumeNames will run history.volumeByName
-  // const setVolumeAndContainer = (volumes: VolumeType[]) => {
-  //   const volsAndContainers: { [key: string]: ContainerPS[] } = {};
-  //   volumes.forEach(async (volume) => {
-  //     const containers = await Client.VolumeService.getContainersOnVolume(volume.Name);
-  //     volsAndContainers[volume["Name"]] = containers;
-  //   });
-  //   dispatch()
-  // }
-
   useEffect(() => {
-    history.volumeByName(
-      getVolumeContainers,
-      arrayOfVolumeNames,
-      getVolumeContainerList
-    );
+    dispatch(fetchAllContainersOnVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayOfVolumeNames]);
+  }, [volumes]);
 
   return (
     <div className={styles.wrapper}>

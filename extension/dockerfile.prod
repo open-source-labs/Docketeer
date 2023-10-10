@@ -66,8 +66,8 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 # Copies necessary files into extension directory
 COPY extension/docker-compose-prod.yaml ./docker-compose.yaml
-# WORKDIR /extension
-# COPY extension/dockerfile.postgres dockerfile.postgres
+WORKDIR /extension
+COPY extension/dockerfile.postgres dockerfile.postgres
 COPY backend/db/init_prod.sql /extension/.
 WORKDIR /
 COPY metadata.json .

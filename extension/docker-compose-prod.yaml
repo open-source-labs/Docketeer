@@ -86,7 +86,7 @@ services:
     # build:
     #   context: .
     #   dockerfile: ./extension/dockerfile.postgres
-    image: postgres:latest
+    image: postgres:16.0-alpine3.18
     container_name: docketeer-ext-postgres
     expose:
       - 5432

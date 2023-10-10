@@ -5,11 +5,6 @@ import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
-import {
-  filterOneProperty,
-  listOfVolumeProperties,
-} from '../../helpers/volumeHistoryHelper';
-import useHelper from '../../helpers/commands';
 import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 /**
  * @module | ContainersCard.tsx

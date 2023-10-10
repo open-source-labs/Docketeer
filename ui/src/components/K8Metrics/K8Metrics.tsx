@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from '../Metrics/Metrics.module.scss';
-import useHelper from '../../helpers/commands';
 
 
 const K8Metrics = (): JSX.Element => {

@@ -35,17 +35,7 @@ export const fetchStoppedContainers = createAsyncThunk(
 export const containerSlice = createSlice({
   name: 'containers',
   initialState,
-  reducers: {
-    // stopRunningContainer: (state, action: PayloadAction<string>) => {
-    //   state.runningList.filter((container) => container.ID !== action.payload);
-    // },
-    // runStoppedContainer: (state, action: PayloadAction<string>) => {
-    //   state.stoppedList.filter(
-    //     (container) =>
-    //       container.ID !== action.payload 
-    //   );
-    // },
- 
+  reducers: { 
     removeContainer: (state, action: PayloadAction<string>) => {
       state.stoppedList.filter((container) => container.ID !== action.payload);
     },

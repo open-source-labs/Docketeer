@@ -1,16 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ContainerType } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
-import {
-  filterOneProperty,
-  listOfVolumeProperties,
-} from '../../helpers/volumeHistoryHelper';
-import { useMemo } from 'react';
 import Client from '../../models/Client';
 import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
 
@@ -22,8 +16,7 @@ import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/c
 const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  // const [stateChange, changeState] = useState(0)
-  // const { remove, bashContainer } = useHelper();
+
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );

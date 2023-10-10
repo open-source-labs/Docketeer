@@ -15,8 +15,6 @@ import {
 } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import useHelper from '../../helpers/commands';
-import useSurvey from '../../helpers/dispatch';
 import { setLogs, setSearchWord } from '../../reducers/logReducer';
 import { CSVLink } from 'react-csv';
 import styles from './ProcessLogs.module.scss';
@@ -67,7 +65,6 @@ const ProcessLogs = (): JSX.Element => {
   ] as CSVDataType[]);
 
   const [counter, setCounter] = useState(0);
-  // const { getContainerLogsDispatcher } = useSurvey();
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -85,7 +82,6 @@ const ProcessLogs = (): JSX.Element => {
 
 
   useEffect(() => {
-    // refreshRunning();
     dispatch(fetchRunningContainers())
     dispatch(fetchStoppedContainers());
   }, []);

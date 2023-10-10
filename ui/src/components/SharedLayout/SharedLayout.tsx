@@ -23,8 +23,6 @@ function SharedLayout(): JSX.Element {
   // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // const { handlePruneClick, handleNetworkPruneClick } = useHelper();
-
   const handleNetworkPrune = async(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     const successful = await Client.NetworkService.pruneNetwork();

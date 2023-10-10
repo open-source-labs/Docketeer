@@ -56,16 +56,8 @@ const useSurvey = () => {
       getVolumeContainerList(data: VolumeObj) {
         dispatch(getVolumeContainersList(data));
       },
-      // Dispatch functions used in Containers.tsx
-      // runStoppedContainer(id: string) {
-      //   dispatch(runStoppedContainer(id));
-      // },
-      removeContainer(id: string) {
-        dispatch(removeContainer(id));
-      },
-      stopRunningContainer(id: string) {
-        dispatch(stopRunningContainer(id));
-      },
+     
+    
     }),
     [dispatch]
   );

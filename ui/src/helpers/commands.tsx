@@ -18,55 +18,7 @@ const useHelper = () => {
   const actions = useMemo(
     () => ({
       /* Removes stopped containers @param {*} containerID */
-      remove(containerID: string) {
-        const { removeContainer } = dispatch;
-        Client.ContainerService.removeContainer(containerID)  
-          .then((message) => {
-            console.log('Removed: ', message);
-            removeContainer(containerID);
-          })
-          .catch((err) => console.log(err));
-      },
-      /* Stops a container on what user selects @param {*} id */
-      // async stop(id: string) {
-      //   const { stopRunningContainer } = dispatch;
-        
-      //   const result = await Client.ContainerService.stopContainer(id)
-      //   if (result) stopRunningContainer(id);
-      //   return result;
-      // },
-
-      async bashContainer(id: string)  {
-        await Client.ContainerService.bashContainer(id)  
-      },
-      /* Starts a stopped container in containers tab @param {*} id */
-      // async runStopped(id: string) {
-      //   const { runStoppedContainer } = dispatch;
-      //   const result = await Client.ContainerService.runContainer(id)
-      //   if (result) runStoppedContainer(id);
-      //   return result;
-      // },
-      /* Runs an image from the pulled images list in image tab @param {*} container */
-      runIm(image: ImageType) {
-        // const { refreshRunningContainers } = dispatch;
-        const imageName = image.Repository;
-        const tag = image.Tag;
-        //Fix the below
-        //const containerName = imageName
-        Client.ImageService.runImage(imageName, tag)
-
-          .catch((err: Error): void => console.log(err));
-      },
-
-
-      /* Removes an image from pulled images list in image tab @param {*} id */
-
-      async removeIm(id) {
-        const success = await Client.ImageService.removeImage(id);
-        if (success) dispatch(fetchImages());
-          
-      },
-
+      
       /* Display all containers network based on docker-compose when the application starts */
       networkContainers() {
         // Pass in container that button is clicked on

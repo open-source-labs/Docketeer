@@ -23,10 +23,12 @@ const Containers = (): JSX.Element => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
   // const [stateChange, changeState] = useState(0)
-  const { remove, bashContainer } = useHelper();
+  // const { remove, bashContainer } = useHelper();
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
+
+  const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id); 
 
   const stopWrapper = async(id: string) => {
     const wasStopped = await Client.ContainerService.stopContainer(id);
@@ -38,10 +40,17 @@ const Containers = (): JSX.Element => {
 
   const startWrapper = async(id: string) => {
     const wasStarted = await Client.ContainerService.runContainer(id);
-    console.log(wasStarted)
     if (wasStarted) {
       dispatch(fetchStoppedContainers());
       dispatch(fetchRunningContainers());
+    }
+  }
+
+  const removeWrapper = async (containerId: string) => {
+    const wasRemoved = await Client.ContainerService.removeContainer(containerId);
+    if (wasRemoved) {
+      dispatch(fetchRunningContainers());
+      dispatch(fetchStoppedContainers());
     }
   }
 
@@ -96,7 +105,7 @@ const Containers = (): JSX.Element => {
       createPrompt(
         `Are you sure you want to remove ${container.Names}?`,
         () => {
-          remove(container['ID']);
+          removeWrapper(container['ID']);
           dispatch(createAlert(`Removing ${container.Names}...`, 5, 'success'));
         },
         () => {

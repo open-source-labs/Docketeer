@@ -2,7 +2,7 @@
 
 ## Kubernetes
 
-* To run kubernetes for development first install [Minikube]() and Kubectl
+* To run kubernetes for development first install [Minikube](https://formulae.brew.sh/formula/minikube) and Kubectl
 
 ```
 # Starts cluster

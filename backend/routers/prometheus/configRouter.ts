@@ -29,4 +29,16 @@ router.post('/', configController.createDataSource, (req: Request, res: Response
   return res.status(201).json(res.locals.id);
 })
 
+/**
+ * @abstract
+ */
+router.put('/', configController.updateDataSource, (req: Request, res: Response) => {
+  return res.sendStatus(204);
+});
+
+
+router.delete('/:id', configController.deleteDataSource, (req: Request, res: Response) => {
+  return res.sendStatus(204);
+})
+
 export default router;

@@ -25,7 +25,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 1,
+  "id": 11,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -75,7 +75,7 @@
         "content": "<h1>CPU<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -137,20 +137,24 @@
       "options": {
         "colorMode": "background",
         "fieldOptions": {
-          "calcs": ["mean"]
+          "calcs": [
+            "mean"
+          ]
         },
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -217,14 +221,16 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -289,20 +295,24 @@
       "options": {
         "colorMode": "background",
         "fieldOptions": {
-          "calcs": ["mean"]
+          "calcs": [
+            "mean"
+          ]
         },
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -367,14 +377,16 @@
         "justifyMode": "auto",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -437,7 +449,7 @@
         "content": "<h1>Memory<h1>",
         "mode": "html"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -491,14 +503,16 @@
         "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -543,6 +557,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -653,7 +668,11 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -761,20 +780,24 @@
       "options": {
         "colorMode": "background",
         "fieldOptions": {
-          "calcs": ["mean"]
+          "calcs": [
+            "mean"
+          ]
         },
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.1.4",
       "targets": [
         {
           "datasource": {
@@ -830,6 +853,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "stepBefore",
             "lineWidth": 1,
             "pointSize": 5,
@@ -896,6 +920,204 @@
           "refId": "A"
         }
       ],
+      "time": {
+        "from": "now-30s",
+        "to": "now"
+      },
+      "title": "Memory Usage by Container",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "stepBefore",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 19,
+        "x": 2,
+        "y": 27
+      },
+      "id": 80,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (name)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "time": {
+        "from": "now-30s",
+        "to": "now"
+      },
+      "title": "Memory Usage by Container",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "stepBefore",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 19,
+        "x": 2,
+        "y": 32
+      },
+      "id": 81,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (name)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
       "title": "Memory Usage by Container",
       "type": "timeseries"
     },
@@ -912,8 +1134,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-orange",
@@ -929,7 +1150,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 37
       },
       "id": 68,
       "options": {
@@ -938,7 +1159,9 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -971,7 +1194,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 41
       },
       "id": 58,
       "panels": [],
@@ -995,7 +1218,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 42
       },
       "id": 37,
       "options": {
@@ -1033,8 +1256,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-green",
@@ -1050,7 +1272,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 44
       },
       "id": 66,
       "options": {
@@ -1059,7 +1281,9 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -1129,8 +1353,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1171,13 +1394,15 @@
         "h": 6,
         "w": 14,
         "x": 5,
-        "y": 38
+        "y": 48
       },
       "id": 7,
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["max"],
+          "calcs": [
+            "max"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -1243,7 +1468,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 54
       },
       "id": 60,
       "panels": [],
@@ -1267,7 +1492,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 55
       },
       "id": 52,
       "options": {
@@ -1305,8 +1530,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
-                "value": null
+                "color": "purple"
               }
             ]
           },
@@ -1318,7 +1542,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 47
+        "y": 57
       },
       "id": 73,
       "links": [],
@@ -1328,7 +1552,9 @@
         "justifyMode": "center",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -1394,11 +1620,10 @@
         "h": 8,
         "w": 18,
         "x": 6,
-        "y": 47
+        "y": 57
       },
       "hiddenSeries": false,
       "id": 8,
-      "isNew": true,
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -1495,7 +1720,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 65
       },
       "id": 78,
       "options": {
@@ -1533,8 +1758,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-purple",
@@ -1550,7 +1774,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 67
       },
       "id": 72,
       "options": {
@@ -1559,7 +1783,9 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -1591,7 +1817,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 71
       },
       "id": 79,
       "options": {
@@ -1629,8 +1855,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(128, 128, 128)",
-                "value": null
+                "color": "rgb(128, 128, 128)"
               },
               {
                 "color": "dark-purple",
@@ -1646,7 +1871,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 73
       },
       "id": 71,
       "options": {
@@ -1655,7 +1880,9 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -1683,7 +1910,9 @@
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["system"],
+  "tags": [
+    "system"
+  ],
   "templating": {
     "list": [
       {
@@ -1697,7 +1926,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30s",
     "to": "now"
   },
   "timepicker": {
@@ -1712,11 +1941,21 @@
       "2h",
       "1d"
     ],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
   },
   "timezone": "browser",
   "title": "System",
   "uid": "h5LcytHGz",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

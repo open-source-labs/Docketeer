@@ -65,7 +65,7 @@ const RunningContainer = ({
         <div className={styles.containerMetricHolder}>
           <div className={styles.metricText}>
             <div className={styles.metricSubtext}>
-              <h5>CPU</h5>
+              <h5>CPU %</h5>
               {metrics && metrics.CPUPerc}
             </div>
             <div className={styles.metricSubtext}>

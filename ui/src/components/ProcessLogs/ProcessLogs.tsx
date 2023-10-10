@@ -70,7 +70,7 @@ const ProcessLogs = (): JSX.Element => {
       mode: 'dark',
     },
     typography: {
-      fontFamily: 'Raleway',
+      fontFamily: 'Roboto',
     },
   });
 

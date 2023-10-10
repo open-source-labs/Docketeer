@@ -76,7 +76,7 @@
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL]
 
 </div>
 
@@ -250,6 +250,11 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Tristan Krause [@tristanyuukio](https://github.com/tristanyukio) | [LinkedIn](https://www.linkedin.com/in/krausetristan)
 - Grant Schussler [@gschussler](https://github.com/gschussler) | [LinkedIn](https://www.linkedin.com/in/grant-schussler/)
 - Jacob Melendez [@JacobAMelendez](https://github.com/JacobAMelendez) | [LinkedIn](https://www.linkedin.com/in/jacob-melendez-72245278)
+- Jonathan Gray [@thejohnny5](https://github.com/thejohnny5) | [LinkedIn](https://www.linkedin.com/in/jonathan-gray-987169183/)
+- Cristian Morales [@Cris-Morales](https://github.com/Cris-Morales) | [LinkedIn](https://www.linkedin.com/in/cmorales-uxr274/)
+- Josh Nelson [@JoshNelson98](https://github.com/JoshNelson98) | [LinkedIn](https://www.linkedin.com/in/josh-nelson-7aba19284/)
+- Christian Lyon [@christianDoesCoding](https://github.com/christianDoesCoding) | [LinkedIn](www.linkedin.com/in/christiandoescoding)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -344,4 +349,5 @@ For details, please read [The definitive guide to docker's default-address-pools
 [Kubernetes-url]: https://kubernetes.io/
 [D3]: https://img.shields.io/badge/d3-red?style=for-the-badge&logo=d3.js
 [D3-url]: https://d3js.org/
-
+[MUI]:https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white
+[MUI-url]: https://mui.com/

@@ -52,7 +52,7 @@
   "sharedCrosshair": true,
   "hideControls": false,
   "time": {
-    "from": "now-16h",
+    "from": "now-2h",
     "to": "now"
   },
   "timepicker": {

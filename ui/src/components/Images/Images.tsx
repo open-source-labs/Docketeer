@@ -36,11 +36,6 @@ const Images = (): JSX.Element => {
     if (success) dispatch(fetchImages());
   }
 
-  const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src =
-      'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
-  };
-
   const runImageAlert = (image: ImageType) => {
     {
       dispatch(
@@ -103,8 +98,7 @@ const Images = (): JSX.Element => {
                   <figure>
                     <img
                       className={styles.image}
-                      src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.Repository}-logo.png`}
-                      onError={handleError}
+                      src={`https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png`}
                     />
                   </figure>
                   <div>

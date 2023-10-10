@@ -47,29 +47,27 @@ const ConfigurationForm = (): React.JSX.Element => {
 
   return (
     <form action="" className={styles.containerCard}>
-      <div className = {styles.ConFlex}>
-      <label htmlFor="">Type </label>
+      <h3 className={styles.hh}>Upload New Configuration</h3>
+      <div className = {styles.wrapTI}>
+      <div className = {styles.titles}>
+        <label htmlFor="">Type </label>
+        <label htmlFor="">URL </label>
+        <label htmlFor="">Endpoint </label>
+        <label htmlFor="">Job Name </label>
+        <label htmlFor="">Match </label>
+      </div>
+      <div className = {styles.inputs}>
       <select name="" id="endpoint_types" value={formState.type_of_id} onChange={(e)=>handleInput(e, 'type_of_id')} >
         {options}
         </select>
-        </div>
-      <div className = {styles.ConFlex}>
-      <label htmlFor="">URL </label>
         <input type="text" value={formState.url} onChange={(e) => handleInput(e, 'url')} />
-      </div>
-       <div className = {styles.ConFlex}>
-      <label htmlFor="">Endpoint </label>
         <input type="text" value={formState.endpoint} onChange={(e) => handleInput(e, 'endpoint')} />
-      </div>
-      <div className = {styles.ConFlex}>
-      <label htmlFor="">Job Name </label>
         <input type="text" value={formState.jobname} onChange={(e) => handleInput(e, 'jobname')} />
-      </div>
-      <div className = {styles.ConFlex}>
-      <label htmlFor="">Match </label>
         <input type="text" value={formState.match} onChange={(e) => handleInput(e, 'match')} />
         </div>
-      <input className={styles.Sub} type="submit" name="Submit" onClick={handleSubmit} />
+      </div>
+       <input className={styles.Sub} type="submit" name="Submit" onClick={handleSubmit} />
+  
     </form>
   );
 }

@@ -34,15 +34,14 @@ const Configuration = (): React.JSX.Element => {
 
   return (
     <div>
-      <div>
-        <h2 className = {styles.hh}>Configurations</h2>
-        <div>
-          <h3 className = {styles.hh}>Upload New Configuration</h3>
+      <div className = {styles.margin}>
+        <h2 className = {styles.hh1}>CONFIGURATIONS</h2>
+        <div className = {styles.middle}>
           <ConfigurationForm />
         </div>
         <div>
-          <h3>Connected Data Sources</h3>
-          <div>
+          <h3 className = {styles.hh}>Connected Data Sources</h3>
+          <div className = {styles.Connect}>
             {dataSourceElements}
           </div>
         </div>

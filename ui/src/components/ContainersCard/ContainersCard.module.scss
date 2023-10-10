@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 
 .containerCard {
@@ -14,6 +14,7 @@
   overflow-x:scroll;
   // width: 500px;
   // height: 15rem;
+  font-family: 'Roboto';
 
   background-color: color(background, base);
   // background: $background-bg;

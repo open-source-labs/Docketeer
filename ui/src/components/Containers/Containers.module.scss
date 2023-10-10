@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 .wrapper {
   margin-top: 10px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  font-family: 'Raleway';
+  font-family: 'Roboto';
   transition: margin-left .5s;
   margin-top: 10px;
   margin-left: 20px;
@@ -25,6 +25,12 @@
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+}
+.listHolderStopped h2 {
+  margin-bottom:5px;
+}
+.listHolder h2 {
+  margin-bottom: 5px;
 }
 
 .count {

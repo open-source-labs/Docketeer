@@ -6,6 +6,7 @@ import { ImagesStateType } from '../../../ui-types';
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
 import { ImageType } from 'types';
+import { fetchImages } from '../../reducers/imageReducer';
 
 /**
  * @module | Images.tsx
@@ -13,18 +14,18 @@ import { ImageType } from 'types';
  **/
 
 // eslint-disable-next-line react/prop-types
-const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
+const Images = (): JSX.Element => {
   // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
   const reduxImagesList = useAppSelector(state => state.images.imagesList);
-  imagesList = imagesList.length ? imagesList : reduxImagesList;
+  const imagesList = reduxImagesList;
   // const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
-  const { refreshImages, runIm, removeIm } = useHelper();
+  const {  runIm, removeIm } = useHelper();
 
   useEffect((): void => {
-    refreshImages();
+    dispatch(fetchImages());
   }, []);
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {

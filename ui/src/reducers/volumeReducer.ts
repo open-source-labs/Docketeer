@@ -1,5 +1,7 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { VolumeStateType, VolumeObj, VolumeNameObj } from '../../ui-types';
+import { VolumeType } from '../../../types';
+import Client from '../models/Client';
 
 /*
  * @param {Array} arrayOfVolumeNames List of volumes running
@@ -11,13 +13,25 @@ const initialState: VolumeStateType = {
   volumeContainersList: [],
 };
 
+export const fetchAllDockerVolumes = createAsyncThunk(
+  'volumes/setVolumes',
+  async () => {
+    const result = await Client.VolumeService.getAllVolumes();
+    return result;
+  }
+)
+
+// export const fetchContainersOnVolumes = createAsyncThunk(
+//   'volumes/setContainersOnVolumes',
+//   async () => {
+//     const result = await Client.VolumeService.getContainersOnVolume()
+//   }
+// )
+
 export const volumeSlice = createSlice({
   name: 'volumes',
   initialState,
   reducers: {
-    getVolumes: (state, action: PayloadAction<VolumeNameObj[]>) => {
-      state.arrayOfVolumeNames.push(...action.payload);
-    },
     getVolumeContainersList: (state, action: PayloadAction<VolumeObj>) => {
       state.volumeContainersList.push(action.payload);
     },
@@ -27,7 +41,13 @@ export const volumeSlice = createSlice({
       )
     }
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchAllDockerVolumes.fulfilled, (state, action) => {
+        state.arrayOfVolumeNames = action.payload;
+      })
+  },
 });
 
-export const { getVolumes, getVolumeContainersList, removeVolume } = volumeSlice.actions;
+export const { getVolumeContainersList, removeVolume } = volumeSlice.actions;
 export default volumeSlice.reducer;

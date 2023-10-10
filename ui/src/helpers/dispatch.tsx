@@ -8,11 +8,10 @@ import {
 } from '../reducers/composeReducer';
 
 import {
-  stopRunningContainer,
-  runStoppedContainer,
-  refreshRunningContainers,
+  // stopRunningContainer,
+  // runStoppedContainer,
+  // refreshRunningContainers,
   removeContainer,
-  refreshStoppedContainer,
 } from '../reducers/containerReducer';
 
 import { refreshImages } from '../reducers/imageReducer';
@@ -27,7 +26,6 @@ import { getLogs } from '../reducers/logReducer';
 
 import { getVolumes, getVolumeContainersList } from '../reducers/volumeReducer';
 
-import { refreshNetworkList } from '../reducers/networkReducer';
 
 import {
   ImageObj,
@@ -51,50 +49,22 @@ const useSurvey = () => {
 
   const actions = useMemo(
     () => ({
-      // Dispatch functions used in Home.tsx
-      refreshRunningContainers(data: ContainerType[]) {
-        dispatch(refreshRunningContainers(data));
-      },
-      refreshStoppedContainers(data: StoppedListType[]) {
-        dispatch(refreshStoppedContainer(data));
-      },
-      refreshImagesList(data: ImageObj[]) {
-        dispatch(refreshImages(data));
-      },
-      refreshNetworkList(data: NetworkContainerListType[]) {
-        dispatch(refreshNetworkList(data));
-      },
       getNetworkContainers(data: NetworkObj[]) {
         dispatch(getNetworkContainers(data));
       },
 
-      getVolumes(data: VolumeNameObj[]) {
-        dispatch(getVolumes(data));
-      },
       getVolumeContainerList(data: VolumeObj) {
         dispatch(getVolumeContainersList(data));
       },
       // Dispatch functions used in Containers.tsx
-      runStoppedContainer(id: string) {
-        dispatch(runStoppedContainer(id));
-      },
+      // runStoppedContainer(id: string) {
+      //   dispatch(runStoppedContainer(id));
+      // },
       removeContainer(id: string) {
         dispatch(removeContainer(id));
       },
       stopRunningContainer(id: string) {
         dispatch(stopRunningContainer(id));
-      },
-
-      // Dispatch functions used in Yml.tsx
-      getContainerStacks(data: any) {
-        dispatch(getContainerStacks(data));
-      },
-      composeDown(data: any) {
-        dispatch(composeDown(data));
-      },
-      // Dispatch functions used in ProcessLogsTable.tsx
-      getContainerLogsDispatcher(data: ContainerLogsType) {
-        dispatch(getLogs(data));
       },
     }),
     [dispatch]

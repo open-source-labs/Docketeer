@@ -6,7 +6,7 @@ import { VolumeObj } from '../../../ui-types';
 import globalStyles from '../global.module.scss';
 import styles from './VolumeHistory.module.scss';
 import { createAlert } from '../../reducers/alertReducer';
-import { removeVolume } from '../../reducers/volumeReducer';
+import { fetchAllDockerVolumes, removeVolume } from '../../reducers/volumeReducer';
 import Client from '../../models/Client'
 import useHelper from '../../helpers/commands';
 /**
@@ -28,10 +28,9 @@ const VolumeHistory = (): JSX.Element => {
     (state) => state.volumes.volumeContainersList
   );
 
-  const { getAllDockerVolumes } = useHelper();
 
   useEffect(() => {
-    getAllDockerVolumes();
+    dispatch(fetchAllDockerVolumes())
   }, []);
 
   const [disableShowAll, setDisableShowAll] = useState(false);

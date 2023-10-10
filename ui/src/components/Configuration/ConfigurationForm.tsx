@@ -1,9 +1,9 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../reducers/hooks';
-import { PromDataSource } from 'types';
-import { setEntryForm, setPrometheusDataSources } from '../reducers/configurationReducer';
-import Client from '../models/Client';
-
+import { useAppDispatch, useAppSelector } from '../../reducers/hooks';
+import { PromDataSource } from '../../../../types';
+import { setEntryForm, setPrometheusDataSources } from '../../reducers/configurationReducer';
+import Client from '../../models/Client';
+import styles from './config.module.scss'
 
 const ConfigurationForm = (): React.JSX.Element => {
 
@@ -36,6 +36,7 @@ const ConfigurationForm = (): React.JSX.Element => {
     try {
       const { type_of_id, url, endpoint, jobname, match, ssh_key } = formState;
       const res = await Client.ConfigService.createDataSource(type_of_id, url, jobname, endpoint, match, ssh_key);
+      if (res !== null) dispatch(setPrometheusDataSources(await Client.ConfigService.getDataSources()));
       // Set defaults
       dispatch(setEntryForm({ url: '', endpoint: '', jobname: '', match: '', ssh_key: '', type_of_id: formState.type_of_id }));
     } catch (error) {
@@ -45,7 +46,7 @@ const ConfigurationForm = (): React.JSX.Element => {
   }
 
   return (
-    <form action="">
+    <form action="" className={styles.containerCard}>
       <label htmlFor="">Type: </label>
       <select name="" id="endpoint_types" value={formState.type_of_id} onChange={(e)=>handleInput(e, 'type_of_id')} >
         {options}
@@ -58,7 +59,7 @@ const ConfigurationForm = (): React.JSX.Element => {
       <input type="text" value={formState.jobname} onChange={(e)=>handleInput(e, 'jobname')}/>
       <label htmlFor="">Match: </label>
       <input type="text" value={formState.match} onChange={(e) => handleInput(e, 'match')} />
-      <input type="submit" name="Submit" onClick={(e)=>handleSubmit} />
+      <input type="submit" name="Submit" onClick={handleSubmit} />
     </form>
   );
 }

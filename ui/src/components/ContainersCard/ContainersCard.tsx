@@ -5,11 +5,7 @@ import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
 import PageSwitch from './PageSwitch';
 import Client from '../../models/Client';
-import {
-  filterOneProperty,
-  listOfVolumeProperties,
-} from '../../helpers/volumeHistoryHelper';
-import useHelper from '../../helpers/commands';
+import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -70,7 +66,6 @@ const ContainersCard = ({
   
   }, [ddClient]);
 
-  const { refreshNetwork } = useHelper();
   async function connectToNetwork(
     networkName: string,
     containerName: string
@@ -78,7 +73,7 @@ const ContainersCard = ({
     try {
       const result = await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
       if (result) {
-        refreshNetwork();
+        dispatch(fetchNetworkAndContainer());
       }
 
     } catch (err) {
@@ -99,7 +94,7 @@ const ContainersCard = ({
     try {
       const result = await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
       if (result) {
-        refreshNetwork();
+        dispatch(fetchNetworkAndContainer());
       }
     } catch (err) {
       dispatch(

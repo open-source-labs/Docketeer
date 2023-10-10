@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { EndpointType, ImageType, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
+import { EndpointType, ImageType, LogObject, NetworkAndContainer, NetworkContainerType, PromDataSource } from 'types';
 
 
 // =============================================
@@ -58,10 +58,9 @@ export interface StoppedListType extends ContainerType {
 // }
 
 export interface ContainerStateType {
-  runningList: ContainerType[];
-  stoppedList: StoppedListType[];
+  runningList: ContainerPS[];
+  stoppedList: ContainerPS[];
   networkList: string[];
-  composeStack: any[];
 }
 
 // for container's being run
@@ -141,12 +140,12 @@ export interface stdType {
 }
 
 export interface ContainerLogsType {
-  stdout: stdType[];
-  stderr: stdType[];
+  stdout: LogObject[];
+  stderr: LogObject[];
 }
 
 export interface LogsStateType {
-  containerLogs: ContainerLogsType;
+  containerLogs: {[key:string]: LogObject[]};
   searchWord: string;
 }
 
@@ -162,8 +161,8 @@ export interface VolumeContainerObj {
 }
 
 export interface VolumeObj {
-  vol_name: string;
-  containers: VolumeContainerObj[];
+  volName: string;
+  containers: ContainerPS[];
 }
 
 export interface VolumeNameObj {
@@ -171,7 +170,7 @@ export interface VolumeNameObj {
 }
 
 export interface VolumeStateType {
-  arrayOfVolumeNames: VolumeNameObj[];
+  volumes: VolumeNameObj[];
   volumeContainersList: VolumeObj[];
 }
 

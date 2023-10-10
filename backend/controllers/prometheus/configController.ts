@@ -57,8 +57,10 @@ configController.getDataSources = async (req: Request, res: Response, next: Next
     SELECT b.type_of, b.id AS "type_of_id", a.id, a.url, a.endpoint, a.match, a.jobname
     FROM datasource a
     LEFT JOIN endpoint_type b on a.type_of=b.id;`;
+    
     const result = await pool.query(text, []);
     const data: PromDataSource[] = result.rows;
+    console.log(data);
     res.locals.datasources = data;
     return next();
   } catch (error) {

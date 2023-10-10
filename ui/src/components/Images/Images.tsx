@@ -1,11 +1,11 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
-import useHelper from '../../helpers/commands';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import { ImagesStateType } from '../../../ui-types';
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
 import { ImageType } from 'types';
+import { fetchImages } from '../../reducers/imageReducer';
+import Client from '../../models/Client';
 
 /**
  * @module | Images.tsx
@@ -13,32 +13,41 @@ import { ImageType } from 'types';
  **/
 
 // eslint-disable-next-line react/prop-types
-const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
+const Images = (): JSX.Element => {
   // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
   const reduxImagesList = useAppSelector(state => state.images.imagesList);
-  imagesList = imagesList.length ? imagesList : reduxImagesList;
+  const imagesList = reduxImagesList;
   // const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
-  const { refreshImages, runIm, removeIm } = useHelper();
 
   useEffect((): void => {
-    refreshImages();
+    dispatch(fetchImages());
   }, []);
+
+  const runImage = async (image: ImageType) => {
+    const success = await Client.ImageService.runImage(image.Repository, image.Tag);
+    if (success) dispatch(fetchImages());
+  }
+
+  const removeImage = async (imageId: string) => {
+    const success = await Client.ImageService.removeImage(imageId);
+    if (success) dispatch(fetchImages());
+  }
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src =
       'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
   };
 
-  const runImage = (image: ImageType) => {
+  const runImageAlert = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
           `Are you sure you want to run ${image.Repository}?`,
           () => {
-            runIm(image);
+            runImage(image);
             dispatch(
               createAlert(`Running ${image.Repository}...`, 5, 'success'),
             );
@@ -57,13 +66,13 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
     }
   };
 
-  const removeImage = (image: ImageType) => {
+  const removeImageAlert = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
           `Are you sure you want to remove ${image.Repository}?`,
           () => {
-            removeIm(image.ID);
+            removeImage(image.ID);
             dispatch(
               createAlert(`Removing ${image.Repository}...`, 5, 'success'),
             );
@@ -108,12 +117,12 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
                     <div className={styles.buttonSpacer}>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => runImage(image)}>
+                        onClick={() => runImageAlert(image)}>
                         RUN
                       </button>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => removeImage(image)}>
+                        onClick={() => removeImageAlert(image)}>
                         REMOVE
                       </button>
                     </div>

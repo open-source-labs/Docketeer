@@ -1,7 +1,7 @@
 import { ddClientRequest, encodeQuery } from "../ddClientRequest";
 import { VolumeType, ContainerPS } from "../../../../types";
 export const VolumeService = {
-  async getAllVolumes(fields: string[]=[]): Promise<VolumeType> {
+  async getAllVolumes(fields: string[]=[]): Promise<VolumeType[]> {
     return await ddClientRequest('/api/docker/volume', 'GET');
   },
 

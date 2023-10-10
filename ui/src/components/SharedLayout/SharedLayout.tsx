@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
-import { Outlet, useNavigate, NavLink } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import { createAlert, createPrompt } from '../../reducers/alertReducer';
+import { createAlert } from '../../reducers/alertReducer';
 import { createPrunePrompt } from '../../reducers/pruneReducer';
 
-// Importing helpers
-import useSurvey from '../../helpers/dispatch';
-import useHelper from '../../helpers/commands';
-import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
+import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
+import { fetchImages } from '../../reducers/imageReducer';
+import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
+import { fetchAllContainersOnVolumes, fetchAllDockerVolumes } from '../../reducers/volumeReducer';
+import Client from '../../models/Client';
 
 /**
  * @module | SharedLayout.tsx
@@ -22,22 +23,31 @@ function SharedLayout(): JSX.Element {
   // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { handlePruneClick, handleNetworkPruneClick } = useHelper();
+  const handleNetworkPrune = async(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const successful = await Client.NetworkService.pruneNetwork();
+    if (!successful) console.error(`Coudn't prune network`);
+  }
+
+  const handleSystemPrune = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const successful = await Client.SystemService.pruneSystem();
+    if (!successful) console.error(`Coudn't prune system`)
+  }
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    {
       dispatch(
         createPrunePrompt(
           // prompt (first argument in createPrunePrompt)
           'Are you sure you want to run system / network prune? System prune will remove all unused containers, networks, images and Network prune will remove all unused networks only (both dangling and unreferenced).',
           // handleSystemPrune (second argument in creatPrunePrompt)
           () => {
-            handlePruneClick(e);
+            handleSystemPrune(e);
             dispatch(createAlert('Performing system prune...', 4, 'success'));
           },
           // handleNetworkPrune (third argument in creatPrunePrompt)
           () => {
-            handleNetworkPruneClick(e);
+            handleNetworkPrune(e);
             dispatch(createAlert('Performing network prune...', 4, 'success'));
           },
           // handleDeny (fourth argument in creatPrunePrompt)
@@ -52,43 +62,23 @@ function SharedLayout(): JSX.Element {
           }
         )
       );
-    }
+    
   };
-  // const { sessions, volumes } = useAppSelector((state) => state);
-  const { volumes } = useAppSelector((state) => state);
-  // const userData = sessions;
-  const { arrayOfVolumeNames } = volumes;
-
-  const {
-    refreshRunning,
-    refreshStopped,
-    refreshImages,
-    refreshNetwork,
-    getAllDockerVolumes,
-    getVolumeContainers,
-  } = useHelper();
-
-  // Deconstructs dispatch functions from custom hook
-  const { getVolumeContainerList } = useSurvey();
+  const { volumes } = useAppSelector((state) => state.volumes);
 
   useEffect(() => {
-    refreshRunning();
-    refreshStopped();
-    refreshImages();
-    refreshNetwork();
-    getAllDockerVolumes();
+    dispatch(fetchRunningContainers());
+    dispatch(fetchStoppedContainers());
+    dispatch(fetchImages());
+    dispatch(fetchNetworkAndContainer());
+    dispatch(fetchAllDockerVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Changes in arrayOfVolumeNames will run history.volumeByName
   useEffect(() => {
-    history.volumeByName(
-      getVolumeContainers,
-      arrayOfVolumeNames,
-      getVolumeContainerList
-    );
+    dispatch(fetchAllContainersOnVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayOfVolumeNames]);
+  }, [volumes]);
 
   return (
     <div className={styles.wrapper}>
@@ -165,11 +155,8 @@ function SharedLayout(): JSX.Element {
             </li>
             <li>
               <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/logs"
-              >
+                className={({ isActive }) => isActive ? styles.active : styles.navButton}
+                to="/logs">
                 PROCESS LOGS
               </NavLink>
             </li>

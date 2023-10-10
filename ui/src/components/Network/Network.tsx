@@ -7,7 +7,6 @@ import {
 } from 'd3-sankey';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
-import useHelper from '../../helpers/commands';
 import globalStyles from '../global.module.scss';
 import styles from './Network.module.scss';
 import Client from '../../models/Client';
@@ -16,6 +15,7 @@ import {
   NetworkAttachedContainersInfo,
 } from '../../../ui-types';
 import { NetworkAndContainer } from 'types';
+import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 
 /**
  * @module | Network.tsx
@@ -64,10 +64,9 @@ const Network = (): JSX.Element => {
     'Yellowgreen',
   ];
 
-  const { refreshNetwork } = useHelper();
 
   useEffect(() => {
-    refreshNetwork();
+    dispatch(fetchNetworkAndContainer());
   }, []);
 
   // check the network name that user types in is already exist in current network list

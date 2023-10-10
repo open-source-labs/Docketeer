@@ -13,6 +13,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
+      - docketeer-ext-initsql:/extension
+
     ports:
       - 4000:4000
 
@@ -103,6 +105,8 @@ services:
       - 5432
     volumes:
       - postgres_volume:/var/lib/postgresql/data
+      - docketeer-ext-initsql:/docker-entrypoint-initdb.d/
+
     environment:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_USER=admin
@@ -115,3 +119,4 @@ volumes:
   docketeer-ext-prometheus-files:
   docketeer-ext-grafana-files:
   postgres_volume:
+  docketeer-ext-initsql:

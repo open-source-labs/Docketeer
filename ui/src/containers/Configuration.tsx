@@ -4,6 +4,7 @@ import { setEndpointTypes, setPrometheusDataSources } from '../reducers/configur
 import Client from '../models/Client';
 import PromDataSource from '../components/Configuration/PromDataSource';
 import ConfigurationForm from '../components/Configuration/ConfigurationForm';
+import styles from './C.module.scss'
 
 const Configuration = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -34,9 +35,9 @@ const Configuration = (): React.JSX.Element => {
   return (
     <div>
       <div>
-        <h2>Configurations</h2>
+        <h2 className = {styles.hh}>Configurations</h2>
         <div>
-          <h3>Upload New Configuration</h3>
+          <h3 className = {styles.hh}>Upload New Configuration</h3>
           <ConfigurationForm />
         </div>
         <div>

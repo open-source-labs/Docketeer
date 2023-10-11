@@ -57,3 +57,31 @@ make prod
 
 * cAdvisor is ***not*** being depracated May 15, 2024. The [link in question](https://console.cloud.google.com/gcr/images/cadvisor/GLOBAL/cadvisor) states: "***Container Registry*** is deprecated. After May 15, 2024, ***Artifact Registry*** will host images for the gcr.io domain in projects without previous Container Registry usage." This suggests nothing to do with cAdvisor specifically, so please do not let anyone tell you otherwise. 
 
+## Troubleshooting
+
+#### Network Capacity
+
+By default, Docker can only create 31 networks. If you try to create more, you would encounter the following error:
+
+```
+Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network
+```
+
+To expand network capacity, add the following to `/etc/docker/daemon.json`
+
+```
+{
+  "default-address-pools" : [
+    {
+      "base" : "172.17.0.0/12",
+      "size" : 20
+    },
+    {
+      "base" : "192.168.0.0/16",
+      "size" : 24
+    }
+  ]
+}
+```
+
+For details, please read [The definitive guide to docker's default-address-pools option](https://straz.to/2021-09-08-docker-address-pools/)

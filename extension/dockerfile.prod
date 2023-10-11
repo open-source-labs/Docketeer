@@ -52,7 +52,7 @@ LABEL org.opencontainers.image.title="Docketeer" \
   com.docker.extension.publisher-url="https://docketeer.io/" \
   com.docker.extension.additional-urls='[{"title":"Extension-Github","url":"https://github.com/open-source-labs/docketeer-extension"},{"title":"Browser-Based-Github","url":"https://github.com/open-source-labs/Docketeer"},{"title":"Email","url":"mailto:docketeerxii@gmail.com"},{"title":"LinkedIn","url":"https://www.linkedin.com/company/docketeer/"}]' \
   com.docker.extension.categories="utility-tools" \
-  com.docker.extension.changelog="<p>Extension changelog<ul><li>Launch!</li></ul></p>"
+  com.docker.extension.changelog="https://github.com/open-source-labs/docketeer-extension/blob/master/docs/dev/changelog.md"
 
 # Installs curl
 RUN apk --no-cache add curl

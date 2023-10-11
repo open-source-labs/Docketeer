@@ -52,11 +52,7 @@
   "sharedCrosshair": true,
   "hideControls": false,
   "time": {
-<<<<<<< HEAD
-    "from": "now-2h",
-=======
     "from": "now-1h",
->>>>>>> dev
     "to": "now"
   },
   "timepicker": {

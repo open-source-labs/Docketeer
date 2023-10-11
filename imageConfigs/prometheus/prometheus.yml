@@ -4,7 +4,7 @@ global:
 
 scrape_configs:
   # Exposes port for data to be queried by grafana, can be viewed at localhost:9090/metrics, or queried at localhost:9090/graph
-  - job_name: prometheus
+  - job_name: localprometheus
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090', 'node-exporter:9100', 'cadvisor:8080']

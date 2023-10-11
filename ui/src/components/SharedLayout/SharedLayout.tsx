@@ -150,7 +150,7 @@ function SharedLayout(): JSX.Element {
                 }
                 to="/volume"
               >
-                VOLUME HISTORY
+                VOLUMES
               </NavLink>
             </li>
             <li>

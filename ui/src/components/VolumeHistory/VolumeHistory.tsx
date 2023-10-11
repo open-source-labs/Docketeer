@@ -114,7 +114,7 @@ const VolumeHistory = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.searchHolder}>
-        <h2>SEARCH VOLUME HISTORY</h2>
+        <h2>SEARCH VOLUMES</h2>
         <input
           className={globalStyles.input}
           type="text"

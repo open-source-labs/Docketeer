@@ -6,16 +6,20 @@
   padding-bottom: 20px;
   transition: 0.2s;
   position: relative;
-  width: 50%;
-  align-items: center;  // grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.8fr) minmax(20px, .2fr);
+  height: 75vh;
+  width: 35vw;
+  padding-left: 30px;
+  padding-right: 30px;
+  align-items: center; // grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.8fr) minmax(20px, .2fr);
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   // word-wrap: break-word;
   overflow-x: scroll;
-  font-family:'Roboto';
+  font-family: 'Roboto';
   // width: 500px;
   // height: 15rem;
+
 
   background-color: color(background, base);
   // background: $background-bg;
@@ -23,7 +27,6 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
-  height: 100%;
   font-size: 14px;
   gap: 1rem;
   border-width: 2px;
@@ -36,14 +39,20 @@
   // padding-left: 3rem;
   gap: 30px;
 
+
 }
+
 
 .ConFlex {
-  display:flex;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  gap:120px;
+  width: 100%;
+  gap: 5px;
+
 
 }
+
 
 .ConFlex2 {
   display: flex;
@@ -51,69 +60,40 @@
   gap: 120px;
 }
 
+.ConFlex h2 {
+  margin-bottom:15px;
+  font-weight: bolder;
+}
+
 
 .ConFlex label {
-  font-weight:bold;
-  width: 5rem;
+  font-weight: bold;
   height: 1.5rem;
   padding-top: 5px;
 }
 
-.containerCard input{
-  background-color: lightgrey;
+
+.containerCard input {
+  background-color:darkgrey;
   border-radius: 2px;
-  width: 50%;
+  -webkit-appearance: none;
+    -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #ccc;
   height: 1.5rem;
 }
 
+
 .ConFlex select {
   width: 50%;
-  background-color: lightgrey;
+  border-radius: 2px;
+  background-color: darkgrey;
+  border-color:grey;
 }
 
- .containerCard .Sub{
-  align-self:center;
-  color: white;
-  width:fit-content;
-  padding-left: 20px;
-  padding-right: 20px;
-  display:flex;
-  background-color: rgba(112, 128, 144, 0.258);
-  min-height: 2rem;
-  border-radius: 4px;
-  overflow-x: none;
-  font-size: 12px;
-  background-color: rgba(112, 128, 144, 0.258);
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
-      0 4px 5px 0 rgba(0, 0, 0, 0.14),
-      0 1px 10px 0 rgba(0, 0, 0, 0.12);
-  
-    font-size: .75rem;
-    display: inline-flex;
-    cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.283);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    align-items: center;
-    justify-content: center;
-  
-    &:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transform: translateY(-.5px);
-    }
-  
-    &:active {
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      transform: translateY(0);
-    }
-  
-    color:white;
-}
-.Sub1 {
-  align-self: flex-end;
-  justify-self: flex-start;
-  // position:absolute;
-  // top:20px;
-  // right:20px;
+
+.containerCard .Sub {
+  align-self: center;
   color: white;
   width: fit-content;
   padding-left: 20px;
@@ -128,7 +108,6 @@
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
     0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
-
   font-size: .75rem;
   display: inline-flex;
   cursor: pointer;
@@ -150,29 +129,79 @@
   color:white;
 }
 
+.Sub1 {
+  align-self: flex-end;
+  justify-self: flex-start;
+  // position:absolute;
+  // top:20px;
+  // right:20px;
+  color: white;
+  width: fit-content;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  background-color: rgba(112, 128, 144, 0.258);
+  min-height: 2rem;
+  border-radius: 4px;
+  overflow-x: none;
+  font-size: 12px;
+  background-color: rgba(112, 128, 144, 0.258);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
+
+  font-size: .75rem;
+  display: inline-flex;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.283);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  align-items: center;
+  justify-content: center;
+
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-.5px);
+  }
+
+
+  &:active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
+
+
+  color:white;
+}
+
+
+
 
 .containerCard2 {
   transition: 0.2s;
-  font-size: 16px;
+  font-size: 12px;
   // position: relative;
-      width: calc(50% - 20px);
-      margin: 10px;
+  width: calc(33.333% - 20px);
+  margin: 5px;
+  height: 24.2vh;
   // display: grid;
   // grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.8fr) minmax(20px, .2fr);
   display: flex;
   flex-direction: column;
   // justify-content: space-evenly;
-  padding-top: 20px;
+  padding-top: 10px;
   gap: 10px;
   padding-bottom: 40px;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
   // word-wrap: break-word;
   overflow-x: scroll;
-  overflow-y:scroll;
+  overflow-y: scroll;
   font-family: 'Roboto';
   // width: 500px;
   // height: 15rem;
+
 
   background-color: color(background, base);
   // background: $background-bg;
@@ -183,17 +212,25 @@
   border-width: 2px;
   border-style: solid;
   border-color: color(light, base);
+
   // border-color: color(background, base);
   &::-webkit-scrollbar {
-      display: none;
-    }
- 
+    display: none;
+  }
 }
+
 @media screen and (max-width: 900px) {
   .containerCard2 {
     width: calc(50% - 20px);
   }
+
+  .containerCard {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
+
+
 
 
 .flexMatch {
@@ -202,33 +239,39 @@
   gap: 1rem;
 }
 
+
 .titles {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   justify-content: stretch;
   height: 100%;
   gap: 5px;
 }
+
 
 .titles label {
   height: 1.4rem;
   width: 100%;
 }
 
-.inputs{
-  display:flex;
-  flex-direction:column;
+
+.inputs {
+  display: flex;
+  flex-direction: column;
   gap: 5px;
 }
 
+
 .inputs input {
   width: 20vw;
-  height:1.4rem;
+  height: 1.4rem;
 }
+
 .inputs select {
   background-color: lightgrey;
   height: 1.4rem;
 }
+
 
 .wrapTI {
   display: flex;

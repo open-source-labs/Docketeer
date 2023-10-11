@@ -25,6 +25,8 @@ scrape_configs:
     relabel_configs:
       - target_label: 'federation'
         replacement: 'true'
+      - target_label: 'scrapetype'
+        replacement: 'kubernetes'
 
   # - job_name: kubernetes-nodes-cadvisor
   #   scrape_interval: 10s

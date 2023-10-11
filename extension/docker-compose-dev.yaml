@@ -96,10 +96,7 @@ services:
       - prometheus
 
   postgres:
-    build:
-      context: ..
-      dockerfile: ./extension/dockerfile.postgres
-    image: docketeer-postgres
+    image: postgres:latest
     container_name: docketeer-ext-postgres
     expose:
       - 5432

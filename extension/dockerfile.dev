@@ -66,7 +66,6 @@ COPY --from=builder /backend backend
 # Copies over the dev compose file and renames it so when installing as extension it is recognized
 COPY extension/docker-compose-dev.yaml docker-compose.yaml
 WORKDIR /extension
-COPY extension/dockerfile.postgres dockerfile.postgres
 COPY backend/db/init_prod.sql /extension/.
 WORKDIR /
 COPY metadata.json .

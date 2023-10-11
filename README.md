@@ -79,9 +79,10 @@
 
 <br />
   <div align="center">
-    <img alt="Containers page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
-    <img alt="Network page" src="assets\docketeer-network-page.png" width="fit" height="auto">
-    <img alt="Metrics page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
+    <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+        <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
   </div>
 <br />
 

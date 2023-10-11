@@ -127,11 +127,11 @@ const RunningContainer = ({
             >
               NETWORKS
             </button>
-              <button
+              {/* <button
                 className={styles.buttonSmallBottom}
                 onClick={() => bashContainer(container)}>
                 CONSOLE
-            </button>
+            </button> */}
             </>
           )}
         </div>

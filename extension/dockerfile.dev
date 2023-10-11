@@ -65,7 +65,9 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 COPY --from=builder /backend backend
 # Copies over the dev compose file and renames it so when installing as extension it is recognized
 COPY extension/docker-compose-dev.yaml docker-compose.yaml
-COPY extension/dockerfile.postgres /extension/dockerfile.postgres
+WORKDIR /extension
+COPY backend/db/init_prod.sql /extension/.
+WORKDIR /
 COPY metadata.json .
 COPY docketeer.svg .
 COPY types.d.ts .

@@ -28,7 +28,7 @@ const VolumeHistory = (): JSX.Element => {
     setFilterVolumeList(volumeContainersList);
   }, []);
 
-  const [disableShowAll, setDisableShowAll] = useState(false);
+  // const [disableShowAll, setDisableShowAll] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -52,8 +52,6 @@ const VolumeHistory = (): JSX.Element => {
       setFilterVolumeList(volumeContainersList);
 
     }
-    console.log(volumeContainersList);
-
     const result = volumeContainersList.filter((volObj) => {
       return volObj['volName'].toLowerCase().includes(volumeName.toLowerCase());
     });
@@ -90,8 +88,8 @@ const VolumeHistory = (): JSX.Element => {
   };
 
   const handleShowAllClick = () => {
-    setFilterVolumeList([]);
-    setDisableShowAll(false);
+    setFilterVolumeList(volumeContainersList);
+    // setDisableShowAll(false);
     setVolumeName('');
   };
 
@@ -134,8 +132,8 @@ const VolumeHistory = (): JSX.Element => {
             FIND
           </button>
           <button
-            className={`${globalStyles.button2} ${disableShowAll ? '' : globalStyles.disabledButton}`}
-            disabled={!disableShowAll}
+            className={`${globalStyles.button2}`}
+            // disabled={!disableShowAll}
             onClick={handleShowAllClick}
           >
           SHOW ALL

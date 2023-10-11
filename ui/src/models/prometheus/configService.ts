@@ -29,5 +29,26 @@ export const ConfigService = {
       console.error('Could not create data source:', error);
       return null;
     }
+  },
+
+  async updateDataSource(id: number, type_of_id?: number, url?: string, jobname?: string, endpoint?: string, match?: string, ssh_key?: string): Promise<boolean>{
+    try {
+      const body: PromDataSource = { id, type_of_id, url, jobname, endpoint, match, ssh_key}
+      await ddClientRequest('/api/prometheus/config', 'PUT', body);
+      return true;
+    } catch (error) {
+      console.error(`Couldn\'t update data source ${id}:`, error);
+      return false;
+    }
+  },
+
+  async deleteDataSource(id: number): Promise<boolean>{
+    try{
+      await ddClientRequest(`/api/prometheus/config/${id}`, 'DELETE');
+      return true;
+    } catch (error) {
+      console.error(`Couldn't delete data source`, error);
+      return false;
+    }
   }
 }

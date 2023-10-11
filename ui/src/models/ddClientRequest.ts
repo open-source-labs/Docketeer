@@ -24,7 +24,7 @@ class DdFetchError extends Error {
  *           versus docker desktop and either will use ddClient or fetch. Returns a uniform response across
  *           either instance
  */
-export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body: any = {}, headers: any = {}): Promise<T> => {
+export const ddClientRequest = async<T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body: any = {}, headers: any = {}): Promise<T> => {
   let ddClient;
 
   try {

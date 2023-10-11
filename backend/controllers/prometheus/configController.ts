@@ -21,11 +21,26 @@ interface ConfigController {
   /**
    * @method
    * @abstract
-   * @param {PromDataSource} res.locals.body
+   * @param {PromDataSource} req.body
    * @returns @param {string} res.locals.id 
    */
   createDataSource: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
+  /**
+   * @method
+   * @abstract
+   * @param {PromDataSource} req.body
+   * @returns {void}
+   */
+  updateDataSource: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+
+  /**
+   * @method
+   * @abstract
+   * @param {string} req.params.id
+   * @returns {void}
+   */
+  deleteDataSource: (req: Request, res: Response, next: NextFunction) => Promise<void>;
   
 }
 
@@ -79,10 +94,8 @@ configController.createDataSource = async (req: Request, res: Response, next: Ne
     INSERT INTO datasource (type_of, url, endpoint, ssh_key, match, jobname)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING id;`;
-    console.log(req.body);
     const { type_of_id, url, endpoint, ssh_key, match, jobname } = req.body;
     const values = [type_of_id, url, endpoint, ssh_key, match, jobname];
-    console.log(values);
     const result = await pool.query(text, values);
     const data: { [key: string]: string } = await result.rows[0];
     res.locals.id = data.id;
@@ -95,6 +108,46 @@ configController.createDataSource = async (req: Request, res: Response, next: Ne
     };
     return next(errObj);
     
+  }
+}
+
+configController.updateDataSource = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const text = `
+    UPDATE datasource SET (type_of, url, endpoint, ssh_key, match, jobname)
+    = ($1, $2, $3, $4, $5, $6)
+    WHERE id=($7);`;
+    const { type_of_id, url, endpoint, ssh_key, match, jobname, id } = req.body;
+    const values = [type_of_id, url, endpoint, ssh_key, match, jobname, id];
+    await pool.query(text, values);
+    return next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: JSON.stringify({ 'configController.updateDataSource Error: ': error }),
+      status: 500,
+      message: { err: 'configController.updateDataSource error' }
+    };
+    return next(errObj);
+
+  }
+}
+
+configController.deleteDataSource = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const text = `
+    DELETE FROM datasource
+    WHERE id=($1);`;
+    const { id } = req.params;
+    await pool.query(text, [id]);
+    return next();
+  } catch (error) {
+    const errObj: ServerError = {
+      log: JSON.stringify({ 'configController.deleteDataSource Error: ': error }),
+      status: 500,
+      message: { err: 'configController.deleteDataSource error' }
+    };
+    return next(errObj);
+
   }
 }
 export default configController;

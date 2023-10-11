@@ -4,23 +4,27 @@
   "description": "Back end of Docketeer extension",
   "main": "dist/server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npx nodemon server.ts\" \"npm run dev --prefix ../ui\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.3",
-    "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.17",
+    "@types/cookie-parser": "^1.4.4",
+    "@types/express": "^4.17.18",
     "@types/node-fetch": "^2.6.4",
     "@types/pg": "^8.10.2",
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
 }

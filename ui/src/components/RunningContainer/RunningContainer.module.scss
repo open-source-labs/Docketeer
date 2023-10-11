@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 .containerCard {
   transition: 0.2s;
     position: relative;
@@ -6,6 +8,7 @@
     justify-content: center;
     // flex-direction: column;
     word-wrap: break-word;
+    font-family: 'Roboto';
     // width: 500px;
     // height: 15rem;
   
@@ -40,6 +43,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
+  font-family:'Roboto';
   height: 100%;
   width: 100%;
   padding: 1rem;
@@ -52,7 +56,28 @@
   transition: all 0.3s ease-in-out;
 }
 
+.containerTextHolder {
+  display:flex;
+  flex-direction: column;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
 
+.containerTextHolder h2 {
+  white-space: nowrap;
+    overflow:scroll
+}
+.containerTextHolder h2::-webkit-scrollbar {
+  display:none;
+}
+
+// .flexSpacing {
+//   display: flex;
+//   flex-direction:column;
+//   justify-content:space-around
+
+// }
 
 
 
@@ -72,6 +97,7 @@
 }
 
 .metricText {
+  font-family: 'Roboto';
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
@@ -79,12 +105,31 @@
 }
 
 .metricSubtext {
+  font-family: 'Roboto';
+  border: 1px solid rgba(255, 255, 255, 0.283);
+  border-radius: 4px;
   display: grid;
+  font-size: 12px;
+  background-color: rgba(112, 128, 144, 0.258);
+  text-align: center;
   grid-template-rows: 1fr 1fr;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12);
+ &:hover {
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   transform: translateY(-.5px);
+ }
+
+ &:active {
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+   transform: translateY(0);
+ }
 }
 
 h5 {
   padding-top: 10px;
+  margin-bottom:4px;
 }
 
 .buttonHolder {
@@ -97,8 +142,10 @@ h5 {
   // position: absolute;
   // bottom: 1rem;
   // left: 1rem;
-  padding-top: 11px;
+  padding-top: 0px;
   display: flex;
+  gap:7px;
+  justify-content: center;
   flex-direction: column;
 
   button {
@@ -110,23 +157,67 @@ h5 {
 
 .buttonSmall {
   min-height: 2rem;
-  background-color: #212121;
+  font-size: 12px;
+  background-color: rgba(112, 128, 144, 0.258);
+  border-radius: 4px;
   padding: 10px;
+  display:inline-flex;
   font-size: .75rem;
+  border: 1px solid rgba(255, 255, 255, 0.283);
   cursor: pointer;
   outline-color: #212121;
-  color: white;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  position:relative;
+  align-items:center;
+  &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-.5px);
+    }
+  &::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius:2px;
+      background-color: #fff;
+      margin-right: 10px;
+  }
+  
+    &:active {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transform: translateY(0);
+    }
+    color:white;
 }
 
 .buttonSmallBottom {
-  margin-top: 20px;
   min-height: 2rem;
-  background-color: #212121;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: rgba(112, 128, 144, 0.258);
   padding: 10px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
   font-size: .75rem;
+  display: inline-flex;
   cursor: pointer;
-  outline-color: #212121;
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.283);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  align-items: center;
+  &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-.5px);
+    }
+   &:active {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transform: translateY(0);
+    }
+    color:white;
 }
 
 

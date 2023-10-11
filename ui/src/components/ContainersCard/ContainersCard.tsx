@@ -3,8 +3,9 @@ import { useAppDispatch } from '../../reducers/hooks';
 import { createAlert } from '../../reducers/alertReducer';
 import { ContainerType, ContainersCardsProps, stats } from '../../../ui-types';
 import RunningContainer from '../RunningContainer/RunningContainer';
-import { createDockerDesktopClient } from '@docker/extension-api-client';
-
+import PageSwitch from './PageSwitch';
+import Client from '../../models/Client';
+import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
 /**
  * @module | ContainersCard.tsx
  * @description | This component renders RunningContainer component and passes functions for connecting/disconnecting to the network as props.
@@ -18,76 +19,63 @@ const ContainersCard = ({
   stopContainer,
   runContainer,
   removeContainer,
-  status
+  bashContainer,
+  status,
 }: ContainersCardsProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const [containerMetrics, setContainerMetrics] = useState<stats[]>();
-  const ddClient = createDockerDesktopClient(); 
 
-
+  let ddClient;
   useEffect(() => {
-    let newData: stats[] = [];
-    // This is unicode by the way
-    const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
-    const result = ddClient.docker.cli.exec(
-      'stats',
-      ['--all', '--no-trunc', '--format', '{{ json . }}'],
-      {
-        stream: {
-          onOutput(data) {
-            if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
-              setContainerMetrics(newData);
-              newData = [];
-              newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
-            } else {
-              newData.push(JSON.parse(data.stdout ?? ''));
-            }
-          },
-          onError(error) {
-            console.error(error);
-          },
-          splitOutputLines: true,
-        },
+    async function displayMetrics() {
+      try {
+        let newData: stats[] = [];
+        // This is unicode by the way
+        const TERMINAL_CLEAR_CODE = '\x1B[2J[H';
+        const { createDockerDesktopClient } = await import("@docker/extension-api-client");
+        ddClient = createDockerDesktopClient();
+        ddClient.docker.cli.exec(
+          'stats',
+          ['--all', '--no-trunc', '--format', '{{ json . }}'],
+          {
+            stream: {
+              onOutput(data) {
+                if (data.stdout?.includes(TERMINAL_CLEAR_CODE)) {
+                  setContainerMetrics(newData);
+                  newData = [];
+                  newData.push(JSON.parse(data.stdout.replace(TERMINAL_CLEAR_CODE, '')));
+                } else {
+                  newData.push(JSON.parse(data.stdout ?? ''));
+                }
+              },
+              onError(error) {
+                console.error(error);
+              },
+              splitOutputLines: true,
+            },
+          }
+        );
+       
+      } catch (error) {
+        console.log(`Can't import ddClient`);
       }
-    );
+    }
+    displayMetrics();
 
-    // Clean-up function
-    return () => {
-      result.close();
-      newData = [];
-    };
+  
   }, [ddClient]);
-
 
   async function connectToNetwork(
     networkName: string,
     containerName: string
   ): Promise<void> {
     try {
-      const response: any = await ddClient.extension.vm?.service?.post('/command/networkConnect', {
-        networkName: networkName,
-        containerName: containerName,
-      });
-      const dataFromBackend = response;
-      if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert(
-            containerName + ' is successfully attached to the ' + networkName,
-            4,
-            'success'
-          )
-        );
-      } else if (dataFromBackend.error) {
-        dispatch(
-          createAlert(
-            containerName + ' is already attached to the ' + networkName,
-            4,
-            'warning'
-          )
-        );
-        return;
+      const result = await Client.NetworkService.connectContainerToNetwork(networkName, containerName);
+      if (result) {
+        dispatch(fetchNetworkAndContainer());
       }
+
     } catch (err) {
       dispatch(
         createAlert(
@@ -104,32 +92,9 @@ const ContainersCard = ({
     containerName: string,
   ): Promise<void> {
     try {
-      const response: any = await ddClient.extension.vm?.service?.post('/command/networkDisconnect', {
-        networkName: networkName,
-        containerName: containerName,
-      });
-
-      const dataFromBackend = response;
-      
-      if (dataFromBackend['hash']) {
-        dispatch(
-          createAlert(
-            containerName +
-              ' was successfully disconnected from ' +
-              networkName,
-            4,
-            'success'
-          )
-        );
-      } else if (dataFromBackend.error) {
-        dispatch(
-          createAlert(
-            containerName + ' is not connected to ' + networkName,
-            4,
-            'warning'
-          )
-        );
-        return;
+      const result = await Client.NetworkService.disconnectContainerFromNetwork(networkName, containerName);
+      if (result) {
+        dispatch(fetchNetworkAndContainer());
       }
     } catch (err) {
       dispatch(
@@ -162,15 +127,23 @@ const ContainersCard = ({
         stopContainer={stopContainer}
         runContainer={runContainer}
         removeContainer={removeContainer}
+        bashContainer = {bashContainer}
         connectToNetwork={connectToNetwork}
         disconnectFromNetwork={disconnectFromNetwork}
         status={status}/>
     );
   }
   );
+  const [currentPage, setPage] = useState(1);
+  const COUNT_PER_PAGE = 5;
+  // index of last container on each page
+  const lastContainerI = COUNT_PER_PAGE * currentPage;
+  const firstContainerI = lastContainerI - COUNT_PER_PAGE;
+  const slicedRunningContainers = RunningContainers.slice(firstContainerI, lastContainerI);
   return (
     <>
-      {RunningContainers}
+      {slicedRunningContainers}
+      <PageSwitch totalContainers = {RunningContainers.length} setPage = {setPage} contPerPage = {COUNT_PER_PAGE}/>
     </>
   );
 };

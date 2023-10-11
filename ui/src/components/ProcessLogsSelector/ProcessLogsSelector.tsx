@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './ProcessLogsSelector.module.scss';
 import globalStyles from '../global.module.scss';
 import { ProcessLogsSelectorProps } from '../../../ui-types';
@@ -13,13 +13,14 @@ function ProcessLogsSelector({
   btnIdList = [],
   status = '',
 }: ProcessLogsSelectorProps): JSX.Element {
+
   return (
     <form className={styles.wrapper}>
       <fieldset className={globalStyles.radioForm}>
         <legend>{status.toUpperCase()} CONTAINERS</legend>
         {containerList.map((container, i) => {
           return (
-            <div key={i}>
+            <div key={`checkbox_${i}`}>
               <input
                 type="checkbox"
                 id={container.Names}

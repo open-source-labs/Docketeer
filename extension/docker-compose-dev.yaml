@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  # The extension's UI/Backend
+  docketeer:
+    # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
+    image: ${DESKTOP_PLUGIN_IMAGE}
+    container_name: docketeer-ext
+    environment:
+      - STATUS=development   
+    volumes:
+      # Opens the docker sock and creates named volumes for persistent data that can be shared between containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      - docketeer-ext-prometheus-files:/prometheus
+      - docketeer-ext-grafana-files:/grafana
+      - docketeer-ext-initsql:/extension
+
+    ports:
+      - 4000:4000
+
+
+  cadvisor:
+    # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
+    # The docketeer image uploaded is on gcr.io/cadvisor/cadvisor:v0.47.1
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    container_name: docketeer-ext-cadvisor
+    expose:
+      - 8080
+    ports:
+      - 49158:8080
+    volumes:
+      # Applies the bind mounts in ro (read only) and rw (read write) to be able to scrape containers
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /etc/machine-id:/etc/machine-id:ro
+
+  # Collects additional metrics that are then sent to prometheus 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: docketeer-ext-node-exporter
+    restart: unless-stopped
+    expose:
+      - 9100
+    ports:
+      - 49157:9100
+    volumes:
+      #system info for linux machines
+      - /proc:/host/proc:ro
+      # also for linux
+      - /sys:/host/sys:ro
+      #root
+      - /:/rootfs:ro
+    # Set up the node-exporter to scrape resource metrics
+    # Dockerfile handles this if you're using the uploaded images
+    command:
+      - --path.procfs=/host/proc
+      - --path.rootfs=/rootfs
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+
+  # Collects metrics and makes them available at localhost:9090
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: docketeer-ext-prometheus
+    restart: unless-stopped
+    expose:
+      - 9090
+    ports:
+      - 49156:9090
+    volumes:
+      - docketeer-ext-prometheus-files:/etc/prometheus
+      - docketeer-ext-prometheus-data:/prometheus
+    # Tells prometheus to use the config file from ./imageConfigs/prometheus
+    # Dockerfile handles this if you're using the uploaded images
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    depends_on:
+      - node-exporter
+      - cadvisor
+
+  # Displays metrics gathered from containers at localhost:2999, 3000 is for kubernetes which is not set up for the extension
+  grafana:
+    image: grafana/grafana:latest
+    container_name: docketeer-ext-grafana
+    expose:
+      - 3000
+    ports:
+      - 49155:3000
+    volumes:
+      - docketeer-ext-grafana-files:/etc/grafana
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+    depends_on:
+      - prometheus
+
+  postgres:
+    image: postgres:latest
+    container_name: docketeer-ext-postgres
+    expose:
+      - 5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - docketeer-ext-initsql:/docker-entrypoint-initdb.d/
+
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=docketeer
+    depends_on:
+      - docketeer
+
+volumes:
+  docketeer-ext-prometheus-data:
+  docketeer-ext-prometheus-files:
+  docketeer-ext-grafana-files:
+  postgres_volume:
+  docketeer-ext-initsql:

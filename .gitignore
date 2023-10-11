@@ -19,3 +19,4 @@ out/
 docketeerdb
 imageConfigs/grafana/data/
 imageConfigs/grafana/data/grafana.db
+ui/build

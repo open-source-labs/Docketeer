@@ -3,9 +3,15 @@
   height: 100%;
 
   h2 {
+    margin-bottom: 8px;
+  }
+  .iframeHeader {
+    display: flex;
+    align-items: end;
     margin-bottom: 1rem;
   }
 }
+
 
 .button {
   background-color: #212121;
@@ -20,6 +26,7 @@
   padding: 10px 24px;
   border-radius: 4px;
   outline: none;
+  margin-left: 1rem;
 }
 
 .button:hover {

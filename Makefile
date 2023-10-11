@@ -1,68 +1,72 @@
-# Do any make commands from top level directory
-
-# Change this to whatever you make your docker hub organization name and change it in the docker-compose as well
-ITERATION?=docketeerxiv
-
 # Make sure to update versions to whatever the latest is
-EXTENSION_IMAGE?=$(ITERATION)/docketeer-extension
-TAG?=14.0.0
-
-GRAFANA_IMAGE?=$(ITERATION)/grafana-extension
-GRAFANA_VER?=latest
-GRAFANA_DOCKERFILE_PATH?=imageConfigs/grafana/Dockerfile.grafana
-
-PROM_IMAGE?=$(ITERATION)/prometheus-extension
-PROM_VER?=latest
-PROM_DOCKERFILE_PATH?=imageConfigs/prometheus/Dockerfile.prom
-
-NODE_EXPORTER_IMAGE?=$(ITERATION)/node-exporter-extension
-NODE_EXPORTER_VER?=latest
-NODE_EXPORTER_DOCKERFILE_PATH?=imageConfigs/node-exporter/Dockerfile.node-exporter
-
-CADVISOR_IMAGE?=$(ITERATION)/cadvisor-extension
-CADVISOR_VER?=latest
-CADVISOR_DOCKERFILE_PATH?=imageConfigs/cadvisor/Dockerfile.cadvisor
-
+EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
+VERSION?=15.0.0
+DEV_EXTENSION_NAME=docketeer-extension-dev
+DOCKERFILEDIRECTORY=extension
 BUILDER=buildx-multi-arch
+VITE_DEV_PORT=4000
 
 INFO_COLOR = \033[0;36m
 NO_COLOR   = \033[m
 
-build-extension: ## Build service image to be deployed as a desktop extension
-	docker build --tag=$(EXTENSION_IMAGE):$(TAG) .
+browser-dev:
+	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml up -d
 
-install-extension: build-extension ## Install the extension
-	docker extension install $(EXTENSION_IMAGE):$(TAG) -f
+browser-down:
+	docker compose -f ${DOCKERFILEDIRECTORY}/docker-compose-browser.yaml down
 
-update-extension: build-extension ## Update the extension
-	docker extension update $(EXTENSION_IMAGE):$(TAG) -f
+extension-dev: build-extension-dev install-extension-dev dev-tools
 
-update-debug-extension: update-extension # Update the extension and put it into debug mode
-	docker extension dev debug $(EXTENSION_IMAGE):$(TAG)
+install-extension-dev:
+	docker extension install ${DEV_EXTENSION_NAME} -f
 
-validate-extension: ## Make sure you have the multiplatform image created, need it to made to pass this
-	docker extension validate $(EXTENSION_IMAGE):$(TAG)
+build-extension-dev:
+	docker build -t ${DEV_EXTENSION_NAME} -f ${DOCKERFILEDIRECTORY}/dockerfile.dev .
+
+dev-tools:
+	docker extension dev debug ${DEV_EXTENSION_NAME}
+	docker extension dev ui-source ${DEV_EXTENSION_NAME} http://localhost:${VITE_DEV_PORT}
+
+#use rarely
+hardclean: img_prune clr_cache
+
+remove-dev-extension:
+	docker extension rm ${DEV_EXTENSION_NAME}
+	
+img_prune:
+	docker image prune -af
+clr_cache:
+	docker buildx prune -f 
+
+reload: build-dev update dev-tools
+
+update: 
+	docker extension update docketeer-extension
+
+prod: install-prod debug-prod
+
+build-prod: ## Build service image to be deployed as a desktop extension
+	docker build --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
+
+install-prod: build-prod ## Install the extension
+	docker extension install $(EXTENSION_IMAGE):$(VERSION) -f
+
+update-prod: build-prod ## Update the extension
+	docker extension update $(EXTENSION_IMAGE):$(VERSION) -f
+
+debug-prod: # Update the extension and put it into debug mode
+	docker extension dev debug $(EXTENSION_IMAGE):$(VERSION)
+
+validate-prod: install-prod## Make sure you have the multiplatform image created, need it to made to pass this
+	docker extension validate $(EXTENSION_IMAGE):$(VERSION)
 
 prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 	docker buildx inspect $(BUILDER) || docker buildx create --name=$(BUILDER) --driver=docker-container --driver-opt=network=host
 
 
 ## Pushing one image will push all the others it references in the chain. push-extension will push everything to docker hub
-push-extension: push-grafana ## Build & Upload extension image to hub. Do not push if tag already exists: make push-extension tag=0.1
-	docker pull $(EXTENSION_IMAGE):$(TAG) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(TAG) --tag=$(EXTENSION_IMAGE):$(TAG) .
-
-push-grafana: push-prometheus
-	docker pull $(GRAFANA_IMAGE):$(GRAFANA_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(GRAFANA_VER) --tag=$(GRAFANA_IMAGE):$(GRAFANA_VER) -f $(GRAFANA_DOCKERFILE_PATH) .
-
-push-prometheus: push-node-exporter
-	docker pull $(PROM_IMAGE):$(PROM_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(PROM_VER) --tag=$(PROM_IMAGE):$(PROM_VER) -f $(PROM_DOCKERFILE_PATH) .
-
-push-node-exporter: push-cadvisor
-	docker pull $(NODE_EXPORTER_IMAGE):$(NODE_EXPORTER_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(NODE_EXPORTER_VER) --tag=$(NODE_EXPORTER_IMAGE):$(NODE_EXPORTER_VER) -f $(NODE_EXPORTER_DOCKERFILE_PATH) .
-
-push-cadvisor: prepare-buildx
-	docker pull $(CADVISOR_IMAGE):$(CADVISOR_VER) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(CADVISOR_VER) --tag=$(CADVISOR_IMAGE):$(CADVISOR_VER) -f $(CADVISOR_DOCKERFILE_PATH) .
-
+push-extension: prepare-buildx## Build & Upload extension image to hub. Do not push if VERSION already exists: make push-extension VERSION=0.1
+	docker pull $(EXTENSION_IMAGE):$(VERSION) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(VERSION) --tag=$(EXTENSION_IMAGE):$(VERSION) -f ${DOCKERFILEDIRECTORY}/dockerfile.prod .
 
 help: ## Show this help
 	@echo Please specify a build target. The choices are:

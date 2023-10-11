@@ -14,7 +14,7 @@
   z-index: 1;
   left: 0;
   top: 1rem;
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: hidden;
   background: $background-bg;
   padding-top: 1rem;
@@ -24,6 +24,7 @@
   .listHolder {
     margin-top: 1rem;
     overflow-y: scroll;
+    gap: 5px;
     overflow-x: hidden;
     height: 35rem;
 
@@ -66,7 +67,7 @@
     }
 
     #networkName {
-      width: 12rem;
+      width: 10rem;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
@@ -82,8 +83,8 @@
       height: 2.5rem;
       width: 3.5rem;
       margin: 0px;
-      padding-right: 3.5rem;
-      padding-left: .2rem;
+      padding-right: 4.5rem;
+      padding-left: .75rem;
       border-radius: 0 .3rem .3rem 0;
       transition: all .2s ease-in-out;
 
@@ -118,6 +119,7 @@
   }
 
   .listHolder {
+    margin-top: 10vh;
     align-self: center;
   }
 }

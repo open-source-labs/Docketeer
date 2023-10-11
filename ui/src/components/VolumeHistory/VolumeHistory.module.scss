@@ -45,6 +45,9 @@
 }
 
 @media screen and (max-width: $breakpoint-lg) {
+  .searchHolder {
+    margin-top: 55px;
+  }
   .wrapper {
     display: flex;
     flex-direction: column;

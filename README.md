@@ -53,12 +53,10 @@
 <br />
 <!-- TABLE OF CONTENTS -->
 
-<br />
 
 ## Table of Contents
 
   <ol>
-      <br />
     <li>
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
@@ -70,21 +68,21 @@
   </ol>
 
 <!-- ABOUT THE PROJECT -->
-<br />
 
 ## About The Project
 
 <div align="center" width="100%">
             
-[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![MySQL][MySQL]][MySQL-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url]
+[![Docker][Docker]][Docker-url][![Typescript][TS.js]][TS-url][![JavaScript][JavaScript]][JavaScript-url][![React][React.js]][React-url][![Redux][Redux]][Redux-url][![RTK][RTK]][RTK-url][![Node][Node.js]][Node-url][![Express][Express]][Express-url][![Postgres][Postgres]][Postgres-url][![Grafana][Grafana]][Grafana-url][![Prometheus][Prometheus]][Prometheus-url][![Jest][Jest]][Jest-url][![Vite][Vite]][Vite-url][![Git][Git]][Git-url][![HTML5][HTML5]][HTML5-url][![CSS3][CSS3]][CSS3-url][![SASS][SASS]][SASS-url][![D3][D3]][D3-url][![MUI][MUI]][MUI-URL]
 
 </div>
 
 <br />
   <div align="center">
-    <img alt="Containers page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
-    <img alt="Network page" src="assets\docketeer-network-page.png" width="fit" height="auto">
-    <img alt="Metrics page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
+    <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+        <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
   </div>
 <br />
 
@@ -97,13 +95,10 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
-- Allows you to filter through both your running and stopped container logs. 
+- Allows you to filter through both your running and stopped container logs.
 - Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
-- With Docketeer, developers can quickly create, start, stop, and delete containers, as well as manage Docker networks and images.
-- Docketeer includes a variety of features, including automatic container naming, customizable configurations, and support for multiple Docker Compose - files.
-- Docketeer offers full networking capabilities: create and manage networks without touching the terminal.  
-- Docketeer also offers built-in support for popular development frameworks like Rails and Node.js, making it easy to get started with these technologies.
-- Docketeer is highly customizable, and developers can configure it to suit their specific needs.
+- With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.
+- Docketeer offers the ability to create, delete, and attach containers to networks.
 - It's a community-maintained project, with frequent updates and bug fixes.
 - Docketeer is licensed under the MIT license, meaning it can be used and modified freely, even for commercial projects.
 
@@ -112,33 +107,21 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 <!-- INSTALLATION -->
 
 ## Installation
-
 #### Open your Docker Desktop and search 'Docketeer' and install the extension!
-<br />
 
-#### If you would like to install from the Github repo follow these steps
-##### NOTE: Doing it this way will use the official image versions of grafana/prometheus/cadvisor/node-exporter  and the extension will be the unpublished version
-STEP 1 — Clone the repository<br />
-STEP 2 — Navigate to the top level directory of Docketeer-extension and run the following commands: 
-```sh
-docker build -t docketeer-extension -f dockerfile.dev .
-docker extension install docketeer-extension
-```
+### If you would like to install from the Github, see [DevGettingStarted](/docs/dev/DevGettingStarted.md)
 
 <!-- IN DEVELOPMENT -->
 
 ## In Development
 
-- [ ] Support for more development frameworks and languages, such as Next.JS.
-- [ ] Expand Docker networking capabilities within Docketeer to provide more sophisticated networking configurations and better interoperability with other network tools.
-- [ ] Develop more advanced container configuration options within Docketeer, such as load balancing or high availability setups.
-- [ ] Integrate Docketeer with popular development tools like IDEs or continuous integration/delivery systems for better automation and workflow efficiency.
+- [ ] More advanced container configuration options within Docketeer.
+- [ ] CI/CD pipeline for Docketeer repo.
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
-- [ ] Develop integration with cloud services like AWS or Azure to simplify the deployment of Docker-based applications.
-- [ ] Implement the Kubernetes metric monitoring from the browser version to the extension version.
-- [ ] Display additional metrics for Kubernetes clusters.
+- [ ] Add the ability to control Docker containers deployed in AWS.
+- [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
 
-See <a href="#troubleshooting">Troubleshooting</a> and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
+See the [Known Issues Docs](/docs/dev/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -182,11 +165,16 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [License](/LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Authors
+## Show Your Support
+
+Please ⭐️ this project if you found it helpful, thank you!
+<br />
+
+## Contributors
 
 - Dan Lin [@DanLin91](https://github.com/DanLin91) | [Linkedin](https://www.linkedin.com/in/danlin91/)
 - Kadir Gundogdu [@kadirgund](https://github.com/kadirgund) | [Linkedin](https://www.linkedin.com/in/kadirgund/)
@@ -250,42 +238,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 - Tristan Krause [@tristanyuukio](https://github.com/tristanyukio) | [LinkedIn](https://www.linkedin.com/in/krausetristan)
 - Grant Schussler [@gschussler](https://github.com/gschussler) | [LinkedIn](https://www.linkedin.com/in/grant-schussler/)
 - Jacob Melendez [@JacobAMelendez](https://github.com/JacobAMelendez) | [LinkedIn](https://www.linkedin.com/in/jacob-melendez-72245278)
+- Jonathan Gray [@thejohnny5](https://github.com/thejohnny5) | [LinkedIn](https://www.linkedin.com/in/jonathan-gray-987169183/)
+- Cristian Morales [@Cris-Morales](https://github.com/Cris-Morales) | [LinkedIn](https://www.linkedin.com/in/cmorales-uxr274/)
+- Josh Nelson [@JoshNelson98](https://github.com/JoshNelson98) | [LinkedIn](https://www.linkedin.com/in/josh-nelson-7aba19284/)
+- Christian Lyon [@christianDoesCoding](https://github.com/christianDoesCoding) | [LinkedIn](www.linkedin.com/in/christiandoescoding)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Show Your Support
-
-Please ⭐️ this project if you found it helpful, thank you!
-
-<br />
-
-## Troubleshooting:
-
-#### Network Capacity
-
-By default, Docker can only create 31 networks. If you try to create more, you would encounter the following error:
-
-```
-Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network
-```
-
-To expand network capacity, add the following to `/etc/docker/daemon.json`
-
-```
-{
-  "default-address-pools" : [
-    {
-      "base" : "172.17.0.0/12",
-      "size" : 20
-    },
-    {
-      "base" : "192.168.0.0/16",
-      "size" : 24
-    }
-  ]
-}
-```
-For details, please read [The definitive guide to docker's default-address-pools option](https://straz.to/2021-09-08-docker-address-pools/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/open-source-labs/Docketeer.svg?style=for-the-badge
 [contributors-url]: https://github.com/open-source-labs/Docketeer/graphs/contributors
@@ -344,4 +303,5 @@ For details, please read [The definitive guide to docker's default-address-pools
 [Kubernetes-url]: https://kubernetes.io/
 [D3]: https://img.shields.io/badge/d3-red?style=for-the-badge&logo=d3.js
 [D3-url]: https://d3js.org/
-
+[MUI]:https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white
+[MUI-url]: https://mui.com/

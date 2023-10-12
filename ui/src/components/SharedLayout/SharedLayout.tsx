@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
-import { Outlet, useNavigate, NavLink } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import { createAlert, createPrompt } from '../../reducers/alertReducer';
+import { createAlert } from '../../reducers/alertReducer';
 import { createPrunePrompt } from '../../reducers/pruneReducer';
 
-// Importing helpers
-import useSurvey from '../../helpers/dispatch';
-import useHelper from '../../helpers/commands';
-import * as history from '../../helpers/volumeHistoryHelper';
 
 import Alert from '../../components/Alert/Alert';
 import styles from './SharedLayout.module.scss';
 import docketeerLogo from '../../../assets/docketeer-logo-light.png';
+import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
+import { fetchImages } from '../../reducers/imageReducer';
+import { fetchNetworkAndContainer } from '../../reducers/networkReducer';
+import { fetchAllContainersOnVolumes, fetchAllDockerVolumes } from '../../reducers/volumeReducer';
+import Client from '../../models/Client';
 
 /**
  * @module | SharedLayout.tsx
@@ -19,73 +20,34 @@ import docketeerLogo from '../../../assets/docketeer-logo-light.png';
  **/
 
 function SharedLayout(): JSX.Element {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { handlePruneClick, handleNetworkPruneClick } = useHelper();
-  // const { logoutUser } = useSurvey();
+  const handleNetworkPrune = async(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const successful = await Client.NetworkService.pruneNetwork();
+    if (!successful) console.error(`Coudn't prune network`);
+  }
 
-  // const logOut = async (): Promise<void> => {
-  //   logoutUser();
-
-  //   try {
-  //     const response = await fetch('/api/logout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         username: userData.username,
-  //       }),
-  //     });
-  //     await response.json();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-
-  //   navigate('/login');
-  // };
-
-  // const handleLogOut = () => {
-  //   {
-  //     dispatch(
-  //       createPrompt(
-  //         // prompt (first argument in createPrompt)
-  //         'Are you sure you want to log out of Docketeer?',
-  //         // handleAccept (second argument in createPrompt)
-  //         () => {
-  //           logOut();
-  //           dispatch(createAlert('Logging out...', 5, 'success'));
-  //         },
-  //         // handleDeny (third argument in createPrompt)
-  //         () => {
-  //           dispatch(
-  //             createAlert(
-  //               'The request to logout has been cancelled.',
-  //               5,
-  //               'warning'
-  //             )
-  //           );
-  //         }
-  //       )
-  //     );
-  //   }
-  // };
+  const handleSystemPrune = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const successful = await Client.SystemService.pruneSystem();
+    if (!successful) console.error(`Coudn't prune system`)
+  }
 
   const prune = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    {
       dispatch(
         createPrunePrompt(
           // prompt (first argument in createPrunePrompt)
           'Are you sure you want to run system / network prune? System prune will remove all unused containers, networks, images and Network prune will remove all unused networks only (both dangling and unreferenced).',
           // handleSystemPrune (second argument in creatPrunePrompt)
           () => {
-            handlePruneClick(e);
+            handleSystemPrune(e);
             dispatch(createAlert('Performing system prune...', 4, 'success'));
           },
           // handleNetworkPrune (third argument in creatPrunePrompt)
           () => {
-            handleNetworkPruneClick(e);
+            handleNetworkPrune(e);
             dispatch(createAlert('Performing network prune...', 4, 'success'));
           },
           // handleDeny (fourth argument in creatPrunePrompt)
@@ -100,78 +62,33 @@ function SharedLayout(): JSX.Element {
           }
         )
       );
-    }
+    
   };
-  // const { sessions, volumes } = useAppSelector((state) => state);
-  const { volumes } = useAppSelector((state) => state);
-  // const userData = sessions;
-  const { arrayOfVolumeNames } = volumes;
-
-  const {
-    refreshRunning,
-    refreshStopped,
-    refreshImages,
-    refreshNetwork,
-    // writeToDb, writes to the database but the database is never used anywhere
-    getAllDockerVolumes,
-    getVolumeContainers,
-  } = useHelper();
-
-  // Deconstructs dispatch functions from custom hook
-  const { getVolumeContainerList } = useSurvey();
+  const { volumes } = useAppSelector((state) => state.volumes);
 
   useEffect(() => {
-    refreshRunning();
-    refreshStopped();
-    refreshImages();
-    refreshNetwork();
-    // writeToDb(); writes to the database but the database is never used anywhere
-    getAllDockerVolumes();
+    dispatch(fetchRunningContainers());
+    dispatch(fetchStoppedContainers());
+    dispatch(fetchImages());
+    dispatch(fetchNetworkAndContainer());
+    dispatch(fetchAllDockerVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Changes in arrayOfVolumeNames will run history.volumeByName
   useEffect(() => {
-    history.volumeByName(
-      getVolumeContainers,
-      arrayOfVolumeNames,
-      getVolumeContainerList
-    );
+    dispatch(fetchAllContainersOnVolumes());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayOfVolumeNames]);
-
-
-  // Refresh runningList, stoppedList, imageList and networkContainerList every 5-seconds to ensure GUI accurately depicts local Docker environment
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshRunning();
-      refreshStopped();
-      refreshImages();
-      refreshNetwork();
-    }, 5000);
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [volumes]);
 
   return (
     <div className={styles.wrapper}>
       <nav className={styles.navBar}>
         <div className={styles.navSpacer}>
           <ul className={styles.navLeft}>
-            {/* <li>
-            {/* <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/"
-              >
-                HOME
-              </NavLink>
-            </li> */}
+         
             <li>
               <NavLink
-              to="/"
+                to="/"
               >
                 <img className={styles.logo} src={docketeerLogo} alt="docketeer-logo" width="45" height="45"></img>
               </NavLink>
@@ -213,7 +130,17 @@ function SharedLayout(): JSX.Element {
                 }
                 to="/metrics"
               >
-                METRICS
+                CONTAINER METRICS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/K8Metrics"
+              >
+                KUBERNETES METRICS
               </NavLink>
             </li>
             <li>
@@ -223,17 +150,24 @@ function SharedLayout(): JSX.Element {
                 }
                 to="/volume"
               >
-                VOLUME HISTORY
+                VOLUMES
               </NavLink>
             </li>
             <li>
               <NavLink
-                className={({ isActive }) =>
+                className={({ isActive }) => isActive ? styles.active : styles.navButton}
+                to="/logs">
+                PROCESS LOGS
+              </NavLink>
+            </li>
+           
+            <li>
+              <NavLink
+                className={({ isActive }) => 
                   isActive ? styles.active : styles.navButton
                 }
-                to="/logs"
-              >
-                PROCESS LOGS
+              to="/configuration">
+                CONFIGURATIONS
               </NavLink>
             </li>
             <li>
@@ -241,31 +175,8 @@ function SharedLayout(): JSX.Element {
                 PRUNE
               </a>
             </li> 
-            {/* <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : styles.navButton
-                }
-                to="/about"
-              >
-                ABOUT
-              </NavLink>
-            </li> */}
           </ul>
-          {/* <ul className={styles.navRight}>
-            <li>
-              {userData.username && (
-                <span
-                  className={styles.userName}
-                >{`${userData.username}`}</span>
-              )}
-            </li>
-            <li>
-              <a className={styles.navButton} onClick={() => handleLogOut()}>
-                LOGOUT
-              </a>
-            </li>
-          </ul> */}
+        
         </div>
       </nav>
       <Alert />

@@ -1,8 +1,6 @@
 import React from 'react';
 import store from '../src/store';
 import { Provider } from 'react-redux';
-//import useHelper, * as helper from '../src/helpers/commands';
-import {useHelper} from "../src/helpers/commands"
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 import Images from '../src/components/Images/Images';
 import "@testing-library/jest-dom";
@@ -11,8 +9,6 @@ import {
   render,
   screen,
 } from '@testing-library/react';
-import { isJSDocSeeTag } from 'typescript';
-import ReactDOM from "react-dom";
 
   /* ----- fake data  ------ */
 const props = {

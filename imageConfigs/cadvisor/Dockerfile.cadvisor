@@ -1,2 +1,0 @@
-# Must use v0.47.1 instead of latest, latest does not work for macOS
-FROM gcr.io/cadvisor/cadvisor:v0.47.1

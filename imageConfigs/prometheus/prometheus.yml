@@ -4,23 +4,61 @@ global:
 
 scrape_configs:
   # Exposes port for data to be queried by grafana, can be viewed at localhost:9090/metrics, or queried at localhost:9090/graph
-  - job_name: prometheus
+  - job_name: localprometheus
     scrape_interval: 5s
     static_configs:
-      - targets: ['prometheus:9090']
+      - targets: ['localhost:9090', 'node-exporter:9100', 'cadvisor:8080']
 
-  # Adds the data from prom/node-exporter to localhost:9090/graph
-  - job_name: node
+  - job_name: 'federate'
+    metrics_path: '/federate'
+    scrape_interval: 15s
+    honor_labels: true
+    params:
+      'match[]':
+        - '{job="kubernetes-apiservers"}'
+        - '{job="kubernetes-nodes"}'
+        - '{job="kubernetes-nodes-cadvisor"}'
+        - '{job="kubernetes-service-endpoints"}'
     static_configs:
-      - targets: ['node-exporter:9100']
+      - targets:
+        - 'host.docker.internal:45555'
+    relabel_configs:
+      - target_label: 'federation'
+        replacement: 'true'
+      - target_label: 'scrapetype'
+        replacement: 'kubernetes'
 
-  # Scrapes all of the container metrics
-  - job_name: 'cadvisor'
-    static_configs:
-      - targets: ['host.docker.internal:8080']
-  
-  # Currently unsure is necessary, still experimenting
-  - job_name: docker_container_metrics
-    static_configs:
-      - targets: ['host.docker.internal:9323']
-
+  # - job_name: kubernetes-nodes-cadvisor
+  #   scrape_interval: 10s
+  #   scrape_timeout: 10s
+  #   static_configs:
+  #     - targets:
+  #       - 'host.docker.internal:45555'
+  #   # scheme: https  # remove if you want to scrape metrics on insecure port
+  #   # tls_config:
+  #   #   ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  #   # bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  #   # kubernetes_sd_configs:
+  #   #   - role: node
+  #   relabel_configs:
+  #     - action: labelmap
+  #       regex: __meta_kubernetes_node_label_(.+)
+  #     # Only for Kubernetes ^1.7.3.
+  #     # See: https://github.com/prometheus/prometheus/issues/2916
+  #     - target_label: __address__
+  #       replacement: host.docker.internal:45555
+  #     - source_labels: [__meta_kubernetes_node_name]
+  #       regex: (.+)
+  #       target_label: __metrics_path__
+  #       replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+  #   metric_relabel_configs:
+  #     - action: replace
+  #       source_labels: [id]
+  #       regex: '^/machine\.slice/machine-rkt\\x2d([^\\]+)\\.+/([^/]+)\.service$'
+  #       target_label: rkt_container_name
+  #       replacement: '${2}-${1}'
+  #     - action: replace
+  #       source_labels: [id]
+  #       regex: '^/system\.slice/(.+)\.service$'
+  #       target_label: systemd_service_name
+  #       replacement: '${1}'

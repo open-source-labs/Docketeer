@@ -1,10 +1,11 @@
-import React, { SyntheticEvent, useState } from 'react';
-import useHelper from '../../helpers/commands';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
-import { ImageObj, ImagesStateType } from '../../../ui-types';
 import styles from './Images.module.scss';
 import globalStyles from '../global.module.scss';
+import { ImageType } from 'types';
+import { fetchImages } from '../../reducers/imageReducer';
+import Client from '../../models/Client';
 
 /**
  * @module | Images.tsx
@@ -12,158 +13,75 @@ import globalStyles from '../global.module.scss';
  **/
 
 // eslint-disable-next-line react/prop-types
-const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
+const Images = (): JSX.Element => {
   // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
-  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
-  imagesList = imagesList.length ? imagesList : reduxImagesList;
-  const [repo, setRepo] = useState('');
+  const reduxImagesList = useAppSelector(state => state.images.imagesList);
+  const imagesList = reduxImagesList;
+  // const [repo, setRepo] = useState('');
   const dispatch = useAppDispatch();
-  const { runIm, removeIm, pullImage } = useHelper();
 
-  // const handleClick = () => {
-  //   if (!repo) {
-  //     dispatch(
-  //       createAlert(
-  //         'Please enter an image name prior to attempting to pull.',
-  //         5,
-  //         'error'
-  //       )
-  //     );
-  //     return;
-  //   } else {
-  //     let existingRepo = false;
-  //     if (repo.includes(':')) {
-  //       const splitRepo = repo.split(':');
-  //       imagesList.map((el) => {
-  //         if (el.reps === splitRepo[0] && el.tag === splitRepo[1]) {
-  //           existingRepo = true;
-  //           return;
-  //         }
-  //       });
-  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //       // @ts-ignore
-  //       if (existingRepo === true) {
-  //         dispatch(
-  //           createAlert(
-  //             'This image already exists within your Docketeer image collection.',
-  //             5,
-  //             'error'
-  //           )
-  //         );
-  //         return;
-  //       } else {
-  //         dispatch(
-  //           createPrompt(
-  //             `Are you sure you want to pull ${repo}?`,
-  //             () => {
-  //               pullImage(repo);
-  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-  //             },
-  //             () => {
-  //               dispatch(
-  //                 createAlert(
-  //                   `The request to pull ${repo} has been cancelled.`,
-  //                   5,
-  //                   'warning'
-  //                 )
-  //               );
-  //             }
-  //           )
-  //         );
-  //         return;
-  //       }
-  //     } else {
-  //       imagesList.map((el) => {
-  //         if (el.reps === repo && el.tag === 'latest') {
-  //           existingRepo = true;
-  //           return;
-  //         }
-  //       });
-  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //       // @ts-ignore
-  //       if (existingRepo === true) {
-  //         dispatch(
-  //           createAlert(
-  //             'This image already exists within your Docketeer image collection.',
-  //             5,
-  //             'error'
-  //           )
-  //         );
-  //         return;
-  //       } else {
-  //         dispatch(
-  //           createPrompt(
-  //             `Are you sure you want to pull ${repo}?`,
-  //             () => {
-  //               pullImage(repo);
-  //               dispatch(createAlert(`Pulling ${repo}...`, 5, 'success'));
-  //             },
-  //             () => {
-  //               dispatch(
-  //                 createAlert(
-  //                   `The request to pull ${repo} has been cancelled.`,
-  //                   5,
-  //                   'warning'
-  //                 )
-  //               );
-  //             }
-  //           )
-  //         );
-  //         return;
-  //       }
-  //     }
-  //   }
-  // };
+  useEffect((): void => {
+    dispatch(fetchImages());
+  }, []);
 
-  const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src =
-      'https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png';
-  };
+  const runImage = async (image: ImageType) => {
+    const success = await Client.ImageService.runImage(image.Repository, image.Tag);
+    if (success) dispatch(fetchImages());
+  }
 
-  const runImage = (image: ImageObj) => {
+  const removeImage = async (imageId: string) => {
+    const success = await Client.ImageService.removeImage(imageId);
+    if (success) dispatch(fetchImages());
+  }
+
+  const runImageAlert = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
-          `Are you sure you want to run ${image.reps}?`,
+          `Are you sure you want to run ${image.Repository}?`,
           () => {
-            runIm(image);
-            dispatch(createAlert(`Running ${image.reps}...`, 5, 'success'));
+            runImage(image);
+            dispatch(
+              createAlert(`Running ${image.Repository}...`, 5, 'success'),
+            );
           },
           () => {
             dispatch(
               createAlert(
-                `The request to run ${image.reps} has been cancelled.`,
+                `The request to run ${image.Repository} has been cancelled.`,
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
 
-  const removeImage = (image: ImageObj) => {
+  const removeImageAlert = (image: ImageType) => {
     {
       dispatch(
         createPrompt(
-          `Are you sure you want to remove ${image.reps}?`,
+          `Are you sure you want to remove ${image.Repository}?`,
           () => {
-            removeIm(image.imgid);
-            dispatch(createAlert(`Removing ${image.reps}...`, 5, 'success'));
+            removeImage(image.ID);
+            dispatch(
+              createAlert(`Removing ${image.Repository}...`, 5, 'success'),
+            );
           },
           () => {
             dispatch(
               createAlert(
-                `The request to remove ${image.reps} has been cancelled.`,
+                `The request to remove ${image.Repository} has been cancelled.`,
                 5,
-                'warning'
-              )
+                'warning',
+              ),
             );
-          }
-        )
+          },
+        ),
       );
     }
   };
@@ -180,28 +98,25 @@ const Images = ({ imagesList }: ImagesStateType): JSX.Element => {
                   <figure>
                     <img
                       className={styles.image}
-                      src={`https://d1q6f0aelx0por.cloudfront.net/product-logos/library-${image.reps}-logo.png`}
-                      onError={handleError}
+                      src={`https://d36jcksde1wxzq.cloudfront.net/54e48877dab8df8f92cd.png`}
                     />
                   </figure>
                   <div>
-                    <h2>{image.reps}</h2>
-                    <p>{image.tag}</p>
-                    <p>{`Image ID: ${image.imgid}`}</p>
-                    <p>{`Image Size: ${image.size}`}</p>
+                    <h2>{image.Repository}</h2>
+                    <p>{image.Tag}</p>
+                    <p>{`Image ID: ${image.ID}`}</p>
+                    <p>{`Image Size: ${image.Size}`}</p>
                   </div>
                   <div className={styles.buttonHolder}>
                     <div className={styles.buttonSpacer}>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => runImage(image)}
-                      >
+                        onClick={() => runImageAlert(image)}>
                         RUN
                       </button>
                       <button
                         className={globalStyles.buttonSmall}
-                        onClick={() => removeImage(image)}
-                      >
+                        onClick={() => removeImageAlert(image)}>
                         REMOVE
                       </button>
                     </div>

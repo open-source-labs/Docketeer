@@ -1,1 +1,0 @@
-FROM grafana/grafana:latest

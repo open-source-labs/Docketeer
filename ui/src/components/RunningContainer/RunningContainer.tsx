@@ -17,16 +17,15 @@ const RunningContainer = ({
   runContainer,
   removeContainer,
   connectToNetwork,
+  bashContainer,
   disconnectFromNetwork,
-  status,
-  key
+  status
 }: ContainersCardsProps): JSX.Element => {
   // Using useAppSelector for accessing to networkList state
   const { networkContainerList } = useAppSelector((state) => state.networks);
   // const networkContainerList = [{ networkName: 'testnetwork', containers: [{ containerName: 'testname', containerIP: 'testip' }]}]
   // create state that will use as toggle to show the modal or not
   const [isOpen, setIsOpen] = useState(false);
-
   // function for opening the modal
   const openNetworkList = () => {
     setIsOpen(true);
@@ -39,9 +38,10 @@ const RunningContainer = ({
   if (!container) return (<p>no container</p>);
   
   return (
-    <div key={key} className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
+    <div className={status === 'running' ? styles.containerCard : styles.containerCardStopped}>
       <div className={styles.containerTextHolder}>
         <h2 className={styles.textSpacing}>{container.Names}</h2>
+        <div className = {styles.flexSpacing}>
         <p className={styles.textSpacing}>
           <strong>Image:</strong> {container.Image}
         </p>
@@ -58,13 +58,14 @@ const RunningContainer = ({
             <strong>Stopped: </strong> {container.RunningFor}
           </p>
         )}
+        </div>
       </div>
 
       {status === 'running' && (
         <div className={styles.containerMetricHolder}>
           <div className={styles.metricText}>
             <div className={styles.metricSubtext}>
-              <h5>CPU</h5>
+              <h5>CPU %</h5>
               {metrics && metrics.CPUPerc}
             </div>
             <div className={styles.metricSubtext}>
@@ -119,12 +120,19 @@ const RunningContainer = ({
             </>
           )}
           {status === 'running' && (
+            <>
             <button
               className={styles.buttonSmallBottom}
               onClick={() => openNetworkList()}
             >
               NETWORKS
             </button>
+              {/* <button
+                className={styles.buttonSmallBottom}
+                onClick={() => bashContainer(container)}>
+                CONSOLE
+            </button> */}
+            </>
           )}
         </div>
       </div>

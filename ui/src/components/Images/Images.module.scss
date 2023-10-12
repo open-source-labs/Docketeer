@@ -65,6 +65,7 @@
 
 @media screen and (max-width: $breakpoint-lg) {
   .imageHolder {
+    margin-top: 5vh;
     grid-template-columns: 1fr 1fr 1fr;
   }
 }

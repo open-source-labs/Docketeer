@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ContainerType } from '../../../ui-types';
 import { useAppSelector, useAppDispatch } from '../../reducers/hooks';
-import useHelper from '../../helpers/commands';
 import { createAlert, createPrompt } from '../../reducers/alertReducer';
 import styles from './Containers.module.scss';
 import ContainersCard from '../ContainersCard/ContainersCard';
-
+import Client from '../../models/Client';
+import { fetchRunningContainers, fetchStoppedContainers } from '../../reducers/containerReducer';
 
 /**
  * @module | Containers.tsx
@@ -14,19 +14,47 @@ import ContainersCard from '../ContainersCard/ContainersCard';
  **/
 
 const Containers = (): JSX.Element => {
-  const [activeButton, setActiveButton] = useState(1)
+  const [activeButton, setActiveButton] = useState(1);
   const dispatch = useAppDispatch();
-  const { runStopped, remove, stop } = useHelper();
+
   const { runningList, stoppedList } = useAppSelector(
     (state) => state.containers
   );
 
+  const bashContainer = async (id: string) => await Client.ContainerService.bashContainer(id); 
+
+  const stopWrapper = async(id: string) => {
+    const wasStopped = await Client.ContainerService.stopContainer(id);
+    if (wasStopped) {
+      dispatch(fetchStoppedContainers());
+      dispatch(fetchRunningContainers());
+    }
+  }
+
+  const startWrapper = async(id: string) => {
+    const wasStarted = await Client.ContainerService.runContainer(id);
+    if (wasStarted) {
+      dispatch(fetchStoppedContainers());
+      dispatch(fetchRunningContainers());
+    }
+  }
+
+  const removeWrapper = async (containerId: string) => {
+    const wasRemoved = await Client.ContainerService.removeContainer(containerId);
+    if (wasRemoved) {
+      dispatch(fetchRunningContainers());
+      dispatch(fetchStoppedContainers());
+    }
+  }
+
+
   const stopContainer = (container: ContainerType) => {
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to stop ${container.Names}?`,
         () => {
-          stop(container.ID);
+          stopWrapper(container.ID);
           dispatch(createAlert(`Stopping ${container.Names}...`, 5, 'error'));
         },
         () => {
@@ -43,11 +71,12 @@ const Containers = (): JSX.Element => {
   };
 
   const runContainer = (container: ContainerType) => {
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to run ${container.Names}?`,
         () => {
-          runStopped(container['ID']);
+          startWrapper(container['ID']);
           dispatch(createAlert(`Running ${container.Names}...`, 5, 'success'));
         },
         () => {
@@ -64,11 +93,12 @@ const Containers = (): JSX.Element => {
   };
 
   const removeContainer = (container: ContainerType) => {
+    // changeState(prev => prev+1)
     dispatch(
       createPrompt(
         `Are you sure you want to remove ${container.Names}?`,
         () => {
-          remove(container['ID']);
+          removeWrapper(container['ID']);
           dispatch(createAlert(`Removing ${container.Names}...`, 5, 'success'));
         },
         () => {
@@ -84,6 +114,9 @@ const Containers = (): JSX.Element => {
     );
   };
 
+
+  
+
   return (
     <div>
       <div className={styles.wrapper}>
@@ -92,9 +125,9 @@ const Containers = (): JSX.Element => {
     
           <div className={styles.toggle}>
             <div>
-              {activeButton === 1 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=75" width="100%"></iframe>}
-              {activeButton === 2 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
-              {activeButton === 3 && <iframe src="http://localhost:2999/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
+              {activeButton === 1 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=81" width="100%" height="200"></iframe>}
+              {activeButton === 2 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=7" width="100%"></iframe>}
+              {activeButton === 3 && <iframe src="http://localhost:49155/d-solo/h5LcytHGz/system?orgId=1&refresh=10s&panelId=8" width="100%"></iframe>}
             </div>
             <div className={styles.buttons}>
               <button className={activeButton === 1 ? styles.active : styles.notActive} onClick={() => setActiveButton(1)}>Memory</button>
@@ -110,6 +143,7 @@ const Containers = (): JSX.Element => {
               containerList={runningList}
               stopContainer={stopContainer}
               runContainer={runContainer}
+              bashContainer = {bashContainer}
               removeContainer={removeContainer}
               status="running"
             />
@@ -123,6 +157,7 @@ const Containers = (): JSX.Element => {
               containerList={stoppedList}
               stopContainer={stopContainer}
               runContainer={runContainer}
+              bashContainer = {bashContainer}
               removeContainer={removeContainer}
               status="stopped"
             />

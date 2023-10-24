@@ -51,8 +51,6 @@ export interface NetworkContainerType extends ContainerPS{
   MacAddress: string;
   IPv4Address: string;
   IPv6Address: string;
-  containerName?: string;
-  containerIP?: string;
 }
 
 export interface NetworkInspect{

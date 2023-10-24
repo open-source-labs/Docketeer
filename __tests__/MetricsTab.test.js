@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Metrics from '../ui/src/components/Metrics/Metrics';
+import Metrics from '../src/components/Metrics/Metrics';
 import { describe, expect, test, beforeEach } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
-import store from '../ui/src/store';
+import store from '../src/store';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 

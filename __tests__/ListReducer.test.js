@@ -1,5 +1,5 @@
-import containerReducer from '../ui/src/reducers/containerReducer';
-import imageReducer from '../ui/src/reducers/imageReducer';
+import containerReducer from '../src/reducers/containerReducer';
+import imageReducer from '../src/reducers/imageReducer';
 import { describe, beforeEach, expect, test } from '@jest/globals';
 
 describe('Dockeeter reducer', () => {

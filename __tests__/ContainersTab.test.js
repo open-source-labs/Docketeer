@@ -1,11 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
-import Containers from "../ui/src/components/Containers/Containers";
-import ContainersCard from "../ui/src/components/ContainersCard/ContainersCard";
+import Containers from "../src/components/Containers/Containers";
+import ContainersCard from "../src/components/ContainersCard/ContainersCard";
 import { describe, beforeEach, expect, test, jest } from "@jest/globals";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import store from "../ui/src/store";
+import store from "../src/store";
 
 const props = {
   runningList: [

@@ -34,10 +34,9 @@ export interface NetworkContainerListType {
 }
 
 // Relates to above interfaces containers property
-// TODO: changed container name and IP to optional to debug test. Need to review. 
 export interface NetworkAttachedContainersInfo {
-  containerName?: string;
-  containerIP?: string;
+  containerName: string;
+  containerIP: string;
 }
 
 // for networkReducer's action

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { describe, expect, test, jest } from '@jest/globals';
-import VolumeTab from '../src/components/VolumeHistory/VolumeHistory';
+import VolumeTab from '../ui/src/components/VolumeHistory/VolumeHistory';
 import '@testing-library/react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import App from '../src/App';
+import App from '../ui/src/App';
 
 // configure({ adapter: new Adapter() })
 const props = {

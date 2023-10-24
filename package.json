@@ -5,7 +5,9 @@
   "license": "MIT",
   "description": "A modern GUI for Docker that provides developers with both management and visualization tools.",
   "author": "Docketeer",
-  "scripts": {},
+  "scripts": {
+    "test": "jest --verbose"
+  },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
     "@mui/material": "^5.14.10",

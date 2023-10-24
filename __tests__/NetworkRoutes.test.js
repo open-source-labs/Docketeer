@@ -6,7 +6,7 @@ import { describe, beforeEach, expect, test, jest } from '@jest/globals';
 const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
-// TODO:fix the router, update the names. api router and commande router only exist in the old version 
+
 import apiRouter from '../server/routes/apiRouter';
 import commandRouter from '../server/routes/commandRouter';
 

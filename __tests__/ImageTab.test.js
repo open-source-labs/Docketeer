@@ -1,8 +1,8 @@
 import React from 'react';
-import store from '../src/store';
+import store from '../ui/src/store';
 import { Provider } from 'react-redux';
 import { describe, beforeEach, expect, test, jest } from '@jest/globals';
-import Images from '../src/components/Images/Images';
+import Images from '../ui/src/components/Images/Images';
 import "@testing-library/jest-dom";
 import {
   fireEvent,

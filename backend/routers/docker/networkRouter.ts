@@ -35,7 +35,7 @@ router.delete('/prune', networkController.prune, (req, res) => {
  * @returns
  */
 router.post('/', networkController.createNetwork, (req, res)=>{
-  return res.sendStatus(201);
+  return res.status(201).json(res.locals.result);
 });
 
 /**
@@ -44,8 +44,21 @@ router.post('/', networkController.createNetwork, (req, res)=>{
  * @param 
  * @returns
  */
-router.delete('/:id', networkController.removeNetwork, (req, res) => {
+router.delete('/removeContainer', networkController.disconnectContainerFromNetwork, (req, res) => {
   return res.sendStatus(204);
+});
+
+
+/**
+ * @abstract 
+ * @todo 
+ * @param 
+ * @returns
+ */
+
+router.delete('/:id', networkController.removeNetwork, (req, res) => {
+  // return res.sendStatus(204);
+  return res.status(200).json(res.locals.result);
 });
 
 /**
@@ -58,14 +71,17 @@ router.post('/container', networkController.connectContainerToNetwork, (req, res
   return res.sendStatus(201);
 });
 
-/**
- * @abstract 
- * @todo 
- * @param 
- * @returns
- */
-router.delete('/:id/container/:containerId', networkController.disconnectContainerFromNetwork, (req, res) => {
-  return res.sendStatus(204);
-});
+// /**
+//  * @abstract 
+//  * @todo 
+//  * @param 
+//  * @returns
+//  */
+// router.delete('/removeContainer', networkController.disconnectContainerFromNetwork, (req, res) => {
+//   return res.sendStatus(204);
+// });
+// router.delete('/removeContainer/?name', networkController.disconnectContainerFromNetwork, (req, res) => {
+//   return res.sendStatus(204);
+// });
 
 export default router;

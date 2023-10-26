@@ -89,9 +89,10 @@ networkController.createNetwork = async (req: Request, res: Response, next: Next
   try {
     const { networkName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network create ${networkName}`);
-    if (stderr.length) throw new Error(stderr);
+    if (stderr) throw new Error(stderr);
     //Remove once verified working
-    console.log(stdout);
+    // console.log('this is stdout:', stdout);
+    res.locals.result = { hash: stdout };
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -105,12 +106,13 @@ networkController.createNetwork = async (req: Request, res: Response, next: Next
 
 networkController.removeNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    // console.log('remove container test is coming here')
     const { id } = req.params;
     const { stdout, stderr } = await execAsync(`docker network rm ${id}`);
     if (stderr.length) throw new Error(stderr);
-
     //Delete once verified
-    console.log(stdout);
+    // console.log('this is:', stdout);
+    res.locals.result = { hash: stdout };
     return next();
   } catch (error) {
     const errObj: ServerError = {
@@ -127,9 +129,8 @@ networkController.connectContainerToNetwork = async (req: Request, res: Response
     const { networkName, containerName } = req.body;
     const { stdout, stderr } = await execAsync(`docker network connect ${networkName} ${containerName}`);
     if (stderr.length) throw new Error(stderr);
-    
     // Delete below once verified working
-    console.log(stdout);
+    // console.log('this is stdout in connectContainerNetworl', stdout);
 
     return next();
   } catch (error) {
@@ -144,12 +145,12 @@ networkController.connectContainerToNetwork = async (req: Request, res: Response
 
 networkController.disconnectContainerFromNetwork = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { networkName, containerName } = req.body;
+    const { networkName, containerName } = req.query;
     const { stdout, stderr } = await execAsync(`docker network disconnect ${networkName} ${containerName}`);
     if (stderr.length) throw new Error(stderr);
 
     // Delete console log when confirmed working
-    console.log(stdout);
+    // console.log('this is disconnect container network middleware stdout:', stdout);
     return next();
   } catch (error) {
     const errObj: ServerError = {

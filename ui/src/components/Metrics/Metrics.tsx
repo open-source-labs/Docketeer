@@ -21,7 +21,7 @@ const Metrics = (): JSX.Element => {
       <div>
         <iframe
           //TODO:fix the boolean key issue, key shouldn't be a bool
-          //key ={resetIframe}
+          // key ={resetIframe}
           id="iframe"
           className={styles.metrics}
           src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=10s&kiosk"

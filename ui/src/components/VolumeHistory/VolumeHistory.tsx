@@ -14,7 +14,7 @@ import SingleVolume from './SingleVolume';
  * @description | Provides information regarding volumes
  **/
 
-const VolumeHistory = (): JSX.Element => {
+const VolumeHistory = (props:any): JSX.Element => {
   const [volumeName, setVolumeName]  = useState('');
   const [filterVolumeList, setFilterVolumeList] = useState<VolumeObj[]>([]);
 
@@ -25,6 +25,7 @@ const VolumeHistory = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(fetchAllContainersOnVolumes());
+    // console.log(props.volumeContainersList)
     setFilterVolumeList(volumeContainersList);
   }, []);
 

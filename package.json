@@ -7,16 +7,21 @@
   "author": "Docketeer",
   "scripts": {
     "test": "jest --verbose",
-    "jest-preview": "jest-preview"
+    "jest-preview": "jest-preview",
+    "test:debug": "npm-run-all -p test jest-preview"
   },
   "dependencies": {
     "@docker/extension-api-client": "^0.3.4",
-    "@mui/material": "^5.14.10",
-    "@mui/styled-engine-sc": "^5.14.10",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.15",
+    "@mui/styled-engine-sc": "^5.14.12",
+    "@mui/x-date-pickers": "^6.16.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "d3": "^7.8.5",
     "d3-sankey": "^0.12.3",
+    "dayjs": "^1.11.10",
+    "dayjs-plugin-utc": "^0.1.2",
     "jsonwebtoken": "^9.0.1",
     "nth-check": "^2.1.1",
     "pg": "^8.8.0",
@@ -50,6 +55,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
+    "@types/d3": "^7.4.2",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.6",
     "@types/jsonwebtoken": "^9.0.1",
@@ -100,7 +106,8 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.8",
     "vite-plugin-html": "^3.2.0",
-    "xterm": "^5.3.0"
+    "xterm": "^5.3.0",
+    "npm-run-all": "latest"
   },
   "repository": {
     "type": "git",
@@ -112,11 +119,17 @@
     "transform": {
       "^.+\\.jsx?$": "ts-jest"
     },
-    "preset": "ts-jest",
+    "preset": "ts-jest/presets/js-with-ts",
     "moduleNameMapper": {
       "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)"
+    ]
   },
   "bugs": {
     "url": "https://github.com/open-source-labs/Docketeer/issues"

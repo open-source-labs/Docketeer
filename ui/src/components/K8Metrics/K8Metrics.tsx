@@ -22,7 +22,8 @@ const K8Metrics = (): JSX.Element => {
       </div>
       <div>
         <iframe
-          key={resetIframe}
+          //TODO: commented out key
+          // key={resetIframe}
           className={styles.metrics}
           src='http://localhost:49155/d/k8s_views_nodes/kubernetes-views-nodes?orgId=1&refresh=1s&var-resolution=3m&var-node=docker-desktop&kiosk'></iframe>
       </div>

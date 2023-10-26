@@ -218,7 +218,8 @@ const ProcessLogs = (): JSX.Element => {
     // if s
     if (stdout && stderr) {
       if (stdout.length) {
-        stdout.forEach((log: stdType) => {
+        //TODO: change from stdType to any for now
+        stdout.forEach((log: any) => {
           const currCont = combinedList.find(
             (el: ContainerType) => el.Names === log['containerName'],
           );
@@ -241,7 +242,8 @@ const ProcessLogs = (): JSX.Element => {
         });
       }
       if (stderr.length) {
-        stderr.forEach((log: stdType) => {
+        //TODO: Changed from stdType to any for now
+        stderr.forEach((log: any) => {
           const currCont = combinedList.find(
             (el: ContainerType) => el.Names === log['containerName'],
           );

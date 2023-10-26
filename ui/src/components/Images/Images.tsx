@@ -12,14 +12,19 @@ import Client from '../../models/Client';
  * @description | Provides ability to pull images from DockerHub image repository, run images, and remove images
  **/
 
+export interface TestParams {
+  imagesListTest?: ImageType[];
+} 
 // eslint-disable-next-line react/prop-types
-const Images = (): JSX.Element => {
+const Images = (params?: TestParams ): React.JSX.Element => {
   // const Images = () => {
   // imagesList for testing purposes only
   // * above comment left by previous iteration. resolved type errors in order to test
-  const reduxImagesList = useAppSelector(state => state.images.imagesList);
-  const imagesList = reduxImagesList;
+  console.log("Running images function");
+  const reduxImagesList = useAppSelector((state) => state.images.imagesList);
+  const imagesList = params.imagesListTest ? params.imagesListTest : reduxImagesList;
   // const [repo, setRepo] = useState('');
+  console.log("images list: ", imagesList);
   const dispatch = useAppDispatch();
 
   useEffect((): void => {
@@ -27,14 +32,17 @@ const Images = (): JSX.Element => {
   }, []);
 
   const runImage = async (image: ImageType) => {
-    const success = await Client.ImageService.runImage(image.Repository, image.Tag);
+    const success = await Client.ImageService.runImage(
+      image.Repository,
+      image.Tag
+    );
     if (success) dispatch(fetchImages());
-  }
+  };
 
   const removeImage = async (imageId: string) => {
     const success = await Client.ImageService.removeImage(imageId);
     if (success) dispatch(fetchImages());
-  }
+  };
 
   const runImageAlert = (image: ImageType) => {
     {
@@ -44,7 +52,7 @@ const Images = (): JSX.Element => {
           () => {
             runImage(image);
             dispatch(
-              createAlert(`Running ${image.Repository}...`, 5, 'success'),
+              createAlert(`Running ${image.Repository}...`, 5, "success")
             );
           },
           () => {
@@ -52,11 +60,11 @@ const Images = (): JSX.Element => {
               createAlert(
                 `The request to run ${image.Repository} has been cancelled.`,
                 5,
-                'warning',
-              ),
+                "warning"
+              )
             );
-          },
-        ),
+          }
+        )
       );
     }
   };
@@ -69,7 +77,7 @@ const Images = (): JSX.Element => {
           () => {
             removeImage(image.ID);
             dispatch(
-              createAlert(`Removing ${image.Repository}...`, 5, 'success'),
+              createAlert(`Removing ${image.Repository}...`, 5, "success")
             );
           },
           () => {
@@ -77,11 +85,11 @@ const Images = (): JSX.Element => {
               createAlert(
                 `The request to remove ${image.Repository} has been cancelled.`,
                 5,
-                'warning',
-              ),
+                "warning"
+              )
             );
-          },
-        ),
+          }
+        )
       );
     }
   };
@@ -110,13 +118,19 @@ const Images = (): JSX.Element => {
                   <div className={styles.buttonHolder}>
                     <div className={styles.buttonSpacer}>
                       <button
+                        role="button"
+                        name="RUN"
                         className={globalStyles.buttonSmall}
-                        onClick={() => runImageAlert(image)}>
+                        onClick={() => runImageAlert(image)}
+                      >
                         RUN
                       </button>
                       <button
+                        role="button"
+                        name="REMOVE"
                         className={globalStyles.buttonSmall}
-                        onClick={() => removeImageAlert(image)}>
+                        onClick={() => removeImageAlert(image)}
+                      >
                         REMOVE
                       </button>
                     </div>

@@ -9,8 +9,10 @@
     "sourceMap": true,
     "strict": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
+    //TODO: Changed to false
+    "noImplicitAny": false,
     "strictNullChecks": false,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
     }
 } 

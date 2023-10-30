@@ -46,8 +46,6 @@ const Metrics = (): JSX.Element => {
 
   }
 
-
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.iframeHeader}>

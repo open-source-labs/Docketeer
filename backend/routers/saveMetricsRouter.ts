@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 const router = Router();
+import db from '../db/model'
 
 /**
  * @abstract
@@ -10,9 +11,13 @@ const router = Router();
 router.post(
   '/',
   async (req: Request, res: Response) => {
-    const body = await req.body
-    console.log('in the backend, req.body', body)
-    return res.status(200).json({'req': body});
+    const {date, metricsResult} = await req.body
+    
+    console.log('in the backend, req.body', date)
+    const inputs = [date, metricsResult]
+    const queryStr = 'INSERT INTO snapshots ( metric_date, metric_result) VALUES($1,$2)';
+    db.query(queryStr, inputs)
+    return res.status(200).json({'req': req.body});
   }
 );
 

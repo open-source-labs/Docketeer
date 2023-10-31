@@ -3,8 +3,8 @@ import styles from './Metrics.module.scss';
 
 const Snapshots = (): JSX.Element => {
  
-  // const [dropDown, updateDropDown] = useState<JSX.Element[]>([])
-  const dropDown: JSX.Element[] = []
+  const [dropDown, updateDropDown] = useState<JSX.Element[]>([])
+  // const dropDown: JSX.Element[] = []
   const getDates = () : void => {
     fetch('http://localhost:3000/api/saveMetricsEntry/date')
       .then((data) => data.json())
@@ -17,7 +17,7 @@ const Snapshots = (): JSX.Element => {
     const newDropDown: JSX.Element[] = [];
     dates.forEach((dateObj: any) => {
       const date: string = dateObj.metric_date
-    dropDown.push(
+    newDropDown.push(
         <option>
           {date}
         </option>
@@ -25,15 +25,13 @@ const Snapshots = (): JSX.Element => {
       console.log('date added to dropDown list:', date)
       console.log('length of dropdown list:', dropDown.length)
     });
-    // updateDropDown(newDropDown);
+    updateDropDown(newDropDown);
   }
 
-  getDates();
-  console.log('this is the dropdown after invoking getDates():', dropDown)
-  // useEffect(() => {
-  //     getDates();
-  // },[])
-  // console.log('current dropdown:', dropDown[0])
+  // getDates();
+  useEffect(() => {
+      getDates();
+  },[])
 
   return (
     <div>

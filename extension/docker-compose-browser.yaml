@@ -5,8 +5,8 @@ services:
   docketeer:
     # Image must be ${DESKTOP_PLUGIN_IMAGE} to be used as an extension
     # image: ${DESKTOP_PLUGIN_IMAGE}
-    build:
-      context: ..
+    build: 
+      context: .. 
       dockerfile: extension/dockerfile.browser
     image: docketeer/docketeer-extension:dev
     container_name: docketeer-ext
@@ -117,6 +117,8 @@ services:
     container_name: docketeer-ext-postgres
     expose:
       - 5432
+    ports:
+      - 5432:5432
     volumes:
       - postgres_volume:/var/lib/postgresql/data
     environment:

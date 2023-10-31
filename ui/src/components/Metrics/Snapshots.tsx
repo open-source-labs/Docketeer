@@ -19,6 +19,7 @@ const Snapshots = (): JSX.Element => {
 
   return (
     <div>
+      {dropDown}
     </div>
   );
 };

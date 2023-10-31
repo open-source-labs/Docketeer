@@ -11,7 +11,7 @@ minikube start
 # Downloads prometheus for the kubernetes cluster
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
-# Install prometheus inside the cluster
+# Install  inside the cluster
 helm install my-prometheus prometheus-community/prometheus
 
 # OPEN THE PORT TO YOUR LOCAL MACHINE

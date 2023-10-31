@@ -9,18 +9,38 @@ const Metrics = (): JSX.Element => {
   };
 
   const getMetrics = (): void => {
-    const date = new Date().toISOString();
-    console.log('date', date)
+    const date = Math.floor(new Date().getTime() / 1000);
+    console.log('date', date);
 
-    fetch(
-      `http://localhost:49156/api/v1/query?query=node_memory_MemAvailable_bytes&time=${date}`
-    )
-      .then((data) => data.json())
+    const url = 'http://localhost:49156/api/v1/query';
+    const queryValue = `{__name__=~".+" } @ ${date}`;
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({ query: queryValue }).toString(),
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => response.json())
       .then((data) => {
-        console.log(data.data)
-        saveMetrics(date, data.data)
+        console.log(data.data);
+        //saveMetrics(date, data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.error('Error:', error));
+
+    // const date = new Date().toISOString();
+    // fetch(
+    //   `http://localhost:49156/api/v1/query?query=node_memory_MemAvailable_bytes&time=${date}`
+    // )
+    //   .then((data) => data.json())
+    //   .then((data) => {
+    //     console.log(data.data)
+    //     saveMetrics(date, data.data)
+    //   })
+    //   .catch((err) => console.log(err));
   }
 
   const saveMetrics = (date, metricsResult) => { 

@@ -85,12 +85,15 @@ function SharedLayout(): JSX.Element {
       <nav className={styles.navBar}>
         <div className={styles.navSpacer}>
           <ul className={styles.navLeft}>
-         
             <li>
-              <NavLink
-                to="/"
-              >
-                <img className={styles.logo} src={docketeerLogo} alt="docketeer-logo" width="45" height="45"></img>
+              <NavLink to="/">
+                <img
+                  className={styles.logo}
+                  src={docketeerLogo}
+                  alt="docketeer-logo"
+                  width="45"
+                  height="45"
+                ></img>
               </NavLink>
             </li>
             <li>
@@ -138,6 +141,16 @@ function SharedLayout(): JSX.Element {
                 className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
+                to="/snapshots"
+              >
+                SNAPSHOTS
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
                 to="/K8Metrics"
               >
                 KUBERNETES METRICS
@@ -155,18 +168,22 @@ function SharedLayout(): JSX.Element {
             </li>
             <li>
               <NavLink
-                className={({ isActive }) => isActive ? styles.active : styles.navButton}
-                to="/logs">
+                className={({ isActive }) =>
+                  isActive ? styles.active : styles.navButton
+                }
+                to="/logs"
+              >
                 PROCESS LOGS
               </NavLink>
             </li>
-           
+
             <li>
               <NavLink
-                className={({ isActive }) => 
+                className={({ isActive }) =>
                   isActive ? styles.active : styles.navButton
                 }
-              to="/configuration">
+                to="/configuration"
+              >
                 CONFIGURATIONS
               </NavLink>
             </li>
@@ -174,9 +191,8 @@ function SharedLayout(): JSX.Element {
               <a className={styles.navButton} onClick={(e) => prune(e)}>
                 PRUNE
               </a>
-            </li> 
+            </li>
           </ul>
-        
         </div>
       </nav>
       <Alert />

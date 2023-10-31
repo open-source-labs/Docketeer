@@ -28,6 +28,12 @@ CREATE TABLE services(
   docker_id varchar NOT NULL
 );
 
+CREATE TABLE snapshots(
+  id serial PRIMARY KEY NOT NULL,
+  metric_date varchar NOT NULL,
+  metric_result varchar NOT NULL
+);
+
 INSERT INTO endpoint_type (type_of) VALUES ('Docker');
 INSERT INTO endpoint_type (type_of) VALUES ('Kubernetes');
 

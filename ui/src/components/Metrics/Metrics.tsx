@@ -8,6 +8,64 @@ const Metrics = (): JSX.Element => {
     setResetIframe(resetIframe ? false : true);
   };
 
+  const getMetrics = (): void => {
+    const date = Math.floor(new Date().getTime() / 1000);
+    console.log('date', date);
+
+    const url = 'http://localhost:49156/api/v1/query';
+    const queryValue = `{__name__=~".+" } @ ${date}`;
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({ query: queryValue }).toString(),
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.data);
+        //saveMetrics(date, data.data);
+      })
+      .catch((error) => console.error('Error:', error));
+
+    // const date = new Date().toISOString();
+    // fetch(
+    //   `http://localhost:49156/api/v1/query?query=node_memory_MemAvailable_bytes&time=${date}`
+    // )
+    //   .then((data) => data.json())
+    //   .then((data) => {
+    //     console.log(data.data)
+    //     saveMetrics(date, data.data)
+    //   })
+    //   .catch((err) => console.log(err));
+  }
+
+  const saveMetrics = (date, metricsResult) => { 
+
+    const newEntry = {
+      date: date,
+      metricsResult: metricsResult
+    }
+
+    const saveMetricsRequest = {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(newEntry),
+    };
+
+    fetch(
+      'http://localhost:3000/api/saveMetricsEntry',
+      saveMetricsRequest
+    )
+      .then(data => data.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
+
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.iframeHeader}>
@@ -15,6 +73,9 @@ const Metrics = (): JSX.Element => {
         <div>
           <button className={styles.button} onClick={handleHome}>
             HOME
+          </button>
+          <button className='SaveMetrics' onClick={getMetrics}>
+            Save CPU and Memory Metrics
           </button>
         </div>
       </div>

@@ -4,6 +4,8 @@ import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
 
+const cors = require('cors');
+
 // const PORT = process.env.PORT || 3003;
 let SOCKETFILE: string;
 if (process.env.MODE === 'browser') {
@@ -24,7 +26,7 @@ if (process.env.MODE === 'browser') {
 
 
 const app = express();
-
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,6 +37,7 @@ import volumeRouter from './routers/docker/volumeRouter';
 import networkRouter from './routers/docker/networkRouter';
 import systemRouter from './routers/docker/systemRouter';
 import configRouter from './routers/prometheus/configRouter';
+import saveMetricsRouter from './routers/saveMetricsRouter'
 
 app.use('/api/docker/container', containerRouter);
 app.use('/api/docker/image', imageRouter);
@@ -42,6 +45,9 @@ app.use('/api/docker/volume', volumeRouter);
 app.use('/api/docker/network', networkRouter);
 app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
+
+app.use('/api/saveMetricsEntry', saveMetricsRouter);
+
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {

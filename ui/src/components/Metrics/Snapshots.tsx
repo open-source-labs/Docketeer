@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
 
 const Snapshots = (): JSX.Element => {
- 
+
+  //added states for comparing snapshots
+  const [snapshotLeft, updateSnapshotLeft] = useState<JSX.Element[]>([]);
+  const [snapshotRight, updateSnapshotRight] = useState<JSX.Element[]>([]);
   const [dropDown, updateDropDown] = useState<JSX.Element[]>([])
-  // const dropDown: JSX.Element[] = []
+
   const getDates = () : void => {
     fetch('http://localhost:3000/api/saveMetricsEntry/date')
       .then((data) => data.json())
@@ -13,12 +16,13 @@ const Snapshots = (): JSX.Element => {
       })
       .catch((err) => console.log(err));
   }
+  
   const populateDropdown = (dates: []): void => {
     const newDropDown: JSX.Element[] = [];
     dates.forEach((dateObj: any) => {
       const date: string = dateObj.metric_date
     newDropDown.push(
-        <option>
+        <option id="date-select" value={date}>
           {date}
         </option>
       )
@@ -28,19 +32,68 @@ const Snapshots = (): JSX.Element => {
     updateDropDown(newDropDown);
   }
 
-  // getDates();
+  const retrieveSnapshot = (dropDownSide:string) => {
+    const valueSelected: any = document.querySelector(`#select-${dropDownSide}`);
+    const optionValue = valueSelected ? valueSelected.value : null;
+    console.log('valueSelected', optionValue);
+
+    getSnapshotDB(optionValue, dropDownSide);
+  }
+
+  const getSnapshotDB = (date, dropDownSide:string) => {
+    fetch(`http://localhost:3000/api/saveMetricsEntry/snapshot/${date}`)
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data)
+        displaySnapshot(data, dropDownSide);
+      })
+      .catch((err) => console.log(err));
+  }
+  
+  const displaySnapshot = (metrics, dropDownSide) => {
+    const dataArray: JSX.Element[] = [];
+    for (const key in metrics) {
+      dataArray.push(
+        <label>
+          <p>
+            {key}: {metrics[key]}
+          </p>
+        </label>
+      );
+    }
+    if (dropDownSide === 'left') {
+      updateSnapshotLeft(dataArray);
+    }
+    else if (dropDownSide === 'right'){
+      updateSnapshotRight(dataArray);
+    }
+  }
+
   useEffect(() => {
       getDates();
   },[])
 
   return (
-    <div>
-      <label>
-        Choose a date:
-      </label>
-        <select>
-          {dropDown}
-        </select>
+    <div className={styles.wrapper}>
+      <label>Choose a date:</label>
+      <select id="select-left">{dropDown}</select>
+      <button
+        className={styles.button}
+        onClick={() => retrieveSnapshot('left')}
+      >
+        Retrieve Snapshot
+      </button>
+      {snapshotLeft}
+
+      <label>Choose a date:</label>
+      <select id="select-right">{dropDown}</select>
+      <button
+        className={styles.button}
+        onClick={() => retrieveSnapshot('right')}
+      >
+        Retrieve Snapshot
+      </button>
+      {snapshotRight}
     </div>
   );
 };

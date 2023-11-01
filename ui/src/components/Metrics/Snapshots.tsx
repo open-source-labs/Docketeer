@@ -3,6 +3,7 @@ import styles from './Metrics.module.scss';
 
 const Snapshots = (): JSX.Element => {
 
+  //added states for comparing snapshots
   const [snapshotLeft, updateSnapshotLeft] = useState<JSX.Element[]>([]);
   const [snapshotRight, updateSnapshotRight] = useState<JSX.Element[]>([]);
   const [dropDown, updateDropDown] = useState<JSX.Element[]>([])
@@ -15,6 +16,7 @@ const Snapshots = (): JSX.Element => {
       })
       .catch((err) => console.log(err));
   }
+  
   const populateDropdown = (dates: []): void => {
     const newDropDown: JSX.Element[] = [];
     dates.forEach((dateObj: any) => {

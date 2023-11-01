@@ -8,52 +8,64 @@ const Metrics = (): JSX.Element => {
     setResetIframe(resetIframe ? false : true);
   };
 
-  const getMetrics = (): void => {
-    const date = Math.floor(new Date().getTime() / 1000);
-    console.log('date', date);
-
-    const url = 'http://localhost:49156/api/v1/query';
-    const queryValue = `{__name__=~".+" } @ ${date}`;
-
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+  const getMetrics = async (): Promise<void> => {
+    const date = new Date().toISOString();
+    const metrics = [
+      // {
+      //   metricName: 'Containers',
+      //   metricQuery: 'count(rate(container_last_seen{name=~".+", job="localprometheus"}[1m]))'
+      //   // count(rate(container_last_seen{name=~".+", job="localprometheus"}[50s]))
+      // },
+      {
+        metricName: 'diskSpace',
+        metricQuery: 'round(sum(container_fs_usage_bytes{job="localprometheus"}) by (container_name) / sum(container_fs_limit_bytes{job="localprometheus"}) by (container_name), 0.001)'
       },
-      body: new URLSearchParams({ query: queryValue }).toString(),
-    };
+      {
+        metricName: 'memory',
+        metricQuery: 'round((1 - (node_memory_MemAvailable_bytes{job="localprometheus"} / node_memory_MemTotal_bytes{job="localprometheus"})), 0.001)'
+      },
+      {
+        metricName: 'swap',
+        metricQuery: 'round((1 - (node_memory_SwapFree_bytes{job="localprometheus"} / node_memory_SwapTotal_bytes{job="localprometheus"})), 0.001)'
+      },
+      {
+        metricName: 'CPU_usage',
+        metricQuery: 'sum(rate(process_cpu_seconds_total{job="localprometheus"}[5m])) * 100'
+      },
+      // {
+      //   metricName: 'Used Disk Space',
+      //   metricQuery: 'node_filesystem_size_bytes{job="localprometheus"} - node_filesystem_free_bytes{job="localprometheus"}'
+      // },
+      {
+        metricName: 'available_Memory',
+        metricQuery: 'node_memory_MemTotal_bytes{job="localprometheus"} - node_memory_MemAvailable_bytes{job="localprometheus"}'
+      },
+    ];
 
-    fetch(url, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.data);
-        //saveMetrics(date, data.data);
-      })
-      .catch((error) => console.error('Error:', error));
+    const metricsEntry = {}
+    metricsEntry['date'] = date;
 
-    // const date = new Date().toISOString();
-    // fetch(
-    //   `http://localhost:49156/api/v1/query?query=node_memory_MemAvailable_bytes&time=${date}`
-    // )
-    //   .then((data) => data.json())
-    //   .then((data) => {
-    //     console.log(data.data)
-    //     saveMetrics(date, data.data)
-    //   })
-    //   .catch((err) => console.log(err));
+    const fetchPromises = metrics.map(async metric => {
+      const { metricName, metricQuery } = metric;
+      const res = await fetch(`http://localhost:49156/api/v1/query?query=${metric.metricQuery}&time=${date}`);
+      const metricData = await res.json();
+      metricsEntry[metricName] = metricData.data;
+    })
+
+    await Promise.all(fetchPromises);
+    saveMetrics(metricsEntry)
+
   }
 
-  const saveMetrics = (date, metricsResult) => { 
-
-    const newEntry = {
-      date: date,
-      metricsResult: metricsResult
-    }
-
+  const saveMetrics = (metricsEntry2) => { 
+    console.log(metricsEntry2)
+    console.log('I am in saveMetrics', metricsEntry2)
+    const metricsEntryString = JSON.stringify(metricsEntry2['diskSpace']);
+    console.log('stringify', metricsEntryString);
     const saveMetricsRequest = {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(newEntry),
+      body: JSON.stringify(metricsEntry2),
     };
 
     fetch(

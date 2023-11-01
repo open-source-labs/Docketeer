@@ -10,21 +10,21 @@ import db from '../db/model'
  */
 router.post(
   '/',
-  async (req: Request, res: Response) => {
+  (req: Request, res: Response) => {
     console.log('in the post request')
     console.log(req.body)
     
-    const { date, diskSpace, memory, swap, CPU_usage, available_memory } = await req.body;
+    const { date, diskSpace, memory, swap, CPU_usage, available_Memory } = req.body;
     const inputs = [
       date,
       diskSpace,
       memory,
       swap,
       CPU_usage,
-      available_memory,
+      available_Memory,
     ];
     const queryStr = 'INSERT INTO snapshots ( metric_date, diskSpace, memory, swap, CPU_usage, available_memory) VALUES($1,$2,$3,$4,$5,$6)';
-    db.query(queryStr, inputs);
+   db.query(queryStr, inputs);
 
     return res.status(200).json({'req': 'hi'});
   }

@@ -11,12 +11,22 @@ import db from '../db/model'
 router.post(
   '/',
   async (req: Request, res: Response) => {
-    const {date, metricsResult} = await req.body
-    const inputs = [date, metricsResult]
-    const queryStr = 'INSERT INTO snapshots ( metric_date, metric_result) VALUES($1,$2)';
-    db.query(queryStr, inputs)
+    console.log('in the post request')
+    console.log(req.body)
+    
+    const { date, diskSpace, memory, swap, CPU_usage, available_memory } = await req.body;
+    const inputs = [
+      date,
+      diskSpace,
+      memory,
+      swap,
+      CPU_usage,
+      available_memory,
+    ];
+    const queryStr = 'INSERT INTO snapshots ( metric_date, diskSpace, memory, swap, CPU_usage, available_memory) VALUES($1,$2,$3,$4,$5,$6)';
+    db.query(queryStr, inputs);
 
-    return res.status(200).json({'req': req.body});
+    return res.status(200).json({'req': 'hi'});
   }
 );
 

@@ -14,14 +14,14 @@ router.post(
     console.log('in the post request')
     console.log(req.body)
     
-    const { date, diskSpace, memory, swap, CPU_usage, available_memory } = await req.body;
+    const { date, diskSpace, memory, swap, CPU_usage, available_Memory } = await req.body;
     const inputs = [
       date,
       diskSpace,
       memory,
       swap,
       CPU_usage,
-      available_memory,
+      available_Memory,
     ];
     const queryStr = 'INSERT INTO snapshots ( metric_date, diskSpace, memory, swap, CPU_usage, available_memory) VALUES($1,$2,$3,$4,$5,$6)';
     db.query(queryStr, inputs);

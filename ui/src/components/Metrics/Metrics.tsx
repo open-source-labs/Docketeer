@@ -45,17 +45,14 @@ const Metrics = (): JSX.Element => {
     const metricsEntry = {}
     metricsEntry['date'] = date;
 
-    metrics.forEach(async metric => {
-
+    const fetchPromises = metrics.map(async metric => {
       const { metricName, metricQuery } = metric;
-
       const res = await fetch(`http://localhost:49156/api/v1/query?query=${metric.metricQuery}&time=${date}`);
       const metricData = await res.json();
       metricsEntry[metricName] = metricData.data;
     })
-    for (const key in metricsEntry) {
-      console.log(key);
-    }
+
+    await Promise.all(fetchPromises);
     saveMetrics(metricsEntry)
 
   }

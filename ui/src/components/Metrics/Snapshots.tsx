@@ -4,7 +4,6 @@ import styles from './Metrics.module.scss';
 const Snapshots = (): JSX.Element => {
  
   const [dropDown, updateDropDown] = useState<JSX.Element[]>([])
-  // const dropDown: JSX.Element[] = []
   const getDates = () : void => {
     fetch('http://localhost:3000/api/saveMetricsEntry/date')
       .then((data) => data.json())
@@ -28,7 +27,6 @@ const Snapshots = (): JSX.Element => {
     updateDropDown(newDropDown);
   }
 
-  // getDates();
   useEffect(() => {
       getDates();
   },[])

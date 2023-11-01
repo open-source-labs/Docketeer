@@ -9,25 +9,30 @@ const Metrics = (): JSX.Element => {
   };
 
   const getMetrics = (): void => {
+    // const date = Math.floor(new Date().getTime() / 1000);
     const date = Math.floor(new Date().getTime() / 1000);
     console.log('date', date);
+    const formattedDate = formatPrometheusDate(date);
+    console.log('Prom date', formattedDate);
 
-    const url = 'http://localhost:49156/api/v1/query';
-    const queryValue = `{__name__=~".+" } @ ${date}`;
+    // const url = 'http://localhost:49156/api/v1/query';
+    const url = `http://localhost:49156/api/v1/query?query=round(sum(container_fs_usage_bytes{job="localprometheus"}) by (container_name) / sum(container_fs_limit_bytes{job="localprometheus"}) by (container_name), 0.001)&time=${formattedDate}Z`;
+    // const queryValue = `{__name__=~".+" } @ ${date}`;
 
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: new URLSearchParams({ query: queryValue }).toString(),
+      // body: new URLSearchParams({ query: queryValue }).toString(),
+      body: new URLSearchParams().toString(),
     };
 
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.data);
-        //saveMetrics(date, data.data);
+        console.log(data.data.result)
+        // saveMetrics(date, data.data);
       })
       .catch((error) => console.error('Error:', error));
 
@@ -65,6 +70,11 @@ const Metrics = (): JSX.Element => {
       .catch(err => console.log(err))
 
   }
+
+  function formatPrometheusDate(date) {
+    // Format the timestamp for the Prometheus date query
+    return new Date(date * 1000).toISOString().slice(0, 19);
+}
 
   return (
     <div className={styles.wrapper}>

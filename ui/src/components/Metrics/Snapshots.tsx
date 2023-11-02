@@ -74,26 +74,33 @@ const Snapshots = (): JSX.Element => {
   },[])
 
   return (
-    <div className={styles.wrapper}>
-      <label>Choose a date:</label>
-      <select id="select-left">{dropDown}</select>
+
+    <div className={styles.snapshotWrapper}>
+      <div>
+      <label><strong>CHOOSE A DATE:</strong></label>
+        <select id="select-left">{dropDown}</select>
+
       <button
         className={styles.button}
         onClick={() => retrieveSnapshot('left')}
       >
-        Retrieve Snapshot
-      </button>
-      {snapshotLeft}
+        RETRIEVE SNAPSHOT
+        </button>
+        <div className={styles.snapshotContent}>{snapshotLeft}</div>
 
-      <label>Choose a date:</label>
+      </div>
+      <div>
+      <label><strong>CHOOSE A DATE:</strong></label>
       <select id="select-right">{dropDown}</select>
+
       <button
         className={styles.button}
         onClick={() => retrieveSnapshot('right')}
       >
-        Retrieve Snapshot
+        RETRIEVE SNAPSHOT
       </button>
-      {snapshotRight}
+        <div className={styles.snapshotContent}>{snapshotRight}</div>
+      </div>
     </div>
   );
 };

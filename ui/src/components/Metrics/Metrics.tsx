@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
 
 const Metrics = (): JSX.Element => {
-  const [resetIframe, setResetIframe] = useState<boolean>(true);
-
-  const handleHome = (): void => {
-    setResetIframe(resetIframe ? false : true);
-  };
 
   const getMetrics = async (): Promise<void> => {
     const date = new Date().toISOString();
@@ -57,15 +52,12 @@ const Metrics = (): JSX.Element => {
 
   }
 
-  const saveMetrics = (metricsEntry2) => { 
-    console.log(metricsEntry2)
-    console.log('I am in saveMetrics', metricsEntry2)
-    const metricsEntryString = JSON.stringify(metricsEntry2['diskSpace']);
-    console.log('stringify', metricsEntryString);
+  const saveMetrics = (metricsEntry) => { 
+    const metricsEntryString = JSON.stringify(metricsEntry['diskSpace']);
     const saveMetricsRequest = {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(metricsEntry2),
+      body: JSON.stringify(metricsEntry),
     };
 
     fetch(
@@ -83,11 +75,8 @@ const Metrics = (): JSX.Element => {
       <div className={styles.iframeHeader}>
         <h2>METRICS DASHBOARD</h2>
         <div>
-          <button className={styles.button} onClick={handleHome}>
-            HOME
-          </button>
-          <button className='SaveMetrics' onClick={getMetrics}>
-            Save CPU and Memory Metrics
+          <button className={styles.button} onClick={getMetrics}>
+            SAVE METRICS
           </button>
         </div>
       </div>

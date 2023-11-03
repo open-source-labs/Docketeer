@@ -12,6 +12,22 @@
   }
 }
 
+.snapshotWrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: $default-page-margin;
+  height: 100%;
+
+  h2 {
+    margin-bottom: 8px;
+  }
+  .iframeHeader {
+    display: flex;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+}
+
 
 .button {
   background-color: #212121;
@@ -88,4 +104,8 @@
 
 .toggle:active:after {
   width: 40px;
+}
+
+.snapshotContent{
+  
 }

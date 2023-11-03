@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
+import { Metric,MetricsEntry, metricData } from 'types';
 
 const Metrics = (): JSX.Element => {
 
+  const [resetIframe, setResetIframe] = useState<boolean>(true);
+
+  const handleHome = (): void => {
+    setResetIframe(resetIframe ? false : true);
+  };
+
   const getMetrics = async (): Promise<void> => {
-    const date = new Date().toISOString();
-    const metrics = [
+    const date:string = new Date().toISOString();
+    const metrics: Metric[] = [
       // {
       //   metricName: 'Containers',
       //   metricQuery: 'count(rate(container_last_seen{name=~".+", job="localprometheus"}[1m]))'
@@ -37,22 +44,25 @@ const Metrics = (): JSX.Element => {
       },
     ];
 
-    const metricsEntry = {}
+    const metricsEntry:MetricsEntry = {}
     metricsEntry['date'] = date;
 
-    const fetchPromises = metrics.map(async metric => {
+
+    const fetchPromises: Promise<void>[]= metrics.map(async metric => {
       const { metricName, metricQuery } = metric;
       const res = await fetch(`http://localhost:49156/api/v1/query?query=${metric.metricQuery}&time=${date}`);
-      const metricData = await res.json();
+      const metricData:metricData = await res.json();
+      console.log('this is res:', res)
       metricsEntry[metricName] = metricData.data;
     })
 
+    // [{diskSpace: data},{memory:data}. {swap:data}]
+
     await Promise.all(fetchPromises);
     saveMetrics(metricsEntry)
-
   }
 
-  const saveMetrics = (metricsEntry) => { 
+  const saveMetrics= (metricsEntry:MetricsEntry):void => { 
     const metricsEntryString = JSON.stringify(metricsEntry['diskSpace']);
     const saveMetricsRequest = {
       method: 'POST',
@@ -75,6 +85,9 @@ const Metrics = (): JSX.Element => {
       <div className={styles.iframeHeader}>
         <h2>METRICS DASHBOARD</h2>
         <div>
+          <button className={styles.button} onClick={handleHome}>
+            HOME
+          </button>
           <button className={styles.button} onClick={getMetrics}>
             SAVE METRICS
           </button>
@@ -82,8 +95,7 @@ const Metrics = (): JSX.Element => {
       </div>
       <div>
         <iframe
-          //TODO:fix the boolean key issue, key shouldn't be a bool
-          // key ={resetIframe}
+          key ={resetIframe}
           id="iframe"
           className={styles.metrics}
           src="http://localhost:49155/d/metrics_monitoring/docker-and-system-monitoring?orgId=1&refresh=10s&kiosk"

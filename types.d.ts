@@ -112,3 +112,22 @@ export interface EndpointType {
   id: number;
   type_of: string;
 }
+
+export interface Metric {
+  metricName: string;
+  metricQuery: string;
+}
+
+export interface MetricsEntry{
+  date?: string;
+  diskSpace?: string;
+  swap?: string;
+  CPU_usage?: string;
+  available_Memory?: string;
+  memory?: string;
+}
+
+export interface metricData {
+  status: string;
+  data: object;
+}

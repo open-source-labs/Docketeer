@@ -127,6 +127,15 @@ export interface MetricsEntry{
   memory?: string;
 }
 
+export interface MetricsDB{
+  'Date': string;
+  'Disk Space': string;
+  'Memory': string;
+  'Swap': string;
+  'CPU Usage': string;
+  'Available Memory': string;
+}
+
 export interface metricData {
   status: string;
   data: object;

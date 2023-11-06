@@ -1,0 +1,10 @@
+datasources:
+  - name: Postgres
+    type: postgres
+    url: http://postgres:5432
+    user: admin
+    secureJsonData:
+      password: 'admin'
+    jsonData:
+      database: docketeer
+      sslmode: 'disable' # disable/require/verify-ca/verify-full

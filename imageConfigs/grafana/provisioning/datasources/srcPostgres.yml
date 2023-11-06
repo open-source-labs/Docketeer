@@ -1,10 +1,13 @@
+apiVersion: 1
+
 datasources:
-  - name: Postgres
+  - name: PostgreSQL
     type: postgres
-    url: http://postgres:5432
+    url: postgres:5432
     user: admin
+    database: docketeer
     secureJsonData:
       password: 'admin'
     jsonData:
-      database: docketeer
+      tlsAuth: false
       sslmode: 'disable' # disable/require/verify-ca/verify-full

@@ -90,7 +90,7 @@ const Snapshots = (): JSX.Element => {
         <div className={styles.snapshotContent}>{snapshotLeft}</div>
         <iframe
           className={styles.metrics}
-          src="http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=2023-11-06T19%3A28%3A47.875Z&from=1699282966816&to=1699304566817"
+          src="http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&from=1699610083226&to=1699631683226&viewPanel=4"
         />
       </div>
       <div>

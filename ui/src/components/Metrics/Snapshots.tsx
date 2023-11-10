@@ -99,10 +99,12 @@ const Snapshots = (): JSX.Element => {
           RETRIEVE SNAPSHOT
         </button>
         {/* <div className={styles.snapshotContent}>{snapshotLeft}</div> */}
-        <iframe
-          className={styles.metrics}
-          src={iframeLinkLeft}
-        />
+        <div className={styles.snapshotContent}>
+          <iframe
+            className={styles.metrics}
+            src={iframeLinkLeft}
+          />
+        </div>
       </div>
       <div>
         <label>
@@ -117,10 +119,13 @@ const Snapshots = (): JSX.Element => {
           RETRIEVE SNAPSHOT
         </button>
         {/* <div className={styles.snapshotContent}>{snapshotRight}</div> */}
-        <iframe
-          className={styles.metrics}
-          src={iframeLinkRight}
-        />
+        <div className={styles.snapshotContent}>
+          <iframe
+            className={styles.metrics}
+            src={iframeLinkRight}
+          />
+        </div>
+      
       </div>
     </div>
   );

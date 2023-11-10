@@ -94,6 +94,7 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
+      - postgres
 
   postgres:
     image: postgres:latest

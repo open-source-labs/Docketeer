@@ -74,32 +74,42 @@ const Snapshots = (): JSX.Element => {
   },[])
 
   return (
-
     <div className={styles.snapshotWrapper}>
       <div>
-      <label><strong>CHOOSE A DATE:</strong></label>
+        <label>
+          <strong>CHOOSE A DATE:</strong>
+        </label>
         <select id="select-left">{dropDown}</select>
 
-      <button
-        className={styles.button}
-        onClick={() => retrieveSnapshot('left')}
-      >
-        RETRIEVE SNAPSHOT
+        <button
+          className={styles.button}
+          onClick={() => retrieveSnapshot("left")}
+        >
+          RETRIEVE SNAPSHOT
         </button>
         <div className={styles.snapshotContent}>{snapshotLeft}</div>
-
+        <iframe
+          className={styles.metrics}
+          src="http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=2023-11-06T19%3A28%3A47.875Z&from=1699282966816&to=1699304566817"
+        />
       </div>
       <div>
-      <label><strong>CHOOSE A DATE:</strong></label>
-      <select id="select-right">{dropDown}</select>
+        <label>
+          <strong>CHOOSE A DATE:</strong>
+        </label>
+        <select id="select-right">{dropDown}</select>
 
-      <button
-        className={styles.button}
-        onClick={() => retrieveSnapshot('right')}
-      >
-        RETRIEVE SNAPSHOT
-      </button>
+        <button
+          className={styles.button}
+          onClick={() => retrieveSnapshot("right")}
+        >
+          RETRIEVE SNAPSHOT
+        </button>
         <div className={styles.snapshotContent}>{snapshotRight}</div>
+        <iframe
+          className={styles.metrics}
+          src="http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=2023-11-06T19%3A28%3A47.875Z&from=1699282966816&to=1699304566817"
+        />
       </div>
     </div>
   );

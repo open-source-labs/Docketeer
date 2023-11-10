@@ -38,7 +38,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+        "uid": "PCC52D03280B7034C"
       },
       "fieldConfig": {
         "defaults": {
@@ -91,7 +91,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+            "uid": "PCC52D03280B7034C"
           },
           "editorMode": "builder",
           "format": "table",
@@ -121,19 +121,25 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "89a88aaa-89ab-4cde-b012-318ba57d0c4b",
+                  "id": "bb99ab9a-0123-4456-b89a-b18bbad322be",
                   "properties": {
                     "field": "metric_date",
                     "fieldSrc": "field",
                     "operator": "equal",
-                    "value": ["$metric_date"],
-                    "valueSrc": ["value"],
-                    "valueType": ["text"]
+                    "value": [
+                      "$metric_date"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
                   },
                   "type": "rule"
                 }
               ],
-              "id": "aabbb999-89ab-4cde-b012-318ba57bd1f2",
+              "id": "a8b8ba89-89ab-4cde-b012-318bbad1f707",
               "type": "group"
             },
             "whereString": "metric_date = '$metric_date'"
@@ -147,7 +153,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+        "uid": "PCC52D03280B7034C"
       },
       "description": "",
       "fieldConfig": {
@@ -201,7 +207,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+            "uid": "PCC52D03280B7034C"
           },
           "editorMode": "builder",
           "format": "table",
@@ -231,19 +237,25 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "98b89aba-89ab-4cde-b012-318ba57df2b4",
+                  "id": "aa9989aa-cdef-4012-b456-718bbad40c60",
                   "properties": {
                     "field": "metric_date",
                     "fieldSrc": "field",
                     "operator": "equal",
-                    "value": ["$metric_date"],
-                    "valueSrc": ["value"],
-                    "valueType": ["text"]
+                    "value": [
+                      "$metric_date"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
                   },
                   "type": "rule"
                 }
               ],
-              "id": "aabbb999-89ab-4cde-b012-318ba57bd1f2",
+              "id": "a8b8ba89-89ab-4cde-b012-318bbad1f707",
               "type": "group"
             },
             "whereString": "metric_date = '$metric_date'"
@@ -258,7 +270,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+        "uid": "PCC52D03280B7034C"
       },
       "fieldConfig": {
         "defaults": {
@@ -311,7 +323,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+            "uid": "PCC52D03280B7034C"
           },
           "editorMode": "builder",
           "format": "table",
@@ -341,19 +353,25 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "b88aba98-0123-4456-b89a-b18ba57e945d",
+                  "id": "b889bb9b-cdef-4012-b456-718bbad475d4",
                   "properties": {
                     "field": "metric_date",
                     "fieldSrc": "field",
                     "operator": "equal",
-                    "value": ["$metric_date"],
-                    "valueSrc": ["value"],
-                    "valueType": ["text"]
+                    "value": [
+                      "$metric_date"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
                   },
                   "type": "rule"
                 }
               ],
-              "id": "aabbb999-89ab-4cde-b012-318ba57bd1f2",
+              "id": "a8b8ba89-89ab-4cde-b012-318bbad1f707",
               "type": "group"
             },
             "whereString": "metric_date = '$metric_date'"
@@ -367,7 +385,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+        "uid": "PCC52D03280B7034C"
       },
       "fieldConfig": {
         "defaults": {
@@ -420,7 +438,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+            "uid": "PCC52D03280B7034C"
           },
           "editorMode": "builder",
           "format": "table",
@@ -450,19 +468,25 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "bb989b9a-89ab-4cde-b012-318ba57f2ab3",
+                  "id": "8ab9b889-89ab-4cde-b012-318bbad4c4b5",
                   "properties": {
                     "field": "metric_date",
                     "fieldSrc": "field",
                     "operator": "equal",
-                    "value": ["$metric_date"],
-                    "valueSrc": ["value"],
-                    "valueType": ["text"]
+                    "value": [
+                      "$metric_date"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
                   },
                   "type": "rule"
                 }
               ],
-              "id": "aabbb999-89ab-4cde-b012-318ba57bd1f2",
+              "id": "a8b8ba89-89ab-4cde-b012-318bbad1f707",
               "type": "group"
             },
             "whereString": "metric_date = '$metric_date'"
@@ -476,7 +500,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+        "uid": "PCC52D03280B7034C"
       },
       "fieldConfig": {
         "defaults": {
@@ -522,7 +546,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "a12f468b-6888-48a7-8741-334f87ad81e2"
+            "uid": "PCC52D03280B7034C"
           },
           "editorMode": "builder",
           "format": "table",
@@ -552,19 +576,25 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "99989a88-0123-4456-b89a-b18ba57f7db5",
+                  "id": "988bbb88-cdef-4012-b456-718bbad5194f",
                   "properties": {
                     "field": "metric_date",
                     "fieldSrc": "field",
                     "operator": "equal",
-                    "value": ["$metric_date"],
-                    "valueSrc": ["value"],
-                    "valueType": ["text"]
+                    "value": [
+                      "$metric_date"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
                   },
                   "type": "rule"
                 }
               ],
-              "id": "aabbb999-89ab-4cde-b012-318ba57bd1f2",
+              "id": "a8b8ba89-89ab-4cde-b012-318bbad1f707",
               "type": "group"
             },
             "whereString": "metric_date = '$metric_date'"
@@ -583,9 +613,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "2023-11-06T19:28:47.875Z",
-          "value": "2023-11-06T19:28:47.875Z"
+          "selected": false,
+          "text": "2023-11-10T20:00:37.990Z",
+          "value": "2023-11-10T20:00:37.990Z"
         },
         "hide": 0,
         "includeAll": false,
@@ -594,13 +624,13 @@
         "name": "metric_date",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "2023-11-06T19:28:47.875Z",
             "value": "2023-11-06T19:28:47.875Z"
           }
         ],
         "query": "2023-11-06T19:28:47.875Z",
-        "queryValue": "",
+        "queryValue": "2023-11-10T20:00:37.990Z",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -614,6 +644,6 @@
   "timezone": "",
   "title": "Snapshot test",
   "uid": "a5ae5af6-d66f-48be-bc88-08dee3060f86",
-  "version": 7,
+  "version": 5,
   "weekStart": ""
 }

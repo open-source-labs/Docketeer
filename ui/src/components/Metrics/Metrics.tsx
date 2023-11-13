@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
-import { Metric,MetricsEntry, metricData } from 'types';
+import { Metric, MetricsEntry, metricData } from 'types';
+import Client from '../../models/Client'
 
 const Metrics = (): JSX.Element => {
 
@@ -59,7 +60,9 @@ const Metrics = (): JSX.Element => {
     // [{diskSpace: data},{memory:data}. {swap:data}]
 
     await Promise.all(fetchPromises);
-    saveMetrics(metricsEntry)
+    const data = await Client.ContainerService.createMetrics(metricsEntry)
+    console.log(data)
+    // saveMetrics(metricsEntry)
   }
 
   const saveMetrics= (metricsEntry:MetricsEntry):void => { 

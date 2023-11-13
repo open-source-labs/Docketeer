@@ -61,6 +61,24 @@ export const ContainerService = {
       console.error(error);
       return {stdout: [], stderr: []};
     }
+  },
+  async fetchDates(containerId?: string): Promise<any> {
+    try {
+      const data = await ddClientRequest(`/api/saveMetricsEntry/date`, 'GET');
+      return data;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  },
+  async createMetrics(entry: any): Promise<any> {
+    try {
+      const data = await ddClientRequest(`/api/saveMetricsEntry/`, 'POST', entry);
+      return data
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 }
 

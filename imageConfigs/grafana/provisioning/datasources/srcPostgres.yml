@@ -6,6 +6,7 @@ datasources:
     url: postgres:5432
     user: admin
     database: docketeer
+    isDefault: true
     secureJsonData:
       password: 'admin'
     jsonData:

@@ -29,6 +29,9 @@ export default defineConfig({
     strictPort: true,
     proxy: setupProxy(),
   },
+  optimizeDeps: {
+    exclude: ['js-big-decimal']
+  }
 });
 
 function setupProxy() {

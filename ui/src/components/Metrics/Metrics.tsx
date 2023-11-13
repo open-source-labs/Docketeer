@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
-import { Metric,MetricsEntry, metricData } from 'types';
+import { Metric, MetricsEntry, metricData } from 'types';
 
 const Metrics = (): JSX.Element => {
 

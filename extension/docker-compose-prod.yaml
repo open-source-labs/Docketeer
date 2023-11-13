@@ -12,6 +12,8 @@ services:
       - docketeer-ext-prometheus-files:/prometheus
       - docketeer-ext-grafana-files:/grafana
       - docketeer-ext-initsql:/extension
+
+      
     
   cadvisor:
     # Must use cadvisor v0.47.1 instead of latest, latest does not work for macOS
@@ -56,6 +58,8 @@ services:
     restart: unless-stopped
     expose:
       - 9090
+    ports:
+      - 49156:9090
     volumes:
       - docketeer-ext-prometheus-files:/etc/prometheus
       - docketeer-ext-prometheus-data:/prometheus
@@ -81,6 +85,7 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
+      - postgres
 
   postgres:
     # build:
@@ -90,6 +95,8 @@ services:
     container_name: docketeer-ext-postgres
     expose:
       - 5432
+    ports:
+      - 5432:5432
     volumes:
       - postgres_volume:/var/lib/postgresql/data
       - docketeer-ext-initsql:/docker-entrypoint-initdb.d/

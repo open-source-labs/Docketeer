@@ -4,7 +4,7 @@ import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
 
-const cors = require('cors');
+
 
 // const PORT = process.env.PORT || 3003;
 let SOCKETFILE: string;
@@ -26,7 +26,7 @@ if (process.env.MODE === 'browser') {
 
 
 const app = express();
-app.use(cors());
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

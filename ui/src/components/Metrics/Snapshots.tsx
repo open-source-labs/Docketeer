@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Metrics.module.scss';
+import { ddClientRequest } from '../../models/ddClientRequest'
+import Client from '../../models/Client'
 
 const Snapshots = (): JSX.Element => {
 
@@ -10,13 +12,12 @@ const Snapshots = (): JSX.Element => {
   const [dateLeft, updateDateLeft] = useState('');
   const [dateRight, updateDateRight] = useState('');
 
-  const getDates = () : void => {
-    fetch('http://localhost:3000/api/saveMetricsEntry/date')
-      .then((data) => data.json())
-      .then((data) => {
-        populateDropdown(data)
-      })
-      .catch((err) => console.log(err));
+  const getDates = async (): Promise<void> => {
+    console.log('I am in getDates')
+    const data = await Client.ContainerService.fetchDates();
+    console.log(data)
+      populateDropdown(data)
+      
   }
   
   const populateDropdown = (dates: []): void => {
@@ -44,38 +45,7 @@ const Snapshots = (): JSX.Element => {
       updateDateRight(optionValue)
     }
     console.log('valueSelected', optionValue);
-
-    // getSnapshotDB(optionValue, dropDownSide);
   }
-
-  // const getSnapshotDB = (date, dropDownSide:string) => {
-  //   fetch(`http://localhost:3000/api/saveMetricsEntry/snapshot/${date}`)
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //       displaySnapshot(data, dropDownSide);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-  
-  // const displaySnapshot = (metrics, dropDownSide) => {
-  //   const dataArray: JSX.Element[] = [];
-  //   for (const key in metrics) {
-  //     dataArray.push(
-  //       <label>
-  //         <p>
-  //           {key}: {metrics[key]}
-  //         </p>
-  //       </label>
-  //     );
-  //   }
-  //   if (dropDownSide === 'left') {
-  //     updateSnapshotLeft(dataArray);
-  //   }
-  //   else if (dropDownSide === 'right'){
-  //     updateSnapshotRight(dataArray);
-  //   }
-  // }
 
   useEffect(() => {
       getDates();
@@ -98,7 +68,6 @@ const Snapshots = (): JSX.Element => {
         >
           RETRIEVE SNAPSHOT
         </button>
-        {/* <div className={styles.snapshotContent}>{snapshotLeft}</div> */}
         <div className={styles.snapshotContent}>
           <iframe
             className={styles.metrics}
@@ -118,7 +87,6 @@ const Snapshots = (): JSX.Element => {
         >
           RETRIEVE SNAPSHOT
         </button>
-        {/* <div className={styles.snapshotContent}>{snapshotRight}</div> */}
         <div className={styles.snapshotContent}>
           <iframe
             className={styles.metrics}

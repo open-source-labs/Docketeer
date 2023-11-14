@@ -14,11 +14,6 @@ const Metrics = (): JSX.Element => {
   const getMetrics = async (): Promise<void> => {
     const date:string = new Date().toISOString();
     const metrics: Metric[] = [
-      // {
-      //   metricName: 'Containers',
-      //   metricQuery: 'count(rate(container_last_seen{name=~".+", job="localprometheus"}[1m]))'
-      //   // count(rate(container_last_seen{name=~".+", job="localprometheus"}[50s]))
-      // },
       {
         metricName: 'diskSpace',
         metricQuery: 'round(sum(container_fs_usage_bytes{job="localprometheus"}) by (container_name) / sum(container_fs_limit_bytes{job="localprometheus"}) by (container_name), 0.001)'
@@ -35,10 +30,6 @@ const Metrics = (): JSX.Element => {
         metricName: 'CPU_usage',
         metricQuery: 'sum(rate(process_cpu_seconds_total{job="localprometheus"}[5m])) * 100'
       },
-      // {
-      //   metricName: 'Used Disk Space',
-      //   metricQuery: 'node_filesystem_size_bytes{job="localprometheus"} - node_filesystem_free_bytes{job="localprometheus"}'
-      // },
       {
         metricName: 'available_Memory',
         metricQuery: 'node_memory_MemTotal_bytes{job="localprometheus"} - node_memory_MemAvailable_bytes{job="localprometheus"}'
@@ -57,30 +48,9 @@ const Metrics = (): JSX.Element => {
       metricsEntry[metricName] = metricData.data;
     })
 
-    // [{diskSpace: data},{memory:data}. {swap:data}]
-
     await Promise.all(fetchPromises);
     const data = await Client.ContainerService.createMetrics(metricsEntry)
     console.log(data)
-    // saveMetrics(metricsEntry)
-  }
-
-  const saveMetrics= (metricsEntry:MetricsEntry):void => { 
-    const metricsEntryString = JSON.stringify(metricsEntry['diskSpace']);
-    const saveMetricsRequest = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(metricsEntry),
-    };
-
-    fetch(
-      'http://localhost:3000/api/saveMetricsEntry',
-      saveMetricsRequest
-    )
-      .then(data => data.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
-
   }
 
   return (

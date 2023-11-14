@@ -62,7 +62,7 @@ export const ContainerService = {
       return {stdout: [], stderr: []};
     }
   },
-  async fetchDates(containerId?: string): Promise<any> {
+  async fetchDates(): Promise<any> {
     try {
       const data = await ddClientRequest(`/api/saveMetricsEntry/date`, 'GET');
       return data;

@@ -45,38 +45,7 @@ const Snapshots = (): JSX.Element => {
       updateDateRight(optionValue)
     }
     console.log('valueSelected', optionValue);
-
-    // getSnapshotDB(optionValue, dropDownSide);
   }
-
-  // const getSnapshotDB = (date, dropDownSide:string) => {
-  //   fetch(`http://localhost:3000/api/saveMetricsEntry/snapshot/${date}`)
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //       displaySnapshot(data, dropDownSide);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-  
-  // const displaySnapshot = (metrics, dropDownSide) => {
-  //   const dataArray: JSX.Element[] = [];
-  //   for (const key in metrics) {
-  //     dataArray.push(
-  //       <label>
-  //         <p>
-  //           {key}: {metrics[key]}
-  //         </p>
-  //       </label>
-  //     );
-  //   }
-  //   if (dropDownSide === 'left') {
-  //     updateSnapshotLeft(dataArray);
-  //   }
-  //   else if (dropDownSide === 'right'){
-  //     updateSnapshotRight(dataArray);
-  //   }
-  // }
 
   useEffect(() => {
       getDates();
@@ -99,7 +68,6 @@ const Snapshots = (): JSX.Element => {
         >
           RETRIEVE SNAPSHOT
         </button>
-        {/* <div className={styles.snapshotContent}>{snapshotLeft}</div> */}
         <div className={styles.snapshotContent}>
           <iframe
             className={styles.metrics}
@@ -119,7 +87,6 @@ const Snapshots = (): JSX.Element => {
         >
           RETRIEVE SNAPSHOT
         </button>
-        {/* <div className={styles.snapshotContent}>{snapshotRight}</div> */}
         <div className={styles.snapshotContent}>
           <iframe
             className={styles.metrics}

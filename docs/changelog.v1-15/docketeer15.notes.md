@@ -6,8 +6,7 @@
 * Changed ***Metrics*** tab dashboard (see imageConfigs/grafana/provisioning/docker_metrics.json)
 * Added ***Kubernetes Metrics*** tab for monitoring nodes running on a kubernetes cluster (see imageConfigs/grafana/provisioning/k8s-view-nodes.json)
 * Added ability to search through container logs based on timeframe, as well as keywords and select-all functionality
-* Added a Home button to the Container and K8 Metrics Tabs so users can return to the dashboard after viewing indivi
-ual panels
+* Added a Home button to the Container and K8 Metrics Tabs so users can return to the dashboard after viewing individual panels
 
 #### Dev Features
 * Fixed backend API and added documentation (docs/api/openapi.yml)

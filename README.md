@@ -61,6 +61,7 @@
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#in-development">In Development</a></li>
+    <li><a href="#documentation">Documentation</a></li>
     <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -82,7 +83,8 @@
     <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
     <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
     <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
-        <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
+    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
+    <img alt="Snapshot Page" src="assets\docketeer-snapshots-page.png" width="fit" height="auto">
   </div>
 <br />
 
@@ -124,6 +126,24 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 See the [Known Issues Docs](/docs/dev/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- IN DEVELOPMENT -->
+
+## Documentation
+For more details, please read the ***docs*** folder, which covers the following:
+
+- API 
+- Assets
+- Changelogs (V1-V15)
+- Features 
+  - Configuration.md
+  - Models.md
+- DevGettingStarted.md
+- DevWorkingWithGrafana.md
+- Docketeer16.note.md ***(MOST RECENT CHANGES)***
+- KnownIssues.md
+
+When you are ready to launch, make sure to follow the instructions under ***Makefile***.
 
 <!-- CONTRIBUTING -->
 
@@ -241,7 +261,10 @@ Please ⭐️ this project if you found it helpful, thank you!
 - Jonathan Gray [@thejohnny5](https://github.com/thejohnny5) | [LinkedIn](https://www.linkedin.com/in/jonathan-gray-987169183/)
 - Cristian Morales [@Cris-Morales](https://github.com/Cris-Morales) | [LinkedIn](https://www.linkedin.com/in/cmorales-uxr274/)
 - Josh Nelson [@JoshNelson98](https://github.com/JoshNelson98) | [LinkedIn](https://www.linkedin.com/in/josh-nelson-7aba19284/)
-- Christian Lyon [@christianDoesCoding](https://github.com/christianDoesCoding) | [LinkedIn](www.linkedin.com/in/christiandoescoding)
+- Alicia Zhang [@AliciaZ429](https://github.com/AliciaZ429) | [LinkedIn](https://www.linkedin.com/in/alicia-zhang-a1aaa2138/ )
+- Wei Cheng Wang [@weiwang0305](https://github.com/weiwang0305) | [LinkedIn](https://www.linkedin.com/in/wei-cheng-wang-2a92b4120/)
+- Gabriela Pleitez Gomez [@gabyspg](https://github.com/gabyspg) | [LinkedIn](https://www.linkedin.com/in/gabriela-pleitez-gomez)
+- Peter Chung [@peterchung](https://github.com/peterchung) | [LinkedIn](https://www.linkedin.com/in/peterminkichung/)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

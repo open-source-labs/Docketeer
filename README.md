@@ -122,6 +122,10 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Add the ability to control Docker containers deployed in AWS.
 - [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
+- [ ] Work on improving the connect/disconnnect button under networks button in Containers Tab
+- [ ] Adding additional key metrics to the snapshot functionality
+- [ ] Setup a error catcher to alert Users of errors that are in the Docker Container Log.
+- [ ] Implement functionality that alerts users when certain metrics reach critical threshold.
 
 See the [Known Issues Docs](/docs/dev/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 

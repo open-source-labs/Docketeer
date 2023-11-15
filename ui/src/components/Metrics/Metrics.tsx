@@ -6,11 +6,12 @@ import Client from '../../models/Client'
 const Metrics = (): JSX.Element => {
 
   const [resetIframe, setResetIframe] = useState<boolean>(true);
-
+  //Refreshing the page back to home 
   const handleHome = (): void => {
     setResetIframe(resetIframe ? false : true);
   };
 
+  // Get Metrics by querying Promtheus and saving it to PostgreSQL
   const getMetrics = async (): Promise<void> => {
     const date:string = new Date().toISOString();
     const metrics: Metric[] = [
@@ -39,18 +40,15 @@ const Metrics = (): JSX.Element => {
     const metricsEntry:MetricsEntry = {}
     metricsEntry['date'] = date;
 
-
     const fetchPromises: Promise<void>[]= metrics.map(async metric => {
       const { metricName, metricQuery } = metric;
-      const res = await fetch(`http://localhost:49156/api/v1/query?query=${metric.metricQuery}&time=${date}`);
+      const res = await fetch(`http://localhost:49156/api/v1/query?query=${metricQuery}&time=${date}`);
       const metricData:metricData = await res.json();
-      console.log('this is res:', res)
       metricsEntry[metricName] = metricData.data;
     })
 
     await Promise.all(fetchPromises);
     const data = await Client.ContainerService.createMetrics(metricsEntry)
-    console.log(data)
   }
 
   return (

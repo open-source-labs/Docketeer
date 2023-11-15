@@ -8,8 +8,6 @@
 * Added ***configurations*** to connect Grafana dashboard and PostgreSQL (see /imageConfigs/grafana/provisioning/datasources/srcPostgres.yml)
 
 
-#### Dev Features
-
 #### Bug Fixes
 * Fixed all frontend ***testing*** files to make sure the components are being rendered. Testings include Container tab, Image tab, Metric tab, Network tab, Volume tab and Reducers. 
 * Fixed all server ***testing*** files to make sure all the routes are functioning as expected. Testing include Network Routes
@@ -17,3 +15,6 @@
 #### Misc. Fixes and Cleaning
 * Added ***Typescript*** to new features and fixed some Typescript on previous codebase.
 * Added additional information to ***Documentation*** to help with later iterations.
+* Added comments to snapshot related code
+* Deleted unnecessary comments 
+

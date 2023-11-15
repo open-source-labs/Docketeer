@@ -4,6 +4,8 @@ import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
 
+// DO NOT USE CORS!
+// It will mess up the ddClientRequest!
 
 
 // const PORT = process.env.PORT || 3003;
@@ -45,7 +47,6 @@ app.use('/api/docker/volume', volumeRouter);
 app.use('/api/docker/network', networkRouter);
 app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
-
 app.use('/api/saveMetricsEntry', saveMetricsRouter);
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Metrics from './components/Metrics/Metrics';
-import Snapshots from './components/Metrics/Snapshots';
+import Snapshots from './components/Snapshots/Snapshots';
 import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 import VolumeHistory from './components/VolumeHistory/VolumeHistory'; // need to fix types

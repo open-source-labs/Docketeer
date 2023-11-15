@@ -23,13 +23,16 @@ const Snapshots = (): JSX.Element => {
   const populateDropdown = (dates: []): void => {
     const newDropDown: JSX.Element[] = [];
     dates.forEach((dateObj: any) => {
-      const date: string = dateObj.metric_date
-    newDropDown.push(
+      const date = dateObj.metric_date;
+      const isoDate: any = new Date(date)
+      const localDate = isoDate.toLocaleDateString();
+      const localTime = isoDate.toLocaleTimeString();
+      newDropDown.push(
         <option id="date-select" value={date}>
-          {date}
+          {`${localDate} ${localTime}`}
         </option>
-      )
-      console.log('date added to dropDown list:', date)
+      );
+      console.log('date added to dropDown list:', date);
       console.log('length of dropdown list:', dropDown.length)
     });
     updateDropDown(newDropDown);

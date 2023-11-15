@@ -48,30 +48,9 @@ const Metrics = (): JSX.Element => {
       metricsEntry[metricName] = metricData.data;
     })
 
-    // [{diskSpace: data},{memory:data}. {swap:data}]
-
     await Promise.all(fetchPromises);
     const data = await Client.ContainerService.createMetrics(metricsEntry)
     console.log(data)
-    // saveMetrics(metricsEntry)
-  }
-
-  const saveMetrics= (metricsEntry:MetricsEntry):void => { 
-    const metricsEntryString = JSON.stringify(metricsEntry['diskSpace']);
-    const saveMetricsRequest = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(metricsEntry),
-    };
-
-    fetch(
-      'http://localhost:3000/api/saveMetricsEntry',
-      saveMetricsRequest
-    )
-      .then(data => data.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
-
   }
 
   return (

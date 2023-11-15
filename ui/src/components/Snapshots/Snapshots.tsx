@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Metrics.module.scss';
+import styles from '../Metrics/Metrics.module.scss';
 import { ddClientRequest } from '../../models/ddClientRequest'
 import Client from '../../models/Client'
 
@@ -10,7 +10,7 @@ const Snapshots = (): JSX.Element => {
   const [dateRight, updateDateRight] = useState('');
 
   const getDates = async (): Promise<void> => {
-    const data = await Client.ContainerService.fetchDates();
+    const data = await Client.MetricService.fetchDates();
     console.log(data)
       populateDropdown(data)
       

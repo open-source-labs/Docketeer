@@ -48,7 +48,7 @@ const Metrics = (): JSX.Element => {
     })
 
     await Promise.all(fetchPromises);
-    const data = await Client.ContainerService.createMetrics(metricsEntry)
+    const data = await Client.MetricService.createMetrics(metricsEntry)
   }
 
   return (

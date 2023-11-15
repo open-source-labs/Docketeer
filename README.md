@@ -80,12 +80,14 @@
 
 <br />
   <div align="center">
-    <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
-    <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
-    <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
+    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
     <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
     <img alt="Snapshot Page" src="assets\docketeer-snapshots-page.png" width="fit" height="auto">
   </div>
+  <img alt="demo gif" src="assets\demo_gif.gif" width="fit" height="auto">
 <br />
 
 
@@ -97,6 +99,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
+- Provides the user the ability to take capture instances of container metrics at any given time.
+- Visualize and compare previously saved health metrics to offer users a comprehensive understanding of historical performance.
 - Allows you to filter through both your running and stopped container logs.
 - Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.

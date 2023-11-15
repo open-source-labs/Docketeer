@@ -9,12 +9,11 @@ import { MetricsDB } from '../../../types';
  * @param
  * @returns
  */
+
+// creating the metrics in postgresql
 router.post(
   '/',
   (req: Request, res: Response) => {
-    console.log('in the post request')
-    console.log(req.body)
-    
     const { date, diskSpace, memory, swap, CPU_usage, available_Memory } = req.body;
     const inputs:string[] = [
       date,
@@ -25,19 +24,20 @@ router.post(
       available_Memory.result[0].value[1],
     ];
     const queryStr: string  = 'INSERT INTO snapshots ( metric_date, diskspace, memory, swap, cpu_usage, available_memory) VALUES($1,$2,$3,$4,$5,$6)';
-   db.query(queryStr, inputs);
+    db.query(queryStr, inputs);
 
     return res.status(200).json({});
   }
 );
 
+//Grabbing the date from postgresql to populate the dropdown box
 router.get('/date', async (req: Request, res: Response) => {
   const queryStr:string = 'SELECT metric_date FROM snapshots';
   const dates = await db.query(queryStr);
   return res.status(200).json(dates.rows);
 });
 
-
+// Grabbing the metrics from postgresql and sending it to the frontend
 router.get('/snapshot/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   const queryStr:string = `SELECT metric_date, diskspace, memory, swap, cpu_usage, available_memory FROM snapshots WHERE metric_date='${id}'`
@@ -59,8 +59,6 @@ router.get('/snapshot/:id', async (req: Request, res: Response) => {
     'Available Memory': availableMemoryFormat,
   }
   
-  console.log(metrics)
-
   return res.status(200).json(metrics);
 })
 

@@ -4,22 +4,19 @@ import { ddClientRequest } from '../../models/ddClientRequest'
 import Client from '../../models/Client'
 
 const Snapshots = (): JSX.Element => {
-
-  //added states for comparing snapshots
-  // const [snapshotLeft, updateSnapshotLeft] = useState<JSX.Element[]>([]);
-  // const [snapshotRight, updateSnapshotRight] = useState<JSX.Element[]>([]);
+  // Create states for left and right dropdowns
   const [dropDown, updateDropDown] = useState<JSX.Element[]>([]);
   const [dateLeft, updateDateLeft] = useState('');
   const [dateRight, updateDateRight] = useState('');
 
   const getDates = async (): Promise<void> => {
-    console.log('I am in getDates')
     const data = await Client.ContainerService.fetchDates();
     console.log(data)
       populateDropdown(data)
       
   }
   
+  // Populating the dropdown box with dates
   const populateDropdown = (dates: []): void => {
     const newDropDown: JSX.Element[] = [];
     dates.forEach((dateObj: any) => {
@@ -32,12 +29,11 @@ const Snapshots = (): JSX.Element => {
           {`${localDate} ${localTime}`}
         </option>
       );
-      console.log('date added to dropDown list:', date);
-      console.log('length of dropdown list:', dropDown.length)
     });
     updateDropDown(newDropDown);
   }
 
+  // Retrieve snapshot metrics
   const retrieveSnapshot = (dropDownSide:string) => {
     const valueSelected: any = document.querySelector(`#select-${dropDownSide}`);
     const optionValue = valueSelected ? valueSelected.value : null;
@@ -47,13 +43,13 @@ const Snapshots = (): JSX.Element => {
     else if (dropDownSide === 'right') {
       updateDateRight(optionValue)
     }
-    console.log('valueSelected', optionValue);
   }
 
   useEffect(() => {
       getDates();
   },[])
 
+  //Iframe for the left and right grafana visualizer
   let iframeLinkLeft = `http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=${dateLeft}&from=1699282966816&to=1699304566817&kiosk`;
   let iframeLinkRight = `http://localhost:49155/d/a5ae5af6-d66f-48be-bc88-08dee3060f86/snapshot-test?orgId=1&var-metric_date=${dateRight}&from=1699282966816&to=1699304566817&kiosk`
 

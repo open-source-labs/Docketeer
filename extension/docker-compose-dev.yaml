@@ -96,6 +96,7 @@ services:
       - prometheus
       - postgres
 
+  # Store metrics gathered from containers at localhost:5432
   postgres:
     image: postgres:latest
     container_name: docketeer-ext-postgres

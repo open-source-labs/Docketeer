@@ -87,6 +87,7 @@ services:
       - prometheus
       - postgres
 
+  # Store metrics gathered from containers at localhost:5432
   postgres:
     # build:
     #   context: .

@@ -80,6 +80,7 @@
 
 <br />
   <div align="center">
+<<<<<<< HEAD
     <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
     <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
     <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
@@ -87,6 +88,22 @@
     <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
     <img alt="Snapshot Page" src="assets\docketeer-snapshots-page.png" width="fit" height="auto">
     <img alt="demo gif" src="assets\demo_gif.gif" width="fit" height="auto">
+=======
+    <p>Container Page Demo:</p>
+    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
+    <p>Network Page Demo:</p>
+    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <p>Image Page Demo:</p>
+    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <p>Container Metrics Page Demo:</p>
+    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
+    <p>Kubernetes Page Demo:</p>
+    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
+    <p>Snapshot Demo:</p>
+    <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
+    <p>Process logs Demo:</p>
+    <img alt="Process log gif" src="assets\processlogs_demo.gif" width="fit" height="auto">
+>>>>>>> dev
   </div>
 <br />
 
@@ -174,7 +191,8 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
-
+- [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
+- [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
 - [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
 - [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
 - [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)

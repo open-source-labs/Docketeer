@@ -16,6 +16,7 @@ router.post('/', saveMetricsController.createMetrics, (req: Request, res: Respon
   return res.sendStatus(200)
 });
 
+// getting date from backend
 router.get('/date', saveMetricsController.getDate, (req: Request, res: Response) => {
   return res.status(200).json(res.locals.datesrows);
 });

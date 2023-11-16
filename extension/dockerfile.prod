@@ -36,8 +36,8 @@ LABEL org.opencontainers.image.title="Docketeer" \
   org.opencontainers.image.vendor="Docketeer team" \
   com.docker.desktop.extension.api.version="0.3.0" \
   com.docker.desktop.extension.icon="https://i.ibb.co/VqkYZPy/docketeer-logo-light.png" \
-  com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/tHtW9np/containers-demo.gif"}, \
-  {"alt":"Network page","url":"https://i.ibb.co/RjYGsmF/network-demo.gif"}, \
+  com.docker.extension.screenshots='[{"alt":"Containers page","url":"https://i.ibb.co/MZLynrG/containers-re-demo.gif"}, \
+  {"alt":"Network page","url":"https://i.ibb.co/4fjCsf2/network-tab-demo.gif"}, \
   {"alt":"Image page","url":"https://i.ibb.co/znmkHhk/images-demo.gif"}, \
   {"alt":"Metrics page","url":"https://i.ibb.co/xmPYZ4H/containers-metric-demo.gif"}, \
   {"alt":"Snapshot page","url":"https://i.ibb.co/KwPtDMf/snapshot-demo.gif"}, \

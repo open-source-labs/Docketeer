@@ -11,9 +11,7 @@ const Snapshots = (): JSX.Element => {
 
   const getDates = async (): Promise<void> => {
     const data = await Client.MetricService.fetchDates();
-    console.log(data)
-      populateDropdown(data)
-      
+    populateDropdown(data)   
   }
   
   // Populating the dropdown box with dates

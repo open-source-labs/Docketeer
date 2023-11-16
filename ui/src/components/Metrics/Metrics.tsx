@@ -11,7 +11,7 @@ const Metrics = (): JSX.Element => {
     setResetIframe(resetIframe ? false : true);
   };
 
-  // Get Metrics by querying Promtheus and saving it to PostgreSQL
+  // Get Metrics by querying Promtheus for each metric and saving it to PostgreSQL 
   const getMetrics = async (): Promise<void> => {
     const date:string = new Date().toISOString();
     const metrics: Metric[] = [

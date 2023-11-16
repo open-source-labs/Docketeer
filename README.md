@@ -106,6 +106,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
+- Provides the user the ability to take capture instances of container metrics at any given time.
+- Visualize and compare previously saved health metrics to offer users a comprehensive understanding of historical performance.
 - Allows you to filter through both your running and stopped container logs.
 - Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.

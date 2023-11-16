@@ -1,6 +1,8 @@
 # Make sure to update versions to whatever the latest is
 EXTENSION_IMAGE?=docketeerxiv/docketeer-extension
+
 VERSION?=16.0.2
+
 DEV_EXTENSION_NAME=docketeer-extension-dev
 DOCKERFILEDIRECTORY=extension
 BUILDER=buildx-multi-arch

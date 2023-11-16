@@ -87,7 +87,7 @@
     <p>Image Page Demo:</p>
     <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
     <p>Container Metrics Page Demo:</p>
-    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
+    <img alt="Container Metrics Page" src="assets\container_metric_demo.gif" width="fit" height="auto">
     <p>Kubernetes Page Demo:</p>
     <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
     <p>Snapshot Demo:</p>

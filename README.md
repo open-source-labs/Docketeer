@@ -80,11 +80,18 @@
 
 <br />
   <div align="center">
-    <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
-    <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
-    <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
+    <p>Container Page Demo:</p>
+    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
+    <p>Network Page Demo:</p>
+    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <p>Image Page Demo:</p>
+    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <p>Container Metrics Page Demo:</p>
+    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
+    <p>Kubernetes Page Demo:</p>
     <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
-    <img alt="Snapshot Page" src="assets\docketeer-snapshots-page.png" width="fit" height="auto">
+    <p>Snapshot Demo:</p>
+    <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
   </div>
 <br />
 

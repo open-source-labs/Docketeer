@@ -80,15 +80,6 @@
 
 <br />
   <div align="center">
-<<<<<<< HEAD
-    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
-    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
-    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
-    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
-    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
-    <img alt="Snapshot Page" src="assets\docketeer-snapshots-page.png" width="fit" height="auto">
-    <img alt="demo gif" src="assets\demo_gif.gif" width="fit" height="auto">
-=======
     <p>Container Page Demo:</p>
     <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
     <p>Network Page Demo:</p>
@@ -103,7 +94,6 @@
     <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
     <p>Process logs Demo:</p>
     <img alt="Process log gif" src="assets\processlogs_demo.gif" width="fit" height="auto">
->>>>>>> dev
   </div>
 <br />
 

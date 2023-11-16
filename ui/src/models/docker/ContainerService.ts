@@ -61,7 +61,7 @@ export const ContainerService = {
       console.error(error);
       return {stdout: [], stderr: []};
     }
-  }
+  },
 }
 
 

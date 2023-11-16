@@ -61,6 +61,7 @@
     <a href="#about-the-project">About Docketeer</a></li>
     <li><a href="#installation">Installation</a></li>
     <li><a href="#in-development">In Development</a></li>
+    <li><a href="#documentation">Documentation</a></li>
     <li><a href="#contributing">Contributing</a></li> 
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -79,10 +80,20 @@
 
 <br />
   <div align="center">
-    <img alt="Containers Page" src="assets\docketeer-containers-page.png" width="fit" height="auto">
-    <img alt="Network Page" src="assets\docketeer-network-page.png" width="fit" height="auto">
-    <img alt="Container Metrics Page" src="assets\docketeer-metrics-page.png" width="fit" height="auto">
-        <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
+    <p>Container Page Demo:</p>
+    <img alt="Containers Page" src="assets\containers_demo.gif" width="fit" height="auto">
+    <p>Network Page Demo:</p>
+    <img alt="Network Page" src="assets\network_demo.gif" width="fit" height="auto">
+    <p>Image Page Demo:</p>
+    <img alt="Image Page" src="assets\images_demo.gif" width="fit" height="auto">
+    <p>Container Metrics Page Demo:</p>
+    <img alt="Container Metrics Page" src="assets\containers_metric_demo.gif" width="fit" height="auto">
+    <p>Kubernetes Page Demo:</p>
+    <img alt="Kubernates Metrics Page" src="assets\docketeer-kubernetes-metrics-page.png" width="fit" height="auto">
+    <p>Snapshot Demo:</p>
+    <img alt="demo gif" src="assets\snapshot_demo.gif" width="fit" height="auto">
+    <p>Process logs Demo:</p>
+    <img alt="Process log gif" src="assets\processlogs_demo.gif" width="fit" height="auto">
   </div>
 <br />
 
@@ -95,6 +106,8 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 
 - Docketeer is a Docker developer tool that's available as an open-source project on GitHub or as an extension on Docker Desktop.
 - It aims to simplify the development process for projects that use Docker containers.
+- Provides the user the ability to take capture instances of container metrics at any given time.
+- Visualize and compare previously saved health metrics to offer users a comprehensive understanding of historical performance.
 - Allows you to filter through both your running and stopped container logs.
 - Docketeer provides an easy-to-use GUI for managing Docker containers, images, and networks.
 - With Docketeer, developers can quickly start, stop, and delete containers, as well as manage run Docker images.
@@ -120,10 +133,32 @@ Docketeer is an open source initiative comprising contributions from dozens of t
 - [ ] Add support for more advanced Docker features, like multi-stage builds or Docker secrets, to expand the capabilities of Docketeer.
 - [ ] Add the ability to control Docker containers deployed in AWS.
 - [ ] Implement endpoint scraping of any kubernetes cluster running prometheus. ([Read more](/docs/dev/features/Configuration(Alpha).md))
+- [ ] Work on improving the connect/disconnnect button under networks button in Containers Tab
+- [ ] Adding additional key metrics to the snapshot functionality
+- [ ] Setup a error catcher to alert Users of errors that are in the Docker Container Log.
+- [ ] Implement functionality that alerts users when certain metrics reach critical threshold.
 
 See the [Known Issues Docs](/docs/dev/KnownIssues.md) and [open issues](https://github.com/open-source-labs/Docketeer/issues) for a list of known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- IN DEVELOPMENT -->
+
+## Documentation
+For more details, please read the ***docs*** folder, which covers the following:
+
+- API 
+- Assets
+- Changelogs (V1-V15)
+- Features 
+  - Configuration.md
+  - Models.md
+- DevGettingStarted.md
+- DevWorkingWithGrafana.md
+- Docketeer16.note.md ***(MOST RECENT CHANGES)***
+- KnownIssues.md
+
+When you are ready to launch, make sure to follow the instructions under ***Makefile***.
 
 <!-- CONTRIBUTING -->
 
@@ -146,7 +181,8 @@ Read our [contributing guide](https://github.com/open-source-labs/Docketeer/blob
 <br />
 
 ## <b>Read More</b>
-
+- [Docketeer XVI: The Journey Continues](https://medium.com/@docketeerxii/introducing-docketeer-xvi-the-journey-continues-f34fc5bf7749)
+- [Docketeer XV: Naviating the Seas of Docker with Docketeer v15](https://medium.com/@christiandoescoding/navigating-the-seas-of-docker-with-docketeer-v15-0-ad5bd9540d14)
 - [Docketeer XIV: Coming Home](https://medium.com/@grantschussler/docketeer-xiv-coming-home-6eb011990a34)
 - [Docketeer XIII: A Tool for Docker!](https://medium.com/@michael_kwon_liu/docketeer-a-tool-for-docker-273793014eb0)
 - [Docketeer XII: Now Ready for Launch!](https://medium.com/@jaenixlee/docketeer-xii-now-ready-for-launch-d06e8f26cd0f)
@@ -241,7 +277,10 @@ Please ⭐️ this project if you found it helpful, thank you!
 - Jonathan Gray [@thejohnny5](https://github.com/thejohnny5) | [LinkedIn](https://www.linkedin.com/in/jonathan-gray-987169183/)
 - Cristian Morales [@Cris-Morales](https://github.com/Cris-Morales) | [LinkedIn](https://www.linkedin.com/in/cmorales-uxr274/)
 - Josh Nelson [@JoshNelson98](https://github.com/JoshNelson98) | [LinkedIn](https://www.linkedin.com/in/josh-nelson-7aba19284/)
-- Christian Lyon [@christianDoesCoding](https://github.com/christianDoesCoding) | [LinkedIn](www.linkedin.com/in/christiandoescoding)
+- Alicia Zhang [@AliciaZ429](https://github.com/AliciaZ429) | [LinkedIn](https://www.linkedin.com/in/alicia-zhang-a1aaa2138/ )
+- Wei Cheng Wang [@weiwang0305](https://github.com/weiwang0305) | [LinkedIn](https://www.linkedin.com/in/wei-cheng-wang-2a92b4120/)
+- Gabriela Pleitez Gomez [@gabyspg](https://github.com/gabyspg) | [LinkedIn](https://www.linkedin.com/in/gabriela-pleitez-gomez)
+- Peter Chung [@peterchung](https://github.com/peterchung) | [LinkedIn](https://www.linkedin.com/in/peterminkichung/)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

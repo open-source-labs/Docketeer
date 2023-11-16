@@ -4,6 +4,10 @@ import { ServerError } from './backend-types';
 import process from 'process';
 import cookieParser from 'cookie-parser';
 
+// DO NOT USE CORS!
+// It will mess up the ddClientRequest!
+
+
 // const PORT = process.env.PORT || 3003;
 let SOCKETFILE: string;
 if (process.env.MODE === 'browser') {
@@ -35,6 +39,7 @@ import volumeRouter from './routers/docker/volumeRouter';
 import networkRouter from './routers/docker/networkRouter';
 import systemRouter from './routers/docker/systemRouter';
 import configRouter from './routers/prometheus/configRouter';
+import saveMetricsRouter from './routers/docker/saveMetricsRouter'
 
 app.use('/api/docker/container', containerRouter);
 app.use('/api/docker/image', imageRouter);
@@ -42,6 +47,8 @@ app.use('/api/docker/volume', volumeRouter);
 app.use('/api/docker/network', networkRouter);
 app.use('/api/docker/system', systemRouter);
 app.use('/api/prometheus/config', configRouter);
+app.use('/api/saveMetricsEntry', saveMetricsRouter);
+
 
 // Handling requests to unknown endpoints...
 app.use('/', (req: Request, res: Response): Response => {

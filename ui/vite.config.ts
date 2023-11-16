@@ -1,21 +1,25 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import process from "process";
+// debugging scss testing
+// import laravel from "laravel-vite-plugin";
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react()
+  ],
   base: "./",
   build: {
     outDir: "build",
-     rollupOptions: {
-       external: ['xterm'],
-    }
+    rollupOptions: {
+      external: ["xterm"],
+    },
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData: `@import "./src/_variables.scss";`,
-        includePaths: ['node_modules'],
+        includePaths: ["node_modules"],
       },
     },
   },
@@ -24,6 +28,9 @@ export default defineConfig({
     port: 4000,
     strictPort: true,
     proxy: setupProxy(),
+  },
+  optimizeDeps: {
+    exclude: ['js-big-decimal']
   }
 });
 

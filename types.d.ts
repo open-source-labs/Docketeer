@@ -51,6 +51,8 @@ export interface NetworkContainerType extends ContainerPS{
   MacAddress: string;
   IPv4Address: string;
   IPv6Address: string;
+  containerName?: string;
+  containerIP?: string;
 }
 
 export interface NetworkInspect{
@@ -109,4 +111,32 @@ export interface PromDataSource {
 export interface EndpointType {
   id: number;
   type_of: string;
+}
+
+export interface Metric {
+  metricName: string;
+  metricQuery: string;
+}
+
+export interface MetricsEntry{
+  date?: string;
+  diskSpace?: string;
+  swap?: string;
+  CPU_usage?: string;
+  available_Memory?: string;
+  memory?: string;
+}
+
+export interface MetricsDB{
+  'Date': string;
+  'Disk Space': string;
+  'Memory': string;
+  'Swap': string;
+  'CPU Usage': string;
+  'Available Memory': string;
+}
+
+export interface metricData {
+  status: string;
+  data: object;
 }

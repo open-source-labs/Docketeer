@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Metrics from './components/Metrics/Metrics';
+import Snapshots from './components/Snapshots/Snapshots';
 import Images from './components/Images/Images';
 import Containers from './components/Containers/Containers';
 import VolumeHistory from './components/VolumeHistory/VolumeHistory'; // need to fix types
@@ -14,19 +15,17 @@ import Configuration from './containers/Configuration';
 const App = (): React.JSX.Element => {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<SharedLayout />}
-      >      
+      <Route path="/" element={<SharedLayout />}>
         <Route path="/" element={<Containers />} />
         <Route path="/volume" element={<VolumeHistory />} />
         <Route path="/metrics" element={<Metrics />} />
-        <Route path="/K8Metrics" element = {<K8Metrics/>} />
+        <Route path="/snapshots" element={<Snapshots />} />
+        <Route path="/K8Metrics" element={<K8Metrics />} />
         <Route path="/logs" element={<ProcessLogs />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/images" element={<Images />} />
-        <Route path='/network' element={<Network />} />
-        <Route path='/configuration' element={<Configuration />} />
+        <Route path="/network" element={<Network />} />
+        <Route path="/configuration" element={<Configuration />} />
       </Route>
     </Routes>
   );

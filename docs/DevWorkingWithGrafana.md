@@ -2,7 +2,7 @@
 
 ## Grafana Files
 
-* Go to ***/imageConfigs/grafana*** this is where the Grafana config files are located
+* Go to ***/imageConfigs/grafana*** this is where the Grafana config files are located.
 
 * ***grafana.init*** initializes your Grafana instance with settings that allow us to embed dashboards into Docketeer. Do not change this file.
 
@@ -16,9 +16,9 @@
 
 When running Docketeer in Dev Mode, a Grafana instance is running on the exposed port 49155, and a Prometheus instance is running on the exposed port 49156.
 
-* Navigate to ***localhost:49155***
+* Navigate to ***localhost:49155***.
 
-* Sign into the Grafana instance with both the username and password ***"admin"***
+* Sign into the Grafana instance with both the username and password ***"admin"***.
 
 * This will allow you to edit your current dashboards and apply those changes to your running instance of Docketeer. 
 

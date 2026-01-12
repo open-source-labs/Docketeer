@@ -140,6 +140,22 @@ docker compose up
 ```sh
 http://localhost:4000
 ```
+#### Troubleshooting login issues
+
+If signup or login fails and database logs show an error like:
+
+relation "users" does not exist
+
+This usually means the Postgres init script did not run on first startup.
+
+Fix:
+1. Stop the containers
+2. Delete the folder imageConfigs/postgres/docketeerdb
+3. Run docker compose up again
+
+This forces Postgres to rerun init.sql and create the required tables.
+
+Note: There is no default user. You must sign up first.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

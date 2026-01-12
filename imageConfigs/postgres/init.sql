@@ -5,7 +5,7 @@ CREATE TABLE users (
   mem_threshold INTEGER DEFAULT 80,
   cpu_threshold INTEGER DEFAULT 80,
   container_stops BOOLEAN DEFAULT true,
-  PRIMARY KEY (_id),
+  PRIMARY KEY (_id)
 ) WITH (
   OIDS = FALSE
 );
@@ -30,12 +30,12 @@ CREATE TABLE containers (
   CONSTRAINT unique_id UNIQUE(id)
 );
 
--- CREATE TABLE notification_settings (
---   id SERIAL PRIMARY KEY,
---   metric_name TEXT NOT NULL,
---   triggering_value INT,
---   CONSTRAINT unique_name UNIQUE(metric_name)
--- );
+CREATE TABLE notification_settings (
+id SERIAL PRIMARY KEY,
+metric_name TEXT NOT NULL,
+triggering_value INT,
+CONSTRAINT unique_name UNIQUE(metric_name)
+);
 
 CREATE TABLE container_settings (
   container_id TEXT REFERENCES containers(id),

@@ -7,6 +7,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
+      - ./imageConfigs/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - ./imageConfigs/postgres/docketeerdb:/var/lib/postgresql/data/
 
     environment:
